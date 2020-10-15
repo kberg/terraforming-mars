@@ -394,9 +394,7 @@ export class AresHandler {
     }
 
     public static getAllLandSpacesAdjacentToHazards(game: Game): ISpace[] {
-        const hazardTileTypes = [TileType.DUST_STORM_MILD, TileType.EROSION_MILD, TileType.DUST_STORM_SEVERE, TileType.EROSION_SEVERE];
-        const hazardTiles = game.board.spaces.filter((space) => space.tile && hazardTileTypes.includes(space.tile.tileType));
-
+        const hazardTiles = game.board.spaces.filter((space) => space.tile && HAZARD_TILES.includes(space.tile.tileType));
         return hazardTiles.map((tile) => game.board.getAdjacentSpaces(tile).filter((space) => space.spaceType === SpaceType.LAND && space.tile === undefined)).reduce((s1, s2) => s1.concat(s2));
     }
 }

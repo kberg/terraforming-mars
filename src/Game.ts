@@ -351,6 +351,7 @@ export class Game implements ILoadable<SerializedGame, Game> {
       if (gameOptions.customColoniesList.includes(ColonyName.TITANIA)) return true;
       if (gameOptions.customColoniesList.includes(ColonyName.VENUS)) return true;
       if (gameOptions.customColoniesList.includes(ColonyName.LEAVITT)) return true;
+      if (gameOptions.customColoniesList.includes(ColonyName.DEIMOS)) return true;
 
       return false;
     }
