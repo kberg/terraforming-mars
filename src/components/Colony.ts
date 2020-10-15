@@ -26,6 +26,7 @@ export const Colony = Vue.component("colony", {
             if (colony.name === ColonyName.IAPETUS || colony.name === ColonyName.LEAVITT) return 185;
             if (colony.name === ColonyName.VENUS) return 190;
             if (colony.name === ColonyName.MERCURY || colony.name === ColonyName.HYGIEA) return 148;
+            if (colony.name === ColonyName.DEIMOS) return 183;
 
             let offset: number = 0;
             if (isColonyCube !== true) offset = 7;
@@ -68,11 +69,12 @@ export const Colony = Vue.component("colony", {
             return ColonyName.CALLISTO;
         },
         getColonyContentOffset: (colony: ColonyModel): number => {
-            if (
-                colony.name === ColonyName.PLUTO ||
-                colony.name === ColonyName.MIRANDA
-            )
+            if (colony.name === ColonyName.PLUTO || colony.name === ColonyName.MIRANDA) {
                 return -12;
+            }
+
+            if (colony.name === ColonyName.DEIMOS) return 3;
+                
             return 0;
         },
         getIapetus:(): string => {
@@ -92,6 +94,9 @@ export const Colony = Vue.component("colony", {
         },
         getLeavitt:(): string => {
           return ColonyName.LEAVITT;
+        },
+        getDeimos:(): string => {
+            return ColonyName.DEIMOS;
         }
     },
     template: `
@@ -140,8 +145,15 @@ export const Colony = Vue.component("colony", {
       <div v-if="colony.name === getPluto()" class="resource card" style="transform: scale(0.8);margin-left:-2px;"></div>
       <span v-if="colony.name === getPluto()" class="white-char">-</span>
       <div v-if="colony.name === getPluto()" class="resource card" style="transform: scale(0.8);margin-left:-2px;"></div>
+
+      <div v-if="colony.name === getDeimos()" class="deimos-colony-bonus">
+        <div class="resource money">1</div> / <div class="tile hazard-tile"></div>
+      </div>
       
-      <span v-if="colony.name !== getTitania()" class="colony-background-color">
+      <span v-if="colony.name !== getTitania() && colony.name !== getDeimos()" class="colony-background-color">
+        Colony Bonus
+      </span>
+      <span v-if="colony.name === getDeimos()" class="colony-background-color deimos-colony-bonus-text">
         Colony Bonus
       </span>
       <span v-if="colony.name === getTitania()" class="colony-background-color">
@@ -159,15 +171,15 @@ export const Colony = Vue.component("colony", {
       <div v-if="colony.name === getIo()" class="resource heat" style="margin-left:20px;"></div>
       <div v-if="colony.name === getMiranda()" class="resource animal" style="margin-left:20px;"></div>
       <div v-if="colony.name === getPluto()" class="resource card" style="margin-left:20px;transform: scale(0.8);margin-top: -8px;"></div>
-      <div v-if="colony.name === getEuropa()" style="height: 20px; visibility: hidden;display: block;" />
-      <div v-if="colony.name !== getEuropa() && colony.name !== getMercury() && colony.name !== getIapetus() && colony.name !== getHygiea() && colony.name !== getTitania() && colony.name !== getVenus() && colony.name !== getLeavitt()" class="white-x"></div>
+      <div v-if="colony.name === getEuropa() || colony.name === getDeimos()" style="height: 20px; visibility: hidden;display: block;" />
+      <div v-if="colony.name !== getEuropa() && colony.name !== getMercury() && colony.name !== getIapetus() && colony.name !== getHygiea() && colony.name !== getTitania() && colony.name !== getVenus() && colony.name !== getLeavitt() && colony.name !== getDeimos()" class="white-x"></div>
       <div v-if="colony.name === getIapetus()" class="white-x" style="margin-left:-42px;"></div>
       <div v-if="colony.name === getTitania()" class="white-x" style="margin-left:42px;"></div>
       <div v-if="colony.name === getTitania()" class="points points-big" style="margin-left: 10px; margin-top: -53px; transform: scale(0.5); height: 50px; width: 50px">&nbsp;</div>
       <div v-if="colony.name === getVenus()" class="white-x" style="margin-left:45px; margin-bottom:4px;"></div>
       <div v-if="colony.name === getVenus()" class="resource" style="background:white;margin:10px 10px 10px -20px;">?<div class="card-icon tag-venus" style="color: white;margin-top: -36px;margin-left: 16px;"></div></div>
       <div v-if="colony.name === getLeavitt()" class="resource card" style="margin-left:5px;transform: scale(0.8)"></div>
-      <span v-if="colony.name !== getEuropa() && colony.name !== getPluto() && colony.name !== getMercury() && colony.name !== getIapetus() && colony.name !== getHygiea() && colony.name !== getTitania() && colony.name !== getLeavitt()" class="colony-background-color">
+      <span v-if="colony.name !== getEuropa() && colony.name !== getPluto() && colony.name !== getMercury() && colony.name !== getIapetus() && colony.name !== getHygiea() && colony.name !== getTitania() && colony.name !== getLeavitt() && colony.name !== getDeimos()" class="colony-background-color">
         Trade Income
       </span>
       <span v-if="colony.name === getPluto()" class="colony-background-color" style="position:relative; top:-3px">
@@ -190,6 +202,9 @@ export const Colony = Vue.component("colony", {
       </span>
       <span v-if="colony.name === getLeavitt()" class="colony-background-color" style="margin-left: 3px;">
         Trade Income: Draw X cards and keep 1
+      </span>
+      <span v-if="colony.name === getDeimos()" class="colony-background-color" style="margin-left: 3px;position: relative;top: -12px;">
+        Trade Income: Erode X adjacent spaces
       </span>
 
     <div v-if="colony.name === getEnceladus()" class="colony-grid-container">
@@ -553,6 +568,25 @@ export const Colony = Vue.component("colony", {
     <div>3</div>
     <div>3</div>
     <div>4</div>
+  </div>
+
+  <div v-if="colony.name === getDeimos()" class="colony-grid-container">
+    <div><div class="tile hazard-tile"></div></div>
+    <div><div class="tile hazard-tile"></div></div>
+    <div><div class="tile hazard-tile"></div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div v-if="colony.name === getDeimos()" class="colony-grid-container2">
+    <div>0</div>
+    <div>0</div>
+    <div>1</div>
+    <div>1</div>
+    <div>2</div>
+    <div>2</div>
+    <div>3</div>
   </div>
 
   </div>

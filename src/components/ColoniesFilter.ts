@@ -17,6 +17,7 @@ import { Hygiea } from "../cards/community/Hygiea";
 import { Titania } from "../cards/community/Titania";
 import { Venus } from "../cards/community/Venus";
 import { Leavitt } from "../cards/community/Leavitt";
+import { Deimos } from "../cards/community/Deimos";
 
 const officialColonies = [
     new Callisto(),
@@ -38,7 +39,8 @@ const communityColonies = [
     new Hygiea(),
     new Titania(),
     new Venus(),
-    new Leavitt()
+    new Leavitt(),
+    new Deimos()
 ];
 
 export const ColoniesFilter = Vue.component("colonies-filter", {

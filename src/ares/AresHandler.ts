@@ -20,6 +20,7 @@ import { ARES_MILESTONES } from "../milestones/Milestones";
 import { ARES_AWARDS } from "../awards/Awards";
 import { Multiset } from "../utils/Multiset";
 import { Phase } from "../Phase";
+import { SpaceType } from "../SpaceType";
 
 export const OCEAN_UPGRADE_TILES = [TileType.OCEAN_CITY, TileType.OCEAN_FARM, TileType.OCEAN_SANCTUARY];
 export const HAZARD_TILES = [TileType.DUST_STORM_MILD, TileType.DUST_STORM_SEVERE, TileType.EROSION_MILD, TileType.EROSION_SEVERE];
@@ -390,6 +391,13 @@ export class AresHandler {
 
     public static putHazardAt(space: ISpace, tileType: TileType) {
         space.tile = { tileType: tileType, protectedHazard: false };
+    }
+
+    public static getAllLandSpacesAdjacentToHazards(game: Game): ISpace[] {
+        const hazardTileTypes = [TileType.DUST_STORM_MILD, TileType.EROSION_MILD, TileType.DUST_STORM_SEVERE, TileType.EROSION_SEVERE];
+        const hazardTiles = game.board.spaces.filter((space) => space.tile && hazardTileTypes.includes(space.tile.tileType));
+
+        return hazardTiles.map((tile) => game.board.getAdjacentSpaces(tile).filter((space) => space.spaceType === SpaceType.LAND && space.tile === undefined)).reduce((s1, s2) => s1.concat(s2));
     }
 }
 
