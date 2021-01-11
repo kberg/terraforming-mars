@@ -9,9 +9,11 @@ export class SupplyDrop extends PreludeCard {
     public name = CardName.SUPPLY_DROP;
 
     public play(player: Player) {
-      player.titanium +=3;
-      player.steel +=8;
-      player.plants +=3;
+      player.adjustUnits({
+        titanium: 3,
+        steel: 8,
+        plants: 3,
+      });
       return undefined;
     }
     public metadata: CardMetadata = {

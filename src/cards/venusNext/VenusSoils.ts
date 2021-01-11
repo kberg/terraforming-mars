@@ -2,7 +2,6 @@ import {IProjectCard} from '../IProjectCard';
 import {Tags} from '../Tags';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {ResourceType} from '../../ResourceType';
 import {SelectCard} from '../../inputs/SelectCard';
 import {Game} from '../../Game';
@@ -32,7 +31,7 @@ export class VenusSoils implements IProjectCard {
     }
 
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       game.increaseVenusScaleLevel(player, 1);
 
       const microbeCards = player.getResourceCards(ResourceType.MICROBE);

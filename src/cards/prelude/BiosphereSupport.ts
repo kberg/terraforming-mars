@@ -11,11 +11,11 @@ export class BiosphereSupport extends PreludeCard {
     public name = CardName.BIOSPHERE_SUPPORT;
     public hasRequirements = false;
     public canPlay(player: Player): boolean {
-      return player.getProduction(Resources.MEGACREDITS) >= -4;
+      return player.megaCreditProduction >= -4;
     }
     public play(player: Player) {
       player.addProduction(Resources.MEGACREDITS, -1);
-      player.addProduction(Resources.PLANTS, 2);
+      player.addPlantProduction(2);
       return undefined;
     }
     public metadata: CardMetadata = {

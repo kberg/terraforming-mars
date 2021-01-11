@@ -15,7 +15,9 @@ export class Inventrix extends Card implements CorporationCard {
       name: CardName.INVENTRIX,
       tags: [Tags.SCIENCE],
       initialActionText: 'Draw 3 cards',
-      startingMegaCredits: 45,
+      startingUnits: {
+        megacredits: 45,
+      },
 
       metadata: {
         cardNumber: 'R43',

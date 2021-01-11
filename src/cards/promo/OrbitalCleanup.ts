@@ -14,7 +14,7 @@ export class OrbitalCleanup implements IProjectCard {
     public cardType = CardType.ACTIVE;
     public hasRequirements = false;
     public canPlay(player: Player): boolean {
-      return player.getProduction(Resources.MEGACREDITS) >= -3;
+      return player.megaCreditProduction >= -3;
     }
 
     public play(player: Player) {
@@ -27,7 +27,7 @@ export class OrbitalCleanup implements IProjectCard {
     }
 
     public action(player: Player) {
-      player.setResource(Resources.MEGACREDITS, player.getTagCount(Tags.SCIENCE));
+      player.addMegacredits(player.getTagCount(Tags.SCIENCE));
       return undefined;
     }
 

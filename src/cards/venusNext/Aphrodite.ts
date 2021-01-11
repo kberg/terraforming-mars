@@ -1,7 +1,5 @@
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Player} from '../../Player';
 import {Tags} from '../Tags';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardMetadata} from '../CardMetadata';
@@ -10,11 +8,15 @@ import {CardRenderer} from '../render/CardRenderer';
 export class Aphrodite implements CorporationCard {
     public name = CardName.APHRODITE;
     public tags = [Tags.PLANT, Tags.VENUS];
-    public startingMegaCredits: number = 47;
+    public startingUnits = {
+      megacredits: 47,
+    };
+    public startingProduction = {
+      plants: 1,
+    };
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.addProduction(Resources.PLANTS);
+    public play() {
       return undefined;
     }
     public metadata: CardMetadata = {

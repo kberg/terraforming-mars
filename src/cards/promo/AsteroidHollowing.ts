@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {ResourceType} from '../../ResourceType';
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {Game} from '../../Game';
 import {LogHelper} from '../../LogHelper';
 import {CardMetadata} from '../CardMetadata';
@@ -29,8 +28,8 @@ export class AsteroidHollowing implements IActionCard, IProjectCard, IResourceCa
   }
 
   public action(player: Player, game: Game) {
-    player.titanium -= 1;
-    player.addProduction(Resources.MEGACREDITS);
+    player.deductTitanium(1);
+    player.addMegacreditProduction(1);
     player.addResourceTo(this);
     LogHelper.logAddResource(game, player, this);
 

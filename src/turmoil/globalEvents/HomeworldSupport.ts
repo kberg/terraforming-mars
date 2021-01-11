@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Tags} from '../../cards/Tags';
 import {Turmoil} from '../Turmoil';
 
@@ -15,7 +14,7 @@ export class HomeworldSupport implements IGlobalEvent {
       game.getPlayers().forEach((player) => {
         const amount = Math.min(5, player.getTagCount(Tags.EARTH, false, false)) + turmoil.getPlayerInfluence(player);
         if (amount > 0) {
-          player.setResource(Resources.MEGACREDITS, 2 * amount, game, undefined, true);
+          player.addMegacredits(2 * amount, {globalEvent: true});
         }
       });
     }

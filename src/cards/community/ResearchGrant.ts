@@ -11,7 +11,7 @@ export class ResearchGrant extends PreludeCard implements IProjectCard {
     public name = CardName.RESEARCH_GRANT;
 
     public play(player: Player) {
-      player.megaCredits += 8;
+      player.addMegacredits(8);
       return undefined;
     }
     public metadata: CardMetadata = {

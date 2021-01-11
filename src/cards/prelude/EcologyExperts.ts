@@ -2,7 +2,6 @@ import {Tags} from '../Tags';
 import {CardName} from '../../CardName';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../Resources';
 import {Game} from '../../Game';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {CardMetadata} from '../CardMetadata';
@@ -19,7 +18,7 @@ export class EcologyExperts extends PreludeCard {
       return 0;
     }
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       game.defer(new PlayProjectCard(player, game));
       return undefined;
     }

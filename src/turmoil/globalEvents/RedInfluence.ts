@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class RedInfluence implements IGlobalEvent {
@@ -14,9 +13,9 @@ export class RedInfluence implements IGlobalEvent {
       game.getPlayers().forEach((player) => {
         const amount = Math.floor((player.getTerraformRating() - 10)/5);
         if (amount > 0) {
-          player.setResource(Resources.MEGACREDITS, amount * -3, game, undefined, true);
+          player.addMegacredits(amount * -3, {globalEvent: true});
         }
-        player.addProduction(Resources.MEGACREDITS, turmoil.getPlayerInfluence(player), game, undefined, true);
+        player.addMegacreditProduction(turmoil.getPlayerInfluence(player), {globalEvent: true});
       });
     }
 }

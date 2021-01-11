@@ -38,8 +38,8 @@ export class Farming extends Card implements IProjectCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, 2);
-    player.addProduction(Resources.PLANTS, 2);
-    player.plants += 2;
+    player.addPlantProduction(2);
+    player.addPlants(2);
     return undefined;
   }
   public getVictoryPoints() {

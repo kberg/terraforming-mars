@@ -2,7 +2,6 @@ import {Card} from '../Card';
 import {CorporationCard} from './CorporationCard';
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
@@ -13,7 +12,12 @@ export class Helion extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.HELION,
       tags: [Tags.SPACE],
-      startingMegaCredits: 42,
+      startingUnits: {
+        megacredits: 42,
+      },
+      startingProduction: {
+        heat: 3,
+      },
 
       metadata: {
         cardNumber: 'R18',
@@ -32,7 +36,6 @@ export class Helion extends Card implements CorporationCard {
   }
   public play(player: Player) {
     player.canUseHeatAsMegaCredits = true;
-    player.addProduction(Resources.HEAT, 3);
     return undefined;
   }
 }

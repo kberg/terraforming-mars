@@ -2,7 +2,6 @@ import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
 import {Tags} from '../Tags';
 import {CardType} from '../CardType';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {Game} from '../../Game';
 import {SelectSpace} from '../../inputs/SelectSpace';
@@ -21,7 +20,7 @@ export class MagneticFieldGeneratorsPromo implements IProjectCard {
     public cardType = CardType.AUTOMATED;
     public hasRequirements = false;
     public canPlay(player: Player, game: Game): boolean {
-      const meetsEnergyRequirements = player.getProduction(Resources.ENERGY) >= 4;
+      const meetsEnergyRequirements = player.energyProduction >= 4;
       const canPlaceTile = game.board.getAvailableSpacesOnLand(player).length > 0;
 
       if (PartyHooks.shouldApplyPolicy(game, PartyName.REDS)) {
@@ -31,8 +30,8 @@ export class MagneticFieldGeneratorsPromo implements IProjectCard {
       return meetsEnergyRequirements && canPlaceTile;
     }
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.ENERGY, -4);
-      player.addProduction(Resources.PLANTS, 2);
+      player.addEnergyProduction(-4);
+      player.addPlantProduction(2);
       player.increaseTerraformRatingSteps(3, game);
 
       const availableSpaces = game.board.getAvailableSpacesOnLand(player);

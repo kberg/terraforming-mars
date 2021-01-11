@@ -36,7 +36,7 @@ export class DeimosDownPromo implements IProjectCard {
     public play(player: Player, game: Game) {
       game.increaseTemperature(player, 3);
       game.defer(new RemoveAnyPlants(player, game, 6));
-      player.steel += 4;
+      player.addSteel(4);
 
       const availableSpaces = game.board.getAvailableSpacesForCity(player);
 

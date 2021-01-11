@@ -26,7 +26,7 @@ export class CrashSiteCleanup implements IProjectCard {
         'Gain 1 titanium',
         'Gain titanium',
         () => {
-          player.titanium++;
+          player.addTitanium(1);
           LogHelper.logGainStandardResource(game, player, Resources.TITANIUM);
           return undefined;
         },
@@ -36,7 +36,7 @@ export class CrashSiteCleanup implements IProjectCard {
         'Gain 2 steel',
         'Gain steel',
         () => {
-          player.steel += 2;
+          player.addSteel(2);
           LogHelper.logGainStandardResource(game, player, Resources.STEEL, 2);
           return undefined;
         },

@@ -12,7 +12,9 @@ import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictory
 export class Pristar implements CorporationCard, IResourceCard {
     public name = CardName.PRISTAR;
     public tags = [];
-    public startingMegaCredits: number = 53;
+    public startingUnits = {
+      megacredits: 53,
+    };
     public resourceType = ResourceType.PRESERVATION;
     public resourceCount: number = 0;
     public cardType = CardType.CORPORATION;
@@ -28,7 +30,7 @@ export class Pristar implements CorporationCard, IResourceCard {
 
     public onProductionPhase(player: Player) {
       if (!(player.hasIncreasedTerraformRatingThisGeneration)) {
-        player.megaCredits += 6;
+        player.addMegacredits(6);
         this.resourceCount++;
       }
       return undefined;

@@ -15,7 +15,13 @@ export class MiningGuild extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.MINING_GUILD,
       tags: [Tags.BUILDING, Tags.BUILDING],
-      startingMegaCredits: 30,
+      startingUnits: {
+        megacredits: 30,
+        steel: 5,
+      },
+      startingProduction: {
+        steel: 5,
+      },
 
       metadata: {
         cardNumber: 'R24',
@@ -42,8 +48,8 @@ export class MiningGuild extends Card implements CorporationCard {
     }
   }
   public play(player: Player) {
-    player.steel = 5;
-    player.addProduction(Resources.STEEL);
+    player.addSteel(5);
+    player.addSteelProduction(1);
     return undefined;
   }
 }

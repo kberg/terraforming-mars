@@ -50,7 +50,7 @@ export class Capital extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    return player.getProduction(Resources.ENERGY) >= 2 &&
+    return player.energyProduction >= 2 &&
         game.checkMinRequirements(player, GlobalParameter.OCEANS, 4) &&
         game.board.getAvailableSpacesForCity(player).length > 0;
   }
@@ -63,7 +63,7 @@ export class Capital extends Card implements IProjectCard {
     return 0;
   }
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY, -2);
+    player.addEnergyProduction(-2);
     player.addProduction(Resources.MEGACREDITS, 5);
     return new SelectSpace(
       'Select space for special city tile',

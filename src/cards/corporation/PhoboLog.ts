@@ -14,7 +14,10 @@ export class PhoboLog extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.PHOBOLOG,
       tags: [Tags.SPACE],
-      startingMegaCredits: 23,
+      startingUnits: {
+        megacredits: 23,
+        titanium: 10,
+      },
 
       metadata: {
         cardNumber: 'R09',
@@ -32,7 +35,6 @@ export class PhoboLog extends Card implements CorporationCard {
     });
   }
   public play(player: Player, _game: Game) {
-    player.titanium = 10;
     player.increaseTitaniumValue();
     return undefined;
   }

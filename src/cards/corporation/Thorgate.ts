@@ -4,7 +4,6 @@ import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {IProjectCard} from '../IProjectCard';
 import {CorporationCard} from './CorporationCard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
@@ -15,8 +14,12 @@ export class Thorgate extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.THORGATE,
       tags: [Tags.ENERGY],
-      startingMegaCredits: 48,
-
+      startingUnits: {
+        megacredits: 48,
+      },
+      startingProduction: {
+        energy: 1,
+      },
       metadata: {
         cardNumber: 'R13',
         description: 'You start with 1 energy production and 48 MC.',
@@ -39,8 +42,7 @@ export class Thorgate extends Card implements CorporationCard {
     }
     return 0;
   }
-  public play(player: Player, _game: Game) {
-    player.addProduction(Resources.ENERGY);
+  public play() {
     return undefined;
   }
 }

@@ -42,7 +42,7 @@ export class AsteroidRights implements IActionCard, IProjectCard, IResourceCard 
 
       return new OrOptions(
         new SelectOption('Gain 2 titanium', 'Select', () => {
-          player.titanium += 2;
+          player.addTitanium(2);
           LogHelper.logRemoveResource(game, player, this, 1, 'gain 2 titanium');
           return undefined;
         }),

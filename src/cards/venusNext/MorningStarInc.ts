@@ -11,7 +11,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class MorningStarInc implements CorporationCard {
     public name = CardName.MORNING_STAR_INC;
     public tags = [Tags.VENUS];
-    public startingMegaCredits: number = 50;
+    public startingUnits = {
+      megacredits: 50,
+    };
     public cardType = CardType.CORPORATION;
 
     public initialActionText: string = 'Draw 3 Venus-tag cards';

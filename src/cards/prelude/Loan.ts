@@ -11,11 +11,11 @@ export class Loan extends PreludeCard implements IProjectCard {
     public name = CardName.LOAN;
 
     public canPlay(player: Player): boolean {
-      return player.getProduction(Resources.MEGACREDITS) >= -3;
+      return player.megaCreditProduction >= -3;
     }
     public play(player: Player) {
       player.addProduction(Resources.MEGACREDITS, -2);
-      player.megaCredits += 30;
+      player.addMegacredits(30);
       return undefined;
     }
     public metadata: CardMetadata = {

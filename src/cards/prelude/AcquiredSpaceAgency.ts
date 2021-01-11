@@ -12,7 +12,7 @@ export class AcquiredSpaceAgency extends PreludeCard {
     public name = CardName.ACQUIRED_SPACE_AGENCY;
     public play(player: Player, game: Game) {
       game.defer(new DrawCards(player, game, 2, Tags.SPACE));
-      player.titanium += 6;
+      player.addTitanium(6);
       return undefined;
     };
     public metadata: CardMetadata = {

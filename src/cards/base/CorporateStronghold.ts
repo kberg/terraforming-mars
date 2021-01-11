@@ -34,7 +34,7 @@ export class CorporateStronghold extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1 &&
+    return player.energyProduction >= 1 &&
       game.board.getAvailableSpacesForCity(player).length > 0;
   }
   public play(player: Player, game: Game) {
@@ -43,7 +43,7 @@ export class CorporateStronghold extends Card implements IProjectCard {
       game.board.getAvailableSpacesForCity(player),
       (space: ISpace) => {
         game.addCityTile(player, space.id);
-        player.addProduction(Resources.ENERGY, -1);
+        player.addEnergyProduction(-1);
         player.addProduction(Resources.MEGACREDITS, 3);
         return undefined;
       },

@@ -6,7 +6,6 @@ import {Player} from '../../Player';
 import {ResourceType} from '../../ResourceType';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
@@ -34,7 +33,7 @@ export class DeuteriumExport implements IActionCard, IProjectCard, IResourceCard
     return new OrOptions(
       new SelectOption('Remove 1 floater to raise energy production 1 step', 'Remove floater', () => {
         this.resourceCount--;
-        player.addProduction(Resources.ENERGY);
+        player.addEnergyProduction(1);
         return undefined;
       }),
       new SelectOption('Add 1 floater to this card', 'Add floater', () => {

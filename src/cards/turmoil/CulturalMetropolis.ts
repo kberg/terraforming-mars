@@ -21,13 +21,13 @@ export class CulturalMetropolis implements IProjectCard {
     public canPlay(player: Player, game: Game): boolean {
       if (game.turmoil !== undefined) {
         // This card requires player has 2 delegates available
-        return game.turmoil.canPlay(player, PartyName.UNITY) && player.getProduction(Resources.ENERGY) >= 1 && (game.turmoil.getDelegates(player.id) > 1 || (game.turmoil.getDelegates(player.id) === 1 && game.turmoil.lobby.has(player.id)));
+        return game.turmoil.canPlay(player, PartyName.UNITY) && player.energyProduction >= 1 && (game.turmoil.getDelegates(player.id) > 1 || (game.turmoil.getDelegates(player.id) === 1 && game.turmoil.lobby.has(player.id)));
       }
       return false;
     }
 
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.addProduction(Resources.MEGACREDITS, 3);
       game.defer(new PlaceCityTile(player, game));
       const title = 'Select where to send two delegates';

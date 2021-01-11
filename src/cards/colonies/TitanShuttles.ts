@@ -41,7 +41,7 @@ export class TitanShuttles implements IProjectCard, IResourceCard {
           'Remove floaters',
           (amount: number) => {
             player.removeResourceFrom(this, amount);
-            player.titanium += amount;
+            player.addTitanium(amount);
             game.log('${0} removed ${1} floaters to gain ${2} titanium', (b) => b.player(player).number(amount).number(amount));
             return undefined;
           },

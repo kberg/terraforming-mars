@@ -5,7 +5,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardType} from '../CardType';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRenderItemSize} from '../render/CardRenderItemSize';
@@ -33,11 +32,11 @@ export class HiredRaiders extends Card implements IProjectCard {
     if (game.isSoloMode()) {
       return new OrOptions(
         new SelectOption('Steal 2 steel', 'Steal steel', () => {
-          player.steel += 2;
+          player.addSteel(2);
           return undefined;
         }),
         new SelectOption('Steal 3 mega credit', 'Steal MC', () => {
-          player.megaCredits += 3;
+          player.addMegacredits(3);
           return undefined;
         }),
       );
@@ -52,8 +51,8 @@ export class HiredRaiders extends Card implements IProjectCard {
         const optionTitle = 'Steal ' + amountStolen + ' steel from ' + target.name;
 
         availableActions.options.push(new SelectOption(optionTitle, 'Confirm', () => {
-          player.steel += amountStolen;
-          target.setResource(Resources.STEEL, -2, game, player);
+          player.addSteel(amountStolen);
+          target.deductSteel(2, {dueTo: player});
           return undefined;
         }));
       }
@@ -63,8 +62,8 @@ export class HiredRaiders extends Card implements IProjectCard {
         const optionTitle = 'Steal ' + amountStolen + ' MC from ' + target.name;
 
         availableActions.options.push(new SelectOption(optionTitle, 'Confirm', () => {
-          player.megaCredits += amountStolen;
-          target.setResource(Resources.MEGACREDITS, -3, game, player);
+          player.addMegacredits(amountStolen);
+          target.deductMegacredits(3, {dueTo: player});
           return undefined;
         }));
       }

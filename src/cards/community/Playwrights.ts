@@ -7,7 +7,6 @@ import {Game} from '../../Game';
 import {IProjectCard} from '../IProjectCard';
 import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
-import {Resources} from '../../Resources';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {CardMetadata} from '../CardMetadata';
@@ -17,11 +16,15 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Playwrights implements CorporationCard {
     public name = CardName.PLAYWRIGHTS;
     public tags = [Tags.ENERGY];
-    public startingMegaCredits: number = 38;
+    public startingUnits = {
+      megacredits: 38,
+    };
+    public startingProduction = {
+      energy: 1,
+    }
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.addProduction(Resources.ENERGY);
+    public play() {
       return undefined;
     }
 

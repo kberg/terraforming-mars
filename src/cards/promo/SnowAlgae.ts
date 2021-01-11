@@ -4,7 +4,6 @@ import {CardType} from '../CardType';
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardMetadata} from '../CardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -21,8 +20,8 @@ export class SnowAlgae implements IProjectCard {
     }
 
     public play(player: Player) {
-      player.addProduction(Resources.PLANTS);
-      player.addProduction(Resources.HEAT);
+      player.addPlantProduction(1);
+      player.addHeatProduction(1);
       return undefined;
     }
 

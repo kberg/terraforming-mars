@@ -10,7 +10,7 @@ export class SmeltingPlant extends PreludeCard {
     public tags = [Tags.BUILDING];
     public name = CardName.SMELTING_PLANT;
     public play(player: Player, game: Game) {
-      player.steel += 5;
+      player.addSteel(5);
       return game.increaseOxygenLevel(player, 2);
     }
     public metadata: CardMetadata = {

@@ -20,7 +20,9 @@ export class TharsisRepublic extends Card implements CorporationCard {
       name: CardName.THARSIS_REPUBLIC,
       tags: [Tags.BUILDING],
       initialActionText: 'Place a city tile',
-      startingMegaCredits: 40,
+      startingUnits: {
+        megacredits: 40,
+      },
 
       metadata: {
         cardNumber: 'R31',
@@ -49,7 +51,7 @@ export class TharsisRepublic extends Card implements CorporationCard {
   public onTilePlaced(player: Player, space: ISpace) {
     if (Board.isCitySpace(space)) {
       if (space.player === player) {
-        player.megaCredits += 3;
+        player.addMegacredits(3);
       }
       if (space.spaceType !== SpaceType.COLONY) {
         player.addProduction(Resources.MEGACREDITS);

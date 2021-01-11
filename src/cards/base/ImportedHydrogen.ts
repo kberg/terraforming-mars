@@ -58,7 +58,7 @@ export class ImportedHydrogen extends Card implements IProjectCard {
 
     const gainPlants = function() {
       const qty = 3;
-      player.plants += qty;
+      player.addPlants(qty);
       LogHelper.logGainStandardResource(game, player, Resources.PLANTS, qty);
       game.defer(new PlaceOceanTile(player, game));
       return undefined;

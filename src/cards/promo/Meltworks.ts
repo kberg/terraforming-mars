@@ -22,7 +22,7 @@ export class Meltworks implements IActionCard, IProjectCard {
     }
     public action(player: Player) {
       return player.spendHeat(5, () => {
-        player.steel += 3;
+        player.addSteel(3);
         return undefined;
       });
     }

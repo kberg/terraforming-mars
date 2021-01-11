@@ -22,7 +22,7 @@ export class MineralDeposit extends Card implements IProjectCard {
   }
 
   public play(player: Player, _game: Game) {
-    player.steel += 5;
+    player.addSteel(5);
     return undefined;
   }
 }

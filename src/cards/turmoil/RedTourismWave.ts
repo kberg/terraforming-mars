@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import {Resources} from '../../Resources';
 import {CardMetadata} from '../CardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -30,7 +29,7 @@ export class RedTourismWave implements IProjectCard {
           adj.tile !== undefined && adj.player === player,
         ),
       ).length;
-      player.setResource(Resources.MEGACREDITS, amount);
+      player.addMegacredits(amount);
       return undefined;
     }
 

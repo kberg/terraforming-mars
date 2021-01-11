@@ -9,7 +9,6 @@ import {SelectOption} from '../../inputs/SelectOption';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
 import {MAX_OCEAN_TILES, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
@@ -68,7 +67,7 @@ export class Flooding extends Card implements IProjectCard {
               'Select adjacent player to remove 4 mega credits from',
               'Remove credits',
               (selectedPlayer: Player) => {
-                selectedPlayer.setResource(Resources.MEGACREDITS, -4, game, player);
+                selectedPlayer.deductMegacredits(4, {dueTo: player});
                 return undefined;
               },
             ),

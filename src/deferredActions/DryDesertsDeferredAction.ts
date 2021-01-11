@@ -57,12 +57,14 @@ export class DryDesertsDeferredAction implements DeferredAction {
         ) {
           throw new Error('Need to select ' + this.count + ' resource(s)');
         }
-        this.player.megaCredits += megacreditsAmount;
-        this.player.steel += steelAmount;
-        this.player.titanium += titaniumAmount;
-        this.player.plants += plantsAmount;
-        this.player.energy += energyAmount;
-        this.player.heat += heatAmount;
+        this.player.adjustUnits({
+          megacredits: megacreditsAmount,
+          steel: steelAmount,
+          titanium: titaniumAmount,
+          plants: plantsAmount,
+          energy: energyAmount,
+          heat: heatAmount,
+        });
         return undefined;
       },
       selectMegacredit,

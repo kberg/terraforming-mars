@@ -39,7 +39,7 @@ export class JovianLanterns implements IProjectCard, IResourceCard {
     }
 
     public action(player: Player) {
-      player.titanium--;
+      player.deductTitanium(1);
       this.resourceCount += 2;
       return undefined;
     }

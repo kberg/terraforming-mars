@@ -14,8 +14,9 @@ export class Teractor extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.TERACTOR,
       tags: [Tags.EARTH],
-      startingMegaCredits: 60,
-
+      startingUnits: {
+        megacredits: 60,
+      },
       metadata: {
         cardNumber: 'R30',
         description: 'You start with 60 MC.',

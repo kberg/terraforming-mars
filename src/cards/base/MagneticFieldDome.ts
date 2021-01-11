@@ -4,7 +4,6 @@ import {Card} from '../Card';
 import {Game} from '../../Game';
 import {Player} from '../../Player';
 import {CardType} from '../CardType';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
@@ -35,7 +34,7 @@ export class MagneticFieldDome extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player, game: Game): boolean {
-    const hasEnergyProduction = player.getProduction(Resources.ENERGY) >= 2;
+    const hasEnergyProduction = player.energyProduction >= 2;
     if (PartyHooks.shouldApplyPolicy(game, PartyName.REDS)) {
       return player.canAfford(player.getCardCost(game, this) + REDS_RULING_POLICY_COST, game, true) && hasEnergyProduction;
     }
@@ -44,8 +43,8 @@ export class MagneticFieldDome extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY, -2);
-    player.addProduction(Resources.PLANTS);
+    player.addEnergyProduction(-2);
+    player.addPlantProduction(1);
     player.increaseTerraformRating(game);
     return undefined;
   }

@@ -9,7 +9,7 @@ export class Donation extends PreludeCard {
     public name = CardName.DONATION;
 
     public play(player: Player) {
-      player.megaCredits += 21;
+      player.addMegacredits(21);
       return undefined;
     }
     public metadata: CardMetadata = {

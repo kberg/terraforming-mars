@@ -3,11 +3,13 @@ import {ICard} from '../ICard';
 import {Player} from '../../Player';
 import {PlayerInput} from '../../PlayerInput';
 import {OrOptions} from '../../inputs/OrOptions';
+import {PartialUnits} from '../../Units';
 
 export interface CorporationCard extends ICard {
     initialActionText?: string;
     initialAction?: (player: Player, game: Game) => PlayerInput | undefined;
-    startingMegaCredits: number;
+    startingUnits: PartialUnits;
+    startingProduction?: PartialUnits;
     cardCost?: number;
     onCorpCardPlayed?: (
         player: Player,

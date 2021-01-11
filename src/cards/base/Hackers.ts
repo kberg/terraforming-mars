@@ -31,13 +31,13 @@ export class Hackers extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1;
+    return player.energyProduction >= 1;
   }
 
   public play(player: Player, game: Game) {
     game.defer(new DecreaseAnyProduction(player, game, Resources.MEGACREDITS, 2));
     player.addProduction(Resources.MEGACREDITS, 2);
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     return undefined;
   }
 

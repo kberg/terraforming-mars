@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {DiscardCards} from '../../deferredActions/DiscardCards';
 
@@ -18,7 +17,7 @@ export class ParadigmBreakdown implements IGlobalEvent {
         } else if (player.cardsInHand.length === 1) {
           game.defer(new DiscardCards(player, game, 1, 'Global Event - Select a card to discard'));
         }
-        player.setResource(Resources.MEGACREDITS, 2 * (turmoil.getPlayerInfluence(player)), game, undefined, true);
+        player.addMegacredits(2 * (turmoil.getPlayerInfluence(player)), {globalEvent: true});
       });
     }
 }

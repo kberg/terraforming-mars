@@ -44,7 +44,7 @@ export class Asteroid extends Card implements IProjectCard {
   public play(player: Player, game: Game) {
     game.increaseTemperature(player, 1);
     game.defer(new RemoveAnyPlants(player, game, 3));
-    player.titanium += 2;
+    player.addTitanium(2);
     return undefined;
   }
 }

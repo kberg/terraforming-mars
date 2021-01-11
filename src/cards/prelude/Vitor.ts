@@ -14,7 +14,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class Vitor implements CorporationCard {
     public name = CardName.VITOR;
     public tags = [Tags.EARTH];
-    public startingMegaCredits: number = 48; // It's 45 + 3 when this corp is played
+    public startingUnits = {
+      megacredits: 48, // It's 45 + 3 when this corp is played
+    };
     public cardType = CardType.CORPORATION;
 
     private selectAwardToFund(player: Player, game: Game, award: IAward): SelectOption {
@@ -39,11 +41,11 @@ export class Vitor implements CorporationCard {
 
     public onCardPlayed(player: Player, game: Game, card: IProjectCard) {
       if (player.isCorporation(this.name) && card.getVictoryPoints !== undefined && card.getVictoryPoints(player, game) >= 0) {
-        player.megaCredits += 3;
+        player.addMegacredits(3);
       }
     }
 
-    public play(_player: Player) {
+    public play() {
       return undefined;
     }
 

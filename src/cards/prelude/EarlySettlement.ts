@@ -2,7 +2,6 @@ import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {PlaceCityTile} from '../../deferredActions/PlaceCityTile';
 import {CardMetadata} from '../CardMetadata';
@@ -12,7 +11,7 @@ export class EarlySettlement extends PreludeCard {
     public tags = [Tags.BUILDING, Tags.CITY];
     public name = CardName.EARLY_SETTLEMENT;
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       game.defer(new PlaceCityTile(player, game));
       return undefined;
     }

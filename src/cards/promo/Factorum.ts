@@ -3,7 +3,6 @@ import {Player} from '../../Player';
 import {Tags} from '../Tags';
 import {Game} from '../../Game';
 import {IActionCard} from '../ICard';
-import {Resources} from '../../Resources';
 import {SelectOption} from '../../inputs/SelectOption';
 import {OrOptions} from '../../inputs/OrOptions';
 import {CardName} from '../../CardName';
@@ -16,11 +15,15 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Factorum implements IActionCard, CorporationCard {
     public name = CardName.FACTORUM;
     public tags = [Tags.ENERGY, Tags.BUILDING];
-    public startingMegaCredits: number = 37;
+    public startingUnits = {
+      megacredits: 37,
+    }
+    public startingProduction = {
+      steel: 1,
+    }
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.addProduction(Resources.STEEL);
+    public play() {
       return undefined;
     }
 
@@ -33,14 +36,13 @@ export class Factorum implements IActionCard, CorporationCard {
         'Increase your energy production 1 step',
         'Increase production',
         () => {
-          player.addProduction(Resources.ENERGY);
-          LogHelper.logGainProduction(game, player, Resources.ENERGY);
+          player.addEnergyProduction(1);
           return undefined;
         },
       );
 
       const drawBuildingCard = new SelectOption('Spend 3 MC to draw a building card', 'Draw card', () => {
-        player.megaCredits -= 3;
+        player.deductMegacredits(3);
         const cards = game.drawCardsByTag(Tags.BUILDING, 1);
         player.cardsInHand.push(...cards);
         LogHelper.logDrawnCards(game, player, cards);

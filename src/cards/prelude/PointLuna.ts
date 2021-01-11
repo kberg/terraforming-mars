@@ -3,7 +3,6 @@ import {Player} from '../../Player';
 import {CorporationCard} from './../corporation/CorporationCard';
 import {IProjectCard} from '../IProjectCard';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardMetadata} from '../CardMetadata';
@@ -12,7 +11,12 @@ import {CardRenderer} from '../render/CardRenderer';
 export class PointLuna implements CorporationCard {
     public name = CardName.POINT_LUNA;
     public tags = [Tags.SPACE, Tags.EARTH];
-    public startingMegaCredits: number = 38;
+    public startingUnits = {
+      megacredits: 38,
+    };
+    public startingProduction = {
+      titanium: 1,
+    };
     public cardType = CardType.CORPORATION;
     public onCardPlayed(player: Player, game: Game, card: IProjectCard) {
       const tagCount = card.tags.filter((tag) => tag === Tags.EARTH).length;
@@ -21,7 +25,6 @@ export class PointLuna implements CorporationCard {
       }
     }
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.TITANIUM);
       player.drawCard(game);
       return undefined;
     }

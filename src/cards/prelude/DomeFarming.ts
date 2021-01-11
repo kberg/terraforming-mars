@@ -10,7 +10,7 @@ export class DomeFarming extends PreludeCard {
     public tags = [Tags.PLANT, Tags.BUILDING];
     public name = CardName.DOME_FARMING;
     public play(player: Player) {
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       player.addProduction(Resources.MEGACREDITS, 2);
       return undefined;
     }

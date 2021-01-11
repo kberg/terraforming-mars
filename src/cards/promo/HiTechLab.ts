@@ -29,7 +29,7 @@ export class HiTechLab implements IProjectCard {
         'Select amount of energy to spend',
         'Spend energy',
         (amount: number) => {
-          player.setResource(Resources.ENERGY, -amount);
+          player.deductEnergy(amount);
           game.log('${0} spent ${1} energy', (b) => b.player(player).number(amount));
 
           const cardsDrawn: Array<IProjectCard> = [];

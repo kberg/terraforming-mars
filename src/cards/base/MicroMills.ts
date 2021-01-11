@@ -2,10 +2,9 @@ import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {Card} from '../Card';
-import {CardType} from '../CardType';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {CardType} from '../CardType';
 
 export class MicroMills extends Card implements IProjectCard {
   constructor() {
@@ -25,7 +24,7 @@ export class MicroMills extends Card implements IProjectCard {
   }
 
   public play(player: Player, _game: Game) {
-    player.addProduction(Resources.HEAT);
+    player.addHeatProduction(1);
     return undefined;
   }
 }

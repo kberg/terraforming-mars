@@ -57,7 +57,7 @@ export class LargeConvoy extends Card implements IProjectCard {
     const animalCards = player.getResourceCards(ResourceType.ANIMAL);
 
     const gainPlants = function() {
-      player.plants += 5;
+      player.addPlants(5);
       LogHelper.logGainStandardResource(game, player, Resources.PLANTS, 5);
       game.defer(new PlaceOceanTile(player, game));
       return undefined;

@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PlayerInput} from '../../PlayerInput';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -34,7 +33,7 @@ export class Windmills extends Card implements IProjectCard {
     return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 7);
   }
   public play(player: Player): PlayerInput | undefined {
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     return undefined;
   }
   public getVictoryPoints() {

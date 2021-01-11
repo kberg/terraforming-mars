@@ -42,7 +42,7 @@ export class SecurityFleet extends Card implements IActionCard, IProjectCard, IR
       return player.titanium > 0;
     }
     public action(player: Player) {
-      player.titanium--;
+      player.deductTitanium(1);
       this.resourceCount++;
       return undefined;
     }

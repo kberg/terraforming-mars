@@ -1,7 +1,6 @@
 import {CorporationCard} from '../corporation/CorporationCard';
 import {Player} from '../../Player';
 import {Tags} from '../Tags';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {ITagCount} from '../../ITagCount';
 import {Game} from '../../Game';
@@ -14,13 +13,16 @@ import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictory
 export class AgricolaInc implements CorporationCard {
     public name = CardName.AGRICOLA_INC;
     public tags = [Tags.PLANT];
-    public startingMegaCredits: number = 40;
+    public startingUnits = {
+      megacredits: 40,
+    };
+    public startingProduction = {
+      megacredits: 1,
+      plants: 1,
+    }
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.addProduction(Resources.MEGACREDITS, 1);
-      player.addProduction(Resources.PLANTS, 1);
-
+    public play() {
       return undefined;
     }
 

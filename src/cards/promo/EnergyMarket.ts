@@ -24,7 +24,7 @@ export class EnergyMarket implements IProjectCard {
 
   public canAct(player: Player): boolean {
     const availableMC = (player.canUseHeatAsMegaCredits) ? player.getResource(Resources.MEGACREDITS) + player.getResource(Resources.HEAT) : player.getResource(Resources.MEGACREDITS);
-    return availableMC >= 2 || player.getProduction(Resources.ENERGY) >= 1;
+    return availableMC >= 2 || player.energyProduction >= 1;
   }
 
   private getEnergyOption(player: Player, game: Game, availableMC: number): SelectAmount {
@@ -33,11 +33,11 @@ export class EnergyMarket implements IProjectCard {
       'Gain energy',
       (amount: number) => {
         if (player.canUseHeatAsMegaCredits) {
-          player.setResource(Resources.ENERGY, amount);
+          player.addEnergy(amount);
           game.defer(new SelectHowToPayDeferred(player, (amount * 2)));
         } else {
-          player.setResource(Resources.ENERGY, amount);
-          player.setResource(Resources.MEGACREDITS, -(amount * 2));
+          player.addEnergy(amount);
+          player.deductMegacredits(amount * 2);
         }
 
         game.log('${0} gained ${1} energy', (b) => b.player(player).number(amount));
@@ -49,15 +49,15 @@ export class EnergyMarket implements IProjectCard {
   }
 
   private getMegacreditsOption(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY, -1);
-    player.setResource(Resources.MEGACREDITS, 8);
+    player.addEnergyProduction(-1);
+    player.addMegacredits(8);
     game.log('${0} decreased energy production 1 step to gain 8 MC', (b) => b.player(player));
     return undefined;
   }
 
   public action(player: Player, game: Game) {
     const availableMC = player.spendableMegacredits();
-    if (availableMC >= 2 && player.getProduction(Resources.ENERGY) >= 1) {
+    if (availableMC >= 2 && player.energyProduction >= 1) {
       return new OrOptions(
         new SelectOption('Spend 2X MC to gain X energy', 'Spend MC', () => {
           return this.getEnergyOption(player, game, availableMC);
@@ -68,7 +68,7 @@ export class EnergyMarket implements IProjectCard {
       );
     } else if (availableMC >= 2) {
       return this.getEnergyOption(player, game, availableMC);
-    } else if (player.getProduction(Resources.ENERGY) >= 1) {
+    } else if (player.energyProduction >= 1) {
       return this.getMegacreditsOption(player, game);
     }
     return undefined;

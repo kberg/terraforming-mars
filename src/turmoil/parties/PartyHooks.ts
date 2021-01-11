@@ -4,7 +4,6 @@ import {PartyName} from './PartyName';
 import {SpaceType} from '../../SpaceType';
 import {Phase} from '../../Phase';
 import {PolicyId} from '../Policy';
-import {Resources} from '../../Resources';
 import {ISpace} from '../../boards/ISpace';
 import {GREENS_POLICY_1} from './Greens';
 import {TurmoilPolicy} from '../TurmoilPolicy';
@@ -14,7 +13,7 @@ export class PartyHooks {
     if (this.shouldApplyPolicy(game, PartyName.MARS, TurmoilPolicy.MARS_FIRST_DEFAULT_POLICY) &&
         spaceType !== SpaceType.COLONY &&
         game.phase === Phase.ACTION) {
-      player.setResource(Resources.STEEL, 1);
+      player.addSteel(1);
     }
   }
 

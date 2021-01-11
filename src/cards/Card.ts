@@ -5,6 +5,7 @@ import {CardType} from './CardType';
 import {IAdjacencyBonus} from '../ares/IAdjacencyBonus';
 import {ResourceType} from '../ResourceType';
 import {Tags} from './Tags';
+import {PartialUnits} from '../Units';
 
 interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -15,7 +16,8 @@ interface StaticCardProperties {
   metadata: CardMetadata;
   name: CardName;
   resourceType?: ResourceType;
-  startingMegaCredits?: number;
+  startingUnits?: PartialUnits;
+  startingProduction?: PartialUnits;
   tags?: Array<Tags>;
 }
 
@@ -26,8 +28,8 @@ export abstract class Card {
   constructor(properties: StaticCardProperties) {
     let staticInstance = staticCardProperties.get(properties.name);
     if (staticInstance === undefined) {
-      if (properties.cardType === CardType.CORPORATION && properties.startingMegaCredits === undefined) {
-        throw new Error('must define startingMegaCredits for corporation cards');
+      if (properties.cardType === CardType.CORPORATION && properties.startingUnits === undefined) {
+        throw new Error('must define startingUnits for corporation cards');
       }
       if (properties.cardType !== CardType.CORPORATION && properties.cost === undefined) {
         throw new Error('must define cost for non-corporation cards');
@@ -61,8 +63,11 @@ export abstract class Card {
   public get resourceType() {
     return this.properties.resourceType;
   }
-  public get startingMegaCredits() {
-    return this.properties.startingMegaCredits === undefined ? 0 : this.properties.startingMegaCredits;
+  public get startingUnits() {
+    return this.properties.startingUnits === undefined ? {} : this.properties.startingUnits;
+  }
+  public get startingProduction() {
+    return this.properties.startingProduction === undefined ? {} : this.properties.startingProduction;
   }
   public get tags() {
     return this.properties.tags === undefined ? [] : this.properties.tags;

@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {Game} from '../../Game';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardMetadata} from '../CardMetadata';
@@ -27,7 +26,7 @@ export class DiasporaMovement implements IProjectCard {
       const amount = game.getPlayers()
         .map((p) => p.getTagCount(Tags.JOVIAN, false, p.id === player.id ? true : false))
         .reduce((a, c) => a + c);
-      player.setResource(Resources.MEGACREDITS, amount + 1);
+      player.addMegacredits(amount + 1);
       return undefined;
     }
 

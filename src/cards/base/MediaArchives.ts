@@ -30,7 +30,7 @@ export class MediaArchives extends Card implements IProjectCard {
   public play(player: Player, game: Game) {
     const allPlayedEvents: number = game.getPlayers().map((player) => player.getPlayedEventsCount()).reduce((a, c) => a + c, 0);
 
-    player.megaCredits += allPlayedEvents;
+    player.addMegacredits(allPlayedEvents);
     LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS, allPlayedEvents);
     return undefined;
   }

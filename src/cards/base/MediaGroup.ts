@@ -28,7 +28,7 @@ export class MediaGroup extends Card implements IProjectCard {
 
   public onCardPlayed(player: Player, _game: Game, card: IProjectCard) {
     if (card.cardType === CardType.EVENT) {
-      player.megaCredits += 3;
+      player.addMegacredits(3);
     }
   }
   public play() {

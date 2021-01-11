@@ -1,7 +1,6 @@
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
@@ -11,8 +10,8 @@ export class Supplier extends PreludeCard {
     public name = CardName.SUPPLIER;
 
     public play(player: Player) {
-      player.addProduction(Resources.ENERGY, 2);
-      player.steel +=4;
+      player.addEnergyProduction(2);
+      player.addSteel(4);
       return undefined;
     }
     public metadata: CardMetadata = {

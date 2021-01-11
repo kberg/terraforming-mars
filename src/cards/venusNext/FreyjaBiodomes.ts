@@ -20,7 +20,7 @@ export class FreyjaBiodomes implements IProjectCard {
     public name = CardName.FREYJA_BIODOMES;
     public cardType = CardType.AUTOMATED;
     public canPlay(player: Player, game: Game): boolean {
-      return player.getProduction(Resources.ENERGY) >= 1 && game.checkMinRequirements(player, GlobalParameter.VENUS, 10);
+      return player.energyProduction >= 1 && game.checkMinRequirements(player, GlobalParameter.VENUS, 10);
     }
     public getResCards(player: Player): ICard[] {
       let resourceCards = player.getResourceCards(ResourceType.ANIMAL);
@@ -38,7 +38,7 @@ export class FreyjaBiodomes implements IProjectCard {
           cards,
           (foundCards: Array<ICard>) => {
             player.addResourceTo(foundCards[0], 2);
-            player.addProduction(Resources.ENERGY, -1);
+            player.addEnergyProduction(-1);
             player.addProduction(Resources.MEGACREDITS, 2);
             LogHelper.logAddResource(game, player, foundCards[0], 2);
             return undefined;
@@ -51,7 +51,7 @@ export class FreyjaBiodomes implements IProjectCard {
         LogHelper.logAddResource(game, player, cards[0], 2);
       }
 
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.addProduction(Resources.MEGACREDITS, 2);
       return undefined;
     }

@@ -22,7 +22,7 @@ export class AerosportTournament implements IProjectCard {
   }
   public play(player: Player, game: Game) {
     const amount = game.getCitiesInPlay();
-    player.megaCredits += amount;
+    player.addMegacredits(amount);
     LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS, amount);
     return undefined;
   }

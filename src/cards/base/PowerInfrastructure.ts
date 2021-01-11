@@ -41,8 +41,10 @@ export class PowerInfrastructure extends Card implements IActionCard, IProjectCa
       'Select amount of energy to spend',
       'Spend energy',
       (amount: number) => {
-        player.energy -= amount;
-        player.megaCredits += amount;
+        player.adjustUnits({
+          energy: -amount,
+          megacredits: amount,
+        });
         LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS, amount);
         return undefined;
       },

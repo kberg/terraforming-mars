@@ -33,7 +33,7 @@ export class MartianZoo implements IProjectCard, IResourceCard {
     }
 
     public action(player: Player, _game: Game) {
-      player.megaCredits += this.resourceCount;
+      player.addMegacredits(this.resourceCount);
       return undefined;
     }
 

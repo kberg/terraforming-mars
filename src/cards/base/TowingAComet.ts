@@ -43,7 +43,7 @@ export class TowingAComet extends Card implements IProjectCard {
   }
   public play(player: Player, game: Game) {
     game.defer(new PlaceOceanTile(player, game));
-    player.plants += 2;
+    player.addPlants(2);
     return game.increaseOxygenLevel(player, 1);
   }
 }

@@ -4,7 +4,6 @@ import {Game} from '../../Game';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {ResourceType} from '../../ResourceType';
 import {SpaceBonus} from '../../SpaceBonus';
 import {SpaceType} from '../../SpaceType';
@@ -45,7 +44,7 @@ export class BiofertilizerFacility extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.PLANTS, 1);
+    player.addPlantProduction(1);
     game.defer(new AddResourcesToCard(player, game, ResourceType.MICROBE, {count: 2}));
 
     return new SelectSpace(

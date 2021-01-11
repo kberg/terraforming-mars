@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 
@@ -14,8 +13,8 @@ export class AquiferReleasedByPublicCouncil implements IGlobalEvent {
     public resolve(game: Game, turmoil: Turmoil) {
       game.defer(new PlaceOceanTile(game.getPlayers()[0], game, 'Select Ocean for Global Event'));
       game.getPlayers().forEach((player) => {
-        player.setResource(Resources.PLANTS, turmoil.getPlayerInfluence(player), game, undefined, true);
-        player.setResource(Resources.STEEL, turmoil.getPlayerInfluence(player), game, undefined, true);
+        player.addPlants(turmoil.getPlayerInfluence(player), {globalEvent: true});
+        player.addSteel(turmoil.getPlayerInfluence(player), {globalEvent: true});
       });
     }
 }

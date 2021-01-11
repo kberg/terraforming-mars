@@ -139,11 +139,11 @@ export class RoboticWorkforce extends Card implements IProjectCard {
           return true;
         }
       } else if (card.name === CardName.MAGNETIC_FIELD_GENERATORS || card.name === CardName.MAGNETIC_FIELD_GENERATORS_PROMO) {
-        if (player.getProduction(Resources.ENERGY) >= 4) {
+        if (player.energyProduction >= 4) {
           return true;
         }
       } else if (card.name === CardName.TROPICAL_RESORT) {
-        if (player.getProduction(Resources.HEAT) >= 2) {
+        if (player.heatProduction >= 2) {
           return true;
         }
       } else if (card.name === CardName.CAPITAL ||
@@ -153,7 +153,7 @@ export class RoboticWorkforce extends Card implements IProjectCard {
         card.name === CardName.STRIP_MINE ||
         card.name === CardName.UNDERGROUND_CITY
       ) {
-        if (player.getProduction(Resources.ENERGY) >= 2) {
+        if (player.energyProduction >= 2) {
           return true;
         }
       } else if (card.name === CardName.AI_CENTRAL ||
@@ -179,7 +179,7 @@ export class RoboticWorkforce extends Card implements IProjectCard {
         card.name === CardName.SPACE_PORT ||
         card.name === CardName.URBANIZED_AREA
       ) {
-        if (player.getProduction(Resources.ENERGY) >= 1) {
+        if (player.energyProduction >= 1) {
           return true;
         }
       } else if (card.name === CardName.HEAT_TRAPPERS) {
@@ -187,15 +187,15 @@ export class RoboticWorkforce extends Card implements IProjectCard {
           return true;
         }
       } else if (card.name === CardName.PEROXIDE_POWER || card.name === CardName.FUELED_GENERATORS) {
-        if (player.getProduction(Resources.MEGACREDITS) >= -4) {
+        if (player.megaCreditProduction >= -4) {
           return true;
         }
       } else if (card.name === CardName.NUCLEAR_POWER) {
-        if (player.getProduction(Resources.MEGACREDITS) >= -3) {
+        if (player.megaCreditProduction >= -3) {
           return true;
         }
       } else if (card.name === CardName.FOOD_FACTORY) {
-        if (player.getProduction(Resources.PLANTS) >= 1) {
+        if (player.plantProduction >= 1) {
           return true;
         }
       } else if (RoboticWorkforce.builderCardsNames.includes(card.name)) {
@@ -224,13 +224,13 @@ export class RoboticWorkforce extends Card implements IProjectCard {
       switch (foundCard.name) {
       // this card require additional user input
       case CardName.BIOMASS_COMBUSTORS:
-        player.addProduction(Resources.ENERGY, 2);
+        player.addEnergyProduction(2);
         game.defer(new DecreaseAnyProduction(player, game, Resources.PLANTS, 1));
         return undefined;
 
       // this card require additional user input
       case CardName.HEAT_TRAPPERS:
-        player.addProduction(Resources.ENERGY, 1);
+        player.addEnergyProduction(1);
         game.defer(new DecreaseAnyProduction(player, game, Resources.HEAT, 2));
         return undefined;
 
@@ -360,25 +360,25 @@ export class RoboticWorkforce extends Card implements IProjectCard {
         throw 'Production not found for selected card';
       }
 
-      if (player.getProduction(Resources.ENERGY) + result.energyProduction < 0) {
+      if (player.energyProduction + result.energyProduction < 0) {
         throw 'not enough energy production';
       }
-      if (player.getProduction(Resources.TITANIUM) + result.titaniumProduction < 0) {
+      if (player.titaniumProduction + result.titaniumProduction < 0) {
         throw 'not enough titanium production';
       }
-      if (player.getProduction(Resources.PLANTS) + result.plantProduction < 0) {
+      if (player.plantProduction + result.plantProduction < 0) {
         throw 'not enough plant production';
       }
-      if (player.getProduction(Resources.HEAT) + result.heatProduction < 0) {
+      if (player.heatProduction + result.heatProduction < 0) {
         throw 'not enough heat production';
       }
 
-      player.addProduction(Resources.ENERGY, result.energyProduction);
+      player.addEnergyProduction(result.energyProduction);
       player.addProduction(Resources.MEGACREDITS, result.megaCreditProduction);
       player.addProduction(Resources.STEEL, result.steelProduction);
       player.addProduction(Resources.TITANIUM, result.titaniumProduction);
-      player.addProduction(Resources.PLANTS, result.plantProduction);
-      player.addProduction(Resources.HEAT, result.heatProduction);
+      player.addPlantProduction(result.plantProduction);
+      player.addHeatProduction(result.heatProduction);
 
       game.log('${0} copied ${1} production with ${2}', (b) =>
         b.player(player).cardName(result.name).card(this));

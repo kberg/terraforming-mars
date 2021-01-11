@@ -26,7 +26,7 @@ export class IndustrialMicrobes extends Card implements IProjectCard {
     });
   }
   public play(player: Player, _game: Game) {
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     player.addProduction(Resources.STEEL);
     return undefined;
   }

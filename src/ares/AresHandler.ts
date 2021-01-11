@@ -104,11 +104,11 @@ export class AresHandler {
         break;
 
       case SpaceBonus.MEGACREDITS:
-        player.megaCredits++;
+        player.addMegacredits(1);
         break;
 
       case SpaceBonus.POWER:
-        player.energy++;
+        player.addEnergy(1);
         break;
 
       case SpaceBonus.MICROBE:
@@ -130,7 +130,7 @@ export class AresHandler {
       ownerBonus = 2;
     };
 
-    adjacentPlayer.megaCredits += ownerBonus;
+    adjacentPlayer.addMegacredits(ownerBonus);
     player.game.log('${0} gains ${1} M€ for a tile placed next to ${2}', (b) => b.player(adjacentPlayer).number(ownerBonus).string(tileText));
 
     return true;
@@ -143,15 +143,16 @@ export class AresHandler {
   //
   public static beforeTilePlacement(player: Player): Multiset<Resources | ResourceType> {
     const multiset: Multiset<Resources | ResourceType> = new Multiset();
+    const units = player.getUnits();
     if (player.playedCards.find((c) => c.name === CardName.ECOLOGICAL_SURVEY)) {
-      multiset.add(Resources.PLANTS, player.getResource(Resources.PLANTS));
+      multiset.add(Resources.PLANTS, units.plants);
       multiset.add(ResourceType.ANIMAL, AresHandler.countResources(player, ResourceType.ANIMAL));
       multiset.add(ResourceType.MICROBE, AresHandler.countResources(player, ResourceType.MICROBE));
     }
     if (player.playedCards.find((c) => c.name === CardName.GEOLOGICAL_SURVEY)) {
-      multiset.add(Resources.STEEL, player.getResource(Resources.STEEL));
-      multiset.add(Resources.TITANIUM, player.getResource(Resources.TITANIUM));
-      multiset.add(Resources.HEAT, player.getResource(Resources.HEAT));
+      multiset.add(Resources.STEEL, units.steel);
+      multiset.add(Resources.TITANIUM, units.titanium);
+      multiset.add(Resources.HEAT, units.heat);
     }
     return multiset;
   }
@@ -263,12 +264,12 @@ export class AresHandler {
 
     // Make this more sophisticated, a player can pay for different adjacencies
     // with different production units, and, a severe hazard can't split payments.
-    const availableProductionUnits = (player.getProduction(Resources.MEGACREDITS) + 5) +
-            player.getProduction(Resources.STEEL) +
-            player.getProduction(Resources.TITANIUM) +
-            player.getProduction(Resources.PLANTS) +
-            player.getProduction(Resources.ENERGY) +
-            player.getProduction(Resources.HEAT);
+    const availableProductionUnits = (player.megaCreditProduction + 5) +
+            player.steelProduction +
+            player.titaniumProduction +
+            player.plantProduction +
+            player.energyProduction +
+            player.heatProduction;
 
     if (availableProductionUnits >= cost.production && player.canAfford(cost.megacredits)) {
       return cost;

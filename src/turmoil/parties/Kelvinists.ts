@@ -2,7 +2,6 @@ import {IParty} from './IParty';
 import {Party} from './Party';
 import {PartyName} from './PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Bonus} from '../Bonus';
 import {Policy} from '../Policy';
 import {Player} from '../../Player';
@@ -23,8 +22,8 @@ class KelvinistsBonus01 implements Bonus {
 
   grant(game: Game) {
     game.getPlayers().forEach((player) => {
-      const heatProduction = player.getProduction(Resources.HEAT);
-      player.setResource(Resources.MEGACREDITS, heatProduction);
+      const heatProduction = player.heatProduction;
+      player.addMegacredits(heatProduction);
     });
   }
 }
@@ -36,8 +35,8 @@ class KelvinistsBonus02 implements Bonus {
 
   grant(game: Game) {
     game.getPlayers().forEach((player) => {
-      const heatProduction = player.getProduction(Resources.HEAT);
-      player.setResource(Resources.HEAT, heatProduction);
+      const heatProduction = player.heatProduction;
+      player.addHeat(heatProduction);
     });
   }
 }
@@ -59,8 +58,8 @@ class KelvinistsPolicy01 implements Policy {
       {
         title: 'Select how to pay for Turmoil Kelvinists action',
         afterPay: () => {
-          player.addProduction(Resources.ENERGY);
-          player.addProduction(Resources.HEAT);
+          player.addEnergyProduction(1);
+          player.addHeatProduction(1);
           game.log('${0} increased heat and energy production 1 step', (b) => b.player(player));
         },
       },
@@ -89,7 +88,7 @@ class KelvinistsPolicy03 implements Policy {
     game.log('${0} used Turmoil Kelvinists action', (b) => b.player(player));
     game.log('${0} spent 6 heat to raise temperature 1 step', (b) => b.player(player));
 
-    player.setResource(Resources.HEAT, -6);
+    player.addHeat(-6);
     game.increaseTemperature(player, 1);
     return undefined;
   }
@@ -101,7 +100,7 @@ class KelvinistsPolicy04 implements Policy {
   isDefault = false;
 
   onTilePlaced(player: Player) {
-    player.setResource(Resources.HEAT, 2);
+    player.addHeat(2);
   }
 }
 

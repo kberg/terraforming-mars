@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -14,7 +13,7 @@ export class SolarReflectors implements IProjectCard {
     public cardType = CardType.AUTOMATED;
 
     public play(player: Player) {
-      player.addProduction(Resources.HEAT, 5);
+      player.addHeatProduction(5);
       return undefined;
     }
 

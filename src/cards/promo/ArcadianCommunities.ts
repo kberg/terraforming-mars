@@ -14,7 +14,10 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class ArcadianCommunities implements IActionCard, CorporationCard {
     public name = CardName.ARCADIAN_COMMUNITIES;
     public tags = [];
-    public startingMegaCredits: number = 40;
+    public startingUnits = {
+      megacredits: 40,
+      steel: 10,
+    };
     public cardType = CardType.CORPORATION;
 
     public initialActionText: string = 'Place a community (player marker) on a non-reserved area';
@@ -47,8 +50,7 @@ export class ArcadianCommunities implements IActionCard, CorporationCard {
       );
     }
 
-    public play(player: Player) {
-      player.steel = 10;
+    public play() {
       return undefined;
     }
 

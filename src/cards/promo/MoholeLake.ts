@@ -37,7 +37,7 @@ export class MoholeLake implements IActionCard, IProjectCard {
     public play(player: Player, game: Game) {
       game.increaseTemperature(player, 1);
       game.defer(new PlaceOceanTile(player, game));
-      player.plants += 3;
+      player.addPlants(3);
       return undefined;
     }
 

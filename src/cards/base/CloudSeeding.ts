@@ -29,7 +29,7 @@ export class CloudSeeding extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    return player.getProduction(Resources.MEGACREDITS) > -5 &&
+    return player.megaCreditProduction > -5 &&
         game.checkMinRequirements(player, GlobalParameter.OCEANS, 3) &&
         game.someoneHasResourceProduction(Resources.HEAT, 1);
   }
@@ -37,7 +37,7 @@ export class CloudSeeding extends Card implements IProjectCard {
   public play(player: Player, game: Game) {
     game.defer(new DecreaseAnyProduction(player, game, Resources.HEAT, 1));
     player.addProduction(Resources.MEGACREDITS, -1);
-    player.addProduction(Resources.PLANTS, 2);
+    player.addPlantProduction(2);
     return undefined;
   }
 }

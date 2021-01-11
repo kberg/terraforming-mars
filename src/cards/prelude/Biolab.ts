@@ -2,7 +2,6 @@ import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PreludeCard} from './PreludeCard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {DrawCards} from '../../deferredActions/DrawCards';
 import {CardMetadata} from '../CardMetadata';
@@ -12,7 +11,7 @@ export class Biolab extends PreludeCard {
     public tags = [Tags.SCIENCE];
     public name = CardName.BIOLAB;
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       game.defer(new DrawCards(player, game, 3));
       return undefined;
     }

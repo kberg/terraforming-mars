@@ -7,7 +7,6 @@ import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -39,48 +38,36 @@ export class ElectroCatapult extends Card implements IActionCard, IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1 &&
+    return player.energyProduction >= 1 &&
         game.checkMaxRequirements(player, GlobalParameter.OXYGEN, 8);
   }
   public canAct(player: Player): boolean {
     return player.plants > 0 || player.steel > 0;
   }
-  public action(player: Player, game: Game) {
+  public action(player: Player) {
     if (player.plants > 0 && player.steel > 0) {
       return new OrOptions(
-        new SelectOption('Spend 1 plant to gain 7 mega credit', 'Spend plant', () => {
-          player.plants--;
-          player.megaCredits += 7;
-          this.log(game, player, Resources.PLANTS);
+        new SelectOption('Spend 1 plant to gain 7 MC', 'Spend plant', () => {
+          player.adjustUnits({plants: -1, megacredits: 7});
           return undefined;
         }),
-        new SelectOption('Spend 1 steel to gain 7 mega credit', 'Spend steel', () => {
-          player.steel--;
-          player.megaCredits += 7;
-          this.log(game, player, Resources.STEEL);
+        new SelectOption('Spend 1 steel to gain 7 MC', 'Spend steel', () => {
+          player.adjustUnits({steel: -1, megacredits: 7});
           return undefined;
         }),
       );
     } else if (player.plants > 0) {
-      player.plants--;
-      this.log(game, player, Resources.PLANTS);
-      player.megaCredits += 7;
+      player.adjustUnits({plants: -1, megacredits: 7});
     } else if (player.steel > 0) {
-      player.steel--;
-      this.log(game, player, Resources.STEEL);
-      player.megaCredits += 7;
+      player.adjustUnits({steel: -1, megacredits: 7});
     }
     return undefined;
   }
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     return undefined;
   }
   public getVictoryPoints() {
     return 1;
-  }
-
-  private log(game: Game, player: Player, resource: Resources) {
-    game.log('${0} spent 1 ${1} to gain 7 MC', (b) => b.player(player).string(resource));
   }
 }

@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {ResourceType} from '../../ResourceType';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -27,7 +26,7 @@ export class SaturnSurfing implements IActionCard, IProjectCard, IResourceCard {
     }
 
     public action(player: Player) {
-      player.setResource(Resources.MEGACREDITS, Math.min(5, this.resourceCount--));
+      player.addMegacredits(Math.min(5, this.resourceCount--));
       return undefined;
     }
 

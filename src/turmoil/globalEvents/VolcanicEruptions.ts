@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class VolcanicEruptions implements IGlobalEvent {
@@ -15,7 +14,7 @@ export class VolcanicEruptions implements IGlobalEvent {
       game.getPlayers().forEach((player) => {
         const amount = turmoil.getPlayerInfluence(player);
         if (amount > 0) {
-          player.addProduction(Resources.HEAT, amount, game, undefined, true);
+          player.addHeatProduction(amount, {globalEvent: true});
         }
       });
     }

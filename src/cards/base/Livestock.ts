@@ -21,13 +21,13 @@ export class Livestock implements IActionCard, IProjectCard, IResourceCard {
     public tags = [Tags.ANIMAL];
     public name = CardName.LIVESTOCK;
     public canPlay(player: Player, game: Game): boolean {
-      return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 9) && player.getProduction(Resources.PLANTS) >= 1;
+      return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 9) && player.plantProduction >= 1;
     }
     public getVictoryPoints(): number {
       return this.resourceCount;
     }
     public play(player: Player) {
-      player.addProduction(Resources.PLANTS, -1);
+      player.addPlantProduction(-1);
       player.addProduction(Resources.MEGACREDITS, 2);
       return undefined;
     }

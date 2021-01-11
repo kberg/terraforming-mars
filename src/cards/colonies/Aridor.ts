@@ -16,7 +16,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class Aridor implements CorporationCard {
     public name = CardName.ARIDOR;
     public tags = [];
-    public startingMegaCredits: number = 40;
+    public startingUnits = {
+      megacredits: 40,
+    };
     public allTags = new Set<Tags>();
     public cardType = CardType.CORPORATION;
 

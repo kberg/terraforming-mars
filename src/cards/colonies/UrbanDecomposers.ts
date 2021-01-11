@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
 import {Game} from '../../Game';
 import {ResourceType} from '../../ResourceType';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
@@ -26,7 +25,7 @@ export class UrbanDecomposers implements IProjectCard {
     }
 
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.PLANTS, 1);
+      player.addPlantProduction(1);
 
       const microbeCards = player.getResourceCards(ResourceType.MICROBE);
       if (microbeCards.length) {

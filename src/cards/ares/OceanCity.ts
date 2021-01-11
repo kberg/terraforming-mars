@@ -36,12 +36,12 @@ export class OceanCity extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player, game: Game): boolean {
-    return (player.getProduction(Resources.ENERGY) > 0) &&
+    return (player.energyProduction > 0) &&
       game.checkMinRequirements(player, GlobalParameter.OCEANS, 6);
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     player.addProduction(Resources.MEGACREDITS, 3);
 
     return new SelectSpace(

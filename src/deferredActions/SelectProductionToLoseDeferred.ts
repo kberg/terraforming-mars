@@ -27,13 +27,13 @@ export class SelectProductionToLoseDeferred implements DeferredAction {
           this.player.addProduction(Resources.TITANIUM, -units.titanium);
         }
         if (units.plants > 0) {
-          this.player.addProduction(Resources.PLANTS, -units.plants);
+          this.player.addPlantProduction(-units.plants);
         }
         if (units.energy > 0) {
-          this.player.addProduction(Resources.ENERGY, -units.energy);
+          this.player.addEnergyProduction(-units.energy);
         }
         if (units.heat > 0) {
-          this.player.addProduction(Resources.HEAT, -units.heat);
+          this.player.addHeatProduction(-units.heat);
         }
         return undefined;
       },

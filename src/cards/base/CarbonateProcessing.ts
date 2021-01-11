@@ -4,7 +4,6 @@ import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -28,11 +27,11 @@ export class CarbonateProcessing extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1;
+    return player.energyProduction >= 1;
   }
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, -1);
-    player.addProduction(Resources.HEAT, 3);
+    player.addEnergyProduction(-1);
+    player.addHeatProduction(3);
     return undefined;
   }
 }

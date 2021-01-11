@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import {Resources} from '../../Resources';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardMetadata} from '../CardMetadata';
@@ -33,7 +32,7 @@ export class PROffice implements IProjectCard {
     public play(player: Player, game: Game) {
       player.increaseTerraformRating(game);
       const amount = player.getTagCount(Tags.EARTH) + 1;
-      player.setResource(Resources.MEGACREDITS, amount);
+      player.addMegacredits(amount);
       return undefined;
     }
 

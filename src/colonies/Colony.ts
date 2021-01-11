@@ -225,13 +225,11 @@ export abstract class Colony implements SerializedColony {
       case ColonyBenefit.GAIN_PRODUCTION:
         if (resource === undefined) throw new Error('Resource cannot be undefined');
         player.addProduction(resource, quantity);
-        LogHelper.logGainProduction(game, player, resource, quantity);
         break;
 
       case ColonyBenefit.GAIN_RESOURCES:
         if (resource === undefined) throw new Error('Resource cannot be undefined');
         player.setResource(resource, quantity);
-        LogHelper.logGainStandardResource(game, player, resource, quantity);
         break;
 
       case ColonyBenefit.GAIN_SCIENCE_TAG:
@@ -263,7 +261,7 @@ export abstract class Colony implements SerializedColony {
           if (game.turmoil.lobby.has(player.id)) partyDelegateCount--;
           if (game.turmoil.chairman === player.id) partyDelegateCount--;
 
-          player.setResource(Resources.MEGACREDITS, partyDelegateCount);
+          player.addMegacredits(partyDelegateCount);
           LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS, partyDelegateCount);
         }
         break;

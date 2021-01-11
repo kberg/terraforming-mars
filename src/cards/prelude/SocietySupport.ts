@@ -10,9 +10,9 @@ export class SocietySupport extends PreludeCard {
     public name = CardName.SOCIETY_SUPPORT;
     public play(player: Player) {
       player.addProduction(Resources.MEGACREDITS, -1);
-      player.addProduction(Resources.PLANTS);
-      player.addProduction(Resources.ENERGY);
-      player.addProduction(Resources.HEAT);
+      player.addPlantProduction(1);
+      player.addEnergyProduction(1);
+      player.addHeatProduction(1);
       return undefined;
     }
     public metadata: CardMetadata = {

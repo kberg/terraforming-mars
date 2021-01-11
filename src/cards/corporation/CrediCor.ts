@@ -13,7 +13,9 @@ export class CrediCor extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.CREDICOR,
-      startingMegaCredits: 57,
+      startingUnits: {
+        megacredits: 57,
+      },
 
       metadata: {
         cardNumber: 'R08',
@@ -32,7 +34,7 @@ export class CrediCor extends Card implements CorporationCard {
   }
   private effect(player: Player, card: IProjectCard | StandardProjectCard): void {
     if (player.corporationCard !== undefined && player.corporationCard.name === this.name && card.cost >= 20) {
-      player.megaCredits += 4;
+      player.addMegacredits(4);
     }
   }
   public onCardPlayed(player: Player, _game: Game, card: IProjectCard) {

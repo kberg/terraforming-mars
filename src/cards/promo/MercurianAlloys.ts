@@ -24,7 +24,7 @@ export class MercurianAlloys implements IProjectCard {
     }
 
     public onDiscard(player: Player): void {
-      player.decreaseTitaniumValue();
+      player.deductTitaniumValue();
     }
     public metadata: CardMetadata = {
       cardNumber: 'X07',

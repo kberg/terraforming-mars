@@ -18,7 +18,9 @@ import {AltSecondaryTag} from '../render/CardRenderItem';
 export class Philares implements CorporationCard {
     public name = CardName.PHILARES;
     public tags = [Tags.BUILDING];
-    public startingMegaCredits: number = 47;
+    public startingUnits = {
+      megacredits: 47,
+    };
     public cardType = CardType.CORPORATION;
 
     public initialActionText: string = 'Place a greenery tile and raise the oxygen 1 step';
@@ -76,12 +78,12 @@ export class Philares implements CorporationCard {
           ) {
             throw new Error('Need to select ' + resourceCount + ' resource(s)');
           }
-          player.megaCredits += megacreditsAmount;
-          player.steel += steelAmount;
-          player.titanium += titaniumAmount;
-          player.plants += plantsAmount;
-          player.energy += energyAmount;
-          player.heat += heatAmount;
+          player.addMegacredits(megacreditsAmount);
+          player.addSteel(steelAmount);
+          player.addTitanium(titaniumAmount);
+          player.addPlants(plantsAmount);
+          player.addEnergy(energyAmount);
+          player.addHeat(heatAmount);
           return undefined;
         }, selectMegacredit, selectSteel, selectTitanium, selectPlants, selectEnergy, selectHeat);
       selectResources.title = 'Philares effect: select ' + resourceCount + ' resource(s)';

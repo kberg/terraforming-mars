@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {Game} from '../../Game';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
@@ -31,7 +30,7 @@ export class RadChemFactory extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    const hasEnergyProduction = player.getProduction(Resources.ENERGY) >= 1;
+    const hasEnergyProduction = player.energyProduction >= 1;
     if (PartyHooks.shouldApplyPolicy(game, PartyName.REDS)) {
       return player.canAfford(player.getCardCost(game, this) + REDS_RULING_POLICY_COST * 2, game, true) && hasEnergyProduction;
     }
@@ -40,7 +39,7 @@ export class RadChemFactory extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     player.increaseTerraformRatingSteps(2, game);
     return undefined;
   }

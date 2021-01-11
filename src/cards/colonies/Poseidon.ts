@@ -10,7 +10,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class Poseidon implements CorporationCard {
     public name = CardName.POSEIDON;
     public tags = [];
-    public startingMegaCredits: number = 45;
+    public startingUnits = {
+      megacredits: 45,
+    };
     public cardType = CardType.CORPORATION;
 
     public initialActionText: string = 'Place a colony';

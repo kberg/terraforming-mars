@@ -16,7 +16,9 @@ import {AltSecondaryTag} from '../render/CardRenderItem';
 export class Celestic implements IActionCard, CorporationCard, IResourceCard {
     public name = CardName.CELESTIC;
     public tags = [Tags.VENUS];
-    public startingMegaCredits: number = 42;
+    public startingUnits = {
+      megacredits: 42,
+    };
     public resourceType = ResourceType.FLOATER;
     public cardType = CardType.CORPORATION;
     public resourceCount: number = 0;

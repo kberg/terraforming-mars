@@ -552,20 +552,8 @@ export class Game implements ISerializable<SerializedGame> {
     }
   }
 
-  private playCorporationCard(
-    player: Player, corporationCard: CorporationCard,
-  ): void {
-    player.corporationCard = corporationCard;
-    player.megaCredits = corporationCard.startingMegaCredits;
-    if (corporationCard.cardCost !== undefined) {
-      player.cardCost = corporationCard.cardCost;
-    }
-
-    if (corporationCard.name !== CardName.BEGINNER_CORPORATION) {
-      player.megaCredits -= player.cardsInHand.length * player.cardCost;
-    }
-    corporationCard.play(player, this);
-    this.log('${0} played ${1}', (b) => b.player(player).card(corporationCard));
+  private playCorporationCard(player: Player, corporationCard: CorporationCard): void {
+    player.setCorporationCard(corporationCard);
 
     // trigger other corp's effect, e.g. SaturnSystems,PharmacyUnion,Splice
     for (const somePlayer of this.getPlayers()) {
@@ -605,7 +593,7 @@ export class Game implements ISerializable<SerializedGame> {
     const result: AndOptions = new AndOptions(() => {
       // Check for negative M€
       const cardCost = corporation.cardCost !== undefined ? corporation.cardCost : player.cardCost;
-      if (corporation.name !== CardName.BEGINNER_CORPORATION && player.cardsInHand.length * cardCost > corporation.startingMegaCredits) {
+      if (corporation.name !== CardName.BEGINNER_CORPORATION && player.cardsInHand.length * cardCost > (corporation.startingUnits.megacredits || 0)) {
         player.cardsInHand = [];
         player.preludeCardsInHand = [];
         throw new Error('Too many cards selected');
@@ -1141,7 +1129,7 @@ export class Game implements ISerializable<SerializedGame> {
     // Check for Aphrodite corporation
     const aphrodite = this.players.find((player) => player.isCorporation(CardName.APHRODITE));
     if (aphrodite !== undefined) {
-      aphrodite.megaCredits += steps * 2;
+      aphrodite.addMegacredits(steps * 2);
     }
 
     this.venusScaleLevel += steps * 2;
@@ -1169,10 +1157,10 @@ export class Game implements ISerializable<SerializedGame> {
     if (this.phase !== Phase.SOLAR) {
       // BONUS FOR HEAT PRODUCTION AT -20 and -24
       if (this.temperature < -24 && this.temperature + steps * 2 >= -24) {
-        player.addProduction(Resources.HEAT);
+        player.addHeatProduction(1);
       }
       if (this.temperature < -20 && this.temperature + steps * 2 >= -20) {
-        player.addProduction(Resources.HEAT);
+        player.addHeatProduction(1);
       }
 
       TurmoilHandler.onGlobalParameterIncrease(this, player, GlobalParameter.TEMPERATURE, steps);
@@ -1346,7 +1334,7 @@ export class Game implements ISerializable<SerializedGame> {
 
       this.board.getAdjacentSpaces(space).forEach((adjacentSpace) => {
         if (Board.isOceanSpace(adjacentSpace)) {
-          player.megaCredits += player.oceanBonus;
+          player.addMegacredits(player.oceanBonus);
         }
       });
 
@@ -1357,7 +1345,7 @@ export class Game implements ISerializable<SerializedGame> {
       TurmoilHandler.resolveTilePlacementBonuses(this, player, spaceType);
 
       if (arcadianCommunityBonus) {
-        player.megaCredits += 3;
+        player.addMegacredits(3);
       }
     } else {
       space.player = undefined;
@@ -1398,13 +1386,13 @@ export class Game implements ISerializable<SerializedGame> {
     if (spaceBonus === SpaceBonus.DRAW_CARD) {
       player.drawCard(this);
     } else if (spaceBonus === SpaceBonus.PLANT) {
-      player.plants++;
+      player.addPlants(1);
     } else if (spaceBonus === SpaceBonus.STEEL) {
-      player.steel++;
+      player.addSteel(1);
     } else if (spaceBonus === SpaceBonus.TITANIUM) {
-      player.titanium++;
+      player.addTitanium(1);
     } else if (spaceBonus === SpaceBonus.HEAT) {
-      player.heat++;
+      player.addHeat(1);
     }
   }
 
@@ -1548,7 +1536,7 @@ export class Game implements ISerializable<SerializedGame> {
 
   public someoneHasResourceProduction(resource: Resources, minQuantity: number = 1): boolean {
     // in soloMode you don't have to decrease resources
-    return this.getPlayers().some((p) => p.getProduction(resource) >= minQuantity) || this.isSoloMode();
+    return this.getPlayers().some((p) => p.getProduction2(resource) >= minQuantity) || this.isSoloMode();
   }
 
   public getSpaceByOffset(direction: -1 | 1, type = 'tile') {

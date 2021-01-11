@@ -15,13 +15,13 @@ export class DuskLaserMining implements IProjectCard {
     public cardType = CardType.AUTOMATED;
 
     public canPlay(player: Player): boolean {
-      return player.getTagCount(Tags.SCIENCE) >= 2 && player.getProduction(Resources.ENERGY) >= 1;
+      return player.getTagCount(Tags.SCIENCE) >= 2 && player.energyProduction >= 1;
     }
 
     public play(player: Player) {
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.addProduction(Resources.TITANIUM);
-      player.titanium += 4;
+      player.addTitanium(4);
       return undefined;
     }
     public metadata: CardMetadata = {

@@ -38,8 +38,8 @@ export class KelpFarming extends Card implements IProjectCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, 2);
-    player.addProduction(Resources.PLANTS, 3);
-    player.plants += 2;
+    player.addPlantProduction(3);
+    player.addPlants(2);
     return undefined;
   }
   public getVictoryPoints() {

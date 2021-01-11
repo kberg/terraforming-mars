@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class SuccessfulOrganisms implements IGlobalEvent {
@@ -12,7 +11,7 @@ export class SuccessfulOrganisms implements IGlobalEvent {
     public currentDelegate = PartyName.SCIENTISTS;
     public resolve(game: Game, turmoil: Turmoil) {
       game.getPlayers().forEach((player) => {
-        player.setResource(Resources.PLANTS, Math.min(5, player.getProduction(Resources.PLANTS)) + turmoil.getPlayerInfluence(player), game, undefined, true);
+        player.addPlants(Math.min(5, player.plantProduction) + turmoil.getPlayerInfluence(player), {globalEvent: true});
       });
     }
 }

@@ -11,7 +11,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class SeptumTribus implements IActionCard, CorporationCard {
     public name = CardName.SEPTUM_TRIBUS;
     public tags = [Tags.WILDCARD];
-    public startingMegaCredits: number = 36;
+    public startingUnits = {
+      megacredits: 36,
+    };
     public cardType = CardType.CORPORATION;
     public play() {
       return undefined;
@@ -24,7 +26,7 @@ export class SeptumTribus implements IActionCard, CorporationCard {
     public action(player: Player, game: Game) {
       if (game.turmoil !== undefined) {
         const partiesWithPresence = game.turmoil.parties.filter((party) => party.delegates.includes(player.id));
-        player.megaCredits += partiesWithPresence.length * 2;
+        player.addMegacredits(partiesWithPresence.length * 2);
       }
 
       return undefined;

@@ -16,7 +16,7 @@ export class ImportedNutrients implements IProjectCard {
     public cardType = CardType.EVENT;
 
     public play(player: Player) {
-      player.plants += 4;
+      player.addPlants(4);
       const microbeCards = player.getResourceCards(ResourceType.MICROBE);
 
       if (microbeCards.length === 1) {

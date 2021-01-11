@@ -21,7 +21,7 @@ export class ImpactorSwarm implements IProjectCard {
 
     public play(player: Player, game: Game) {
       game.defer(new RemoveAnyPlants(player, game, 2));
-      player.heat += 12;
+      player.addHeat(12);
       return undefined;
     }
     public metadata: CardMetadata = {

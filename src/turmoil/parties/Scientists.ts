@@ -3,7 +3,6 @@ import {Party} from './Party';
 import {PartyName} from './PartyName';
 import {Game} from '../../Game';
 import {Tags} from '../../cards/Tags';
-import {Resources} from '../../Resources';
 import {Bonus} from '../Bonus';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {Player} from '../../Player';
@@ -25,7 +24,7 @@ class ScientistsBonus01 implements Bonus {
   grant(game: Game) {
     game.getPlayers().forEach((player) => {
       const tagCount = player.getTagCount(Tags.SCIENCE, false, false);
-      player.setResource(Resources.MEGACREDITS, tagCount);
+      player.addMegacredits(tagCount);
     });
   }
 }
@@ -38,7 +37,7 @@ class ScientistsBonus02 implements Bonus {
   grant(game: Game) {
     game.getPlayers().forEach((player) => {
       const amount = Math.floor(player.cardsInHand.length / 3);
-      player.setResource(Resources.MEGACREDITS, amount);
+      player.addMegacredits(amount);
     });
   }
 }

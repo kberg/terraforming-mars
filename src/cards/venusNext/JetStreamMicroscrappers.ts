@@ -62,7 +62,7 @@ export class JetStreamMicroscrappers implements IActionCard, IProjectCard, IReso
     private addResource(player: Player, game: Game) {
       player.addResourceTo(this, 2);
       LogHelper.logAddResource(game, player, this, 2);
-      player.titanium--;
+      player.deductTitanium(1);
       return undefined;
     }
 

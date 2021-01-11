@@ -33,9 +33,9 @@ export class ImmigrantCity extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    const hasEnergyProduction = player.getProduction(Resources.ENERGY) >= 1;
+    const hasEnergyProduction = player.energyProduction >= 1;
     const canPlaceCityOnMars = game.board.getAvailableSpacesForCity(player).length > 0;
-    const canDecreaseMcProduction = player.getProduction(Resources.MEGACREDITS) >= -4 || player.isCorporation(CardName.THARSIS_REPUBLIC);
+    const canDecreaseMcProduction = player.megaCreditProduction >= -4 || player.isCorporation(CardName.THARSIS_REPUBLIC);
 
     return hasEnergyProduction && canDecreaseMcProduction && canPlaceCityOnMars;
   }
@@ -47,7 +47,7 @@ export class ImmigrantCity extends Card implements IProjectCard {
   public play(player: Player, game: Game) {
     return new SelectSpace('Select space for city tile', game.board.getAvailableSpacesForCity(player), (space: ISpace) => {
       game.addCityTile(player, space.id);
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.addProduction(Resources.MEGACREDITS, -2);
       return undefined;
     });

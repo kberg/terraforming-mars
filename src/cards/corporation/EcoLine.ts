@@ -2,7 +2,6 @@ import {Card} from '../Card';
 import {CorporationCard} from './CorporationCard';
 import {Tags} from '../Tags';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
@@ -13,7 +12,13 @@ export class EcoLine extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.ECOLINE,
       tags: [Tags.PLANT],
-      startingMegaCredits: 36,
+      startingUnits: {
+        megacredits: 36,
+        plants: 3,
+      },
+      startingProduction: {
+        plants: 2,
+      },
 
       metadata: {
         cardNumber: 'R17',
@@ -31,8 +36,6 @@ export class EcoLine extends Card implements CorporationCard {
     });
   }
   public play(player: Player) {
-    player.addProduction(Resources.PLANTS, 2);
-    player.plants = 3;
     player.plantsNeededForGreenery = 7;
     return undefined;
   }

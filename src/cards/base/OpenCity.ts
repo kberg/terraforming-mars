@@ -39,14 +39,14 @@ export class OpenCity extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player, game: Game): boolean {
-    return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 12) && player.getProduction(Resources.ENERGY) >= 1 && game.board.getAvailableSpacesForCity(player).length > 0;
+    return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 12) && player.energyProduction >= 1 && game.board.getAvailableSpacesForCity(player).length > 0;
   }
   public play(player: Player, game: Game) {
     return new SelectSpace('Select space for city tile', game.board.getAvailableSpacesForCity(player), (space: ISpace) => {
       game.addCityTile(player, space.id);
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.addProduction(Resources.MEGACREDITS, 4);
-      player.plants += 2;
+      player.addPlants(2);
       return undefined;
     });
   }

@@ -18,7 +18,9 @@ import {PlayerInput} from '../../PlayerInput';
 export class StormCraftIncorporated implements IActionCard, CorporationCard, IResourceCard {
   public name = CardName.STORMCRAFT_INCORPORATED;
   public tags = [Tags.JOVIAN];
-  public startingMegaCredits: number = 48;
+  public startingUnits = {
+    megacredits: 48,
+  };
   public resourceType = ResourceType.FLOATER;
   public resourceCount: number = 0;
   public cardType = CardType.CORPORATION;
@@ -68,7 +70,7 @@ export class StormCraftIncorporated implements IActionCard, CorporationCard, IRe
           throw new Error(`You cannot overspend floaters`);
         }
         player.removeResourceFrom(player.corporationCard as ICard, floaterAmount);
-        player.heat -= heatAmount;
+        player.deductHeat(heatAmount);
         return cb();
       },
       new SelectAmount('Select amount of heat to spend', 'Spend heat', (amount: number) => {

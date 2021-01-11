@@ -30,11 +30,11 @@ export class FueledGenerators extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    return player.getProduction(Resources.MEGACREDITS) >= -4;
+    return player.megaCreditProduction >= -4;
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, -1);
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     return undefined;
   }
 }

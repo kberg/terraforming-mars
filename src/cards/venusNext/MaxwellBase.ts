@@ -5,7 +5,6 @@ import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {SpaceName} from '../../SpaceName';
 import {SpaceType} from '../../SpaceType';
-import {Resources} from '../../Resources';
 import {IActionCard, ICard} from '../ICard';
 import {ResourceType} from '../../ResourceType';
 import {SelectCard} from '../../inputs/SelectCard';
@@ -22,10 +21,10 @@ export class MaxwellBase implements IActionCard, IProjectCard {
     public name = CardName.MAXWELL_BASE;
     public cardType = CardType.ACTIVE;
     public canPlay(player: Player, game: Game): boolean {
-      return player.getProduction(Resources.ENERGY) >= 1 && game.checkMinRequirements(player, GlobalParameter.VENUS, 12);
+      return player.energyProduction >= 1 && game.checkMinRequirements(player, GlobalParameter.VENUS, 12);
     }
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       game.addCityTile(player, SpaceName.MAXWELL_BASE, SpaceType.COLONY);
       return undefined;
     }

@@ -21,7 +21,9 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class PharmacyUnion implements CorporationCard {
     public name = CardName.PHARMACY_UNION;
     public tags = [Tags.MICROBE, Tags.MICROBE];
-    public startingMegaCredits: number = 46; // 54 minus 8 for the 2 deseases
+    public startingUnits = {
+      megacredits: 46, // 54 minus 8 for the 2 deseases
+    };
     public resourceType = ResourceType.DISEASE;
     public cardType = CardType.CORPORATION;
     public resourceCount: number = 0;
@@ -56,14 +58,14 @@ export class PharmacyUnion implements CorporationCard {
                   const megaCreditsLost = Math.min(player.megaCredits, 4);
                   this.isDisabled = true;
                   player.increaseTerraformRatingSteps(3, game);
-                  player.megaCredits -= megaCreditsLost;
+                  player.deductMegacredits(megaCreditsLost);
                   game.log('${0} turned ${1} face down to gain 3 TR and lost ${2} MC', (b) => b.player(player).card(this).number(megaCreditsLost));
                   return undefined;
                 }),
                 new SelectOption('Add a disease to it and lose up to 4 MC, then remove a disease to gain 1 TR', 'Confirm', () => {
                   const megaCreditsLost = Math.min(player.megaCredits, 4);
                   player.increaseTerraformRating(game);
-                  player.megaCredits -= megaCreditsLost;
+                  player.deductMegacredits(megaCreditsLost);
                   game.log('${0} added a disease to ${1} and lost ${2} MC', (b) => b.player(player).card(this).number(megaCreditsLost));
                   game.log('${0} removed a disease from ${1} to gain 1 TR', (b) => b.player(player).card(this));
                   return undefined;
@@ -129,7 +131,7 @@ export class PharmacyUnion implements CorporationCard {
             const player = game.getPlayers().find((p) => p.isCorporation(this.name))!;
             const megaCreditsLost = Math.min(player.megaCredits, microbeTagCount * 4);
             player.addResourceTo(this, microbeTagCount);
-            player.megaCredits -= megaCreditsLost;
+            player.deductMegacredits(megaCreditsLost);
             game.log('${0} added a disease to ${1} and lost ${2} MC', (b) => b.player(player).card(this).number(megaCreditsLost));
             return undefined;
           },

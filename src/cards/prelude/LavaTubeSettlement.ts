@@ -28,12 +28,12 @@ export class LavaTubeSettlement implements IProjectCard {
     }
 
     public canPlay(player: Player, game: Game): boolean {
-      return this.getSpacesForCity(player, game).length > 0 && player.getProduction(Resources.ENERGY) >= 1;
+      return this.getSpacesForCity(player, game).length > 0 && player.energyProduction >= 1;
     }
 
     public play(player: Player, game: Game) {
       player.addProduction(Resources.MEGACREDITS, 2);
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       game.defer(new PlaceCityTile(
         player,
         game,

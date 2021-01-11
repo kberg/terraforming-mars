@@ -186,7 +186,7 @@ export class TurmoilHandler {
     if (parameter === GlobalParameter.TEMPERATURE) {
       // PoliticalAgendas Kelvinists P2 hook
       if (PartyHooks.shouldApplyPolicy(game, PartyName.KELVINISTS, TurmoilPolicy.KELVINISTS_POLICY_2)) {
-        player.setResource(Resources.MEGACREDITS, steps * 3);
+        player.addMegacredits(steps * 3);
       }
     }
 

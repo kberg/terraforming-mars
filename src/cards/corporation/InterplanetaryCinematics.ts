@@ -14,7 +14,10 @@ export class InterplanetaryCinematics extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.INTERPLANETARY_CINEMATICS,
       tags: [Tags.BUILDING],
-      startingMegaCredits: 30,
+      startingUnits: {
+        megacredits: 30,
+        steel: 20,
+      },
 
       metadata: {
         cardNumber: 'R19',
@@ -33,11 +36,10 @@ export class InterplanetaryCinematics extends Card implements CorporationCard {
   }
   public onCardPlayed(player: Player, _game: Game, card: IProjectCard) {
     if (player.corporationCard !== undefined && player.corporationCard.name === this.name && card.cardType === CardType.EVENT) {
-      player.megaCredits += 2;
+      player.addMegacredits(2);
     }
   }
-  public play(player: Player) {
-    player.steel = 20;
+  public play() {
     return undefined;
   }
 }

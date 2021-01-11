@@ -5,7 +5,6 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -35,8 +34,8 @@ export class Bushes extends Card implements IProjectCard {
     return game.checkMinRequirements(player, GlobalParameter.TEMPERATURE, -10);
   }
   public play(player: Player) {
-    player.addProduction(Resources.PLANTS, 2);
-    player.plants += 2;
+    player.addPlantProduction(2);
+    player.addPlants(2);
     return undefined;
   }
 }

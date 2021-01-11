@@ -12,7 +12,7 @@ export class MiningOperations extends PreludeCard implements IProjectCard {
     public name = CardName.MINING_OPERATIONS;
     public play(player: Player) {
       player.addProduction(Resources.STEEL, 2);
-      player.steel += 4;
+      player.addSteel(4);
       return undefined;
     }
     public metadata: CardMetadata = {

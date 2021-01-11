@@ -44,8 +44,10 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
     return hasEnoughEnergy;
   }
   public action(player: Player, game: Game) {
-    player.energy -= 4;
-    player.steel++;
+    player.adjustUnits({
+      energy: -4,
+      steel: 1,
+    });
     return game.increaseOxygenLevel(player, 1);
   }
 }

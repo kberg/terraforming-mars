@@ -20,7 +20,7 @@ export class HeavyTaxation implements IProjectCard {
 
     public play(player: Player) {
       player.addProduction(Resources.MEGACREDITS, 2);
-      player.megaCredits += 4;
+      player.addMegacredits(4);
       return undefined;
     }
 

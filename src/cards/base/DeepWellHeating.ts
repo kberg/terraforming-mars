@@ -4,7 +4,6 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
@@ -40,7 +39,7 @@ export class DeepWellHeating extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     return game.increaseTemperature(player, 1);
   }
 }

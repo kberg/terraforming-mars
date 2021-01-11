@@ -4,7 +4,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {SelectPlayer} from '../../inputs/SelectPlayer';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
@@ -37,7 +36,7 @@ export class CometForVenus implements IProjectCard {
       }
 
       if (venusTagPlayers.length === 1) {
-        venusTagPlayers[0].setResource(Resources.MEGACREDITS, -4, game, player);
+        venusTagPlayers[0].deductMegacreditProduction(4, {dueTo: player});
         game.increaseVenusScaleLevel(player, 1);
         return undefined;
       }
@@ -47,7 +46,7 @@ export class CometForVenus implements IProjectCard {
         'Select player to remove up to 4 mega credits from',
         'Remove MC',
         (selectedPlayer: Player) => {
-          selectedPlayer.setResource(Resources.MEGACREDITS, -4, game, player);
+          selectedPlayer.deductMegacredits(4, {dueTo: player});
           game.increaseVenusScaleLevel(player, 1);
           return undefined;
         },

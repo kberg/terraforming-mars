@@ -76,9 +76,9 @@ export class GameSetup {
     player.addProduction(Resources.MEGACREDITS);
     player.addProduction(Resources.STEEL);
     player.addProduction(Resources.TITANIUM);
-    player.addProduction(Resources.PLANTS);
-    player.addProduction(Resources.ENERGY);
-    player.addProduction(Resources.HEAT);
+    player.addPlantProduction(1);
+    player.addEnergyProduction(1);
+    player.addHeatProduction(1);
   }
 
   public static includesCommunityColonies(gameOptions: GameOptions) : boolean {

@@ -31,14 +31,14 @@ export class NuclearPower extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    return player.getProduction(Resources.MEGACREDITS) >= -3;
+    return player.megaCreditProduction >= -3;
   }
   public play(player: Player, _game: Game) {
-    if (player.getProduction(Resources.MEGACREDITS) < -3) {
+    if (player.megaCreditProduction < -3) {
       throw 'Not enough mega credit production';
     }
     player.addProduction(Resources.MEGACREDITS, -2);
-    player.addProduction(Resources.ENERGY, 3);
+    player.addEnergyProduction(3);
     return undefined;
   }
 }

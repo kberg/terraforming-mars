@@ -4,7 +4,6 @@ import {Player} from '../../Player';
 import {IProjectCard} from '../IProjectCard';
 import {Tags} from '../Tags';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -25,7 +24,7 @@ export class ImportOfAdvancedGHG extends Card implements IProjectCard {
   }
 
   public play(player: Player, _game: Game) {
-    player.addProduction(Resources.HEAT, 2);
+    player.addHeatProduction(2);
     return undefined;
   }
 }

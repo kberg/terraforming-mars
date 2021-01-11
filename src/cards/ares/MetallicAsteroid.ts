@@ -33,7 +33,7 @@ export class MetallicAsteroid extends Card implements IProjectCard {
     });
   }
   public play(player: Player, game: Game) {
-    player.titanium++;
+    player.addTitanium(1);
     game.increaseTemperature(player, 1);
     game.defer(new RemoveAnyPlants(player, game, 4));
 

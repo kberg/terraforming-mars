@@ -12,7 +12,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class ValleyTrust implements CorporationCard {
     public name = CardName.VALLEY_TRUST;
     public tags = [Tags.EARTH];
-    public startingMegaCredits: number = 37;
+    public startingUnits = {
+      megacredits: 37,
+    };
     public cardType = CardType.CORPORATION;
 
     public getCardDiscount(_player: Player, _game: Game, card: IProjectCard) {

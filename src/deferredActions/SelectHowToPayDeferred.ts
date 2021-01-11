@@ -14,7 +14,7 @@ export class SelectHowToPayDeferred implements DeferredAction {
     if ((!this.player.canUseHeatAsMegaCredits || this.player.heat === 0) &&
             (!this.options.canUseSteel || this.player.steel === 0) &&
             (!this.options.canUseTitanium || this.player.titanium === 0)) {
-      this.player.megaCredits -= this.amount;
+      this.player.deductMegacredits(this.amount);
       if (this.options.afterPay !== undefined) {
         this.options.afterPay();
       }
@@ -28,10 +28,12 @@ export class SelectHowToPayDeferred implements DeferredAction {
       this.player.canUseHeatAsMegaCredits,
       this.amount,
       (howToPay: HowToPay) => {
-        this.player.steel -= howToPay.steel;
-        this.player.titanium -= howToPay.titanium;
-        this.player.megaCredits -= howToPay.megaCredits;
-        this.player.heat -= howToPay.heat;
+        this.player.adjustUnits({
+          steel: howToPay.steel,
+          titanium: howToPay.titanium,
+          megacredits: howToPay.megaCredits,
+          heat: howToPay.heat,
+        });
         if (this.options.afterPay !== undefined) {
           this.options.afterPay();
         }

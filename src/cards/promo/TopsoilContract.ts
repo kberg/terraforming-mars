@@ -13,7 +13,7 @@ export class TopsoilContract implements IProjectCard {
     public cardType = CardType.ACTIVE;
 
     public play(player: Player) {
-      player.plants += 3;
+      player.addPlants(3);
       return undefined;
     }
     public metadata: CardMetadata = {

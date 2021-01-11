@@ -3,7 +3,6 @@ import {CardName} from '../../CardName';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from './StandardProjectCard';
-import {Resources} from '../../Resources';
 
 export class PowerPlantStandard extends StandardProjectCard {
   public name = CardName.STANDARD_POWER_PLANT;
@@ -17,7 +16,7 @@ export class PowerPlantStandard extends StandardProjectCard {
   }
 
   actionEssence(player: Player): void {
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
   }
 
   public metadata: CardMetadata = {

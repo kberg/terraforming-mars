@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class ScientificCommunity implements IGlobalEvent {
@@ -13,7 +12,7 @@ export class ScientificCommunity implements IGlobalEvent {
     public resolve(game: Game, turmoil: Turmoil) {
       game.getPlayers().forEach((player) => {
         const amount = player.cardsInHand.length + turmoil.getPlayerInfluence(player);
-        player.setResource(Resources.MEGACREDITS, amount, game, undefined, true);
+        player.addMegacredits(amount, {globalEvent: true});
       });
     }
 }

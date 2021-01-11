@@ -36,11 +36,11 @@ export class ArcticAlgae extends Card implements IProjectCard {
   }
   public onTilePlaced(player: Player, space: ISpace) {
     if (space.tile !== undefined && space.tile.tileType === TileType.OCEAN) {
-      player.plants += 2;
+      player.addPlants(2);
     }
   }
   public play(player: Player) {
-    player.plants++;
+    player.addPlants(1);
     return undefined;
   }
 }

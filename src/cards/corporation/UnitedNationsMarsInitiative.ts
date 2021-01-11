@@ -17,7 +17,9 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
       cardType: CardType.CORPORATION,
       name: CardName.UNITED_NATIONS_MARS_INITIATIVE,
       tags: [Tags.EARTH],
-      startingMegaCredits: 40,
+      startingUnits: {
+        megacredits: 40,
+      },
 
       metadata: {
         cardNumber: 'R32',
@@ -49,7 +51,7 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
     return hasIncreasedTR && player.canAfford(actionCost);
   }
   public action(player: Player, game: Game) {
-    player.megaCredits -= 3;
+    player.deductMegacredits(3);
     player.increaseTerraformRating(game);
     return undefined;
   }

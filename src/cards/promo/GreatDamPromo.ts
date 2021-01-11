@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {CardType} from '../CardType';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {TileType} from '../../TileType';
@@ -26,7 +25,7 @@ export class GreatDamPromo implements IProjectCard {
       return meetsOceanRequirements && canPlaceTile;
     }
     public play(player: Player, game: Game) {
-      player.addProduction(Resources.ENERGY, 2);
+      player.addEnergyProduction(2);
 
       const availableSpaces = this.getAvailableSpaces(player, game);
       if (availableSpaces.length < 1) return undefined;

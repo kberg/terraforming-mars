@@ -32,7 +32,7 @@ export class BlackPolarDust extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    const meetsMcProdRequirement = player.getProduction(Resources.MEGACREDITS) >= -3;
+    const meetsMcProdRequirement = player.megaCreditProduction >= -3;
     const oceansMaxed = game.board.getOceansOnBoard() === MAX_OCEAN_TILES;
 
     if (PartyHooks.shouldApplyPolicy(game, PartyName.REDS) && !oceansMaxed) {
@@ -43,7 +43,7 @@ export class BlackPolarDust extends Card implements IProjectCard {
   }
   public play(player: Player, game: Game) {
     player.addProduction(Resources.MEGACREDITS, -2);
-    player.addProduction(Resources.HEAT, 3);
+    player.addHeatProduction(3);
     game.defer(new PlaceOceanTile(player, game));
     return undefined;
   }

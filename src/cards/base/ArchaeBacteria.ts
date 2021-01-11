@@ -4,7 +4,6 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -30,7 +29,7 @@ export class ArchaeBacteria extends Card implements IProjectCard {
     return game.checkMaxRequirements(player, GlobalParameter.TEMPERATURE, -18);
   }
   public play(player: Player) {
-    player.addProduction(Resources.PLANTS);
+    player.addPlantProduction(1);
     return undefined;
   }
 }

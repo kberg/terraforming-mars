@@ -12,7 +12,9 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Incite implements CorporationCard {
     public name = CardName.INCITE;
     public tags = [Tags.SCIENCE];
-    public startingMegaCredits: number = 32;
+    public startingUnits = {
+      megacredits: 32,
+    };
     public cardType = CardType.CORPORATION;
 
     public play(player: Player, game: Game) {

@@ -6,6 +6,7 @@ import {Resources} from './Resources';
 import {ISpace} from './boards/ISpace';
 import {TileType} from './TileType';
 import {Colony} from './colonies/Colony';
+import {Units} from './Units';
 
 export class LogHelper {
   static logAddResource(game: Game, player: Player, card: ICard, qty: number = 1): void {
@@ -110,6 +111,85 @@ export class LogHelper {
         } else {
           b.card(card);
         }
+      }
+    });
+  }
+
+  // isProduciton needs a value, just not right now.
+  static logUnitsDelta(delta: Units, player: Player, _isProduction: boolean, options?: Units.Options) {
+    if (options?.log !== undefined && options.log === false) {
+      return;
+    }
+
+    const gained: Array<string> = [];
+    const lost: Array<string> = [];
+
+    if (delta.megacredits > 0) {
+      gained.push(`${delta.megacredits} MC`);
+    } else if (delta.megacredits < 0) {
+      lost.push(`${-delta.megacredits} MC`);
+    }
+
+    if (delta.steel > 0) {
+      gained.push(`${delta.steel} steel`);
+    } else if (delta.steel < 0) {
+      lost.push(`${-delta.steel} steel`);
+    }
+
+    if (delta.titanium > 0) {
+      gained.push(`${delta.titanium} titanium`);
+    } else if (delta.titanium < 0) {
+      lost.push(`${-delta.titanium} titanium`);
+    }
+
+    if (delta.plants > 0) {
+      gained.push(`${delta.plants} plants`);
+    } else if (delta.plants < 0) {
+      lost.push(`${-delta.plants} plants`);
+    }
+
+    if (delta.energy > 0) {
+      gained.push(`${delta.energy} energy`);
+    } else if (delta.energy < 0) {
+      lost.push(`${-delta.energy} energy`);
+    }
+
+    if (delta.heat > 0) {
+      gained.push(`${delta.heat} heat`);
+    } else if (delta.heat < 0) {
+      lost.push(`${-delta.heat} heat`);
+    }
+
+    if (gained.length === 0 && lost.length === 0) {
+      return;
+    }
+
+    let msg = '${0}';
+
+    if (gained.length > 0) {
+      msg = msg + ' gained ' + gained.join(', ');
+    }
+    if (lost.length > 0) {
+      if (gained.length > 0) {
+        msg = msg + ' and';
+      }
+
+      msg = msg + ((options !== undefined && options.dueTo !== undefined) ? ' lost ' : ' spent ');
+      msg = msg + lost.join(', ');
+    }
+
+    if (options?.dueTo !== undefined) {
+      msg = msg + ' due to ${1}';
+    }
+
+    if (options?.globalEvent === true) {
+      msg = msg + ' due to a Global Event';
+    }
+
+    player.game.log(msg, (b) => {
+      b.player(player);
+      if (options?.dueTo !== undefined) {
+        b.player(options.dueTo);
       }
     });
   }

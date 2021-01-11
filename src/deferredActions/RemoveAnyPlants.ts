@@ -29,7 +29,7 @@ export class RemoveAnyPlants implements DeferredAction {
     const removalOptions = candidates.map((candidate) => {
       const qtyToRemove = Math.min(candidate.plants, this.count);
       return new SelectOption('Remove ' + qtyToRemove + ' plants from ' + candidate.name, 'Remove plants', () => {
-        candidate.setResource(Resources.PLANTS, -qtyToRemove, this.game, this.player);
+        candidate.deductPlants(qtyToRemove, {dueTo: this.player});
         return undefined;
       });
     });

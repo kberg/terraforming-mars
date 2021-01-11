@@ -36,15 +36,15 @@ export class NoctisCity extends Card implements IProjectCard {
 
   public canPlay(player: Player, game: Game): boolean {
     if (game.gameOptions.boardName === BoardName.ORIGINAL) {
-      return player.getProduction(Resources.ENERGY) >= 1;
+      return player.energyProduction >= 1;
     } else {
-      return player.getProduction(Resources.ENERGY) >= 1 &&
+      return player.energyProduction >= 1 &&
             game.board.getAvailableSpacesForCity(player).length > 0; ;
     }
   }
   public play(player: Player, game: Game) {
     const noctisSpace = game.getSpace(SpaceName.NOCTIS_CITY);
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     player.addProduction(Resources.MEGACREDITS, 3);
     if (game.gameOptions.boardName === BoardName.ORIGINAL) {
       game.addCityTile(player, noctisSpace.id);

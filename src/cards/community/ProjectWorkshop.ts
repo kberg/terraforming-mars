@@ -18,12 +18,14 @@ import {AltSecondaryTag} from '../render/CardRenderItem';
 export class ProjectWorkshop implements CorporationCard {
     public name = CardName.PROJECT_WORKSHOP;
     public tags = [Tags.EARTH];
-    public startingMegaCredits: number = 39;
+    public startingUnits = {
+      megacredits: 39,
+      steel: 1,
+      titanium: 1,
+    };
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.steel = 1;
-      player.titanium = 1;
+    public play() {
       return undefined;
     }
 
@@ -72,7 +74,7 @@ export class ProjectWorkshop implements CorporationCard {
       );
 
       const drawBlueCard = new SelectOption('Spend 3 MC to draw a blue card', 'Draw card', () => {
-        player.megaCredits -= 3;
+        player.deductMegacredits(3);
         player.cardsInHand.push(game.drawCardsByType(CardType.ACTIVE, 1)[0]);
 
         const drawnCard = game.getCardsInHandByType(player, CardType.ACTIVE).slice(-1)[0];

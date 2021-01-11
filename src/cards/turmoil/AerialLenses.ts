@@ -2,13 +2,12 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
-import {Game} from '../../Game';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {CardMetadata} from '../CardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
+import {Game} from '../../Game';
 
 export class AerialLenses implements IProjectCard {
   public cost = 2;
@@ -24,7 +23,7 @@ export class AerialLenses implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.HEAT, 2);
+    player.addHeatProduction(2);
     game.defer(new RemoveAnyPlants(player, game, 2));
     return undefined;
   }

@@ -19,7 +19,9 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Astrodrill implements IActionCard, CorporationCard {
     public name = CardName.ASTRODRILL;
     public tags = [Tags.SPACE];
-    public startingMegaCredits: number = 38;
+    public startingUnits = {
+      megacredits: 38,
+    };
     public cardType = CardType.CORPORATION;
     public resourceType = ResourceType.ASTEROID;
     public resourceCount: number = 0;
@@ -35,32 +37,32 @@ export class Astrodrill implements IActionCard, CorporationCard {
       const gainStandardResource = new SelectOption('Gain a standard resource', 'Gain', () => {
         return new OrOptions(
           new SelectOption('Gain 1 titanium', 'Gain titanium', () => {
-            player.titanium += 1;
+            player.addTitanium(1);
             LogHelper.logGainStandardResource(game, player, Resources.TITANIUM);
             return undefined;
           }),
           new SelectOption('Gain 1 steel', 'Gain steel', () => {
-            player.steel += 1;
+            player.addSteel(1);
             LogHelper.logGainStandardResource(game, player, Resources.STEEL);
             return undefined;
           }),
           new SelectOption('Gain 1 plant', 'Gain plant', () => {
-            player.plants += 1;
+            player.addPlants(1);
             LogHelper.logGainStandardResource(game, player, Resources.PLANTS);
             return undefined;
           }),
           new SelectOption('Gain 1 energy', 'Gain energy', () => {
-            player.energy += 1;
+            player.addEnergy(1);
             LogHelper.logGainStandardResource(game, player, Resources.ENERGY);
             return undefined;
           }),
           new SelectOption('Gain 1 heat', 'Gain heat', () => {
-            player.heat += 1;
+            player.addHeat(1);
             LogHelper.logGainStandardResource(game, player, Resources.HEAT);
             return undefined;
           }),
           new SelectOption('Gain 1 MC', 'Gain MC', () => {
-            player.megaCredits += 1;
+            player.addMegacredits(1);
             LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS);
             return undefined;
           }),
@@ -88,7 +90,7 @@ export class Astrodrill implements IActionCard, CorporationCard {
 
       const spendResource = new SelectOption('Remove 1 asteroid on this card to gain 3 titanium', 'Remove asteroid', () => {
         this.resourceCount--;
-        player.titanium += 3;
+        player.addTitanium(3);
         LogHelper.logRemoveResource(game, player, this, 1, 'gain 3 titanium');
 
         return undefined;

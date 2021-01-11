@@ -36,7 +36,7 @@ export class AdvancedAlloys extends Card implements IProjectCard {
   }
 
   public onDiscard(player: Player): void {
-    player.decreaseTitaniumValue();
+    player.deductTitaniumValue();
     player.decreaseSteelValue();
   }
 }

@@ -3,7 +3,6 @@ import {Player} from '../Player';
 import {SelectCard} from '../inputs/SelectCard';
 import {ICard} from '../cards/ICard';
 import {OrOptions} from '../inputs/OrOptions';
-import {Resources} from '../Resources';
 import {ResourceType} from '../ResourceType';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction} from './DeferredAction';
@@ -21,13 +20,14 @@ export class CorrosiveRainDeferredAction implements DeferredAction {
             card.resourceCount >= 2);
 
     if (floaterCards.length === 0) {
-      this.player.setResource(Resources.MEGACREDITS, -10, this.game, undefined, true);
+      this.player.deductMegacredits(10);
+      // this.player.deductMegacredits(10, this., {globalEvent: true});
       return undefined;
     }
 
     const selectAction = new OrOptions();
     const payMC = new SelectOption('Lose up to 10 MC', 'Lose MC', () => {
-      this.player.setResource(Resources.MEGACREDITS, -10);
+      this.player.deductMegacredits(10);
       return undefined;
     });
     const removeFloaters = new SelectCard(

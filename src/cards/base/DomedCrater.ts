@@ -40,7 +40,7 @@ export class DomedCrater extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player, game: Game): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1 &&
+    return player.energyProduction >= 1 &&
         game.checkMaxRequirements(player, GlobalParameter.OXYGEN, 7) &&
         game.board.getAvailableSpacesForCity(player).length > 0;
   }
@@ -50,8 +50,8 @@ export class DomedCrater extends Card implements IProjectCard {
       game.board.getAvailableSpacesForCity(player),
       (space: ISpace) => {
         game.addCityTile(player, space.id);
-        player.plants += 3;
-        player.addProduction(Resources.ENERGY, -1);
+        player.addPlants(3);
+        player.addEnergyProduction(-1);
         player.addProduction(Resources.MEGACREDITS, 3);
         return undefined;
       },

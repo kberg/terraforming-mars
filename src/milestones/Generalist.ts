@@ -1,6 +1,5 @@
 import {IMilestone} from './IMilestone';
 import {Player} from '../Player';
-import {Resources} from '../Resources';
 
 export class Generalist implements IMilestone {
     public name: string = 'Generalist';
@@ -9,12 +8,12 @@ export class Generalist implements IMilestone {
       let score: number = 0;
       const requiredProduction : number = player.game.gameOptions.corporateEra ? 0 : 1;
 
-      if (player.getProduction(Resources.MEGACREDITS) > requiredProduction) score++;
-      if (player.getProduction(Resources.STEEL) > requiredProduction) score++;
-      if (player.getProduction(Resources.TITANIUM) > requiredProduction) score++;
-      if (player.getProduction(Resources.PLANTS) > requiredProduction) score++;
-      if (player.getProduction(Resources.ENERGY) > requiredProduction) score++;
-      if (player.getProduction(Resources.HEAT) > requiredProduction) score++;
+      if (player.megaCreditProduction > requiredProduction) score++;
+      if (player.steelProduction > requiredProduction) score++;
+      if (player.titaniumProduction > requiredProduction) score++;
+      if (player.plantProduction > requiredProduction) score++;
+      if (player.energyProduction > requiredProduction) score++;
+      if (player.heatProduction > requiredProduction) score++;
 
       return score;
     }

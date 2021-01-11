@@ -25,9 +25,9 @@ export class TradeAdvance extends PreludeCard implements IProjectCard {
       ));
 
       if (game.isSoloMode()) {
-        player.megaCredits += 10;
+        player.addMegacredits(10);
       } else {
-        player.megaCredits += 2;
+        player.addMegacredits(2);
       }
 
       return undefined;

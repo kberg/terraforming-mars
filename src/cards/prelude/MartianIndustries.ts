@@ -12,9 +12,9 @@ export class MartianIndustries extends PreludeCard implements IProjectCard {
     public name = CardName.MARTIAN_INDUSTRIES;
 
     public play(player: Player) {
-      player.addProduction(Resources.ENERGY);
+      player.addEnergyProduction(1);
       player.addProduction(Resources.STEEL);
-      player.megaCredits += 6;
+      player.addMegacredits(6);
       return undefined;
     }
     public metadata: CardMetadata = {

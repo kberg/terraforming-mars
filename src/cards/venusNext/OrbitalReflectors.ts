@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
@@ -31,7 +30,7 @@ export class OrbitalReflectors implements IProjectCard {
 
     public play(player: Player, game: Game) {
       game.increaseVenusScaleLevel(player, 2);
-      player.addProduction(Resources.HEAT, 2);
+      player.addHeatProduction(2);
       return undefined;
     }
 

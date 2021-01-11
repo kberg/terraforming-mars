@@ -26,7 +26,7 @@ export class LunarExports implements IProjectCard {
           return undefined;
         }),
         new SelectOption('Increase your plant production by 2', 'Increase +plants', () => {
-          player.addProduction(Resources.PLANTS, 2);
+          player.addPlantProduction(2);
           LogHelper.logGainProduction(game, player, Resources.PLANTS, 2);
           return undefined;
         }),

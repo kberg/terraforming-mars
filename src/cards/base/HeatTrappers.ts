@@ -38,7 +38,7 @@ export class HeatTrappers extends Card implements IProjectCard {
 
   public play(player: Player, game: Game) {
     game.defer(new DecreaseAnyProduction(player, game, Resources.HEAT, 2));
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     return undefined;
   }
   public getVictoryPoints() {

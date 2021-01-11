@@ -4,7 +4,6 @@ import {Game} from '../../Game';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 import {SpaceBonus} from '../../SpaceBonus';
 import {TileType} from '../../TileType';
 import {CardType} from './../CardType';
@@ -41,8 +40,8 @@ export class OceanFarm extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.HEAT, 1);
-    player.addProduction(Resources.PLANTS, 1);
+    player.addHeatProduction(1);
+    player.addPlantProduction(1);
 
     return new SelectSpace(
       'Select space for Ocean Farm',

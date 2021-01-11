@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class MicrogravityHealthProblems implements IGlobalEvent {
@@ -16,7 +15,7 @@ export class MicrogravityHealthProblems implements IGlobalEvent {
         game.colonies.forEach((colony) => {
           coloniesCount += colony.colonies.filter((owner) => owner === player.id).length;
         });
-        player.setResource(Resources.MEGACREDITS, -3 * Math.max(0, Math.min(5, coloniesCount) - turmoil.getPlayerInfluence(player)), game, undefined, true);
+        player.deductMegacredits(3 * Math.max(0, Math.min(5, coloniesCount) - turmoil.getPlayerInfluence(player)), {globalEvent: true});
       });
     }
 }

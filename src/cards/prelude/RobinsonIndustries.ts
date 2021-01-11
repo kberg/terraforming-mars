@@ -5,8 +5,6 @@ import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
-import {LogHelper} from '../../LogHelper';
-import {Game} from '../../Game';
 import {CardType} from '../CardType';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
@@ -14,7 +12,9 @@ import {CardRenderer} from '../render/CardRenderer';
 export class RobinsonIndustries implements IActionCard, CorporationCard {
     public name = CardName.ROBINSON_INDUSTRIES;
     public tags = [];
-    public startingMegaCredits: number = 47;
+    public startingUnits = {
+      megacredits: 47,
+    };
     public cardType = CardType.CORPORATION;
     public play() {
       return undefined;
@@ -24,22 +24,22 @@ export class RobinsonIndustries implements IActionCard, CorporationCard {
       return player.canAfford(4);
     }
 
-    public action(player: Player, game: Game) {
-      let minimum = player.getProduction(Resources.MEGACREDITS);
+    public action(player: Player) {
+      let minimum = player.megaCreditProduction;
       let lowest: Array<SelectOption> = [];
 
       [Resources.MEGACREDITS, Resources.STEEL, Resources.TITANIUM, Resources.PLANTS, Resources.ENERGY, Resources.HEAT].forEach((resource) => {
         const option = new SelectOption('Increase ' + resource + ' production 1 step', 'Select', () => {
-          this.increaseAndLogProduction(game, player, resource);
+          this.increaseAndLogProduction(player, resource);
           return undefined;
         });
 
-        if (player.getProduction(resource) < minimum) {
+        if (player.getProduction2(resource) < minimum) {
           lowest = [];
-          minimum = player.getProduction(resource);
+          minimum = player.getProduction2(resource);
         }
 
-        if (player.getProduction(resource) === minimum) lowest.push(option);
+        if (player.getProduction2(resource) === minimum) lowest.push(option);
       });
 
       const result = new OrOptions();
@@ -47,10 +47,9 @@ export class RobinsonIndustries implements IActionCard, CorporationCard {
       return result;
     }
 
-    private increaseAndLogProduction(game: Game, player: Player, resource: Resources) {
+    private increaseAndLogProduction(player: Player, resource: Resources) {
       player.addProduction(resource);
-      player.megaCredits -= 4;
-      LogHelper.logGainProduction(game, player, resource);
+      player.deductMegacredits(4);
     }
 
     public metadata: CardMetadata = {

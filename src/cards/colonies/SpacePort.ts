@@ -23,12 +23,12 @@ export class SpacePort implements IProjectCard {
       game.colonies.forEach((colony) => {
         coloniesCount += colony.colonies.filter((owner) => owner === player.id).length;
       });
-      return coloniesCount > 0 && player.getProduction(Resources.ENERGY) > 0;
+      return coloniesCount > 0 && player.energyProduction > 0;
     }
 
     public play(player: Player, game: Game) {
       player.addProduction(Resources.MEGACREDITS, 4);
-      player.addProduction(Resources.ENERGY, -1);
+      player.addEnergyProduction(-1);
       player.increaseFleetSize();
 
       return new SelectSpace('Select space for city tile', game.board.getAvailableSpacesForCity(player), (space: ISpace) => {

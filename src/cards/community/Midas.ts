@@ -9,7 +9,9 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Midas implements CorporationCard {
     public name = CardName.MIDAS;
     public tags = [];
-    public startingMegaCredits: number = 120;
+    public startingUnits = {
+      megacredits: 120,
+    };
     public cardType = CardType.CORPORATION;
 
     public play(player: Player) {

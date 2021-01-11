@@ -33,7 +33,7 @@ export class EnergyTapping extends Card implements IProjectCard {
   }
 
   public play(player: Player, game: Game) {
-    player.addProduction(Resources.ENERGY);
+    player.addEnergyProduction(1);
     game.defer(new DecreaseAnyProduction(player, game, Resources.ENERGY, 1));
     return undefined;
   }

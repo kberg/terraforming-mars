@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 import {CardType} from '../../cards/CardType';
 
@@ -14,7 +13,7 @@ export class CelebrityLeaders implements IGlobalEvent {
     public resolve(game: Game, turmoil: Turmoil) {
       game.getPlayers().forEach((player) => {
         const eventsCards = player.playedCards.filter((card) => card.cardType === CardType.EVENT).length;
-        player.setResource(Resources.MEGACREDITS, 2 * (Math.min(5, eventsCards) + turmoil.getPlayerInfluence(player)), game, undefined, true);
+        player.addMegacredits(2 * (Math.min(5, eventsCards) + turmoil.getPlayerInfluence(player)), {globalEvent: true});
       });
     }
 }

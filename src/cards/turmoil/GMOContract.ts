@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import {Resources} from '../../Resources';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {CardMetadata} from '../CardMetadata';
 import {CardRenderer} from '../render/CardRenderer';
@@ -29,7 +28,7 @@ export class GMOContract implements IProjectCard {
     if (amount > 0) {
       game.defer(
         new DeferredAction(player, () => {
-          player.setResource(Resources.MEGACREDITS, amount * 2);
+          player.addMegacredits(amount * 2);
           return undefined;
         }),
       );

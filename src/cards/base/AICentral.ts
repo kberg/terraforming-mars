@@ -5,7 +5,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {IActionCard} from '../ICard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -34,10 +33,10 @@ export class AICentral extends Card implements IActionCard, IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
-    return player.getTagCount(Tags.SCIENCE) >= 3 && player.getProduction(Resources.ENERGY) >= 1;
+    return player.getTagCount(Tags.SCIENCE) >= 3 && player.energyProduction >= 1;
   }
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     return undefined;
   }
   public canAct(): boolean {

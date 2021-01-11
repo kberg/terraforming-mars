@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
 import {CardMetadata} from '../CardMetadata';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -19,7 +18,7 @@ export class CoronaExtractor implements IProjectCard {
     }
 
     public play(player: Player) {
-      player.addProduction(Resources.ENERGY, 4);
+      player.addEnergyProduction(4);
       return undefined;
     }
     public metadata: CardMetadata = {

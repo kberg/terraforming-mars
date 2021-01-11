@@ -3,7 +3,6 @@ import {Tags} from '../Tags';
 import {Player} from '../../Player';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -29,11 +28,11 @@ export class GHGFactories extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
-    return player.getProduction(Resources.ENERGY) >= 1;
+    return player.energyProduction >= 1;
   }
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, -1);
-    player.addProduction(Resources.HEAT, 4);
+    player.addEnergyProduction(-1);
+    player.addHeatProduction(4);
     return undefined;
   }
 }

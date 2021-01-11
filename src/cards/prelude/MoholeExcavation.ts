@@ -12,8 +12,8 @@ export class MoholeExcavation extends PreludeCard implements IProjectCard {
     public name = CardName.MOHOLE_EXCAVATION;
     public play(player: Player) {
       player.addProduction(Resources.STEEL);
-      player.addProduction(Resources.HEAT, 2);
-      player.heat += 2;
+      player.addHeatProduction(2);
+      player.addHeat(2);
       return undefined;
     }
     public metadata: CardMetadata = {

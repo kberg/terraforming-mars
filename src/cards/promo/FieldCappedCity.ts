@@ -27,8 +27,8 @@ export class FieldCappedCity implements IProjectCard {
         game.board.getAvailableSpacesForCity(player),
         (space: ISpace) => {
           game.addCityTile(player, space.id);
-          player.plants += 3;
-          player.addProduction(Resources.ENERGY, 1);
+          player.addPlants(3);
+          player.addEnergyProduction(1);
           player.addProduction(Resources.MEGACREDITS, 2);
           return undefined;
         },

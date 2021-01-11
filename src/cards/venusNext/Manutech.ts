@@ -1,7 +1,5 @@
 import {CorporationCard} from '../corporation/CorporationCard';
-import {Player} from '../../Player';
 import {Tags} from '../Tags';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardMetadata} from '../CardMetadata';
@@ -10,11 +8,15 @@ import {CardRenderer} from '../render/CardRenderer';
 export class Manutech implements CorporationCard {
     public name = CardName.MANUTECH;
     public tags = [Tags.BUILDING];
-    public startingMegaCredits: number = 35;
+    public startingUnits = {
+      megacredits: 35,
+    };
+    public startingProduction = {
+      steel: 1,
+    }
     public cardType = CardType.CORPORATION;
 
-    public play(player: Player) {
-      player.addProduction(Resources.STEEL);
+    public play() {
       return undefined;
     }
 

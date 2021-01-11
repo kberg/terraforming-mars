@@ -1,7 +1,6 @@
 import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {IProjectCard} from '../IProjectCard';
-import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {Game} from '../../Game';
 import {CardMetadata} from '../CardMetadata';
@@ -12,9 +11,9 @@ export class NitrogenDelivery extends PreludeCard implements IProjectCard {
     public name = CardName.NITROGEN_SHIPMENT;
 
     public play(player: Player, game: Game) {
-      player.megaCredits += 5;
+      player.addMegacredits(5);
       player.increaseTerraformRating(game);
-      player.addProduction(Resources.PLANTS);
+      player.addPlantProduction(1);
       return undefined;
     }
     public metadata: CardMetadata = {

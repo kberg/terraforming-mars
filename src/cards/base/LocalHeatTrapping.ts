@@ -34,7 +34,7 @@ export class LocalHeatTrapping implements IProjectCard {
       const availableActions = new OrOptions();
 
       const gain4Plants = function() {
-        player.plants += 4;
+        player.addPlants(4);
         LogHelper.logGainStandardResource(game, player, Resources.PLANTS, 4);
         return undefined;
       };

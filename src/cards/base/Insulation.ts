@@ -29,7 +29,7 @@ export class Insulation extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player) {
-    return player.getProduction(Resources.HEAT) >= 1;
+    return player.heatProduction >= 1;
   }
 
   public play(player: Player, _game: Game) {
@@ -37,12 +37,12 @@ export class Insulation extends Card implements IProjectCard {
       'Select amount of heat production to decrease',
       'Decrease',
       (amount: number) => {
-        player.addProduction(Resources.HEAT, -amount);
+        player.addHeatProduction(-amount);
         player.addProduction(Resources.MEGACREDITS, amount);
         return undefined;
       },
       1,
-      player.getProduction(Resources.HEAT),
+      player.heatProduction,
     );
   }
 }

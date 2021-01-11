@@ -6,8 +6,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Game} from '../../Game';
 import {CardName} from '../../CardName';
-import {Resources} from '../../Resources';
-import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRenderItemSize} from '../render/CardRenderItemSize';
 
@@ -38,9 +36,10 @@ export class MartianRails extends Card implements IActionCard, IProjectCard {
   }
   public action(player: Player, game: Game) {
     const gainedMC = game.getCitiesInPlayOnMars();
-    player.energy--;
-    player.megaCredits += gainedMC;
-    LogHelper.logGainStandardResource(game, player, Resources.MEGACREDITS, gainedMC);
+    player.adjustUnits({
+      energy: 1,
+      megacredits: gainedMC,
+    });
 
     return undefined;
   }

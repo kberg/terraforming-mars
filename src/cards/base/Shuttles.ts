@@ -38,7 +38,7 @@ export class Shuttles extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player, game: Game): boolean {
-    return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 5) && player.getProduction(Resources.ENERGY) >= 1;
+    return game.checkMinRequirements(player, GlobalParameter.OXYGEN, 5) && player.energyProduction >= 1;
   }
   public getCardDiscount(_player: Player, _game: Game, card: IProjectCard) {
     if (card.tags.indexOf(Tags.SPACE) !== -1) {
@@ -47,7 +47,7 @@ export class Shuttles extends Card implements IProjectCard {
     return 0;
   }
   public play(player: Player) {
-    player.addProduction(Resources.ENERGY, -1);
+    player.addEnergyProduction(-1);
     player.addProduction(Resources.MEGACREDITS, 2);
     return undefined;
   }

@@ -17,7 +17,9 @@ import {CardRenderItemSize} from '../render/CardRenderItemSize';
 export class Splice implements CorporationCard {
     public name = CardName.SPLICE;
     public tags = [Tags.MICROBE];
-    public startingMegaCredits: number = 48; // 44 + 4 as card resolution when played
+    public startingUnits = {
+      megacredits: 48, // 44 + 4 as card resolution when played
+    };
     public cardType = CardType.CORPORATION;
 
     public initialActionText: string = 'Draw a card with a microbe tag';
@@ -43,18 +45,18 @@ export class Splice implements CorporationCard {
       });
 
       const getMegacredits = new SelectOption(`Gain ${megacreditsGain} MC`, 'Gain MC', () => {
-        player.megaCredits += megacreditsGain;
+        player.addMegacredits(megacreditsGain);
         return undefined;
       });
 
       // Splice owner get 2MC per microbe tag
-      game.getCardPlayer(this.name).megaCredits += megacreditsGain;
+      game.getCardPlayer(this.name).addMegacredits(megacreditsGain);
 
       // Card player choose between 2 MC and a microbe on card, if possible
       if (card.resourceType !== undefined && card.resourceType === ResourceType.MICROBE) {
         return new OrOptions(addResource, getMegacredits);
       } else {
-        player.megaCredits += megacreditsGain;
+        player.addMegacredits(megacreditsGain);
         return undefined;
       }
     }

@@ -12,7 +12,7 @@ export class OrbitalConstructionYard extends PreludeCard implements IProjectCard
     public name = CardName.ORBITAL_CONSTRUCTION_YARD;
     public play(player: Player) {
       player.addProduction(Resources.TITANIUM);
-      player.titanium += 4;
+      player.addTitanium(4);
       return undefined;
     }
     public metadata: CardMetadata = {

@@ -30,7 +30,7 @@ export class RoverConstruction extends Card implements IProjectCard {
   }
   public onTilePlaced(player: Player, space: ISpace) {
     if (Board.isCitySpace(space)) {
-      player.megaCredits += 2;
+      player.addMegacredits(2);
     }
   }
   public play() {

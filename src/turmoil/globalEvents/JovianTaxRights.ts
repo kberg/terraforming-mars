@@ -2,7 +2,6 @@ import {IGlobalEvent} from './IGlobalEvent';
 import {GlobalEventName} from './GlobalEventName';
 import {PartyName} from '../parties/PartyName';
 import {Game} from '../../Game';
-import {Resources} from '../../Resources';
 import {Turmoil} from '../Turmoil';
 
 export class JovianTaxRights implements IGlobalEvent {
@@ -16,8 +15,8 @@ export class JovianTaxRights implements IGlobalEvent {
         game.colonies.forEach((colony) => {
           coloniesCount += colony.colonies.filter((owner) => owner === player.id).length;
         });
-        player.addProduction(Resources.MEGACREDITS, coloniesCount, game, undefined, true);
-        player.setResource(Resources.TITANIUM, turmoil.getPlayerInfluence(player), game, undefined, true);
+        player.addMegacreditProduction(coloniesCount, {globalEvent: true});
+        player.addTitanium(turmoil.getPlayerInfluence(player), {globalEvent: true});
       });
     }
 }
