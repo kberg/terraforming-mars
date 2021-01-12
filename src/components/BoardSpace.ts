@@ -156,6 +156,8 @@ export const BoardSpace = Vue.component('board-space', {
       } else {
         if (this.space.spaceType === SpaceType.OCEAN) {
           css += ' board-space-type-ocean';
+        } else if (this.space.spaceType === SpaceType.PART_OCEAN) {
+          css += ' board-space-type-part-ocean';
         } else {
           css += ` board-space-type-land`;
 

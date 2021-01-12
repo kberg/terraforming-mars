@@ -64,6 +64,8 @@ import {IMoonData} from './moon/IMoonData';
 import {MoonExpansion} from './moon/MoonExpansion';
 import {TurmoilHandler} from './turmoil/TurmoilHandler';
 import {Random} from './Random';
+import {AddResourcesToCard} from './deferredActions/AddResourcesToCard';
+import {ArabiaTerraBoard} from './boards/ArabiaTerraBoard';
 
 export type GameId = string;
 
@@ -1410,6 +1412,19 @@ export class Game implements ISerializable<SerializedGame> {
       player.titanium++;
     } else if (spaceBonus === SpaceBonus.HEAT) {
       player.heat++;
+    } else if (spaceBonus === SpaceBonus.OCEAN) {
+      // ignore
+    } else if (spaceBonus === SpaceBonus.MICROBE) {
+      this.defer(new AddResourcesToCard(player, this, ResourceType.MICROBE));
+    } else if (spaceBonus === SpaceBonus.DATA) {
+      // TODO(kberg): For the moment, this will be a floater.
+      this.defer(new AddResourcesToCard(player, this, ResourceType.FLOATER));
+    } else if (spaceBonus === SpaceBonus.ENERGY_PRODUCTION) {
+      player.addProduction(Resources.ENERGY, 1, this);
+    } else if (spaceBonus === SpaceBonus.SCIENCE) {
+      this.defer(new AddResourcesToCard(player, this, ResourceType.SCIENCE));
+    } else {
+      throw new Error('Unhandled space bonus ' + spaceBonus);
     }
   }
 
@@ -1557,6 +1572,8 @@ export class Game implements ISerializable<SerializedGame> {
       board = ElysiumBoard.deserialize(d.board, playersForBoard);
     } else if (gameOptions.boardName === BoardName.HELLAS) {
       board = HellasBoard.deserialize(d.board, playersForBoard);
+    } else if (gameOptions.boardName === BoardName.ARABIA_TERRA) {
+      board = ArabiaTerraBoard.deserialize(d.board, playersForBoard);
     } else {
       board = OriginalBoard.deserialize(d.board, playersForBoard);
     }

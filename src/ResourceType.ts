@@ -10,4 +10,3 @@ export enum ResourceType {
     CAMP = 'Camp',
     DISEASE = 'Disease'
 }
-

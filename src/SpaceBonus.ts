@@ -13,8 +13,13 @@ export enum SpaceBonus {
     // Ares-specific
     MEGACREDITS, // 6
     ANIMAL, // 7
-    MICROBE, // 8
-    POWER // 9
+    MICROBE, // 8 (Used in Araibia Terra)
+    POWER, // 9
+
+    // Arabia Terra-specific
+    DATA, // 10
+    SCIENCE, // 11
+    ENERGY_PRODUCTION, // 12
 }
 
 const TO_STRING_MAP: Map<SpaceBonus, string> = new Map([

@@ -16,6 +16,7 @@ import {AresSetup} from './ares/AresSetup';
 import {TileType} from './TileType';
 import {ISpace} from './boards/ISpace';
 import {Random} from './Random';
+import {ArabiaTerraBoard} from './boards/ArabiaTerraBoard';
 
 export class GameSetup {
   public static chooseMilestonesAndAwards = function(gameOptions: GameOptions): IDrawnMilestonesAndAwards {
@@ -69,6 +70,8 @@ export class GameSetup {
       return ElysiumBoard.newInstance(shuffle, rng, includeVenus);
     } else if (boardName === BoardName.HELLAS) {
       return HellasBoard.newInstance(shuffle, rng, includeVenus);
+    } else if (boardName === BoardName.ARABIA_TERRA) {
+      return ArabiaTerraBoard.newInstance(shuffle, rng, includeVenus);
     } else {
       return OriginalBoard.newInstance(shuffle, rng, includeVenus);
     }

@@ -12,7 +12,7 @@ export class BoardBuilder {
   // "Beloved, " I said "watch me scare you though." said she,
   // "Able am I, Son."
 
-    private oceans: Array<boolean> = [];
+    private spaceTypes: Array<SpaceType> = [];
     private bonuses: Array<Array<SpaceBonus>> = [];
     private spaces: Array<ISpace> = [];
     private unshufflableSpaces: Array<number> = [];
@@ -23,19 +23,26 @@ export class BoardBuilder {
     }
 
     ocean(...bonus: Array<SpaceBonus>) {
-      this.oceans.push(true);
+      this.spaceTypes.push(SpaceType.OCEAN);
+      this.bonuses.push(bonus);
+      return this;
+    }
+
+    // TODO(kberg): fix part ocean.
+    partOcean(...bonus: Array<SpaceBonus>) {
+      this.spaceTypes.push(SpaceType.PART_OCEAN);
       this.bonuses.push(bonus);
       return this;
     }
 
     land(...bonus: Array<SpaceBonus>) {
-      this.oceans.push(false);
+      this.spaceTypes.push(SpaceType.LAND);
       this.bonuses.push(bonus);
       return this;
     }
 
     doNotShuffleLastSpace() {
-      this.unshufflableSpaces.push(this.oceans.length - 1);
+      this.unshufflableSpaces.push(this.spaceTypes.length - 1);
       return this;
     }
 
@@ -49,7 +56,9 @@ export class BoardBuilder {
         const tilesInThisRow = tilesPerRow[row];
         const xOffset = 9 - tilesInThisRow;
         for (let i = 0; i < tilesInThisRow; i++) {
-          const space = this.newTile(idx + idOffset, xOffset + i, row, this.oceans[idx], this.bonuses[idx]);
+          const spaceId = idx + idOffset;
+          const xCoordinate = xOffset + i;
+          const space = new Space(BoardBuilder.spaceId(spaceId), this.spaceTypes[idx], this.bonuses[idx], xCoordinate, row);
           this.spaces.push(space);
           idx++;
         }
@@ -85,7 +94,7 @@ export class BoardBuilder {
     // Shuffle the ocean spaces and bonus spaces. But protect the land spaces supplied by
     // |lands| so that those IDs most definitely have land spaces.
     public shuffle(rng: Random, ...lands: Array<SpaceName>) {
-      this.shuffleArray(rng, this.oceans);
+      this.shuffleArray(rng, this.spaceTypes);
       this.shuffleArray(rng, this.bonuses);
       let safety = 0;
       while (safety < 1000) {
@@ -93,10 +102,10 @@ export class BoardBuilder {
         for (const land of lands) {
           // Why -3?
           const land_id = Number(land) - 3;
-          while (this.oceans[land_id]) {
+          while (this.spaceTypes[land_id] === SpaceType.OCEAN) {
             satisfy = false;
-            const idx = rng.nextInt(this.oceans.length + 1);
-            [this.oceans[land_id], this.oceans[idx]] = [this.oceans[idx], this.oceans[land_id]];
+            const idx = rng.nextInt(this.spaceTypes.length + 1);
+            [this.spaceTypes[land_id], this.spaceTypes[idx]] = [this.spaceTypes[idx], this.spaceTypes[land_id]];
           }
         }
         if (satisfy) return;
@@ -105,35 +114,21 @@ export class BoardBuilder {
       throw new Error('infinite loop detected');
     }
 
-    private newTile(idx: number, pos_x: number, pos_y: number, is_ocean: boolean, bonus: Array<SpaceBonus>) {
-      if (is_ocean) {
-        return Space.ocean(idx, pos_x, pos_y, bonus);
-      } else {
-        return Space.land(idx, pos_x, pos_y, bonus);
+
+    private static spaceId(id: number): SpaceId {
+      let strId = id.toString();
+      if (id < 10) {
+        strId = '0'+strId;
       }
+      return strId;
     }
 }
 
 class Space implements ISpace {
-  private constructor(public id: SpaceId, public spaceType: SpaceType, public bonus: Array<SpaceBonus>, public x: number, public y: number ) {
+  constructor(public id: SpaceId, public spaceType: SpaceType, public bonus: Array<SpaceBonus>, public x: number, public y: number ) {
   }
 
   static colony(id: SpaceId) {
     return new Space(id, SpaceType.COLONY, [], -1, -1);
-  }
-
-  private static spaceId(id: number): SpaceId {
-    let strId = id.toString();
-    if (id < 10) {
-      strId = '0'+strId;
-    }
-    return strId;
-  }
-  static land(id: number, x: number, y: number, bonus: Array<SpaceBonus> = []) {
-    return new Space(this.spaceId(id), SpaceType.LAND, bonus, x, y);
-  }
-
-  static ocean(id: number, x: number, y: number, bonus: Array<SpaceBonus> = []) {
-    return new Space(this.spaceId(id), SpaceType.OCEAN, bonus, x, y);
   }
 }
