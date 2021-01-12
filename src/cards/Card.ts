@@ -18,10 +18,11 @@ interface StaticCardProperties {
   resourceType?: ResourceType;
   startingUnits?: PartialUnits;
   startingProduction?: PartialUnits;
+  productionBox?: PartialUnits;
   tags?: Array<Tags>;
 }
 
-const staticCardProperties = new Map<CardName, StaticCardProperties>();
+export const staticCardProperties = new Map<CardName, StaticCardProperties>();
 
 export abstract class Card {
   private readonly properties: StaticCardProperties;
@@ -63,11 +64,14 @@ export abstract class Card {
   public get resourceType() {
     return this.properties.resourceType;
   }
-  public get startingUnits() {
+  public get startingUnits(): PartialUnits {
     return this.properties.startingUnits === undefined ? {} : this.properties.startingUnits;
   }
-  public get startingProduction() {
+  public get startingProduction(): PartialUnits {
     return this.properties.startingProduction === undefined ? {} : this.properties.startingProduction;
+  }
+  public get productionBox(): PartialUnits {
+    return this.properties.productionBox === undefined ? {} : this.productionBox;
   }
   public get tags() {
     return this.properties.tags === undefined ? [] : this.properties.tags;

@@ -53,12 +53,12 @@ export namespace Units {
     purse.heat += delta.heat || 0;
   }
 
-  export function hasProduction(units: Units, player: Player): boolean {
-    return player.megaCreditProduction - units.megacredits >= -5 &&
-      player.steelProduction - units.steel >= 0 &&
-      player.titaniumProduction - units.titanium >= 0 &&
-      player.plantProduction - units.plants >= 0 &&
-      player.energyProduction - units.energy >= 0 &&
-      player.heatProduction - units.heat >= 0;
+  export function hasProduction(units: Units | PartialUnits, player: Player): boolean {
+    return player.megaCreditProduction - (units.megacredits || 0) >= -5 &&
+      player.steelProduction - (units.steel || 0) >= 0 &&
+      player.titaniumProduction - (units.titanium || 0) >= 0 &&
+      player.plantProduction - (units.plants || 0) >= 0 &&
+      player.energyProduction - (units.energy || 0) >= 0 &&
+      player.heatProduction - (units.heat || 0) >= 0;
   }
 }
