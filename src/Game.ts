@@ -1041,7 +1041,6 @@ export class Game implements ISerializable<SerializedGame> {
     });
 
     Database.getInstance().saveGameResults(this.id, this.players.length, this.generation, this.gameOptions, scores);
-    Database.getInstance().cleanSaves(this.id, this.lastSaveId);
 
     if (this.phase === Phase.END) return;
     this.phase = Phase.END;
