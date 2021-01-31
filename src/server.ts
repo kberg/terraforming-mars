@@ -16,6 +16,7 @@ import {ApiPlayer} from './routes/ApiPlayer';
 import {ApiSpectator} from './routes/ApiSpectator';
 import {ApiWaitingFor} from './routes/ApiWaitingFor';
 import {Database} from './database/Database';
+import {DatabaseMaintenance} from './server/DatabaseMaintenance';
 import {GameHandler} from './routes/Game';
 import {GameLoader} from './database/GameLoader';
 import {GamesOverview} from './routes/GamesOverview';
@@ -125,11 +126,12 @@ console.log('Starting server on port ' + (process.env.PORT || 8080));
 try {
   // The first call to Database.getInstance also intiailizes a connection to the database. Better to
   // fail here than after the server opens to process requests.
-  Database.getInstance().purgeUnfinishedGames();
+  Database.getInstance();
 } catch (err) {
   console.error('Cannot connect to database:', err);
   throw err;
 }
+DatabaseMaintenance.initialize();
 
 console.log('version 0.X');
 
