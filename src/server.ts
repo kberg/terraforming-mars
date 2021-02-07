@@ -3,6 +3,8 @@ require('console-stamp')(
   console,
   {format: ':date(yyyy-mm-dd HH:MM:ss Z)'},
 );
+const url = require('url');
+const fetch = require('node-fetch');
 
 import * as crypto from 'crypto';
 import * as https from 'https';
@@ -64,9 +66,15 @@ function readFile(path: string, cb: (err: Error | null, data: Buffer) => void): 
 }
 
 function processRequest(req: http.IncomingMessage, res: http.ServerResponse): void {
+  const urlObj = url.parse(req.url, true);
+  console.log(urlObj.path);
+  if (urlObj.query.code) {
+    discordThing(urlObj.query.code);
+  }
+
   if (req.url !== undefined) {
     if (req.method === 'GET') {
-      if (req.url.replace(/\?.*$/, '').startsWith('/games-overview')) {
+      if (urlObj.pathname=== '/games-overview') {
         if (!isServerIdValid(req)) {
           route.notAuthorized(req, res);
           return;
@@ -74,27 +82,27 @@ function processRequest(req: http.IncomingMessage, res: http.ServerResponse): vo
           serveApp(req, res);
         }
       } else if (
-        req.url === '/' ||
-        req.url.startsWith('/new-game') ||
-        req.url.startsWith('/solo') ||
-        req.url.startsWith('/game?id=') ||
-        req.url.startsWith('/player?id=') ||
-        req.url.startsWith('/the-end?id=') ||
-        req.url.startsWith('/load') ||
-        req.url.startsWith('/debug-ui') ||
-        req.url.startsWith('/help-iconology')
+        urlObj.pathname=== '/' ||
+        urlObj.pathname=== '/new-game' ||
+        urlObj.pathname=== '/solo' ||
+        urlObj.pathname=== '/game' ||
+        urlObj.pathname=== '/player' ||
+        urlObj.pathname=== '/the-end' ||
+        urlObj.pathname=== '/load' ||
+        urlObj.pathname=== '/debug-ui' ||
+        urlObj.pathname=== '/help-iconology'
       ) {
         serveApp(req, res);
-      } else if (req.url.startsWith('/api/player?id=')) {
+      } else if (urlObj.pathname=== '/api/player') {
         apiGetPlayer(req, res);
-      } else if (req.url.startsWith('/api/waitingfor?id=')) {
+      } else if (urlObj.pathname=== '/api/waitingfor') {
         apiGetWaitingFor(req, res);
-      } else if (req.url.startsWith('/assets/translations.json')) {
+      } else if (urlObj.pathname=== '/assets/translations.json') {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Cache-Control', 'max-age=' + assetCacheMaxAge);
         res.write(fs.readFileSync('build/genfiles/translations.json'));
         res.end();
-      } else if (req.url === '/styles.css') {
+      } else if (urlObj.pathname=== '/styles.css') {
         if (compressedStylesHash !== undefined && req.headers['if-none-match'] === compressedStylesHash) {
           route.notModified(res);
           return;
@@ -103,19 +111,20 @@ function processRequest(req: http.IncomingMessage, res: http.ServerResponse): vo
         res.setHeader('Cache-Control', 'must-revalidate');
         serveStyles(req, res);
       } else if (
-        req.url.startsWith('/assets/') ||
-        req.url === '/favicon.ico' ||
-        req.url === '/main.js' ||
-        req.url === '/main.js.map'
+        urlObj.path.startsWith('/assets/') ||
+        urlObj.pathname=== '/favicon.ico' ||
+        urlObj.pathname=== '/main.js' ||
+        urlObj.pathname=== '/main.js.map' ||
+        urlObj.pathname=== '/oauth.js'
       ) {
         serveAsset(req, res);
-      } else if (req.url.startsWith('/api/games')) {
+      } else if (urlObj.pathname=== '/api/games') {
         apiGetGames(req, res);
-      } else if (req.url.indexOf('/api/game?id=') === 0) {
+      } else if (urlObj.pathname=== '/api/game') {
         apiGetGame(req, res);
       } else if (gameLogs.canHandle(req.url)) {
         gameLogs.handle(req, res);
-      } else if (req.url.startsWith('/api/clonablegames')) {
+      } else if (urlObj.pathname=== '/api/clonablegames') {
         getClonableGames(res);
       } else {
         route.notFound(req, res);
@@ -124,10 +133,7 @@ function processRequest(req: http.IncomingMessage, res: http.ServerResponse): vo
       createGame(req, res);
     } else if (req.method === 'PUT' && req.url.indexOf('/load') === 0) {
       loadGame(req, res);
-    } else if (
-      req.method === 'POST' &&
-      req.url.indexOf('/player/input?id=') === 0
-    ) {
+    } else if (req.method === 'POST' && urlObj.pathname=== '/player/input') {
       const playerId: string = req.url.substring(
         '/player/input?id='.length,
       );
@@ -545,6 +551,9 @@ function serveAsset(req: http.IncomingMessage, res: http.ServerResponse): void {
       suffix = '.gz';
     }
     file = `build${req.url}${suffix}`;
+  } else if (req.url === '/oauth.js' || req.url === '/oauth.js.map') {
+    res.setHeader('Content-Type', 'text/javascript');
+    file = `build/src/${req.url}`;
   } else if (req.url === '/assets/Prototype.ttf') {
     file = 'assets/Prototype.ttf';
   } else if (req.url === '/assets/futureforces.ttf') {
@@ -602,6 +611,34 @@ function serveStyles(req: http.IncomingMessage, res: http.ServerResponse): void 
   res.end(buffer);
 }
 
+async function discordThing(accessCode: string) {
+  const data = {
+    client_id: process.env['DISCORD_CLIENT_ID'] || '',
+    client_secret: process.env['DISCORD_CLIENT_SECRET'] || '',
+    grant_type: 'authorization_code',
+    redirect_uri: 'http://localhost:8080',
+    code: accessCode,
+    scope: 'identify',
+  };
+
+  const response = await fetch('https://discord.com/api/oauth2/token', {
+    method: 'POST',
+    body: new URLSearchParams(data),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+  const body = await response.json();
+  console.log('body: ', body);
+
+  const getUser = await fetch('https://discord.com/api/users/@me', {
+    headers: {
+      authorization: `${body.token_type} ${body.access_token}`,
+    },
+  });
+  const getUserJson = await getUser.json();
+  console.log('user: ', getUserJson);
+}
 console.log('Starting server on port ' + (process.env.PORT || 8080));
 
 try {
