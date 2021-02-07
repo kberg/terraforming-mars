@@ -9,6 +9,12 @@
         <meta name="viewport" content='width=1260, user-scalable=1'>
     </head>
     <body id="ts-preferences-target">
+        <a id="login"
+        style="display: none;"
+        href="https://discord.com/api/oauth2/authorize?client_id=808015310526349312&redirect_uri=http%3A%2F%2Flocalhost%3A8080&response_type=code&scope=identify"
+        >
+        Identify Yourself
+        </a><div id="info"></div>
         <div id="app" :class="'topmost-'+screen">
             <section>
                 <dialog id="alert-dialog">
@@ -53,5 +59,6 @@
             </div>
         </div>
         <script src="/main.js"></script>
+        <script src="/oauth.js"></script>
     </body>
 </html>

@@ -3,6 +3,7 @@ require('console-stamp')(
   console,
   {format: ':date(yyyy-mm-dd HH:MM:ss Z)'},
 );
+const fetch = require('node-fetch');
 
 import * as https from 'https';
 import * as http from 'http';
@@ -72,6 +73,8 @@ function processRequest(req: http.IncomingMessage, res: http.ServerResponse): vo
   const url = new URL(req.url, `http://${req.headers.host}`);
   const ctx = {url, route, serverId, gameLoader: GameLoader.getInstance()};
   const handler: IHandler | undefined = handlers.get(url.pathname);
+
+  interceptDiscordCode(url);
 
   if (handler !== undefined) {
     handler.processRequest(req, res, ctx);
@@ -151,6 +154,40 @@ function isServerIdValid(req: http.IncomingMessage): boolean {
     return false;
   }
   return true;
+}
+
+async function interceptDiscordCode(url: URL) {
+  const code = url.searchParams.get('code');
+  if (code === null) {
+    return;
+  }
+
+  const data = {
+    client_id: process.env['DISCORD_CLIENT_ID'] || '',
+    client_secret: process.env['DISCORD_CLIENT_SECRET'] || '',
+    grant_type: 'authorization_code',
+    redirect_uri: 'http://localhost:8080',
+    code: code,
+    scope: 'identify',
+  };
+
+  const response = await fetch('https://discord.com/api/oauth2/token', {
+    method: 'POST',
+    body: new URLSearchParams(data),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+  const body = await response.json();
+  console.log('body: ', body);
+
+  const getUser = await fetch('https://discord.com/api/users/@me', {
+    headers: {
+      authorization: `${body.token_type} ${body.access_token}`,
+    },
+  });
+  const getUserJson = await getUser.json();
+  console.log('user: ', getUserJson);
 }
 
 console.log('Starting server on port ' + (process.env.PORT || 8080));
