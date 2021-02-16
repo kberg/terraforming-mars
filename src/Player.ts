@@ -327,6 +327,13 @@ export class Player implements ISerializable<SerializedPlayer> {
           .string(modifier)
           .number(Math.abs(amount))
           .player(fromPlayer));
+
+      game.log('${0} ${1} ${2}\'s ${3} by ${4}', (b) =>
+        b.player(fromPlayer)
+          .string(modifier)
+          .player(this)
+          .string(resource)
+          .number(Math.abs(amount)));
     }
 
     // Global event logging
