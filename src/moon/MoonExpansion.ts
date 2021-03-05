@@ -13,6 +13,7 @@ import {IMoonCard} from '../cards/moon/IMoonCard';
 import {Tags} from '../cards/Tags';
 import {ISpace} from '../boards/ISpace';
 import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE} from '../constants';
+import {Resources} from '../Resources';
 
 // export interface CoOwnedSpace {
 //   spaceId: string;
@@ -100,17 +101,35 @@ export class MoonExpansion {
       space.player = player;
       // TODO(kberg): indicate that it's a moon space.
       LogHelper.logTilePlacement(player, space, tile.tileType);
+
+      // Ideally, this should be part of game.addTile, but since it isn't it's convenient enough to
+      // hard-code onTilePlaced here. I wouldn't be surprised if this introduces a problem, but for now
+      // it's not a problem until it is.
+      if (player.corporationCard !== undefined && player.corporationCard.onTilePlaced !== undefined) {
+        player.corporationCard.onTilePlaced(player, player, space);
+      }
     });
   }
 
+  private static bonus(originalRate: number, increment: number, value: number, cb: () => void): void {
+    if (originalRate < value && originalRate + increment >= value) {
+      cb();
+    }
+  }
   public static raiseMiningRate(player: Player, count: number = 1) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
       const available = MAXIMUM_MINING_RATE - moonData.miningRate;
       const increment = Math.min(count, available);
       if (increment > 0) {
-        moonData.miningRate += increment;
         player.game.log('${0} raised the mining rate ${1} step(s)', (b) => b.player(player).number(increment));
         player.increaseTerraformRatingSteps(increment);
+        this.bonus(moonData.miningRate, increment, 3, () => {
+          player.drawCard();
+        });
+        this.bonus(moonData.miningRate, increment, 6, () => {
+          player.addProduction(Resources.TITANIUM, 1, player.game);
+        });
+        moonData.miningRate += increment;
         this.activateLunaFirst(player, player.game, increment);
       }
     });
@@ -121,9 +140,15 @@ export class MoonExpansion {
       const available = MAXIMUM_COLONY_RATE - moonData.colonyRate;
       const increment = Math.min(count, available);
       if (increment > 0) {
-        moonData.colonyRate += increment;
         player.game.log('${0} raised the moon colony rate ${1} step(s)', (b) => b.player(player).number(increment));
         player.increaseTerraformRatingSteps(count);
+        this.bonus(moonData.colonyRate, increment, 3, () => {
+          player.drawCard();
+        });
+        this.bonus(moonData.colonyRate, increment, 6, () => {
+          player.drawCard();
+        });
+        moonData.colonyRate += increment;
         this.activateLunaFirst(player, player.game, count);
       }
     });
@@ -134,24 +159,29 @@ export class MoonExpansion {
       const available = MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
       const increment = Math.min(count, available);
       if (increment > 0) {
-        moonData.logisticRate += increment;
         player.game.log('${0} raised the logistic rate ${1} step(s)', (b) => b.player(player).number(increment));
         player.increaseTerraformRatingSteps(count);
+        this.bonus(moonData.logisticRate, increment, 3, () => {
+          player.drawCard();
+        });
+        this.bonus(moonData.logisticRate, increment, 6, () => {
+          player.addProduction(Resources.STEEL, 1, player.game);
+        });
+        moonData.logisticRate += increment;
         this.activateLunaFirst(player, player.game, increment);
       }
     });
   }
 
-  private static activateLunaFirst(_sourcePlayer: Player | undefined, _game: Game, _count: number) {
-    // const lunaFirstPlayer = MoonExpansion.moonData(game).lunaFirstPlayer;
-    // // TODO(kberg): Have raiseXRate accept a qty parameter so this doesn't log countless times.
-    // if (lunaFirstPlayer !== undefined) {
-    //   lunaFirstPlayer.megaCredits += 1;
-    //   LogHelper.logGainStandardResource(game, lunaFirstPlayer, Resources.MEGACREDITS, 1);
-    //   if (lunaFirstPlayer.id === sourcePlayer?.id) {
-    //     lunaFirstPlayer.addProduction(Resources.MEGACREDITS, 1, game);
-    //   }
-    // }
+  private static activateLunaFirst(sourcePlayer: Player | undefined, game: Game, count: number) {
+    const lunaFirstPlayer = MoonExpansion.moonData(game).lunaFirstPlayer;
+    if (lunaFirstPlayer !== undefined) {
+      lunaFirstPlayer.megaCredits += count;
+      LogHelper.logGainStandardResource(lunaFirstPlayer, Resources.MEGACREDITS, count);
+      if (lunaFirstPlayer.id === sourcePlayer?.id) {
+        lunaFirstPlayer.addProduction(Resources.MEGACREDITS, count, game);
+      }
+    }
   }
 
   /*
