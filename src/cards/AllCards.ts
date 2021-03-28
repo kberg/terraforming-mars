@@ -1,5 +1,5 @@
 import {CardName} from '../CardName';
-import {Deck} from '../Deck';
+import {OldDeck} from '../OldDeck';
 import {ARES_CARD_MANIFEST} from './ares/AresCardManifest';
 import {GameModule} from '../GameModule';
 import {CardManifest} from './CardManifest';
@@ -29,7 +29,7 @@ export const ALL_CARD_MANIFESTS: Array<CardManifest> = [
   MOON_CARD_MANIFEST,
 ];
 
-function allCardNames(decks: Array<Deck<ICard>>): Array<CardName> {
+function allCardNames(decks: Array<OldDeck<ICard>>): Array<CardName> {
   const cardNames: Array<CardName> = [];
   for (const deck of decks) {
     deck.factories.forEach((cf) => cardNames.push(cf.cardName));

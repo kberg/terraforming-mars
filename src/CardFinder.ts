@@ -13,7 +13,7 @@ import {VENUS_CARD_MANIFEST} from './cards/venusNext/VenusCardManifest';
 import {COMMUNITY_CARD_MANIFEST} from './cards/community/CommunityCardManifest';
 import {ARES_CARD_MANIFEST} from './cards/ares/AresCardManifest';
 import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
-import {Deck} from './Deck';
+import {OldDeck} from './OldDeck';
 
 export class CardFinder {
     private static decks: undefined | Array<CardManifest>;
@@ -35,7 +35,7 @@ export class CardFinder {
       return CardFinder.decks;
     }
 
-    public getCardByName<T extends ICard>(cardName: CardName, decks: (manifest: CardManifest) => Array<Deck<T>>): T | undefined {
+    public getCardByName<T extends ICard>(cardName: CardName, decks: (manifest: CardManifest) => Array<OldDeck<T>>): T | undefined {
       let found : (ICardFactory<T> | undefined);
       CardFinder.getDecks().some((manifest) => {
         decks(manifest).some((deck) => {

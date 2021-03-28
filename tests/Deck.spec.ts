@@ -1,4 +1,4 @@
-import {Deck} from '../src/Deck';
+import {OldDeck} from '../src/OldDeck';
 import {IProjectCard} from '../src/cards/IProjectCard';
 import {ICardFactory} from '../src/cards/ICardFactory';
 import {CardName} from '../src/CardName';
@@ -21,7 +21,7 @@ describe('Deck', function() {
     {cardName: CardName.TITAN_FLOATING_LAUNCHPAD, Factory: TitanFloatingLaunchPad},
     {cardName: CardName.EARTH_EMBASSY, Factory: EarthEmbassy},
   ];
-  const deck: Deck<IProjectCard> = new Deck(cards);
+  const deck: OldDeck<IProjectCard> = new OldDeck(cards);
 
   it('findCardByName: success', function() {
     expect(deck.findByCardName(CardName.ACQUIRED_COMPANY)).is.not.undefined;

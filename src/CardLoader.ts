@@ -10,7 +10,7 @@ import {CardManifest} from './cards/CardManifest';
 import {CardName} from './CardName';
 import {ICard} from './cards/ICard';
 import {ICardFactory} from './cards/ICardFactory';
-import {Deck} from './Deck';
+import {OldDeck} from './OldDeck';
 import {GameModule} from './GameModule';
 import {GameOptions} from './Game';
 import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
@@ -57,7 +57,7 @@ export class CardLoader {
     });
   }
 
-  private addDeck<T extends ICard>(cards: Array<T>, deck: Deck<T>): void {
+  private addDeck<T extends ICard>(cards: Array<T>, deck: OldDeck<T>): void {
     deck.factories.forEach((cf) => {
       if (CardLoader.include(this.gameOptions, cf)) {
         cards.push(new cf.Factory());
@@ -79,7 +79,7 @@ export class CardLoader {
     return this.getCards((manifest) => manifest.preludeCards);
   }
 
-  private getCards<T extends ICard>(getDeck: (arg0: CardManifest) => Deck<T>) : Array<T> {
+  private getCards<T extends ICard>(getDeck: (arg0: CardManifest) => OldDeck<T>) : Array<T> {
     const cards: Array<T> = [];
     for (const manifest of this.manifests) {
       this.addDeck(cards, getDeck(manifest));
