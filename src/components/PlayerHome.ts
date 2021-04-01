@@ -25,28 +25,28 @@ import {Phase} from '../../src/Phase';
 import * as raw_settings from '../genfiles/settings.json';
 
 export interface PlayerHomeModel {
-  hide_active_cards: string;
-  hide_automated_cards: string;
-  hide_event_cards: string;
+  hideActiveCards: boolean;
+  hideAutomatedCards: boolean;
+  hideEventCards: boolean;
 }
 
 export const PlayerHome = Vue.component('player-home', {
   data: function(): PlayerHomeModel {
     return {
-      hide_active_cards: PreferencesManager.loadValue('hide_active_cards'),
-      hide_automated_cards: PreferencesManager.loadValue('hide_automated_cards'),
-      hide_event_cards: PreferencesManager.loadValue('hide_event_cards'),
+      hideActiveCards: PreferencesManager.loadBooleanValue('hideActiveCards'),
+      hideAutomatedCards: PreferencesManager.loadBooleanValue('hideAutomatedCards'),
+      hideEventCards: PreferencesManager.loadBooleanValue('hideEventCards'),
     };
   },
   watch: {
-    hide_active_cards: function() {
-      PreferencesManager.saveValue('hide_active_cards', this.hide_active_cards);
+    hideActiveCards: function() {
+      PreferencesManager.saveBooleanValue('hideActiveCards', this.hideActiveCards);
     },
-    hide_automated_cards: function() {
-      PreferencesManager.saveValue('hide_automated_cards', this.hide_automated_cards);
+    hideAutomatedCards: function() {
+      PreferencesManager.saveBooleanValue('hideAutomatedCards', this.hideAutomatedCards);
     },
-    hide_event_cards: function() {
-      PreferencesManager.saveValue('hide_event_cards', this.hide_event_cards);
+    hideEventCards: function() {
+      PreferencesManager.saveBooleanValue('hideEventCards', this.hideEventCards);
     },
   },
   props: {
@@ -127,22 +127,22 @@ export const PlayerHome = Vue.component('player-home', {
       return fleetsRange;
     },
     toggleActiveCardsHiding() {
-      this.hide_active_cards = this.isActiveCardShown() ? '1': '';
+      this.hideActiveCards = this.isActiveCardShown();
     },
     toggleAutomatedCardsHiding() {
-      this.hide_automated_cards = this.isAutomatedCardShown() ? '1': '';
+      this.hideAutomatedCards = this.isAutomatedCardShown();
     },
     toggleEventCardsHiding() {
-      this.hide_event_cards = this.isEventCardShown() ? '1': '';
+      this.hideEventCards = this.isEventCardShown();
     },
     isActiveCardShown(): boolean {
-      return this.hide_active_cards !== '1';
+      return this.hideActiveCards;
     },
     isAutomatedCardShown(): boolean {
-      return this.hide_automated_cards !== '1';
+      return this.hideAutomatedCards;
     },
     isEventCardShown(): boolean {
-      return this.hide_event_cards !== '1';
+      return this.hideEventCards;
     },
     isInitialDraftingPhase(): boolean {
       return (this.player.phase === Phase.INITIALDRAFTING) && this.player.gameOptions.initialDraftVariant;

@@ -103,7 +103,7 @@ export const WaitingFor = Vue.component('waiting-for', {
                   body: 'It\'s your turn!',
                 });
               }
-              const soundsEnabled = PreferencesManager.loadValue('enable_sounds') === '1';
+              const soundsEnabled = PreferencesManager.loadBooleanValue('enable_sounds');
               if (soundsEnabled) SoundManager.playActivePlayerSound();
 
               // We don't need to wait anymore - it's our turn

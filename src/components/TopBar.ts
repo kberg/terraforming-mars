@@ -28,8 +28,7 @@ export const TopBar = Vue.component('top-bar', {
       this.forceRerender();
     },
     isExpanded(): boolean {
-      const val = PreferencesManager.loadValue('hide_top_bar');
-      return val !== '1';
+      return PreferencesManager.loadBooleanValue('hide_top_bar');
     },
     formatCssClass(): string {
       const cssClasses = ['top-bar'];

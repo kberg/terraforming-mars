@@ -30,15 +30,22 @@ export class PreferencesManager {
       localStorage.setItem(name, val);
     }
 
-    static loadValue(name: string): string {
-      if ( ! PreferencesManager.localStorageSupported()) return '';
+    static saveBooleanValue(name: string, val: boolean): void {
+      if ( ! PreferencesManager.localStorageSupported()) return;
+      localStorage.setItem(name, val ? '1' : '');
+    }
+
+    static loadValue(name: string, defaultValue: string = ''): string {
+      if ( ! PreferencesManager.localStorageSupported()) return defaultValue;
       const value = localStorage.getItem(name);
-      if (value === null) return '';
+      if (value === null) return defaultValue;
       return value;
     }
 
-    static loadBooleanValue(name: string): boolean {
-      if ( ! PreferencesManager.localStorageSupported()) return false;
-      return localStorage.getItem(name) === '1';
+    static loadBooleanValue(name: string, defaultValue: boolean = false): boolean {
+      if ( ! PreferencesManager.localStorageSupported()) return defaultValue;
+      const value = localStorage.getItem(name);
+      if (value === null) return defaultValue;
+      return value === '1';
     }
 }

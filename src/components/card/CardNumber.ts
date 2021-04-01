@@ -10,7 +10,7 @@ export const CardNumber = Vue.component('CardNumber', {
   },
   methods: {
     showCardNumber: function(): boolean {
-      return PreferencesManager.loadValue('show_card_number') === '1';
+      return PreferencesManager.loadBooleanValue('show_card_number');
     },
   },
   template: `

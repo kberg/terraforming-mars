@@ -92,10 +92,7 @@ export const Preferences = Vue.component('preferences', {
         target.classList.add('language-' + this.lang);
       }
     },
-    updatePreferencesFromStorage: function(): Map<
-            string,
-            boolean | string
-            > {
+    updatePreferencesFromStorage: function(): Map<string, boolean | string> {
       for (const k of PreferencesManager.keys) {
         const val = PreferencesManager.loadValue(k);
         if (k === 'lang') {
@@ -328,7 +325,7 @@ export const Preferences = Vue.component('preferences', {
                     <div class="preferences_panel_item">
                         <label class="form-switch">
                             <input type="checkbox" v-on:change="updatePreferences" v-model="learner_mode" />
-                            <i class="form-icon"></i> 
+                            <i class="form-icon"></i>
                             <span v-i18n>Learner Mode (req. refresh)</span>
                             <span class="tooltip tooltip-left" data-tooltip="Show information that can be helpful\n to players who are still learning the games">&#9432;</span>
                         </label>
