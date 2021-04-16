@@ -15,6 +15,9 @@ import {playerColorClass} from '../utils/utils';
 import {Color} from '../Color';
 import {SoundManager} from './SoundManager';
 import {PreferencesManager} from './PreferencesManager';
+import {GlobalEventName} from '../turmoil/globalEvents/GlobalEventName';
+import {Game} from '../Game';
+import {getGlobalEventByName} from '../turmoil/globalEvents/GlobalEventDealer';
 
 let logRequest: XMLHttpRequest | undefined;
 
@@ -83,6 +86,7 @@ export const LogPanel = Vue.component('log-panel', {
         LogMessageDataType.COLONY,
         LogMessageDataType.PARTY,
         LogMessageDataType.TILE_TYPE,
+        LogMessageDataType.GLOBAL_EVENT,
       ];
       if (data.type !== undefined && data.value !== undefined) {
         if (data.type === LogMessageDataType.PLAYER) {
@@ -111,7 +115,12 @@ export const LogPanel = Vue.component('log-panel', {
             manifest.standardProjects,
             manifest.standardActions,
           ]);
-          if (card && card.cardType) return this.parseCardType(card.cardType, data.value);
+          if (card && card.cardType) {
+            return this.parseCardType(card.cardType, data.value);
+          }
+        } else if (data.type === LogMessageDataType.GLOBAL_EVENT) {
+          const name: GlobalEventName = data.value as GlobalEventName;
+          return '<span class="log-global-event background-color-global-event">' + $t(name) + '</span>';
         } else if (data.type === LogMessageDataType.TILE_TYPE) {
           const tileType: TileType = +data.value;
           return $t(TileType.toString(tileType));

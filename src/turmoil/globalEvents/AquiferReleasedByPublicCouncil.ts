@@ -14,8 +14,8 @@ export class AquiferReleasedByPublicCouncil implements IGlobalEvent {
     public resolve(game: Game, turmoil: Turmoil) {
       game.defer(new PlaceOceanTile(game.getPlayers()[0], 'Select Ocean for Global Event'));
       game.getPlayers().forEach((player) => {
-        player.setResource(Resources.PLANTS, turmoil.getPlayerInfluence(player), game, undefined, true);
-        player.setResource(Resources.STEEL, turmoil.getPlayerInfluence(player), game, undefined, true);
+        player.setResource(Resources.PLANTS, turmoil.getPlayerInfluence(player), game, undefined, GlobalEventName.AQUIFER_RELEASED_BY_PUBLIC_COUNCIL);
+        player.setResource(Resources.STEEL, turmoil.getPlayerInfluence(player), game, undefined, GlobalEventName.AQUIFER_RELEASED_BY_PUBLIC_COUNCIL);
       });
     }
 }

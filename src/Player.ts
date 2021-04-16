@@ -71,6 +71,7 @@ import {PlaceMoonMineTile} from './moon/PlaceMoonMineTile';
 import {PlaceMoonColonyTile} from './moon/PlaceMoonColonyTile';
 import {PlaceMoonRoadTile} from './moon/PlaceMoonRoadTile';
 import {GlobalParameter} from './GlobalParameter';
+import {GlobalEventName} from './turmoil/globalEvents/GlobalEventName';
 
 export type PlayerId = string;
 
@@ -306,7 +307,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
   }
 
-  public setResource(resource: Resources, amount : number = 1, game? : Game, fromPlayer? : Player, globalEvent? : boolean) {
+  public setResource(resource: Resources, amount : number = 1, game? : Game, fromPlayer? : Player, globalEventName? : GlobalEventName) {
     if (resource === Resources.MEGACREDITS) this.megaCredits = Math.max(0, this.megaCredits + amount);
     if (resource === Resources.STEEL) this.steel = Math.max(0, this.steel + amount);
     if (resource === Resources.TITANIUM) this.titanium = Math.max(0, this.titanium + amount);
@@ -335,12 +336,13 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Global event logging
-    if (game !== undefined && globalEvent && amount !== 0) {
-      game.log('${0}\'s ${1} amount ${2} by ${3} by Global Event', (b) =>
+    if (game !== undefined && globalEventName !== undefined && amount !== 0) {
+      game.log('${0}\'s ${1} amount ${2} by ${3} by ${4}', (b) =>
         b.player(this)
           .string(resource)
           .string(modifier)
-          .number(Math.abs(amount)));
+          .number(Math.abs(amount))
+          .globalEventName(globalEventName));
     }
 
     // Mons Insurance hook
@@ -349,7 +351,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
   }
 
-  public addProduction(resource: Resources, amount : number = 1, game? : Game, fromPlayer? : Player, globalEvent? : boolean) {
+  public addProduction(resource: Resources, amount : number = 1, game? : Game, fromPlayer? : Player, globalEventName? : GlobalEventName) {
     if (resource === Resources.MEGACREDITS) this.megaCreditProduction = Math.max(-5, this.megaCreditProduction + amount);
     if (resource === Resources.STEEL) this.steelProduction = Math.max(0, this.steelProduction + amount);
     if (resource === Resources.TITANIUM) this.titaniumProduction = Math.max(0, this.titaniumProduction + amount);
@@ -382,12 +384,13 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Global event logging
-    if (game !== undefined && globalEvent && amount !== 0) {
-      game.log('${0}\'s ${1} production ${2} by ${3} by Global Event', (b) =>
+    if (game !== undefined && globalEventName && amount !== 0) {
+      game.log('${0}\'s ${1} production ${2} by ${3} by Global Event ${4}', (b) =>
         b.player(this)
           .string(resource)
           .string(modifier)
-          .number(Math.abs(amount)));
+          .number(Math.abs(amount))
+          .globalEventName(globalEventName));
     }
 
     // Manutech hook
