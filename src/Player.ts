@@ -1910,6 +1910,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   // Return possible mid-game actions like play a card and fund an award, but no play prelude card.
   public getActions() {
     const action: OrOptions = new OrOptions();
+    // This tag is used to indicate it's a player's options. Used in the UI.
+    PlayerInput.tag(action, 'player');
     action.title = this.actionsTakenThisRound === 0 ?
       'Take your first action' : 'Take your next action';
     action.buttonLabel = 'Take action';
@@ -1946,13 +1948,13 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (this.getPlayableActionCards().length > 0) {
       action.options.push(
-        this.playActionCard(),
+        PlayerInput.tag(this.playActionCard(), 'options'),
       );
     }
 
     if (this.getPlayableCards().length > 0) {
       action.options.push(
-        this.playProjectCard(),
+        PlayerInput.tag(this.playProjectCard(), 'projects'),
       );
     }
 

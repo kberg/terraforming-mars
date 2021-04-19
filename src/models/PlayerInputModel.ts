@@ -11,6 +11,7 @@ import {TurmoilModel} from './TurmoilModel';
 
 export interface PlayerInputModel {
     amount: number | undefined;
+    availableParties: Array<PartyName> | undefined;
     availableSpaces: Array<string> | undefined;
     canUseHeat: boolean | undefined;
     canUseSteel: boolean | undefined;
@@ -34,6 +35,6 @@ export interface PlayerInputModel {
     selectBlueCardAction: boolean;
     showOnlyInLearnerMode?: boolean;
     showOwner?: boolean;
-    availableParties: Array<PartyName> | undefined;
+    tag?: string
     turmoil?: TurmoilModel;
 }

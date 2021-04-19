@@ -135,6 +135,9 @@ export const WaitingFor = Vue.component('waiting-for', {
     if (this.player.players.length > 1 && this.player.waitingFor !== undefined) {
       documentTitleTimer = window.setInterval(() => this.animateTitle(), 1000);
     }
+    if (this.waitingfor.tag === 'player') {
+      // Magic goes here.
+    }
     const input = new PlayerInputFactory().getPlayerInput(createElement, this.players, this.player, this.waitingfor, (out: Array<Array<string>>) => {
       const xhr = new XMLHttpRequest();
       const root = this.$root as unknown as typeof mainAppSettings.data;

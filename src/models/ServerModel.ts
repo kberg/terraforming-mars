@@ -225,6 +225,7 @@ function getWaitingFor(
     buttonLabel: waitingFor.buttonLabel,
     inputType: waitingFor.inputType,
     amount: undefined,
+    tag: waitingFor.tag,
     options: undefined,
     cards: undefined,
     maxCardsToSelect: undefined,

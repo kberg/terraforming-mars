@@ -71,11 +71,11 @@ export const OrOptions = Vue.component('or-options', {
       };
       const displayStyle: string =
                 this.$data.selectedOption === idx ? 'block' : 'none';
-      const subchildren: Array<VNode> = [];
+      const children: Array<VNode> = [];
       if (this.$data.selectedOption === idx) {
         domProps.checked = true;
       }
-      subchildren.push(
+      children.push(
         createElement('label', {'class': 'form-radio'}, [
           createElement('input', {
             domProps,
@@ -108,7 +108,7 @@ export const OrOptions = Vue.component('or-options', {
           false,
         ),
       );
-      subchildren.push(
+      children.push(
         createElement(
           'div',
           {style: {display: displayStyle, marginLeft: '30px'}},
@@ -119,9 +119,9 @@ export const OrOptions = Vue.component('or-options', {
           ],
         ),
       );
-      optionElements.push(subchildren[subchildren.length - 1]);
+      optionElements.push(children[children.length - 1]);
 
-      // Show all option by default unless it is told to show only in learner mode
+      // Show all options by default unless it is told to show only in learner mode
       let showOption = true;
       if (option.showOnlyInLearnerMode && !PreferencesManager.loadBooleanValue('learner_mode')) {
         showOption = false;
@@ -129,7 +129,7 @@ export const OrOptions = Vue.component('or-options', {
 
       // Only push this orOption element if we are showing it
       if (showOption) {
-        children.push(createElement('div', subchildren));
+        children.push(createElement('div', children));
 
         if (this.showsave && this.$data.selectedOption === idx) {
           children.push(

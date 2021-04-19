@@ -8,7 +8,9 @@ export interface PlayerInput {
     options?: Array<PlayerInput>;
     title: string | Message;
     cb: (...item: any) => PlayerInput | undefined;
+    // maxByDefault doesn't need to be her. Remove.
     maxByDefault?: boolean;
+    tag?: string;
 }
 
 export namespace PlayerInput {
@@ -19,5 +21,10 @@ export namespace PlayerInput {
     }
     const card = cards[idx];
     return {card, idx};
+  }
+
+  export function tag(input: PlayerInput, tag: string): PlayerInput {
+    input.tag = tag;
+    return input;
   }
 }
