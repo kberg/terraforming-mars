@@ -265,6 +265,7 @@ describe('Player', function() {
       name: 'player-blue',
       color: 'purple' as Color,
       beginner: true,
+      ready: undefined,
       handicap: 4,
       timer: {
         sumElapsed: 0,

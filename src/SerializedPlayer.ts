@@ -45,6 +45,8 @@ export interface SerializedPlayer {
     playedCards: Array<SerializedCard>;
     politicalAgendasActionUsedCount: number;
     preludeCardsInHand: Array<CardName>;
+    // TODO(kberg): Remove undefined by 2021-06-01
+    ready: boolean | undefined;
     removedFromPlayCards: Array<CardName>;
     removingPlayers: Array<PlayerId>;
     scienceTagCount: number;

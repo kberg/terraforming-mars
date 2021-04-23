@@ -365,6 +365,8 @@ export class Game implements ISerializable<SerializedGame> {
       }
     }
 
+    // asdf
+
     // Print game_id if solo game
     if (players.length === 1) {
       game.log('The id of this game is ${0}', (b) => b.rawString(id));

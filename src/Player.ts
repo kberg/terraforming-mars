@@ -84,6 +84,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   public corporationCard: CorporationCard | undefined = undefined;
   // Used only during set-up
   public pickedCorporationCard: CorporationCard | undefined = undefined;
+  // Used during set-up. Only once all players are ready do they get their starting hands.
+  public ready: boolean;
 
   // Terraforming Rating
   private terraformRating: number = 20;
@@ -165,6 +167,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     public handicap: number = 0,
     id: PlayerId) {
     this.id = id;
+    this.ready = false;
   }
 
   public static initialize(
@@ -2075,6 +2078,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       },
       // Used only during set-up
       pickedCorporationCard: this.pickedCorporationCard?.name,
+      ready: this.ready,
       // Terraforming Rating
       terraformRating: this.terraformRating,
       hasIncreasedTerraformRatingThisGeneration: this.hasIncreasedTerraformRatingThisGeneration,
@@ -2172,6 +2176,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.plantProduction = d.plantProduction;
     player.plants = d.plants;
     player.plantsNeededForGreenery = d.plantsNeededForGreenery;
+    player.ready = d.ready ?? true; // true is a good default while we migrate.
     player.removingPlayers = d.removingPlayers;
     player.scienceTagCount = d.scienceTagCount;
     player.steel = d.steel;
