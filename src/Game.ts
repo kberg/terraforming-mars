@@ -66,6 +66,7 @@ import {Random} from './Random';
 import {MilestoneAwardSelector} from './MilestoneAwardSelector';
 import {BoardType} from './boards/BoardType';
 import {Multiset} from './utils/Multiset';
+import {PlayerReadyInput} from './inputs/PlayerReadyInput';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -161,7 +162,7 @@ export class Game implements ISerializable<SerializedGame> {
   public undoCount: number = 0; // Each undo increases it
 
   public generation: number = 1;
-  public phase: Phase = Phase.RESEARCH;
+  public phase: Phase = Phase.SETUP;
   public dealer: Dealer;
   public board: Board;
 
@@ -365,28 +366,53 @@ export class Game implements ISerializable<SerializedGame> {
       }
     }
 
-    // asdf
+    game.gotoWaitingToStartPhase();
 
-    // Print game_id if solo game
-    if (players.length === 1) {
-      game.log('The id of this game is ${0}', (b) => b.rawString(id));
-    }
-
-    players.forEach((player) => {
-      game.log('Good luck ${0}!', (b) => b.player(player), {reservedFor: player});
-    });
-
-    game.log('Generation ${0}', (b) => b.forNewGeneration().number(game.generation));
-
-    // Initial Draft
-    if (gameOptions.initialDraftVariant) {
-      game.phase = Phase.INITIALDRAFTING;
-      game.runDraftRound(true);
-    } else {
-      game.gotoInitialResearchPhase();
-    }
+    game.save();
 
     return game;
+  }
+
+  /**
+   * The game is alrady in the waiting to start phase, so perhaps this deserves a better name.
+   */
+  public gotoWaitingToStartPhase() {
+    if (this.players.length === 1) {
+      this.allPlayersReady();
+    }
+    this.players.forEach((player) => {
+      player.setWaitingFor(new PlayerReadyInput(player, (name: string) => {
+        player.name = name;
+        player.ready = true;
+
+        // If no players are not ready (aka if all players are ready)
+        if (!this.players.some((p) => !p.ready)) {
+          this.allPlayersReady();
+        }
+        return undefined;
+      }));
+    });
+  }
+
+  public allPlayersReady() {
+    // Print game_id if solo game
+    if (this.players.length === 1) {
+      this.log('The id of this game is ${0}', (b) => b.rawString(this.id));
+    }
+
+    this.players.forEach((player) => {
+      this.log('Good luck ${0}!', (b) => b.player(player), {reservedFor: player});
+    });
+
+    this.log('Generation ${0}', (b) => b.forNewGeneration().number(this.generation));
+
+    // Initial Draft
+    if (this.gameOptions.initialDraftVariant) {
+      this.phase = Phase.INITIALDRAFTING;
+      this.runDraftRound(true);
+    } else {
+      this.gotoInitialResearchPhase();
+    }
   }
 
   public save(): void {
@@ -726,7 +752,7 @@ export class Game implements ISerializable<SerializedGame> {
     this.save();
     for (const player of this.players) {
       if (player.pickedCorporationCard === undefined && player.dealtCorporationCards.length > 0) {
-        player.setWaitingFor(this.pickCorporationCard(player), () => {});
+        player.setWaitingFor(this.pickCorporationCard(player));
       }
     }
     if (this.players.length === 1 && this.gameOptions.coloniesExtension) {

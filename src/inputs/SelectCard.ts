@@ -1,4 +1,3 @@
-
 import {Message} from '../Message';
 import {PlayerInput} from '../PlayerInput';
 import {PlayerInputTypes} from '../PlayerInputTypes';

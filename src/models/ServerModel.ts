@@ -112,6 +112,7 @@ export class Server {
       playedCards: getCards(player, player.playedCards, {showResources: true}),
       players: getPlayers(game.getPlayers(), game),
       preludeCardsInHand: getCards(player, player.preludeCardsInHand),
+      ready: player.ready,
       selfReplicatingRobotsCards: getSelfReplicatingRobotsTargetCards(player),
       spaces: getSpaces(game.board),
       spectatorId: game.spectatorId,
@@ -437,6 +438,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
       actionsTakenThisRound: player.actionsTakenThisRound,
       timer: player.timer.serialize(),
       availableBlueCardActionCount: player.getAvailableBlueActionCount(),
+      ready: player.ready,
     } as PlayerModel;
   });
 }

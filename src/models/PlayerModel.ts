@@ -65,6 +65,7 @@ export interface PlayerModel {
     playedCards: Array<CardModel>;
     players: Array<PlayerModel>;
     preludeCardsInHand: Array<CardModel>;
+    ready: boolean;
     selfReplicatingRobotsCards: Array<CardModel>;
     spaces: Array<SpaceModel>;
     spectatorId?: string;
