@@ -201,12 +201,12 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         }
       }
 
-      const showAlert = PreferencesManager.loadValue('show_alerts') === '1';
+      const showAlert = PreferencesManager.load('show_alerts') === '1';
 
       if (requiredAmt > 0 && totalSpentAmt > requiredAmt && showAlert) {
         const diff = totalSpentAmt - requiredAmt;
 
-        if (confirm('Warning: You are overpaying by ' + diff + ' MC')) {
+        if (confirm('Warning: You are overpaying by ' + diff + ' M€')) {
           this.onsave([[JSON.stringify(htp)]]);
         } else {
           this.$data.warning = 'Please adjust payment amount';
