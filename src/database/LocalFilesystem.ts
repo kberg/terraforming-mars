@@ -1,5 +1,5 @@
-import {DbLoadCallback, IDatabase} from './IDatabase';
-import {Game, GameId, GameOptions, Score} from '../Game';
+import {DbLoadCallback, GameResults, IDatabase} from './IDatabase';
+import {Game, GameId} from '../Game';
 import {IGameData} from './IDatabase';
 import {SerializedGame} from '../SerializedGame';
 import {Dirent} from 'fs';
@@ -101,7 +101,7 @@ export class Localfilesystem implements IDatabase {
     cb(new Error('Does not work'), undefined);
   }
 
-  saveGameResults(_game_id: GameId, _players: number, _generations: number, _gameOptions: GameOptions, _scores: Array<Score>): void {
+  saveGameResults(_results: GameResults): void {
     // Not implemented
   }
 

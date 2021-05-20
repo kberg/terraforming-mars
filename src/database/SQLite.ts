@@ -1,5 +1,5 @@
-import {DbLoadCallback, IDatabase} from './IDatabase';
-import {Game, GameId, GameOptions, Score} from '../Game';
+import {DbLoadCallback, GameResults, IDatabase} from './IDatabase';
+import {Game, GameId} from '../Game';
 import {IGameData} from './IDatabase';
 import {SerializedGame} from '../SerializedGame';
 
@@ -73,10 +73,16 @@ export class SQLite implements IDatabase {
     });
   }
 
-  saveGameResults(game_id: GameId, players: number, generations: number, gameOptions: GameOptions, scores: Array<Score>): void {
+  saveGameResults(results: GameResults): void {
     this.db.run(
       'INSERT INTO game_results (game_id, seed_game_id, players, generations, game_options, scores) VALUES($1, $2, $3, $4, $5, $6)',
-      [game_id, gameOptions.clonedGamedId, players, generations, JSON.stringify(gameOptions), JSON.stringify(scores)], (err) => {
+      [results.gameId,
+        results.gameOptions.clonedGamedId,
+        results.playerCount,
+        results.generations,
+        JSON.stringify(results.gameOptions),
+        JSON.stringify(results.scores)],
+      (err) => {
         if (err) {
           console.error('SQLite:saveGameResults', err);
           throw err;

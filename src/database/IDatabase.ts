@@ -1,10 +1,24 @@
-import {Game, GameId, GameOptions, Score} from '../Game';
+import {Game, GameId, GameOptions} from '../Game';
 import {SerializedGame} from '../SerializedGame';
 
 export interface IGameData {
-    gameId: GameId;
-    playerCount: number;
+  gameId: GameId;
+  playerCount: number;
 }
+
+export interface Score {
+  corporation: string;
+  playerScore: number;
+}
+
+
+export type GameResults = {
+  gameId: GameId,
+  playerCount: number, // The number of players in the game. Used for cloning
+  generations: number, // The number of genrations in the game.
+  gameOptions: GameOptions, // Game options are used for cloning, but are also good for research.
+  scores: Array<Score> // Scores correlated to a player's corporation.
+};
 
 /**
  * A game store. Load, save, you know the drill.
@@ -86,14 +100,8 @@ export interface IDatabase {
     /**
      * Stores the results of a game in perpetuity in a separate table from normal
      * games. Called at a game's conclusion along with {@link cleanSaves}.
-     *
-     * This is not impliemented in {@link SQLite}.
-     *
-     * @param generations the generation number at the end of the game
-     * @param gameOptions the options used for this game.
-     * @param scores an array of scores correlated to the player's corporation.
      */
-    saveGameResults(game_id: GameId, players: number, generations: number, gameOptions: GameOptions, scores: Array<Score>): void;
+    saveGameResults(gameResults: GameResults): void;
 
     /**
      * The meat behind player undo. Loads the game at the given save point,

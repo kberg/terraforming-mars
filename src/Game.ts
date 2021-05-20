@@ -66,14 +66,10 @@ import {Random} from './Random';
 import {MilestoneAwardSelector} from './MilestoneAwardSelector';
 import {BoardType} from './boards/BoardType';
 import {Multiset} from './utils/Multiset';
+import {Score} from './database/IDatabase';
 
 export type GameId = string;
 export type SpectatorId = string;
-
-export interface Score {
-  corporation: String;
-  playerScore: number;
-}
 
 export interface GameOptions {
   boardName: BoardName;
@@ -1039,14 +1035,18 @@ export class Game implements ISerializable<SerializedGame> {
     Database.getInstance().cleanSaves(this.id, this.lastSaveId);
     const scores: Array<Score> = [];
     this.players.forEach((player) => {
-      let corponame: String = '';
-      if (player.corporationCard !== undefined) {
-        corponame = player.corporationCard.name;
-      }
-      scores.push({corporation: corponame, playerScore: player.victoryPointsBreakdown.total});
+      const corporation = player.corporationCard?.name ?? '';
+      scores.push({corporation: corporation, playerScore: player.victoryPointsBreakdown.total});
     });
 
-    Database.getInstance().saveGameResults(this.id, this.players.length, this.generation, this.gameOptions, scores);
+    Database.getInstance().saveGameResults({
+      gameId: this.id,
+      playerCount: this.players.length,
+      generations: this.generation,
+      gameOptions: this.gameOptions,
+      scores: scores,
+    });
+
     if (this.phase === Phase.END) return;
     this.phase = Phase.END;
   }

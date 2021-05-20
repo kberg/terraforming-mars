@@ -1,5 +1,5 @@
-import {DbLoadCallback, IDatabase} from './IDatabase';
-import {Game, GameId, GameOptions, Score} from '../Game';
+import {DbLoadCallback, GameResults, IDatabase} from './IDatabase';
+import {Game, GameId} from '../Game';
 import {IGameData} from './IDatabase';
 import {SerializedGame} from '../SerializedGame';
 
@@ -127,13 +127,21 @@ export class PostgreSQL implements IDatabase {
     });
   }
 
-  saveGameResults(game_id: GameId, players: number, generations: number, gameOptions: GameOptions, scores: Array<Score>): void {
-    this.client.query('INSERT INTO game_results (game_id, seed_game_id, players, generations, game_options, scores) VALUES($1, $2, $3, $4, $5, $6)', [game_id, gameOptions.clonedGamedId, players, generations, gameOptions, JSON.stringify(scores)], (err) => {
-      if (err) {
-        console.error('PostgreSQL:saveGameResults', err);
-        throw err;
-      }
-    });
+  saveGameResults(results: GameResults): void {
+    this.client.query(
+      'INSERT INTO game_results (game_id, seed_game_id, players, generations, game_options, scores) VALUES($1, $2, $3, $4, $5, $6)',
+      [results.gameId,
+        results.gameOptions.clonedGamedId,
+        results.playerCount,
+        results.generations,
+        results.gameOptions,
+        JSON.stringify(results.scores)],
+      (err) => {
+        if (err) {
+          console.error('PostgreSQL:saveGameResults', err);
+          throw err;
+        }
+      });
   }
 
   cleanSaves(game_id: GameId, save_id: number): void {
