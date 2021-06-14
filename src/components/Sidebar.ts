@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import {Color} from '../Color';
-import {preferences, PreferencesManager} from './PreferencesManager';
+import {PreferencesManager} from './PreferencesManager';
 import {LANGUAGES} from '../constants';
-import {MAX_OCEAN_TILES, MAX_TEMPERATURE, MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../constants';
 import {TurmoilModel} from '../models/TurmoilModel';
 import {PartyName} from '../turmoil/parties/PartyName';
 import {GameSetupDetail} from './GameSetupDetail';
 import {GameOptionsModel} from '../models/GameOptionsModel';
 import {TranslateMixin} from './TranslateMixin';
+import {GlobalParameterValue} from './GlobalParameterValue';
+import {MoonGlobalParameterValue} from './MoonGlobalParameterValue';
+import {GlobalParameter} from '../GlobalParameter';
+import {MoonModel} from '../models/MoonModel';
+import {PreferencesDialog} from './PreferencesDialog';
 
 export const Sidebar = Vue.component('sidebar', {
   props: {
@@ -41,6 +45,9 @@ export const Sidebar = Vue.component('sidebar', {
     venus: {
       type: Number,
     },
+    moonData: {
+      type: Object as () => MoonModel,
+    },
     turmoil: {
       type: Object as () => TurmoilModel || undefined,
     },
@@ -50,6 +57,9 @@ export const Sidebar = Vue.component('sidebar', {
   },
   components: {
     'game-setup-detail': GameSetupDetail,
+    'global-parameter-value': GlobalParameterValue,
+    'moon-global-parameter-value': MoonGlobalParameterValue,
+    'preferences-dialog': PreferencesDialog,
   },
   mixins: [TranslateMixin],
   data: function() {
@@ -73,65 +83,10 @@ export const Sidebar = Vue.component('sidebar', {
       'hide_discount_on_cards': false as boolean | unknown[],
       'learner_mode': true as boolean | unknown[],
       'hide_animated_sidebar': false as boolean | unknown[],
+      'globalParameter': GlobalParameter,
     };
   },
   methods: {
-    setPreferencesCSS: function(
-      val: boolean | undefined,
-      cssClassSuffix: string,
-    ): void {
-      const target = document.getElementById('ts-preferences-target');
-      if (!target) return;
-      if (val) {
-        target.classList.add('preferences_' + cssClassSuffix);
-      } else {
-        target.classList.remove('preferences_' + cssClassSuffix);
-      }
-
-      if (!target.classList.contains('language-' + this.lang)) {
-        target.classList.add('language-' + this.lang);
-      }
-    },
-    updatePreferencesFromStorage: function(): Map<
-            string,
-            boolean | string
-            > {
-      for (const k of preferences) {
-        const val = PreferencesManager.load(k);
-        if (k === 'lang') {
-          PreferencesManager.preferencesValues.set(k, this.$data[k]);
-          this[k] = val || 'en';
-          PreferencesManager.preferencesValues.set(k, val || 'en');
-        } else {
-          const boolVal = val !== '' ? val === '1' : this.$data[k];
-          PreferencesManager.preferencesValues.set(k, val === '1');
-          this.$data[k] = boolVal;
-        }
-      }
-      return PreferencesManager.preferencesValues;
-    },
-    updatePreferences: function(_evt: any): void {
-      let strVal: string = '';
-      for (const k of preferences) {
-        const val = PreferencesManager.preferencesValues.get(k);
-        if (val !== this.$data[k]) {
-          if (k === 'lang') {
-            strVal = this.$data[k];
-          } else {
-            strVal = this.$data[k] ? '1' : '0';
-          }
-          PreferencesManager.save(k, strVal);
-          PreferencesManager.preferencesValues.set(k, this.$data[k]);
-          this.setPreferencesCSS(this.$data[k], k);
-        }
-      }
-    },
-    syncPreferences: function(): void {
-      for (const k of preferences) {
-        this.$data[k] = PreferencesManager.preferencesValues.get(k);
-        this.setPreferencesCSS(this.$data[k], k);
-      }
-    },
     getPlayerColorCubeClass: function(): string {
       return this.acting_player && (PreferencesManager.loadBoolean('hide_animated_sidebar') === false) ? 'preferences_player_inner active' : 'preferences_player_inner';
     },
@@ -140,34 +95,6 @@ export const Sidebar = Vue.component('sidebar', {
     },
     getGenMarker: function(): string {
       return `${this.generation}`;
-    },
-    getOceanCount: function(): string {
-      if (this.oceans === MAX_OCEAN_TILES) {
-        return '<img src="/assets/misc/checkmark.png" class="checkmark" :alt="$t(\'Completed!\')">';
-      } else {
-        return `${this.oceans}`;
-      }
-    },
-    getTemperatureCount: function(): string {
-      if (this.temperature === MAX_TEMPERATURE) {
-        return '<img src="/assets/misc/checkmark.png" class="checkmark" :alt="$t(\'Completed!\')">';
-      } else {
-        return `${this.temperature}`;
-      }
-    },
-    getOxygenCount: function(): string {
-      if (this.oxygen === MAX_OXYGEN_LEVEL) {
-        return '<img src="/assets/misc/checkmark.png" class="checkmark" :alt="$t(\'Completed!\')">';
-      } else {
-        return `${this.oxygen}`;
-      }
-    },
-    getVenusCount: function(): string {
-      if (this.venus === MAX_VENUS_SCALE) {
-        return '<img src="/assets/misc/checkmark.png" class="checkmark" :alt="$t(\'Completed!\')">';
-      } else {
-        return `${this.venus}`;
-      }
     },
     rulingPartyToCss: function(): string {
       if (this.turmoil.ruling === undefined) {
@@ -189,11 +116,8 @@ export const Sidebar = Vue.component('sidebar', {
       }
     },
   },
-  mounted: function() {
-    this.updatePreferencesFromStorage();
-  },
   template: `
-<div :class="'sidebar_cont sidebar '+getSideBarClass()" :data="syncPreferences()">
+<div :class="'sidebar_cont sidebar '+getSideBarClass()">
   <div class="tm">
     <div class="gen-text">GEN</div>
     <div class="gen-marker">{{ getGenMarker() }}</div>
@@ -202,46 +126,40 @@ export const Sidebar = Vue.component('sidebar', {
     <div :class="'party-name party-name-indicator party-name--'+rulingPartyToCss()"> {{ getRulingParty() }}</div>
   </div>
   <div class="global_params">
-    <div class="temperature-tile"></div>
-    <div class="global_params_value" v-html="getTemperatureCount()"></div>
-    <div class="oxygen-tile"></div>
-    <div class="global_params_value" v-html="getOxygenCount()"></div>
-    <div class="ocean-tile"></div>
-    <div class="global_params_value" v-html="getOceanCount()"></div>
-    <div v-if="gameOptions.venusNextExtension">
-      <div class="venus-tile"></div>
-      <div class="global_params_value" v-html="getVenusCount()"></div>
-    </div>
+    <global-parameter-value :param="this.globalParameter.TEMPERATURE" :value="this.temperature"></global-parameter-value>
+    <global-parameter-value :param="this.globalParameter.OXYGEN" :value="this.oxygen"></global-parameter-value>
+    <global-parameter-value :param="this.globalParameter.OCEANS" :value="this.oceans"></global-parameter-value>
+    <global-parameter-value v-if="gameOptions.venusNextExtension" :param="this.globalParameter.VENUS" :value="this.venus"></global-parameter-value>
+    <moon-global-parameter-value v-if="gameOptions.moonExpansion" :moonData="this.moonData"></moon-global-parameter-value>
   </div>
-
-  <div class="preferences_item preferences_player">
+  <div class="sidebar_item preferences_player">
     <div :class="getPlayerColorCubeClass()+' player_bg_color_' + player_color"></div>
   </div>
 
-  <a  href="#board">
-      <div class="preferences_item preferences_item_shortcut">
-          <i class="preferences_icon preferences_icon--board"></i>
+  <a href="#board">
+      <div class="sidebar_item sidebar_item_shortcut">
+          <i class="sidebar_icon sidebar_icon--board"></i>
       </div>
   </a>
-  <a  href="#actions">
-      <div class="preferences_item preferences_item_shortcut">
-          <i class="preferences_icon preferences_icon--actions"></i>
+  <a href="#actions">
+      <div class="sidebar_item sidebar_item_shortcut">
+          <i class="sidebar_icon sidebar_icon--actions"></i>
       </div>
   </a>
   <a href="#cards">
-      <div class="preferences_item goto-cards preferences_item_shortcut">
-          <i class="preferences_icon preferences_icon--cards"><slot></slot></i>
+      <div class="sidebar_item goto-cards sidebar_item_shortcut">
+          <i class="sidebar_icon sidebar_icon--cards"><slot></slot></i>
       </div>
   </a>
   <a v-if="coloniesCount > 0" href="#colonies">
-      <div class="preferences_item preferences_item_shortcut">
-          <i class="preferences_icon preferences_icon--colonies"></i>
+      <div class="sidebar_item sidebar_item_shortcut">
+          <i class="sidebar_icon sidebar_icon--colonies"></i>
       </div>
   </a>
 
-  <div class="preferences_item preferences_item--info">
-    <i class="preferences_icon preferences_icon--info"
-      :class="{'preferences_item--is-active': ui.gamesetup_detail_open}"
+  <div class="sidebar_item sidebar_item--info">
+    <i class="sidebar_icon sidebar_icon--info"
+      :class="{'sidebar_item--is-active': ui.gamesetup_detail_open}"
       v-on:click="ui.gamesetup_detail_open = !ui.gamesetup_detail_open"
       :title="$t('game setup details')"></i>
     <div class="info_panel" v-if="ui.gamesetup_detail_open">
@@ -252,107 +170,18 @@ export const Sidebar = Vue.component('sidebar', {
       <div class="info_panel_actions">
         <button class="btn btn-lg btn-primary" v-on:click="ui.gamesetup_detail_open=false">Ok</button>
       </div>
-  </div>
-</div>
-
-<a href="/help" target="_blank">
-  <div class="preferences_item preferences_item--help">
-    <i class="preferences_icon preferences_icon--help" :title="$t('player aid')"></i>
-  </div>
-</a>
-
-<div class="preferences_item preferences_item--settings">
-  <i class="preferences_icon preferences_icon--settings" :class="{'preferences_item--is-active': ui.preferences_panel_open}" v-on:click="ui.preferences_panel_open = !ui.preferences_panel_open"></i>
-    <div class="preferences_panel" v-if="ui.preferences_panel_open">
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="hide_hand">
-          <i class="form-icon"></i> <span v-i18n>Hide cards in hand</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="hide_awards_and_milestones">
-          <i class="form-icon"></i> <span v-i18n>Hide awards and milestones</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="small_cards">
-          <i class="form-icon"></i> <span v-i18n>Smaller cards</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="magnify_cards">
-          <i class="form-icon"></i> <span v-i18n>Magnify cards on hover</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="hide_discount_on_cards">
-          <i class="form-icon"></i> <span v-i18n>Hide discount on cards</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="show_card_number">
-          <i class="form-icon"></i> <span v-i18n>Show card numbers (req. refresh)</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="remove_background">
-          <i class="form-icon"></i> <span v-i18n>Remove background image</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="show_alerts">
-          <i class="form-icon"></i> <span v-i18n>Show in-game alerts</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="enable_sounds">
-          <i class="form-icon"></i> <span v-i18n>Enable sounds</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="hide_animated_sidebar">
-          <i class="form-icon"></i> <span v-i18n>Hide sidebar notification</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="hide_tile_confirmation">
-          <i class="form-icon"></i> <span v-i18n>Hide tile confirmation</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item">
-        <label class="form-switch">
-          <input type="checkbox" v-on:change="updatePreferences" v-model="learner_mode">
-          <i class="form-icon"></i>
-          <span v-i18n>Learner Mode (req. refresh)</span>
-          <span class="tooltip tooltip-left" data-tooltip="Show information that can be helpful\n to players who are still learning the games">&#9432;</span>
-        </label>
-      </div>
-      <div class="preferences_panel_item form-group">
-        <label class="form-label"><span v-i18n>Language</span> (<a href="javascript:document.location.reload(true);" v-i18n>refresh page</a> <span v-i18n>to see changes</span>)</label>
-        <div class="preferences_panel_langs">
-          <label class="form-radio" v-for="language in langs">
-            <input name="lang" type="radio" v-on:change="updatePreferences" v-model="lang" :value="language.id">
-            <i class="form-icon"></i> {{ language.title }}
-          </label>
-        </div>
-      </div>
-
-
-      <div class="preferences_panel_actions">
-        <button class="btn btn-lg btn-primary" v-on:click="ui.preferences_panel_open=false">Ok</button>
-      </div>
     </div>
+  </div>
+
+  <a href="/help" target="_blank">
+    <div class="sidebar_item sidebar_item--help">
+      <i class="sidebar_icon sidebar_icon--help" :title="$t('player aid')"></i>
+    </div>
+  </a>
+
+  <div class="sidebar_item sidebar_item--settings">
+    <i class="sidebar_icon sidebar_icon--settings" :class="{'sidebar_item--is-active': ui.preferences_panel_open}" v-on:click="ui.preferences_panel_open = !ui.preferences_panel_open"></i>
+    <preferences-dialog v-show="ui.preferences_panel_open" @okButtonClicked="ui.preferences_panel_open = false"/>
   </div>
 </div>
     `,

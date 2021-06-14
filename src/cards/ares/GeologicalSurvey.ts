@@ -43,6 +43,10 @@ export class GeologicalSurvey extends Card implements IProjectCard {
     return player.game.board.getAdjacentSpaces(space).some((adj) => adj.adjacency?.bonus.includes(bonus));
   }
 
+  private grantsBonusNow(space: ISpace, bonus: SpaceBonus) {
+    return space.tile?.covers !== undefined && space.bonus.includes(bonus);
+  }
+
   public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace, boardType: BoardType) {
     // Adjacency bonuses are only available on Mars.
     if (boardType !== BoardType.MARS) {
@@ -55,14 +59,15 @@ export class GeologicalSurvey extends Card implements IProjectCard {
     // Steel, Titanium and Heat
     ([[Resources.STEEL, SpaceBonus.STEEL], [Resources.TITANIUM, SpaceBonus.TITANIUM], [Resources.HEAT, SpaceBonus.HEAT]] as [Resources, SpaceBonus][]).forEach(([resource, bonus]) => {
       if ((resource === Resources.STEEL && space.spaceType !== SpaceType.COLONY && PartyHooks.shouldApplyPolicy(cardOwner.game, PartyName.MARS, TurmoilPolicy. MARS_FIRST_DEFAULT_POLICY)) ||
-          space.bonus.includes(bonus) ||
+          this.grantsBonusNow(space, bonus) ||
           this.anyAdjacentSpaceGivesBonus(cardOwner, space, bonus)) {
         cardOwner.game.defer(new GainResources(
           cardOwner,
           resource,
           {
-            logMessage: '${0} gained a bonus ${1} because of ${2}',
-            logBuilder: (b) => b.player(cardOwner).string(resource).cardName(this.name),
+            cb: () => activePlayer.game.log(
+              '${0} gained a bonus ${1} because of ${2}',
+              (b) => b.player(cardOwner).string(resource).cardName(this.name)),
           }));
       }
     });

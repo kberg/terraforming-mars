@@ -1033,10 +1033,12 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     Database.getInstance().cleanSaves(this.id, this.lastSaveId);
+
     const scores: Array<Score> = [];
     this.players.forEach((player) => {
       const corporation = player.corporationCard?.name ?? '';
-      scores.push({corporation: corporation, playerScore: player.victoryPointsBreakdown.total});
+      const vpb = player.getVictoryPoints();
+      scores.push({corporation: corporation, playerScore: vpb.total});
     });
 
     Database.getInstance().saveGameResults({
@@ -1047,7 +1049,6 @@ export class Game implements ISerializable<SerializedGame> {
       scores: scores,
     });
 
-    if (this.phase === Phase.END) return;
     this.phase = Phase.END;
   }
 
