@@ -1,6 +1,19 @@
-
 import Vue from 'vue';
 import {Button} from './common/Button';
+import PaymentsWidget from './common/PaymentsWidget.vue';
+import {HowToPay} from '../inputs/HowToPay';
+import {Card} from './card/Card';
+import {CardFinder} from '../CardFinder';
+import {Tags} from '../cards/Tags';
+import {CardModel} from '../models/CardModel';
+import {CardOrderStorage} from './CardOrderStorage';
+import {PaymentWidgetMixin} from './PaymentWidgetMixin';
+import {PlayerInputModel} from '../models/PlayerInputModel';
+import {PlayerModel} from '../models/PlayerModel';
+import {PreferencesManager} from './PreferencesManager';
+import {TranslateMixin} from './TranslateMixin';
+import {CardName} from '../CardName';
+import {Units} from '../Units';
 
 interface SelectHowToPayForProjectCardModel {
   cardName: CardName;
@@ -17,20 +30,6 @@ interface SelectHowToPayForProjectCardModel {
   warning: string | undefined;
   available: Units;
 }
-
-import {HowToPay} from '../inputs/HowToPay';
-import {Card} from './card/Card';
-import {CardFinder} from '../CardFinder';
-import {Tags} from '../cards/Tags';
-import {CardModel} from '../models/CardModel';
-import {CardOrderStorage} from './CardOrderStorage';
-import {PaymentWidgetMixin} from './PaymentWidgetMixin';
-import {PlayerInputModel} from '../models/PlayerInputModel';
-import {PlayerModel} from '../models/PlayerModel';
-import {PreferencesManager} from './PreferencesManager';
-import {TranslateMixin} from './TranslateMixin';
-import {CardName} from '../CardName';
-import {Units} from '../Units';
 
 export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for-project-card', {
   props: {
@@ -84,6 +83,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
   components: {
     Card,
     Button,
+    PaymentsWidget,
   },
   mixins: [PaymentWidgetMixin, TranslateMixin],
   mounted: function() {
@@ -120,7 +120,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
       let megacreditBalance = Math.max(this.cost - this.player.megaCredits, 0);
 
-      // Calcualtes the optimal number of units to use given the unit value.
+      // Calculates the optimal number of units to use given the unit value.
       //
       // It reads `megacreditBalance` as the remaining balance, and deducts the
       // consumed balance as part of this method.
@@ -359,10 +359,12 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
     <div class="payments_type input-group" v-if="canUseSteel()">
       <i class="resource_icon resource_icon--steel payments_type_icon" title="Pay by Steel"></i>
+      <!-- PaymentsWidget v-model="this.steel" :max="this.available.steel" / -->
       <Button type="minus" :onClick="_=>reduceValue('steel', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="steel" />
       <Button type="plus" :onClick="_=>addValue('steel', 1, this.available.steel)" />
       <Button type="max" :onClick="_=>setMaxValue('steel', this.available.steel)" title="MAX" />
+
     </div>
     <div v-if="showReserveSteelWarning()" class="card-warning" v-i18n>
     (Some steel is unavailable here in reserve for the project card.)
@@ -370,10 +372,12 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
     <div class="payments_type input-group" v-if="canUseTitanium()">
       <i class="resource_icon resource_icon--titanium payments_type_icon" :title="$t('Pay by Titanium')"></i>
+      <!-- PaymentsWidget v-model="this.titanium" :max="this.available.titanium" / -->
       <Button type="minus" :onClick="_=>reduceValue('titanium', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="titanium" />
       <Button type="plus" :onClick="_=>addValue('titanium', 1, this.available.titanium)" />
       <Button type="max" :onClick="_=>setMaxValue('titanium', this.available.titanium)" title="MAX" />
+
     </div>
     <div v-if="showReserveTitaniumWarning()" class="card-warning" v-i18n>
     (Some titanium is unavailable here in reserve for the project card.)
@@ -381,10 +385,8 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
     <div class="payments_type input-group" v-if="canUseHeat()">
       <i class="resource_icon resource_icon--heat payments_type_icon" :title="$t('Pay by Heat')"></i>
-      <Button type="minus" :onClick="_=>reduceValue('heat', 1)" />
-      <input class="form-input form-inline payments_input" v-model.number="heat" />
-      <Button type="plus" :onClick="_=>addValue('heat', 1, this.available.heat)" />
-      <Button type="max" :onClick="_=>setMaxValue('heat', this.available.heat)" title="MAX" />
+      <PaymentsWidget v-model="this.heat"
+          :max="this.available.heat" v-on:update="setRemainingMCValue()"/>
     </div>
     <div v-if="showReserveHeatWarning()" class="card-warning" v-i18n>
     (Some heat is unavailable here in reserve for the project card.)
@@ -392,10 +394,13 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
     <div class="payments_type input-group" v-if="canUseMicrobes()">
       <i class="resource_icon resource_icon--microbe payments_type_icon" :title="$t('Pay by Microbes')"></i>
+      <-- PaymentsWidget v-model="this.microbes" :max="this.available.microbes" / -->
+
       <Button type="minus" :onClick="_=>reduceValue('microbes', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="microbes" />
       <Button type="plus" :onClick="_=>addValue('microbes', 1)" />
       <Button type="max" :onClick="_=>setMaxValue('microbes')" title="MAX" />
+
     </div>
 
     <div class="payments_type input-group" v-if="canUseFloaters()">
@@ -408,9 +413,11 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
 
     <div class="payments_type input-group">
       <i class="resource_icon resource_icon--megacredits payments_type_icon" :title="$t('Pay by Megacredits')"></i>
+      <!-- PaymentsWidget v-model="this.megaCredits" :max="this.megaCredits" :showMax="false" / -->
       <Button type="minus" :onClick="_=>reduceValue('megaCredits', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="megaCredits" />
       <Button type="plus" :onClick="_=>addValue('megaCredits', 1)" />
+
     </div>
 
     <div v-if="hasWarning()" class="tm-warning">

@@ -1,4 +1,3 @@
-
 import {createLocalVue, mount} from '@vue/test-utils';
 
 import {expect} from 'chai';

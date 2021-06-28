@@ -57,6 +57,9 @@ export const PaymentWidgetMixin = {
       this.setRemainingMCValue();
     },
     setRemainingMCValue: function(): void {
+      const thisany = this as any;
+      console.log('setRemainingMCValue', 'current heat, ', thisany.heat);
+
       const remainingMC: number = (this as any).$data.cost -
               (this as any)['heat'] -
               (this as any)['titanium'] * this.getResourceRate('titanium') -

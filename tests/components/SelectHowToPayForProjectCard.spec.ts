@@ -50,8 +50,10 @@ describe('SelectHowToPayForProjectCard', () => {
           title: 'foo',
           cards: [{
             name: CardName.ANTS,
+            reserveUnits: Units.of({}),
           }, {
             name: CardName.BIRDS,
+            reserveUnits: Units.of({}),
           }],
         },
         onsave: () => {},
@@ -78,7 +80,7 @@ describe('SelectHowToPayForProjectCard', () => {
     await vm.$nextTick();
 
     expect(vm.heat).eq(3);
-    const heatTextBox = wrapper.find('[title~=Heat] ~ input').element as HTMLInputElement;
+    const heatTextBox = wrapper.find('[title~=Heat] ~ div > input').element as HTMLInputElement;
     expect(heatTextBox.value).eq('3');
   });
 
@@ -98,11 +100,15 @@ describe('SelectHowToPayForProjectCard', () => {
 
     expect(vm.megaCredits).eq(10);
     expect(vm.heat).eq(0);
-    const maxButton = wrapper.find('[title~=Heat] ~ .btn-max');
+    const maxButton = wrapper.find('[title~=Heat] ~ div > .btn-max');
     await maxButton.trigger('click');
+    console.log('clicking max button - post');
 
-    expect(vm.megaCredits).eq(8);
+    const heatTextBox = wrapper.find('[title~=Heat] ~ div > input').element as HTMLInputElement;
+
+    console.log(vm.heat, heatTextBox.value);
     expect(vm.heat).eq(2);
+    expect(vm.megaCredits).eq(8);
   });
 
   it('select how to pay uses microbes', async () => {
