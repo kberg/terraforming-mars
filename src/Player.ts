@@ -997,6 +997,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     } else if (pi instanceof SelectHowToPay) {
       this.checkInputLength(input, 1, 1);
       const howToPay: HowToPay = this.parseHowToPayJSON(input[0][0]);
+      pi.validate(this, howToPay);
       this.runInputCb(pi.cb(howToPay));
     } else if (pi instanceof SelectProductionToLose) {
       // TODO(kberg): I'm sure there's some input validation required.
