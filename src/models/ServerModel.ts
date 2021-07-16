@@ -495,6 +495,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
         societyExpansion: game.gameOptions.societyExpansion,
         colosseumVariant: game.gameOptions.colosseumVariant,
         newOpsExpansion: game.gameOptions.newOpsExpansion,
+        archaeologyExtension: game.gameOptions.archaeologyExtension,
         timer: player.timer.serialize(),
         totalSpend: player.totalSpend,
         silverCubeVariant: game.gameOptions.silverCubeVariant,
@@ -565,6 +566,7 @@ function getSpaces(board: Board): Array<SpaceModel> {
 
 function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
   return {
+    archaeologyExtension: options.archaeologyExtension,
     aresExtension: options.aresExtension,
     boardName: options.boardName,
     cardsBlackList: options.cardsBlackList,

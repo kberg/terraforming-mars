@@ -18,19 +18,22 @@ export const GameSetupDetail = Vue.component('game-setup-detail', {
   },
   methods: {
     isPoliticalAgendasOn: function(): boolean {
-      return (this.gameOptions.politicalAgendasExtension !== AgendaStyle.STANDARD);
+      return this.gameOptions.politicalAgendasExtension !== AgendaStyle.STANDARD;
     },
     isSocietyExpansionOn: function(): boolean {
-      return (this.gameOptions.societyExpansion === true);
+      return this.gameOptions.societyExpansion === true;
     },
     isNewOpsExpansionOn: function(): boolean {
-      return (this.gameOptions.newOpsExpansion === true);
+      return this.gameOptions.newOpsExpansion === true;
+    },
+    isArchaeologyExtensionOn: function(): boolean {
+      return this.gameOptions.archaeologyExtension === true;
     },
     isColosseumVariantOn: function(): boolean {
-      return (this.gameOptions.colosseumVariant === true);
+      return this.gameOptions.colosseumVariant === true;
     },
     isSilverCubeVariantOn: function(): boolean {
-      return (this.gameOptions.silverCubeVariant === true);
+      return this.gameOptions.silverCubeVariant === true;
     },
     getBoardColorClass: function(boardName: string): string {
       switch (boardName) {
@@ -71,6 +74,7 @@ export const GameSetupDetail = Vue.component('game-setup-detail', {
               <div v-if="gameOptions.coloniesExtension" class="create-game-expansion-icon expansion-icon-colony"></div>
               <div v-if="gameOptions.turmoilExtension" class="create-game-expansion-icon expansion-icon-turmoil"></div>
               <div v-if="gameOptions.promoCardsOption" class="create-game-expansion-icon expansion-icon-promo"></div>
+              <div v-if="isArchaeologyExtensionOn()" class="create-game-expansion-icon expansion-icon-archaeology"></div>
               <div v-if="gameOptions.aresExtension" class="create-game-expansion-icon expansion-icon-ares"></div>
               <div v-if="gameOptions.moonExpansion" class="create-game-expansion-icon expansion-icon-themoon"></div>
               <div v-if="gameOptions.communityCardsOption" class="create-game-expansion-icon expansion-icon-community"></div>

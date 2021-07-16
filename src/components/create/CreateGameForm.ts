@@ -51,6 +51,7 @@ export interface CreateGameModel {
     communityCardsOption: boolean;
     colosseumVariant: boolean;
     newOpsExpansion: boolean;
+    archaeologyExtension: boolean;
     aresExtension: boolean;
     politicalAgendasExtension: AgendaStyle;
     societyExpansion: boolean;
@@ -135,6 +136,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       communityCardsOption: false,
       colosseumVariant: false,
       newOpsExpansion: false,
+      archaeologyExtension: false,
       aresExtension: false,
       politicalAgendasExtension: AgendaStyle.STANDARD,
       societyExpansion: false,
@@ -458,6 +460,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const communityCardsOption = component.communityCardsOption;
       const colosseumVariant = component.colosseumVariant;
       const newOpsExpansion = component.newOpsExpansion;
+      const archaeologyExtension = component.archaeologyExtension;
       const aresExtension = component.aresExtension;
       const politicalAgendasExtension = this.politicalAgendasExtension;
       const societyExpansion = component.societyExpansion;
@@ -535,6 +538,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         communityCardsOption,
         colosseumVariant: colosseumVariant,
         newOpsExpansion: newOpsExpansion,
+        archaeologyExtension: archaeologyExtension,
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,
         societyExpansion: societyExpansion,
@@ -670,6 +674,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             </label>
 
                             <div class="create-game-subsection-label" v-i18n>Fan-made</div>
+
+                            <input type="checkbox" name="archaeology" id="archaeology-checkbox" v-model="archaeologyExtension">
+                                <label for="archaeology-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-archaeology"></div>
+                                <span v-i18n>Archaeology</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#ff6078e896a6448ab29b0a6bd9f2b11c" class="tooltip" target="_blank">&#9432;</a>
+                            </label>
 
                             <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension">
                             <label for="ares-checkbox" class="expansion-button">

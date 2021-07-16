@@ -72,6 +72,7 @@ import {BoardType} from './boards/BoardType';
 import {Multiset} from './utils/Multiset';
 import {VictoryPointsBreakdown} from './VictoryPointsBreakdown';
 import {LogType} from './deferredActions/DrawCards';
+import {ArchaeologyHandler} from './community/ArchaeologyHandler';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -110,6 +111,7 @@ export interface GameOptions {
   draftVariant: boolean;
   initialDraftVariant: boolean;
   newOpsExpansion: boolean;
+  archaeologyExtension: boolean;
   startingCorporations: number;
   shuffleMapOption: boolean;
   randomMA: RandomMAOptionType;
@@ -128,6 +130,7 @@ export interface GameOptions {
 }
 
 const DEFAULT_GAME_OPTIONS: GameOptions = {
+  archaeologyExtension: false,
   aresExtension: false,
   aresHazards: true,
   boardName: BoardName.ORIGINAL,
@@ -1395,10 +1398,14 @@ export class Game implements ISerializable<SerializedGame> {
     // Part 5. Collect the bonuses
     if (this.phase !== Phase.SOLAR) {
       if (!coveringExistingTile && grantSpaceBonus) {
-        const bonuses = new Multiset(space.bonus);
-        bonuses.entries().forEach(([bonus, count]) => {
-          this.grantSpaceBonus(player, bonus, count);
-        });
+        if (space.bonus.length > 0) {
+          const bonuses = new Multiset(space.bonus);
+          bonuses.entries().forEach(([bonus, count]) => {
+            this.grantSpaceBonus(player, bonus, count);
+          });
+        } else if (this.gameOptions.archaeologyExtension && space.spaceType !== SpaceType.COLONY) {
+          ArchaeologyHandler.explore(player);
+        }
       }
 
       this.board.getAdjacentSpaces(space).forEach((adjacentSpace) => {
@@ -1441,16 +1448,17 @@ export class Game implements ISerializable<SerializedGame> {
   public grantSpaceBonus(player: Player, spaceBonus: SpaceBonus, count: number = 1) {
     if (spaceBonus === SpaceBonus.DRAW_CARD) {
       player.drawCard(count);
+      this.log("${0} drew ${1} card(s)", b => b.player(player).number(count));
     } else if (spaceBonus === SpaceBonus.PLANT) {
-      player.plants += count;
+      player.addResource(Resources.PLANTS, count, {log: true});
     } else if (spaceBonus === SpaceBonus.STEEL) {
-      player.steel += count;
+      player.addResource(Resources.STEEL, count, {log: true});
     } else if (spaceBonus === SpaceBonus.TITANIUM) {
-      player.titanium += count;
+      player.addResource(Resources.TITANIUM, count, {log: true});
     } else if (spaceBonus === SpaceBonus.POWER) {
-      player.energy += count;
+      player.addResource(Resources.ENERGY, count, {log: true});
     } else if (spaceBonus === SpaceBonus.HEAT) {
-      player.heat += count;
+      player.addResource(Resources.HEAT, count, {log: true});
     } else if (spaceBonus === SpaceBonus.ANIMAL) {
       const animalCards = player.getResourceCards(ResourceType.ANIMAL);
 
@@ -1459,6 +1467,8 @@ export class Game implements ISerializable<SerializedGame> {
         LogHelper.logAddResource(player, animalCards[0], count);
       } else if (animalCards.length > 1) {
         this.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: count}));
+      } else {
+        this.log("${0} has no animal cards", b => b.player(player));
       }
     } else if (spaceBonus === SpaceBonus.MICROBE) {
       const microbeCards = player.getResourceCards(ResourceType.MICROBE);
@@ -1468,6 +1478,8 @@ export class Game implements ISerializable<SerializedGame> {
         LogHelper.logAddResource(player, microbeCards[0], count);
       } else if (microbeCards.length > 1) {
         this.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: count}));
+      } else {
+        this.log("${0} has no microbe cards", b => b.player(player));
       }
     }
   }

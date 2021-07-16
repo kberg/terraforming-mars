@@ -128,6 +128,7 @@ function simpleGameOptions(): GameOptions {
     randomTurmoil: false,
     colosseumVariant: false,
     newOpsExpansion: false,
+    archaeologyExtension: false,
     randomMA: RandomMAOptionType.NONE,
   };
 }

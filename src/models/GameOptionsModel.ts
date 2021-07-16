@@ -4,6 +4,7 @@ import {AgendaStyle} from '../turmoil/PoliticalAgendas';
 import {CardName} from '../CardName';
 
 export interface GameOptionsModel {
+  archaeologyExtension: boolean,
   aresExtension: boolean,
   boardName: BoardName,
   cardsBlackList: Array<CardName>;

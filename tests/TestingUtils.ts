@@ -56,6 +56,7 @@ export class TestingUtils {
       communityCardsOption: false,
       colosseumVariant: false,
       newOpsExpansion: false,
+      archaeologyExtension: false,
       undoOption: false,
       showTimers: false,
       startingCorporations: 2,
