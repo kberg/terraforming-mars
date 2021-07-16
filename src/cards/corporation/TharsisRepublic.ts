@@ -43,9 +43,8 @@ export class TharsisRepublic extends Card implements CorporationCard {
   }
 
   public initialAction(player: Player) {
-    return new SelectSpace('Select space on mars for city tile', player.game.board.getAvailableSpacesForCity(player), (space: ISpace) => {
+    return new SelectSpace('Select space on Mars for city tile', player.game.board.getAvailableSpacesForCity(player), (space: ISpace) => {
       player.game.addCityTile(player, space.id);
-      player.game.log('${0} placed a City tile', (b) => b.player(player));
       return undefined;
     });
   }
