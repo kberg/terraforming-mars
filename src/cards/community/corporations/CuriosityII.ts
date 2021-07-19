@@ -24,15 +24,15 @@ export class CuriosityII extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.CURIOSITY_II,
       tags: [Tags.SCIENCE, Tags.BUILDING],
-      startingMegaCredits: 40,
+      startingMegaCredits: 36,
       productionBox: Units.of({steel: 2}),
 
       metadata: {
         cardNumber: '',
-        description: 'You start with 40 M€ and 2 steel production.',
+        description: 'You start with 36 M€ and 2 steel production.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(40).nbsp.production((pb) => pb.steel(2));
+          b.megacredits(36).nbsp.production((pb) => pb.steel(2));
           b.corpBox('effect', (ce) => {
             ce.vSpace();
             ce.effect(

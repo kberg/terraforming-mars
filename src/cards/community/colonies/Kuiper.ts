@@ -12,7 +12,8 @@ export class Kuiper extends Colony {
     public buildType = ColonyBenefit.ADD_RESOURCES_TO_CARD;
     public buildQuantity = [2, 2, 2];
     public tradeType = ColonyBenefit.ADD_RESOURCES_TO_CARD;
-    public tradeQuantity = [0, 1, 1, 1, 2, 2, 3];
+    public tradeQuantity = [0, 1, 1, 2, 2, 3, 3];
     public colonyBonusType = ColonyBenefit.GAIN_RESOURCES;
     public colonyBonusResource = Resources.MEGACREDITS;
+    public colonyBonusQuantity = 3;
 }

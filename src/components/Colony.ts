@@ -222,7 +222,7 @@ export const Colony = Vue.component('colony', {
         <div class="resource money">1</div> / 3&nbsp;<span class="tag tag-earth red-outline" style="transform:scale(0.8);margin-top:-4px;"></span>
       </div>
 
-      <div v-if="colony.name === getKuiper()" class="resource money">1</div>
+      <div v-if="colony.name === getKuiper()" class="resource money">3</div>
       
       <span v-if="colony.name === getLeavitt()" style="display: inline-block;margin-left: 10px;font-size: 14px;">REVEAL TOP CARD OF DECK.</span>
       <span v-if="colony.name === getLeavitt()"><br></span>
@@ -777,9 +777,9 @@ export const Colony = Vue.component('colony', {
       <div>0</div>
       <div>1</div>
       <div>1</div>
-      <div>1</div>
       <div>2</div>
       <div>2</div>
+      <div>3</div>
       <div>3</div>
     </div>
 

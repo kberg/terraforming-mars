@@ -40,13 +40,13 @@ export class MarsCoalition extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.MARS_COALITION,
-      startingMegaCredits: 35,
+      startingMegaCredits: 38,
 
       metadata: {
         cardNumber: 'R53',
-        description: 'You start with 35 M€.',
+        description: 'You start with 38 M€.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(35);
+          b.megacredits(38);
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect('You may use the dominant party’s ruling policy IF IT IS DIFFERENT from the current ruling party.', (eb) => {
