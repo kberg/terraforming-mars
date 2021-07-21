@@ -29,6 +29,7 @@ export class NewMarsResearchFacility extends PreludeCard implements IProjectCard
 
     game.defer(new DeferredAction(player, () => {
       return new SelectCard('Select cards to keep', 'Keep cards', dealtCards, (foundCards: Array<IProjectCard>) => {
+        game.log('${0} kept ${1} cards', (b) => b.player(player).number(foundCards.length));
         foundCards.forEach((card) => {
           dealtCards.splice(dealtCards.indexOf(card), 1);
           player.cardsInHand.push(card);
