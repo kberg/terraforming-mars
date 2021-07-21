@@ -1448,7 +1448,6 @@ export class Game implements ISerializable<SerializedGame> {
   public grantSpaceBonus(player: Player, spaceBonus: SpaceBonus, count: number = 1) {
     if (spaceBonus === SpaceBonus.DRAW_CARD) {
       player.drawCard(count);
-      this.log("${0} drew ${1} card(s)", b => b.player(player).number(count));
     } else if (spaceBonus === SpaceBonus.PLANT) {
       player.addResource(Resources.PLANTS, count, {log: true});
     } else if (spaceBonus === SpaceBonus.STEEL) {
