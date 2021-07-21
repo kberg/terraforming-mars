@@ -20,6 +20,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {getGlobalEventByName} from '../turmoil/globalEvents/GlobalEventDealer';
 import {GlobalEventModel} from '../models/TurmoilModel';
 import {PartyName} from '../turmoil/parties/PartyName';
+import {Log} from '../Log';
 
 let logRequest: XMLHttpRequest | undefined;
 
@@ -180,9 +181,7 @@ export const LogPanel = Vue.component('log-panel', {
         }
         if (message.type !== undefined && message.message !== undefined) {
           message.message = $t(message.message);
-          return logEntryBullet + message.message.replace(/\$\{(\d{1,2})\}/gi, (_match, idx) => {
-            return this.messageDataToHTML(message.data[idx]);
-          });
+          return logEntryBullet + Log.applyData(message, this.messageDataToHTML);
         }
       } catch (err) {
         return this.safeMessage(message);
