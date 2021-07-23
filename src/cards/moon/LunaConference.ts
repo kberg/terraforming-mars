@@ -11,6 +11,8 @@ import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
+import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {Turmoil} from '../../turmoil/Turmoil';
 
 export class LunaConference extends Card implements IProjectCard {
   constructor() {
@@ -32,6 +34,16 @@ export class LunaConference extends Card implements IProjectCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    const turmoil = Turmoil.getTurmoil(player.game);
+
+    if (turmoil.parties.find((p) => p.name === PartyName.SCIENTISTS)) {
+      return turmoil.canPlay(player, PartyName.SCIENTISTS);
+    }
+
+    return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+  }
 
   public play(player: Player) {
     const moonRoadCount = MoonExpansion.tiles(player.game, TileType.MOON_ROAD, {surfaceOnly: true}).length;

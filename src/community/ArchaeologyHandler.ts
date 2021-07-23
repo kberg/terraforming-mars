@@ -72,7 +72,7 @@ function resolveExplorationBonus(player: Player) {
   } else {
     game.log('${0}\'s search was successful!', (b) => b.player(player));
     bonuses.entries().forEach(([bonus, count]) => {
-    game.grantSpaceBonus(player, bonus, count);
+      game.grantSpaceBonus(player, bonus, count);
     });
   }
 }

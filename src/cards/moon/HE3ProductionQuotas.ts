@@ -10,6 +10,8 @@ import {MoonExpansion} from '../../moon/MoonExpansion';
 import {TileType} from '../../TileType';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
+import {Turmoil} from '../../turmoil/Turmoil';
+import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 
 export class HE3ProductionQuotas extends Card implements IProjectCard {
   constructor() {
@@ -34,14 +36,18 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
   };
 
   public canPlay(player: Player): boolean {
-    if (super.canPlay(player) === false) {
-      return false;
-    }
+    const turmoil = Turmoil.getTurmoil(player.game);
+    const hasMiningTileOnMoon = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true}).length >= 1;
     const moonTiles = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true});
-    if (player.steel < moonTiles.length) {
-      return false;
+    const canAffordSteelCost = player.steel >= moonTiles.length;
+
+    if (turmoil.parties.find((p) => p.name === PartyName.KELVINISTS)) {
+      return turmoil.canPlay(player, PartyName.KELVINISTS) && hasMiningTileOnMoon && canAffordSteelCost;
     }
-    return true;
+
+    const canAffordCard = player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+
+    return canAffordCard && hasMiningTileOnMoon && canAffordSteelCost;
   }
 
   public play(player: Player) {

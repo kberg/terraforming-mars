@@ -7,6 +7,8 @@ import {CardRenderer} from '../render/CardRenderer';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
+import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {Turmoil} from '../../turmoil/Turmoil';
 
 export class WeGrowAsOne extends Card implements IProjectCard {
   constructor() {
@@ -29,6 +31,16 @@ export class WeGrowAsOne extends Card implements IProjectCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    const turmoil = Turmoil.getTurmoil(player.game);
+
+    if (turmoil.parties.find((p) => p.name === PartyName.UNITY)) {
+      return turmoil.canPlay(player, PartyName.UNITY);
+    }
+
+    return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+  }
 
   public play(player: Player) {
     player.game.colonies.forEach((colony) => {
