@@ -39,6 +39,7 @@ describe('Kelvinists', function() {
   });
 
   it('Ruling policy 1: Pay 10 M€ to increase your Energy and Heat production 1 step', function() {
+    player.megaCredits = 10;
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, kelvinists, kelvinists.policies[0].id);
 
     const kelvinistsPolicy = KELVINISTS_DEFAULT_POLICY;
