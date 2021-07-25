@@ -9,6 +9,7 @@ import {CardRequirements} from '../CardRequirements';
 import {Card} from '../Card';
 import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 import {Turmoil} from '../../turmoil/Turmoil';
+import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
 
 export class WeGrowAsOne extends Card implements IProjectCard {
   constructor() {
@@ -50,6 +51,7 @@ export class WeGrowAsOne extends Card implements IProjectCard {
         colony.increaseTrack(1);
       }
     });
+    TurmoilHandler.handleSocietyPayment(player, PartyName.UNITY);
     return undefined;
   }
 }

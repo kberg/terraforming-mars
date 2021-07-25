@@ -13,6 +13,7 @@ import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
 import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 import {Turmoil} from '../../turmoil/Turmoil';
+import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
 
 export class LunaConference extends Card implements IProjectCard {
   constructor() {
@@ -49,6 +50,7 @@ export class LunaConference extends Card implements IProjectCard {
     const moonRoadCount = MoonExpansion.tiles(player.game, TileType.MOON_ROAD, {surfaceOnly: true}).length;
     const moonColonyCount = MoonExpansion.tiles(player.game, TileType.MOON_COLONY, {surfaceOnly: true}).length;
     player.addResource(Resources.MEGACREDITS, (moonRoadCount + moonColonyCount) * 2, {log: true});
+    TurmoilHandler.handleSocietyPayment(player, PartyName.SCIENTISTS);
 
     return undefined;
   }

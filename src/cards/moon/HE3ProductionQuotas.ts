@@ -12,6 +12,7 @@ import {Card} from '../Card';
 import {Size} from '../render/Size';
 import {Turmoil} from '../../turmoil/Turmoil';
 import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
 
 export class HE3ProductionQuotas extends Card implements IProjectCard {
   constructor() {
@@ -55,6 +56,7 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
     player.steel -= moonTiles.length;
     player.heat += (4 * moonTiles.length);
     MoonExpansion.raiseMiningRate(player);
+    TurmoilHandler.handleSocietyPayment(player, PartyName.KELVINISTS);
     return undefined;
   }
 }
