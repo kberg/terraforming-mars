@@ -109,10 +109,17 @@ export const LogPanel = Vue.component('log-panel', {
 
       case LogMessageDataType.CARD:
         const cardName = data.value as CardName;
+        const card = new CardFinder().getCardByName<ICard>(cardName, (manifest) => [
+          manifest.corporationCards,
+          manifest.projectCards,
+          manifest.preludeCards,
+          manifest.standardProjects,
+          manifest.standardActions,
+        ]);
 
         for (const player of this.players) {
-          if (player.corporationCard !== undefined && cardName === player.corporationCard.name) {
-            return '<span class="log-card background-color-global-event">' + $t(cardName) + '</span>';
+          if (card?.cardType === CardType.CORPORATION) {
+            return '<span class="log-card background-color-corporation">' + $t(cardName) + '</span>';
           } else {
             const robotCards = player.playedCards.concat(player.selfReplicatingRobotsCards);
 
@@ -123,13 +130,6 @@ export const LogPanel = Vue.component('log-panel', {
             }
           }
         }
-
-        const card = new CardFinder().getCardByName<ICard>(cardName, (manifest) => [
-          manifest.projectCards,
-          manifest.preludeCards,
-          manifest.standardProjects,
-          manifest.standardActions,
-        ]);
 
         if (card && card.cardType) return this.cardToHtml(card.cardType, data.value);
         break;

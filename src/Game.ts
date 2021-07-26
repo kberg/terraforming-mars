@@ -387,6 +387,7 @@ export class Game implements ISerializable<SerializedGame> {
             throw new Error('No corporation card dealt for player');
           }
         }
+        LogHelper.logDrawnCards(player, player.dealtCorporationCards, true, LogType.DREW);
         if (gameOptions.initialDraftVariant === false) this.dealProjectCards(player, dealer, game);
         if (gameOptions.preludeExtension) this.dealPreludeCards(player, dealer);
       } else {
