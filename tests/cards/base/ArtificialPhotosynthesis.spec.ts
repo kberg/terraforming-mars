@@ -6,8 +6,8 @@ import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
 
-describe('ArtificialPhotosynthesis', function() {
-  it('Should play', function() {
+describe('ArtificialPhotosynthesis', () => {
+  it('Should play', () => {
     const card = new ArtificialPhotosynthesis();
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
