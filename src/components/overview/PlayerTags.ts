@@ -8,7 +8,6 @@ import {isTagsViewConcise} from './OverviewSettings';
 import {PlayerTagDiscount} from './PlayerTagDiscount';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {TurmoilPolicy} from '../../turmoil/TurmoilPolicy';
-import {ColonyName} from '../../colonies/ColonyName';
 import {CardModel} from '../../models/CardModel';
 import {PreferencesManager} from '../PreferencesManager';
 import {CardName} from '../../CardName';
@@ -159,11 +158,7 @@ export const PlayerTags = Vue.component('player-tags', {
         break;
       }
 
-      const iapetusColony = this.player.colonies.find((colony) => colony.name === ColonyName.IAPETUS);
-      if (tag === 'all' &&
-        iapetusColony !== undefined &&
-        iapetusColony.visitor !== undefined &&
-        iapetusColony.colonies.includes(this.player.color)) {
+      if (tag === 'all' && this.player.cardDiscount > 0) {
         return true;
       }
 
@@ -208,9 +203,8 @@ export const PlayerTags = Vue.component('player-tags', {
         break;
       }
 
-      const iapetusColony = this.player.colonies.find((colony) => colony.name === ColonyName.IAPETUS);
-      if (tag === 'all' && iapetusColony !== undefined && iapetusColony.visitor !== undefined) {
-        discount += iapetusColony.colonies.filter((owner) => owner === this.player.color).length;
+      if (tag === 'all') {
+        discount += this.player.cardDiscount;
       }
 
       return discount;

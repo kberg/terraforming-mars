@@ -22,6 +22,7 @@ export interface PlayerModel {
     availableBlueCardActionCount: number;
     awards: Array<FundedAwardModel>;
     cardCost: number;
+    cardDiscount: number;
     cardsInHand: Array<CardModel>;
     cardsInHandNbr: number;
     citiesCount: number;

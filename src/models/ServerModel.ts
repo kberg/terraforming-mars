@@ -69,6 +69,7 @@ export class Server {
       availableBlueCardActionCount: player.getAvailableBlueActionCount(),
       awards: getAwards(game),
       cardCost: player.cardCost,
+      cardDiscount: player.cardDiscount,
       cardsInHand: getCards(player, player.cardsInHand, {showNewCost: true}),
       cardsInHandNbr: player.cardsInHand.length,
       citiesCount: player.getCitiesCount(),
