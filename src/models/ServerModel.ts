@@ -439,6 +439,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
 
   return players.map((player) => {
     return {
+        cardDiscount: player.cardDiscount,
         color: player.color,
         corporationCard: getCorporationCard(player),
         endGenerationScores: player.endGenerationScores,
