@@ -1,6 +1,5 @@
 import {IProjectCard} from '../cards/IProjectCard';
 import {Game} from '../Game';
-import {OrOptions} from '../inputs/OrOptions';
 import {ISpace} from '../boards/ISpace';
 import {Player} from '../Player';
 import {PlayerInput} from '../PlayerInput';
@@ -13,7 +12,7 @@ export interface Policy {
   isDefault: boolean;
   onTilePlaced?: (player: Player, space: ISpace) => void;
   onCardPlayed?: (player: Player, card: IProjectCard) => void;
-  action?: (player: Player, isDominantPartyAction: boolean) => PlayerInput | OrOptions | undefined;
+  action?: (player: Player, isDominantPartyAction: boolean) => PlayerInput | undefined;
   canAct?: (player: Player, isDominantPartyAction: boolean) => boolean;
   apply?: (game: Game) => void;
 }
