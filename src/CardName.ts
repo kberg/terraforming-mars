@@ -467,6 +467,7 @@ export enum CardName {
     ASTEROID_RIGHTS = 'Asteroid Rights',
     BIO_PRINTING_FACILITY = 'Bio Printing Facility',
     BACTOVIRAL_RESEARCH = 'Bactoviral Research',
+    HARVEST = 'Harvest',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',
