@@ -329,6 +329,10 @@ export const PlayerHome = Vue.component('player-home', {
                     <Card :card="card"/>
                 </div>
 
+                <div v-for="card in player.dealtLeaderCards" :key="card.name" class="cardbox" v-if="isInitialDraftingPhase()">
+                    <Card :card="card"/>
+                </div>
+
                 <div v-for="card in player.dealtProjectCards" :key="card.name" class="cardbox" v-if="isInitialDraftingPhase()">
                     <Card :card="card"/>
                 </div>
