@@ -1094,6 +1094,15 @@
             .card-resource-community {
                 background: linear-gradient(orange, orangered);
             }
+            .card-arrow-opg {
+                display: inline-block;
+                background-image: url(./assets/misc/arrow_opg.png);
+                width: 50px;
+                height: 43px;
+                background-size: 50px 43px;
+                padding-bottom: 22px;
+                background-repeat: no-repeat;
+            }
             /*special*/
             .card-special {
                 font-size: @font_size_big;
@@ -1253,6 +1262,17 @@
                 background-size: 40px 40px;
                 vertical-align: middle;
             }
+            .turmoil-party-reds-deactivated {
+                display: inline-block;
+                background-image: url(./assets/turmoil/reds.png);
+                width: 50px;
+                height: 36px;
+                background-size: 50px 36px;
+                background-repeat: no-repeat;
+                filter: grayscale(1);
+                transform: scale(1.5);
+                margin-right: 10px;
+            }
             /*tags*/
             .card-resource-tag {
                 position: relative;
@@ -1326,6 +1346,18 @@
                 background-image: url("./assets/resources/animal.png");
                 border-radius: 0px;
             }
+            .card-tag-large {
+                transform: scale(1.5);
+            }
+            // Used only for Will leader card
+            .venus-tag-adjustment {
+                margin-right: 15px;
+            }
+            // Used only for Tate leader card
+            .city-tag-adjustment {
+                margin-left: 10px;
+                margin-top: 5px;
+            }
             .card-community-services {
                 font-size: 42px;
                 vertical-align: middle;
@@ -1396,21 +1428,15 @@
                 box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 0 0 2px rgba(0,0,0,0.3);
                 border: 1px solid #eee;
             }
-            .card-prelude-container {
-                background-color: #2c2c2c;
-                background: linear-gradient(to right bottom, black, #3c3c3c, #969696, #3c3c3c, #3c3c3c, black);
-                color: black;
-                font-size: 12px;
-                padding: 4px 7px 1px;
-                border-radius: 3px;
-                box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.8);
-                .card-prelude-icon {
-                    text-transform: uppercase;
-                    background: linear-gradient(to right, rgb(235,118,171), #e64d91);
-                    padding-left: 4px;
-                    padding-right: 4px;
-                    border-radius: 2px;
-                }
+            .card-prelude-icon {
+                display: inline-block;
+                background-image: url(./assets/misc/preludeCard.png);
+                background-size: 64px 50px;
+                background-repeat: no-repeat;
+                width: 64px;
+                height: 50px;
+                margin-top: -20px;
+                margin-bottom: -20px;
             }
             .card-award-icon {
                 text-transform: uppercase;
@@ -1421,20 +1447,19 @@
                 border-radius: 3px;
                 box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.3);
             }
-            .card-vp-questionmark {
-                background: linear-gradient(#cc8b00, rgb(128, 87, 0),rgb(128, 87, 0));
-                width: 40px;
-                height: 34px;
-                font-weight: normal;
-                line-height: 31px;
-                font-size: 28px;
-                text-align: center;
-                border-radius: 12px;
-                border-style: outset;
-                background-color: rgb(205,162,130);
-                background: linear-gradient(#cc8b00, rgb(128, 87, 0),rgb(128, 87, 0));
-                box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 0 0 2px rgba(0,0,0,0.3);
+            .card-vp-icon {
+                display: inline-block;
+                background-image: url(./assets/misc/vp.png);
+                background-size: 56px;
+                background-repeat: no-repeat;
+                width: 56px;
+                height: 56px;
+                line-height: 58px;
+                font-family: 'Prototype';
+                font-size: 40px;
+                -webkit-text-stroke: 0.5px white;
             }
+
             /*production*/
             .card-production-box {
                 font-family: Prototype;

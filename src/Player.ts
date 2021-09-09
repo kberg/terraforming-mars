@@ -81,6 +81,8 @@ import {Awards} from './awards/Awards';
 import {TopsoilContract} from './cards/promo/TopsoilContract';
 import {MeatIndustry} from './cards/promo/MeatIndustry';
 import {Turmoil} from './turmoil/Turmoil';
+import {LeaderCard} from './cards/LeaderCard';
+import {LeadersExpansion} from './cards/leaders/LeadersExpansion';
 
 export type PlayerId = string;
 
@@ -131,8 +133,10 @@ export class Player implements ISerializable<SerializedPlayer> {
   public dealtCorporationCards: Array<CorporationCard> = [];
   public dealtProjectCards: Array<IProjectCard> = [];
   public dealtPreludeCards: Array<IProjectCard> = [];
+  public dealtLeaderCards: Array<IProjectCard> = [];
   public cardsInHand: Array<IProjectCard> = [];
   public preludeCardsInHand: Array<IProjectCard> = [];
+  public leaderCardsInHand: Array<IProjectCard> = [];
   public playedCards: Array<IProjectCard> = [];
   public draftedCards: Array<IProjectCard> = [];
   public cardCost: number = constants.CARD_COST;
@@ -221,7 +225,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public getTitaniumValue(): number {
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.UNITY)) return this.titaniumValue + 1;
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.UNITY)) return this.titaniumValue + 1;
     if (MarsCoalition.shouldIncreaseMetalValue(this, PartyName.UNITY)) return this.titaniumValue + 1;
     return this.titaniumValue;
   }
@@ -241,7 +245,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public getSteelValue(): number {
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.MARS, TurmoilPolicy.MARS_FIRST_POLICY_3)) return this.steelValue + 1;
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.MARS, TurmoilPolicy.MARS_FIRST_POLICY_3)) return this.steelValue + 1;
     if (MarsCoalition.shouldIncreaseMetalValue(this, PartyName.MARS, TurmoilPolicy.MARS_FIRST_POLICY_3)) return this.steelValue + 1;
     return this.steelValue;
   }
@@ -269,14 +273,14 @@ export class Player implements ISerializable<SerializedPlayer> {
     // United Nations Mission One hook
     UnitedNationsMissionOne.onTRIncrease(this.game);
 
-    if (!this.game.gameOptions.turmoilExtension) {
+    if (!this.game.gameOptions.turmoilExtension || this.cardIsInEffect(CardName.ZAN)) {
       this.terraformRating++;
       this.hasIncreasedTerraformRatingThisGeneration = true;
       return;
     }
 
     // Turmoil Reds capacity
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.REDS)) {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS, )) {
       if (this.canAfford(REDS_RULING_POLICY_COST)) {
         this.game.defer(new SelectHowToPayDeferred(this, REDS_RULING_POLICY_COST, {title: 'Select how to pay for TR increase'}));
       } else {
@@ -403,7 +407,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     else if (resource === Resources.PLANTS) this.plantProduction += delta;
     else if (resource === Resources.ENERGY) {
       this.energyProduction += delta;
-      if (PartyHooks.shouldApplyPolicy(this.game, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_3)) {
+      if (PartyHooks.shouldApplyPolicy(this, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_3)) {
         this.addResource(Resources.ENERGY, 2);
       }
     }
@@ -557,6 +561,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       victoryPointsBreakdown.setVictoryPoints('victoryPoints', this.colonyVictoryPoints, 'Colony VP');
     }
 
+    // Leaders VP
+    LeadersExpansion.calculateVictoryPoints(this, victoryPointsBreakdown);
+
     MoonExpansion.calculateVictoryPoints(this, victoryPointsBreakdown);
 
     // Escape velocity VP penalty
@@ -664,12 +671,12 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // PoliticalAgendas Scientists P2 hook
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.SCIENTISTS, TurmoilPolicy.SCIENTISTS_POLICY_2)) {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.SCIENTISTS, TurmoilPolicy.SCIENTISTS_POLICY_2)) {
       requirementsBonus += 2;
     }
 
     // PoliticalAgendas Transhumans P3 hook
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_3) && this.turmoilPolicyActionUsed === true) {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_3) && this.turmoilPolicyActionUsed === true) {
       requirementsBonus += 50;
     }
 
@@ -796,9 +803,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // PoliticalAgendas Transhumans P1 hook
-    if (tag === Tags.WILDCARD && PartyHooks.shouldApplyPolicy(this.game, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_DEFAULT_POLICY)) {
+    if (tag === Tags.WILDCARD && PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_DEFAULT_POLICY)) {
       tagCount += 1;
     }
+
+    if (tag === Tags.WILDCARD) tagCount = LeadersExpansion.getBonusWildTags(this, tagCount);
 
     tagCount = MarsCoalition.checkBonusWildTag(this, tag, tagCount);
 
@@ -1100,6 +1109,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.corporationCard?.onProductionPhase !== undefined) {
       this.corporationCard.onProductionPhase(this);
     }
+
+    if (this.cardIsInEffect(CardName.ZAN)) this.addResource(Resources.MEGACREDITS);
   }
 
   private doneWorldGovernmentTerraforming(): void {
@@ -1273,7 +1284,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public getCardCost(card: IProjectCard): number {
     // PoliticalAgendas Populists P1 hook
-    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.POPULISTS, TurmoilPolicy.POPULISTS_DEFAULT_POLICY)) {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.POPULISTS, TurmoilPolicy.POPULISTS_DEFAULT_POLICY)) {
       return card.cost;
     }
 
@@ -1299,23 +1310,23 @@ export class Player implements ISerializable<SerializedPlayer> {
     });
 
     // PoliticalAgendas Unity P4 hook
-    if (card.tags.includes(Tags.SPACE) && PartyHooks.shouldApplyPolicy(this.game, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_4)) {
+    if (card.tags.includes(Tags.SPACE) && PartyHooks.shouldApplyPolicy(this, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_4)) {
       cost -= 2;
     }
 
     // PoliticalAgendas Empower P4 hook
-    if (card.tags.includes(Tags.ENERGY) && PartyHooks.shouldApplyPolicy(this.game, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_4)) {
+    if (card.tags.includes(Tags.ENERGY) && PartyHooks.shouldApplyPolicy(this, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_4)) {
       cost -= 3;
     }
 
     // PoliticalAgendas Bureaucrats P4 hook
-    if (card.tags.includes(Tags.EARTH) && PartyHooks.shouldApplyPolicy(this.game, PartyName.BUREAUCRATS, TurmoilPolicy.BUREAUCRATS_POLICY_4)) {
+    if (card.tags.includes(Tags.EARTH) && PartyHooks.shouldApplyPolicy(this, PartyName.BUREAUCRATS, TurmoilPolicy.BUREAUCRATS_POLICY_4)) {
       const earthTagCount = card.tags.filter((tag) => tag === Tags.EARTH).length;
       cost -= earthTagCount * 3;
     }
 
     // PoliticalAgendas Centrists P4 hook
-    if (card.cardType === CardType.EVENT && PartyHooks.shouldApplyPolicy(this.game, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_4)) {
+    if (card.cardType === CardType.EVENT && PartyHooks.shouldApplyPolicy(this, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_4)) {
       cost -= 2;
     }
 
@@ -1509,10 +1520,14 @@ export class Player implements ISerializable<SerializedPlayer> {
     // Remove card from hand
     const projectCardIndex = this.cardsInHand.findIndex((card) => card.name === selectedCard.name);
     const preludeCardIndex = this.preludeCardsInHand.findIndex((card) => card.name === selectedCard.name);
+    const leaderCardIndex = this.leaderCardsInHand.findIndex((card) => card.name === selectedCard.name);
+
     if (projectCardIndex !== -1) {
       this.cardsInHand.splice(projectCardIndex, 1);
     } else if (preludeCardIndex !== -1) {
       this.preludeCardsInHand.splice(preludeCardIndex, 1);
+    } else if (leaderCardIndex !== -1) {
+      this.leaderCardsInHand.splice(leaderCardIndex, 1);
     }
 
     // Remove card from Self Replicating Robots
@@ -1701,7 +1716,8 @@ export class Player implements ISerializable<SerializedPlayer> {
         player: this,
         milestone: milestone,
       });
-      this.game.defer(new SelectHowToPayDeferred(this, MILESTONE_COST, {title: 'Select how to pay for milestone'}));
+      const cost = this.cardIsInEffect(CardName.VAN_ALLEN) ? 0 : MILESTONE_COST;
+      this.game.defer(new SelectHowToPayDeferred(this, cost, {title: 'Select how to pay for milestone'}));
       if (milestone.name === 'Monument') Monument.discardCards(this);
       this.game.log('${0} claimed ${1} milestone', (b) => b.player(this).milestone(milestone));
       return undefined;
@@ -1931,6 +1947,13 @@ export class Player implements ISerializable<SerializedPlayer> {
       game.phase = Phase.ACTION;
     }
 
+    // Leader cards have to be played right after Preludes
+    if (this.leaderCardsInHand.length > 0) {
+      this.leaderCardsInHand.forEach((card) =>this.playCard(card));
+    } else {
+      game.phase = Phase.ACTION;
+    }
+
     if (game.hasPassedThisActionPhase(this) || (allOtherPlayersHavePassed === false && this.actionsTakenThisRound >= 2)) {
       this.actionsTakenThisRound = 0;
       game.playerIsFinishedTakingActions();
@@ -1997,7 +2020,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       'Take your first action' : 'Take your next action';
     action.buttonLabel = 'Take action';
 
-    if (this.canAfford(MILESTONE_COST) && !this.game.allMilestonesClaimed()) {
+    const canAffordMilestone = this.canAfford(MILESTONE_COST) || this.cardIsInEffect(CardName.VAN_ALLEN);
+
+    if (canAffordMilestone && !this.game.allMilestonesClaimed()) {
       const remainingMilestones = new OrOptions();
       remainingMilestones.title = 'Claim a milestone';
       remainingMilestones.options = this.game.milestones
@@ -2056,7 +2081,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     // If you can pay to add a delegate to a party.
     Turmoil.ifTurmoil(this.game, (turmoil) => {
       let sendDelegate;
-      const shouldApplyCentristsTax = PartyHooks.shouldApplyPolicy(this.game, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_2);
+      const shouldApplyCentristsTax = PartyHooks.shouldApplyPolicy(this, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_2);
 
       let canAffordLobbyDelegate = true;
       if (shouldApplyCentristsTax && !this.canAfford(2)) canAffordLobbyDelegate = false;
@@ -2171,6 +2196,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       if (c.resourceCount !== undefined) {
         result.resourceCount = c.resourceCount;
       }
+      if ((c as LeaderCard).isDisabled !== undefined) {
+        result.isDisabled = (c as LeaderCard).isDisabled;
+      }
       if (c instanceof SelfReplicatingRobots) {
         result.targetCards = c.targetCards.map((t) => {
           return {
@@ -2225,8 +2253,10 @@ export class Player implements ISerializable<SerializedPlayer> {
       dealtCorporationCards: this.dealtCorporationCards.map((c) => c.name),
       dealtProjectCards: this.dealtProjectCards.map((c) => c.name),
       dealtPreludeCards: this.dealtPreludeCards.map((c) => c.name),
+      dealtLeaderCards: this.dealtLeaderCards.map((c) => c.name),
       cardsInHand: this.cardsInHand.map((c) => c.name),
       preludeCardsInHand: this.preludeCardsInHand.map((c) => c.name),
+      leaderCardsInHand: this.leaderCardsInHand.map((c) => c.name),
       playedCards: this.serializePlayedCards(),
       draftedCards: this.draftedCards.map((c) => c.name),
       cardCost: this.cardCost,
@@ -2363,6 +2393,9 @@ export class Player implements ISerializable<SerializedPlayer> {
     // Rebuild dealt prelude array
     player.dealtPreludeCards = cardFinder.cardsFromJSON(d.dealtPreludeCards);
 
+    // Rebuild dealt leaders array
+    player.dealtLeaderCards = cardFinder.cardsFromJSON(d.dealtLeaderCards);
+
     // Rebuild dealt cards array
     player.dealtProjectCards = cardFinder.cardsFromJSON(d.dealtProjectCards);
 
@@ -2372,11 +2405,18 @@ export class Player implements ISerializable<SerializedPlayer> {
     // Rebuild each prelude in hand
     player.preludeCardsInHand = cardFinder.cardsFromJSON(d.preludeCardsInHand);
 
+    // Rebuild each leader in hand
+    player.leaderCardsInHand = cardFinder.cardsFromJSON(d.leaderCardsInHand);
+
     // Rebuild each played card
     player.playedCards = d.playedCards.map((element: SerializedCard) => {
       const card = cardFinder.getProjectCardByName(element.name)!;
       if (element.resourceCount !== undefined) {
         card.resourceCount = element.resourceCount;
+      }
+      // TODO: Leaders are part of played cards and not stored separately, for now
+      if (element.isDisabled !== undefined) {
+        (card as LeaderCard).isDisabled = Boolean(element.isDisabled);
       }
       if (card instanceof SelfReplicatingRobots && element.targetCards !== undefined) {
         card.targetCards = [];

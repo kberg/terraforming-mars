@@ -285,6 +285,21 @@ class Builder {
     return this;
   }
 
+  public cityTag(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.CITY_TAG));
+    return this;
+  }
+
+  public venusTag(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.VENUS_TAG));
+    return this;
+  }
+
+  public wildTag(amount: number = 1): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.WILD_TAG, amount));
+    return this;
+  }
+
   public trade(): Builder {
     this._addRowItem(new CardRenderItem(CardRenderItemType.TRADE));
     return this;
@@ -407,8 +422,11 @@ class Builder {
     return this;
   }
 
-  public vpIcon() {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.VP));
+  // 1000 renders a question mark ?
+  public vpIcon(amount: number = 1000) {
+    const item = new CardRenderItem(CardRenderItemType.VP, amount);
+    item.showDigit = true;
+    this._addRowItem(item);
     return this;
   }
 
@@ -481,6 +499,11 @@ class Builder {
 
   public syndicateFleet(amount: number = 1): Builder {
     this._addRowItem(new CardRenderItem(CardRenderItemType.SYNDICATE_FLEET, amount));
+    return this;
+  }
+
+  public opgArrow(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.ARROW_OPG));
     return this;
   }
 
@@ -607,6 +630,11 @@ class Builder {
     item.isGreyPlate = true;
     item.isBold = true;
     this._addRowItem(item);
+    return this;
+  }
+
+  public reds(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.REDS));
     return this;
   }
 

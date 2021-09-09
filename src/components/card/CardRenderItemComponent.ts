@@ -179,6 +179,10 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         } else {
           classes.push(sized('card-tile-lunar-colony', this.item.size));
         }
+      } else if (type === CardRenderItemType.ARROW_OPG) {
+        classes.push('card-arrow-opg');
+      } else if (type === CardRenderItemType.REDS) {
+        classes.push('turmoil-party-reds-deactivated');
       }
 
       function sized(clazz: string, size: string | undefined) {
@@ -230,6 +234,12 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
           classes.push('card-tag-earth');
         } else if (type === CardRenderItemType.BUILDING) {
           classes.push('card-tag-building');
+        } else if (type === CardRenderItemType.CITY_TAG) {
+          classes.push('card-tag-city card-tag-large city-tag-adjustment');
+        } else if (type === CardRenderItemType.VENUS_TAG) {
+          classes.push('card-tag-venus card-tag-large venus-tag-adjustment');
+        } else if (type === CardRenderItemType.WILD_TAG) {
+          classes.push('card-tag-wild card-tag-large');
         }
       }
 
@@ -276,6 +286,11 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
     getMinus: function(): CardRenderSymbol {
       return CardRenderSymbol.minus();
     },
+    shouldShowDigit: function(): boolean {
+      if (this.item.type === CardRenderItemType.VP) return false;
+      if (this.item.showDigit !== undefined) return this.item.showDigit;
+      return false;
+    },
     itemsToShow: function(): number {
       if (this.item.showDigit) return 1;
       return this.getAmountAbs();
@@ -284,7 +299,7 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       let result: string = '';
       // in case of symbols inside
       if (this.item instanceof CardRenderItem && this.item.amountInside) {
-        if (this.item.amount !== 0) {
+        if (this.item.amount !== 0 || (this.item.amount === 0 && this.item.type === CardRenderItemType.MEGACREDITS)) {
           result += this.item.amount.toString();
         }
         if (this.item.multiplier) {
@@ -323,14 +338,15 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         result = '<span class="card-place-colony">colony</span>';
       }
       if (this.item.type === CardRenderItemType.PRELUDE) {
-        result = '<div class="card-prelude-container"><span class="card-prelude-icon">prel</span></div>';
+        result = '<div class="card-prelude-icon"></div>';
       }
       if (this.item.type === CardRenderItemType.AWARD) {
         // iconography on card shows plural (awards)
         result = '<span class="card-award-icon">awards</span>';
       }
       if (this.item.type === CardRenderItemType.VP) {
-        result = '<div class="card-resource points-big card-vp-questionmark">?</div>';
+        const value = this.item.amount === 1000 ? '?' : this.item.amount.toString();
+        result = '<div class="card-vp-icon">' + value + '</div>';
       }
       // TODO(chosta): find a reasonable way to represent "?" (alphanumeric maybe)
       // This is assocaited with the card Playwrights.
@@ -353,7 +369,7 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
   },
   template: `
         <div class="card-item-container">
-            <div class="card-res-amount" v-if="item.showDigit">{{ getAmountAbs() }}</div>
+            <div class="card-res-amount" v-if="shouldShowDigit()">{{ getAmountAbs() }}</div>
             <div :class="getComponentClasses()" v-for="index in itemsToShow()" v-html="itemHtmlContent()" :key="index"/>
         </div>
     `,
