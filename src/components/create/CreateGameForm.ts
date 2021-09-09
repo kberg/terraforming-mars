@@ -761,7 +761,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <input type="checkbox" name="leadersExpansion" id="leaders-checkbox" v-model="leadersExpansion">
                                 <label for="leaders-checkbox" class="expansion-button">
                                     <div class="create-game-expansion-icon expansion-icon-leaders"></div>
-                                    <span v-i18n>Leaders</span>&nbsp;<a href="https://www.notion.so/Society-64620077dfc84d06bbe5235679be7017" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Leaders</span>&nbsp;<a href="https://www.notion.so/Leaders-d930673d7c55417e84816cddd39f2c34" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
                         </div>
