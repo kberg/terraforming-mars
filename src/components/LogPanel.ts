@@ -358,6 +358,14 @@ export const LogPanel = Vue.component('log-panel', {
         current: PartyName.GREENS,
       };
     },
+    getResourcesOnCard(cardName: CardName) {
+      for (const player of this.players) {
+        const foundCard = player.playedCards.find((card) => card.name === cardName);
+        if (foundCard !== undefined) return foundCard.resources;
+      }
+
+      return undefined;
+    },
   },
   mounted: function() {
     this.getLogsForGeneration(this.generation);
@@ -390,7 +398,7 @@ export const LogPanel = Vue.component('log-panel', {
         <div class="card-panel" v-if="cards.length > 0 || globalEventNames.length > 0">
           <Button size="big" type="close" :disableOnServerBusy="false" :onClick="hideMe" align="right"/>
           <div id="log_panel_card" class="cardbox" v-for="(card, index) in cards" :key="card">
-            <Card :card="{name: card}"/>
+            <Card :card="{name: card, resources: getResourcesOnCard(card)}"/>
           </div>
           <div id="log_panel_card" class="cardbox" v-for="(globalEventName, index) in globalEventNames" :key="globalEventName">
             <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior"></global-event>
