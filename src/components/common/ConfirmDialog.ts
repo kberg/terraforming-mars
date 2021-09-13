@@ -15,7 +15,7 @@ export const ConfirmDialog = Vue.component('confirm-dialog', {
   },
   data: function() {
     return {
-      hide: false as unknown[] | boolean,
+      hide: false,
     };
   },
   mixins: [TranslateMixin],
