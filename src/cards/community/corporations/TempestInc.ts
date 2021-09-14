@@ -21,15 +21,15 @@ export class TempestInc extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.TEMPEST_INC,
       tags: [Tags.SCIENCE],
-      startingMegaCredits: 33,
+      startingMegaCredits: 28,
       resourceType: ResourceType.FLOATER,
       initialActionText: 'Raise oxygen 2 steps',
 
       metadata: {
         cardNumber: 'R54',
-        description: 'You start with 33 M€ and 2 floaters on this card. As your first action, raise oxygen 2 steps.',
+        description: 'You start with 28 M€ and 2 floaters on this card. As your first action, raise oxygen 2 steps.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(33).floaters(2).oxygen(2).digit;
+          b.megacredits(28).floaters(2).oxygen(2).digit;
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.action(undefined, (eb) => {

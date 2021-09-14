@@ -20,21 +20,21 @@ describe('Rogers', function() {
     player.playedCards.push(card);
   });
 
-  it('Gains 1 TR when taking an action that raises Venus', function() {
+  it('Gains 3 M€ when taking an action that raises Venus', function() {
     const giantSolarShade = new GiantSolarShade();
     giantSolarShade.play(player); // Raise Venus 3 steps
-    expect(player.getTerraformRating()).to.eq(24);
+    expect(player.megaCredits).to.eq(9);
   });
 
-  it('Does not gain TR when other players raise Venus', function() {
+  it('Does not gain M€ when other players raise Venus', function() {
     const giantSolarShade = new GiantSolarShade();
     giantSolarShade.play(player2);
-    expect(player.getTerraformRating()).to.eq(20);
+    expect(player.megaCredits).to.eq(0);
   });
 
-  it('Does not gain TR from raising Venus during Solar phase', function() {
+  it('Does not gain M€ from raising Venus during Solar phase', function() {
     game.phase = Phase.SOLAR;
     game.increaseVenusScaleLevel(player, 1);
-    expect(player.getTerraformRating()).to.eq(20);
+    expect(player.megaCredits).to.eq(0);
   });
 });

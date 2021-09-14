@@ -1,6 +1,10 @@
 import {expect} from "chai";
+import {Ants} from "../../src/cards/base/Ants";
+import {Satellites} from "../../src/cards/base/Satellites";
+import {IProjectCard} from "../../src/cards/IProjectCard";
 import {Ingrid} from "../../src/cards/leaders/Ingrid";
 import {Game} from "../../src/Game";
+import {SelectCard} from "../../src/inputs/SelectCard";
 import {Phase} from "../../src/Phase";
 import {Player} from "../../src/Player";
 import {SpaceType} from "../../src/SpaceType";
@@ -19,15 +23,24 @@ describe('Ingrid', function() {
     player.playedCards.push(card);
   });
 
-  it('Can draw and discard a card when taking action to place tile on Mars', function() {
+  it('Ability does not trigger if player has no cards', function() {
+    game.addGreenery(player, '35');
+    expect(game.deferredActions).has.length(0);
+  });
+
+  it('Can discard and draw a card when taking action to place tile on Mars', function() {
+    player.cardsInHand.push(new Satellites(), new Ants());
+
     game.addGreenery(player, '35');
     expect(game.deferredActions).has.length(2);
 
-    game.deferredActions.runNext(); // Draw card
+    // Discard card
+    const discardCard = game.deferredActions.pop()!.execute() as SelectCard<IProjectCard>;
+    discardCard.cb([player.cardsInHand[0]]);
     expect(player.cardsInHand).has.length(1);
 
-    game.deferredActions.runNext(); // Discard card
-    expect(player.cardsInHand).has.length(0);
+    game.deferredActions.runNext(); // Draw card
+    expect(player.cardsInHand).has.length(2);
   });
 
   it('Does not trigger ability when placing ocean during WGT', function() {

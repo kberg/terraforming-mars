@@ -14,10 +14,10 @@ export class Rogers extends Card implements LeaderCard {
         cardNumber: 'L18',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.venus(1).colon().tr(1);
+          b.venus(1).colon().megacredits(3);
           b.br.br;
         }),
-        description: 'When you take an action that raises Venus, gain 1 TR.',
+        description: 'When you take an action that raises Venus, gain 3 M€.',
       },
     });
   }
