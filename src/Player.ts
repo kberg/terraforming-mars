@@ -1943,7 +1943,7 @@ export class Player implements ISerializable<SerializedPlayer> {
         }
       });
       return;
-    } else {
+    } else if (game.gameOptions.leadersExpansion === false) {
       game.phase = Phase.ACTION;
     }
 
