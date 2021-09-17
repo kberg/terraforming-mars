@@ -9,7 +9,7 @@ import {DrawCards} from '../deferredActions/DrawCards';
 import {GiveColonyBonus} from '../deferredActions/GiveColonyBonus';
 import {IncreaseColonyTrack} from '../deferredActions/IncreaseColonyTrack';
 import {LogHelper} from '../LogHelper';
-import {MAX_COLONY_TRACK_POSITION, PLAYER_DELEGATES_COUNT} from '../constants';
+import {MAX_COLONY_TRACK_POSITION, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, PLAYER_DELEGATES_COUNT} from '../constants';
 import {PlaceOceanTile} from '../deferredActions/PlaceOceanTile';
 import {Player, PlayerId} from '../Player';
 import {PlayerInput} from '../PlayerInput';
@@ -364,18 +364,24 @@ export abstract class Colony implements SerializedColony {
         if (quantity === 0) {
             game.defer(new DeferredAction(player, () => {
                 game.phase = Phase.SOLAR;
-                game.log('${0} acted as World Government and increased temperature', (b) => b.player(player));
+                if (game.getTemperature() < MAX_TEMPERATURE) {
+                  game.log('${0} acted as World Government and increased temperature', (b) => b.player(player));
+                }
                 game.increaseTemperature(player, 1);
                 return undefined;
             }));
         } else if (quantity === 1) {
             game.phase = Phase.SOLAR;
-            game.log('${0} acted as World Government and placed an ocean', (b) => b.player(player));
+            if (game.noOceansAvailable() === false) {
+              game.log('${0} acted as World Government and placed an ocean', (b) => b.player(player));
+            }
             game.defer(new PlaceOceanTile(player, 'Select ocean space for ' + this.name + ' colony'));
         } else if (quantity === 2) {
             game.defer(new DeferredAction(player, () => {
                 game.phase = Phase.SOLAR;
-                game.log('${0} acted as World Government and increased oxygen level', (b) => b.player(player));
+                if (game.getOxygenLevel() < MAX_OXYGEN_LEVEL) {
+                  game.log('${0} acted as World Government and increased oxygen level', (b) => b.player(player));
+                }
                 game.increaseOxygenLevel(player, 1);
                 return undefined;
             }));
