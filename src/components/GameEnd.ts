@@ -38,14 +38,15 @@ export const GameEnd = Vue.component('game-end', {
       return Timer.toString(p.timer);
     },
     getSortedPlayers: function() {
-      [...this.player.players].sort(function(a:PlayerModel, b:PlayerModel) {
+      const copy = [...this.player.players];
+      copy.sort(function(a:PlayerModel, b:PlayerModel) {
         if (a.victoryPointsBreakdown.total < b.victoryPointsBreakdown.total) return -1;
         if (a.victoryPointsBreakdown.total > b.victoryPointsBreakdown.total) return 1;
         if (a.megaCredits < b.megaCredits) return -1;
         if (a.megaCredits > b.megaCredits) return 1;
         return 0;
       });
-      return this.player.players.reverse();
+      return copy.reverse();
     },
     getWinners: function() {
       const sortedPlayers = this.getSortedPlayers();
