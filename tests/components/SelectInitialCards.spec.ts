@@ -69,7 +69,7 @@ describe('SelectInitialCards', function() {
             cards: [{name: CardName.ECOLINE}],
           }, {
             title: 'select prelude',
-            cards: [{name: CardName.ALLIED_BANKS}],
+            cards: [{name: CardName.ALLIED_BANKS}, {name: CardName.METALS_COMPANY}],
           }, {
             title: 'select cards',
             cards: [{name: CardName.ANTS}],
@@ -85,12 +85,12 @@ describe('SelectInitialCards', function() {
     const selectCards = component.findAllComponents({name: 'select-card'});
     expect(selectCards.length).to.eq(3);
     await selectCards.at(0).vm.$emit('cardschanged', [CardName.ECOLINE]);
-    await selectCards.at(1).vm.$emit('cardschanged', [CardName.ALLIED_BANKS]);
+    await selectCards.at(1).vm.$emit('cardschanged', [CardName.ALLIED_BANKS, CardName.METALS_COMPANY]);
     await selectCards.at(2).vm.$emit('cardschanged', [CardName.ANTS]);
     const buttons = component.findAllComponents({name: 'Button'});
     await buttons.at(0).findAllComponents({
       name: 'button',
     }).at(0).trigger('click');
-    expect(savedData).to.deep.eq([[CardName.ECOLINE], [CardName.ALLIED_BANKS], [CardName.ANTS]]);
+    expect(savedData).to.deep.eq([[CardName.ECOLINE], [CardName.ALLIED_BANKS, CardName.METALS_COMPANY], [CardName.ANTS]]);
   });
 });

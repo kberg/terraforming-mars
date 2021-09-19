@@ -211,7 +211,15 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
       if (this.hasLeaders()) {
         result.push(this.selectedLeaders);
       }
-      result.push(this.selectedCards);
+
+      const corporationPicked = this.selectedCorporation !== undefined;
+      const twoPreludesPicked = !this.hasPrelude() || (this.hasPrelude() && this.selectedPrelude.length === 2);
+      const leaderPicked = !this.hasLeaders() || (this.hasLeaders() && this.selectedLeaders.length === 1);
+
+      if (corporationPicked && twoPreludesPicked && leaderPicked) {
+        result.push(this.selectedCards);
+      }
+
       this.onsave(result);
     },
     hasPrelude: function() {
