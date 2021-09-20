@@ -1,14 +1,11 @@
 import {expect} from "chai";
-import {Ants} from "../../src/cards/base/Ants";
-import {Satellites} from "../../src/cards/base/Satellites";
-import {IProjectCard} from "../../src/cards/IProjectCard";
 import {Ingrid} from "../../src/cards/leaders/Ingrid";
 import {Game} from "../../src/Game";
-import {SelectCard} from "../../src/inputs/SelectCard";
 import {Phase} from "../../src/Phase";
 import {Player} from "../../src/Player";
 import {SpaceType} from "../../src/SpaceType";
 import {TileType} from "../../src/TileType";
+import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
 
 describe('Ingrid', function() {
@@ -23,27 +20,17 @@ describe('Ingrid', function() {
     player.playedCards.push(card);
   });
 
-  it('Ability does not trigger if player has no cards', function() {
+  it('Draws a card when taking action to place tile on Mars', function() {
+    card.action();
     game.addGreenery(player, '35');
-    expect(game.deferredActions).has.length(0);
-  });
-
-  it('Can discard and draw a card when taking action to place tile on Mars', function() {
-    player.cardsInHand.push(new Satellites(), new Ants());
-
-    game.addGreenery(player, '35');
-    expect(game.deferredActions).has.length(2);
-
-    // Discard card
-    const discardCard = game.deferredActions.pop()!.execute() as SelectCard<IProjectCard>;
-    discardCard.cb([player.cardsInHand[0]]);
-    expect(player.cardsInHand).has.length(1);
+    expect(game.deferredActions).has.length(1);
 
     game.deferredActions.runNext(); // Draw card
-    expect(player.cardsInHand).has.length(2);
+    expect(player.cardsInHand).has.length(1);
   });
 
   it('Does not trigger ability when placing ocean during WGT', function() {
+    card.action();
     game.phase = Phase.SOLAR;
     game.addTile(player, SpaceType.OCEAN, game.board.spaces.find((space) => space.spaceType === SpaceType.OCEAN)!, {
       tileType: TileType.OCEAN,
@@ -53,10 +40,18 @@ describe('Ingrid', function() {
   });
 
   it('Does not trigger ability when placing tile off Mars', function() {
+    card.action();
     game.addTile(player, SpaceType.COLONY, game.board.spaces.find((space) => space.spaceType === SpaceType.COLONY)!, {
       tileType: TileType.CITY,
     });
 
     expect(game.deferredActions).has.length(0);
+  });
+
+  it('Can only act once per game', function() {
+    card.action();
+    TestingUtils.forceGenerationEnd(game);
+    expect(card.isDisabled).is.true;
+    expect(card.canAct()).is.false;
   });
 });
