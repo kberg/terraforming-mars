@@ -1922,6 +1922,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     const corporationCard = this.corporationCard;
 
+    this.game.indentation++;
 
     // Terraforming Mars FAQ says:
     //   If for any reason you are not able to perform your mandatory first action (e.g. if

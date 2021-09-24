@@ -5,6 +5,8 @@ import {PlayerId} from './Player';
 
 export class LogMessage implements Message {
   public timestamp = Date.now();
+  public indentation: number = 0;
+
   constructor(
     public type: LogMessageType,
     public message: string,

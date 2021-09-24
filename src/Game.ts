@@ -162,6 +162,7 @@ export class Game implements ISerializable<SerializedGame> {
   public deferredActions: DeferredActionsQueue = new DeferredActionsQueue();
   public gameAge: number = 0; // Each log event increases it
   public gameLog: Array<LogMessage> = [];
+  public indentation = 0;
   public undoCount: number = 0; // Each undo increases it
 
   public generation: number = 1;
@@ -1100,6 +1101,9 @@ export class Game implements ISerializable<SerializedGame> {
     this.activePlayer = player.id;
     player.actionsTakenThisRound = 0;
 
+    this.indentation++;
+    this.log('${0} playing', (b) => b.player(player), {indentation: 1});
+
     player.takeAction();
   }
 
@@ -1486,13 +1490,14 @@ export class Game implements ISerializable<SerializedGame> {
     return player.cardsInHand.filter((card) => card.cardType === cardType);
   }
 
-  public log(message: string, f?: (builder: LogBuilder) => void, options?: {reservedFor?: Player}) {
+  public log(message: string, f?: (builder: LogBuilder) => void, options?: {reservedFor?: Player, indentation?: number}) {
     const builder = new LogBuilder(message);
     if (f) {
       f(builder);
     }
     const logMessage = builder.build();
     logMessage.playerId = options?.reservedFor?.id;
+    logMessage.indentation = Math.max(this.indentation, options?.indentation ?? 0);
     this.gameLog.push(logMessage);
     this.gameAge++;
   }

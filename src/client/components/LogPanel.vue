@@ -207,6 +207,7 @@ export default Vue.extend({
     messageToHTML(message: LogMessage) {
       try {
         let logEntryBullet = '';
+        const indentation = '&nbsp;&nbsp;'.repeat(message.indentation ?? 0);
 
         if (message.type !== LogMessageType.NEW_GENERATION) {
           const when = new Date(message.timestamp).toLocaleString();
@@ -216,7 +217,7 @@ export default Vue.extend({
         }
         if (message.type !== undefined && message.message !== undefined) {
           message.message = this.$t(message.message);
-          return logEntryBullet + Log.applyData(message, this.messageDataToHTML);
+          return indentation + logEntryBullet + Log.applyData(message, this.messageDataToHTML);
         }
       } catch (err) {
         return this.safeMessage(message);
