@@ -2026,3 +2026,22 @@
         top: -16px;
     }
 }
+
+.card-resources-counter {
+    .card-resource {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 4px;
+        width: 22px;
+        height: 22px;
+        background-size: 22px;
+        vertical-align: middle;
+    }
+
+    @resource_types: microbe, animal, science, floater, fighter, camp, asteroid, disease, preservation, data, syndicate-fleet, cube;
+    each(@resource_types, {
+      .card-resource-@{value} {
+        background-image: url("./assets/resources/@{value}.png");
+      }
+    })
+}

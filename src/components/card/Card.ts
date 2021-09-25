@@ -153,7 +153,7 @@ export const Card = Vue.component('card', {
                 <CardContent v-if="getCardMetadata() !== undefined" :metadata="getCardMetadata()" :requirements="getCardRequirements()" :isCorporation="isCorporationCard()"/>
             </div>
             <CardExpansion :expansion="getCardExpansion()" :isCorporation="isCorporationCard()"/>
-            <CardResourceCounter v-if="card.resources !== undefined" :amount="getResourceAmount(card)" />
+            <CardResourceCounter v-if="card.resources !== undefined" :amount="getResourceAmount(card)" :type="card.resourceType" />
             <CardExtraContent :card="card" />
             <template v-if="owner !== undefined">
               <div :class="'card-owner-label player_translucent_bg_color_'+ owner.color">
