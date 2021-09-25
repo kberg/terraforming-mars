@@ -948,6 +948,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <template v-if="venusNext">
                                 <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
                                 <label for="requiresVenusTrackCompletion-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
@@ -955,10 +956,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <template v-if="moonExpansion">
                                 <input type="checkbox" v-model="requiresMoonTrackCompletion" id="requiresMoonTrackCompletion-checkbox">
                                 <label for="requiresMoonTrackCompletion-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-themoon"></div>
                                     <span v-i18n>Moon Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#moon-terraforming" class="tooltip" target="_blank">&#9432;</a>
                                     </label>
                                     <input type="checkbox" v-model="moonStandardProjectVariant" id="moonStandardProjectVariant-checkbox">
                                     <label for="moonStandardProjectVariant-checkbox">
+                                        <div class="create-game-expansion-icon expansion-icon-themoon"></div>
                                         <span v-i18n>Standard Project Variant</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
                                     </label>
                             </template>
