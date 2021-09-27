@@ -16,9 +16,12 @@ export class Floyd extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L06',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().text('PLAY').cards(1).colon().megacredits(-15);
+          b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
+          b.br.br;
+          b.text('PLAY').cards(1).colon().megacredits(-13).megacredits(-2).multiplier.asterix();
+          b.br.br;
         }),
-        description: 'Once per game, play a card from hand for 15 M€ less.',
+        description: 'Once per game, play a card from hand for 13 + 2X M€ less, where X is the current generation number.',
       },
     });
   }
@@ -44,7 +47,7 @@ export class Floyd extends Card implements LeaderCard {
 
   public getCardDiscount(player: Player) {
     if (player.actionsThisGeneration.has(this.name) && this.isDisabled === false) {
-      return 15;
+      return 13 + 2 * player.game.generation;
     }
     return 0;
   }

@@ -20,7 +20,7 @@ describe('Lowell', function() {
 
     const gameOptions = TestingUtils.setCustomGameOptions({leadersExpansion: true});
     game = Game.newInstance('foobar', [player, TestPlayers.RED.newPlayer()], player, gameOptions);
-    player.megaCredits = 5;
+    player.megaCredits = 8;
   });
 
   it('Has a wild tag', function() {
@@ -34,7 +34,7 @@ describe('Lowell', function() {
   });
 
   it('Cannot act: Not enough M€', function() {
-    player.megaCredits = 4;
+    player.megaCredits = 7;
     expect(card.canAct(player)).is.false;
   });
 
