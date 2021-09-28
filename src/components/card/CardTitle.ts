@@ -25,6 +25,9 @@ export const CardTitle = Vue.component('CardTitle', {
     isPrelude: function(): boolean {
       return this.type === CardType.PRELUDE;
     },
+    isLeader() {
+      return this.type === CardType.LEADER;
+    },
     getClasses: function(title: string): string {
       const classes: Array<String> = ['card-title'];
 
@@ -66,6 +69,7 @@ export const CardTitle = Vue.component('CardTitle', {
   template: `
       <div :class="getMainClasses()">
           <div v-if="isPrelude()" class="prelude-label">prelude</div>
+          <div v-if="isLeader()" class="leader-label">leader</div>
           <div v-if="isCorporation()" class="corporation-label">corporation</div>
           <CardCorporationLogo v-if="isCorporation()" :title="title"/>
           <div v-else :class="getClasses(title)">{{ getCardTitleWithoutSuffix(title) }}</div>
