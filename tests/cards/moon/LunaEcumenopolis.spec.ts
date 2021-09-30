@@ -24,9 +24,20 @@ describe('LunaEcumenopolis', () => {
     card = new LunaEcumenopolis();
   });
 
+  // The part of the moon map being used for this test
+  // x   12  13  x   x  ...
+  //   17  18  19  x   x ...
+  // 22  x   x   25
+  //
+  // x is not a valid space (it's reserved for mines.)
+
   it('can play', () => {
     player.cardsInHand = [card];
     player.megaCredits = card.cost;
+
+    const moon = moonData.moon;
+    moon.getSpace('m12').tile = {tileType: TileType.MOON_COLONY};
+    moon.getSpace('m19').tile = {tileType: TileType.MOON_COLONY};
 
     player.titanium = 2;
     expect(player.getPlayableCards()).does.include(card);
@@ -58,8 +69,7 @@ describe('LunaEcumenopolis', () => {
   it('Cannot place a colony when colony tiles are not adjacent', () => {
     moonData.moon.getSpace('m09').tile = {tileType: TileType.MOON_COLONY};
     moonData.moon.getSpace('m18').tile = {tileType: TileType.MOON_COLONY};
-    card.play(player);
-    expect(game.deferredActions.pop()!.execute()).is.undefined;
+    expect(player.getPlayableCards()).does.not.include(card);
   });
 
   it('Place 2 colony tiles', () => {
@@ -85,4 +95,3 @@ describe('LunaEcumenopolis', () => {
     expect(player.getTerraformRating()).eq(20);
   });
 });
-
