@@ -36,10 +36,9 @@ export class ResearchOutpost extends Card implements IProjectCard {
     if (player.cardIsInEffect(CardName.GORDON)) return spaces;
 
     return spaces
-      .filter((space) => {
-        const adjacentSpaces = player.game.board.getAdjacentSpaces(space);
-        return adjacentSpaces.filter((space) => space.tile !== undefined).length === 0;
-      });
+      .filter((space) => player.game.board.getAdjacentSpaces(space)
+        .every((space) => space.tile === undefined),
+      );
   }
 
   public canPlay(player: Player): boolean {
