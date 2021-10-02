@@ -70,6 +70,7 @@ import {SilverCubeHandler} from './community/SilverCubeHandler';
 import {MilestoneAwardSelector} from './MilestoneAwardSelector';
 import {BoardType} from './boards/BoardType';
 import {Multiset} from './utils/Multiset';
+import {GrantVenusAltTrackBonusDeferred} from './venusNext/GrantVenusAltTrackBonusDeferred';
 import {VictoryPointsBreakdown} from './VictoryPointsBreakdown';
 import {LogType} from './deferredActions/DrawCards';
 import {ArchaeologyHandler} from './community/ArchaeologyHandler';
@@ -123,6 +124,7 @@ export interface GameOptions {
   customColoniesList: Array<ColonyName>;
   requiresVenusTrackCompletion: boolean; // Venus must be completed to end the game
   moonStandardProjectVariant: boolean;
+  altVenusBoard: boolean;
   silverCubeVariant: boolean; // modified WGT phase
   requiresMoonTrackCompletion: boolean; // Moon must be completed to end the game
   escapeVelocityMode: boolean;
@@ -132,6 +134,7 @@ export interface GameOptions {
 }
 
 const DEFAULT_GAME_OPTIONS: GameOptions = {
+  altVenusBoard: false,
   archaeologyExtension: false,
   aresExtension: false,
   aresHazards: true,
@@ -1232,6 +1235,19 @@ export class Game implements ISerializable<SerializedGame> {
       }
       if (this.venusScaleLevel < 16 && this.venusScaleLevel + steps * 2 >= 16) {
         player.increaseTerraformRating();
+      }
+
+      if (this.gameOptions.altVenusBoard) {
+        // The second half of this equation removes any increases earler than 16-to-18.
+        const newValue = this.venusScaleLevel + steps * 2;
+        const minimalBaseline = Math.max(this.venusScaleLevel, 16);
+        const maximumBaseline = Math.min(newValue, 30);
+        const standardResourcesGranted = Math.max((maximumBaseline - minimalBaseline) / 2, 0);
+
+        const grantWildResource = this.venusScaleLevel + (steps * 2) >= 30;
+        if (grantWildResource || standardResourcesGranted > 0) {
+          this.defer(new GrantVenusAltTrackBonusDeferred(player, standardResourcesGranted, grantWildResource));
+        }
       }
 
       TurmoilHandler.onGlobalParameterIncrease(player, GlobalParameter.VENUS, steps);

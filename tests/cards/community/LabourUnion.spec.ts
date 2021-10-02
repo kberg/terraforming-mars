@@ -2,13 +2,15 @@ import {expect} from 'chai';
 import {AquiferStandardProject} from '../../../src/cards/base/standardProjects/AquiferStandardProject';
 import {CityStandardProject} from '../../../src/cards/base/standardProjects/CityStandardProject';
 import {LabourUnion} from '../../../src/cards/community/corporations/LabourUnion';
+import { AirScrappingStandardProject } from '../../../src/cards/venusNext/AirScrappingStandardProject';
+import { AirScrappingStandardProjectVariant } from '../../../src/cards/venusNext/AirScrappingStandardProjectVariant';
 import {DiscardCards} from '../../../src/deferredActions/DiscardCards';
 import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
+import {TestPlayer} from '../../TestPlayer';
 
 describe('LabourUnion', function() {
-  let card : LabourUnion; let player : Player; let game: Game;
+  let card : LabourUnion; let player : TestPlayer; let game: Game;
 
   beforeEach(() => {
     card = new LabourUnion();
@@ -39,5 +41,14 @@ describe('LabourUnion', function() {
     const city = new CityStandardProject();
     player.megaCredits = city.cost - 4;
     expect(city.canAct(player)).is.true;
+
+    const venus = new AirScrappingStandardProject();
+    player.megaCredits = 11;
+    expect(venus.canAct(player)).is.true;
+
+    const altVenus = new AirScrappingStandardProjectVariant();
+    player.tagsForTest = {venus: 1};
+    player.megaCredits = 10;
+    expect(altVenus.canAct(player)).is.true;
   });
 });

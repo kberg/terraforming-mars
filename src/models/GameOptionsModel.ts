@@ -36,4 +36,5 @@ export interface GameOptionsModel {
   turmoilExtension: boolean,
   venusNextExtension: boolean,
   requiresVenusTrackCompletion: boolean,
+  altVenusBoard: boolean,
 }

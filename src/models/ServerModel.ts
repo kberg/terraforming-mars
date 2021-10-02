@@ -406,7 +406,7 @@ function getWaitingFor(
   case PlayerInputTypes.SHIFT_ARES_GLOBAL_PARAMETERS:
     playerInputModel.aresData = (waitingFor as ShiftAresGlobalParameters).aresData;
     break;
-  }
+  };
   return playerInputModel;
 }
 
@@ -573,6 +573,7 @@ function getSpaces(board: Board): Array<SpaceModel> {
 
 function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
   return {
+    altVenusBoard: options.altVenusBoard,
     archaeologyExtension: options.archaeologyExtension,
     aresExtension: options.aresExtension,
     boardName: options.boardName,

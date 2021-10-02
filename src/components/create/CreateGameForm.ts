@@ -67,6 +67,7 @@ export interface CreateGameModel {
     requiresVenusTrackCompletion: boolean;
     requiresMoonTrackCompletion: boolean;
     moonStandardProjectVariant: boolean;
+    altVenusBoard: boolean;
     seededGame: boolean;
     escapeVelocityMode: boolean;
     escapeVelocityThreshold: number;
@@ -155,6 +156,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       requiresVenusTrackCompletion: false,
       requiresMoonTrackCompletion: false,
       moonStandardProjectVariant: false,
+      altVenusBoard: false,
       escapeVelocityMode: false,
       escapeVelocityThreshold: 30,
       escapeVelocityPeriod: 2,
@@ -565,6 +567,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         requiresVenusTrackCompletion,
         requiresMoonTrackCompletion,
         moonStandardProjectVariant: component.moonStandardProjectVariant,
+        altVenusBoard: component.altVenusBoard,
         escapeVelocityMode,
         escapeVelocityThreshold,
         escapeVelocityPeriod,
@@ -932,24 +935,34 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             </template>
                         </div>
 
-                        <div class="create-game-page-column" v-if="playersCount > 1">
-                            <h4 v-i18n>Multiplayer Options</h4>
+                        <div class="create-game-page-column">
+                            <h4 v-i18n>Variants</h4>
 
-                            <input type="checkbox" name="draftVariant" v-model="draftVariant" id="draft-checkbox">
-                            <label for="draft-checkbox">
-                                <span v-i18n>Draft variant</span>
-                            </label>
+                            <template v-if="playersCount > 1">
+                                <input type="checkbox" name="draftVariant" v-model="draftVariant" id="draft-checkbox">
+                                <label for="draft-checkbox">
+                                    <span v-i18n>Round Draft</span>
+                                </label>
 
-                            <input type="checkbox" name="initialDraft" v-model="initialDraft" id="initialDraft-checkbox">
-                            <label for="initialDraft-checkbox">
-                                <span v-i18n>Initial Draft</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
-                            </label>
+                                <input type="checkbox" name="initialDraft" v-model="initialDraft" id="initialDraft-checkbox">
+                                <label for="initialDraft-checkbox">
+                                    <span v-i18n>Initial Draft</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
 
-                            <template v-if="venusNext">
+                            <template v-if="playersCount > 1 && venusNext">
                                 <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
                                 <label for="requiresVenusTrackCompletion-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="venusNext">
+                                <input type="checkbox" v-model="altVenusBoard" id="altVenusBoard-checkbox">
+                                <label for="altVenusBoard-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                                    <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 

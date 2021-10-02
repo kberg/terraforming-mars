@@ -167,6 +167,7 @@ export const SpectatorHome = Vue.component('spectator-home', {
             :spaces="spectator.spaces"
             :venusNextExtension="spectator.gameOptions.venusNextExtension"
             :venusScaleLevel="spectator.venusScaleLevel"
+            :altVenusBoard="spectator.gameOptions.altVenusBoard"
             :boardName ="spectator.gameOptions.boardName"
             :oceans_count="spectator.oceans"
             :oxygen_level="spectator.oxygenLevel"

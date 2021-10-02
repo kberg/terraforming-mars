@@ -104,6 +104,7 @@ export class GameHandler extends Handler {
           requiresVenusTrackCompletion: gameReq.requiresVenusTrackCompletion,
           requiresMoonTrackCompletion: gameReq.requiresMoonTrackCompletion,
           moonStandardProjectVariant: gameReq.moonStandardProjectVariant,
+          altVenusBoard: gameReq.altVenusBoard,
           escapeVelocityMode: gameReq.escapeVelocityMode,
           escapeVelocityThreshold: gameReq.escapeVelocityThreshold,
           escapeVelocityPeriod: gameReq.escapeVelocityPeriod,
