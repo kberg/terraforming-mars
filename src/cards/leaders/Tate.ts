@@ -49,7 +49,8 @@ export class Tate extends Card implements LeaderCard {
 
     const options = tags.map((tag) => {
       return new SelectOption('Search for ' + tag + ' tags', 'Search', () => {
-        return player.drawCardKeepSome(5, {keepMax: 2, tag: tag, paying: true, logDrawnCard: true});
+        game.log('${0} searched for ${1} tags', (b) => b.player(player).string(tag));
+        return player.drawCardKeepSome(5, {keepMax: 2, tag: tag, paying: true, logDrawnCard: true, logDiscardedCards: true});
       });
     });
 

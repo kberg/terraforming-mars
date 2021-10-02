@@ -67,10 +67,13 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
     return undefined;
   }
 
-  public static discard(player: Player, preserve: Array<IProjectCard>, discard: Array<IProjectCard>) {
+  public static discard(player: Player, preserve: Array<IProjectCard>, discard: Array<IProjectCard>, options?: DrawCards.ChooseOptions) {
     discard.forEach((card) => {
       if (preserve.find((f) => f.name === card.name) === undefined) {
         player.game.dealer.discard(card);
+        if (options !== undefined && options.logDiscardedCards === true) {
+          player.game.log('${0} discarded ${1}', (b) => b.player(player).card(card));
+        }
       }
     });
   }
@@ -91,7 +94,7 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
             title: 'Select how to pay for cards',
             afterPay: () => {
               this.keep(player, selected, options.logDrawnCard ? LogType.DREW_VERBOSE : LogType.BOUGHT);
-              this.discard(player, selected, cards);
+              this.discard(player, selected, cards, options);
             },
           }));
       } else if (selected.length === 0 && cards.length === 1 && options.logDrawnCard === true) {
@@ -130,6 +133,7 @@ export namespace DrawCards {
     keepMax?: number,
     logDrawnCard?: boolean,
     paying?: boolean,
+    logDiscardedCards?: boolean,
   }
 
   export interface AllOptions extends DrawOptions, ChooseOptions { }
