@@ -5,9 +5,12 @@ import {LeaderCard} from "../LeaderCard";
 
 export class LeadersExpansion {
   public static calculateVictoryPoints(player: Player, vpb: VictoryPointsBreakdown): void {
-    let score: number = 0;
-    if (player.cardIsInEffect(CardName.DUNCAN)) score += 6;
-    if (score > 0) vpb.setVictoryPoints('victoryPoints', score, 'Leaders VP');
+    if (player.cardIsInEffect(CardName.DUNCAN)) {
+      const card = player.playedCards.find((c) => c.name === CardName.DUNCAN) as LeaderCard;
+      if (card.isDisabled === true) {
+        vpb.setVictoryPoints('victoryPoints', 6 - player.game.generation, 'Leaders VP');    
+      }
+    }
   }
 
   public static getBonusWildTags(player: Player, tagCount: number) {
