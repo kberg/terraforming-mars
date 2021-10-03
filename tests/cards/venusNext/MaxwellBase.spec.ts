@@ -1,6 +1,10 @@
 import {expect} from 'chai';
+import {CardName} from '../../../src/CardName';
 import {Birds} from '../../../src/cards/base/Birds';
+import {CardType} from '../../../src/cards/CardType';
 import {ICard} from '../../../src/cards/ICard';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {AerialMappers} from '../../../src/cards/venusNext/AerialMappers';
 import {MaxwellBase} from '../../../src/cards/venusNext/MaxwellBase';
 import {StratosphericBirds} from '../../../src/cards/venusNext/StratosphericBirds';
@@ -8,6 +12,7 @@ import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -66,5 +71,25 @@ describe('MaxwellBase', function() {
     expect(action instanceof SelectCard).is.true;
     (action as SelectCard<ICard>).cb([card2]);
     expect(player.getResourcesOnCard(card2)).to.eq(1);
+  });
+
+  // TODO(kberg): Replace this hand-made card with Floater Urbanism.
+  it('can Play - for a Venus card with an unusual resource', function() {
+    expect(card.canAct(player)).is.false;
+
+    const fakeCard: IProjectCard = {
+      name: 'HELLO' as CardName,
+      cost: 1,
+      tags: [Tags.VENUS],
+      play: () => undefined,
+      cardType: CardType.ACTIVE,
+      metadata: {
+        cardNumber: '1',
+      },
+      resourceType: ResourceType.SYNDICATE_FLEET,
+    };
+    player.playedCards.push(fakeCard);
+
+    expect(card.canAct(player)).is.true;
   });
 });
