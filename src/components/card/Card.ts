@@ -17,6 +17,7 @@ import {GameModule} from '../../GameModule';
 import {CardRequirements} from '../../cards/CardRequirements';
 import {PreferencesManager} from '../PreferencesManager';
 import {OwnerModel} from '../../components/SelectCard';
+import {ResourceType} from '../../ResourceType';
 
 export const Card = Vue.component('card', {
   components: {
@@ -142,6 +143,13 @@ export const Card = Vue.component('card', {
       return this.getCardType() === CardType.STANDARD_PROJECT || this.getCardType() === CardType.STANDARD_ACTION;
     },
   },
+  computed: {
+    resourceType(): ResourceType {
+      if (this.card.resourceType !== undefined) return this.card.resourceType;
+      if (this.cardInstance.resourceType !== undefined) return this.cardInstance.resourceType;
+      return ResourceType.RESOURCE_CUBE;
+    },
+  },
   template: `
         <div :class="getCardClasses(card)">
             <div class="card-content-wrapper" v-i18n>
@@ -153,7 +161,7 @@ export const Card = Vue.component('card', {
                 <CardContent v-if="getCardMetadata() !== undefined" :metadata="getCardMetadata()" :requirements="getCardRequirements()" :isCorporation="isCorporationCard()"/>
             </div>
             <CardExpansion :expansion="getCardExpansion()" :isCorporation="isCorporationCard()"/>
-            <CardResourceCounter v-if="card.resources !== undefined" :amount="getResourceAmount(card)" :type="card.resourceType" />
+            <CardResourceCounter v-if="card.resources !== undefined" :amount="getResourceAmount(card)" :type="resourceType" />
             <CardExtraContent :card="card" />
             <template v-if="owner !== undefined">
               <div :class="'card-owner-label player_translucent_bg_color_'+ owner.color">
