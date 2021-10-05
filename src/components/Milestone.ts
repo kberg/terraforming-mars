@@ -19,7 +19,7 @@ export const Milestone = Vue.component('milestone', {
       showDescription[milestone.milestone.name] = false;
     }
     return {
-      showList: true,
+      showList: this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : true,
       showDescription,
     };
   },
