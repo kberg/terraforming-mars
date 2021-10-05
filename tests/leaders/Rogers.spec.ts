@@ -1,8 +1,10 @@
 import {expect} from "chai";
 import {Rogers} from "../../src/cards/leaders/Rogers";
-import {GiantSolarShade} from "../../src/cards/venusNext/GiantSolarShade";
+import {IshtarMining} from "../../src/cards/venusNext/IshtarMining";
+import {LocalShading} from "../../src/cards/venusNext/LocalShading";
+import {VenusGovernor} from "../../src/cards/venusNext/VenusGovernor";
+import {VenusianAnimals} from "../../src/cards/venusNext/VenusianAnimals";
 import {Game} from "../../src/Game";
-import {Phase} from "../../src/Phase";
 import {Player} from "../../src/Player";
 import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
@@ -18,23 +20,32 @@ describe('Rogers', function() {
     const gameOptions = TestingUtils.setCustomGameOptions();
     game = Game.newInstance('foobar', [player, player2], player, gameOptions);
     player.playedCards.push(card);
+    player.megaCredits = 30;
   });
 
-  it('Gains 3 M€ when taking an action that raises Venus', function() {
-    const giantSolarShade = new GiantSolarShade();
-    giantSolarShade.play(player); // Raise Venus 3 steps
-    expect(player.megaCredits).to.eq(9);
+  it('Can act', function() {
+    expect(card.canAct()).is.true;
   });
 
-  it('Does not gain M€ when other players raise Venus', function() {
-    const giantSolarShade = new GiantSolarShade();
-    giantSolarShade.play(player2);
-    expect(player.megaCredits).to.eq(0);
+  it('Takes OPG action', function() {
+    card.action();
+    expect(card.opgActionIsActive).is.true;
+
+    // Has discount of 3 M€ when playing Venus tags
+    expect(card.getCardDiscount(player, new LocalShading())).to.eq(3);
+    expect(card.getCardDiscount(player, new VenusGovernor())).to.eq(6);
+
+    // Can ignore global requirements on Venus cards this generation
+    expect(game.getVenusScaleLevel()).to.eq(0);
+    expect(new IshtarMining().canPlay(player)).is.true;
+    expect(new VenusianAnimals().canPlay(player)).is.true;
   });
 
-  it('Does not gain M€ from raising Venus during Solar phase', function() {
-    game.phase = Phase.SOLAR;
-    game.increaseVenusScaleLevel(player, 1);
-    expect(player.megaCredits).to.eq(0);
+  it('Can only act once per game', function() {
+    card.action();
+    TestingUtils.forceGenerationEnd(game);
+    expect(card.isDisabled).is.true;
+    expect(card.opgActionIsActive).is.false;
+    expect(card.canAct()).is.false;
   });
 });
