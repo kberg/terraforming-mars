@@ -30,8 +30,8 @@ export const MoonGlobalParameterValue = Vue.component('moon-global-parameter-val
 <div>
   <div class="moon-tile"></div>
   <div>
-    <div v-if="isMax()" class="global_params_value">
-      <img src="/assets/misc/checkmark.png" class="checkmark" :alt="$t('Completed!')">
+    <div v-if="isMax()" class="preferences_global_params_value">
+      <img src="/assets/misc/checkmark.png" class="preferences_checkmark" :alt="$t('Completed!')">
     </div>
     <div v-else class="moon_params_value">
       <span class="colony">{{colonyRate()}}</span>
