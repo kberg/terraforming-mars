@@ -222,7 +222,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <span class="resource card card-with-border"></span></div>
     <div class="bonus-text">When you place a tile ON MARS, discard a card if possible</div>`);
   AGENDA_HTML.set('spp04',
-    `<div class="policy-top-margin">
+    `<div>
     <div class="resource money">10</div>
     <span class="red-arrow"></span>
     <div class="resource card card-with-border policy-card-with-tag"><div class="card-icon tag-planetary"></div></div>

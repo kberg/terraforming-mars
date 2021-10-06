@@ -174,6 +174,16 @@ export const Sidebar = Vue.component('sidebar', {
         return 'Science';
       } else if (rulingPartyName === PartyName.KELVINISTS) {
         return 'Kelvin';
+      } else if (rulingPartyName === PartyName.EMPOWER) {
+        return 'Emp';
+      } else if (rulingPartyName === PartyName.BUREAUCRATS) {
+        return 'Bureau';
+      } else if (rulingPartyName === PartyName.POPULISTS) {
+        return 'Pop';
+      } else if (rulingPartyName === PartyName.TRANSHUMANS) {
+        return 'Trans';
+      } else if (rulingPartyName === PartyName.CENTRISTS) {
+        return 'Cent';
       } else {
         return rulingPartyName as string;
       }
