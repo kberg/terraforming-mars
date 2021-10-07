@@ -184,10 +184,7 @@ export const SOCIETY_COLONY_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IG
 
 // When renaming, add the rename here and add a TODO (like the example below)
 // And remember to add a test in GlobalEventDealer.spec.ts
-const RENAMED_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
-  // TODO(bafolts): remove after 2021-05-08
-  ['Miners Of Strike' as GlobalEventName, MinersOnStrike],
-]);
+const RENAMED_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([]);
 
 const ALL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
   ...Array.from(POSITIVE_GLOBAL_EVENTS),
