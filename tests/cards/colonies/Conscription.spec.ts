@@ -28,7 +28,6 @@ describe('Conscription', function() {
     expect(card.getCardDiscount(player)).to.eq(16);
 
     player.playCard(new MicroMills());
-
     expect(card.getCardDiscount(player)).to.eq(0);
   });
 
@@ -37,7 +36,6 @@ describe('Conscription', function() {
     expect(card.getCardDiscount(player)).to.eq(16);
 
     player.pass();
-
     expect(card.getCardDiscount(player)).to.eq(0);
   });
 });

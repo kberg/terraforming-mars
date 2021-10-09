@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import {AirRaid} from '../../../src/cards/colonies/AirRaid';
-import {Dirigibles} from '../../../src/cards/venusNext/Dirigibles';
 import {Player} from '../../../src/Player';
 import {StormCraftIncorporated} from '../../../src/cards/colonies/StormCraftIncorporated';
 import {Game} from '../../../src/Game';
@@ -8,6 +7,8 @@ import {SelectCard} from '../../../src/inputs/SelectCard';
 import {ICard} from '../../../src/cards/ICard';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {TestPlayers} from '../../TestPlayers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {ResourceType} from '../../../src/ResourceType';
 
 describe('AirRaid', function() {
   let card : AirRaid; let player : Player; let player2 : Player; let corpo: StormCraftIncorporated;
@@ -32,7 +33,7 @@ describe('AirRaid', function() {
     player.addResourceTo(corpo);
     expect(card.canPlay(player)).is.true;
 
-    const otherCardWithFloater = new Dirigibles();
+    const otherCardWithFloater = {resourceType: ResourceType.FLOATER, resourceCount: 0} as IProjectCard;
     player.playedCards.push(otherCardWithFloater);
     player.addResourceTo(otherCardWithFloater);
     player2.megaCredits = 4;

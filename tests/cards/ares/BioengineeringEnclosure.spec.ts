@@ -1,19 +1,19 @@
-import {AICentral} from '../../../src/cards/base/AICentral';
 import {BioengineeringEnclosure} from '../../../src/cards/ares/BioengineeringEnclosure';
-import {Birds} from '../../../src/cards/base/Birds';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {expect} from 'chai';
 import {ARES_OPTIONS_NO_HAZARDS} from '../../ares/AresTestHelper';
 import {TestPlayers} from '../../TestPlayers';
+import {ResourceType} from '../../../src/ResourceType';
+import {Tags} from '../../../src/cards/Tags';
 
 describe('BioengineeringEnclosure', function() {
   let card : BioengineeringEnclosure; let player : Player; let game : Game;
-  let animalHost: IProjectCard = new Birds();
+  let animalHost: IProjectCard;
 
   beforeEach(() => {
-    animalHost = new Birds();
+    animalHost = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     card = new BioengineeringEnclosure();
     player = TestPlayers.BLUE.newPlayer();
     const redPlayer = TestPlayers.RED.newPlayer();
@@ -22,7 +22,7 @@ describe('BioengineeringEnclosure', function() {
 
   it('Can\'t play without a science tag', () => {
     expect(card.canPlay(player)).is.false;
-    player.playCard(new AICentral());
+    player.playedCards.push({tags: [Tags.SCIENCE]} as IProjectCard);
     expect(card.canPlay(player)).is.true;
   });
 
@@ -34,7 +34,7 @@ describe('BioengineeringEnclosure', function() {
 
   it('Can\'t move animal if it\'s empty', () => {
     card.play(player);
-    player.playCard(animalHost);
+    player.playedCards.push(animalHost);
     card.resourceCount = 0;
     expect(card.canAct(player)).is.false;
   });
@@ -46,7 +46,7 @@ describe('BioengineeringEnclosure', function() {
 
   it('Move animal', () => {
     // Set up the cards.
-    player.playCard(animalHost);
+    player.playedCards.push(animalHost);
     game.deferredActions.pop();
     player.playCard(card);
 

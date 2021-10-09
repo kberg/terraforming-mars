@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import {Bushes} from '../../../src/cards/base/Bushes';
 import {QuantumExtractor} from '../../../src/cards/base/QuantumExtractor';
-import {TollStation} from '../../../src/cards/base/TollStation';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
@@ -23,7 +23,7 @@ describe('QuantumExtractor', function() {
   it('Should play', function() {
     player.playedCards.push(card, card, card, card);
     card.play(player);
-    expect(card.getCardDiscount(player, new TollStation())).to.eq(2);
-    expect(card.getCardDiscount(player, new Bushes())).to.eq(0);
+    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).to.eq(2);
+    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).to.eq(0);
   });
 });

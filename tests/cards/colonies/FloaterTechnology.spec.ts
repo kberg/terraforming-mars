@@ -1,11 +1,11 @@
 import {expect} from 'chai';
 import {FloaterTechnology} from '../../../src/cards/colonies/FloaterTechnology';
 import {ICard} from '../../../src/cards/ICard';
-import {Dirigibles} from '../../../src/cards/venusNext/Dirigibles';
-import {FloatingHabs} from '../../../src/cards/venusNext/FloatingHabs';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('FloaterTechnology', function() {
@@ -28,7 +28,7 @@ describe('FloaterTechnology', function() {
   });
 
   it('Acts automatically with single targets', function() {
-    const dirigibles = new Dirigibles();
+    const dirigibles = {resourceType: ResourceType.FLOATER, resourceCount: 0} as IProjectCard;
     player.playedCards.push(dirigibles);
 
     card.action(player);
@@ -39,8 +39,8 @@ describe('FloaterTechnology', function() {
   });
 
   it('Should act with multiple targets', function() {
-    const dirigibles = new Dirigibles();
-    const floatingHabs = new FloatingHabs();
+    const dirigibles = {resourceType: ResourceType.FLOATER, resourceCount: 0} as IProjectCard;
+    const floatingHabs = {resourceType: ResourceType.FLOATER, resourceCount: 0} as IProjectCard;
     player.playedCards.push(dirigibles, floatingHabs);
 
     card.action(player);

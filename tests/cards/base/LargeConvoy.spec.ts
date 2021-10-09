@@ -1,12 +1,12 @@
 import {expect} from 'chai';
-import {Fish} from '../../../src/cards/base/Fish';
 import {LargeConvoy} from '../../../src/cards/base/LargeConvoy';
-import {Pets} from '../../../src/cards/base/Pets';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {TestPlayer} from '../../TestPlayer';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {ResourceType} from '../../../src/ResourceType';
 
 describe('LargeConvoy', function() {
   let card : LargeConvoy; let player : TestPlayer;
@@ -28,23 +28,21 @@ describe('LargeConvoy', function() {
   });
 
   it('Should play with single animal target', function() {
-    const pets = new Pets();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets);
 
     const action = card.play(player);
     player.playedCards.push(card);
     (action as OrOptions).options[1].cb();
-    player.getVictoryPoints();
 
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(4);
     expect(player.cardsInHand).has.lengthOf(2);
     expect(player.getResourcesOnCard(pets)).to.eq(4);
     expect(player.plants).to.eq(0);
   });
 
   it('Should play with multiple animal targets', function() {
-    const pets = new Pets();
-    const fish = new Fish();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const fish = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets, fish);
 
     const action = card.play(player);
@@ -60,7 +58,7 @@ describe('LargeConvoy', function() {
   });
 
   it('Should play without oceans', function() {
-    const pets = new Pets();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets);
     TestingUtils.maxOutOceans(player);
     const plantsCount = player.plants;

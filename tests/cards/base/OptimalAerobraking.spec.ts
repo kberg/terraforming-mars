@@ -1,6 +1,8 @@
 import {expect} from 'chai';
-import {BigAsteroid} from '../../../src/cards/base/BigAsteroid';
 import {OptimalAerobraking} from '../../../src/cards/base/OptimalAerobraking';
+import {CardType} from '../../../src/cards/CardType';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -13,7 +15,7 @@ describe('OptimalAerobraking', function() {
     const action = card.play();
     expect(action).is.undefined;
     expect(card.onCardPlayed(player, card)).is.undefined;
-    expect(card.onCardPlayed(player, new BigAsteroid())).is.undefined;
+    expect(card.onCardPlayed(player, {tags: [Tags.SPACE, Tags.EVENT], cardType: CardType.EVENT} as IProjectCard)).is.undefined;
     expect(player.megaCredits).to.eq(3);
     expect(player.heat).to.eq(3);
   });

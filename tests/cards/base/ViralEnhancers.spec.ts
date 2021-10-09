@@ -1,12 +1,11 @@
 import {expect} from 'chai';
-import {Ants} from '../../../src/cards/base/Ants';
-import {Birds} from '../../../src/cards/base/Birds';
-import {EcologicalZone} from '../../../src/cards/base/EcologicalZone';
-import {Moss} from '../../../src/cards/base/Moss';
 import {ViralEnhancers} from '../../../src/cards/base/ViralEnhancers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('ViralEnhancers', function() {
@@ -22,9 +21,9 @@ describe('ViralEnhancers', function() {
   it('Should play', function() {
     card.play();
 
-    const ants = new Ants();
-    const birds = new Birds();
-    const moss = new Moss();
+    const ants = {tags: [Tags.ANIMAL], resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const birds = {tags: [Tags.ANIMAL], resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const moss = {tags: [Tags.PLANT]} as IProjectCard;
     player.playedCards.push(ants, birds, moss);
 
     card.onCardPlayed(player, birds);
@@ -49,7 +48,7 @@ describe('ViralEnhancers', function() {
   it('Should play for each tag', function() {
     card.play();
 
-    const ecologicalZone = new EcologicalZone();
+    const ecologicalZone = {tags: [Tags.PLANT, Tags.ANIMAL], resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     card.onCardPlayed(player, ecologicalZone);
     expect(game.deferredActions).has.lengthOf(2);
 

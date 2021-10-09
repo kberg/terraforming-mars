@@ -1,6 +1,7 @@
 import {expect} from 'chai';
-import {InventorsGuild} from '../../../src/cards/base/InventorsGuild';
 import {Plantation} from '../../../src/cards/base/Plantation';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
@@ -20,7 +21,7 @@ describe('Plantation', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(new InventorsGuild(), new InventorsGuild());
+    player.playedCards.push({tags: [Tags.SCIENCE, Tags.SCIENCE]} as IProjectCard);
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);

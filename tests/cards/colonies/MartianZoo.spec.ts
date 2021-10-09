@@ -1,6 +1,7 @@
 import {expect} from 'chai';
-import {LunaGovernor} from '../../../src/cards/colonies/LunaGovernor';
 import {MartianZoo} from '../../../src/cards/colonies/MartianZoo';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
@@ -35,7 +36,7 @@ describe('MartianZoo', function() {
   });
 
   it('Should act', function() {
-    card.onCardPlayed(player, new LunaGovernor());
+    card.onCardPlayed(player, {tags: [Tags.EARTH, Tags.EARTH]} as IProjectCard);
     expect(card.canAct()).is.true;
 
     card.action(player);

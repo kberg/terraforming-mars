@@ -1,13 +1,11 @@
 import {expect} from 'chai';
-import {Ants} from '../../../src/cards/base/Ants';
-import {Birds} from '../../../src/cards/base/Birds';
 import {ImportedNitrogen} from '../../../src/cards/base/ImportedNitrogen';
-import {Pets} from '../../../src/cards/base/Pets';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
 import {ICard} from '../../../src/cards/ICard';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('ImportedNitrogen', function() {
@@ -27,8 +25,8 @@ describe('ImportedNitrogen', function() {
   });
 
   it('Should play with only animals', function() {
-    const pets = new Pets();
-    const birds = new Birds();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const birds = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets, birds);
     card.play(player);
 
@@ -44,8 +42,8 @@ describe('ImportedNitrogen', function() {
   });
 
   it('Should play with only microbes', function() {
-    const tardigrades = new Tardigrades();
-    const ants = new Ants();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const ants = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(tardigrades, ants);
     card.play(player);
 
@@ -61,10 +59,10 @@ describe('ImportedNitrogen', function() {
   });
 
   it('Should play with animals and microbes', function() {
-    const pets = new Pets();
-    const birds = new Birds();
-    const tardigrades = new Tardigrades();
-    const ants = new Ants();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const birds = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const ants = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets, tardigrades, birds, ants);
     card.play(player);
 

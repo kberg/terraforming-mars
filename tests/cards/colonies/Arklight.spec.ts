@@ -1,6 +1,7 @@
 import {expect} from 'chai';
-import {Predators} from '../../../src/cards/base/Predators';
 import {Arklight} from '../../../src/cards/colonies/Arklight';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -14,7 +15,7 @@ describe('Arklight', function() {
     expect(play).is.undefined;
     expect(card.resourceCount).to.eq(1);
     player.corporationCard = card;
-    card.onCardPlayed(player, new Predators());
+    card.onCardPlayed(player, {tags: [Tags.ANIMAL]} as IProjectCard);
     expect(card.resourceCount).to.eq(2);
     expect(card.getVictoryPoints()).to.eq(1);
   });

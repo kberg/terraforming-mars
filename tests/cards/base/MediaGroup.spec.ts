@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {MediaGroup} from '../../../src/cards/base/MediaGroup';
-import {Virus} from '../../../src/cards/base/Virus';
+import {CardType} from '../../../src/cards/CardType';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -12,7 +13,7 @@ describe('MediaGroup', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play();
     expect(action).is.undefined;
-    card.onCardPlayed(player, new Virus());
+    card.onCardPlayed(player, {cardType: CardType.EVENT} as IProjectCard);
     expect(player.megaCredits).to.eq(3);
     card.onCardPlayed(player, card);
     expect(player.megaCredits).to.eq(3);

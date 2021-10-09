@@ -1,7 +1,8 @@
 
 import {expect} from 'chai';
-import {Bushes} from '../../../src/cards/base/Bushes';
 import {SpaceStation} from '../../../src/cards/base/SpaceStation';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -16,6 +17,6 @@ describe('SpaceStation', function() {
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
     expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
     expect(card.getCardDiscount(player, card)).to.eq(2);
-    expect(card.getCardDiscount(player, new Bushes())).to.eq(0);
+    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).to.eq(0);
   });
 });

@@ -1,9 +1,7 @@
 import {expect} from 'chai';
-import {ColonizerTrainingCamp} from '../../../src/cards/base/ColonizerTrainingCamp';
-import {MethaneFromTitan} from '../../../src/cards/base/MethaneFromTitan';
 import {GalileanWaystation} from '../../../src/cards/colonies/GalileanWaystation';
-import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
-import {ResearchNetwork} from '../../../src/cards/prelude/ResearchNetwork';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
@@ -20,23 +18,16 @@ describe('GalileanWaystation', function() {
   });
 
   it('Should play', function() {
-    const card2 = new ColonizerTrainingCamp();
-    const card3 = new MethaneFromTitan();
-    player.playedCards.push(card2);
-    player2.playedCards.push(card3);
+    player.playedCards.push({tags: [Tags.JOVIAN]} as IProjectCard);
+    player2.playedCards.push({tags: [Tags.JOVIAN]} as IProjectCard);
 
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
   });
 
   it('Corectly counts wildtags', function() {
-    const card2 = new ColonizerTrainingCamp();
-    const card3 = new MethaneFromTitan();
-    const researchCoordination = new ResearchCoordination();
-    const researchNetwork = new ResearchNetwork();
-
-    player.playedCards.push(card2, researchCoordination); // Should include this wild tag
-    player2.playedCards.push(card3, researchNetwork); // Should NOT include this wild tag
+    player.playedCards.push({tags: [Tags.JOVIAN, Tags.WILDCARD]} as IProjectCard); // Should include this wild tag
+    player2.playedCards.push({tags: [Tags.JOVIAN, Tags.WILDCARD]} as IProjectCard); // Should NOT include this wild tag
 
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);

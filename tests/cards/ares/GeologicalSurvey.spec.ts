@@ -1,7 +1,5 @@
 import {expect} from 'chai';
-import {Ants} from '../../../src/cards/base/Ants';
 import {GeologicalSurvey} from '../../../src/cards/ares/GeologicalSurvey';
-import {Pets} from '../../../src/cards/base/Pets';
 import {Game} from '../../../src/Game';
 import {Phase} from '../../../src/Phase';
 import {Player} from '../../../src/Player';
@@ -14,6 +12,8 @@ import {MarsFirst} from '../../../src/turmoil/parties/MarsFirst';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {OceanCity} from '../../../src/cards/ares/OceanCity';
+import {ResourceType} from '../../../src/ResourceType';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 
 describe('GeologicalSurvey', () => {
   let card : GeologicalSurvey;
@@ -69,11 +69,9 @@ describe('GeologicalSurvey', () => {
     ],
     };
     game.addTile(player, SpaceType.LAND, firstSpace, {tileType: TileType.RESTRICTED_AREA});
-    // firstSpace.player = player;
 
-    const microbeCard = new Ants();
-    const animalCard = new Pets();
-
+    const microbeCard = {resourceType: ResourceType.MICROBE} as IProjectCard;
+    const animalCard = {resourceType: ResourceType.ANIMAL} as IProjectCard;
     player.playedCards = [card, microbeCard, animalCard];
 
     // firstSpace tile might grant resources, so resetting all the resource values.

@@ -1,14 +1,12 @@
 import {expect} from 'chai';
 import {Ants} from '../../../src/cards/base/Ants';
-import {Fish} from '../../../src/cards/base/Fish';
-import {NitriteReducingBacteria} from '../../../src/cards/base/NitriteReducingBacteria';
 import {ProtectedHabitats} from '../../../src/cards/base/ProtectedHabitats';
-import {SecurityFleet} from '../../../src/cards/base/SecurityFleet';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
 import {ICard} from '../../../src/cards/ICard';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Ants', function() {
@@ -36,15 +34,15 @@ describe('Ants', function() {
   });
 
   it('Should action with multiple valid targets', function() {
-    const tardigrades = new Tardigrades();
-    const nitriteReducingBacteria = new NitriteReducingBacteria();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const nitriteReducingBacteria = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
 
     player.playedCards.push(card);
     expect(card.canAct(player)).is.not.true;
 
     player2.playedCards.push(tardigrades, nitriteReducingBacteria);
-    tardigrades.resourceCount++;
-    nitriteReducingBacteria.resourceCount++;
+    tardigrades.resourceCount!++;
+    nitriteReducingBacteria.resourceCount!++;
 
     expect(card.canAct(player)).is.true;
 
@@ -60,11 +58,11 @@ describe('Ants', function() {
 
   it('Respects protected habitats', function() {
     const protectedHabitats = new ProtectedHabitats();
-    const tardigrades = new Tardigrades();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
 
     player.playedCards.push(card);
     player2.playedCards.push(tardigrades);
-    tardigrades.resourceCount += 2;
+    tardigrades.resourceCount! += 2;
     expect(card.canAct(player)).is.true;
 
     player2.playedCards.push(protectedHabitats);
@@ -72,9 +70,9 @@ describe('Ants', function() {
   });
 
   it('Only microbes are available to steal', function() {
-    const tardigrades = new Tardigrades(); // card with microbes
-    const fish = new Fish(); // card with animals
-    const securityFleet = new SecurityFleet(); // card with fighters
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const fish = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const securityFleet = {resourceType: ResourceType.FIGHTER, resourceCount: 0} as IProjectCard;
 
     player.playedCards.push(card);
     player2.playedCards.push(tardigrades, fish, securityFleet);

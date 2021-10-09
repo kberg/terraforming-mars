@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {MassConverter} from '../../../src/cards/base/MassConverter';
-import {TollStation} from '../../../src/cards/base/TollStation';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
@@ -21,12 +22,12 @@ describe('MassConverter', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(card, card, card, card, card);
+    player.playedCards.push({tags: Array(5).fill(Tags.SCIENCE)} as IProjectCard);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
     expect(player.getProduction(Resources.ENERGY)).to.eq(6);
     expect(card.getCardDiscount(player, card)).to.eq(0);
-    expect(card.getCardDiscount(player, new TollStation())).to.eq(2);
+    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).to.eq(2);
   });
 });

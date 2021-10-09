@@ -1,10 +1,10 @@
 import {expect} from 'chai';
-import {Birds} from '../../../src/cards/base/Birds';
-import {Predators} from '../../../src/cards/base/Predators';
 import {Virus} from '../../../src/cards/base/Virus';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Virus', function() {
@@ -18,11 +18,9 @@ describe('Virus', function() {
   });
 
   it('Should play', function() {
-    const birds = new Birds();
-    const predators = new Predators();
+    const birds = {resourceType: ResourceType.ANIMAL, resourceCount: 1} as IProjectCard;
+    const predators = {resourceType: ResourceType.ANIMAL, resourceCount: 1} as IProjectCard;
     player.playedCards.push(birds, predators);
-    player.addResourceTo(birds);
-    player.addResourceTo(predators);
     player.plants = 5;
 
     const orOptions = card.play(player2) as OrOptions;

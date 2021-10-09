@@ -1,13 +1,11 @@
 import {expect} from 'chai';
-import {Birds} from '../../../src/cards/base/Birds';
 import {CEOsFavoriteProject} from '../../../src/cards/base/CEOsFavoriteProject';
-import {Decomposers} from '../../../src/cards/base/Decomposers';
-import {SearchForLife} from '../../../src/cards/base/SearchForLife';
-import {SecurityFleet} from '../../../src/cards/base/SecurityFleet';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {SelfReplicatingRobots} from '../../../src/cards/promo/SelfReplicatingRobots';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('CEOsFavoriteProject', function() {
@@ -25,16 +23,12 @@ describe('CEOsFavoriteProject', function() {
   });
 
   it('Should play', function() {
-    const searchForLife = new SearchForLife();
-    const securityFleet = new SecurityFleet();
-    const decomposers = new Decomposers();
-    const birds = new Birds();
+    const searchForLife = {resourceType: ResourceType.SCIENCE, resourceCount: 1} as IProjectCard;
+    const securityFleet = {resourceType: ResourceType.FIGHTER, resourceCount: 1} as IProjectCard;
+    const decomposers = {resourceType: ResourceType.MICROBE, resourceCount: 1} as IProjectCard;
+    const birds = {resourceType: ResourceType.ANIMAL, resourceCount: 1} as IProjectCard;
 
     player.playedCards.push(searchForLife, securityFleet, decomposers, birds);
-    player.addResourceTo(securityFleet);
-    player.addResourceTo(decomposers);
-    player.addResourceTo(searchForLife);
-    player.addResourceTo(birds);
 
     const action = card.play(player);
     expect(action instanceof SelectCard).is.true;
@@ -51,12 +45,13 @@ describe('CEOsFavoriteProject', function() {
 
   it('Can play on SelfReplicatingRobots cards', function() {
     const srr = new SelfReplicatingRobots();
-    const birds = new Birds();
+    const srrTarget = {} as IProjectCard;
     player.playedCards.push(srr);
-    srr.targetCards.push({card: birds, resourceCount: 0});
+    srr.targetCards.push({card: srrTarget, resourceCount: 0});
+
     const action = card.play(player);
     expect(action instanceof SelectCard).is.true;
-    action.cb([birds]);
+    action.cb([srrTarget]);
     expect(srr.targetCards[0].resourceCount).to.eq(1);
   });
 });

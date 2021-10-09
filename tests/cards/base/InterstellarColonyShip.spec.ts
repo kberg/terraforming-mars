@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import {GeneRepair} from '../../../src/cards/base/GeneRepair';
 import {InterstellarColonyShip} from '../../../src/cards/base/InterstellarColonyShip';
-import {Research} from '../../../src/cards/base/Research';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
@@ -21,7 +21,7 @@ describe('InterstellarColonyShip', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(new Research(), new Research(), new GeneRepair());
+    player.playedCards.push({tags: Array(5).fill(Tags.SCIENCE)} as IProjectCard);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

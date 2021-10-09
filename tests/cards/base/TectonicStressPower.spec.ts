@@ -1,10 +1,11 @@
 import {expect} from 'chai';
-import {SearchForLife} from '../../../src/cards/base/SearchForLife';
 import {TectonicStressPower} from '../../../src/cards/base/TectonicStressPower';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 
 describe('TectonicStressPower', function() {
   let card : TectonicStressPower; let player : TestPlayer;
@@ -20,7 +21,7 @@ describe('TectonicStressPower', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(new SearchForLife(), new SearchForLife());
+    player.playedCards.push({tags: [Tags.SCIENCE, Tags.SCIENCE]} as IProjectCard);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

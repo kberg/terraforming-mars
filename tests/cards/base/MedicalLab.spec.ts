@@ -1,6 +1,7 @@
 import {expect} from 'chai';
-import {Capital} from '../../../src/cards/base/Capital';
 import {MedicalLab} from '../../../src/cards/base/MedicalLab';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
@@ -14,7 +15,7 @@ describe('MedicalLab', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
-    player.playedCards.push(new Capital());
+    player.playedCards.push({tags: [Tags.BUILDING]} as IProjectCard);
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());

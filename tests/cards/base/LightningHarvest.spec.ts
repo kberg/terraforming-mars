@@ -1,10 +1,11 @@
 import {expect} from 'chai';
-import {GeneRepair} from '../../../src/cards/base/GeneRepair';
 import {LightningHarvest} from '../../../src/cards/base/LightningHarvest';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 
 describe('LightningHarvest', function() {
   let card : LightningHarvest; let player : TestPlayer;
@@ -21,7 +22,7 @@ describe('LightningHarvest', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(new GeneRepair(), new GeneRepair(), new GeneRepair());
+    player.playedCards.push({tags: Array(3).fill(Tags.SCIENCE)} as IProjectCard);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

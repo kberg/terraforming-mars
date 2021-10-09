@@ -1,12 +1,11 @@
 import {expect} from 'chai';
 import {AdvancedEcosystems} from '../../../src/cards/base/AdvancedEcosystems';
 import {TestPlayer} from '../../TestPlayer';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
-import {TundraFarming} from '../../../src/cards/base/TundraFarming';
 import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
-import {ResearchNetwork} from '../../../src/cards/prelude/ResearchNetwork';
 import {Game} from '../../../src/Game';
 import {TestPlayers} from '../../TestPlayers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
+import {Tags} from '../../../src/cards/Tags';
 
 describe('AdvancedEcosystems', function() {
   let card : AdvancedEcosystems; let player : TestPlayer;
@@ -15,7 +14,7 @@ describe('AdvancedEcosystems', function() {
     card = new AdvancedEcosystems();
     player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
-    player.playedCards.push(new TundraFarming(), new ResearchNetwork());
+    player.playedCards.push({tags: [Tags.PLANT]} as IProjectCard, {tags: [Tags.WILDCARD]} as IProjectCard);
   });
 
   it('Can\'t play if tag requirements is unmet', function() {
@@ -25,7 +24,7 @@ describe('AdvancedEcosystems', function() {
   it('Should play', function() {
     expect(card.canPlay(player)).is.not.true;
 
-    player.playedCards.push(new Tardigrades());
+    player.playedCards.push({tags: [Tags.MICROBE]} as IProjectCard);
     expect(card.canPlay(player)).is.true;
 
     card.play();

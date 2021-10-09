@@ -1,10 +1,10 @@
 import {expect} from 'chai';
-import {Ants} from '../../../src/cards/base/Ants';
 import {ExtremeColdFungus} from '../../../src/cards/base/ExtremeColdFungus';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('ExtremeColdFungus', () => {
@@ -33,7 +33,7 @@ describe('ExtremeColdFungus', () => {
   });
 
   it('Should act - single target', () => {
-    const tardigrades = new Tardigrades();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(tardigrades);
 
     const action = card.action(player);
@@ -48,8 +48,8 @@ describe('ExtremeColdFungus', () => {
   });
 
   it('Should act - multiple targets', () => {
-    const tardigrades = new Tardigrades();
-    const ants = new Ants();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const ants = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(tardigrades, ants);
 
     const action = card.action(player);

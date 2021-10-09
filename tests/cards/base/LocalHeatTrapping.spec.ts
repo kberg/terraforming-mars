@@ -1,11 +1,11 @@
 import {expect} from 'chai';
-import {Fish} from '../../../src/cards/base/Fish';
 import {LocalHeatTrapping} from '../../../src/cards/base/LocalHeatTrapping';
-import {Pets} from '../../../src/cards/base/Pets';
 import {Helion} from '../../../src/cards/corporation/Helion';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('LocalHeatTrapping', () => {
@@ -37,7 +37,7 @@ describe('LocalHeatTrapping', () => {
 
   it('Should play - single animal target', () => {
     player.heat = 5;
-    const pets = new Pets();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(card, pets);
 
     const orOptions = card.play(player) as OrOptions;
@@ -54,8 +54,8 @@ describe('LocalHeatTrapping', () => {
 
   it('Should play - multiple animal targets', () => {
     player.heat = 5;
-    const pets = new Pets();
-    const fish = new Fish();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const fish = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(card, pets, fish);
 
     const orOptions = card.play(player) as OrOptions;

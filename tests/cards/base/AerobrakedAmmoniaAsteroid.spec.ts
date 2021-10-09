@@ -1,10 +1,10 @@
 import {expect} from 'chai';
 import {AerobrakedAmmoniaAsteroid} from '../../../src/cards/base/AerobrakedAmmoniaAsteroid';
-import {Ants} from '../../../src/cards/base/Ants';
-import {Decomposers} from '../../../src/cards/base/Decomposers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('AerobrakedAmmoniaAsteroid', function() {
@@ -30,7 +30,7 @@ describe('AerobrakedAmmoniaAsteroid', function() {
   it('Adds microbes automatically if only 1 target', function() {
     player.playedCards.push(card);
 
-    const selectedCard = new Ants();
+    const selectedCard = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(selectedCard);
 
     card.play(player);
@@ -43,8 +43,8 @@ describe('AerobrakedAmmoniaAsteroid', function() {
     player.playedCards.push(card);
 
     // Add card to collect Microbes on
-    const selectedCard = new Ants();
-    const otherMicrobeCard = new Decomposers();
+    const selectedCard = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const otherMicrobeCard = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(selectedCard, otherMicrobeCard);
 
     const action = card.play(player);

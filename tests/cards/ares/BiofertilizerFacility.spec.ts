@@ -1,6 +1,4 @@
 import {expect} from 'chai';
-import {AICentral} from '../../../src/cards/base/AICentral';
-import {Ants} from '../../../src/cards/base/Ants';
 import {BiofertilizerFacility} from '../../../src/cards/ares/BiofertilizerFacility';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
@@ -10,20 +8,23 @@ import {SpaceBonus} from '../../../src/SpaceBonus';
 import {TileType} from '../../../src/TileType';
 import {ARES_OPTIONS_NO_HAZARDS} from '../../ares/AresTestHelper';
 import {TestPlayers} from '../../TestPlayers';
+import {Tags} from '../../../src/cards/Tags';
+import {ResourceType} from '../../../src/ResourceType';
 
 describe('BiofertilizerFacility', function() {
   let card : BiofertilizerFacility; let player : Player; let game : Game;
-
-  let scienceTagCard: IProjectCard = new AICentral();
-  let microbeHost: IProjectCard = new Ants();
+  let scienceTagCard: IProjectCard;
+  let microbeHost: IProjectCard;
 
   beforeEach(() => {
     card = new BiofertilizerFacility();
     player = TestPlayers.BLUE.newPlayer();
     const redPlayer = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, redPlayer], player, ARES_OPTIONS_NO_HAZARDS);
-    scienceTagCard = new AICentral();
-    microbeHost = new Ants();
+
+    scienceTagCard = {tags: [Tags.SCIENCE]} as IProjectCard;
+    microbeHost = {tags: [Tags.MICROBE], resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    player.playedCards.push(microbeHost);
   });
 
   it('Cannot play without a science tag', function() {
@@ -31,14 +32,11 @@ describe('BiofertilizerFacility', function() {
   });
 
   it('Play', function() {
-    // Set up the cards.
     // Adds the necessary Science tag.
-    player.playCard(scienceTagCard);
-    player.playCard(microbeHost);
-
+    player.playedCards.push(scienceTagCard);
     // Initial expectations that will change after playing the card.
     expect(player.getProduction(Resources.PLANTS)).is.eq(0);
-    expect(microbeHost.resourceCount || 0).is.eq(0);
+    expect(microbeHost.resourceCount).is.eq(0);
     expect(game.deferredActions).has.lengthOf(0);
 
     expect(card.canPlay(player)).is.true;
@@ -53,7 +51,6 @@ describe('BiofertilizerFacility', function() {
     expect(citySpace.adjacency).to.deep.eq({bonus: [SpaceBonus.PLANT, SpaceBonus.MICROBE]});
 
     game.deferredActions.peek()!.execute();
-
     expect(microbeHost.resourceCount).is.eq(2);
   });
 });

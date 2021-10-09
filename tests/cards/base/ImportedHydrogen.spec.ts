@@ -1,13 +1,12 @@
 import {expect} from 'chai';
-import {Decomposers} from '../../../src/cards/base/Decomposers';
 import {ImportedHydrogen} from '../../../src/cards/base/ImportedHydrogen';
-import {Pets} from '../../../src/cards/base/Pets';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {SelectOption} from '../../../src/inputs/SelectOption';
 import {Player} from '../../../src/Player';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('ImportedHydrogen', function() {
@@ -21,9 +20,9 @@ describe('ImportedHydrogen', function() {
   });
 
   it('Should play', function() {
-    const pets = new Pets();
-    const tardigrades = new Tardigrades();
-    const decomposers = new Decomposers();
+    const pets = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const decomposers = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(pets, tardigrades, decomposers);
 
     const action = card.play(player);

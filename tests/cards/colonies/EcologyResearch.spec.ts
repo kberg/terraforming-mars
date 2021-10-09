@@ -1,14 +1,13 @@
 import {expect} from 'chai';
-import {Ants} from '../../../src/cards/base/Ants';
-import {Fish} from '../../../src/cards/base/Fish';
-import {Tardigrades} from '../../../src/cards/base/Tardigrades';
 import {EcologyResearch} from '../../../src/cards/colonies/EcologyResearch';
 import {ICard} from '../../../src/cards/ICard';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Luna} from '../../../src/colonies/Luna';
 import {Game} from '../../../src/Game';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {ResourceType} from '../../../src/ResourceType';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -35,8 +34,8 @@ describe('EcologyResearch', function() {
   });
 
   it('Should play with single targets', function() {
-    const tardigrades = new Tardigrades();
-    const fish = new Fish();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const fish = {resourceType: ResourceType.ANIMAL, resourceCount: 0} as IProjectCard;
     player.playedCards.push(tardigrades, fish);
 
     card.play(player);
@@ -54,8 +53,8 @@ describe('EcologyResearch', function() {
   });
 
   it('Should play with multiple targets', function() {
-    const tardigrades = new Tardigrades();
-    const ants = new Ants();
+    const tardigrades = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
+    const ants = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
     player.playedCards.push(tardigrades, ants);
 
     card.play(player);

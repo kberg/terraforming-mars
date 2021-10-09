@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import {Algae} from '../../../src/cards/base/Algae';
-import {Birds} from '../../../src/cards/base/Birds';
 import {Decomposers} from '../../../src/cards/base/Decomposers';
+import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {EcologyExperts} from '../../../src/cards/prelude/EcologyExperts';
+import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Phase} from '../../../src/Phase';
 import {Player} from '../../../src/Player';
@@ -27,11 +27,11 @@ describe('Decomposers', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    card.onCardPlayed(player, new Birds());
+    card.onCardPlayed(player, {tags: [Tags.ANIMAL]} as IProjectCard);
     expect(card.resourceCount).to.eq(1);
     card.onCardPlayed(player, card);
     expect(card.resourceCount).to.eq(2);
-    card.onCardPlayed(player, new Algae());
+    card.onCardPlayed(player, {tags: [Tags.PLANT]} as IProjectCard);
 
     expect(card.resourceCount).to.eq(3);
     expect(card.getVictoryPoints()).to.eq(1);
