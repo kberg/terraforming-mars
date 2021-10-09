@@ -1,7 +1,5 @@
 import {expect} from 'chai';
 import {AntiGravityTechnology} from '../../../src/cards/base/AntiGravityTechnology';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
@@ -20,7 +18,7 @@ describe('AntiGravityTechnology', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push({tags: Array(7).fill(Tags.SCIENCE)} as IProjectCard);
+    player.tagsForTest = {science: 7};
     expect(card.canPlay(player)).is.true;
 
     card.play();

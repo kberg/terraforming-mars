@@ -3,11 +3,11 @@ import {QuantumExtractor} from '../../../src/cards/base/QuantumExtractor';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
+import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('QuantumExtractor', function() {
-  let card : QuantumExtractor; let player : Player;
+  let card : QuantumExtractor; let player : TestPlayer;
 
   beforeEach(() => {
     card = new QuantumExtractor();
@@ -21,7 +21,7 @@ describe('QuantumExtractor', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push(card, card, card, card);
+    player.tagsForTest = {science: 4};
     card.play(player);
     expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).eq(2);
     expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).eq(0);

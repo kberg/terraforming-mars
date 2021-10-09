@@ -1,13 +1,11 @@
 import {expect} from 'chai';
 import {Plantation} from '../../../src/cards/base/Plantation';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
+import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Plantation', function() {
-  let card : Plantation; let player : Player; let game : Game;
+  let card : Plantation; let player : TestPlayer; let game : Game;
 
   beforeEach(() => {
     card = new Plantation();
@@ -21,7 +19,7 @@ describe('Plantation', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push({tags: [Tags.SCIENCE, Tags.SCIENCE]} as IProjectCard);
+    player.tagsForTest = {science: 2};
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);

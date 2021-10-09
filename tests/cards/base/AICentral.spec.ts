@@ -4,8 +4,6 @@ import {TestPlayer} from '../../TestPlayer';
 import {Game} from '../../../src/Game';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {Tags} from '../../../src/cards/Tags';
 
 describe('AICentral', function() {
   let card : AICentral; let player : TestPlayer;
@@ -27,7 +25,7 @@ describe('AICentral', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push({tags: Array(3).fill(Tags.SCIENCE)} as IProjectCard);
+    player.tagsForTest = {science: 3};
     player.addProduction(Resources.ENERGY, 1);
 
     card.play(player);

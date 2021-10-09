@@ -3,12 +3,12 @@ import {MassConverter} from '../../../src/cards/base/MassConverter';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
-import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('MassConverter', function() {
-  let card : MassConverter; let player : Player;
+  let card : MassConverter; let player : TestPlayer;
 
   beforeEach(() => {
     card = new MassConverter();
@@ -22,7 +22,7 @@ describe('MassConverter', function() {
   });
 
   it('Should play', function() {
-    player.playedCards.push({tags: Array(5).fill(Tags.SCIENCE)} as IProjectCard);
+    player.tagsForTest = {science: 5};
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

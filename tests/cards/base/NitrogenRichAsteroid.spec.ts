@@ -1,7 +1,5 @@
 import {expect} from 'chai';
 import {NitrogenRichAsteroid} from '../../../src/cards/base/NitrogenRichAsteroid';
-import {IProjectCard} from '../../../src/cards/IProjectCard';
-import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
@@ -17,7 +15,8 @@ describe('NitrogenRichAsteroid', function() {
     expect(player.getTerraformRating()).eq(23);
     expect(game.getTemperature()).eq(-28);
     expect(player.getProduction(Resources.PLANTS)).eq(1);
-    player.playedCards.push({tags: Array(3).fill(Tags.PLANT)} as IProjectCard);
+
+    player.tagsForTest = {plant: 3};
     card.play(player);
     expect(player.getTerraformRating()).eq(26);
     expect(game.getTemperature()).eq(-26);
