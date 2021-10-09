@@ -49,9 +49,9 @@ describe('LavaTubeSettlement', function() {
     const selectSpace = game.deferredActions.peek()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
 
-    expect(selectSpace.availableSpaces[0].tile && selectSpace.availableSpaces[0].tile.tileType).to.eq(TileType.CITY);
-    expect(selectSpace.availableSpaces[0].player).to.eq(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(selectSpace.availableSpaces[0].tile && selectSpace.availableSpaces[0].tile.tileType).eq(TileType.CITY);
+    expect(selectSpace.availableSpaces[0].player).eq(player);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
   });
 
   it('Can place city on any land space for Hellas', function() {
@@ -65,7 +65,7 @@ describe('LavaTubeSettlement', function() {
 
     card.play(player);
     const selectSpace = game.deferredActions.peek()!.execute() as SelectSpace;
-    expect(selectSpace.availableSpaces.length).to.eq(49);
+    expect(selectSpace.availableSpaces.length).eq(49);
   });
 
   it('Can place city on any land space for Arabia Terra', function() {
@@ -78,6 +78,6 @@ describe('LavaTubeSettlement', function() {
 
     card.play(player);
     const selectSpace = game.deferredActions.peek()!.execute() as SelectSpace;
-    expect(selectSpace.availableSpaces.length).to.eq(49);
+    expect(selectSpace.availableSpaces.length).eq(49);
   });
 });

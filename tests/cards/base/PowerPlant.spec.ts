@@ -11,6 +11,6 @@ describe('PowerPlant', function() {
     Game.newInstance('foobar', [player], player);
 
     expect(card.play(player)).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
   });
 });

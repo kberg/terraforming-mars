@@ -18,6 +18,6 @@ describe('MudSlides', function() {
     game.addOceanTile(player, oceanTile.id);
     player.addResource(Resources.MEGACREDITS, 10);
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(6);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(6);
   });
 });

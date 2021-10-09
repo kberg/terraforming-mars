@@ -19,7 +19,7 @@ describe('TopsoilContract', function() {
 
   it('Can play', function() {
     card.play(player);
-    expect(player.plants).to.eq(3);
+    expect(player.plants).eq(3);
   });
 
   it('Gives 1 M€ whenever player gains a microbe', function() {
@@ -29,17 +29,17 @@ describe('TopsoilContract', function() {
     const tardigrades = new Tardigrades();
     player.playedCards.push(tardigrades);
     tardigrades.action(player);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
 
     const aerobrakedAmmoniaAsteroid = new AerobrakedAmmoniaAsteroid();
     aerobrakedAmmoniaAsteroid.play(player);
-    expect(tardigrades.resourceCount).to.eq(3);
-    expect(player.megaCredits).to.eq(3);
+    expect(tardigrades.resourceCount).eq(3);
+    expect(player.megaCredits).eq(3);
 
     // Don't get MC when other players gain microbes
     const ants = new Ants();
     player2.playedCards.push(ants);
     ants.action(player2);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

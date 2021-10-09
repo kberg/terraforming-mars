@@ -21,7 +21,7 @@ describe('Meltworks', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.heat).to.eq(0);
-    expect(player.steel).to.eq(3);
+    expect(player.heat).eq(0);
+    expect(player.steel).eq(3);
   });
 });

@@ -12,9 +12,9 @@ describe('EcoLine', function() {
     Game.newInstance('foobar', [player], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
-    expect(player.plants).to.eq(3);
-    expect(player.plantsNeededForGreenery).to.eq(7);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
+    expect(player.plants).eq(3);
+    expect(player.plantsNeededForGreenery).eq(7);
 
     const convert = new ConvertPlantsEcoline();
     expect(convert.canAct(player)).eq(false);
@@ -24,6 +24,6 @@ describe('EcoLine', function() {
     const action2 = convert.action(player);
     expect(action2).not.eq(undefined);
     action2.cb(action2.availableSpaces[0]);
-    expect(player.plants).to.eq(0);
+    expect(player.plants).eq(0);
   });
 });

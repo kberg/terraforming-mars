@@ -11,6 +11,6 @@ describe('MineralDeposit', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.steel).to.eq(5);
+    expect(player.steel).eq(5);
   });
 });

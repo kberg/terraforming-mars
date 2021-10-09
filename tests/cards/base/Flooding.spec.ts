@@ -41,14 +41,14 @@ describe('Flooding', function() {
     expect(subAction!.options[1].cb()).is.undefined;
     const subActionSelectPlayer: SelectPlayer = subAction!.options[0] as SelectPlayer;
     expect(subActionSelectPlayer.players).has.lengthOf(1);
-    expect(subActionSelectPlayer.players[0]).to.eq(player2);
+    expect(subActionSelectPlayer.players[0]).eq(player2);
 
     player2.megaCredits = 4;
     subActionSelectPlayer.cb(player2);
-    expect(player2.megaCredits).to.eq(0);
+    expect(player2.megaCredits).eq(0);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
   });
 
   it('Does not suggest to remove money from yourself', function() {
@@ -64,7 +64,7 @@ describe('Flooding', function() {
 
     const subActionSelectPlayer: SelectPlayer = subActions.options[0] as SelectPlayer;
     expect(subActionSelectPlayer.players).has.lengthOf(1);
-    expect(subActionSelectPlayer.players[0]).to.eq(player2);
+    expect(subActionSelectPlayer.players[0]).eq(player2);
   });
 
   it('Does not suggest player who played Land Claim', function() {
@@ -73,7 +73,7 @@ describe('Flooding', function() {
     const adjacentSpace = game.board.getAvailableSpacesOnLand(player).filter((space) => space.id === '03')[0];
 
     landClaimAction.cb(adjacentSpace);
-    expect(adjacentSpace.player).to.eq(player2);
+    expect(adjacentSpace.player).eq(player2);
     expect(adjacentSpace.tile).is.undefined;
 
     const oceanSpaces = game.board.getAvailableSpacesForOcean(player);

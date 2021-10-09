@@ -24,7 +24,7 @@ describe('DustSeals', function() {
     expect(card.canPlay(player)).is.true;
     card.play();
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 });
 

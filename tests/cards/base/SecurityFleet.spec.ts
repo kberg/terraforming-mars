@@ -21,7 +21,7 @@ describe('SecurityFleet', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.titanium).to.eq(0);
-    expect(card.resourceCount).to.eq(1);
+    expect(player.titanium).eq(0);
+    expect(card.resourceCount).eq(1);
   });
 });

@@ -36,9 +36,9 @@ describe('CrashSiteCleanup', function() {
 
     const action = card.play(player) as OrOptions;
     action.options[0].cb();
-    expect(player.titanium).to.eq(1);
+    expect(player.titanium).eq(1);
     action.options[1].cb();
-    expect(player.steel).to.eq(2);
+    expect(player.steel).eq(2);
   });
 
   it('Can play if removed plants from neutral player in solo mode', function() {

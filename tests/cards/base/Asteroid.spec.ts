@@ -23,12 +23,12 @@ describe('Asteroid', function() {
 
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[1].cb(); // do nothing
-    expect(player2.getResource(Resources.PLANTS)).to.eq(2);
+    expect(player2.getResource(Resources.PLANTS)).eq(2);
 
     orOptions.options[0].cb(); // remove plants
-    expect(player2.getResource(Resources.PLANTS)).to.eq(0);
+    expect(player2.getResource(Resources.PLANTS)).eq(0);
 
-    expect(player.titanium).to.eq(2);
-    expect(game.getTemperature()).to.eq(-28);
+    expect(player.titanium).eq(2);
+    expect(game.getTemperature()).eq(-28);
   });
 });

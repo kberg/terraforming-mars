@@ -25,7 +25,7 @@ describe('SuccessfulOrganisms', function() {
     player2.addProduction(Resources.PLANTS, 3);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.PLANTS)).to.eq(3);
-    expect(player2.getResource(Resources.PLANTS)).to.eq(6);
+    expect(player.getResource(Resources.PLANTS)).eq(3);
+    expect(player2.getResource(Resources.PLANTS)).eq(6);
   });
 });

@@ -22,22 +22,22 @@ describe('Entrepreneur', function() {
     const player2 = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, player2], player);
 
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
 
     // This space won't count.
     game.addGreenery(player, '35');
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
 
     // This one does
     addAdjacencyBonus(player, '10');
-    expect(award.getScore(player)).to.eq(1);
+    expect(award.getScore(player)).eq(1);
 
     // This one does
     addAdjacencyBonus(player, '11');
-    expect(award.getScore(player)).to.eq(2);
+    expect(award.getScore(player)).eq(2);
 
     // But this one has a cost, and doesn't count.
     addAdjacencyBonus(player, '12', {bonus: [], cost: 2});
-    expect(award.getScore(player)).to.eq(2);
+    expect(award.getScore(player)).eq(2);
   });
 });

@@ -37,15 +37,15 @@ describe('DirectedImpactors', function() {
     const selectHowToPay = game.deferredActions.peek()!.execute() as SelectHowToPay;
     selectHowToPay.cb({steel: 0, heat: 0, titanium: 1, megaCredits: 3, microbes: 0, floaters: 0} as HowToPay);
 
-    expect(player.megaCredits).to.eq(0);
-    expect(player.titanium).to.eq(0);
-    expect(card.resourceCount).to.eq(1);
+    expect(player.megaCredits).eq(0);
+    expect(player.titanium).eq(0);
+    expect(card.resourceCount).eq(1);
 
     // can remove resource to raise temperature
     card.action(player);
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.game.getTemperature()).to.eq(-28);
-    expect(card.resourceCount).to.eq(0);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.game.getTemperature()).eq(-28);
+    expect(card.resourceCount).eq(0);
   });
 
   it('Should act - multiple action choices, multiple targets', function() {
@@ -60,9 +60,9 @@ describe('DirectedImpactors', function() {
 
     // can remove resource to raise temperature
     action.options[0].cb();
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.game.getTemperature()).to.eq(-28);
-    expect(card.resourceCount).to.eq(0);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.game.getTemperature()).eq(-28);
+    expect(card.resourceCount).eq(0);
 
     // can add resource to any card
     const selectCard = action.options[1].cb();
@@ -71,9 +71,9 @@ describe('DirectedImpactors', function() {
     selectHowToPay.cb({steel: 0, heat: 0, titanium: 1, megaCredits: 3, microbes: 0, floaters: 0} as HowToPay);
 
     selectCard!.cb([card2]);
-    expect(card2.resourceCount).to.eq(1);
-    expect(player.megaCredits).to.eq(0);
-    expect(player.titanium).to.eq(0);
+    expect(card2.resourceCount).eq(1);
+    expect(player.megaCredits).eq(0);
+    expect(player.titanium).eq(0);
   });
 
   it('Can still spend resource even if temperature is max', function() {

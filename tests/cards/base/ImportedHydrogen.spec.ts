@@ -30,23 +30,23 @@ describe('ImportedHydrogen', function() {
     expect((action as OrOptions).options).has.lengthOf(3);
 
     (action as OrOptions).options[0].cb();
-    expect(player.plants).to.eq(3);
+    expect(player.plants).eq(3);
 
     const selectAnimal = (action as OrOptions).options[2] as SelectOption;
     const selectMicrobe = (action as OrOptions).options[1] as SelectCard<any>;
 
     expect(selectMicrobe.cards).has.lengthOf(2);
-    expect(selectMicrobe.cards[0]).to.eq(tardigrades);
+    expect(selectMicrobe.cards[0]).eq(tardigrades);
     selectMicrobe.cb([tardigrades]);
 
-    expect(player.getResourcesOnCard(tardigrades)).to.eq(3);
+    expect(player.getResourcesOnCard(tardigrades)).eq(3);
     selectAnimal.cb();
-    expect(player.getResourcesOnCard(pets)).to.eq(2);
+    expect(player.getResourcesOnCard(pets)).eq(2);
   });
 
   it('Should add plants directly if no microbe or animal cards available', function() {
-    expect(player.plants).to.eq(0);
+    expect(player.plants).eq(0);
     card.play(player);
-    expect(player.plants).to.eq(3);
+    expect(player.plants).eq(3);
   });
 });

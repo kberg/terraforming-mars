@@ -45,8 +45,8 @@ describe('OceanFarm', () => {
 
     action.cb(oceanSpace);
 
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_FARM);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_FARM);
     expect(oceanSpace.adjacency).to.deep.eq({bonus: [SpaceBonus.PLANT]});
   });
 
@@ -78,8 +78,8 @@ describe('OceanFarm', () => {
 
     action.cb(oceanSpace);
 
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_FARM);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_FARM);
     expect(player.plants).eq(1);
   });
 });

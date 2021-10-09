@@ -12,8 +12,8 @@ describe('TerraformingGanymede', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
     player.playedCards.push(card);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
   });
 });

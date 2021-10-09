@@ -24,18 +24,18 @@ describe('StormCraftIncorporated', function() {
 
     const action = card.action(player);
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Restricts amounts when converting heat', function() {
     player.heat = 10;
     card.resourceCount = 10;
     const options = card.spendHeat(player, constants.HEAT_FOR_TEMPERATURE);
-    expect(options.options.length).to.eq(2);
+    expect(options.options.length).eq(2);
     const heatOption = options.options[0] as SelectAmount;
-    expect(heatOption.max).to.eq(constants.HEAT_FOR_TEMPERATURE);
+    expect(heatOption.max).eq(constants.HEAT_FOR_TEMPERATURE);
     const floaterOption = options.options[1] as SelectAmount;
-    expect(floaterOption.max).to.eq(constants.HEAT_FOR_TEMPERATURE / 2);
+    expect(floaterOption.max).eq(constants.HEAT_FOR_TEMPERATURE / 2);
   });
 
   it('Validates inputs', function() {
@@ -60,7 +60,7 @@ describe('StormCraftIncorporated', function() {
     heatOption.cb(2);
     floaterOption.cb(3);
     options.cb();
-    expect(player.heat).to.eq(8);
-    expect(card.resourceCount).to.eq(7);
+    expect(player.heat).eq(8);
+    expect(card.resourceCount).eq(7);
   });
 });

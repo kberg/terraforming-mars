@@ -22,11 +22,11 @@ describe('Teractor', function() {
 
 
   it('Should play', function() {
-    expect(card.getCardDiscount(player, new Cartel())).to.eq(3);
-    expect(card.getCardDiscount(player, new Birds())).to.eq(0);
+    expect(card.getCardDiscount(player, new Cartel())).eq(3);
+    expect(card.getCardDiscount(player, new Birds())).eq(0);
   });
 
   it('Discounts Luna Governor correctly', function() {
-    expect(card.getCardDiscount(player, new LunaGovernor())).to.eq(6);
+    expect(card.getCardDiscount(player, new LunaGovernor())).eq(6);
   });
 });

@@ -11,7 +11,7 @@ describe('AbandonedSteelForge', function() {
     Game.newInstance('foobar', [player], player);
     card.play(player);
 
-    expect(player.steel).to.eq(9);
+    expect(player.steel).eq(9);
     expect(player.cardsInHand).has.lengthOf(2);
     expect(player.cardsInHand.filter((card) => card.tags.includes(Tags.BUILDING))).has.lengthOf(2);
   });

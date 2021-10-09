@@ -40,7 +40,7 @@ describe('MartianZoo', function() {
     expect(card.canAct()).is.true;
 
     card.action(player);
-    expect(player.megaCredits).to.eq(2);
-    expect(card.resourceCount).to.eq(2);
+    expect(player.megaCredits).eq(2);
+    expect(card.resourceCount).eq(2);
   });
 });

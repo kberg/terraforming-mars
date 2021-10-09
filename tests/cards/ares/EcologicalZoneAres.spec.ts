@@ -28,11 +28,11 @@ describe('EcologicalZoneAres', function() {
 
     const adjacentSpace = action.availableSpaces[0];
     action.cb(adjacentSpace);
-    expect(adjacentSpace.tile && adjacentSpace.tile.tileType).to.eq(TileType.ECOLOGICAL_ZONE);
+    expect(adjacentSpace.tile && adjacentSpace.tile.tileType).eq(TileType.ECOLOGICAL_ZONE);
 
     card.onCardPlayed(player, card);
-    expect(card.resourceCount).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.resourceCount).eq(2);
+    expect(card.getVictoryPoints()).eq(1);
     expect(adjacentSpace.adjacency).to.deep.eq({bonus: [SpaceBonus.ANIMAL]});
   });
 });

@@ -23,9 +23,9 @@ describe('DeimosDown', function() {
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[0].cb();
 
-    expect(game.getTemperature()).to.eq(-24);
-    expect(player.steel).to.eq(4);
-    expect(player2.plants).to.eq(0);
+    expect(game.getTemperature()).eq(-24);
+    expect(player.steel).eq(4);
+    expect(player2.plants).eq(0);
   });
 
   it('Works fine in solo mode', function() {
@@ -34,8 +34,8 @@ describe('DeimosDown', function() {
     player.plants = 15;
     card.play(player);
 
-    expect(game.getTemperature()).to.eq(-24);
-    expect(player.steel).to.eq(4);
-    expect(player.plants).to.eq(15); // not removed
+    expect(game.getTemperature()).eq(-24);
+    expect(player.steel).eq(4);
+    expect(player.plants).eq(15); // not removed
   });
 });

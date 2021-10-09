@@ -18,8 +18,8 @@ describe('Duncan', function() {
 
   it('Has 5 VP and 4 MC in gen 1', function() {
     card.action(player);
-    expect(player.getVictoryPoints().total).to.eq(25);
-    expect(player.megaCredits).to.eq(4);
+    expect(player.getVictoryPoints().total).eq(25);
+    expect(player.megaCredits).eq(4);
   });
 
   it('Has -2 VP and 32 MC in gen 8', function() {
@@ -29,12 +29,12 @@ describe('Duncan', function() {
 
     player.megaCredits = 0;
     card.action(player);
-    expect(player.getVictoryPoints().total).to.eq(18);
-    expect(player.megaCredits).to.eq(32);
+    expect(player.getVictoryPoints().total).eq(18);
+    expect(player.megaCredits).eq(32);
   });
 
   it('Does not affect VP if OPG action not used yet', function() {
-    expect(player.getVictoryPoints().total).to.eq(20);
+    expect(player.getVictoryPoints().total).eq(20);
   });
 
   it('Can only act once per game', function() {

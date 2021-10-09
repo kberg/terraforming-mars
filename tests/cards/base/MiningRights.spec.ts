@@ -38,9 +38,9 @@ describe('MiningRights', () => {
     action.cb(titaniumSpace!);
     game.deferredActions.runNext();
 
-    expect(titaniumSpace!.player).to.eq(player);
-    expect(titaniumSpace!.tile && titaniumSpace!.tile!.tileType).to.eq(TileType.MINING_RIGHTS);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(titaniumSpace!.player).eq(player);
+    expect(titaniumSpace!.tile && titaniumSpace!.tile!.tileType).eq(TileType.MINING_RIGHTS);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(titaniumSpace!.adjacency?.bonus).eq(undefined);
 
     const steelSpace = action.availableSpaces.find((space) => space.bonus.includes(SpaceBonus.TITANIUM) === false && space.bonus.includes(SpaceBonus.STEEL));
@@ -50,9 +50,9 @@ describe('MiningRights', () => {
     action.cb(steelSpace!);
     game.deferredActions.runNext();
 
-    expect(steelSpace!.player).to.eq(player);
-    expect(steelSpace!.tile && steelSpace!.tile!.tileType).to.eq(TileType.MINING_RIGHTS);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(steelSpace!.player).eq(player);
+    expect(steelSpace!.tile && steelSpace!.tile!.tileType).eq(TileType.MINING_RIGHTS);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(steelSpace!.adjacency?.bonus).eq(undefined);
   });
 });

@@ -16,7 +16,7 @@ describe('Inventrix', function() {
 
   it('Should play', function() {
     card.play();
-    expect(card.getRequirementBonus()).to.eq(2);
+    expect(card.getRequirementBonus()).eq(2);
   });
 
   it('Should take initial action', function() {

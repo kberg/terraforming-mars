@@ -40,7 +40,7 @@ describe('Atmoscoop', function() {
     const orOptions = action.options[1] as OrOptions;
 
     orOptions.cb();
-    expect(game.getVenusScaleLevel()).to.eq(4);
+    expect(game.getVenusScaleLevel()).eq(4);
   });
 
   it('Should play - single target', function() {
@@ -51,8 +51,8 @@ describe('Atmoscoop', function() {
 
     const orOptions = action.options[1] as OrOptions;
     orOptions.cb();
-    expect(game.getVenusScaleLevel()).to.eq(4);
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(4);
+    expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - multiple targets', function() {
@@ -62,16 +62,16 @@ describe('Atmoscoop', function() {
 
     // First the global parameter
     orOptions.options[0].cb();
-    expect(game.getTemperature()).to.eq(-26);
+    expect(game.getTemperature()).eq(-26);
     orOptions.options[1].cb();
-    expect(game.getVenusScaleLevel()).to.eq(4);
+    expect(game.getVenusScaleLevel()).eq(4);
 
     // Then the floaters
     const selectCard = orOptions.cb() as SelectCard<ICard>;
     selectCard.cb([dirigibles]);
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(dirigibles.resourceCount).eq(2);
     selectCard.cb([floatingHabs]);
-    expect(floatingHabs.resourceCount).to.eq(2);
+    expect(floatingHabs.resourceCount).eq(2);
   });
 
   it('Should play - single target, one global parameter maxed', function() {
@@ -80,8 +80,8 @@ describe('Atmoscoop', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(game.getVenusScaleLevel()).to.eq(4);
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(4);
+    expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - single target, both global parameters maxed', function() {
@@ -91,7 +91,7 @@ describe('Atmoscoop', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - multiple targets, one global parameter maxed', function() {
@@ -102,8 +102,8 @@ describe('Atmoscoop', function() {
     expect(action instanceof SelectCard).is.true;
 
     action.cb([dirigibles]);
-    expect(game.getVenusScaleLevel()).to.eq(4);
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(4);
+    expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - multiple targets, both global parameters maxed', function() {
@@ -114,6 +114,6 @@ describe('Atmoscoop', function() {
     const action = card.play(player) as SelectCard<ICard>;
     expect(action instanceof SelectCard).is.true;
     action.cb([dirigibles]);
-    expect(dirigibles.resourceCount).to.eq(2);
+    expect(dirigibles.resourceCount).eq(2);
   });
 });

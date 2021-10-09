@@ -27,7 +27,7 @@ describe('SpinoffProducts', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(4);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(14);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(4);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(14);
   });
 });

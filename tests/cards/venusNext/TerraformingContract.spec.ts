@@ -13,6 +13,6 @@ describe('TerraformingContract', function() {
     expect(card.canPlay(player)).is.not.true;
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

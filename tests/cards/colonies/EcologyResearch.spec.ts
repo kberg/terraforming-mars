@@ -29,8 +29,8 @@ describe('EcologyResearch', function() {
   it('Should play without targets', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 
   it('Should play with single targets', function() {
@@ -47,9 +47,9 @@ describe('EcologyResearch', function() {
     game.deferredActions.pop();
     expect(input2).is.undefined;
 
-    expect(tardigrades.resourceCount).to.eq(2);
-    expect(fish.resourceCount).to.eq(1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(tardigrades.resourceCount).eq(2);
+    expect(fish.resourceCount).eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 
   it('Should play with multiple targets', function() {
@@ -64,7 +64,7 @@ describe('EcologyResearch', function() {
     const selectCard = game.deferredActions.peek()!.execute() as SelectCard<ICard>;
     selectCard.cb([ants]);
 
-    expect(ants.resourceCount).to.eq(2);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(ants.resourceCount).eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

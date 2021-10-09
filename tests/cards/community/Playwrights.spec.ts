@@ -38,7 +38,7 @@ describe('Playwrights', () => {
     event.play(player);
     player.playedCards.push(event);
 
-    expect(player.getTerraformRating()).to.eq(tr + 2);
+    expect(player.getTerraformRating()).eq(tr + 2);
     expect(card.canAct(player)).is.not.true;
 
     player.megaCredits = event.cost;
@@ -50,7 +50,7 @@ describe('Playwrights', () => {
     game.deferredActions.pop()!.execute(); // SelectHowToPay
     game.deferredActions.runAll(() => {});
 
-    expect(player.getTerraformRating()).to.eq(tr + 4);
+    expect(player.getTerraformRating()).eq(tr + 4);
     expect(player.megaCredits).eq(0);
     expect(player.playedCards).has.lengthOf(0);
     expect(player.removedFromPlayCards).has.lengthOf(1);
@@ -70,7 +70,7 @@ describe('Playwrights', () => {
     game.deferredActions.pop()!.execute(); // SelectHowToPay
     game.deferredActions.runAll(() => {});
 
-    expect(player.getTerraformRating()).to.eq(tr + 2);
+    expect(player.getTerraformRating()).eq(tr + 2);
     expect(player.megaCredits).eq(0);
     expect(player2.playedCards).has.lengthOf(0);
     expect(player.removedFromPlayCards).has.lengthOf(1);
@@ -96,10 +96,10 @@ describe('Playwrights', () => {
     game.deferredActions.pop()!.execute();
 
     const deimosDown = new DeimosDown();
-    expect(player.getCardCost(deimosDown)).to.eq(deimosDown.cost - 8);
+    expect(player.getCardCost(deimosDown)).eq(deimosDown.cost - 8);
 
     player.playCard(deimosDown);
-    expect(player.getCardCost(deimosDown)).to.eq(deimosDown.cost); // no more discount
+    expect(player.getCardCost(deimosDown)).eq(deimosDown.cost); // no more discount
   });
 
   it('Works with Law Suit', () => {

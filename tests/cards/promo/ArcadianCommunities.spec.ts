@@ -14,7 +14,7 @@ describe('ArcadianCommunities', function() {
     Game.newInstance('foobar', [player, player2], player);
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(player.steel).to.eq(10);
+    expect(player.steel).eq(10);
     player.corporationCard = card;
 
     const initLands = player.game.board.getAvailableSpacesForGreenery(player);
@@ -28,6 +28,6 @@ describe('ArcadianCommunities', function() {
 
     player.game.addCityTile(player, lands[0].id);
     TestingUtils.runAllActions(player.game);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

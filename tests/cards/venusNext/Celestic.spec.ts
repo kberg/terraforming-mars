@@ -16,8 +16,8 @@ describe('Celestic', function() {
 
     const action = card.action(player);
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
     player.addResourceTo(card, 4);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

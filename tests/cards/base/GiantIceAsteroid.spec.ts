@@ -32,13 +32,13 @@ describe('GiantIceAsteroid', function() {
     expect(orOptions.options).has.lengthOf(3);
 
     orOptions.options[0].cb();
-    expect(player2.plants).to.eq(0);
+    expect(player2.plants).eq(0);
 
     orOptions.options[1].cb();
-    expect(player3.plants).to.eq(0);
+    expect(player3.plants).eq(0);
 
-    expect(game.getTemperature()).to.eq(-26);
-    expect(player.getTerraformRating()).to.eq(24);
+    expect(game.getTemperature()).eq(-26);
+    expect(player.getTerraformRating()).eq(24);
   });
 });
 

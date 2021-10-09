@@ -24,7 +24,7 @@ describe('ConnectedCommunities', function() {
     player.setTerraformRating(20);
 
     card.resolve(game, turmoil);
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

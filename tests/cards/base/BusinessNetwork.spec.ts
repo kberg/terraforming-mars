@@ -20,7 +20,7 @@ describe('BusinessNetwork', function() {
   it('Should play', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
   });
 
   it('Can\'t play', function() {
@@ -36,12 +36,12 @@ describe('BusinessNetwork', function() {
     player.megaCredits = 2;
     const action = card.action(player);
     expect(action instanceof SelectCard).is.true;
-    expect(action!.maxCardsToSelect).to.eq(0);
+    expect(action!.maxCardsToSelect).eq(0);
 
     (action! as SelectCard<IProjectCard>).cb([]);
     expect(game.dealer.discarded).has.lengthOf(1);
     expect(player.cardsInHand).has.lengthOf(0);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Should action as not helion', function() {
@@ -51,13 +51,13 @@ describe('BusinessNetwork', function() {
 
     (action! as SelectCard<IProjectCard>).cb([]);
     expect(game.dealer.discarded).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
 
     player.megaCredits = 3;
     (action as SelectCard<IProjectCard>).cb([(action as SelectCard<IProjectCard>).cards[0]]);
     expect(game.deferredActions).has.lengthOf(1);
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

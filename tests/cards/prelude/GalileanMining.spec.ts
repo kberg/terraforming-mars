@@ -28,7 +28,7 @@ describe('GalileanMining', function() {
     // SelectHowToPayDeferred
     game.deferredActions.runNext();
 
-    expect(player.megaCredits).to.eq(0);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(2);
+    expect(player.megaCredits).eq(0);
+    expect(player.getProduction(Resources.TITANIUM)).eq(2);
   });
 });

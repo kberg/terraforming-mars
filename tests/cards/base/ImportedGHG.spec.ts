@@ -12,7 +12,7 @@ describe('ImportedGHG', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.HEAT)).to.eq(1);
-    expect(player.heat).to.eq(3);
+    expect(player.getProduction(Resources.HEAT)).eq(1);
+    expect(player.heat).eq(3);
   });
 });

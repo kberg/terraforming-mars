@@ -23,18 +23,18 @@ describe('UnitedNationsMissionOne', function() {
   });
 
   it('Initializes correctly', function() {
-    expect(game.unitedNationsMissionOneOwner).to.eq(player.id);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(game.unitedNationsMissionOneOwner).eq(player.id);
+    expect(player.getTerraformRating()).eq(21);
   });
 
   it('Gains 1 MC whenever any player raises TR during action phase', function() {
     game.phase = Phase.ACTION;
 
     player.increaseTerraformRating();
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
 
     player2.increaseTerraformRating();
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Gives MC during initial preludes phase', function() {
@@ -42,7 +42,7 @@ describe('UnitedNationsMissionOne', function() {
 
     const card = new UNMIContractor();
     card.play(player);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 
   it('Does not give MC during turmoil phase', function() {
@@ -54,7 +54,7 @@ describe('UnitedNationsMissionOne', function() {
     turmoil.initGlobalEvent(game);
 
     card.resolve(game, turmoil);
-    expect(player2.getTerraformRating()).to.eq(22);
-    expect(player.megaCredits).to.eq(0); // no increase
+    expect(player2.getTerraformRating()).eq(22);
+    expect(player.megaCredits).eq(0); // no increase
   });
 });

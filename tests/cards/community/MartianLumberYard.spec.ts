@@ -15,9 +15,9 @@ describe('MartianLumberYard', function() {
   it('Should play', function() {
     card.play(player);
 
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.steel).to.eq(2);
-    expect(player.plants).to.eq(3);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.steel).eq(2);
+    expect(player.plants).eq(3);
   });
 });

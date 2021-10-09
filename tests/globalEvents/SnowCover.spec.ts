@@ -27,24 +27,24 @@ describe('SnowCover', function() {
   it('resolve play', function() {
     card.resolve(game, turmoil);
     expect(player2.cardsInHand).has.lengthOf(3);
-    expect(game.getTemperature()).to.eq(-30);
+    expect(game.getTemperature()).eq(-30);
 
     game.increaseTemperature(player, 1);
     card.resolve(game, turmoil);
-    expect(game.getTemperature()).to.eq(-30);
+    expect(game.getTemperature()).eq(-30);
 
     game.increaseTemperature(player, 2);
     card.resolve(game, turmoil);
-    expect(game.getTemperature()).to.eq(-30);
+    expect(game.getTemperature()).eq(-30);
 
     game.increaseTemperature(player, 3);
     card.resolve(game, turmoil);
-    expect(game.getTemperature()).to.eq(-28);
+    expect(game.getTemperature()).eq(-28);
   });
 
   it('cannot reduce temperature if maxed out', function() {
     (game as any).temperature = MAX_TEMPERATURE;
     card.resolve(game, turmoil);
-    expect(game.getTemperature()).to.eq(MAX_TEMPERATURE);
+    expect(game.getTemperature()).eq(MAX_TEMPERATURE);
   });
 });

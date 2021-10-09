@@ -26,10 +26,10 @@ describe('NoctisCity', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
 
     const noctis = game.board.getSpace(SpaceName.NOCTIS_CITY);
-    expect(noctis.tile && noctis.tile.tileType).to.eq(TileType.CITY);
+    expect(noctis.tile && noctis.tile.tileType).eq(TileType.CITY);
   });
 });

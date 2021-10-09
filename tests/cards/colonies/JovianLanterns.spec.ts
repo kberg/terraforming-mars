@@ -16,7 +16,7 @@ describe('JovianLanterns', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
   });
 
   it('Can\'t act', function() {
@@ -30,8 +30,8 @@ describe('JovianLanterns', function() {
 
     const action = card.action(player);
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(2);
-    expect(player.titanium).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.resourceCount).eq(2);
+    expect(player.titanium).eq(2);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

@@ -23,7 +23,7 @@ describe('ColonizationIncentives', function() {
     game.colonies.push(colony1);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(2);
-    expect(player.energy).to.eq(3);
+    expect(player.megaCredits).eq(2);
+    expect(player.energy).eq(3);
   });
 });

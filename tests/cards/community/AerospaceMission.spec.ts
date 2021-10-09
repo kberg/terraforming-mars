@@ -31,20 +31,20 @@ describe('AerospaceMission', function() {
     expect(game.deferredActions).has.lengthOf(2);
 
     // Expect Callisto and Ceres to show up first and second in the colonies list, every time
-    expect(game.colonies[0].name).to.eq(ColonyName.CALLISTO);
-    expect(game.colonies[1].name).to.eq(ColonyName.CERES);
+    expect(game.colonies[0].name).eq(ColonyName.CALLISTO);
+    expect(game.colonies[1].name).eq(ColonyName.CERES);
 
     // Build the first free on Callisto
     const selectColony = game.deferredActions.peek()!.execute() as SelectColony;
     game.deferredActions.pop();
     selectColony.cb((<any>ColonyName)[selectColony.coloniesModel[0].name.toUpperCase()]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
 
     // Build the second free on Ceres
     const selectColony2 = game.deferredActions.peek()!.execute() as SelectColony;
     game.deferredActions.pop();
     selectColony2.cb((<any>ColonyName)[selectColony2.coloniesModel[0].name.toUpperCase()]);
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
 
     // Check that we built two colonies
     const builtColonies = game.colonies.filter((colony) => colony.isActive && colony.colonies.length > 0);

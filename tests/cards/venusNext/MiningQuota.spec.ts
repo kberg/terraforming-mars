@@ -37,6 +37,6 @@ describe('MiningQuota', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.STEEL)).to.eq(2);
+    expect(player.getProduction(Resources.STEEL)).eq(2);
   });
 });

@@ -23,12 +23,12 @@ describe('HiredRaiders', function() {
     const action = card.play(player) as OrOptions;
     expect(action.options).has.lengthOf(3);
     action.options[1].cb();
-    expect(player2.megaCredits).to.eq(0);
-    expect(player.megaCredits).to.eq(12);
+    expect(player2.megaCredits).eq(0);
+    expect(player.megaCredits).eq(12);
 
     action.options[0].cb();
-    expect(player2.steel).to.eq(0);
-    expect(player.steel).to.eq(2);
+    expect(player2.steel).eq(0);
+    expect(player.steel).eq(2);
   });
 
   it('Works in solo', function() {
@@ -38,9 +38,9 @@ describe('HiredRaiders', function() {
     expect(action.options).has.lengthOf(2);
 
     action.options[0].cb();
-    expect(player.steel).to.eq(2);
+    expect(player.steel).eq(2);
 
     action.options[1].cb();
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

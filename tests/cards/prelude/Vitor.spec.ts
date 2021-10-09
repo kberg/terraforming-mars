@@ -20,7 +20,7 @@ describe('Vitor', function() {
   it('Should play', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Has initial action', function() {
@@ -40,9 +40,9 @@ describe('Vitor', function() {
     player.corporationCard = card;
 
     card.onCardPlayed(player, new Ants());
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
 
     card.onCardPlayed(player, new LavaFlows());
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

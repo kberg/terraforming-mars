@@ -24,8 +24,8 @@ describe('ClimateImpact', function() {
     player2.plants = 5;
 
     card.resolve(game, turmoil);
-    expect(player.plants).to.eq(3);
-    expect(player2.plants).to.eq(2);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(player.plants).eq(3);
+    expect(player2.plants).eq(2);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

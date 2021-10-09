@@ -17,10 +17,10 @@ describe('Aridor', function() {
     player.corporationCard = card;
 
     card.onCardPlayed(player, {tags: [Tags.ANIMAL]} as IProjectCard);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
     card.onCardPlayed(player2, {tags: [Tags.SCIENCE]} as IProjectCard);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(0);
     card.onCardPlayed(player, {tags: [Tags.SCIENCE, Tags.BUILDING, Tags.CITY]} as IProjectCard);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

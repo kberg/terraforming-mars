@@ -25,7 +25,7 @@ describe('NewMarsResearchFacility', function() {
     expect(player.cardsInHand).has.lengthOf(2);
 
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(12);
+    expect(player.megaCredits).eq(12);
   });
 
   it('Should play: Keep all cards', function() {
@@ -37,6 +37,6 @@ describe('NewMarsResearchFacility', function() {
     expect(player.cardsInHand).has.lengthOf(6);
 
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

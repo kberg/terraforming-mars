@@ -13,6 +13,6 @@ describe('CoronaExtractor', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(4);
+    expect(player.getProduction(Resources.ENERGY)).eq(4);
   });
 });

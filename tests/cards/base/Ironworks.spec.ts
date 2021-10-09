@@ -24,8 +24,8 @@ describe('Ironworks', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.energy).to.eq(0);
-    expect(player.steel).to.eq(1);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(player.energy).eq(0);
+    expect(player.steel).eq(1);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

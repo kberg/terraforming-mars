@@ -24,9 +24,9 @@ describe('CardMetadata', function() {
           const vp = card.getVictoryPoints(player);
           if (vp !== 0) {
             if (card.metadata.victoryPoints instanceof CardRenderDynamicVictoryPoints && card.metadata.victoryPoints.anyPlayer === true) {
-              expect(card.metadata.victoryPoints.points, card.name + ' has invalid VP metadata').to.eq(vp);
+              expect(card.metadata.victoryPoints.points, card.name + ' has invalid VP metadata').eq(vp);
             } else {
-              expect(card.metadata.victoryPoints, card.name + ' has invalid VP metadata').to.eq(vp);
+              expect(card.metadata.victoryPoints, card.name + ' has invalid VP metadata').eq(vp);
             }
           }
           // If vp === 0 that means it's a variable VP card, so we can't check the actual value

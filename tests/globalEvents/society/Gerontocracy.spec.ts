@@ -26,6 +26,6 @@ describe('Gerontocracy', function() {
     (new NoctisCity).play(player);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(10);
+    expect(player.megaCredits).eq(10);
   });
 });

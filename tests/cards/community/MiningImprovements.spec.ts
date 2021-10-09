@@ -13,8 +13,8 @@ describe('MiningImprovements', function() {
 
     card.play(player);
     game.deferredActions.runAll(() => {});
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.megaCredits).to.eq(18);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.megaCredits).eq(18);
   });
 });

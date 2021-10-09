@@ -23,7 +23,7 @@ describe('QuantumExtractor', function() {
   it('Should play', function() {
     player.playedCards.push(card, card, card, card);
     card.play(player);
-    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).to.eq(2);
-    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).to.eq(0);
+    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).eq(2);
+    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).eq(0);
   });
 });

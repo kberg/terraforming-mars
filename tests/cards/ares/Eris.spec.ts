@@ -37,12 +37,12 @@ describe('Eris', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const placeHazard = game.deferredActions.pop()!.execute() as SelectSpace;
     placeHazard.cb(placeHazard.availableSpaces[0]);
-    expect(_AresHazardPlacement.getHazardsCount(game)).to.eq(initialHazardsCount + 1);
+    expect(_AresHazardPlacement.getHazardsCount(game)).eq(initialHazardsCount + 1);
 
     // Remove a hazard tile to gain 1 TR
     const removableHazards = action.options[1].cb() as SelectSpace;
     removableHazards.cb(removableHazards.availableSpaces[0]);
-    expect(_AresHazardPlacement.getHazardsCount(game)).to.eq(initialHazardsCount);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(_AresHazardPlacement.getHazardsCount(game)).eq(initialHazardsCount);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
   });
 });

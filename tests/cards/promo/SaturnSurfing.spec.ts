@@ -20,12 +20,12 @@ describe('SaturnSurfing', function() {
     player.playedCards.push(new Sponsors());
     player.playedCards.push(new EarthOffice());
     card.play(player);
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
   });
 
   it('Can\'t act if no floaters on the card', function() {
     card.play(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     card.resourceCount = 0;
     expect(card.canAct()).is.not.true;
@@ -35,16 +35,16 @@ describe('SaturnSurfing', function() {
     player.playedCards.push(new Sponsors());
     player.playedCards.push(new EarthOffice());
     card.play(player);
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
 
     expect(card.canAct()).is.true;
     card.action(player);
-    expect(card.resourceCount).to.eq(2);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(3);
+    expect(card.resourceCount).eq(2);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(3);
   });
 
   it('Should give victory points', function() {
     card.play(player);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

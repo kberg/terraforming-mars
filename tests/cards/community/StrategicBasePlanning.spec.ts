@@ -39,11 +39,11 @@ describe('StrategicBasePlanning', function() {
       expect(openColonies[0].colonies.find((c) => c === player.id)).is.not.undefined;
 
       expect(selectSpace.cb(selectSpace.availableSpaces[0])).is.undefined;
-      expect(selectSpace.availableSpaces[0].player).to.eq(player);
+      expect(selectSpace.availableSpaces[0].player).eq(player);
       expect(selectSpace.availableSpaces[0].tile).is.not.undefined;
-      expect(selectSpace.availableSpaces[0].tile!.tileType).to.eq(TileType.CITY);
+      expect(selectSpace.availableSpaces[0].tile!.tileType).eq(TileType.CITY);
 
-      expect(player.megaCredits).to.eq(0);
+      expect(player.megaCredits).eq(0);
     }
   });
 });

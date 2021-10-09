@@ -17,11 +17,11 @@ describe('NuclearZoneAres', function() {
     if (action !== undefined) {
       const space = action.availableSpaces[0];
       action.cb(space);
-      expect(space.tile && space.tile.tileType).to.eq(TileType.NUCLEAR_ZONE);
+      expect(space.tile && space.tile.tileType).eq(TileType.NUCLEAR_ZONE);
       player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-      expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-2);
+      expect(player.victoryPointsBreakdown.victoryPoints).eq(-2);
       expect(space.adjacency).deep.eq({bonus: [], cost: 2});
     }
-    expect(game.getTemperature()).to.eq(-26);
+    expect(game.getTemperature()).eq(-26);
   });
 });

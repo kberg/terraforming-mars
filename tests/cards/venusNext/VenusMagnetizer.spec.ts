@@ -31,7 +31,7 @@ describe('VenusMagnetizer', function() {
     player.playedCards.push(card);
 
     card.action(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

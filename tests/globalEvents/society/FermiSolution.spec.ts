@@ -29,6 +29,6 @@ describe('FermiSolution', function() {
     card.resolve(game, turmoil);
     expect(player.cardsInHand).has.lengthOf(1);
     expect(player2.cardsInHand).has.lengthOf(2);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
   });
 });

@@ -11,9 +11,9 @@ describe('TropicalResort', function() {
     player.addProduction(Resources.HEAT, 2);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.HEAT)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.HEAT)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 });

@@ -31,7 +31,7 @@ describe('UnitedNationsMarsInitiative', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.megaCredits).to.eq(0);
-    expect(player.getTerraformRating()).to.eq(22);
+    expect(player.megaCredits).eq(0);
+    expect(player.getTerraformRating()).eq(22);
   });
 });

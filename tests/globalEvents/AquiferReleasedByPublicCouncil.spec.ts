@@ -23,9 +23,9 @@ describe('AquiferReleasedByPublicCouncil', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.STEEL)).to.eq(1);
-    expect(player2.getResource(Resources.STEEL)).to.eq(3);
-    expect(player.getResource(Resources.PLANTS)).to.eq(1);
-    expect(player2.getResource(Resources.PLANTS)).to.eq(3);
+    expect(player.getResource(Resources.STEEL)).eq(1);
+    expect(player2.getResource(Resources.STEEL)).eq(3);
+    expect(player.getResource(Resources.PLANTS)).eq(1);
+    expect(player2.getResource(Resources.PLANTS)).eq(3);
   });
 });

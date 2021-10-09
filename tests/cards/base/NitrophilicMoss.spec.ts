@@ -36,8 +36,8 @@ describe('NitrophilicMoss', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.plants).to.eq(0);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.plants).eq(0);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
   });
 
   it('Can play with 1 plant if have Viral Enhancers', function() {
@@ -50,10 +50,10 @@ describe('NitrophilicMoss', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(player.plants).to.eq(-1);
+    expect(player.plants).eq(-1);
     viralEnhancers.onCardPlayed(player, card);
-    expect(player.plants).to.eq(0);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.plants).eq(0);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
   });
 
   it('Should play', function() {

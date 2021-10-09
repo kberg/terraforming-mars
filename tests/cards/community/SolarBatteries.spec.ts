@@ -19,9 +19,9 @@ describe('SolarBatteries', function() {
     const initialTR = player.getTerraformRating();
     card.play(player);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(game.getTemperature()).to.eq(-28);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
-    expect(player.megaCredits).to.eq(7);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(game.getTemperature()).eq(-28);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
+    expect(player.megaCredits).eq(7);
   });
 });

@@ -22,10 +22,10 @@ describe('ExhaltSpecies', function() {
     player.playedCards.push(smallAnimals);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
     expect(game.deferredActions).has.lengthOf(1);
 
     game.deferredActions.pop()!.execute() as SelectCard<ICard>;
-    expect(player.getResourcesOnCard(smallAnimals)).to.eq(1);
+    expect(player.getResourcesOnCard(smallAnimals)).eq(1);
   });
 });

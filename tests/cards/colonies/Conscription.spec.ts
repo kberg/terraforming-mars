@@ -19,23 +19,23 @@ describe('Conscription', function() {
     const action = card.play();
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
-    expect(card.getCardDiscount(player)).to.eq(0);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
+    expect(card.getCardDiscount(player)).eq(0);
   });
 
   it('Should apply card discount until next card played', () => {
     player.playCard(card);
-    expect(card.getCardDiscount(player)).to.eq(16);
+    expect(card.getCardDiscount(player)).eq(16);
 
     player.playCard(new MicroMills());
-    expect(card.getCardDiscount(player)).to.eq(0);
+    expect(card.getCardDiscount(player)).eq(0);
   });
 
   it('Change in generation disables Conscription', () => {
     player.playCard(card);
-    expect(card.getCardDiscount(player)).to.eq(16);
+    expect(card.getCardDiscount(player)).eq(16);
 
     player.pass();
-    expect(card.getCardDiscount(player)).to.eq(0);
+    expect(card.getCardDiscount(player)).eq(0);
   });
 });

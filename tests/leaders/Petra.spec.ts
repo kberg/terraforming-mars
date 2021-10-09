@@ -44,21 +44,21 @@ describe('Petra', function() {
     card.action(player);
 
     const turmoil = game.turmoil as Turmoil;
-    expect(turmoil.getDelegatesInReserve(player.id)).to.eq(1);
+    expect(turmoil.getDelegatesInReserve(player.id)).eq(1);
     expect(turmoil.lobby.has(player.id)).is.true;
-    expect(turmoil.chairman).to.eq(player.id);
+    expect(turmoil.chairman).eq(player.id);
     
     const scientists = turmoil.getPartyByName(PartyName.SCIENTISTS)!;
     expect(scientists.delegates.filter((delegate) => delegate === player.id)).has.length(2);
-    expect(scientists.partyLeader).to.eq(player.id);
+    expect(scientists.partyLeader).eq(player.id);
 
     const greens = turmoil.getPartyByName(PartyName.GREENS)!;
     expect(greens.delegates.filter((delegate) => delegate === player.id)).has.length(1);
-    expect(greens.partyLeader).to.eq(player.id);
+    expect(greens.partyLeader).eq(player.id);
 
     const reds = turmoil.getPartyByName(PartyName.REDS)!;
     expect(reds.delegates.filter((delegate) => delegate === player.id)).has.length(1);
-    expect(reds.partyLeader).to.eq(player.id);
+    expect(reds.partyLeader).eq(player.id);
 
     // Send 3 Neutral delegates
     expect(game.deferredActions).has.lengthOf(3);
@@ -80,20 +80,20 @@ describe('Petra', function() {
 
     // Replace 6 delegates + chairman
     card.action(player);
-    expect(turmoil.getDelegatesInReserve(player.id)).to.eq(0);
+    expect(turmoil.getDelegatesInReserve(player.id)).eq(0);
     expect(turmoil.lobby.has(player.id)).is.false;
-    expect(turmoil.chairman).to.eq(player.id);
+    expect(turmoil.chairman).eq(player.id);
     
     expect(scientists.delegates.filter((delegate) => delegate === player.id)).has.length(4);
-    expect(scientists.partyLeader).to.eq(player.id);
+    expect(scientists.partyLeader).eq(player.id);
 
     const greens = turmoil.getPartyByName(PartyName.GREENS)!;
     expect(greens.delegates.filter((delegate) => delegate === player.id)).has.length(1);
-    expect(greens.partyLeader).to.eq(player.id);
+    expect(greens.partyLeader).eq(player.id);
 
     const reds = turmoil.getPartyByName(PartyName.REDS)!;
     expect(reds.delegates.filter((delegate) => delegate === player.id)).has.length(1);
-    expect(reds.partyLeader).to.eq(player.id);
+    expect(reds.partyLeader).eq(player.id);
   });
 
   it('Can only act once per game', function() {

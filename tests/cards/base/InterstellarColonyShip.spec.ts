@@ -26,6 +26,6 @@ describe('InterstellarColonyShip', function() {
 
     card.play(player);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(4);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(4);
   });
 });

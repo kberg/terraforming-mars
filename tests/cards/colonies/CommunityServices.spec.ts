@@ -21,8 +21,8 @@ describe('CommunityServices', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
   it('Wild Tags', function() {
     const card = new CommunityServices();
@@ -36,7 +36,7 @@ describe('CommunityServices', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

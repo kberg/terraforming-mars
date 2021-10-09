@@ -19,13 +19,13 @@ describe('Oscar', function() {
 
   it('Has +1 influence', function() {
     card.play(player);
-    expect(player.game.turmoil?.getPlayerInfluence(player)).to.eq(1);
+    expect(player.game.turmoil?.getPlayerInfluence(player)).eq(1);
   });
 
   it('Takes OPG action', function() {
     card.action(player);
     const turmoil = Turmoil.getTurmoil(player.game);
-    expect(turmoil.chairman).to.eq(player.id);
+    expect(turmoil.chairman).eq(player.id);
   });
 
   it('Can only act once per game', function() {

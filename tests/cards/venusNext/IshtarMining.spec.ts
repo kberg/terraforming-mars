@@ -13,10 +13,10 @@ describe('IshtarMining', function() {
     game.increaseVenusScaleLevel(player, 3);
     expect(card.canPlay(player)).is.not.true;
     game.increaseVenusScaleLevel(player, 3);
-    expect(game.getVenusScaleLevel()).to.eq(12);
+    expect(game.getVenusScaleLevel()).eq(12);
     expect(card.canPlay(player)).is.true;
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
   });
 });

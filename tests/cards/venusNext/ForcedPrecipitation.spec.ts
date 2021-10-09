@@ -27,17 +27,17 @@ describe('ForcedPrecipitation', function() {
     const action = card.action(player);
     game.deferredActions.runNext();
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(1);
-    expect(player.megaCredits).to.eq(8);
+    expect(card.resourceCount).eq(1);
+    expect(player.megaCredits).eq(8);
 
     player.addResourceTo(card);
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
 
     const orOptions2 = card.action(player) as OrOptions;
     expect(orOptions2 instanceof OrOptions).is.true;
     orOptions2.options[0].cb();
-    expect(card.resourceCount).to.eq(0);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(card.resourceCount).eq(0);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Should act - only one action available', function() {
@@ -46,7 +46,7 @@ describe('ForcedPrecipitation', function() {
     player.addResourceTo(card, 2);
 
     card.action(player);
-    expect(card.resourceCount).to.eq(0);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(card.resourceCount).eq(0);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

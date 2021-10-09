@@ -23,7 +23,7 @@ describe('Athena', function() {
   });
 
   it('Correctly sets property', function() {
-    expect(game.athenaOwner).to.eq(player.id);
+    expect(game.athenaOwner).eq(player.id);
   });
 
   it('Initial action', function() {

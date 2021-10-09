@@ -11,7 +11,7 @@ describe('BribedCommittee', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     card.play(player);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-2);
-    expect(player.getTerraformRating()).to.eq(22);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-2);
+    expect(player.getTerraformRating()).eq(22);
   });
 });

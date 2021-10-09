@@ -24,13 +24,13 @@ describe('BlackPolarDust', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-2);
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-2);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectSpace = game.deferredActions.peek()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
   });
 
   it('Cannot place ocean if no oceans left', function() {

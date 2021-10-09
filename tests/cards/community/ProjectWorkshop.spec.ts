@@ -26,12 +26,12 @@ describe('ProjectWorkshop', function() {
   });
 
   it('Starts with correct resources', function() {
-    expect(player.steel).to.eq(1);
-    expect(player.titanium).to.eq(1);
+    expect(player.steel).eq(1);
+    expect(player.titanium).eq(1);
 
     card.initialAction(player);
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.cardsInHand[0].cardType).to.eq(CardType.ACTIVE);
+    expect(player.cardsInHand[0].cardType).eq(CardType.ACTIVE);
   });
 
   it('Can\'t act', function() {
@@ -45,7 +45,7 @@ describe('ProjectWorkshop', function() {
     expect(card.canAct(player)).is.true;
     card.action(player);
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.cardsInHand[0].cardType).to.eq(CardType.ACTIVE);
+    expect(player.cardsInHand[0].cardType).eq(CardType.ACTIVE);
   });
 
   it('Can flip a played blue card and remove its ongoing effects', function() {
@@ -53,15 +53,15 @@ describe('ProjectWorkshop', function() {
     advancedAlloys.play(player);
     player.megaCredits = 0;
 
-    expect(player.getSteelValue()).to.eq(3);
-    expect(player.getTitaniumValue()).to.eq(4);
+    expect(player.getSteelValue()).eq(3);
+    expect(player.getTitaniumValue()).eq(4);
 
     card.action(player);
     expect(player.playedCards).has.lengthOf(0);
     expect(game.dealer.discarded.includes(advancedAlloys)).is.true;
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(player.getSteelValue()).to.eq(2);
-    expect(player.getTitaniumValue()).to.eq(3);
+    expect(player.getSteelValue()).eq(2);
+    expect(player.getTitaniumValue()).eq(3);
   });
 
   it('Converts VP to TR correctly', function() {
@@ -76,11 +76,11 @@ describe('ProjectWorkshop', function() {
 
     const selectCard = card.action(player) as SelectCard<ICard>;;
     selectCard.cb([smallAnimals]);
-    expect(player.getTerraformRating()).to.eq(originalTR + 2);
+    expect(player.getTerraformRating()).eq(originalTR + 2);
     expect(player.cardsInHand).has.lengthOf(2);
 
     selectCard.cb([extremophiles]);
-    expect(player.getTerraformRating()).to.eq(originalTR + 5);
+    expect(player.getTerraformRating()).eq(originalTR + 5);
     expect(player.cardsInHand).has.lengthOf(4);
   });
 

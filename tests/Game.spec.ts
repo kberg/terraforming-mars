@@ -33,7 +33,7 @@ describe('Game', () => {
     const player2 = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, player2], player);
     expect(game.gameOptions.corporateEra).is.true;
-    expect(game.getGeneration()).to.eq(1);
+    expect(game.getGeneration()).eq(1);
   });
 
   it('sets starting production if corporate era not selected', () => {
@@ -42,12 +42,12 @@ describe('Game', () => {
     const gameOptions = TestingUtils.setCustomGameOptions({corporateEra: false});
 
     Game.newInstance('foobar', [player], player, gameOptions);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.getProduction(Resources.HEAT)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(1);
   });
 
   it('correctly calculates victory points', () => {
@@ -100,16 +100,16 @@ describe('Game', () => {
     player2.getVictoryPoints();
     player3.getVictoryPoints();
 
-    expect(player.victoryPointsBreakdown.terraformRating).to.eq(21);
-    expect(player.victoryPointsBreakdown.milestones).to.eq(5);
-    expect(player.victoryPointsBreakdown.awards).to.eq(2); // one 2nd place
-    expect(player.victoryPointsBreakdown.greenery).to.eq(1);
-    expect(player.victoryPointsBreakdown.city).to.eq(1); // greenery adjacent to city
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(6);
-    expect(player.victoryPointsBreakdown.total).to.eq(36);
+    expect(player.victoryPointsBreakdown.terraformRating).eq(21);
+    expect(player.victoryPointsBreakdown.milestones).eq(5);
+    expect(player.victoryPointsBreakdown.awards).eq(2); // one 2nd place
+    expect(player.victoryPointsBreakdown.greenery).eq(1);
+    expect(player.victoryPointsBreakdown.city).eq(1); // greenery adjacent to city
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(6);
+    expect(player.victoryPointsBreakdown.total).eq(36);
 
-    expect(player2.victoryPointsBreakdown.awards).to.eq(10); // 1st place + one shared 1st place
-    expect(player3.victoryPointsBreakdown.awards).to.eq(5); // one shared 1st place
+    expect(player2.victoryPointsBreakdown.awards).eq(10); // 1st place + one shared 1st place
+    expect(player3.victoryPointsBreakdown.awards).eq(5); // one shared 1st place
   });
 
   it('Disallows to set temperature more than allowed maximum', () => {
@@ -121,16 +121,16 @@ describe('Game', () => {
     let initialTR = player.getTerraformRating();
     game.increaseTemperature(player, 2);
 
-    expect(game.getTemperature()).to.eq(constants.MAX_TEMPERATURE);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(game.getTemperature()).eq(constants.MAX_TEMPERATURE);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
 
     initialTR = player.getTerraformRating();
     (game as any).temperature = 6;
 
     // Try 3 steps increase
     game.increaseTemperature(player, 3);
-    expect(game.getTemperature()).to.eq(constants.MAX_TEMPERATURE);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(game.getTemperature()).eq(constants.MAX_TEMPERATURE);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
   });
 
   it('Disallows to set oxygenLevel more than allowed maximum', () => {
@@ -142,8 +142,8 @@ describe('Game', () => {
     const initialTR = player.getTerraformRating();
     game.increaseOxygenLevel(player, 2);
 
-    expect(game.getOxygenLevel()).to.eq(constants.MAX_OXYGEN_LEVEL);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(game.getOxygenLevel()).eq(constants.MAX_OXYGEN_LEVEL);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
   });
 
   it('Draft round for 2 players', () => {
@@ -156,7 +156,7 @@ describe('Game', () => {
     game.playerIsFinishedTakingActions();
     game.playerHasPassed(player2);
     game.playerIsFinishedTakingActions();
-    expect(game.getGeneration()).to.eq(5);
+    expect(game.getGeneration()).eq(5);
   });
 
   it('No draft round for 2 players', () => {
@@ -169,7 +169,7 @@ describe('Game', () => {
     game.playerIsFinishedTakingActions();
     game.playerHasPassed(player2);
     game.playerIsFinishedTakingActions();
-    expect(game.getGeneration()).to.eq(3);
+    expect(game.getGeneration()).eq(3);
   });
 
   it('Solo play next generation', () => {
@@ -178,7 +178,7 @@ describe('Game', () => {
     game.gameOptions.venusNextExtension = false;
     game.playerHasPassed(player);
     game.playerIsFinishedTakingActions();
-    expect(game.getGeneration()).to.eq(2);
+    expect(game.getGeneration()).eq(2);
   });
 
   it('Should not finish game before Venus is terraformed, if chosen', () => {
@@ -205,7 +205,7 @@ describe('Game', () => {
     (player2 as any).waitingFor = undefined;
     game.playerIsFinishedTakingActions();
     // Now game should be in research state
-    expect(game.phase).to.eq(Phase.RESEARCH);
+    expect(game.phase).eq(Phase.RESEARCH);
   });
 
   it('Should finish game if Mars and Venus is terraformed, if chosen', () => {
@@ -232,7 +232,7 @@ describe('Game', () => {
     game.playerIsFinishedTakingActions();
 
     // Now game should be in end state
-    expect(game.phase).to.eq(Phase.END);
+    expect(game.phase).eq(Phase.END);
   });
 
   it('Should not finish game if Mars is not terraformed but Venus is terraformed, if chosen', () => {
@@ -253,7 +253,7 @@ describe('Game', () => {
     game.playerHasPassed(player2);
     game.playerIsFinishedTakingActions();
     // Now game should be in research state
-    expect(game.phase).to.eq(Phase.RESEARCH);
+    expect(game.phase).eq(Phase.RESEARCH);
   });
 
   it('Should finish solo game in the end of last generation', () => {
@@ -262,7 +262,7 @@ describe('Game', () => {
     game.playerIsDoneWithGame(player);
 
     // Now game should be in finished state
-    expect(game.phase).to.eq(Phase.END);
+    expect(game.phase).eq(Phase.END);
 
     expect(game.isSoloModeWin()).is.not.true;
   });
@@ -284,7 +284,7 @@ describe('Game', () => {
     game.playerHasPassed(player);
 
     // Now game should be in research state
-    expect(game.phase).to.eq(Phase.RESEARCH);
+    expect(game.phase).eq(Phase.RESEARCH);
   });
 
   it('Should not give TR or raise oxygen for final greenery placements', () => {
@@ -313,7 +313,7 @@ describe('Game', () => {
     const placeFirstGreenery = player.getWaitingFor() as OrOptions;
     const arsiaMons = game.board.getSpace(SpaceName.ARSIA_MONS);
     placeFirstGreenery.options[0].cb(arsiaMons);
-    expect(player.plants).to.eq(8);
+    expect(player.plants).eq(8);
 
     // Place second greenery
     const placeSecondGreenery = player.getWaitingFor() as OrOptions;
@@ -323,12 +323,12 @@ describe('Game', () => {
     // End the game
     game.playerHasPassed(player);
     game.playerIsDoneWithGame(player);
-    expect(game.phase).to.eq(Phase.END);
+    expect(game.phase).eq(Phase.END);
     expect(game.isSoloModeWin()).is.not.true;
 
     // Don't give TR or raise oxygen for final greenery placements
-    expect(player.getTerraformRating()).to.eq(20);
-    expect(game.getOxygenLevel()).to.eq(12);
+    expect(player.getTerraformRating()).eq(20);
+    expect(game.getOxygenLevel()).eq(12);
   });
 
   it('Final greenery placement in order of the current generation', () => {
@@ -430,25 +430,25 @@ describe('Game', () => {
     const game = Game.newInstance('gto', [player1, player2, player3, player4], player3);
 
     let players = game.getPlayers();
-    expect(players[0].name).to.eq('p3');
-    expect(players[1].name).to.eq('p4');
-    expect(players[2].name).to.eq('p1');
-    expect(players[3].name).to.eq('p2');
+    expect(players[0].name).eq('p3');
+    expect(players[1].name).eq('p4');
+    expect(players[2].name).eq('p1');
+    expect(players[3].name).eq('p2');
 
 
     (game as any).incrementFirstPlayer();
     players = game.getPlayers();
-    expect(players[0].name).to.eq('p4');
-    expect(players[1].name).to.eq('p1');
-    expect(players[2].name).to.eq('p2');
-    expect(players[3].name).to.eq('p3');
+    expect(players[0].name).eq('p4');
+    expect(players[1].name).eq('p1');
+    expect(players[2].name).eq('p2');
+    expect(players[3].name).eq('p3');
 
     (game as any).incrementFirstPlayer();
     players = game.getPlayers();
-    expect(players[0].name).to.eq('p1');
-    expect(players[1].name).to.eq('p2');
-    expect(players[2].name).to.eq('p3');
-    expect(players[3].name).to.eq('p4');
+    expect(players[0].name).eq('p1');
+    expect(players[1].name).eq('p2');
+    expect(players[2].name).eq('p3');
+    expect(players[3].name).eq('p4');
   });
 
   it('Gets card player for corporation card', () => {
@@ -456,7 +456,7 @@ describe('Game', () => {
     const game = Game.newInstance('gto', [player], player);
     const card = new SaturnSystems();
     player.corporationCard = card;
-    expect(game.getCardPlayer(card.name)).to.eq(player);
+    expect(game.getCardPlayer(card.name)).eq(player);
   });
 
   it('Does not assign player to ocean after placement', () => {

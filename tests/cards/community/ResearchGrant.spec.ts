@@ -13,6 +13,6 @@ describe('ResearchGrant', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.megaCredits).to.eq(8);
+    expect(player.megaCredits).eq(8);
   });
 });

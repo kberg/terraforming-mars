@@ -10,7 +10,7 @@ describe('OrbitalConstructionYard', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.titanium).to.eq(4);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.titanium).eq(4);
   });
 });

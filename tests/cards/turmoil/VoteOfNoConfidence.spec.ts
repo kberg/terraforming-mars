@@ -22,7 +22,7 @@ describe('VoteOfNoConfidence', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(game.getPlayerById(game.turmoil!.chairman)).to.eq(player);
-    expect(player.getTerraformRating()).to.eq(15);
+    expect(game.getPlayerById(game.turmoil!.chairman)).eq(player);
+    expect(player.getTerraformRating()).eq(15);
   });
 });

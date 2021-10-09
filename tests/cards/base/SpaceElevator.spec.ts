@@ -21,9 +21,9 @@ describe('SpaceElevator', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 
   it('Should act', function() {
@@ -31,7 +31,7 @@ describe('SpaceElevator', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.steel).to.eq(0);
-    expect(player.megaCredits).to.eq(5);
+    expect(player.steel).eq(0);
+    expect(player.megaCredits).eq(5);
   });
 });

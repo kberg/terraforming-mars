@@ -28,8 +28,8 @@ describe('Quill', function() {
     player.playedCards.push(dirigibles, localShading);
 
     card.action(player);
-    expect(dirigibles.resourceCount).to.eq(2);
-    expect(localShading.resourceCount).to.eq(2);
+    expect(dirigibles.resourceCount).eq(2);
+    expect(localShading.resourceCount).eq(2);
   });
 
   it('Can only act once per game', function() {

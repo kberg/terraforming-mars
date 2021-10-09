@@ -28,7 +28,7 @@ describe('Generalist', function() {
     const gameOptions = TestingUtils.setCustomGameOptions({corporateEra: false});
     Game.newInstance('foobar', [player, player2], player, gameOptions);
 
-    resources.forEach((resource) => expect(player.getProduction(resource)).to.eq(1));
+    resources.forEach((resource) => expect(player.getProduction(resource)).eq(1));
     expect(milestone.canClaim(player)).is.not.true;
   });
 
@@ -37,7 +37,7 @@ describe('Generalist', function() {
     Game.newInstance('foobar', [player, player2], player, gameOptions);
     resources.forEach((resource) => player.addProduction(resource, 1));
 
-    resources.forEach((resource) => expect(player.getProduction(resource)).to.eq(2));
+    resources.forEach((resource) => expect(player.getProduction(resource)).eq(2));
     expect(milestone.canClaim(player)).is.true;
   });
 });

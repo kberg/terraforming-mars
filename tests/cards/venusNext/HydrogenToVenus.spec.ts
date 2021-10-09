@@ -28,8 +28,8 @@ describe('HydrogenToVenus', function() {
     const action = card.play(player) as SelectCard<ICard>;
     expect(action instanceof SelectCard).is.true;
     action.cb([card2]);
-    expect(player.getResourcesOnCard(card2)).to.eq(1);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(1);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Should play with single venus card', function() {
@@ -39,13 +39,13 @@ describe('HydrogenToVenus', function() {
     player.playedCards.push(card2, card3);
 
     card.play(player) as SelectCard<ICard>;
-    expect(player.getResourcesOnCard(card2)).to.eq(1);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(1);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Should play with no venus cards', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

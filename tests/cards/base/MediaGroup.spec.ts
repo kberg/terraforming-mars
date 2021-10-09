@@ -14,8 +14,8 @@ describe('MediaGroup', function() {
     const action = card.play();
     expect(action).is.undefined;
     card.onCardPlayed(player, {cardType: CardType.EVENT} as IProjectCard);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
     card.onCardPlayed(player, card);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

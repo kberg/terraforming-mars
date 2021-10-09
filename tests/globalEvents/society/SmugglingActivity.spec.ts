@@ -25,7 +25,7 @@ describe('SmugglingActivity', function() {
     game.colonies.push(colony1);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(4);
-    expect(colony1.trackPosition).to.eq(2);
+    expect(player.megaCredits).eq(4);
+    expect(colony1.trackPosition).eq(2);
   });
 });

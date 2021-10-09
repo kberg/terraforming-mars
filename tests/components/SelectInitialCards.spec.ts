@@ -41,7 +41,7 @@ describe('SelectInitialCards', function() {
     });
     expect(component).not.is.undefined;
     const selectCards = component.findAllComponents({name: 'select-card'});
-    expect(selectCards.length).to.eq(2);
+    expect(selectCards.length).eq(2);
     await selectCards.at(0).vm.$emit('cardschanged', [CardName.ECOLINE]);
     await selectCards.at(1).vm.$emit('cardschanged', [CardName.ANTS]);
     const buttons = component.findAllComponents({name: 'Button'});
@@ -83,7 +83,7 @@ describe('SelectInitialCards', function() {
     });
     expect(component).not.is.undefined;
     const selectCards = component.findAllComponents({name: 'select-card'});
-    expect(selectCards.length).to.eq(3);
+    expect(selectCards.length).eq(3);
     await selectCards.at(0).vm.$emit('cardschanged', [CardName.ECOLINE]);
     await selectCards.at(1).vm.$emit('cardschanged', [CardName.ALLIED_BANKS, CardName.METALS_COMPANY]);
     await selectCards.at(2).vm.$emit('cardschanged', [CardName.ANTS]);

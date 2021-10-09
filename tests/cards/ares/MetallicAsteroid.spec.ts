@@ -34,8 +34,8 @@ describe('MetallicAsteroid', function() {
 
     const space = game.board.getAvailableSpacesOnLand(player)[0];
     action.cb(space);
-    expect(space.player).to.eq(player);
-    expect(space.tile!.tileType).to.eq(TileType.METALLIC_ASTEROID);
+    expect(space.player).eq(player);
+    expect(space.tile!.tileType).eq(TileType.METALLIC_ASTEROID);
     expect(space.adjacency).to.deep.eq({bonus: [SpaceBonus.TITANIUM]});
   });
 });

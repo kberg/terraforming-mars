@@ -34,11 +34,11 @@ describe('Herbivores', () => {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     const input = TestingUtils.executeNextAction(game);
     expect(input).is.undefined;
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
   });
 
   it('Should play - multiple targets', () => {
@@ -46,28 +46,28 @@ describe('Herbivores', () => {
     player2.addProduction(Resources.PLANTS, 1);
 
     card.play(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = TestingUtils.executeNextAction(game) as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
   });
 
   it('Should add resources', () => {
     player.playedCards.push(card);
-    expect(card.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(0);
 
     game.addGreenery(player, game.board.getAvailableSpacesOnLand(player)[0].id);
     game.addGreenery(player, game.board.getAvailableSpacesOnLand(player)[0].id);
     TestingUtils.runAllActions(game);
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
 
     game.addGreenery(player2, game.board.getAvailableSpacesOnLand(player2)[0].id);
     TestingUtils.runNextAction(game);
-    expect(card.resourceCount).to.eq(2); // i.e. not changed
+    expect(card.resourceCount).eq(2); // i.e. not changed
 
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 
   it('Should be playable in solo mode', () => {
@@ -77,6 +77,6 @@ describe('Herbivores', () => {
 
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1); // should not decrease
+    expect(player.getProduction(Resources.PLANTS)).eq(1); // should not decrease
   });
 });

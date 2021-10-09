@@ -52,7 +52,7 @@ describe('Xavier', function() {
 
     // Resolve payment - 2 wild tags count for production effect
     sulphurExports.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
     
     // Bonus wild tags are lost next generation
     game.deferredActions.runAll(() => {});
@@ -61,6 +61,6 @@ describe('Xavier', function() {
 
     const cartel = new Cartel();
     cartel.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

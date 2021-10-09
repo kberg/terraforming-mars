@@ -24,6 +24,6 @@ describe('AerosportTournament', function() {
 
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 });

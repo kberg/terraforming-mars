@@ -22,7 +22,7 @@ describe('Astrodrill', function() {
   });
 
   it('Starts with 3 asteroid resources', function() {
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
   });
 
   it('Should play - can spend asteroid resource', function() {
@@ -33,7 +33,7 @@ describe('Astrodrill', function() {
     // spend asteroid resource
     const spendAsteroidOption = action.options[0];
     spendAsteroidOption.cb();
-    expect(player.titanium).to.eq(3);
+    expect(player.titanium).eq(3);
     expect(player.game.deferredActions).has.lengthOf(0);
   });
 
@@ -45,7 +45,7 @@ describe('Astrodrill', function() {
     // add asteroid resource and gain standard resource
     const addAsteroidOption = action.options[1] as OrOptions;
     const result = addAsteroidOption.cb();
-    expect(card.resourceCount).to.eq(4);
+    expect(card.resourceCount).eq(4);
     expect(result).is.undefined;
   });
 
@@ -58,7 +58,7 @@ describe('Astrodrill', function() {
     const addAsteroidOption = action.options[1] as SelectCard<ICard>;
 
     const result = addAsteroidOption.cb([cometAiming]);
-    expect(cometAiming.resourceCount).to.eq(1);
+    expect(cometAiming.resourceCount).eq(1);
     expect(result).is.undefined;
   });
 
@@ -72,9 +72,9 @@ describe('Astrodrill', function() {
     expect(resourceChoices.options).has.lengthOf(6);
 
     resourceChoices.options[1].cb();
-    expect(player.steel).to.eq(1);
+    expect(player.steel).eq(1);
 
     resourceChoices.options[4].cb();
-    expect(player.heat).to.eq(1);
+    expect(player.heat).eq(1);
   });
 });

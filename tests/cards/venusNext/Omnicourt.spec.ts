@@ -34,6 +34,6 @@ describe('Omnicourt', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getTerraformRating()).to.eq(22);
+    expect(player.getTerraformRating()).eq(22);
   });
 });

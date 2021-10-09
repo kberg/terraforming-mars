@@ -36,8 +36,8 @@ describe('Naomi', function() {
     const secondColony = game.deferredActions.pop()!.execute() as OrOptions;
     secondColony.options[1].cb();
 
-    expect(game.colonies[0].trackPosition).to.eq(MAX_COLONY_TRACK_POSITION);
-    expect(game.colonies[game.colonies.length - 1].trackPosition).to.eq(0);
+    expect(game.colonies[0].trackPosition).eq(MAX_COLONY_TRACK_POSITION);
+    expect(game.colonies[game.colonies.length - 1].trackPosition).eq(0);
   });
 
   it('Can only act once per game', function() {

@@ -20,7 +20,7 @@ describe('CorroderSuits', function() {
 
   it('Should play - no targets', function() {
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Should play - single target', function() {
@@ -28,8 +28,8 @@ describe('CorroderSuits', function() {
     player.playedCards.push(card2);
 
     card.play(player);
-    expect(player.getResourcesOnCard(card2)).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Should play - multiple targets', function() {
@@ -41,7 +41,7 @@ describe('CorroderSuits', function() {
     expect(action instanceof SelectCard).is.true;
 
     action!.cb([card2]);
-    expect(player.getResourcesOnCard(card2)).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 });

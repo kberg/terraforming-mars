@@ -18,8 +18,8 @@ describe('ArtificialPhotosynthesis', () => {
     expect(action.options).has.lengthOf(2);
 
     action.options[0].cb();
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
     action.options[1].cb();
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

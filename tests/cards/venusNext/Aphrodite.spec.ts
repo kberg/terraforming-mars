@@ -12,11 +12,11 @@ describe('Aphrodite', function() {
     const game = Game.newInstance('foobar', [player, player2], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
     player.corporationCard = card;
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     game.increaseVenusScaleLevel(player2, 2);
-    expect(game.getVenusScaleLevel()).to.eq(4);
-    expect(player.megaCredits).to.eq(4);
+    expect(game.getVenusScaleLevel()).eq(4);
+    expect(player.megaCredits).eq(4);
   });
 });

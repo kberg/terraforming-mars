@@ -26,8 +26,8 @@ describe('GlobalDustStorm', function() {
     player2.megaCredits = 10;
     player.heat = 7;
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(8);
-    expect(player.getResource(Resources.HEAT)).to.eq(0);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(10);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(8);
+    expect(player.getResource(Resources.HEAT)).eq(0);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(10);
   });
 });

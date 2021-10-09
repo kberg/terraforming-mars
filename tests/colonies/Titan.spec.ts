@@ -33,11 +33,11 @@ describe('Titan', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const action = game.deferredActions.pop()!;
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();
 
-    expect(aerialMappers.resourceCount).to.eq(3);
+    expect(aerialMappers.resourceCount).eq(3);
   });
 
   it('Should trade', function() {
@@ -50,11 +50,11 @@ describe('Titan', function() {
 
     const action = game.deferredActions.pop()!; // AddResourcesToCard
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();
 
-    expect(aerialMappers.resourceCount).to.eq(1);
+    expect(aerialMappers.resourceCount).eq(1);
   });
 
   it('Should give trade bonus', function() {
@@ -68,7 +68,7 @@ describe('Titan', function() {
     titan.trade(player2);
     game.deferredActions.runAll(() => {}); // Gain Trade & Bonus
 
-    expect(aerialMappers.resourceCount).to.eq(4);
-    expect(dirigibles.resourceCount).to.eq(1);
+    expect(aerialMappers.resourceCount).eq(4);
+    expect(dirigibles.resourceCount).eq(1);
   });
 });

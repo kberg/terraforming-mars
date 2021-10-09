@@ -24,8 +24,8 @@ describe('LunarBeam', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-2);
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-2);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
   });
 });

@@ -30,7 +30,7 @@ describe('Scientists', function() {
 
     const bonus = SCIENTISTS_BONUS_1;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 
   it('Ruling bonus 2: Gain 1 M€ for every 3 cards in hand', function() {
@@ -38,7 +38,7 @@ describe('Scientists', function() {
 
     const bonus = SCIENTISTS_BONUS_2;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 
   it('Ruling policy 1: Pay 10 M€ to draw 3 cards', function() {
@@ -51,7 +51,7 @@ describe('Scientists', function() {
     scientistsPolicy.action(player);
     game.deferredActions.runNext();
     expect(player.cardsInHand).has.lengthOf(3);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     expect(scientistsPolicy.canAct(player)).to.be.false;
   });
 

@@ -13,7 +13,7 @@ describe('Factorum', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
     player.megaCredits = 10;
 
     player.corporationCard = card;
@@ -27,10 +27,10 @@ describe('Factorum', function() {
 
     orOptions.cb();
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(7);
+    expect(player.megaCredits).eq(7);
 
     const orOptions2 = action.options[0] as OrOptions;
     orOptions2.cb();
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
   });
 });

@@ -25,9 +25,9 @@ describe('MonsInsurance', () => {
   it('Should play', () => {
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(-2);
-    expect(player3.getProduction(Resources.MEGACREDITS)).to.eq(-2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(-2);
+    expect(player3.getProduction(Resources.MEGACREDITS)).eq(-2);
   });
 
   it('Triggers effect when resources are removed', () => {
@@ -40,9 +40,9 @@ describe('MonsInsurance', () => {
     const action = card2.play!(player3) as OrOptions;
 
     action.options[1].cb();
-    expect(player2.titanium).to.eq(0);
-    expect(player2.megaCredits).to.eq(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(player2.titanium).eq(0);
+    expect(player2.megaCredits).eq(2);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Does not trigger effect when player removes resources from self', () => {
@@ -56,8 +56,8 @@ describe('MonsInsurance', () => {
     tardigrades.resourceCount = 3;
 
     ants.action(player2); // remove resource from own card
-    expect(player2.megaCredits).to.eq(0);
-    expect(player.megaCredits).to.eq(2);
+    expect(player2.megaCredits).eq(0);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Does not trigger effect when player should pay itself', () => {
@@ -73,8 +73,8 @@ describe('MonsInsurance', () => {
     player2.playedCards.push(ants);
 
     ants.action(player2); // remove resource from Mons' card
-    expect(player2.megaCredits).to.eq(0);
-    expect(player.megaCredits).to.eq(2);
+    expect(player2.megaCredits).eq(0);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Effect triggers direct calls to addResource', () => {
@@ -86,8 +86,8 @@ describe('MonsInsurance', () => {
 
     player2.deductResource(Resources.STEEL, 1, {log: false, from: player3});
 
-    expect(player2.megaCredits).to.eq(13);
-    expect(player.megaCredits).to.eq(7);
+    expect(player2.megaCredits).eq(13);
+    expect(player.megaCredits).eq(7);
   });
 
   it('Effect does not trigger direct calls to addResource for Global Event', () => {
@@ -99,8 +99,8 @@ describe('MonsInsurance', () => {
 
     player2.deductResource(Resources.STEEL, 1, {log: false, from: GlobalEventName.ECO_SABOTAGE});
 
-    expect(player2.megaCredits).to.eq(10);
-    expect(player.megaCredits).to.eq(10);
+    expect(player2.megaCredits).eq(10);
+    expect(player.megaCredits).eq(10);
   });
 
   it('Effect triggers direct calls to addProduction', () => {
@@ -112,8 +112,8 @@ describe('MonsInsurance', () => {
 
     player2.addProduction(Resources.MEGACREDITS, -1, {log: false, from: player3});
 
-    expect(player2.megaCredits).to.eq(13);
-    expect(player.megaCredits).to.eq(7);
+    expect(player2.megaCredits).eq(13);
+    expect(player.megaCredits).eq(7);
   });
 
   it('Effect does not trigger direct calls to addProduction for Global Event', () => {
@@ -125,7 +125,7 @@ describe('MonsInsurance', () => {
 
     player2.addProduction(Resources.MEGACREDITS, -1, {log: false, from: GlobalEventName.ECO_SABOTAGE});
 
-    expect(player2.megaCredits).to.eq(10);
-    expect(player.megaCredits).to.eq(10);
+    expect(player2.megaCredits).eq(10);
+    expect(player.megaCredits).eq(10);
   });
 });

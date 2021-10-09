@@ -26,7 +26,7 @@ describe('ScientificCommunity', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(1);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(5);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(1);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(5);
   });
 });

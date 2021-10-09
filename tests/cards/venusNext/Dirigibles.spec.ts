@@ -23,12 +23,12 @@ describe('Dirigibles', function() {
   });
 
   it('Should act - single target', function() {
-    expect(player.getFloatersCanSpend()).to.eq(0);
+    expect(player.getFloatersCanSpend()).eq(0);
     const action = card.action(player);
     expect(action).is.undefined;
     expect(player.getCardsWithResources()).has.lengthOf(1);
-    expect(player.getFloatersCanSpend()).to.eq(1);
-    expect(card.resourceCount).to.eq(1);
+    expect(player.getFloatersCanSpend()).eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should act - multiple targets', function() {
@@ -37,6 +37,6 @@ describe('Dirigibles', function() {
     expect(action instanceof SelectCard).is.true;
 
     action!.cb([card]);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

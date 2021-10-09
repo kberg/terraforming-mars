@@ -26,7 +26,7 @@ describe('GroundwaterMohole', function() {
     selectSpace.cb(selectSpace.availableSpaces[0]);
     expect(player.steel).is.greaterThan(0);
 
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.heat).to.eq(3);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.heat).eq(3);
   });
 });

@@ -31,7 +31,7 @@ describe('Greens', function() {
 
     const bonus = GREENS_BONUS_1;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 
   it('Ruling bonus 2: Gain 2 M€ for each greenery tile you have', function() {
@@ -42,14 +42,14 @@ describe('Greens', function() {
 
     const bonus = GREENS_BONUS_2;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(4);
+    expect(player.megaCredits).eq(4);
   });
 
   it('Ruling policy 1: When you place a greenery tile, gain 4 MC', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, greens, greens.policies[0].id);
 
     game.addGreenery(player, '10');
-    expect(player.megaCredits).to.eq(4);
+    expect(player.megaCredits).eq(4);
   });
 
   it('Ruling policy 2: When you place a tile, gain 1 plant', function() {
@@ -57,7 +57,7 @@ describe('Greens', function() {
 
     const emptySpace: ISpace = game.board.spaces.find((space) => space.spaceType === SpaceType.LAND && space.bonus.length === 0) as ISpace;
     game.addTile(player, emptySpace.spaceType, emptySpace, {tileType: TileType.NATURAL_PRESERVE});
-    expect(player.plants).to.eq(1);
+    expect(player.plants).eq(1);
   });
 
   it('Ruling policy 3: When you play an animal, plant or microbe tag, gain 2 MC', function() {
@@ -65,7 +65,7 @@ describe('Greens', function() {
 
     const lichen = new Lichen();
     player.playCard(lichen);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Ruling policy 4: Spend 5 M€ to gain 3 plants or add 2 microbes to any card', function() {
@@ -77,8 +77,8 @@ describe('Greens', function() {
     // Gain plants
     greensPolicy.action(player);
     game.deferredActions.runNext();
-    expect(player.plants).to.eq(3);
-    expect(player.megaCredits).to.eq(5);
+    expect(player.plants).eq(3);
+    expect(player.megaCredits).eq(5);
 
     // Add microbes
     const tardigrades = new Tardigrades();
@@ -88,7 +88,7 @@ describe('Greens', function() {
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
 
     orOptions.options[0].cb();
-    expect(tardigrades.resourceCount).to.eq(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(tardigrades.resourceCount).eq(2);
+    expect(player.megaCredits).eq(0);
   });
 });

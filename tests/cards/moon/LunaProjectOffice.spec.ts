@@ -47,7 +47,7 @@ describe('LunaProjectOffice', () => {
     // End the generation. Player will draw 5 cards from and 1 more 5-card draw.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(11);
+    expect(game.getGeneration()).eq(11);
 
     expect(LunaProjectOffice.isActive(player)).is.true;
     expect(getWaitingFor(player).cards).has.length(5);
@@ -56,7 +56,7 @@ describe('LunaProjectOffice', () => {
     // Since this is the second generation after playing LPO, it is also the last.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(12);
+    expect(game.getGeneration()).eq(12);
 
     expect(LunaProjectOffice.isActive(player)).is.true;
     expect(getWaitingFor(player).cards).has.length(5);
@@ -64,7 +64,7 @@ describe('LunaProjectOffice', () => {
     // End the generation. Player will draw 4 cards.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(13);
+    expect(game.getGeneration()).eq(13);
 
     expect(LunaProjectOffice.isActive(player)).is.false;
     expect(getWaitingFor(player).cards).has.length(4);
@@ -95,7 +95,7 @@ describe('LunaProjectOffice', () => {
     // End the generation. Player will draw 5 cards this generation.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(11);
+    expect(game.getGeneration()).eq(11);
 
     expect(getWaitingFor(player).cards).has.length(5);
     expect(getWaitingFor(player).minCardsToSelect).eq(2);
@@ -106,7 +106,7 @@ describe('LunaProjectOffice', () => {
     // Since this is the second generation after playing LPO, it is also the last.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(12);
+    expect(game.getGeneration()).eq(12);
 
     expect(getWaitingFor(player).cards).has.length(5);
     expect(getWaitingFor(player).minCardsToSelect).eq(2);
@@ -117,7 +117,7 @@ describe('LunaProjectOffice', () => {
     // End the generation. Player will draw 4 cards.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(13);
+    expect(game.getGeneration()).eq(13);
 
     expect(LunaProjectOffice.isActive(player)).is.false;
     expect(getWaitingFor(player).cards).has.length(4);
@@ -151,7 +151,7 @@ describe('LunaProjectOffice', () => {
 
     // End the generation. Player will draw 5 cards this generation.
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(11);
+    expect(game.getGeneration()).eq(11);
 
     expect(LunaProjectOffice.isActive(player)).is.true;
     expect(getWaitingFor(player).cards).has.length(5);
@@ -162,7 +162,7 @@ describe('LunaProjectOffice', () => {
     // this card, so the generation after the player will only draw 4 cards.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(12);
+    expect(game.getGeneration()).eq(12);
 
     expect(getWaitingFor(player).cards).has.length(5);
     expect(getWaitingFor(player).minCardsToSelect).eq(0);
@@ -171,7 +171,7 @@ describe('LunaProjectOffice', () => {
     // End the generation. Player will draw 4 cards.
 
     finishGeneration(game);
-    expect(game.getGeneration()).to.eq(13);
+    expect(game.getGeneration()).eq(13);
 
     expect(getWaitingFor(player).cards).has.length(4);
     expect(getWaitingFor(player).minCardsToSelect).eq(0);

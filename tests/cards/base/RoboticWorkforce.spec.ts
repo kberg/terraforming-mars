@@ -67,7 +67,7 @@ describe('RoboticWorkforce', () => {
     const action = card.play(player);
     expect(action).is.not.undefined;
     action!.cb([noctisFarming]);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   it('Should work with Gyropolis', () => {
@@ -81,8 +81,8 @@ describe('RoboticWorkforce', () => {
     const selectCard = card.play(player);
     expect(selectCard).is.not.undefined;
     selectCard!.cb([gyropolis]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Should work with Capital (Ares expansion)', () => {
@@ -97,8 +97,8 @@ describe('RoboticWorkforce', () => {
     const selectCard = card.play(player);
     expect(selectCard).is.not.undefined;
     selectCard!.cb([capitalAres]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(5);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(5);
   });
 
   it('Should work with Solar Farm (Ares expansion)', () => {
@@ -110,18 +110,18 @@ describe('RoboticWorkforce', () => {
     expect(solarFarmSpace.bonus).has.lengthOf(2);
     expect(solarFarmSpace.bonus.every((b) => b === SpaceBonus.PLANT)).is.true;
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
     const action = solarFarm.play(player);
     expect(action).is.not.undefined;
     action!.cb(solarFarmSpace);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
 
     player.playedCards.push(solarFarm);
 
     const selectCard = card.play(player);
     expect(selectCard).is.not.undefined;
     selectCard!.cb([solarFarm]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(4);
+    expect(player.getProduction(Resources.ENERGY)).eq(4);
   });
 
   it('Should play with corporation cards', () => {
@@ -131,11 +131,11 @@ describe('RoboticWorkforce', () => {
     const action = card.play(player);
     expect(action).is.not.undefined;
 
-    expect(player.getProduction(Resources.STEEL)).to.eq(0);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(0);
+    expect(player.getProduction(Resources.STEEL)).eq(0);
+    expect(player.getProduction(Resources.TITANIUM)).eq(0);
     action!.cb([corporationCard as any]);
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
   });
 
   it('Should not work with Solar Wind Power (no building tag, but has production)', () => {

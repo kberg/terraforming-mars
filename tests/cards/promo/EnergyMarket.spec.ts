@@ -58,7 +58,7 @@ describe('EnergyMarket', function() {
     const result = card.action(player);
     expect(result).is.undefined;
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(8);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(8);
   });
 });

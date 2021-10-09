@@ -20,6 +20,6 @@ describe('MartianMediaCenter', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 });

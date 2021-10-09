@@ -27,7 +27,7 @@ describe('PointLuna', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

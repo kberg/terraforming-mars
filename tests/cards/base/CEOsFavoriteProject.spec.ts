@@ -34,13 +34,13 @@ describe('CEOsFavoriteProject', function() {
     expect(action instanceof SelectCard).is.true;
 
     action.cb([searchForLife]);
-    expect(player.getResourcesOnCard(searchForLife)).to.eq(2);
+    expect(player.getResourcesOnCard(searchForLife)).eq(2);
     action.cb([birds]);
-    expect(player.getResourcesOnCard(birds)).to.eq(2);
+    expect(player.getResourcesOnCard(birds)).eq(2);
     action.cb([decomposers]);
-    expect(player.getResourcesOnCard(decomposers)).to.eq(2);
+    expect(player.getResourcesOnCard(decomposers)).eq(2);
     action.cb([securityFleet]);
-    expect(player.getResourcesOnCard(securityFleet)).to.eq(2);
+    expect(player.getResourcesOnCard(securityFleet)).eq(2);
   });
 
   it('Can play on SelfReplicatingRobots cards', function() {
@@ -52,6 +52,6 @@ describe('CEOsFavoriteProject', function() {
     const action = card.play(player);
     expect(action instanceof SelectCard).is.true;
     action.cb([srrTarget]);
-    expect(srr.targetCards[0].resourceCount).to.eq(1);
+    expect(srr.targetCards[0].resourceCount).eq(1);
   });
 });

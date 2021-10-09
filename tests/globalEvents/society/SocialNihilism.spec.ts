@@ -16,6 +16,6 @@ describe('SocialNihilism', function() {
     game.addCityTile(player, '21');
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

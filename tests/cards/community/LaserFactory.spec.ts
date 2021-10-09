@@ -17,7 +17,7 @@ describe('LaserFactory', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
   });
 });

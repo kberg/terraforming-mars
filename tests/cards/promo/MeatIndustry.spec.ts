@@ -18,17 +18,17 @@ describe('MeatIndustry', function() {
     const fish = new Fish();
     player.playedCards.push(fish);
     fish.action(player);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
 
     const eosChasmaNationalPark = new EosChasmaNationalPark();
     eosChasmaNationalPark.play(player);
-    expect(fish.resourceCount).to.eq(2);
-    expect(player.megaCredits).to.eq(4);
+    expect(fish.resourceCount).eq(2);
+    expect(player.megaCredits).eq(4);
 
     // Don't get MC when other players gain animals
     const predators = new Predators();
     player2.playedCards.push(predators);
     predators.action(player2);
-    expect(player.megaCredits).to.eq(4);
+    expect(player.megaCredits).eq(4);
   });
 });

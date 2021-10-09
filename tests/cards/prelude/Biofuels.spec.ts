@@ -12,8 +12,8 @@ describe('Biofuels', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.plants).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.plants).eq(2);
   });
 });

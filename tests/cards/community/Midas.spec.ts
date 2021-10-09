@@ -16,6 +16,6 @@ describe('Midas', function() {
 
     card.play(player);
     player.corporationCard = card;
-    expect(player.getTerraformRating()).to.eq(initialTR - 7);
+    expect(player.getTerraformRating()).eq(initialTR - 7);
   });
 });

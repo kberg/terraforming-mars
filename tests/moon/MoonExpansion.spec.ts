@@ -69,26 +69,26 @@ describe('MoonExpansion', () => {
   });
 
   it('raiseMiningRate', () => {
-    expect(moonData.miningRate).to.eq(0);
+    expect(moonData.miningRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseMiningRate(player);
-    expect(moonData.miningRate).to.eq(1);
+    expect(moonData.miningRate).eq(1);
     expect(player.getTerraformRating()).eq(21);
   });
 
   it('raiseColonyRate', () => {
-    expect(moonData.colonyRate).to.eq(0);
+    expect(moonData.colonyRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseColonyRate(player);
-    expect(moonData.colonyRate).to.eq(1);
+    expect(moonData.colonyRate).eq(1);
     expect(player.getTerraformRating()).eq(21);
   });
 
   it('raiseLogisticsRate', () => {
-    expect(moonData.logisticRate).to.eq(0);
+    expect(moonData.logisticRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseLogisticRate(player);
-    expect(moonData.logisticRate).to.eq(1);
+    expect(moonData.logisticRate).eq(1);
     expect(player.getTerraformRating()).eq(21);
   });
 
@@ -195,28 +195,28 @@ describe('MoonExpansion', () => {
 
   it('raiseMiningRate during WGT', () => {
     game.phase = Phase.SOLAR;
-    expect(moonData.miningRate).to.eq(0);
+    expect(moonData.miningRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseMiningRate(player);
-    expect(moonData.miningRate).to.eq(1);
+    expect(moonData.miningRate).eq(1);
     expect(player.getTerraformRating()).eq(20);
   });
 
   it('raiseColonyRate during WGT', () => {
     game.phase = Phase.SOLAR;
-    expect(moonData.colonyRate).to.eq(0);
+    expect(moonData.colonyRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseColonyRate(player);
-    expect(moonData.colonyRate).to.eq(1);
+    expect(moonData.colonyRate).eq(1);
     expect(player.getTerraformRating()).eq(20);
   });
 
   it('raiseLogisticsRate during WGT', () => {
     game.phase = Phase.SOLAR;
-    expect(moonData.logisticRate).to.eq(0);
+    expect(moonData.logisticRate).eq(0);
     expect(player.getTerraformRating()).eq(20);
     MoonExpansion.raiseLogisticRate(player);
-    expect(moonData.logisticRate).to.eq(1);
+    expect(moonData.logisticRate).eq(1);
     expect(player.getTerraformRating()).eq(20);
   });
 });

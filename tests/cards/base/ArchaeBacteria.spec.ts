@@ -22,6 +22,6 @@ describe('ArchaeBacteria', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

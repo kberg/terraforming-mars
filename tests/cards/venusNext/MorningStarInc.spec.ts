@@ -14,6 +14,6 @@ describe('MorningStarInc', function() {
     player.corporationCard = corp;
     game.increaseVenusScaleLevel(player, 3);
     expect(card.canPlay(player)).is.true;
-    expect(game.getVenusScaleLevel()).to.eq(6);
+    expect(game.getVenusScaleLevel()).eq(6);
   });
 });

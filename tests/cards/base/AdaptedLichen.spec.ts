@@ -10,6 +10,6 @@ describe('AdaptedLichen', function() {
     const player = TestPlayers.BLUE.newPlayer();
 
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

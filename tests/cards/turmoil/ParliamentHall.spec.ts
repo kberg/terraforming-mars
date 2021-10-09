@@ -25,6 +25,6 @@ describe('ParliamentHall', function() {
 
     player.playedCards.push(card2, card3);
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

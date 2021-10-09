@@ -30,23 +30,23 @@ describe('AsteroidMiningConsortium', function() {
     card.play(player); // can decrease own production
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
   });
 
   it('Should play - multiple targets', function() {
     player.addProduction(Resources.TITANIUM, 1);
     player2.addProduction(Resources.TITANIUM, 1);
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(2);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.TITANIUM)).to.eq(0);
+    expect(player2.getProduction(Resources.TITANIUM)).eq(0);
   });
 
   it('Gives victory points', function() {
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 });

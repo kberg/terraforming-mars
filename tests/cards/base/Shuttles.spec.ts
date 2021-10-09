@@ -34,13 +34,13 @@ describe('Shuttles', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
 
-    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).to.eq(0);
-    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).to.eq(2);
+    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).eq(0);
+    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).eq(2);
   });
 });

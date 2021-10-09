@@ -28,6 +28,6 @@ describe('JupiterFloatingStation', function() {
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions instanceof OrOptions).is.true;
         orOptions!.options[1].cb();
-        expect(player.megaCredits).to.eq(4);
+        expect(player.megaCredits).eq(4);
   });
 });

@@ -18,14 +18,14 @@ describe('InterplanetaryCinematics', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.steel).to.eq(20);
+    expect(player.steel).eq(20);
   });
 
   it('Has onCardPlayed', function() {
     player.corporationCard = card;
     card.onCardPlayed(player, new Bushes());
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     card.onCardPlayed(player, new Virus());
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 });

@@ -23,21 +23,21 @@ describe('HeatTrappers', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(player.getProduction(Resources.HEAT)).to.eq(1); // Not changed
+    expect(player.getProduction(Resources.HEAT)).eq(1); // Not changed
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1); // Incremented
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1); // Incremented
   });
 
   it('Should play - auto select if single target', function() {
     player2.addProduction(Resources.HEAT, 7);
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
 
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player2.getProduction(Resources.HEAT)).to.eq(5);
+    expect(player2.getProduction(Resources.HEAT)).eq(5);
   });
 
   it('Should play - multiple targets', function() {
@@ -45,12 +45,12 @@ describe('HeatTrappers', function() {
     player2.addProduction(Resources.HEAT, 7);
     card.play(player);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.HEAT)).to.eq(5);
+    expect(player2.getProduction(Resources.HEAT)).eq(5);
   });
 
   it('Can\'t play if nobody has heat production', function() {
@@ -59,6 +59,6 @@ describe('HeatTrappers', function() {
 
   it('Gives victory points', function() {
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
   });
 });

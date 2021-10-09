@@ -16,6 +16,6 @@ describe('MagneticShield', function() {
     player.playedCards.push(new PowerPlant());
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

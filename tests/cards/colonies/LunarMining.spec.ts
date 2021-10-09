@@ -15,6 +15,6 @@ describe('LunarMining', function() {
     player.playedCards.push({tags: Array(4).fill(Tags.EARTH)} as IProjectCard);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(2);
   });
 });

@@ -28,7 +28,7 @@ describe('CorrosiveRain', function() {
     expect(game.deferredActions).has.lengthOf(0);
     expect(player2.cardsInHand).has.lengthOf(3);
     expect(player.cardsInHand).has.lengthOf(0);
-    expect(player.megaCredits).to.eq(5);
-    expect(player2.megaCredits).to.eq(5);
+    expect(player.megaCredits).eq(5);
+    expect(player2.megaCredits).eq(5);
   });
 });

@@ -22,8 +22,8 @@ describe('VolcanicEruptions', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getProduction(Resources.HEAT)).to.eq(0);
-    expect(player2.getProduction(Resources.HEAT)).to.eq(3);
-    expect(game.getTemperature()).to.eq(-26);
+    expect(player.getProduction(Resources.HEAT)).eq(0);
+    expect(player2.getProduction(Resources.HEAT)).eq(3);
+    expect(game.getTemperature()).eq(-26);
   });
 });

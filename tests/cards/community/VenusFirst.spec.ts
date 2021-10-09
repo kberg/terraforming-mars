@@ -19,9 +19,9 @@ describe('VenusFirst', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(game.getVenusScaleLevel()).to.eq(4);
+    expect(game.getVenusScaleLevel()).eq(4);
     expect(player.cardsInHand).has.lengthOf(2);
 
-    player.cardsInHand.forEach((card) => expect(card.tags.indexOf(Tags.VENUS)).not.to.eq(-1));
+    player.cardsInHand.forEach((card) => expect(card.tags.indexOf(Tags.VENUS)).not.eq(-1));
   });
 });

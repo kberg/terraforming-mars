@@ -25,28 +25,28 @@ describe('Landlord', () => {
   });
 
   it('Simple test', () => {
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
 
     game.addCityTile(player, SpaceName.NOCTIS_CITY);
-    expect(award.getScore(player)).to.eq(1);
+    expect(award.getScore(player)).eq(1);
 
     game.addGreenery(player, '35');
-    expect(award.getScore(player)).to.eq(2);
+    expect(award.getScore(player)).eq(2);
   });
 
   it('Includes The Moon', () => {
     const game = Game.newInstance('foobar', [player, otherPlayer], player, TestingUtils.setCustomGameOptions({moonExpansion: true}));
 
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
 
     game.addCityTile(player, SpaceName.NOCTIS_CITY);
-    expect(award.getScore(player)).to.eq(1);
+    expect(award.getScore(player)).eq(1);
 
     game.addGreenery(player, '35');
-    expect(award.getScore(player)).to.eq(2);
+    expect(award.getScore(player)).eq(2);
 
     MoonExpansion.addMineTile(player, MoonSpaces.MARE_IMBRIUM);
-    expect(award.getScore(player)).to.eq(3);
+    expect(award.getScore(player)).eq(3);
   });
 
   it('Exclude Landclaimed Ares hazard tile from land-based award', function() {
@@ -55,15 +55,15 @@ describe('Landlord', () => {
     const firstSpace = game.board.getAvailableSpacesOnLand(player)[0];
     _AresHazardPlacement.putHazardAt(firstSpace, TileType.DUST_STORM_MILD);
 
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
 
     const card = new LandClaim();
     const action = card.play(player);
     expect(action).is.not.undefined;
     action.cb(firstSpace);
 
-    expect(firstSpace.player).to.eq(player);
+    expect(firstSpace.player).eq(player);
     expect(firstSpace.tile?.tileType).is.eq(TileType.DUST_STORM_MILD);
-    expect(award.getScore(player)).to.eq(0);
+    expect(award.getScore(player)).eq(0);
   });
 });

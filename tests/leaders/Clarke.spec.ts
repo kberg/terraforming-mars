@@ -28,7 +28,7 @@ describe('Clarke', function() {
 
   it('Takes action', function() {
     expect(card.action(player)).is.undefined;
-    expect(player.plants).to.eq(4);
-    expect(player.heat).to.eq(4);
+    expect(player.plants).eq(4);
+    expect(player.heat).eq(4);
   });
 });

@@ -11,7 +11,7 @@ describe('Biolab', function() {
     Game.newInstance('foobar', [player], player);
     card.play(player);
 
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
     expect(player.cardsInHand).has.lengthOf(3);
   });
 });

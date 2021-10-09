@@ -21,7 +21,7 @@ describe('NitrogenFromTitan', function() {
   it('Can play without floaters', function() {
     const tr = player.getTerraformRating();
     card.play(player);
-    expect(player.getTerraformRating()).to.eq(tr + 2);
+    expect(player.getTerraformRating()).eq(tr + 2);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
   });
@@ -32,7 +32,7 @@ describe('NitrogenFromTitan', function() {
 
     card.play(player);
     player.game.deferredActions.runNext();
-    expect(jovianLanterns.resourceCount).to.eq(2);
+    expect(jovianLanterns.resourceCount).eq(2);
   });
 
   it('Can play with multiple Jovian floater cards', function() {
@@ -44,6 +44,6 @@ describe('NitrogenFromTitan', function() {
 
     const selectCard = game.deferredActions.peek()!.execute() as SelectCard<ICard>;
     selectCard.cb([jovianLanterns]);
-    expect(jovianLanterns.resourceCount).to.eq(2);
+    expect(jovianLanterns.resourceCount).eq(2);
   });
 });

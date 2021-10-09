@@ -20,7 +20,7 @@ describe('PhaetonRescue', function() {
     player.playedCards.push(new Mine(), new MedicalLab());
 
     card.resolve(game, turmoil);
-    expect(player.steel).to.eq(1);
-    expect(colony1.trackPosition).to.eq(1);
+    expect(player.steel).eq(1);
+    expect(colony1.trackPosition).eq(1);
   });
 });

@@ -35,8 +35,8 @@ describe('FloatingHabs', function() {
 
     card.action(player);
     game.deferredActions.runNext();
-    expect(card.resourceCount).to.eq(1);
-    expect(player.megaCredits).to.eq(8);
+    expect(card.resourceCount).eq(1);
+    expect(player.megaCredits).eq(8);
   });
 
   it('Should act - multiple targets', function() {
@@ -47,12 +47,12 @@ describe('FloatingHabs', function() {
 
     (action as SelectCard<ICard>).cb([card]);
     game.deferredActions.runNext();
-    expect(card.resourceCount).to.eq(1);
-    expect(player.megaCredits).to.eq(8);
+    expect(card.resourceCount).eq(1);
+    expect(player.megaCredits).eq(8);
   });
 
   it('Gives victory points', function() {
     player.addResourceTo(card, 5);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

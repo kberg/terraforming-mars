@@ -27,8 +27,8 @@ describe('GenerousFunding', function() {
     player2.setTerraformRating(50);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(14);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(26);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(14);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(26);
   });
 
   it('no negative mc give out if TR lower than 15', function() {
@@ -51,7 +51,7 @@ describe('GenerousFunding', function() {
     player2.setTerraformRating(50);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(10);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(26);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(10);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(26);
   });
 });

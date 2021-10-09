@@ -13,7 +13,7 @@ describe('OrbitalReflectors', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(game.getVenusScaleLevel()).to.eq(4);
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(4);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
   });
 });

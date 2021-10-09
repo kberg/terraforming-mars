@@ -19,12 +19,12 @@ describe('CheungShingMARS', function() {
   it('Gets card discount', function() {
     const ants = new Ants();
     const buildingIndustries = new BuildingIndustries();
-    expect(card.getCardDiscount(player, ants)).to.eq(0);
-    expect(card.getCardDiscount(player, buildingIndustries)).to.eq(2);
+    expect(card.getCardDiscount(player, ants)).eq(0);
+    expect(card.getCardDiscount(player, buildingIndustries)).eq(2);
   });
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
   });
 });

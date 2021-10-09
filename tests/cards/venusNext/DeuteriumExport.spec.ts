@@ -24,12 +24,12 @@ describe('DeuteriumExport', function() {
     player.playedCards.push(card);
     const action = card.action(player);
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions instanceof OrOptions).is.true;
     orOptions!.options[0].cb();
-    expect(card.resourceCount).to.eq(0);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(card.resourceCount).eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
   });
 });

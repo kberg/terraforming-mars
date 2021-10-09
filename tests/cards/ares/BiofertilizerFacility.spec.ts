@@ -46,8 +46,8 @@ describe('BiofertilizerFacility', function() {
     const citySpace = game.board.getAvailableSpacesForCity(player)[0];
     action.cb(citySpace);
 
-    expect(citySpace.player).to.eq(player);
-    expect(citySpace.tile!.tileType).to.eq(TileType.BIOFERTILIZER_FACILITY);
+    expect(citySpace.player).eq(player);
+    expect(citySpace.tile!.tileType).eq(TileType.BIOFERTILIZER_FACILITY);
     expect(citySpace.adjacency).to.deep.eq({bonus: [SpaceBonus.PLANT, SpaceBonus.MICROBE]});
 
     game.deferredActions.peek()!.execute();

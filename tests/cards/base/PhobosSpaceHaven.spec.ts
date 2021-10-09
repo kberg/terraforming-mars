@@ -12,9 +12,9 @@ describe('PhobosSpaceHaven', function() {
     const game = Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(3);
-    expect(game.getCitiesInPlay()).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(3);
+    expect(game.getCitiesInPlay()).eq(1);
   });
 });

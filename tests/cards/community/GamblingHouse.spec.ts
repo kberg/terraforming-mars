@@ -21,6 +21,6 @@ describe('GamblingHouse', function() {
     game.dealer.preludeDeck.push(new AlliedBanks()); // ensure first prelude is playable
     card.play(player);
     expect(game.deferredActions).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(5);
+    expect(player.megaCredits).eq(5);
   });
 });

@@ -27,7 +27,7 @@ describe('BusinessEmpire', function() {
     // SelectHowToPayDeferred
     game.deferredActions.runNext();
 
-    expect(player.megaCredits).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(6);
+    expect(player.megaCredits).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(6);
   });
 });

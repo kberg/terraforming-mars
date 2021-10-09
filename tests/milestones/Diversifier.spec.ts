@@ -33,7 +33,7 @@ describe('Diversifier', function() {
     game.colonies = [leavitt];
 
     leavitt.addColony(player);
-    expect(player.getDistinctTagCount(true)).to.eq(1);
+    expect(player.getDistinctTagCount(true)).eq(1);
 
     for (let i = 0; i < 7; i++) {
       player.playedCards.push(new ResearchNetwork());

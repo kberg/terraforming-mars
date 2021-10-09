@@ -39,10 +39,10 @@ describe('BiomassCombustors', function() {
     card.play(player);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
   });
 });

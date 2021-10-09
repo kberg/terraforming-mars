@@ -24,7 +24,7 @@ describe('RadChemFactory', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getTerraformRating()).to.eq(22);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getTerraformRating()).eq(22);
   });
 });

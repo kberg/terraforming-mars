@@ -20,6 +20,6 @@ describe('SponsoredMohole', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
   });
 });

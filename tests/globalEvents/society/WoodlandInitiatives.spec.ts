@@ -17,7 +17,7 @@ describe('WoodlandInitiatives', function() {
     turmoil.dominantParty.delegates.push(player.id);
 
     card.resolve(game, turmoil);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(game.getOxygenLevel()).eq(1);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

@@ -13,7 +13,7 @@ describe('GHGImportFromVenus', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

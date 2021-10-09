@@ -23,13 +23,13 @@ describe('Incite', function() {
   });
 
   it('Starts with +1 influence', function() {
-    expect(game.turmoil!.getPlayerInfluence(player)).to.eq(1);
+    expect(game.turmoil!.getPlayerInfluence(player)).eq(1);
   });
 
   it('Works with Event Analysts', function() {
     const eventAnalysts = new EventAnalysts();
     eventAnalysts.play(player);
-    expect(game.turmoil!.getPlayerInfluence(player)).to.eq(2);
+    expect(game.turmoil!.getPlayerInfluence(player)).eq(2);
   });
 
   it('Can perform initial action', function() {

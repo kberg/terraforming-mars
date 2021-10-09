@@ -30,7 +30,7 @@ describe('Ants', function() {
 
     card.play();
     card.resourceCount += 5;
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 
   it('Should action with multiple valid targets', function() {
@@ -52,8 +52,8 @@ describe('Ants', function() {
     selectCard.cb([selectCard.cards[0]]);
     game.deferredActions.pop()!.execute(); // Add microbe to ants
 
-    expect(card.resourceCount).to.eq(1);
-    expect(tardigrades.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(1);
+    expect(tardigrades.resourceCount).eq(0);
   });
 
   it('Respects protected habitats', function() {
@@ -85,7 +85,7 @@ describe('Ants', function() {
     expect(selectCard).is.undefined; // Only one option: Tardigrades
     game.deferredActions.pop()!.execute(); // Add microbe to ants
 
-    expect(card.resourceCount).to.eq(1);
-    expect(tardigrades.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(1);
+    expect(tardigrades.resourceCount).eq(0);
   });
 });

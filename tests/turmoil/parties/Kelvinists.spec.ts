@@ -30,7 +30,7 @@ describe('Kelvinists', function() {
 
     const bonus = KELVINISTS_BONUS_1;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(5);
+    expect(player.megaCredits).eq(5);
   });
 
   it('Ruling bonus 2: Gain 1 heat for each Heat production you have', function() {
@@ -38,7 +38,7 @@ describe('Kelvinists', function() {
 
     const bonus = KELVINISTS_BONUS_2;
     bonus.grant(game);
-    expect(player.heat).to.eq(5);
+    expect(player.heat).eq(5);
   });
 
   it('Ruling policy 1: Pay 10 M€ to increase your Energy and Heat production 1 step', function() {
@@ -49,15 +49,15 @@ describe('Kelvinists', function() {
     kelvinistsPolicy.action(player);
 
     game.deferredActions.runNext();
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.getProduction(Resources.HEAT)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(1);
   });
 
   it('Ruling policy 2: When you raise temperature, gain 3 M€ per step raised', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, kelvinists, KELVINISTS_POLICY_2.id);
 
     game.increaseTemperature(player, 1);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 
   it('Ruling policy 3: Convert 6 heat into temperature', function() {
@@ -71,9 +71,9 @@ describe('Kelvinists', function() {
 
     const initialTR = player.getTerraformRating();
     kelvinistsPolicy.action(player);
-    expect(player.heat).to.eq(0);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
-    expect(game.getTemperature()).to.eq(-28);
+    expect(player.heat).eq(0);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
+    expect(game.getTemperature()).eq(-28);
   });
 
   it('Ruling policy 3: Works with Stormcraft', function() {
@@ -95,10 +95,10 @@ describe('Kelvinists', function() {
     heatOption.cb(4);
     floaterOption.cb(1);
     action.cb();
-    expect(player.heat).to.eq(4);
-    expect(stormcraft.resourceCount).to.eq(1);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
-    expect(game.getTemperature()).to.eq(-28);
+    expect(player.heat).eq(4);
+    expect(stormcraft.resourceCount).eq(1);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
+    expect(game.getTemperature()).eq(-28);
     expect(kelvinistsPolicy.canAct(player)).to.be.true;
   });
 
@@ -107,6 +107,6 @@ describe('Kelvinists', function() {
 
     const emptySpace: ISpace = game.board.spaces.find((space) => space.bonus.length === 0) as ISpace;
     game.addTile(player, emptySpace.spaceType, emptySpace, {tileType: TileType.CITY});
-    expect(player.heat).to.eq(2);
+    expect(player.heat).eq(2);
   });
 });

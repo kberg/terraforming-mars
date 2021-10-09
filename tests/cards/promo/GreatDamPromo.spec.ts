@@ -27,8 +27,8 @@ describe('GreatDamPromo', function() {
 
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
+    expect(card.getVictoryPoints()).eq(1);
   });
 
   it('Works with Ares', function() {
@@ -36,7 +36,7 @@ describe('GreatDamPromo', function() {
 
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

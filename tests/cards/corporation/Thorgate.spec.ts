@@ -16,9 +16,9 @@ describe('Thorgate', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     player.corporationCard = card;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(card.getCardDiscount(player, new EnergySaving())).to.eq(3);
-    expect(card.getCardDiscount(player, new Pets())).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(card.getCardDiscount(player, new EnergySaving())).eq(3);
+    expect(card.getCardDiscount(player, new Pets())).eq(0);
     const powerPlant = new PowerPlantStandardProjectThorgate();
     player.megaCredits = powerPlant.cost;
     expect(powerPlant.canAct(player)).eq(true);

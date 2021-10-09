@@ -27,8 +27,8 @@ describe('MartianRails', () => {
     game.addCityTile(player, game.board.getAvailableSpacesOnLand(player)[0].id);
 
     card.action(player);
-    expect(player.energy).to.eq(0);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.energy).eq(0);
+    expect(player.megaCredits).eq(1);
   });
 
   it('Ignores cities off Mars', () => {
@@ -37,7 +37,7 @@ describe('MartianRails', () => {
     game.addCityTile(player, SpaceName.GANYMEDE_COLONY, SpaceType.COLONY);
 
     card.action(player);
-    expect(player.energy).to.eq(0);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.energy).eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

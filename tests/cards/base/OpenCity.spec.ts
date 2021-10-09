@@ -33,13 +33,13 @@ describe('OpenCity', function() {
     const action = card.play(player);
     expect(action).is.not.undefined;
     action.cb(action.availableSpaces[0]);
-    expect(game.getCitiesInPlayOnMars()).to.eq(1);
+    expect(game.getCitiesInPlayOnMars()).eq(1);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
-    expect(player.plants).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
+    expect(player.plants).eq(2);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 });

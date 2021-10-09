@@ -48,12 +48,12 @@ describe('CloudSeeding', () => {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
 
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player2.getProduction(Resources.HEAT)).to.eq(0);
+    expect(player2.getProduction(Resources.HEAT)).eq(0);
   });
 
   it('Should play - multiple targets', () => {
@@ -61,12 +61,12 @@ describe('CloudSeeding', () => {
     player2.addProduction(Resources.HEAT, 1);
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.HEAT)).to.eq(0);
+    expect(player2.getProduction(Resources.HEAT)).eq(0);
   });
 });

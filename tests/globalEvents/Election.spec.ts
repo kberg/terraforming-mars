@@ -24,8 +24,8 @@ describe('Election', function() {
     turmoil.dominantParty.partyLeader = player2.id;
     turmoil.dominantParty.delegates.push(player2.id);
     card.resolve(game, turmoil);
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player2.getTerraformRating()).to.eq(22);
-    expect(player3.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player2.getTerraformRating()).eq(22);
+    expect(player3.getTerraformRating()).eq(21);
   });
 });

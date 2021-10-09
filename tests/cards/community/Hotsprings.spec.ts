@@ -27,7 +27,7 @@ describe('Hotsprings', function() {
     expect(card.canAct(player)).to.be.true;
 
     card.action(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   it('Increases 2 MC production if heat production was increased more than 1 step', function() {
@@ -36,6 +36,6 @@ describe('Hotsprings', function() {
     expect(card.canAct(player)).to.be.true;
 
     card.action(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 });

@@ -30,7 +30,7 @@ describe('CelebrityLeaders', function() {
     player2.megaCredits = 10;
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(12);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(20);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(12);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(20);
   });
 });

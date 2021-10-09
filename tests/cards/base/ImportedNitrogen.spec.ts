@@ -20,8 +20,8 @@ describe('ImportedNitrogen', function() {
 
   it('Should play without animals and microbes', function() {
     card.play(player);
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.plants).to.eq(4);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.plants).eq(4);
   });
 
   it('Should play with only animals', function() {
@@ -35,10 +35,10 @@ describe('ImportedNitrogen', function() {
 
     const addAnimals = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     addAnimals.cb([pets]);
-    expect(player.getResourcesOnCard(pets)).to.eq(2);
+    expect(player.getResourcesOnCard(pets)).eq(2);
 
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.plants).to.eq(4);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.plants).eq(4);
   });
 
   it('Should play with only microbes', function() {
@@ -49,13 +49,13 @@ describe('ImportedNitrogen', function() {
 
     const addMicrobes = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     addMicrobes.cb([tardigrades]);
-    expect(player.getResourcesOnCard(tardigrades)).to.eq(3);
+    expect(player.getResourcesOnCard(tardigrades)).eq(3);
 
     const addAnimals = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     expect(addAnimals).is.undefined;
 
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.plants).to.eq(4);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.plants).eq(4);
   });
 
   it('Should play with animals and microbes', function() {
@@ -68,13 +68,13 @@ describe('ImportedNitrogen', function() {
 
     const addMicrobes = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     addMicrobes.cb([tardigrades]);
-    expect(player.getResourcesOnCard(tardigrades)).to.eq(3);
+    expect(player.getResourcesOnCard(tardigrades)).eq(3);
 
     const addAnimals = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     addAnimals.cb([pets]);
-    expect(player.getResourcesOnCard(pets)).to.eq(2);
+    expect(player.getResourcesOnCard(pets)).eq(2);
 
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player.plants).to.eq(4);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player.plants).eq(4);
   });
 });

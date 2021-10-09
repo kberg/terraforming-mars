@@ -46,7 +46,7 @@ describe('UrbanDecomposers', function() {
 
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 
   it('Should play with single target', function() {
@@ -58,8 +58,8 @@ describe('UrbanDecomposers', function() {
     const input = game.deferredActions.peek()!.execute();
     game.deferredActions.pop();
     expect(input).is.undefined;
-    expect(decomposers.resourceCount).to.eq(2);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(decomposers.resourceCount).eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 
   it('Should play with multiple targets', function() {
@@ -73,7 +73,7 @@ describe('UrbanDecomposers', function() {
     // add two microbes to Ants
     const selectCard = game.deferredActions.peek()!.execute() as SelectCard<ICard>;
     selectCard.cb([ants]);
-    expect(ants.resourceCount).to.eq(2);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(ants.resourceCount).eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

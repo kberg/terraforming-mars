@@ -25,7 +25,7 @@ describe('SnowAlgae', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.getProduction(Resources.HEAT)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(1);
   });
 });

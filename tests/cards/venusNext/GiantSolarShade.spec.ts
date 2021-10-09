@@ -26,8 +26,8 @@ describe('GiantSolarShade', function() {
   it('Should play', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(game.getVenusScaleLevel()).to.eq(6);
-    expect(player.getTerraformRating()).to.eq(23);
+    expect(game.getVenusScaleLevel()).eq(6);
+    expect(player.getTerraformRating()).eq(23);
   });
 
   it('Should play with Reds and Dirigibles', function() {

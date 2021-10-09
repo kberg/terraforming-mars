@@ -24,28 +24,28 @@ describe('ColonialOne', function() {
   });
 
   it('Starts with 3 fighter resources', function() {
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
   });
 
   it('Can spend fighter resource to trade for free', function() {
     const action = card.action(player);
-    expect(action instanceof OrOptions).to.eq(true);
-    expect(action!.options.length).to.eq(2);
+    expect(action instanceof OrOptions).eq(true);
+    expect(action!.options.length).eq(2);
 
     action!.options[0].cb();
-    expect(game.deferredActions.length).to.eq(1);
+    expect(game.deferredActions.length).eq(1);
     const selectColony = game.deferredActions.pop()!.execute() as SelectColony;
     selectColony.cb((<any>ColonyName)[selectColony.coloniesModel[0].name.toUpperCase()]);
 
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
   });
 
   it('Can move a colony tile track', function() {
     const action = card.action(player);
     action!.options[1].cb();
-    expect(game.deferredActions.length).to.eq(1);
+    expect(game.deferredActions.length).eq(1);
 
     const selectColony = game.deferredActions.pop()!;
-    expect(selectColony.execute() instanceof SelectColony).to.eq(true);
+    expect(selectColony.execute() instanceof SelectColony).eq(true);
   });
 });

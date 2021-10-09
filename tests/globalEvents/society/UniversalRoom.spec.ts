@@ -19,7 +19,7 @@ describe('UniversalRoom', function() {
     player.playedCards.push(new DomedCrater());
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
     expect(game.deferredActions).has.lengthOf(2);
   });
 });

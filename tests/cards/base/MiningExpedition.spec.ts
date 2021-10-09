@@ -22,9 +22,9 @@ describe('MiningExpedition', function() {
 
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[0].cb();
-    expect(player2.plants).to.eq(6);
+    expect(player2.plants).eq(6);
 
-    expect(player.steel).to.eq(2);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(player.steel).eq(2);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

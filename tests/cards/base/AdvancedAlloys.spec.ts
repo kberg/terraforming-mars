@@ -10,7 +10,7 @@ describe('AdvancedAlloys', function() {
     const redPlayer = TestPlayers.RED.newPlayer();
     Game.newInstance('foobar', [player, redPlayer], player);
     card.play(player);
-    expect(player.getTitaniumValue()).to.eq(4);
-    expect(player.getSteelValue()).to.eq(3);
+    expect(player.getTitaniumValue()).eq(4);
+    expect(player.getSteelValue()).eq(3);
   });
 });

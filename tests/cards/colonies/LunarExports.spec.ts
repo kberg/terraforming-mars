@@ -15,6 +15,6 @@ describe('LunarExports', function() {
     expect(orOptions).is.not.undefined;
     expect(orOptions instanceof OrOptions).is.true;
     orOptions.options[1].cb();
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
   });
 });

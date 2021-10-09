@@ -23,7 +23,7 @@ describe('AquiferPumping', function() {
     const action = card.action(player);
     expect(action).is.undefined;
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Cannot act if not enough to pay', function() {

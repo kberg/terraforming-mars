@@ -24,9 +24,9 @@ describe('CometForVenus', function() {
     const subActionSelectPlayer: SelectPlayer = action!.options[0] as SelectPlayer;
 
     expect(subActionSelectPlayer.players).has.lengthOf(1);
-    expect(subActionSelectPlayer.players[0]).to.eq(player2);
+    expect(subActionSelectPlayer.players[0]).eq(player2);
     subActionSelectPlayer.cb(player2);
-    expect(game.getVenusScaleLevel()).to.eq(2);
-    expect(player2.megaCredits).to.eq(6);
+    expect(game.getVenusScaleLevel()).eq(2);
+    expect(player2.megaCredits).eq(6);
   });
 });

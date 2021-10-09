@@ -14,11 +14,11 @@ describe('MedicalLab', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
     player.playedCards.push({tags: [Tags.BUILDING]} as IProjectCard);
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 });

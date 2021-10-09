@@ -24,10 +24,10 @@ describe('Mangrove', function() {
     expect(action).is.not.undefined;
 
     action.cb(action.availableSpaces[0]);
-    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).to.eq(TileType.GREENERY);
-    expect(action.availableSpaces[0].player).to.eq(player);
+    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).eq(TileType.GREENERY);
+    expect(action.availableSpaces[0].player).eq(player);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 });

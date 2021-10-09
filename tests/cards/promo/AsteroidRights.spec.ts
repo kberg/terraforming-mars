@@ -24,7 +24,7 @@ describe('AsteroidRights', function() {
   });
 
   it('Should play', function() {
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
   });
 
   it('Can\'t act', function() {
@@ -39,11 +39,11 @@ describe('AsteroidRights', function() {
 
     // Gain 1 M€ prod
     action.options[1].cb();
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
 
     // Gain 2 titanium
     action.options[0].cb();
-    expect(player.titanium).to.eq(2);
+    expect(player.titanium).eq(2);
   });
 
   it('Should play - can auto add asteroid resource to self', function() {
@@ -52,8 +52,8 @@ describe('AsteroidRights', function() {
 
     card.action(player);
     player.game.deferredActions.peek()!.execute();
-    expect(player.megaCredits).to.eq(0);
-    expect(card.resourceCount).to.eq(1);
+    expect(player.megaCredits).eq(0);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should play - can add asteroid resource to other card', function() {
@@ -64,7 +64,7 @@ describe('AsteroidRights', function() {
 
     const action = card.action(player) as SelectCard<ICard>;
     action.cb([cometAiming]);
-    expect(cometAiming.resourceCount).to.eq(1);
+    expect(cometAiming.resourceCount).eq(1);
   });
 
   it('Should play - all options available', function() {

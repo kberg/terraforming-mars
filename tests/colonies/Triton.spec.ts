@@ -18,13 +18,13 @@ describe('Triton', function() {
 
   it('Should build', function() {
     triton.addColony(player);
-    expect(player.titanium).to.eq(3);
+    expect(player.titanium).eq(3);
   });
 
   it('Should trade', function() {
     triton.trade(player);
-    expect(player.titanium).to.eq(1);
-    expect(player2.titanium).to.eq(0);
+    expect(player.titanium).eq(1);
+    expect(player2.titanium).eq(0);
   });
 
   it('Should give trade bonus', function() {
@@ -33,7 +33,7 @@ describe('Triton', function() {
     triton.trade(player2);
     game.deferredActions.runAll(() => {});
 
-    expect(player.titanium).to.eq(4);
-    expect(player2.titanium).to.eq(1);
+    expect(player.titanium).eq(4);
+    expect(player2.titanium).eq(1);
   });
 });

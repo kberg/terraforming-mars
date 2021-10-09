@@ -29,7 +29,7 @@ describe('AdvancedEcosystems', function() {
 
     card.play();
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(3);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(3);
   });
 
   it('Can play with two wildcards', function() {

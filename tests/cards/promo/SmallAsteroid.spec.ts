@@ -23,18 +23,18 @@ describe('SmallAsteroid', function() {
 
     const orOptions = player.game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[1].cb(); // do nothing
-    expect(player2.plants).to.eq(3);
+    expect(player2.plants).eq(3);
 
     orOptions.options[0].cb();
-    expect(player2.plants).to.eq(1);
-    expect(player.game.getTemperature()).to.eq(-28);
+    expect(player2.plants).eq(1);
+    expect(player.game.getTemperature()).eq(-28);
   });
 
   it('Doesn\'t remove plants in solo mode', function() {
     player.addResource(Resources.PLANTS, 3);
     Game.newInstance('solo', [player], player);
     card.play(player);
-    expect(player.getResource(Resources.PLANTS)).to.eq(3);
+    expect(player.getResource(Resources.PLANTS)).eq(3);
   });
 
   it('Works correctly with multiple targets', function() {
@@ -50,15 +50,15 @@ describe('SmallAsteroid', function() {
     expect(orOptions.options).has.lengthOf(3);
 
     orOptions.options[2].cb(); // do nothing
-    expect(player2.plants).to.eq(3);
-    expect(player3.plants).to.eq(5);
+    expect(player2.plants).eq(3);
+    expect(player3.plants).eq(5);
 
     orOptions.options[0].cb();
-    expect(player2.plants).to.eq(1);
+    expect(player2.plants).eq(1);
 
     orOptions.options[1].cb();
-    expect(player3.plants).to.eq(3);
+    expect(player3.plants).eq(3);
 
-    expect(player.game.getTemperature()).to.eq(-28);
+    expect(player.game.getTemperature()).eq(-28);
   });
 });

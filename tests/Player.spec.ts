@@ -48,7 +48,7 @@ describe('Player', function() {
     if (action !== undefined) {
       player.setWaitingFor(action);
       player.process([[player2.id]]);
-      expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+      expect(player.getProduction(Resources.ENERGY)).eq(1);
     }
   });
   it('Should error with input for run select player for PowerSupplyConsortium', function() {
@@ -96,8 +96,8 @@ describe('Player', function() {
       player.process([['foobar']]);
     }).to.throw('Number not provided for amount');
     player.process([['1']]);
-    expect(player.getProduction(Resources.HEAT)).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
     expect(player.getWaitingFor()).is.undefined;
   });
   it('Runs SaturnSystems when other player plays card', function() {
@@ -106,10 +106,10 @@ describe('Player', function() {
     Game.newInstance('gto', [player1, player2], player1);
     const card = new IoMiningIndustries();
     const corporationCard = new SaturnSystems();
-    expect(player1.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player1.getProduction(Resources.MEGACREDITS)).eq(0);
     player1.corporationCard = corporationCard;
     player2.playCard(card, undefined);
-    expect(player1.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player1.getProduction(Resources.MEGACREDITS)).eq(1);
   });
   it('Chains onend functions from player inputs', function(done) {
     const player = TestPlayers.BLUE.newPlayer();

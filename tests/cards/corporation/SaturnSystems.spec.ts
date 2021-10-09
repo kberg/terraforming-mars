@@ -18,14 +18,14 @@ describe('SaturnSystems', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   it('Runs onCardPlayed', function() {
     player.corporationCard = card;
     card.onCardPlayed(player, new MirandaResort());
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   it('Runs onCardPlayed when other player plays card', function() {
@@ -34,6 +34,6 @@ describe('SaturnSystems', function() {
     player.corporationCard = card;
 
     card.onCardPlayed(player2, new MirandaResort());
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

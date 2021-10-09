@@ -11,7 +11,7 @@ describe('IoResearchOutpost', function() {
     Game.newInstance('foobar', [player], player);
     card.play(player);
 
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

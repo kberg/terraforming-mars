@@ -25,7 +25,7 @@ describe('Diversity', function() {
     turmoil.dominantParty.partyLeader = player2.id;
     turmoil.dominantParty.delegates.push(player2.id);
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(0);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(10);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(0);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(10);
   });
 });

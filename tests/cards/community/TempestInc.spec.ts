@@ -26,9 +26,9 @@ describe('TempestInc', function() {
   });
 
   it('Starts with correct resources', function() {
-    expect(player.getTerraformRating()).to.eq(22);
-    expect(card.resourceCount).to.eq(2);
-    expect(game.getOxygenLevel()).to.eq(2);
+    expect(player.getTerraformRating()).eq(22);
+    expect(card.resourceCount).eq(2);
+    expect(game.getOxygenLevel()).eq(2);
   });
 
   it('Can raise global parameter if have floaters', function() {
@@ -37,15 +37,15 @@ describe('TempestInc', function() {
 
     // Raise temperature
     globalParameterChoices.options[0].cb();
-    expect(game.getTemperature()).to.eq(-28);
-    expect(player.getTerraformRating()).to.eq(23);
-    expect(card.resourceCount).to.eq(1);
+    expect(game.getTemperature()).eq(-28);
+    expect(player.getTerraformRating()).eq(23);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Adds floater immediately if there are no floaters', function() {
     card.resourceCount = 0;
     expect(card.action(player)).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
 
@@ -60,9 +60,9 @@ describe('TempestInc', function() {
     expect(globalParameterChoices.options).has.length(4);
 
     // Raise Venus
-    expect(game.getVenusScaleLevel()).to.eq(0);
+    expect(game.getVenusScaleLevel()).eq(0);
     globalParameterChoices.options[3].cb();
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Venus option omitted when not using Venus', function() {
@@ -88,18 +88,18 @@ describe('TempestInc', function() {
 
     card.resourceCount = 5;
     // Raise Moon Colony Rate
-    expect(MoonExpansion.moonData(game).colonyRate).to.eq(0);
+    expect(MoonExpansion.moonData(game).colonyRate).eq(0);
     globalParameterChoices.options[4].cb();
-    expect(MoonExpansion.moonData(game).colonyRate).to.eq(1);
+    expect(MoonExpansion.moonData(game).colonyRate).eq(1);
 
     // Raise Moon Mining Rate
-    expect(MoonExpansion.moonData(game).miningRate).to.eq(0);
+    expect(MoonExpansion.moonData(game).miningRate).eq(0);
     globalParameterChoices.options[5].cb();
-    expect(MoonExpansion.moonData(game).miningRate).to.eq(1);
+    expect(MoonExpansion.moonData(game).miningRate).eq(1);
 
     // Raise Moon Logistics Rate
-    expect(MoonExpansion.moonData(game).logisticRate).to.eq(0);
+    expect(MoonExpansion.moonData(game).logisticRate).eq(0);
     globalParameterChoices.options[6].cb();
-    expect(MoonExpansion.moonData(game).logisticRate).to.eq(1);
+    expect(MoonExpansion.moonData(game).logisticRate).eq(1);
   });
 });

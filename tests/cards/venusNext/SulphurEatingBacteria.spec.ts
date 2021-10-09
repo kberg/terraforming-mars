@@ -32,15 +32,15 @@ describe('SulphurEatingBacteria', function() {
 
     const action = card.action(player) as OrOptions;
     action.options[1].cb(3);
-    expect(player.megaCredits).to.eq(9);
-    expect(card.resourceCount).to.eq(2);
+    expect(player.megaCredits).eq(9);
+    expect(card.resourceCount).eq(2);
   });
 
   it('Should act - only one action available', function() {
     player.playedCards.push(card);
-    expect(card.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(0);
 
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

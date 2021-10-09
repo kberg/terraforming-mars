@@ -18,9 +18,9 @@ describe('CuttingEdgeTechnology', function() {
     const discountedCard2 = new VoteOfNoConfidence();
     const undiscountedCard = new HeatTrappers();
 
-    expect(card.getCardDiscount(player, discountedCard)).to.eq(2);
-    expect(card.getCardDiscount(player, discountedCard2)).to.eq(2);
-    expect(card.getCardDiscount(player, undiscountedCard)).to.eq(0);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getCardDiscount(player, discountedCard)).eq(2);
+    expect(card.getCardDiscount(player, discountedCard2)).eq(2);
+    expect(card.getCardDiscount(player, undiscountedCard)).eq(0);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

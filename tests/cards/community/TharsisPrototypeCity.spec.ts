@@ -27,12 +27,12 @@ describe('TharsisPrototypeCity', function() {
     selectSpaceForCity.availableSpaces[0].bonus = [SpaceBonus.STEEL, SpaceBonus.STEEL];
 
     expect(selectSpaceForCity.cb(selectSpaceForCity.availableSpaces[0])).is.undefined;
-    expect(selectSpaceForCity.availableSpaces[0].player).to.eq(player);
+    expect(selectSpaceForCity.availableSpaces[0].player).eq(player);
     expect(selectSpaceForCity.availableSpaces[0].tile).is.not.undefined;
-    expect(selectSpaceForCity.availableSpaces[0].tile!.tileType).to.eq(TileType.CITY);
+    expect(selectSpaceForCity.availableSpaces[0].tile!.tileType).eq(TileType.CITY);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.steel).to.eq(0); // No placement bonus granted
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.steel).eq(0); // No placement bonus granted
   });
 });

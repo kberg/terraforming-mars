@@ -26,7 +26,7 @@ describe('MartianSurvey', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
     expect(player.cardsInHand).has.lengthOf(2);
   });
 });

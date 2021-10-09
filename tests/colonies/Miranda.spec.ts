@@ -33,11 +33,11 @@ describe('Miranda', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const action = game.deferredActions.pop()!;
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to Pets, since there's no other target
     action.execute();
 
-    expect(pets.resourceCount).to.eq(2); // Pets starts with 1 resource
+    expect(pets.resourceCount).eq(2); // Pets starts with 1 resource
   });
 
   it('Should trade', function() {
@@ -50,11 +50,11 @@ describe('Miranda', function() {
 
     const action = game.deferredActions.pop()!; // AddResourcesToCard
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to Pets, since there's no other target
     action.execute();
 
-    expect(pets.resourceCount).to.eq(2);
+    expect(pets.resourceCount).eq(2);
   });
 
   it('Should give trade bonus', function() {
@@ -68,8 +68,8 @@ describe('Miranda', function() {
     miranda.trade(player2);
     game.deferredActions.runAll(() => {}); // Gain Trade & Bonus
 
-    expect(pets.resourceCount).to.eq(2);
-    expect(predators.resourceCount).to.eq(1);
+    expect(pets.resourceCount).eq(2);
+    expect(predators.resourceCount).eq(1);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

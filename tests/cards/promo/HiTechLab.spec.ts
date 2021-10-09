@@ -27,11 +27,11 @@ describe('HiTechLab', function() {
     expect(amount instanceof SelectAmount).is.true;
 
     amount!.cb(3);
-    expect(player.getResource(Resources.ENERGY)).to.eq(2);
+    expect(player.getResource(Resources.ENERGY)).eq(2);
   });
 
   it('Should give victory points', function() {
     card.play();
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

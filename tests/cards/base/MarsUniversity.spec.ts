@@ -32,16 +32,16 @@ describe('MarsUniversity', function() {
     game.deferredActions.pop();
     orOptions.options[0].cb([card]);
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.cardsInHand[0]).not.to.eq(card);
+    expect(player.cardsInHand[0]).not.eq(card);
     expect(game.dealer.discarded).has.lengthOf(1);
-    expect(game.dealer.discarded[0]).to.eq(card);
+    expect(game.dealer.discarded[0]).eq(card);
     expect(game.deferredActions).has.lengthOf(0);
   });
 
   it('Gives victory point', function() {
     card.play();
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
 
   it('Runs twice for multiple science tags', function() {

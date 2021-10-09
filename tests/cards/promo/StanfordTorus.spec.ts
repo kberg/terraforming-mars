@@ -19,11 +19,11 @@ describe('StanfordTorus', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.game.getCitiesInPlay()).to.eq(1);
+    expect(player.game.getCitiesInPlay()).eq(1);
   });
 
   it('Should give victory points', function() {
     card.play(player);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

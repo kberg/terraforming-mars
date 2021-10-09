@@ -27,7 +27,7 @@ describe('InterplanetaryTrade', function() {
     player.playedCards.push(new ResearchCoordination());
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 
   it('Should only count wildcards up to the max amount of tag types existing', function() {
@@ -41,16 +41,16 @@ describe('InterplanetaryTrade', function() {
     player.playedCards.push(new ColonizerTrainingCamp());
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(12);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(12);
   });
 
   it('Should give victory points', function() {
     card.play(player);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 
   it('Should raise MC production by one', function() {
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

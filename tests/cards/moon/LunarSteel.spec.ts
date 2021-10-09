@@ -18,9 +18,9 @@ describe('LunarSteel', () => {
   });
 
   it('play', () => {
-    expect(player.getSteelValue()).to.eq(2);
+    expect(player.getSteelValue()).eq(2);
     card.play(player);
-    expect(player.getSteelValue()).to.eq(3);
+    expect(player.getSteelValue()).eq(3);
   });
 });
 

@@ -22,9 +22,9 @@ describe('LargeConvoy', function() {
     card.play(player);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(player.plants).to.eq(5);
+    expect(player.plants).eq(5);
   });
 
   it('Should play with single animal target', function() {
@@ -36,8 +36,8 @@ describe('LargeConvoy', function() {
     (action as OrOptions).options[1].cb();
 
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(player.getResourcesOnCard(pets)).to.eq(4);
-    expect(player.plants).to.eq(0);
+    expect(player.getResourcesOnCard(pets)).eq(4);
+    expect(player.plants).eq(0);
   });
 
   it('Should play with multiple animal targets', function() {
@@ -49,12 +49,12 @@ describe('LargeConvoy', function() {
     expect(action).is.not.undefined;
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(player.plants).to.eq(0);
+    expect(player.plants).eq(0);
 
     (action as OrOptions).options[1].cb([pets]);
-    expect(player.getResourcesOnCard(pets)).to.eq(4);
+    expect(player.getResourcesOnCard(pets)).eq(4);
   });
 
   it('Should play without oceans', function() {
@@ -68,10 +68,10 @@ describe('LargeConvoy', function() {
     expect(action).is.not.undefined;
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
     expect(player.cardsInHand).has.lengthOf(cardsInHand + 2);
 
     (action as OrOptions).options[0].cb();
-    expect(player.plants).to.eq(plantsCount + 5);
+    expect(player.plants).eq(plantsCount + 5);
   });
 });

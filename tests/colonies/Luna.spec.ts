@@ -19,14 +19,14 @@ describe('Luna', function() {
 
   it('Should build', function() {
     luna.addColony(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(0);
   });
 
   it('Should trade', function() {
     luna.trade(player);
-    expect(player.megaCredits).to.eq(2);
-    expect(player2.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(2);
+    expect(player2.megaCredits).eq(0);
   });
 
   it('Should give trade bonus', function() {
@@ -35,9 +35,9 @@ describe('Luna', function() {
     luna.trade(player2);
     game.deferredActions.runAll(() => {});
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(0);
-    expect(player.megaCredits).to.eq(2);
-    expect(player2.megaCredits).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(0);
+    expect(player.megaCredits).eq(2);
+    expect(player2.megaCredits).eq(2);
   });
 });

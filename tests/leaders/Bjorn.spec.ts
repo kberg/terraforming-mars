@@ -20,8 +20,8 @@ describe('Bjorn', function() {
     player2.megaCredits = 4;
 
     card.action(player);
-    expect(player.megaCredits).to.eq(4);
-    expect(player2.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(4);
+    expect(player2.megaCredits).eq(0);
     expect(card.isDisabled).is.true;
   });
 

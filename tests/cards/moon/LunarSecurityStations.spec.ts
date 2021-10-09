@@ -62,7 +62,7 @@ describe('LunarSecurityStations', () => {
     expect(action.options).has.lengthOf(2);
     action.options[0].cb();
     // And it's the one weithout Luna Security Stations.
-    expect(opponent1.steel).to.eq(3);
+    expect(opponent1.steel).eq(3);
   });
 
   it('play', () => {

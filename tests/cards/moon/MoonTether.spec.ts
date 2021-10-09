@@ -25,8 +25,8 @@ describe('MoonTether', () => {
     card.play();
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
-    expect(card.getCardDiscount()).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
+    expect(card.getCardDiscount()).eq(2);
   });
 });
 

@@ -41,16 +41,16 @@ describe('ParadigmBreakdown', function() {
       const input = action.execute();
       if (input !== undefined && input instanceof SelectCard) {
         // Only |player| should be asked which cards to discard
-        expect(action.player.id).to.eq(player.id);
+        expect(action.player.id).eq(player.id);
         input.cb([powerPlant, asteroid]);
       }
       game.deferredActions.pop();
     }
 
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.cardsInHand[0]).to.eq(dustSeals);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(12);
+    expect(player.cardsInHand[0]).eq(dustSeals);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(12);
     expect(player2.cardsInHand).has.lengthOf(0);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(16);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(16);
   });
 });

@@ -47,7 +47,7 @@ describe('GameLoader', function() {
   });
 
   it('uses shared instance', function() {
-    expect(GameLoader.getInstance()).to.eq(GameLoader.getInstance());
+    expect(GameLoader.getInstance()).eq(GameLoader.getInstance());
   });
 
   it('gets undefined when player does not exist', function(done) {
@@ -65,7 +65,7 @@ describe('GameLoader', function() {
     GameLoader.getInstance().getByGameId('foobar', false, (game1) => {
       try {
         expect(game1).is.not.undefined;
-        expect(game1!.id).to.eq(game.id);
+        expect(game1!.id).eq(game.id);
         done();
       } catch (error) {
         done(error);
@@ -159,7 +159,7 @@ describe('GameLoader', function() {
     const players = game.getPlayers();
     GameLoader.getInstance().getByPlayerId(players[Math.floor(Math.random() * players.length)].id, (game1) => {
       try {
-        expect(game1!.id).to.eq(game.id);
+        expect(game1!.id).eq(game.id);
         done();
       } catch (error) {
         done(error);
@@ -172,7 +172,7 @@ describe('GameLoader', function() {
     GameLoader.getInstance().add(game);
     GameLoader.getInstance().getByGameId('alpha', false, (game1) => {
       try {
-        expect(game1!.id).to.eq('alpha');
+        expect(game1!.id).eq('alpha');
         done();
       } catch (error) {
         done(error);
@@ -271,10 +271,10 @@ describe('GameLoader', function() {
     GameLoader.getInstance().getByGameId('foobar', false, (game1) => {
       try {
         expect(game1).is.not.undefined;
-        expect(game1!.id).to.eq('foobar');
+        expect(game1!.id).eq('foobar');
         GameLoader.getInstance().getByPlayerId(game.getPlayers()[0].id, (game1) => {
           try {
-            expect(game1!.id).to.eq('foobar');
+            expect(game1!.id).eq('foobar');
             done();
           } catch (error) {
             done(error);

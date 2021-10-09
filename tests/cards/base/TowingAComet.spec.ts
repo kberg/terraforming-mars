@@ -11,7 +11,7 @@ describe('TowingAComet', function() {
     const redPlayer = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, redPlayer], player);
     card.play(player);
-    expect(player.plants).to.eq(2);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(player.plants).eq(2);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

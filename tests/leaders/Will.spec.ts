@@ -33,23 +33,23 @@ describe('Will', function() {
 
     // Add animals
     game.deferredActions.runNext();
-    expect(birds.resourceCount).to.eq(2);
+    expect(birds.resourceCount).eq(2);
 
     // Add microbes
     game.deferredActions.runNext();
-    expect(ants.resourceCount).to.eq(2);
+    expect(ants.resourceCount).eq(2);
 
     game.deferredActions.runNext(); // No Science resource cards, skip
     game.deferredActions.runNext(); // No Floater resource cards, skip
 
     // Add asteroid
     game.deferredActions.runNext();
-    expect(asteroidRights.resourceCount).to.eq(1);
+    expect(asteroidRights.resourceCount).eq(1);
 
     // Add resource to any card
     const selectCard = game.deferredActions.pop()!.execute() as SelectCard<ICard>;;
     selectCard.cb([selectCard.cards[1]]);
-    expect(ants.resourceCount).to.eq(3);
+    expect(ants.resourceCount).eq(3);
   });
 
   it('Can only act once per game', function() {

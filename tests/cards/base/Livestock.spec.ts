@@ -33,16 +33,16 @@ describe('Livestock', function() {
 
     card.play(player);
     player.playedCards.push(card);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
 
     player.addResourceTo(card, 4);
-    expect(card.getVictoryPoints()).to.eq(4);
+    expect(card.getVictoryPoints()).eq(4);
   });
 
   it('Should act', function() {
     player.playedCards.push(card);
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

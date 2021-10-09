@@ -34,10 +34,10 @@ describe('StripMine', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.STEEL)).to.eq(2);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(game.getOxygenLevel()).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.STEEL)).eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(game.getOxygenLevel()).eq(2);
   });
 
   it('Cannot play if Reds are ruling and cannot afford 6 MC', function() {

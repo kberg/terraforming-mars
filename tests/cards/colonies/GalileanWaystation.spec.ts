@@ -22,7 +22,7 @@ describe('GalileanWaystation', function() {
     player2.playedCards.push({tags: [Tags.JOVIAN]} as IProjectCard);
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Corectly counts wildtags', function() {
@@ -30,6 +30,6 @@ describe('GalileanWaystation', function() {
     player2.playedCards.push({tags: [Tags.JOVIAN, Tags.WILDCARD]} as IProjectCard); // Should NOT include this wild tag
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
   });
 });

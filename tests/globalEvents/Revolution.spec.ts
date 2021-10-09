@@ -30,15 +30,15 @@ describe('Revolution', function() {
     player2.playedCards.push(new Sponsors());
 
     card.resolve(game, turmoil);
-    expect(player.getTerraformRating()).to.eq(19);
-    expect(player2.getTerraformRating()).to.eq(18);
+    expect(player.getTerraformRating()).eq(19);
+    expect(player2.getTerraformRating()).eq(18);
   });
 
   it('doesn\'t reduce TR for players with 0 Earth tags + influence', function() {
     player2.playedCards.push(new Sponsors());
 
     card.resolve(game, turmoil);
-    expect(player.getTerraformRating()).to.eq(20);
-    expect(player2.getTerraformRating()).to.eq(18);
+    expect(player.getTerraformRating()).eq(20);
+    expect(player2.getTerraformRating()).eq(18);
   });
 });

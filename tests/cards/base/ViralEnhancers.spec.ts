@@ -31,18 +31,18 @@ describe('ViralEnhancers', function() {
 
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
     orOptions.options[0].cb();
-    expect(player.getResourcesOnCard(birds)).to.eq(1);
+    expect(player.getResourcesOnCard(birds)).eq(1);
     orOptions.options[1].cb();
-    expect(player.plants).to.eq(1);
+    expect(player.plants).eq(1);
 
     card.onCardPlayed(player, ants);
     expect(game.deferredActions).has.lengthOf(1);
 
     const orOptions2 = game.deferredActions.pop()!.execute() as OrOptions;
     orOptions2.options[0].cb();
-    expect(player.getResourcesOnCard(ants)).to.eq(1);
+    expect(player.getResourcesOnCard(ants)).eq(1);
     orOptions2.options[1].cb();
-    expect(player.plants).to.eq(2);
+    expect(player.plants).eq(2);
   });
 
   it('Should play for each tag', function() {
@@ -54,12 +54,12 @@ describe('ViralEnhancers', function() {
 
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
     orOptions.options[0].cb();
-    expect(player.getResourcesOnCard(ecologicalZone)).to.eq(1);
+    expect(player.getResourcesOnCard(ecologicalZone)).eq(1);
     expect(game.deferredActions).has.lengthOf(1);
 
     const orOptions2 = game.deferredActions.pop()!.execute() as OrOptions;
     orOptions2.options[1].cb();
-    expect(player.plants).to.eq(1);
+    expect(player.plants).eq(1);
     expect(game.deferredActions).has.lengthOf(0);
   });
 });

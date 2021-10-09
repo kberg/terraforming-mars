@@ -20,8 +20,8 @@ describe('ResearchOutpost', function() {
     expect(action).is.not.undefined;
 
     action.cb(action.availableSpaces[0]);
-    expect(game.getCitiesInPlay()).to.eq(1);
-    expect(card.getCardDiscount()).to.eq(1);
+    expect(game.getCitiesInPlay()).eq(1);
+    expect(card.getCardDiscount()).eq(1);
   });
 
   it('Can\'t play if no spaces available', function() {

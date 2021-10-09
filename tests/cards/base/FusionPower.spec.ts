@@ -23,6 +23,6 @@ describe('FusionPower', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(3);
+    expect(player.getProduction(Resources.ENERGY)).eq(3);
   });
 });

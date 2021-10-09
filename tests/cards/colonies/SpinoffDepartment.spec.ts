@@ -14,7 +14,7 @@ describe('SpinoffDepartment', function() {
     Game.newInstance('foobar', [player, player2], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
     card.onCardPlayed(player, card2);
     expect(player.cardsInHand).has.lengthOf(1);
   });

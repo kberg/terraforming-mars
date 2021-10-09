@@ -11,11 +11,11 @@ describe('EnergySaving', function() {
     const redPlayer = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
     expect(action).is.undefined;
     const landSpace = game.board.getAvailableSpacesOnLand(player)[0];
     game.addCityTile(player, landSpace.id);
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
   });
 });

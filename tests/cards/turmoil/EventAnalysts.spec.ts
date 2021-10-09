@@ -20,6 +20,6 @@ describe('EventAnalysts', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(game.turmoil!.getPlayerInfluence(player)).to.eq(3);
+    expect(game.turmoil!.getPlayerInfluence(player)).eq(3);
   });
 });

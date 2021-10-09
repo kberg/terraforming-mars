@@ -27,13 +27,13 @@ describe('ImmigrantCity', function() {
     action.cb(action.availableSpaces[0]);
     TestingUtils.runAllActions(game);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-2);
     player.playedCards.push(card);
 
     game.addCityTile(player, game.board.getAvailableSpacesOnLand(player)[0].id);
     TestingUtils.runNextAction(game);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
   });
 
   it('Can play at -4 M€ production', function() {
@@ -45,14 +45,14 @@ describe('ImmigrantCity', function() {
     action.cb(action.availableSpaces[0]);
     TestingUtils.runAllActions(game);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-5);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-5);
     player.playedCards.push(card);
 
     // add another city tile
     game.addCityTile(player, game.board.getAvailableSpacesOnLand(player)[0].id);
     TestingUtils.runNextAction(game);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-4);
   });
 
   it('Tharsis can play at -5 M€ production', function() {
@@ -65,13 +65,13 @@ describe('ImmigrantCity', function() {
     action.cb(action.availableSpaces[0]);
     TestingUtils.runAllActions(game);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-5); // should not increase
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-5); // should not increase
     player.playedCards.push(card);
 
     // add another city tile - MC prod should increase by 2 (1 from Tharsis, 1 from IC)
     game.addCityTile(player, game.board.getAvailableSpacesOnLand(player)[0].id);
     TestingUtils.runAllActions(game);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-3);
   });
 });

@@ -25,12 +25,12 @@ describe('Sabotage', function() {
     expect(action.options).has.lengthOf(4);
 
     action.options[0].cb();
-    expect(player2.titanium).to.eq(0);
+    expect(player2.titanium).eq(0);
 
     action.options[1].cb();
-    expect(player2.steel).to.eq(0);
+    expect(player2.steel).eq(0);
 
     action.options[2].cb();
-    expect(player2.megaCredits).to.eq(0);
+    expect(player2.megaCredits).eq(0);
   });
 });

@@ -29,8 +29,8 @@ describe('RobinsonIndustries', function() {
     expect(result.options).has.lengthOf(6);
 
     result.options[1].cb();
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Only allows to choose from lowest production(s)', function() {

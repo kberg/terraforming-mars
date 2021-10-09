@@ -28,23 +28,23 @@ describe('InventorsGuild', function() {
     (action! as SelectCard<IProjectCard>).cb([]);
 
     expect(game.dealer.discarded).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
     player.megaCredits = 3;
 
     (action as SelectCard<IProjectCard>).cb([(action as SelectCard<IProjectCard>).cards[0]]);
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 
   it('Cannot buy card if cannot pay', function() {
     player.megaCredits = 2;
     const selectCard = card.action(player) as SelectCard<IProjectCard>;
-    expect(selectCard.maxCardsToSelect).to.eq(0);
+    expect(selectCard.maxCardsToSelect).eq(0);
     selectCard.cb([]);
     expect(game.deferredActions).has.lengthOf(0);
     expect(game.dealer.discarded).has.lengthOf(1);
     expect(player.cardsInHand).has.lengthOf(0);
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 });

@@ -16,7 +16,7 @@ describe('PowerTrip', function() {
     player.playedCards.push(new PowerPlant());
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(2);
-    expect(player.energy).to.eq(0);
+    expect(player.megaCredits).eq(2);
+    expect(player.energy).eq(0);
   });
 });

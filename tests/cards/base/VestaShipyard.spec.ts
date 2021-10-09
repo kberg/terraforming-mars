@@ -12,7 +12,7 @@ describe('VestaShipyard', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
 
     card.play(player);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

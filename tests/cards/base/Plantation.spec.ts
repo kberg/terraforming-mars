@@ -27,6 +27,6 @@ describe('Plantation', function() {
     const action = card.play(player);
     expect(action).is.not.undefined;
     action.cb(action.availableSpaces[0]);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

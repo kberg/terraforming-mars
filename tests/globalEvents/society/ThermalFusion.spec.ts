@@ -16,7 +16,7 @@ describe('ThermalFusion', function() {
     player.addProduction(Resources.ENERGY, 3);
 
     card.resolve(game, turmoil);
-    expect(player.heat).to.eq(9);
-    expect(player.energy).to.eq(0);
+    expect(player.heat).eq(9);
+    expect(player.energy).eq(0);
   });
 });

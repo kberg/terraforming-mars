@@ -13,6 +13,6 @@ describe('PowerGeneration', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(3);
+    expect(player.getProduction(Resources.ENERGY)).eq(3);
   });
 });

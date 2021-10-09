@@ -24,8 +24,8 @@ describe('OreProcessor', function() {
     expect(card.canAct(player)).is.true;
     card.action(player);
 
-    expect(player.energy).to.eq(0);
-    expect(player.titanium).to.eq(1);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(player.energy).eq(0);
+    expect(player.titanium).eq(1);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

@@ -27,8 +27,8 @@ describe('MagneticFieldGeneratorsPromo', function() {
 
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
-    expect(player.getTerraformRating()).to.eq(23);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
+    expect(player.getTerraformRating()).eq(23);
   });
 });

@@ -12,7 +12,7 @@ describe('DeepWellHeating', function() {
     const game = Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(game.getTemperature()).to.eq(-28);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(game.getTemperature()).eq(-28);
   });
 });

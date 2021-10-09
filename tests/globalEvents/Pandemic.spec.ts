@@ -25,7 +25,7 @@ describe('Pandemic', function() {
     player.megaCredits = 10;
     player2.megaCredits = 10;
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(7);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(10);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(7);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(10);
   });
 });

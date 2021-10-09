@@ -43,8 +43,8 @@ describe('Turmoil', function() {
   });
 
   it('Should initialize with right defaults', function() {
-    expect(turmoil.chairman).to.eq('NEUTRAL');
-    expect(turmoil.rulingParty.name).to.eq(PartyName.GREENS);
+    expect(turmoil.chairman).eq('NEUTRAL');
+    expect(turmoil.rulingParty.name).eq(PartyName.GREENS);
   });
 
   it('Correctly send delegate', function() {
@@ -53,7 +53,7 @@ describe('Turmoil', function() {
 
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     expect(greens.delegates).has.lengthOf(1);
-    expect(game.getPlayerById(greens.delegates[0])).to.eq(player);
+    expect(game.getPlayerById(greens.delegates[0])).eq(player);
   });
 
   it('Counts influence correctly for dominant party', function() {
@@ -65,19 +65,19 @@ describe('Turmoil', function() {
 
     // 1 influence: Leader of dominant party
     const greensPartyLeader = game.getPlayerById(greens.partyLeader!);
-    expect(greensPartyLeader).to.eq(player);
-    expect(turmoil.getPlayerInfluence(player)).to.eq(1);
+    expect(greensPartyLeader).eq(player);
+    expect(turmoil.getPlayerInfluence(player)).eq(1);
 
     // 2 influence: Leader of dominant party + at least 1 non-leader delegate in party
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     expect(greens.delegates).has.lengthOf(2);
-    expect(turmoil.getPlayerInfluence(player)).to.eq(2);
+    expect(turmoil.getPlayerInfluence(player)).eq(2);
   });
 
   it('Chairman gives 1 influence', function() {
     turmoil.parties.forEach((party) => party.delegates = []);
     turmoil.chairman = player.id;
-    expect(turmoil.getPlayerInfluence(player)).to.eq(1);
+    expect(turmoil.getPlayerInfluence(player)).eq(1);
   });
 
   it('Correctly set dominant party', function() {
@@ -89,22 +89,22 @@ describe('Turmoil', function() {
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
-    expect(turmoil.dominantParty).to.eq(greens);
+    expect(turmoil.dominantParty).eq(greens);
 
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
-    expect(turmoil.dominantParty).to.eq(greens);
+    expect(turmoil.dominantParty).eq(greens);
 
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
-    expect(turmoil.dominantParty).to.eq(reds);
+    expect(turmoil.dominantParty).eq(reds);
   });
 
   it('Correctly set party leader', function() {
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
-    expect(game.getPlayerById(turmoil.getPartyByName(PartyName.GREENS)!.partyLeader!)).to.eq(player);
+    expect(game.getPlayerById(turmoil.getPartyByName(PartyName.GREENS)!.partyLeader!)).eq(player);
   });
 
   it('Correctly run end of generation', function() {
@@ -127,14 +127,14 @@ describe('Turmoil', function() {
     turmoil.endGeneration(game);
     game.deferredActions.runAll(() => {});
 
-    expect(game.getPlayerById(turmoil.chairman!)).to.eq(player);
+    expect(game.getPlayerById(turmoil.chairman!)).eq(player);
     // both players lose 1 TR; player gains 1 TR from Reds ruling bonus, 1 TR from chairman
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(player2.getTerraformRating()).to.eq(20);
+    expect(player.getTerraformRating()).eq(21);
+    expect(player2.getTerraformRating()).eq(20);
 
-    expect(turmoil.lobby.size).to.eq(2);
-    expect(turmoil.rulingParty).to.eq(turmoil.getPartyByName(PartyName.REDS));
-    expect(turmoil.dominantParty).to.eq(turmoil.getPartyByName(PartyName.GREENS));
+    expect(turmoil.lobby.size).eq(2);
+    expect(turmoil.rulingParty).eq(turmoil.getPartyByName(PartyName.REDS));
+    expect(turmoil.dominantParty).eq(turmoil.getPartyByName(PartyName.GREENS));
   });
 
   it('Does not give Mars First bonus for World Government terraforming', function() {
@@ -147,7 +147,7 @@ describe('Turmoil', function() {
     const steelSpace = placeOcean.availableSpaces.find((space) => space.bonus.includes(SpaceBonus.STEEL));
 
     placeOcean.cb(steelSpace!);
-    expect(player.steel).to.eq(0); // should not give ruling policy bonus
+    expect(player.steel).eq(0); // should not give ruling policy bonus
   });
 
   it('Can\'t raise TR via Standard Projects if Reds are ruling and player cannot pay', function() {
@@ -156,7 +156,7 @@ describe('Turmoil', function() {
     const standardProjects = player.getStandardProjectOption();
 
     // can only use Power Plant as cannot pay 3 for Reds ruling policy
-    expect(standardProjects.enabled![0]).to.eq(true);
+    expect(standardProjects.enabled![0]).eq(true);
     expect(standardProjects.enabled!.slice(1)).to.not.contain(true);
   });
 

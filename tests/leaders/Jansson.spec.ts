@@ -21,10 +21,10 @@ describe('Jansson', function() {
 
   it('Takes action', function() {
     game.addGreenery(player, '35');
-    expect(player.plants).to.eq(2);
+    expect(player.plants).eq(2);
     
     card.action(player);
-    expect(player.plants).to.eq(4);
+    expect(player.plants).eq(4);
   });
 
   it('Can only act once per game', function() {

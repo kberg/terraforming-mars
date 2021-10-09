@@ -22,9 +22,9 @@ describe('NitrateReducers', function() {
   it('Should play', function() {
     card.play(player);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
     expect(player.cardsInHand).has.lengthOf(2);
 
-    player.cardsInHand.forEach((card) => expect(card.tags.indexOf(Tags.MICROBE)).not.to.eq(-1));
+    player.cardsInHand.forEach((card) => expect(card.tags.indexOf(Tags.MICROBE)).not.eq(-1));
   });
 });

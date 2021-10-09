@@ -26,6 +26,6 @@ describe('MagneticShield', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getTerraformRating()).to.eq(24);
+    expect(player.getTerraformRating()).eq(24);
   });
 });

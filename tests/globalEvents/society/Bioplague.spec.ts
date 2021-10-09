@@ -19,6 +19,6 @@ describe('Bioplague', function() {
     card.resolve(game, turmoil);
     expect(game.deferredActions).has.lengthOf(3);
     game.deferredActions.runAll(() => {});
-    expect(livestock.resourceCount).to.eq(0);
+    expect(livestock.resourceCount).eq(0);
   });
 });

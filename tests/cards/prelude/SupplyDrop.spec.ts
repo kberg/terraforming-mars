@@ -8,8 +8,8 @@ describe('SupplyDrop', function() {
     const card = new SupplyDrop();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.steel).to.eq(8);
-    expect(player.titanium).to.eq(3);
-    expect(player.plants).to.eq(3);
+    expect(player.steel).eq(8);
+    expect(player.titanium).eq(3);
+    expect(player.plants).eq(3);
   });
 });

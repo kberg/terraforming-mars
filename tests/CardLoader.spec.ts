@@ -36,12 +36,12 @@ describe('CardLoader', function() {
       aresExtension: false,
     });
     expect(new CardLoader(gameOptions).getProjectCards().length)
-      .to.eq(208);
+      .eq(208);
 
     // exclude corporate era
     gameOptions.corporateEra = false;
     expect(new CardLoader(gameOptions).getProjectCards().length)
-      .to.eq(137);
+      .eq(137);
   });
 
   it('excludes expansion-specific preludes if those expansions are not selected ', function() {

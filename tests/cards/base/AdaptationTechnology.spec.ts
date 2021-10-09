@@ -10,7 +10,7 @@ describe('AdaptationTechnology', function() {
 
     card.play();
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
-    expect(card.getRequirementBonus()).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
+    expect(card.getRequirementBonus()).eq(2);
   });
 });

@@ -55,10 +55,10 @@ describe('StratosphericBirds', () => {
   it('Should act', () => {
     player.playedCards.push(card);
     card.action(player);
-    expect(player.getResourcesOnCard(card)).to.eq(1);
+    expect(player.getResourcesOnCard(card)).eq(1);
 
     player.addResourceTo(card, 7);
-    expect(card.getVictoryPoints()).to.eq(8);
+    expect(card.getVictoryPoints()).eq(8);
   });
 
   it('Allows to choose card to remove floater from', () => {
@@ -74,8 +74,8 @@ describe('StratosphericBirds', () => {
     expect(selectCard.cards).has.lengthOf(2);
 
     selectCard.cb([deuteriumExport]);
-    expect(player.getResourcesOnCard(deuteriumExport)).to.eq(0);
-    expect(player.getResourcesOnCard(extractorBalloons)).to.eq(1);
+    expect(player.getResourcesOnCard(deuteriumExport)).eq(0);
+    expect(player.getResourcesOnCard(extractorBalloons)).eq(1);
   });
 
   it('Edge case: Dirigibles with no other floater cards', () => {
@@ -103,7 +103,7 @@ describe('StratosphericBirds', () => {
     // Pay with MC only: Can play
     selectHowToPayForProjectCard.cb(card, {steel: 0, heat: 0, titanium: 0, megaCredits: 12, microbes: 0, floaters: 0});
         game.deferredActions.pop()!.execute(); // Remove floater
-        expect(dirigibles.resourceCount).to.eq(0);
+        expect(dirigibles.resourceCount).eq(0);
   });
 
   it('Allow spending all floaters from Dirigibles if there\'s at least one other card with a floater', () => {
@@ -121,9 +121,9 @@ describe('StratosphericBirds', () => {
     // Spend all 3 floaters from Dirigibles to pay for the card
     selectHowToPayForCard.cb(card, {steel: 0, heat: 0, titanium: 0, megaCredits: 3, microbes: 0, floaters: 3});
     game.deferredActions.pop()!.execute(); // Remove floater
-    expect(player.getResourcesOnCard(dirigibles)).to.eq(0);
-    expect(player.getResourcesOnCard(deuteriumExport)).to.eq(0);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.getResourcesOnCard(dirigibles)).eq(0);
+    expect(player.getResourcesOnCard(deuteriumExport)).eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Can play with discounts and single Dirigibles floater', () => {

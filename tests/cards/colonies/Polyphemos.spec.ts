@@ -22,8 +22,8 @@ describe('Polyphemos', function() {
     pi.cb();
 
     // 50 starting MC - 5 for each card select at the start (total: 10)
-    expect(player.megaCredits).to.eq(40);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(5);
+    expect(player.megaCredits).eq(40);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(5);
 
     player.playedCards.push(card3);
     const action = card3.action(player);
@@ -31,7 +31,7 @@ describe('Polyphemos', function() {
     expect(action instanceof SelectCard).is.true;
     (action as SelectCard<IProjectCard>).cb([(action as SelectCard<IProjectCard>).cards[0]]);
     player.game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(35);
+    expect(player.megaCredits).eq(35);
     expect(player.cardsInHand).has.lengthOf(3);
   });
 });

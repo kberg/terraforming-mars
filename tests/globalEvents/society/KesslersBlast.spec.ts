@@ -16,7 +16,7 @@ describe('KesslersBlast', function() {
     player.playedCards.push(new EarthOffice());
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(0);
-    expect(player.titanium).to.eq(2);
+    expect(player.megaCredits).eq(0);
+    expect(player.titanium).eq(2);
   });
 });

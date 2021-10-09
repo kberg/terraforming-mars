@@ -25,7 +25,7 @@ describe('AsteroidDeflectionSystem', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
   });
 
   it('Should act', function() {
@@ -36,7 +36,7 @@ describe('AsteroidDeflectionSystem', function() {
       card.action(player);
     }
 
-    expect(card.resourceCount).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(card.resourceCount);
+    expect(card.resourceCount).eq(1);
+    expect(card.getVictoryPoints()).eq(card.resourceCount);
   });
 });

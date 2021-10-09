@@ -22,14 +22,14 @@ describe('AgricolaInc', function() {
   });
 
   it('Starts with correct production', function() {
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 
   it('Scores endgame VP correctly', function() {
-    expect(card.getVictoryPoints(player)).to.eq(-18);
+    expect(card.getVictoryPoints(player)).eq(-18);
 
     player.playedCards.push(new SolarWindPower(), new Research(), new CoronaExtractor());
-    expect(card.getVictoryPoints(player)).to.eq(-11);
+    expect(card.getVictoryPoints(player)).eq(-11);
   });
 });

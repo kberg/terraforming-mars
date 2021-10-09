@@ -29,7 +29,7 @@ describe('SmallAnimals', function() {
   it('Should act', function() {
     player.playedCards.push(card);
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should play', function() {
@@ -41,14 +41,14 @@ describe('SmallAnimals', function() {
     card.play(player);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
   });
 
   it('Gives victory points', function() {
     player.addResourceTo(card, 3);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
 
     player.addResourceTo(card);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

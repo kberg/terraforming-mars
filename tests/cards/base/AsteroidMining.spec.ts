@@ -10,8 +10,8 @@ describe('AsteroidMining', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(2);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 });

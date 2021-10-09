@@ -27,8 +27,8 @@ describe('UndergroundCity', function() {
     expect(action).is.not.undefined;
 
     action.cb(action.availableSpaces[0]);
-    expect(game.getCitiesInPlay()).to.eq(1);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.STEEL)).to.eq(2);
+    expect(game.getCitiesInPlay()).eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.STEEL)).eq(2);
   });
 });

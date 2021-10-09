@@ -13,11 +13,11 @@ describe('Advertising', function() {
 
     player.playedCards.push(advertising);
     advertising.play();
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
 
     const card = new EarthCatapult();
     card.play();
     advertising.onCardPlayed(player, card);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

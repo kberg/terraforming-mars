@@ -26,10 +26,10 @@ describe('Insects', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player.getProduction(Resources.PLANTS)).eq(0);
 
     player.playedCards.push({tags: [Tags.PLANT]} as IProjectCard);
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

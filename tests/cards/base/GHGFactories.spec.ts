@@ -23,7 +23,7 @@ describe('GHGFactories', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.HEAT)).to.eq(4);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.HEAT)).eq(4);
   });
 });

@@ -18,8 +18,8 @@ describe('LakefrontResorts', function() {
     game.addOceanTile(player, '07');
     TestingUtils.runAllActions(game);
 
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
     // The 2 oceans are adjacent
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 });

@@ -22,7 +22,7 @@ describe('Fish', function() {
 
   it('Should act', function() {
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should play - auto select if single target', function() {
@@ -34,7 +34,7 @@ describe('Fish', function() {
 
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
   });
 
   it('Should play - multiple targets', function() {
@@ -48,11 +48,11 @@ describe('Fish', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
   });
 
   it('Should give victory points', function() {
     player.addResourceTo(card, 5);
-    expect(card.getVictoryPoints()).to.eq(card.resourceCount);
+    expect(card.getVictoryPoints()).eq(card.resourceCount);
   });
 });

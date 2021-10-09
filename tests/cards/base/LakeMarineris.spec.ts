@@ -29,9 +29,9 @@ describe('LakeMarineris', function() {
     firstOcean.cb(firstOcean.availableSpaces[0]);
     const secondOcean = game.deferredActions.pop()!.execute() as SelectSpace;
     secondOcean.cb(secondOcean.availableSpaces[1]);
-    expect(player.getTerraformRating()).to.eq(22);
+    expect(player.getTerraformRating()).eq(22);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 });

@@ -39,9 +39,9 @@ describe('FreyjaBiodomes', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(player.getResourcesOnCard(card2)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(2);
   });
 
   it('Should play - multiple targets', function() {
@@ -54,8 +54,8 @@ describe('FreyjaBiodomes', function() {
     expect(action instanceof SelectCard).is.true;
 
     action.cb([card2]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(player.getResourcesOnCard(card2)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    expect(player.getResourcesOnCard(card2)).eq(2);
   });
 });

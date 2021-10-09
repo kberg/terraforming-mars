@@ -16,8 +16,8 @@ describe('Microalgae', function() {
     const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
 
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.plants).to.eq(2);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.plants).eq(2);
   });
 });

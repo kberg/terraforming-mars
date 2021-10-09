@@ -21,9 +21,9 @@ describe('TerralabsResearch', function() {
     pi.cb();
 
     // 14 starting MC - 1 for each card select at the start (total: 2)
-    expect(player.megaCredits).to.eq(12);
+    expect(player.megaCredits).eq(12);
     // 14 Solo TR - 1
-    expect(player.getTerraformRating()).to.eq(13);
+    expect(player.getTerraformRating()).eq(13);
 
     player.playedCards.push(card3);
     const action = card3.action(player);
@@ -31,7 +31,7 @@ describe('TerralabsResearch', function() {
     expect(action instanceof SelectCard).is.true;
     (action as SelectCard<IProjectCard>).cb([(action as SelectCard<IProjectCard>).cards[0]]);
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(11);
+    expect(player.megaCredits).eq(11);
     expect(player.cardsInHand).has.lengthOf(3);
   });
 });

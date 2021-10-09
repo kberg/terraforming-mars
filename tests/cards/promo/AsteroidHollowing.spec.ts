@@ -29,9 +29,9 @@ describe('AsteroidHollowing', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.titanium).to.eq(0);
-    expect(card.resourceCount).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.titanium).eq(0);
+    expect(card.resourceCount).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   it('Should give victory points', function() {
@@ -39,9 +39,9 @@ describe('AsteroidHollowing', function() {
     player.titanium = 2;
 
     card.action(player);
-    expect(card.getVictoryPoints()).to.eq(0);
+    expect(card.getVictoryPoints()).eq(0);
 
     card.action(player);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

@@ -25,7 +25,7 @@ describe('PowerInfrastructure', function() {
     const action = card.action(player);
     action.cb(1);
 
-    expect(player.energy).to.eq(0);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.energy).eq(0);
+    expect(player.megaCredits).eq(1);
   });
 });

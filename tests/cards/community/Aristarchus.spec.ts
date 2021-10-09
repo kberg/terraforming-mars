@@ -24,6 +24,6 @@ describe('Aristarchus', function() {
     expect(card.canAct(player)).to.be.true;
 
     card.action(player);
-    expect(player.megaCredits).to.eq(10);
+    expect(player.megaCredits).eq(10);
   });
 });

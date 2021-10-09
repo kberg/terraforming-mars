@@ -32,11 +32,11 @@ describe('Rogers', function() {
     expect(card.opgActionIsActive).is.true;
 
     // Has discount of 3 M€ when playing Venus tags
-    expect(card.getCardDiscount(player, new LocalShading())).to.eq(3);
-    expect(card.getCardDiscount(player, new VenusGovernor())).to.eq(6);
+    expect(card.getCardDiscount(player, new LocalShading())).eq(3);
+    expect(card.getCardDiscount(player, new VenusGovernor())).eq(6);
 
     // Can ignore global requirements on Venus cards this generation
-    expect(game.getVenusScaleLevel()).to.eq(0);
+    expect(game.getVenusScaleLevel()).eq(0);
     expect(new IshtarMining().canPlay(player)).is.true;
     expect(new VenusianAnimals().canPlay(player)).is.true;
   });

@@ -13,10 +13,10 @@ describe('Arklight', function() {
     Game.newInstance('foobar', [player, player2], player);
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
     player.corporationCard = card;
     card.onCardPlayed(player, {tags: [Tags.ANIMAL]} as IProjectCard);
-    expect(card.resourceCount).to.eq(2);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.resourceCount).eq(2);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

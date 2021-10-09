@@ -19,9 +19,9 @@ describe('BotanicalHarvest', function() {
     const initialTR = player.getTerraformRating();
     card.play(player);
 
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.plants).to.eq(5);
-    expect(game.getOxygenLevel()).to.eq(1);
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.plants).eq(5);
+    expect(game.getOxygenLevel()).eq(1);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
   });
 });

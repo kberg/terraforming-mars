@@ -31,15 +31,15 @@ describe('FortifiedOutpost', function() {
     game.deferredActions.runNext(); // howToPay
 
     expect(selectSpaceForCity.cb(selectSpaceForCity.availableSpaces[0])).is.undefined;
-    expect(selectSpaceForCity.availableSpaces[0].player).to.eq(player);
+    expect(selectSpaceForCity.availableSpaces[0].player).eq(player);
     expect(selectSpaceForCity.availableSpaces[0].tile).is.not.undefined;
-    expect(selectSpaceForCity.availableSpaces[0].tile!.tileType).to.eq(TileType.CITY);
+    expect(selectSpaceForCity.availableSpaces[0].tile!.tileType).eq(TileType.CITY);
 
     expect(selectSpaceForGreenery.cb(selectSpaceForGreenery.availableSpaces[1])).is.undefined;
-    expect(selectSpaceForGreenery.availableSpaces[1].player).to.eq(player);
+    expect(selectSpaceForGreenery.availableSpaces[1].player).eq(player);
     expect(selectSpaceForGreenery.availableSpaces[1].tile).is.not.undefined;
-    expect(selectSpaceForGreenery.availableSpaces[1].tile!.tileType).to.eq(TileType.GREENERY);
+    expect(selectSpaceForGreenery.availableSpaces[1].tile!.tileType).eq(TileType.GREENERY);
 
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

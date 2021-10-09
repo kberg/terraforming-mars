@@ -30,7 +30,7 @@ describe('TitanShuttles', function() {
   });
 
   it('Gives VP', function() {
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 
   it('Auto add floaters if only 1 option and 1 target available', function() {
@@ -38,7 +38,7 @@ describe('TitanShuttles', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
   });
 
   it('Can select target if multiple Jovian floater cards available', function() {
@@ -50,7 +50,7 @@ describe('TitanShuttles', function() {
 
     const selectCard = game.deferredActions.peek()!.execute() as SelectCard<ICard>;
     selectCard.cb([card]);
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
   });
 
   it('Both actions available', function() {
@@ -64,8 +64,8 @@ describe('TitanShuttles', function() {
 
     // spend floaters to gain titanium
     orOptions.options[1].cb(6);
-    expect(card.resourceCount).to.eq(1);
-    expect(player.titanium).to.eq(6);
+    expect(card.resourceCount).eq(1);
+    expect(player.titanium).eq(6);
 
     // add 2 floaters to Jovian card
     orOptions.options[0].cb();
@@ -73,6 +73,6 @@ describe('TitanShuttles', function() {
 
     const selectCard = game.deferredActions.peek()!.execute() as SelectCard<ICard>;
     selectCard.cb([card2]);
-    expect(card2.resourceCount).to.eq(2);
+    expect(card2.resourceCount).eq(2);
   });
 });

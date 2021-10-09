@@ -27,7 +27,7 @@ describe('CaretakerContract', function() {
   it('Should act', function() {
     player.heat = 8;
     card.action(player);
-    expect(player.heat).to.eq(0);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.heat).eq(0);
+    expect(player.getTerraformRating()).eq(21);
   });
 });

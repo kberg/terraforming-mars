@@ -17,12 +17,12 @@ describe('ValleyTrust', function() {
   });
 
   it('Doesn\'t get card discount for other tags', function() {
-    expect(card.getCardDiscount(player, new Ants())).to.eq(0);
+    expect(card.getCardDiscount(player, new Ants())).eq(0);
   });
 
   it('Gets card discount for science tags', function() {
-    expect(card.getCardDiscount(player, new MedicalLab())).to.eq(2);
-    expect(card.getCardDiscount(player, new Research())).to.eq(4);
+    expect(card.getCardDiscount(player, new MedicalLab())).eq(2);
+    expect(card.getCardDiscount(player, new Research())).eq(4);
   });
 
   it('Should play', function() {

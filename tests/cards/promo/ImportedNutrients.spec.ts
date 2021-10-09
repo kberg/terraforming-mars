@@ -15,7 +15,7 @@ describe('ImportedNutrients', function() {
 
   it('Can play without microbe cards', function() {
     const action = card.play(player);
-    expect(player.plants).to.eq(4);
+    expect(player.plants).eq(4);
     expect(action).is.undefined;
   });
 
@@ -24,8 +24,8 @@ describe('ImportedNutrients', function() {
     player.playedCards.push(ants);
 
     card.play(player);
-    expect(player.plants).to.eq(4);
-    expect(player.getResourcesOnCard(ants)).to.eq(4);
+    expect(player.plants).eq(4);
+    expect(player.getResourcesOnCard(ants)).eq(4);
   });
 
   it('Can select target if have multiple cards collecting microbes', function() {
@@ -34,10 +34,10 @@ describe('ImportedNutrients', function() {
     player.playedCards.push(ants, decomposers);
 
     const action = card.play(player);
-    expect(player.plants).to.eq(4);
+    expect(player.plants).eq(4);
 
     expect(action).is.not.undefined;
     action!.cb([decomposers]);
-    expect(player.getResourcesOnCard(decomposers)).to.eq(4);
+    expect(player.getResourcesOnCard(decomposers)).eq(4);
   });
 });

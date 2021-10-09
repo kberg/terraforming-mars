@@ -25,8 +25,8 @@ describe('Lowell', function() {
 
   it('Has a wild tag', function() {
     player.playedCards.push(card);
-    expect(player.getTagCount(Tags.SPACE, false, true)).to.eq(1);
-    expect(player.getTagCount(Tags.SCIENCE, false, true)).to.eq(1);
+    expect(player.getTagCount(Tags.SPACE, false, true)).eq(1);
+    expect(player.getTagCount(Tags.SCIENCE, false, true)).eq(1);
 
     const lightningHarvest = new LightningHarvest();
     player.playedCards.push(new Research());
@@ -43,9 +43,9 @@ describe('Lowell', function() {
     game.deferredActions.runNext(); // Pay
 
     selectCard.cb([selectCard.cards[0]]);
-    expect(player.playedCards.filter((card) => card.cardType ===  CardType.LEADER).length).to.eq(1);
+    expect(player.playedCards.filter((card) => card.cardType ===  CardType.LEADER).length).eq(1);
     expect(player.playedCards.includes(card)).is.false;
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Can only act once per game', function() {

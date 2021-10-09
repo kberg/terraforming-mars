@@ -25,7 +25,7 @@ describe('OlympusConference', function() {
     card.play();
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
 
     card.onCardPlayed(player, new Bushes());
     expect(game.deferredActions).has.lengthOf(0);
@@ -36,7 +36,7 @@ describe('OlympusConference', function() {
     const input = game.deferredActions.peek()!.execute();
     game.deferredActions.pop();
     expect(input).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     // Resource available
     card.onCardPlayed(player, card);
@@ -45,10 +45,10 @@ describe('OlympusConference', function() {
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     game.deferredActions.pop();
     orOptions.options[1].cb();
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
 
     orOptions.options[0].cb();
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
     expect(player.cardsInHand).has.lengthOf(1);
     expect(game.deferredActions).has.lengthOf(0);
   });
@@ -62,13 +62,13 @@ describe('OlympusConference', function() {
     const input = game.deferredActions.peek()!.execute();
     game.deferredActions.pop();
     expect(input).is.undefined;
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     // Resource on card, can draw
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     game.deferredActions.pop();
     orOptions.options[0].cb();
-    expect(card.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(0);
     expect(player.cardsInHand).has.lengthOf(1);
 
     expect(game.deferredActions).has.lengthOf(0);
@@ -93,7 +93,7 @@ describe('OlympusConference', function() {
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     game.deferredActions.pop();
     orOptions.options[1].cb();
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
 
 
     // Reset the state
@@ -116,6 +116,6 @@ describe('OlympusConference', function() {
     const orOptions2 = game.deferredActions.peek()!.execute() as OrOptions;
     game.deferredActions.pop();
     orOptions2.options[1].cb();
-    expect(card.resourceCount).to.eq(2);
+    expect(card.resourceCount).eq(2);
   });
 });

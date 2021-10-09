@@ -78,7 +78,7 @@ describe('PoliticalAgendas', () => {
     const changeRulingBonus = orOptions.options[0] as OrOptions;
     const currentPolicyId = turmoil.politicalAgendasData.staticAgendas!.get(PartyName.MARS)!.policyId;
     changeRulingBonus.options[1].cb();
-    expect(turmoil.politicalAgendasData.currentAgenda.bonusId).to.eq('mb02');
-    expect(turmoil.politicalAgendasData.currentAgenda.policyId).to.eq(currentPolicyId);
+    expect(turmoil.politicalAgendasData.currentAgenda.bonusId).eq('mb02');
+    expect(turmoil.politicalAgendasData.currentAgenda.policyId).eq(currentPolicyId);
   });
 });

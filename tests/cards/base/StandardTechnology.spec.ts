@@ -10,9 +10,9 @@ describe('StandardTechnology', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play();
     card.onStandardProject(player, new SellPatentsStandardProject());
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     card.onStandardProject(player, new AsteroidStandardProject());
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
     expect(action).is.undefined;
   });
 });

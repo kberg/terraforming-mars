@@ -16,8 +16,8 @@ describe('TradeInfrastructure', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.energy).to.eq(3);
-    expect(player.getFleetSize()).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.energy).eq(3);
+    expect(player.getFleetSize()).eq(2);
   });
 });

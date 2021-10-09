@@ -11,7 +11,7 @@ describe('PhoboLog', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.titanium).to.eq(10);
-    expect(player.getTitaniumValue()).to.eq(4);
+    expect(player.titanium).eq(10);
+    expect(player.getTitaniumValue()).eq(4);
   });
 });

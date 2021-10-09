@@ -27,7 +27,7 @@ describe('InterplanetaryTrade', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(2);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(10);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(2);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(10);
   });
 });

@@ -30,6 +30,6 @@ describe('VitalColony', function() {
 
     const openColonies = game.colonies.filter((colony) => colony.isActive);
     expect(openColonies[0].colonies.find((c) => c === player.id)).is.not.undefined;
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

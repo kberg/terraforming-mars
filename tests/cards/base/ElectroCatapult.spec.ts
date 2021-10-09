@@ -36,9 +36,9 @@ describe('ElectroCatapult', () => {
     player.addProduction(Resources.ENERGY, 1);
     card.play(player);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
   });
   it('Should act', () => {
     player.plants = 1;
@@ -49,11 +49,11 @@ describe('ElectroCatapult', () => {
     expect(action!.options).has.lengthOf(2);
 
     action!.options[0].cb();
-    expect(player.plants).to.eq(0);
-    expect(player.megaCredits).to.eq(7);
+    expect(player.plants).eq(0);
+    expect(player.megaCredits).eq(7);
 
     action!.options[1].cb();
-    expect(player.steel).to.eq(0);
-    expect(player.megaCredits).to.eq(14);
+    expect(player.steel).eq(0);
+    expect(player.megaCredits).eq(14);
   });
 });

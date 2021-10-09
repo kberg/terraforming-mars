@@ -48,18 +48,18 @@ describe('RotatorImpacts', () => {
     player.titanium = 2;
 
     // only one possible action: add resource to card
-    expect(card.resourceCount).to.eq(0);
+    expect(card.resourceCount).eq(0);
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     // two possible actions: add resource or spend titanium
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions instanceof OrOptions).is.true;
     orOptions.options[0].cb();
-    expect(card.resourceCount).to.eq(0);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(card.resourceCount).eq(0);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Should not allow to raise Venus level if there no resources on card', () => {
@@ -75,8 +75,8 @@ describe('RotatorImpacts', () => {
 
     const action = card.action(player);
     expect(action).is.undefined;
-    expect(card.resourceCount).to.eq(0);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(card.resourceCount).eq(0);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 
   it('Should not allow to raise Venus level if Venus level is maxed out', () => {

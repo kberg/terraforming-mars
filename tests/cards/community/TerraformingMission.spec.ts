@@ -17,9 +17,9 @@ describe('TerraformingMission', function() {
     selectSpace.cb(selectSpace.availableSpaces[0]);
     game.deferredActions.runAll(() => {});
 
-    expect(player.getTerraformRating()).to.eq(initialTR + 1);
+    expect(player.getTerraformRating()).eq(initialTR + 1);
     expect(player.plants).to.greaterThanOrEqual(8);
-    expect(player.heat).to.eq(8);
-    expect(player.megaCredits).to.eq(8);
+    expect(player.heat).eq(8);
+    expect(player.megaCredits).eq(8);
   });
 });

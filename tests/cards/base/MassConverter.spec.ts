@@ -26,8 +26,8 @@ describe('MassConverter', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(6);
-    expect(card.getCardDiscount(player, card)).to.eq(0);
-    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(6);
+    expect(card.getCardDiscount(player, card)).eq(0);
+    expect(card.getCardDiscount(player, {tags: [Tags.SPACE]} as IProjectCard)).eq(2);
   });
 });

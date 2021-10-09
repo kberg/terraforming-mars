@@ -22,12 +22,12 @@ describe('BigAsteroid', function() {
 
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[1].cb(); // do nothing
-    expect(player2.plants).to.eq(5);
+    expect(player2.plants).eq(5);
 
     orOptions.options[0].cb(); // remove plants
-    expect(player2.plants).to.eq(1);
-    expect(game.getTemperature()).to.eq(-26);
-    expect(player.titanium).to.eq(4);
+    expect(player2.plants).eq(1);
+    expect(game.getTemperature()).eq(-26);
+    expect(player.titanium).eq(4);
   });
 
   it('Works fine in solo', function() {
@@ -38,8 +38,8 @@ describe('BigAsteroid', function() {
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
 
-    expect(player.plants).to.eq(5);
-    expect(game.getTemperature()).to.eq(-26);
-    expect(player.titanium).to.eq(4);
+    expect(player.plants).eq(5);
+    expect(game.getTemperature()).eq(-26);
+    expect(player.titanium).eq(4);
   });
 });

@@ -23,7 +23,7 @@ describe('ImprovedEnergyTemplates', function() {
     turmoil.dominantParty.partyLeader = player2.id;
     turmoil.dominantParty.delegates.push(player2.id);
     card.resolve(game, turmoil);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player2.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player2.getProduction(Resources.ENERGY)).eq(2);
   });
 });

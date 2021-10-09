@@ -19,7 +19,7 @@ describe('ControlledTectonics', function() {
     player.playedCards.push(new VenusWaystation());
 
     card.resolve(game, turmoil);
-    expect(player.heat).to.eq(4);
-    expect(game.getVenusScaleLevel()).to.eq(4);
+    expect(player.heat).eq(4);
+    expect(game.getVenusScaleLevel()).eq(4);
   });
 });

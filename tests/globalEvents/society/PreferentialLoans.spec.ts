@@ -14,7 +14,7 @@ describe('PreferentialLoans', function() {
     const turmoil = Turmoil.newInstance(game);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(10);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-2);
+    expect(player.megaCredits).eq(10);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-2);
   });
 });

@@ -20,7 +20,7 @@ describe('HydrogenBombardment', function() {
 
   it('Should play', function() {
     card.play(player);
-    expect(game.getVenusScaleLevel()).to.eq(2);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(game.getVenusScaleLevel()).eq(2);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
   });
 });

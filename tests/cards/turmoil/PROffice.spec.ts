@@ -25,7 +25,7 @@ describe('PROffice', function() {
 
     player.playedCards.push(card2, card3);
     card.play(player);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(3);
-    expect(player.getTerraformRating()).to.eq(15);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(3);
+    expect(player.getTerraformRating()).eq(15);
   });
 });

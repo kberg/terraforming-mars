@@ -14,8 +14,8 @@ describe('ProtectedValley', function() {
     const action = card.play(player);
     expect(action).is.not.undefined;
     action.cb(action.availableSpaces[0]);
-    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).to.eq(TileType.GREENERY);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).eq(TileType.GREENERY);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    expect(game.getOxygenLevel()).eq(1);
   });
 });

@@ -33,14 +33,14 @@ describe('CometAiming', function() {
     expect(card.canAct(player)).is.true;
 
     card.action(player);
-    expect(player.titanium).to.eq(0);
-    expect(card.resourceCount).to.eq(1);
+    expect(player.titanium).eq(0);
+    expect(card.resourceCount).eq(1);
 
     card.action(player);
     expect(player.game.deferredActions).has.lengthOf(1);
     const selectSpace = player.game.deferredActions.peek()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
   });
 
   it('Should act - multiple action choices, multiple targets', function() {
@@ -52,8 +52,8 @@ describe('CometAiming', function() {
 
     const action = card.action(player) as OrOptions;
     action.options[1].cb([card2]);
-    expect(card2.resourceCount).to.eq(1);
-    expect(player.titanium).to.eq(0);
+    expect(card2.resourceCount).eq(1);
+    expect(player.titanium).eq(0);
   });
 
   it('Cannot spend resource to place ocean if oceans are maxed', function() {
@@ -67,7 +67,7 @@ describe('CometAiming', function() {
 
     card.action(player);
     expect(player.game.deferredActions).has.lengthOf(0);
-    expect(player.titanium).to.eq(0);
-    expect(card.resourceCount).to.eq(2);
+    expect(player.titanium).eq(0);
+    expect(card.resourceCount).eq(2);
   });
 });

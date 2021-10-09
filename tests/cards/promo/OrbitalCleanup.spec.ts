@@ -25,7 +25,7 @@ describe('OrbitalCleanup', function() {
   it('Should play', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-2);
   });
 
   it('Should act', function() {
@@ -34,11 +34,11 @@ describe('OrbitalCleanup', function() {
     player.playedCards.push(new ResearchCoordination());
 
     card.action(player);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(4);
   });
 
   it('Should give victory points', function() {
     card.play(player);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

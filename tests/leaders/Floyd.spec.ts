@@ -27,10 +27,10 @@ describe('Floyd', function() {
     card.action(player);
     expect(game.deferredActions).has.length(2);
     player.actionsThisGeneration.add(card.name);
-    expect(card.getCardDiscount(player)).to.eq(15);
+    expect(card.getCardDiscount(player)).eq(15);
 
     game.deferredActions.runAll(() => {});
-    expect(card.getCardDiscount(player)).to.eq(0);
+    expect(card.getCardDiscount(player)).eq(0);
   });
 
   it('Can only act once per game', function() {

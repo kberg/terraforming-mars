@@ -18,23 +18,23 @@ describe('EnergyTapping', function() {
 
   it('Should play - auto select if single target', function() {
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
   });
 
   it('Should play - multiple targets', function() {
     player2.addProduction(Resources.ENERGY, 3);
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
     expect(game.deferredActions).has.lengthOf(1);
 
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player2.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player2.getProduction(Resources.ENERGY)).eq(2);
   });
 
   it('Playable in solo mode', function() {
@@ -42,7 +42,7 @@ describe('EnergyTapping', function() {
     card.play(player);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-1);
   });
 });

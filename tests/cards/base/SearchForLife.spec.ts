@@ -30,9 +30,9 @@ describe('SearchForLife', function() {
     player.playedCards.push(card);
     card.play();
 
-    expect(card.getVictoryPoints()).to.eq(0);
+    expect(card.getVictoryPoints()).eq(0);
     player.addResourceTo(card);
-    expect(card.getVictoryPoints()).to.eq(3);
+    expect(card.getVictoryPoints()).eq(3);
   });
 
 
@@ -44,7 +44,7 @@ describe('SearchForLife', function() {
       player.megaCredits = 1;
       card.action(player);
       game.deferredActions.runNext();
-      expect(player.megaCredits).to.eq(0);
+      expect(player.megaCredits).eq(0);
     }
 
     expect(card.resourceCount >= 1).is.true;

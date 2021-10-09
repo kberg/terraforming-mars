@@ -18,6 +18,6 @@ describe('Renationalisation', function() {
     player.megaCredits = 4;
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

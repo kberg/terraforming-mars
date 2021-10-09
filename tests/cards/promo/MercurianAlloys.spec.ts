@@ -23,6 +23,6 @@ describe('MercurianAlloys', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getTitaniumValue()).to.eq(4);
+    expect(player.getTitaniumValue()).eq(4);
   });
 });

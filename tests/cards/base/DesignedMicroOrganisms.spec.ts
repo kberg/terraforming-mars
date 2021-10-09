@@ -29,6 +29,6 @@ describe('DesignedMicroOrganisms', function() {
     (game as any).temperature = -14;
     expect(card.canPlay(player)).is.true;
     card.play(player);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
   });
 });

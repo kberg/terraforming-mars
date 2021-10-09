@@ -34,7 +34,7 @@ describe('Stefan', function() {
 
     game.deferredActions.runAll(() => {});
     expect(player.cardsInHand).has.length(0);
-    expect(player.megaCredits).to.eq(6);
+    expect(player.megaCredits).eq(6);
   });
 
   it('Can only act once per game', function() {

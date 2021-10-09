@@ -24,8 +24,8 @@ describe('MagneticFieldGenerators', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(2);
-    expect(player.getTerraformRating()).to.eq(23);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.PLANTS)).eq(2);
+    expect(player.getTerraformRating()).eq(23);
   });
 });

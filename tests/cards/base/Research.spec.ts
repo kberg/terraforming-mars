@@ -12,8 +12,8 @@ describe('Research', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
     expect(player.cardsInHand).has.lengthOf(2);
-    expect(player.cardsInHand[0]).not.to.eq(player.cardsInHand[1]);
+    expect(player.cardsInHand[0]).not.eq(player.cardsInHand[1]);
   });
 });

@@ -22,7 +22,7 @@ describe('WaterImportFromEuropa', function() {
   it('Should play', function() {
     card.play();
     player.playedCards.push(card);
-    expect(card.getVictoryPoints(player)).to.eq(1);
+    expect(card.getVictoryPoints(player)).eq(1);
   });
 
   it('Should act', function() {
@@ -32,11 +32,11 @@ describe('WaterImportFromEuropa', function() {
     expect(action).is.undefined;
 
     game.deferredActions.runNext(); // HowToPay
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectOcean = game.deferredActions.peek()!.execute() as SelectSpace;
     selectOcean.cb(selectOcean.availableSpaces[0]);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(player.getTerraformRating()).eq(21);
   });
 });

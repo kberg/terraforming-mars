@@ -21,6 +21,6 @@ describe('ExtrasolarRace', function() {
     player.playedCards.push(new EnergyTapping());
 
     card.resolve(game, turmoil);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
   });
 });

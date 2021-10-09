@@ -13,6 +13,6 @@ describe('MediaArchives', function() {
     player.playedCards.push(card, new Virus());
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 });

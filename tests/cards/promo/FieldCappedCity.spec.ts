@@ -16,10 +16,10 @@ describe('FieldCappedCity', function() {
     expect(action).is.not.undefined;
     expect(action instanceof SelectSpace).is.true;
     action.cb(action.availableSpaces[0]);
-    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).to.eq(TileType.CITY);
-    expect(player.plants).to.eq(3);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).eq(TileType.CITY);
+    expect(player.plants).eq(3);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 });
 

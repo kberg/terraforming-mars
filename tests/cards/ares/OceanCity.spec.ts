@@ -59,8 +59,8 @@ describe('OceanCity', function() {
     expect(game.getCitiesInPlayOnMars()).eq(1);
     expect(player.getCitiesCount()).eq(1);
 
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_CITY);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_CITY);
   });
 
   it('Cannot place a city next to Ocean City', function() {
@@ -93,8 +93,8 @@ describe('OceanCity', function() {
     const action = card.play(player);
 
     action.cb(oceanSpace);
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_CITY);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_CITY);
   });
 
   // Add a test where cards that get points for adjacent oceans get credit
@@ -144,16 +144,16 @@ describe('OceanCity', function() {
 
     // In a real game Capital couldn't be placed without an ocean on the board, but this test
     // works around that to guarantee zero points.
-    expect(player.getVictoryPoints().victoryPoints).to.eq(0);
+    expect(player.getVictoryPoints().victoryPoints).eq(0);
 
     // And now adds the tile.
     game.addOceanTile(player, oceanSpace.id);
     const oceanCityAction = card.play(player);
 
     oceanCityAction.cb(oceanSpace);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_CITY);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_CITY);
 
-    expect(player.getVictoryPoints().victoryPoints).to.eq(1);
+    expect(player.getVictoryPoints().victoryPoints).eq(1);
   });
 
   it('Placing Ocean City does not grant underlying space bonus', () => {
@@ -171,8 +171,8 @@ describe('OceanCity', function() {
 
     action.cb(oceanSpace);
 
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_CITY);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_CITY);
     expect(player.plants).eq(1);
   });
 });

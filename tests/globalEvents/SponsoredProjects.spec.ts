@@ -33,9 +33,9 @@ describe('SponsoredProjects', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.playedCards[0].resourceCount).to.eq(2);
-    expect(player2.playedCards[0].resourceCount).to.eq(2);
-    expect(player2.playedCards[1].resourceCount).to.eq(0);
+    expect(player.playedCards[0].resourceCount).eq(2);
+    expect(player2.playedCards[0].resourceCount).eq(2);
+    expect(player2.playedCards[1].resourceCount).eq(0);
     expect(player2.cardsInHand).has.lengthOf(3);
   });
 });

@@ -9,8 +9,8 @@ describe('EarthElevator', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(3);
+    expect(player.getProduction(Resources.TITANIUM)).eq(3);
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(4);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(4);
   });
 });

@@ -24,7 +24,7 @@ describe('SubCrustMeasurements', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play();
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 
   it('Should take action', function() {

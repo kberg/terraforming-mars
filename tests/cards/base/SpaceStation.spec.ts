@@ -15,8 +15,8 @@ describe('SpaceStation', function() {
     const action = card.play();
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(1);
-    expect(card.getCardDiscount(player, card)).to.eq(2);
-    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).to.eq(0);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(1);
+    expect(card.getCardDiscount(player, card)).eq(2);
+    expect(card.getCardDiscount(player, {tags: [Tags.PLANT]} as IProjectCard)).eq(0);
   });
 });

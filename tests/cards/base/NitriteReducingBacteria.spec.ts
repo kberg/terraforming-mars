@@ -19,23 +19,23 @@ describe('NitriteReducingBacteria', function() {
     player.playedCards.push(card);
     card.play(player);
     game.deferredActions.runNext();
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
   });
 
   it('Should act', function() {
     player.playedCards.push(card);
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
 
     player.addResourceTo(card, 3);
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions instanceof OrOptions).is.true;
 
     orOptions!.options[1].cb();
-    expect(card.resourceCount).to.eq(5);
+    expect(card.resourceCount).eq(5);
 
     orOptions!.options[0].cb();
-    expect(card.resourceCount).to.eq(2);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(card.resourceCount).eq(2);
+    expect(player.getTerraformRating()).eq(21);
   });
 });

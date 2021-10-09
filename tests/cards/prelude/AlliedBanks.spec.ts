@@ -9,7 +9,7 @@ describe('AlliedBanks', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.megaCredits).to.eq(3);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.megaCredits).eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

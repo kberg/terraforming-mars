@@ -29,7 +29,7 @@ describe('MicrogravityHealthProblems', function() {
     player.megaCredits = 20;
     player2.megaCredits = 20;
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(14);
-    expect(player2.megaCredits).to.eq(20);
+    expect(player.megaCredits).eq(14);
+    expect(player2.megaCredits).eq(20);
   });
 });

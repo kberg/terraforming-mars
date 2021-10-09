@@ -32,11 +32,11 @@ describe('SubZeroSaltFish', function() {
 
     card.play(player);
     player.addResourceTo(card, 5);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 
   it('Should act', function() {
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

@@ -25,13 +25,13 @@ describe('SeptumTribus', function() {
       turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
       turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
       card.action(player);
-      expect(player.megaCredits).to.eq(2);
+      expect(player.megaCredits).eq(2);
 
       player.megaCredits = 0;
       turmoil.sendDelegateToParty(player.id, PartyName.KELVINISTS, game);
       turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
       card.action(player);
-      expect(player.megaCredits).to.eq(6);
+      expect(player.megaCredits).eq(6);
     }
   });
 });

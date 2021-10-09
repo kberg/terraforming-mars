@@ -42,8 +42,8 @@ describe('SolarFarm', function() {
     expect(player.getProduction(Resources.ENERGY)).eq(0);
     const citySpace = game.board.getAvailableSpacesOnLand(player).filter((s) => !AresHandler.hasHazardTile(s))[0];
     action.cb(citySpace);
-    expect(citySpace.player).to.eq(player);
-    expect(citySpace.tile!.tileType).to.eq(TileType.SOLAR_FARM);
+    expect(citySpace.player).eq(player);
+    expect(citySpace.tile!.tileType).eq(TileType.SOLAR_FARM);
     expect(citySpace.adjacency).to.deep.eq({
       bonus: [SpaceBonus.POWER, SpaceBonus.POWER],
     });

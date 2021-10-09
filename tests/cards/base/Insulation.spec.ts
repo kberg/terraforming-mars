@@ -20,7 +20,7 @@ describe('Insulation', function() {
     expect(action).is.not.undefined;
     if (action === undefined) return;
     action.cb(1);
-    expect(player.getProduction(Resources.HEAT)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

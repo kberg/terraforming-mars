@@ -46,9 +46,9 @@ describe('SortableCards', function() {
     let cards = sortable.findAllComponents({
       name: 'Card',
     });
-    expect(cards.length).to.eq(2);
-    expect(cards.at(0).props().card.name).to.eq(CardName.ANTS);
-    expect(cards.at(1).props().card.name).to.eq(CardName.CARTEL);
+    expect(cards.length).eq(2);
+    expect(cards.at(0).props().card.name).eq(CardName.ANTS);
+    expect(cards.at(1).props().card.name).eq(CardName.CARTEL);
     const draggers = sortable.findAllComponents({
       ref: 'cardbox',
     });
@@ -58,8 +58,8 @@ describe('SortableCards', function() {
     cards = sortable.findAllComponents({
       name: 'Card',
     });
-    expect(cards.at(0).props().card.name).to.eq(CardName.CARTEL);
-    expect(cards.at(1).props().card.name).to.eq(CardName.ANTS);
+    expect(cards.at(0).props().card.name).eq(CardName.CARTEL);
+    expect(cards.at(1).props().card.name).eq(CardName.ANTS);
     expect(expectedStorage['cardOrderfoo']).not.to.be.undefined;
     expect(JSON.parse(expectedStorage['cardOrderfoo'])).to.deep.eq({
       [CardName.ANTS]: 2,
@@ -88,10 +88,10 @@ describe('SortableCards', function() {
     let cards = sortable.findAllComponents({
       name: 'Card',
     });
-    expect(cards.length).to.eq(3);
-    expect(cards.at(0).props().card.name).to.eq(CardName.CARTEL);
-    expect(cards.at(1).props().card.name).to.eq(CardName.ANTS);
-    expect(cards.at(2).props().card.name).to.eq(CardName.BIRDS);
+    expect(cards.length).eq(3);
+    expect(cards.at(0).props().card.name).eq(CardName.CARTEL);
+    expect(cards.at(1).props().card.name).eq(CardName.ANTS);
+    expect(cards.at(2).props().card.name).eq(CardName.BIRDS);
     const draggers = sortable.findAllComponents({
       ref: 'cardbox',
     });
@@ -101,9 +101,9 @@ describe('SortableCards', function() {
     cards = sortable.findAllComponents({
       name: 'Card',
     });
-    expect(cards.at(0).props().card.name).to.eq(CardName.ANTS);
-    expect(cards.at(1).props().card.name).to.eq(CardName.CARTEL);
-    expect(cards.at(2).props().card.name).to.eq(CardName.BIRDS);
+    expect(cards.at(0).props().card.name).eq(CardName.ANTS);
+    expect(cards.at(1).props().card.name).eq(CardName.CARTEL);
+    expect(cards.at(2).props().card.name).eq(CardName.BIRDS);
     expect(expectedStorage['cardOrderfoo']).not.to.be.undefined;
     expect(JSON.parse(expectedStorage['cardOrderfoo'])).to.deep.eq({
       [CardName.ANTS]: 1,

@@ -29,11 +29,11 @@ describe('CorporateStronghold', function() {
     expect(action instanceof SelectSpace).is.true;
     action.cb(action.availableSpaces[0]);
 
-    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).to.eq(TileType.CITY);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(action.availableSpaces[0].tile && action.availableSpaces[0].tile.tileType).eq(TileType.CITY);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
 
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(-2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(-2);
   });
 });

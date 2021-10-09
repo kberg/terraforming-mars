@@ -29,7 +29,7 @@ describe('Zan', function() {
     player.megaCredits = 3;
     player.increaseTerraformRating();
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 
   it('Not affected by Reds policy when checking canPlay for cards that give TR', function() {
@@ -48,8 +48,8 @@ describe('Zan', function() {
 
     expect(turmoil.lobby.has(player.id)).is.false;
     expect(turmoil.delegateReserve.includes(player.id)).is.false;
-    expect(turmoil.dominantParty.name).to.eq(PartyName.REDS);
-    expect(turmoil.dominantParty.partyLeader).to.eq(player.id);
+    expect(turmoil.dominantParty.name).eq(PartyName.REDS);
+    expect(turmoil.dominantParty.partyLeader).eq(player.id);
     expect(card.isDisabled).is.true;
   });
 

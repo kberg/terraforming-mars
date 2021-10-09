@@ -19,6 +19,6 @@ describe('SolarCryptocurrency', function() {
     player.addProduction(Resources.ENERGY, 3);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(8);
+    expect(player.megaCredits).eq(8);
   });
 });

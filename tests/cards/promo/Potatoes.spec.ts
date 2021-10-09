@@ -29,7 +29,7 @@ describe('Potatoes', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.plants).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.plants).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 });

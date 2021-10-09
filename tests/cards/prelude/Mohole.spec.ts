@@ -9,7 +9,7 @@ describe('Mohole', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
-    expect(player.heat).to.eq(3);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
+    expect(player.heat).eq(3);
   });
 });

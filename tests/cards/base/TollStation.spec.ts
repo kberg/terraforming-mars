@@ -13,8 +13,8 @@ describe('TollStation', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     anotherPlayer.playedCards.push(card);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 });

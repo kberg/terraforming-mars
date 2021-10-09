@@ -12,7 +12,7 @@ describe('JovianEmbassy', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
 
     card.play(player);
-    expect(player.getTerraformRating()).to.eq(21);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(player.getTerraformRating()).eq(21);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

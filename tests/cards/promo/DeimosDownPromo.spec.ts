@@ -19,8 +19,8 @@ describe('DeimosDownPromo', function() {
   it('Should play without plants', function() {
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
-    expect(player.game.getTemperature()).to.eq(-24);
-    expect(player.steel).to.eq(4);
+    expect(player.game.getTemperature()).eq(-24);
+    expect(player.steel).eq(4);
     const input = player.game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
   });
@@ -30,8 +30,8 @@ describe('DeimosDownPromo', function() {
 
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
-    expect(player.game.getTemperature()).to.eq(-24);
-    expect(player.steel).to.eq(4);
+    expect(player.game.getTemperature()).eq(-24);
+    expect(player.steel).eq(4);
 
     expect(player.game.deferredActions).has.lengthOf(1);
 
@@ -39,7 +39,7 @@ describe('DeimosDownPromo', function() {
     const orOptions = player.game.deferredActions.peek()!.execute() as OrOptions;
     orOptions.options[0].cb([player2]);
 
-    expect(player2.plants).to.eq(0);
+    expect(player2.plants).eq(0);
   });
 
   it('Works fine in solo mode', function() {
@@ -49,8 +49,8 @@ describe('DeimosDownPromo', function() {
     const action = card.play(player);
     expect(action instanceof SelectSpace).is.true;
 
-    expect(player.game.getTemperature()).to.eq(-24);
-    expect(player.steel).to.eq(4);
-    expect(player.plants).to.eq(15); // not removed
+    expect(player.game.getTemperature()).eq(-24);
+    expect(player.steel).eq(4);
+    expect(player.plants).eq(15); // not removed
   });
 });

@@ -23,8 +23,8 @@ describe('OperationDaedalus', function() {
     player2.megaCredits = 5;
 
     card.resolve(game, turmoil);
-    expect(player.titanium).to.eq(1);
-    expect(player2.titanium).to.eq(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.titanium).eq(1);
+    expect(player2.titanium).eq(2);
+    expect(player.megaCredits).eq(0);
   });
 });

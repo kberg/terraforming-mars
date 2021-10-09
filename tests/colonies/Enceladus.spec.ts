@@ -33,11 +33,11 @@ describe('Enceladus', function() {
     expect(game.deferredActions).has.lengthOf(1);
     const action = game.deferredActions.pop()!;
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to Tardigrades, since there's no other target
     action.execute();
 
-    expect(tardigrades.resourceCount).to.eq(3);
+    expect(tardigrades.resourceCount).eq(3);
   });
 
   it('Should trade', function() {
@@ -50,11 +50,11 @@ describe('Enceladus', function() {
 
     const action = game.deferredActions.pop()!; // AddResourcesToCard
     expect(action).to.be.an.instanceof(AddResourcesToCard);
-    expect(action.player).to.eq(player);
+    expect(action.player).eq(player);
     // Should directly add to Tardigrades, since there's no other target
     action.execute();
 
-    expect(tardigrades.resourceCount).to.eq(1);
+    expect(tardigrades.resourceCount).eq(1);
   });
 
   it('Should give trade bonus', function() {
@@ -68,7 +68,7 @@ describe('Enceladus', function() {
     enceladus.trade(player2);
     game.deferredActions.runAll(() => {}); // Gain Trade & Bonus
 
-    expect(tardigrades.resourceCount).to.eq(4);
-    expect(regolithEaters.resourceCount).to.eq(1);
+    expect(tardigrades.resourceCount).eq(4);
+    expect(regolithEaters.resourceCount).eq(1);
   });
 });

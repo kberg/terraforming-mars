@@ -43,7 +43,7 @@ describe('Philares', function() {
     expect(action).is.not.undefined;
 
     action.cb(action.availableSpaces[0]);
-    expect(philaresPlayer.getTerraformRating()).to.eq(21);
+    expect(philaresPlayer.getTerraformRating()).eq(21);
   });
 
   it('No bonus when placing next to self', () => {
@@ -189,7 +189,7 @@ describe('Philares', function() {
     // Option 3 is plants.
     philaresPlayerResourceSelection.options[3].cb(1);
     philaresPlayerResourceSelection.cb();
-    expect(philaresPlayer.plants).to.eq(8);
+    expect(philaresPlayer.plants).eq(8);
 
     // Clear any existing waitingFor
     (philaresPlayer as any).waitingFor = undefined;

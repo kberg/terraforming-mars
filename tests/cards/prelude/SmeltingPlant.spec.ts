@@ -10,7 +10,7 @@ describe('SmeltingPlant', function() {
     const card = new SmeltingPlant();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.steel).to.eq(5);
-    expect(game.getOxygenLevel()).to.eq(2);
+    expect(player.steel).eq(5);
+    expect(game.getOxygenLevel()).eq(2);
   });
 });

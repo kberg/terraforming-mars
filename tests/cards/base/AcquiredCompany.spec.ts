@@ -10,6 +10,6 @@ describe('AcquiredCompany', function() {
     const player = TestPlayers.BLUE.newPlayer();
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
   });
 });

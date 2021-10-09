@@ -29,14 +29,14 @@ describe('MetaSpirituality', function() {
 
     action.options.forEach((option) => {
       expect(option instanceof SelectAmount).is.true;
-      expect((option as SelectAmount).min).to.eq(1);
+      expect((option as SelectAmount).min).eq(1);
     })
     action.cb();
-    expect(player.megaCredits).to.eq(1);
-    expect(player.steel).to.eq(1);
-    expect(player.titanium).to.eq(1);
-    expect(player.plants).to.eq(1);
-    expect(player.energy).to.eq(1);
-    expect(player.heat).to.eq(1);
+    expect(player.megaCredits).eq(1);
+    expect(player.steel).eq(1);
+    expect(player.titanium).eq(1);
+    expect(player.plants).eq(1);
+    expect(player.energy).eq(1);
+    expect(player.heat).eq(1);
   });
 });

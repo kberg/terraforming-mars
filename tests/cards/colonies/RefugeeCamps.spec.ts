@@ -17,7 +17,7 @@ describe('RefugeeCamps', function() {
     expect(action).is.undefined;
 
     player.addResourceTo(card, 5);
-    expect(card.getVictoryPoints()).to.eq(5);
+    expect(card.getVictoryPoints()).eq(5);
   });
 
   it('Can\'t act', function() {
@@ -28,6 +28,6 @@ describe('RefugeeCamps', function() {
   it('Should act', function() {
     expect(card.canAct(player)).is.true;
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

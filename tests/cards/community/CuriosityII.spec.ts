@@ -29,17 +29,17 @@ describe('CuriosityII', function() {
     game.addCityTile(player, nonEmptySpace.id);
     player.cardsInHand = [];
 
-    expect(game.deferredActions.length).to.eq(1);
+    expect(game.deferredActions.length).eq(1);
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
 
     orOptions.options[1].cb(); // Do nothing
     expect(player.cardsInHand).is.empty;
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
 
     orOptions.options[0].cb(); // Pay 2 M€ to draw a card
     TestingUtils.runAllActions(game);
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Does not trigger when placing a tile on an empty space', function() {
@@ -48,7 +48,7 @@ describe('CuriosityII', function() {
     TestingUtils.runAllActions(game);
 
     expect(player.cardsInHand).is.empty;
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Does not trigger when opponent places a tile', function() {
@@ -57,7 +57,7 @@ describe('CuriosityII', function() {
     TestingUtils.runAllActions(game);
 
     expect(player.cardsInHand).is.empty;
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
   });
 
   it('Placing a tile on top of another one triggers the bonus', () => {
@@ -74,7 +74,7 @@ describe('CuriosityII', function() {
     TestingUtils.runAllActions(game);
 
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Rover Construction triggers before corporation effect', function() {
@@ -84,11 +84,11 @@ describe('CuriosityII', function() {
 
     const nonEmptySpace = game.board.getAvailableSpacesOnLand(player).find((space) => space.bonus.length > 0)!;
     game.addCityTile(player, nonEmptySpace.id);
-    expect(game.deferredActions.length).to.eq(2);
+    expect(game.deferredActions.length).eq(2);
 
     // Rover Construction
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
 
     // Curiosity II
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
@@ -96,6 +96,6 @@ describe('CuriosityII', function() {
     orOptions.options[0].cb(); // Pay 2 M€ to draw a card
     TestingUtils.runAllActions(game);
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 });

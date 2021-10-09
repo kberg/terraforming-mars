@@ -12,6 +12,6 @@ describe('WaterToVenus', function() {
 
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

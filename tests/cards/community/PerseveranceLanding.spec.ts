@@ -19,8 +19,8 @@ describe('PerseveranceLanding', function() {
     const selectSpace = card.play(player) as SelectSpace;
     expect(selectSpace.cb(selectSpace.availableSpaces[0])).is.undefined;
 
-    expect(selectSpace.availableSpaces[0].player).to.eq(player);
+    expect(selectSpace.availableSpaces[0].player).eq(player);
     expect(selectSpace.availableSpaces[0].tile).is.not.undefined;
-    expect(selectSpace.availableSpaces[0].tile!.tileType).to.eq(TileType.PERSEVERANCE_LANDING);
+    expect(selectSpace.availableSpaces[0].tile!.tileType).eq(TileType.PERSEVERANCE_LANDING);
   });
 });

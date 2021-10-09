@@ -27,11 +27,11 @@ describe('MarketManipulation', function() {
 
     const action = card.play(player) as OrOptions;
     expect(action).is.not.undefined;
-    expect(action.options[0].title).to.eq('Increase Luna (MegaCredits) and decrease Triton (Titanium)');
+    expect(action.options[0].title).eq('Increase Luna (MegaCredits) and decrease Triton (Titanium)');
     action.options[0].cb();
 
-    expect(luna.trackPosition).to.eq(2);
-    expect(triton.trackPosition).to.eq(0);
+    expect(luna.trackPosition).eq(2);
+    expect(triton.trackPosition).eq(0);
   });
 
   it('Can\'t play', function() {

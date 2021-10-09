@@ -21,7 +21,7 @@ describe('EcoSabotage', function() {
     player.plants = 5;
     player2.plants = 5;
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.PLANTS)).to.eq(3);
-    expect(player2.getResource(Resources.PLANTS)).to.eq(5);
+    expect(player.getResource(Resources.PLANTS)).eq(3);
+    expect(player2.getResource(Resources.PLANTS)).eq(5);
   });
 });

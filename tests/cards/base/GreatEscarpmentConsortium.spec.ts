@@ -30,30 +30,30 @@ describe('GreatEscarpmentConsortium', function() {
     card.play(player); // can decrease own production
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
   });
 
   it('Should play - multiple targets', function() {
     player.addProduction(Resources.STEEL, 1);
     player2.addProduction(Resources.STEEL, 1);
     card.play(player);
-    expect(player.getProduction(Resources.STEEL)).to.eq(2);
+    expect(player.getProduction(Resources.STEEL)).eq(2);
 
     expect(game.deferredActions).has.lengthOf(1);
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
-    expect(player2.getProduction(Resources.STEEL)).to.eq(0);
+    expect(player2.getProduction(Resources.STEEL)).eq(0);
   });
 
   it('Can play in solo - won\'t reduce own production', function() {
     game = Game.newInstance('foobar', [player], player);
     player.addProduction(Resources.STEEL, 1);
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
 
     card.play(player);
 
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
-    expect(player.getProduction(Resources.STEEL)).to.eq(2); // should increase
+    expect(player.getProduction(Resources.STEEL)).eq(2); // should increase
   });
 });

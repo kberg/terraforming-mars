@@ -49,28 +49,28 @@ describe('Colony', function() {
 
   it('Should build and give placement bonus', function() {
     expect(luna.colonies).has.lengthOf(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
 
     luna.addColony(player);
     expect(luna.colonies).has.lengthOf(1);
-    expect(luna.colonies[0]).to.eq(player.id);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(luna.colonies[0]).eq(player.id);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
 
     luna.addColony(player2);
     expect(luna.colonies).has.lengthOf(2);
-    expect(luna.colonies[1]).to.eq(player2.id);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(luna.colonies[1]).eq(player2.id);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(2);
 
     luna.addColony(player3);
     expect(luna.colonies).has.lengthOf(3);
-    expect(luna.colonies[2]).to.eq(player3.id);
-    expect(player3.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(luna.colonies[2]).eq(player3.id);
+    expect(player3.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Should start with a trackPosition at 1', function() {
     game.colonies = game.colonyDealer!.drawColonies(4, game.gameOptions, true);
     game.colonies.forEach((colony) => {
-      expect(colony.trackPosition).to.eq(1);
+      expect(colony.trackPosition).eq(1);
     });
   });
 
@@ -79,45 +79,45 @@ describe('Colony', function() {
     game.colonies.forEach((colony) => {
       colony.endGeneration(game);
       if (colony.isActive) {
-        expect(colony.trackPosition).to.eq(2);
+        expect(colony.trackPosition).eq(2);
       } else {
-        expect(colony.trackPosition).to.eq(1);
+        expect(colony.trackPosition).eq(1);
       }
     });
   });
 
   it('Should push the trackPosition if a colony is built on it', function() {
-    expect(luna.trackPosition).to.eq(1);
+    expect(luna.trackPosition).eq(1);
     luna.addColony(player);
-    expect(luna.trackPosition).to.eq(1);
+    expect(luna.trackPosition).eq(1);
     luna.addColony(player2);
-    expect(luna.trackPosition).to.eq(2);
+    expect(luna.trackPosition).eq(2);
     luna.addColony(player3);
-    expect(luna.trackPosition).to.eq(3);
+    expect(luna.trackPosition).eq(3);
   });
 
   it('Should decrease trackPosition after trade', function() {
     luna.trackPosition = MAX_COLONY_TRACK_POSITION;
     luna.trade(player);
     game.deferredActions.runAll(() => {});
-    expect(luna.trackPosition).to.eq(0);
+    expect(luna.trackPosition).eq(0);
 
     luna.addColony(player);
     luna.addColony(player2);
     luna.trackPosition = MAX_COLONY_TRACK_POSITION;
     luna.trade(player);
     game.deferredActions.runAll(() => {});
-    expect(luna.trackPosition).to.eq(2);
+    expect(luna.trackPosition).eq(2);
   });
 
   it('Shouldn\'t increase trackPosition above max', function() {
     luna.increaseTrack(100);
-    expect(luna.trackPosition).to.eq(MAX_COLONY_TRACK_POSITION);
+    expect(luna.trackPosition).eq(MAX_COLONY_TRACK_POSITION);
   });
 
   it('Shouldn\'t decrease trackPosition below 0', function() {
     luna.decreaseTrack(100);
-    expect(luna.trackPosition).to.eq(0);
+    expect(luna.trackPosition).eq(0);
   });
 
   it('Should trade', function() {
@@ -128,7 +128,7 @@ describe('Colony', function() {
       luna.trackPosition = i;
       luna.trade(player);
       game.deferredActions.runAll(() => {});
-      expect(player.megaCredits).to.eq(income[i]);
+      expect(player.megaCredits).eq(income[i]);
     }
   });
 
@@ -137,10 +137,10 @@ describe('Colony', function() {
     luna.trackPosition = 3; // 7 MC
     luna.trade(player);
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(7);
-    expect(player2.megaCredits).to.eq(0);
-    expect(player3.megaCredits).to.eq(0);
-    expect(player4.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(7);
+    expect(player2.megaCredits).eq(0);
+    expect(player3.megaCredits).eq(0);
+    expect(player4.megaCredits).eq(0);
 
     // 1 colony
     player.megaCredits = 0;
@@ -148,10 +148,10 @@ describe('Colony', function() {
     luna.addColony(player);
     luna.trade(player);
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(9);
-    expect(player2.megaCredits).to.eq(0);
-    expect(player3.megaCredits).to.eq(0);
-    expect(player4.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(9);
+    expect(player2.megaCredits).eq(0);
+    expect(player3.megaCredits).eq(0);
+    expect(player4.megaCredits).eq(0);
 
     // 2 colonies
     player.megaCredits = 0;
@@ -159,10 +159,10 @@ describe('Colony', function() {
     luna.addColony(player2);
     luna.trade(player2);
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(2);
-    expect(player2.megaCredits).to.eq(9);
-    expect(player3.megaCredits).to.eq(0);
-    expect(player4.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(2);
+    expect(player2.megaCredits).eq(9);
+    expect(player3.megaCredits).eq(0);
+    expect(player4.megaCredits).eq(0);
 
     // 3 colonies
     player.megaCredits = 0;
@@ -171,10 +171,10 @@ describe('Colony', function() {
     luna.addColony(player3);
     luna.trade(player4);
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(2);
-    expect(player2.megaCredits).to.eq(2);
-    expect(player3.megaCredits).to.eq(2);
-    expect(player4.megaCredits).to.eq(7);
+    expect(player.megaCredits).eq(2);
+    expect(player2.megaCredits).eq(2);
+    expect(player3.megaCredits).eq(2);
+    expect(player4.megaCredits).eq(7);
   });
 
   it('Should give trade bonus for each colony a player has', function() {
@@ -185,10 +185,10 @@ describe('Colony', function() {
 
     luna.trade(player2);
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(6);
-    expect(player2.megaCredits).to.eq(7);
-    expect(player3.megaCredits).to.eq(0);
-    expect(player4.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(6);
+    expect(player2.megaCredits).eq(7);
+    expect(player3.megaCredits).eq(0);
+    expect(player4.megaCredits).eq(0);
   });
 
   it('Should let player build a colony only if they can afford it', function() {

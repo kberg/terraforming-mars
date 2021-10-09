@@ -12,7 +12,7 @@ describe('PeroxidePower', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
   });
 });

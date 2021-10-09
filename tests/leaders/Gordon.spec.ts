@@ -28,11 +28,11 @@ describe('Gordon', function() {
 
     game.addGreenery(player, '35');
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(2);
+    expect(player.megaCredits).eq(2);
 
     game.addCityTile(player, '37');
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(4);
+    expect(player.megaCredits).eq(4);
   });
 
   it('Does not gain MC when placing city off Mars', function() {
@@ -42,12 +42,12 @@ describe('Gordon', function() {
       tileType: TileType.CITY,
     });
 
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Does not gain MC when opponent places city or greenery tile', function() {
     player.megaCredits = 0;
     game.addGreenery(player2, '35');
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

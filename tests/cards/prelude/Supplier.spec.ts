@@ -12,7 +12,7 @@ describe('Supplier', function() {
     const action = card.play(player);
 
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
-    expect(player.steel).to.eq(4);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
+    expect(player.steel).eq(4);
   });
 });

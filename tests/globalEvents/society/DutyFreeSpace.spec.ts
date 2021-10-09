@@ -23,6 +23,6 @@ describe('DutyFreeSpace', function() {
     player.addResourceTo(floatingHabs);
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(4);
+    expect(player.megaCredits).eq(4);
   });
 });

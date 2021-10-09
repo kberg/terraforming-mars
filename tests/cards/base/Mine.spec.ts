@@ -9,6 +9,6 @@ describe('Mine', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
   });
 });

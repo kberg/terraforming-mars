@@ -12,6 +12,6 @@ describe('PolarIndustries', function() {
     Game.newInstance('foobar', [player], player);
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
   });
 });

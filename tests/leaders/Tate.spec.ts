@@ -31,7 +31,7 @@ describe('Tate', function() {
     action.cb([action.cards[0], action.cards[3]]);
     game.deferredActions.runAll(() => {});
     expect(player.cardsInHand).has.length(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Can only act once per game', function() {

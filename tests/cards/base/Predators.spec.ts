@@ -33,7 +33,7 @@ describe('Predators', function() {
     card.play();
 
     player.addResourceTo(card, 5);
-    expect(card.getVictoryPoints()).to.eq(5);
+    expect(card.getVictoryPoints()).eq(5);
   });
 
   it('Should act', function() {
@@ -48,8 +48,8 @@ describe('Predators', function() {
     selectCard.cb([selectCard.cards[0]]);
     game.deferredActions.pop()!.execute(); // Add animal to predators
 
-    expect(card.resourceCount).to.eq(1);
-    expect(player.getResourcesOnCard(fish)).to.eq(0);
+    expect(card.resourceCount).eq(1);
+    expect(player.getResourcesOnCard(fish)).eq(0);
   });
 
   it('Respects pets', function() {
@@ -67,9 +67,9 @@ describe('Predators', function() {
     expect(selectCard).is.undefined; // Only one option: Fish
     game.deferredActions.pop()!.execute(); // Add animal to predators
 
-    expect(card.resourceCount).to.eq(1);
-    expect(player2.getResourcesOnCard(fish)).to.eq(0);
-    expect(player2.getResourcesOnCard(pets)).to.eq(1);
+    expect(card.resourceCount).eq(1);
+    expect(player2.getResourcesOnCard(fish)).eq(0);
+    expect(player2.getResourcesOnCard(pets)).eq(1);
   });
 
   it('Respects Bioengineering Enclosure', function() {
@@ -87,9 +87,9 @@ describe('Predators', function() {
     expect(selectCard).is.undefined; // Only one option: Fish
     game.deferredActions.pop()!.execute(); // Add animal to predators
 
-    expect(card.resourceCount).to.eq(1);
-    expect(player2.getResourcesOnCard(fish)).to.eq(0);
-    expect(player2.getResourcesOnCard(bioengineeringEnclosure)).to.eq(1);
+    expect(card.resourceCount).eq(1);
+    expect(player2.getResourcesOnCard(fish)).eq(0);
+    expect(player2.getResourcesOnCard(bioengineeringEnclosure)).eq(1);
   });
 
   it('Respects protected habitats', function() {

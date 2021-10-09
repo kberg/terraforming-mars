@@ -27,7 +27,7 @@ describe('Reds', function() {
     const secondPlayerInitialTR = secondPlayer.getTerraformRating();
     const bonus = REDS_BONUS_1;
     bonus.grant(game);
-    expect(secondPlayer.getTerraformRating()).to.eq(secondPlayerInitialTR + 1);
+    expect(secondPlayer.getTerraformRating()).eq(secondPlayerInitialTR + 1);
   });
 
   it('Ruling bonus 1: Ties for lowest TR are resolved correctly', function() {
@@ -35,8 +35,8 @@ describe('Reds', function() {
     const bonus = REDS_BONUS_1;
 
     bonus.grant(game);
-    expect(player.getTerraformRating()).to.eq(initialPlayerTR + 1);
-    expect(secondPlayer.getTerraformRating()).to.eq(initialPlayerTR + 1);
+    expect(player.getTerraformRating()).eq(initialPlayerTR + 1);
+    expect(secondPlayer.getTerraformRating()).eq(initialPlayerTR + 1);
   });
 
   it('Ruling bonus 2: The player(s) with the highest TR loses 1 TR', function() {
@@ -45,7 +45,7 @@ describe('Reds', function() {
     const playerInitialTR = player.getTerraformRating();
     const bonus = REDS_BONUS_2;
     bonus.grant(game);
-    expect(player.getTerraformRating()).to.eq(playerInitialTR - 1);
+    expect(player.getTerraformRating()).eq(playerInitialTR - 1);
   });
 
   it('Ruling bonus 2: Ties for highest TR are resolved correctly', function() {
@@ -53,8 +53,8 @@ describe('Reds', function() {
     const bonus = REDS_BONUS_2;
 
     bonus.grant(game);
-    expect(player.getTerraformRating()).to.eq(initialPlayerTR - 1);
-    expect(secondPlayer.getTerraformRating()).to.eq(initialPlayerTR - 1);
+    expect(player.getTerraformRating()).eq(initialPlayerTR - 1);
+    expect(secondPlayer.getTerraformRating()).eq(initialPlayerTR - 1);
   });
 
   it('Ruling policy 1: When you take an action that raises TR, you MUST pay 3 M€ per step raised', function() {
@@ -63,7 +63,7 @@ describe('Reds', function() {
     player.megaCredits = 3;
     player.increaseTerraformRating();
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Ruling policy 2: When you place a tile, pay 3 M€ or as much as possible', function() {
@@ -72,7 +72,7 @@ describe('Reds', function() {
     player.megaCredits = 3;
     game.addGreenery(player, '10');
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Ruling policy 3: Pay 4 M€ to reduce a non-maxed global parameter 1 step', function() {
@@ -81,14 +81,14 @@ describe('Reds', function() {
     const redsPolicy = REDS_POLICY_3;
     player.megaCredits = 7;
     game.increaseOxygenLevel(player, 1);
-    expect(game.getOxygenLevel()).to.eq(1);
+    expect(game.getOxygenLevel()).eq(1);
 
     expect(redsPolicy.canAct(player)).to.be.true;
     redsPolicy.action(player);
     game.deferredActions.runNext();
 
-    expect(player.megaCredits).to.eq(3);
-    expect(game.getOxygenLevel()).to.eq(0);
+    expect(player.megaCredits).eq(3);
+    expect(game.getOxygenLevel()).eq(0);
     expect(redsPolicy.canAct(player)).to.be.false;
   });
 
@@ -96,6 +96,6 @@ describe('Reds', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, reds, reds.policies[3].id);
 
     game.increaseOxygenLevel(player, 1);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
   });
 });

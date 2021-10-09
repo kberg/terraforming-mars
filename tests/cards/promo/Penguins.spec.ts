@@ -28,13 +28,13 @@ describe('Penguins', function() {
     player.playedCards.push(card);
     expect(card.canAct()).is.true;
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should give victory points', function() {
     player.playedCards.push(card);
     card.action(player);
     card.action(player);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

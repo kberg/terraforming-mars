@@ -28,21 +28,21 @@ describe('BactoviralResearch', function() {
     const action = card.play(player) as SelectCard<ICard>;
     expect(action instanceof SelectCard).is.true;
     action.cb([card3]);
-    expect(player.getResourcesOnCard(card3)).to.eq(4);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.getResourcesOnCard(card3)).eq(4);
+    expect(player.cardsInHand.length).eq(1);
   });
 
   it('Should play with single microbe card', function() {
     const card2 = new RegolithEaters();
     player.playedCards.push(card2);
     card.play(player) as SelectCard<ICard>;
-    expect(player.getResourcesOnCard(card2)).to.eq(2);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.getResourcesOnCard(card2)).eq(2);
+    expect(player.cardsInHand.length).eq(1);
   });
 
   it('Should play with no microbe cards', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.length).eq(1);
   });
 });

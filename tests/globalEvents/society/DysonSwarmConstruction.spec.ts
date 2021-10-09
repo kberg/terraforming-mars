@@ -22,7 +22,7 @@ describe('DysonSwarmConstruction', function() {
     player2.playedCards.push(new Satellites());
 
     card.resolve(game, turmoil);
-    expect(player.getTerraformRating()).to.eq(19);
-    expect(player2.getTerraformRating()).to.eq(18);
+    expect(player.getTerraformRating()).eq(19);
+    expect(player2.getTerraformRating()).eq(18);
   });
 });

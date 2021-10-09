@@ -24,7 +24,7 @@ describe('Grass', function() {
     expect(card.canPlay(player)).is.true;
     card.play(player);
 
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.plants).to.eq(3);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.plants).eq(3);
   });
 });

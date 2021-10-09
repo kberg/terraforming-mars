@@ -31,7 +31,7 @@ describe('Extremophiles', function() {
   it('Should act', function() {
     player.playedCards.push(card);
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 
   it('Should act - multiple targets', function() {
@@ -40,11 +40,11 @@ describe('Extremophiles', function() {
     expect(action instanceof SelectCard).is.true;
 
     action!.cb([card]);
-    expect(player.getResourcesOnCard(card)).to.eq(1);
+    expect(player.getResourcesOnCard(card)).eq(1);
   });
 
   it('Gives victory points', function() {
     player.addResourceTo(card, 7);
-    expect(card.getVictoryPoints()).to.eq(2);
+    expect(card.getVictoryPoints()).eq(2);
   });
 });

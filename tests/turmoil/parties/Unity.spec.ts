@@ -29,7 +29,7 @@ describe('Unity', function() {
 
     const bonus = UNITY_BONUS_1;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
   });
 
   it('Ruling bonus 2: Gain 1 M€ for each Space tag you have', function() {
@@ -37,12 +37,12 @@ describe('Unity', function() {
 
     const bonus = UNITY_BONUS_2;
     bonus.grant(game);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).eq(1);
   });
 
   it('Ruling policy 1: Your titanium resources are worth 1 M€ extra', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, unity, unity.policies[0].id);
-    expect(player.getTitaniumValue()).to.eq(4);
+    expect(player.getTitaniumValue()).eq(4);
   });
 
   it('Ruling policy 2: Spend 4 M€ to gain 2 titanium or add 2 floaters to any card', function() {
@@ -54,8 +54,8 @@ describe('Unity', function() {
     // Gain titanium
     unityPolicy.action(player);
     game.deferredActions.runNext();
-    expect(player.titanium).to.eq(2);
-    expect(player.megaCredits).to.eq(4);
+    expect(player.titanium).eq(2);
+    expect(player.megaCredits).eq(4);
 
     // Add floaters
     const localShading = new LocalShading();
@@ -65,8 +65,8 @@ describe('Unity', function() {
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
 
     orOptions.options[0].cb();
-    expect(localShading.resourceCount).to.eq(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(localShading.resourceCount).eq(2);
+    expect(player.megaCredits).eq(0);
   });
 
   it('Ruling policy 3: Spend 4 M€ to draw a Space card', function() {
@@ -80,7 +80,7 @@ describe('Unity', function() {
     game.deferredActions.runNext();
 
     expect(player.cardsInHand).has.lengthOf(1);
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).eq(3);
     expect(player.cardsInHand[0].tags.includes(Tags.SPACE)).to.be.true;
     expect(unityPolicy.canAct(player)).to.be.false;
   });
@@ -89,6 +89,6 @@ describe('Unity', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, unity, unity.policies[3].id);
 
     const card = new VestaShipyard();
-    expect(player.getCardCost(card)).to.eq(card.cost - 2);
+    expect(player.getCardCost(card)).eq(card.cost - 2);
   });
 });

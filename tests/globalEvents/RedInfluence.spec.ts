@@ -25,9 +25,9 @@ describe('RedInfluence', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(4);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(4);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
-    expect(player2.getProduction(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(4);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
+    expect(player2.getProduction(Resources.MEGACREDITS)).eq(3);
   });
 });

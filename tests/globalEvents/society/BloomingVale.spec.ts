@@ -21,6 +21,6 @@ describe('BloomingVale', function() {
     player.plants = 0;
 
     card.resolve(game, turmoil);
-    expect(player.plants).to.eq(2);
+    expect(player.plants).eq(2);
   });
 });

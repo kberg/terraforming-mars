@@ -22,13 +22,13 @@ describe('ExtractorBalloons', function() {
 
   it('Should act', function() {
     card.play(player);
-    expect(card.resourceCount).to.eq(3);
+    expect(card.resourceCount).eq(3);
 
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions instanceof OrOptions).is.true;
 
     orOptions!.options[0].cb();
-    expect(card.resourceCount).to.eq(1);
-    expect(game.getVenusScaleLevel()).to.eq(2);
+    expect(card.resourceCount).eq(1);
+    expect(game.getVenusScaleLevel()).eq(2);
   });
 });

@@ -37,12 +37,12 @@ describe('EosChasmaNationalPark', () => {
     player.playedCards.push(card);
     action!.cb([birds]);
 
-    expect(player.getResourcesOnCard(birds)).to.eq(1);
-    expect(player.plants).to.eq(3);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getResourcesOnCard(birds)).eq(1);
+    expect(player.plants).eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
 
     player.getVictoryPoints();
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 
   it('Should play - single target', () => {
@@ -54,12 +54,12 @@ describe('EosChasmaNationalPark', () => {
     card.play(player);
     player.playedCards.push(card);
 
-    expect(player.getResourcesOnCard(birds)).to.eq(1);
-    expect(player.plants).to.eq(3);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(2);
+    expect(player.getResourcesOnCard(birds)).eq(1);
+    expect(player.plants).eq(3);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
 
     player.getVictoryPoints();
-    expect(player.victoryPointsBreakdown.victoryPoints).to.eq(2);
+    expect(player.victoryPointsBreakdown.victoryPoints).eq(2);
   });
 });
 

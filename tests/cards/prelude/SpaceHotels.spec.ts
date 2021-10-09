@@ -24,6 +24,6 @@ describe('SpaceHotels', function() {
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(4);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
 });

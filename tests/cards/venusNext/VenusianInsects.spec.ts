@@ -35,12 +35,12 @@ describe('VenusianInsects', () => {
 
   it('Gives victory points', () => {
     player.addResourceTo(card, 7);
-    expect(card.getVictoryPoints()).to.eq(3);
+    expect(card.getVictoryPoints()).eq(3);
   });
 
   it('Should act', () => {
     player.playedCards.push(card);
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
+    expect(card.resourceCount).eq(1);
   });
 });

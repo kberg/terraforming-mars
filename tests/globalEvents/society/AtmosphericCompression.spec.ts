@@ -22,7 +22,7 @@ describe('AtmosphericCompression', function() {
     player.setTerraformRating(20);
 
     card.resolve(game, turmoil);
-    expect(game.getVenusScaleLevel()).to.eq(0);
-    expect(player.getTerraformRating()).to.eq(21);
+    expect(game.getVenusScaleLevel()).eq(0);
+    expect(player.getTerraformRating()).eq(21);
   });
 });

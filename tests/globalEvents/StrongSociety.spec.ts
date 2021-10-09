@@ -22,7 +22,7 @@ describe('StrongSociety', function() {
     turmoil.dominantParty.delegates.push(player2.id);
 
     card.resolve(game, turmoil);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(2);
-    expect(player2.getResource(Resources.MEGACREDITS)).to.eq(6);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(2);
+    expect(player2.getResource(Resources.MEGACREDITS)).eq(6);
   });
 });

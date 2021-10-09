@@ -14,13 +14,13 @@ describe('UtopiaInvest', function() {
     Game.newInstance('id', [player, redPlayer], player, TestingUtils.setCustomGameOptions());
     const play = card.play(player);
     expect(play).is.undefined;
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
-    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
+    expect(player.getProduction(Resources.STEEL)).eq(1);
     const action = card.action(player);
     expect(action).is.not.undefined;
     expect(action instanceof OrOptions).is.true;
     action.options[2].cb();
-    expect(player.titanium).to.eq(4);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(0);
+    expect(player.titanium).eq(4);
+    expect(player.getProduction(Resources.TITANIUM)).eq(0);
   });
 });

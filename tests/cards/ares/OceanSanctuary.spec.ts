@@ -39,8 +39,8 @@ describe('OceanSanctuary', function() {
     const oceanSpace = AresTestHelper.addOcean(game, player);
     const action = card.play(player);
     action.cb(oceanSpace);
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_SANCTUARY);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_SANCTUARY);
     expect(oceanSpace.adjacency).to.deep.eq({bonus: [SpaceBonus.ANIMAL]});
     expect(card.resourceCount).is.eq(1);
   });
@@ -78,8 +78,8 @@ describe('OceanSanctuary', function() {
 
     action.cb(oceanSpace);
 
-    expect(oceanSpace.player).to.eq(player);
-    expect(oceanSpace.tile!.tileType).to.eq(TileType.OCEAN_SANCTUARY);
+    expect(oceanSpace.player).eq(player);
+    expect(oceanSpace.tile!.tileType).eq(TileType.OCEAN_SANCTUARY);
     expect(player.plants).eq(1);
   });
 });

@@ -23,6 +23,6 @@ describe('RaidOnPrivateers', function() {
     player.playedCards.push(new LunaGovernor(), new VenusGovernor(), new EarthOffice());
 
     card.resolve(game, turmoil);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
   });
 });

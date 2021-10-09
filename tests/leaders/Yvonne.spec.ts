@@ -38,9 +38,9 @@ describe('Yvonne', function() {
     expect(game.deferredActions).has.length(1);
 
     game.deferredActions.runAll(() => {});
-    expect(player.steel).to.eq(4);
-    expect(player.energy).to.eq(6);
-    expect(player.titanium).to.eq(5); // 3 from placement + 2 from OPG action
+    expect(player.steel).eq(4);
+    expect(player.energy).eq(6);
+    expect(player.titanium).eq(5); // 3 from placement + 2 from OPG action
   });
 
   it('Can only act once per game', function() {

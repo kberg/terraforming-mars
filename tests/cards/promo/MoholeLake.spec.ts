@@ -26,10 +26,10 @@ describe('MoholeLake', function() {
     const selectSpace = player.game.deferredActions.peek()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
 
-    expect(player.game.getTemperature()).to.eq(-28);
-    expect(player.game.board.getOceansOnBoard()).to.eq(1);
-    expect(player.getTerraformRating()).to.eq(22);
-    expect(player.plants).to.eq(3);
+    expect(player.game.getTemperature()).eq(-28);
+    expect(player.game.board.getOceansOnBoard()).eq(1);
+    expect(player.getTerraformRating()).eq(22);
+    expect(player.plants).eq(3);
   });
 
   it('Can act - no target', function() {
@@ -44,7 +44,7 @@ describe('MoholeLake', function() {
     card.play(player);
     expect(card.canAct()).is.true;
     card.action(player);
-    expect(fish.resourceCount).to.eq(1);
+    expect(fish.resourceCount).eq(1);
   });
 
   it('Can act - multiple targets', function() {
@@ -57,6 +57,6 @@ describe('MoholeLake', function() {
     const action = card.action(player) as SelectCard<ICard>;
 
     action.cb([ants]);
-    expect(ants.resourceCount).to.eq(1);
+    expect(ants.resourceCount).eq(1);
   });
 });

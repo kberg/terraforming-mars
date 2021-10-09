@@ -15,14 +15,14 @@ describe('EcologyExperts', function() {
   });
 
   it('Gets requirement bonus', function() {
-    expect(card.getRequirementBonus(player)).to.eq(0);
+    expect(card.getRequirementBonus(player)).eq(0);
     player.lastCardPlayed = card;
-    expect(card.getRequirementBonus(player)).to.eq(50);
+    expect(card.getRequirementBonus(player)).eq(50);
   });
 
   it('Should play', function() {
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

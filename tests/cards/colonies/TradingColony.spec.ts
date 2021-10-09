@@ -30,8 +30,8 @@ describe('TradingColony', function() {
 
     const selectColony = game.deferredActions.pop()!.execute() as SelectColony;
     selectColony.cb((<any>ColonyName)[selectColony.coloniesModel[0].name.toUpperCase()]);
-    expect(player.getProduction(Resources.ENERGY)).to.eq(1);
-    expect(player.colonyTradeOffset).to.eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.colonyTradeOffset).eq(1);
   });
 
   it('Can play if there are available colony tiles to build on', function() {

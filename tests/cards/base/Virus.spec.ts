@@ -27,16 +27,16 @@ describe('Virus', function() {
     expect(orOptions instanceof OrOptions).is.true;
 
     orOptions.options[0].cb([player.playedCards[0]]);
-    expect(player.getResourcesOnCard(birds)).to.eq(0);
+    expect(player.getResourcesOnCard(birds)).eq(0);
 
     orOptions.options[1].cb();
-    expect(player.plants).to.eq(0);
+    expect(player.plants).eq(0);
   });
 
   it('Can play when no other player has resources', function() {
     player.plants = 5;
     expect(card.play(player)).is.undefined;
-    expect(player.plants).to.eq(5);
+    expect(player.plants).eq(5);
   });
 
   it('Works in solo mode', function() {

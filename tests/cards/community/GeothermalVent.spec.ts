@@ -19,8 +19,8 @@ describe('GeothermalVent', function() {
     const initialTR = player.getTerraformRating();
     card.play(player);
 
-    expect(player.getProduction(Resources.HEAT)).to.eq(2);
-    expect(game.getTemperature()).to.eq(-26);
-    expect(player.getTerraformRating()).to.eq(initialTR + 2);
+    expect(player.getProduction(Resources.HEAT)).eq(2);
+    expect(game.getTemperature()).eq(-26);
+    expect(player.getTerraformRating()).eq(initialTR + 2);
   });
 });

@@ -45,7 +45,7 @@ describe('MaxwellBase', function() {
 
     const action = card.play(player);
     expect(action).is.undefined;
-    expect(player.getProduction(Resources.ENERGY)).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(0);
   });
 
   it('Should act - single target', function() {
@@ -58,7 +58,7 @@ describe('MaxwellBase', function() {
     player.playedCards.push(card3);
     expect(card.canAct(player)).is.true;
     card.action(player);
-    expect(player.getResourcesOnCard(card3)).to.eq(1);
+    expect(player.getResourcesOnCard(card3)).eq(1);
   });
 
   it('Should act - multiple targets', function() {
@@ -70,7 +70,7 @@ describe('MaxwellBase', function() {
     const action = card.action(player);
     expect(action instanceof SelectCard).is.true;
     (action as SelectCard<ICard>).cb([card2]);
-    expect(player.getResourcesOnCard(card2)).to.eq(1);
+    expect(player.getResourcesOnCard(card2)).eq(1);
   });
 
   // TODO(kberg): Replace this hand-made card with Floater Urbanism.

@@ -16,7 +16,7 @@ describe('OptimalAerobraking', function() {
     expect(action).is.undefined;
     expect(card.onCardPlayed(player, card)).is.undefined;
     expect(card.onCardPlayed(player, {tags: [Tags.SPACE, Tags.EVENT], cardType: CardType.EVENT} as IProjectCard)).is.undefined;
-    expect(player.megaCredits).to.eq(3);
-    expect(player.heat).to.eq(3);
+    expect(player.megaCredits).eq(3);
+    expect(player.heat).eq(3);
   });
 });

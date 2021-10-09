@@ -27,7 +27,7 @@ describe('RestrictedArea', function() {
     const space = action.availableSpaces[0];
 
     action.cb(space);
-    expect(space.tile && space.tile.tileType).to.eq(TileType.RESTRICTED_AREA);
+    expect(space.tile && space.tile.tileType).eq(TileType.RESTRICTED_AREA);
     expect(space.adjacency?.bonus).eq(undefined);
   });
 
@@ -37,7 +37,7 @@ describe('RestrictedArea', function() {
     card.action(player);
 
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(0);
+    expect(player.megaCredits).eq(0);
     expect(player.cardsInHand).has.lengthOf(1);
   });
 });

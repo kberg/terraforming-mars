@@ -38,6 +38,6 @@ describe('DiasporaMovement', function() {
     player.playedCards.push(new ColonizerTrainingCamp());
     player2.playedCards.push(new MethaneFromTitan());
     card.play(player);
-    expect(player.getResource(Resources.MEGACREDITS)).to.eq(3);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(3);
   });
 });

@@ -34,13 +34,13 @@ describe('Birds', function() {
     const selectPlayer = game.deferredActions.peek()!.execute() as SelectPlayer;
     selectPlayer.cb(player2);
 
-    expect(player2.getProduction(Resources.PLANTS)).to.eq(0);
-    expect(player3.getProduction(Resources.PLANTS)).to.eq(7);
+    expect(player2.getProduction(Resources.PLANTS)).eq(0);
+    expect(player3.getProduction(Resources.PLANTS)).eq(7);
   });
 
   it('Should act', function() {
     card.action(player);
-    expect(card.resourceCount).to.eq(1);
-    expect(card.getVictoryPoints()).to.eq(1);
+    expect(card.resourceCount).eq(1);
+    expect(card.getVictoryPoints()).eq(1);
   });
 });

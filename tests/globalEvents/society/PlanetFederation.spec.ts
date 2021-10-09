@@ -22,6 +22,6 @@ describe('PlanetFederation', function() {
 
     const action = game.deferredActions.pop()!.execute() as OrOptions;
     action.options[0].cb([player]);
-    expect(player.titanium).to.eq(2);
+    expect(player.titanium).eq(2);
   });
 });

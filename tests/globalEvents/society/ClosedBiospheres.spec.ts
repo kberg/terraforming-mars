@@ -20,8 +20,8 @@ describe('ClosedBiospheres', function() {
     player.addProduction(Resources.PLANTS);
 
     card.resolve(game, turmoil);
-    expect(player.plants).to.eq(2);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(0);
-    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(-1);
+    expect(player.plants).eq(2);
+    expect(player.getProduction(Resources.PLANTS)).eq(0);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(-1);
   });
 });

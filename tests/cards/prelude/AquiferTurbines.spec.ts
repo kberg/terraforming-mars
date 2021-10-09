@@ -29,7 +29,7 @@ describe('AquiferTurbines', function() {
     // SelectHowToPayDeferred
     game.deferredActions.runNext();
 
-    expect(player.getProduction(Resources.ENERGY)).to.eq(2);
-    expect(player.megaCredits).to.eq(0);
+    expect(player.getProduction(Resources.ENERGY)).eq(2);
+    expect(player.megaCredits).eq(0);
   });
 });

@@ -20,8 +20,8 @@ describe('AerobrakedAmmoniaAsteroid', function() {
   it('Should play without microbe cards', function() {
     player.playedCards.push(card);
     const action = card.play(player);
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
 
     // It's okay to not have a card to collect Microbes on
     expect(action).is.undefined;
@@ -34,9 +34,9 @@ describe('AerobrakedAmmoniaAsteroid', function() {
     player.playedCards.push(selectedCard);
 
     card.play(player);
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
-    expect(player.getResourcesOnCard(selectedCard)).to.eq(2);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
+    expect(player.getResourcesOnCard(selectedCard)).eq(2);
   });
 
   it('Adds microbes to another card', function() {
@@ -48,12 +48,12 @@ describe('AerobrakedAmmoniaAsteroid', function() {
     player.playedCards.push(selectedCard, otherMicrobeCard);
 
     const action = card.play(player);
-    expect(player.getProduction(Resources.HEAT)).to.eq(3);
-    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.HEAT)).eq(3);
+    expect(player.getProduction(Resources.PLANTS)).eq(1);
 
     expect(action).is.not.undefined;
     action!.cb([selectedCard]);
 
-    expect(player.getResourcesOnCard(selectedCard)).to.eq(2);
+    expect(player.getResourcesOnCard(selectedCard)).eq(2);
   });
 });

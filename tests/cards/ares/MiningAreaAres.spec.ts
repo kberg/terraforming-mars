@@ -42,9 +42,9 @@ describe('MiningAreaAres', function() {
     action.cb(titaniumSpace!);
     game.deferredActions.runNext();
 
-    expect(titaniumSpace!.player).to.eq(player);
-    expect(titaniumSpace!.tile && titaniumSpace!.tile!.tileType).to.eq(TileType.MINING_TITANIUM_BONUS);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(titaniumSpace!.player).eq(player);
+    expect(titaniumSpace!.tile && titaniumSpace!.tile!.tileType).eq(TileType.MINING_TITANIUM_BONUS);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(titaniumSpace!.adjacency).to.deep.eq({bonus: [SpaceBonus.TITANIUM]});
 
     const steelSpace = action.availableSpaces.find((space) => space.bonus.includes(SpaceBonus.TITANIUM) === false && space.bonus.includes(SpaceBonus.STEEL));
@@ -54,9 +54,9 @@ describe('MiningAreaAres', function() {
     action.cb(steelSpace!);
     game.deferredActions.runNext();
 
-    expect(steelSpace!.player).to.eq(player);
-    expect(steelSpace!.tile && steelSpace!.tile!.tileType).to.eq(TileType.MINING_STEEL_BONUS);
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(1);
+    expect(steelSpace!.player).eq(player);
+    expect(steelSpace!.tile && steelSpace!.tile!.tileType).eq(TileType.MINING_STEEL_BONUS);
+    expect(player.getProduction(Resources.TITANIUM)).eq(1);
     expect(steelSpace!.adjacency).to.deep.eq({bonus: [SpaceBonus.STEEL]});
   });
 });

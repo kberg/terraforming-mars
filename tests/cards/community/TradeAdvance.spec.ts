@@ -25,15 +25,15 @@ describe('TradeAdvance', function() {
 
     player.game.deferredActions.runAll(() => {});
 
-    expect(player.megaCredits).to.eq(6); // 2 from card + 4 from Luna
-    expect(player.energy).to.eq(3);
-    expect(player.steel).to.eq(3);
-    expect(player.heat).to.eq(4);
+    expect(player.megaCredits).eq(6); // 2 from card + 4 from Luna
+    expect(player.energy).eq(3);
+    expect(player.steel).eq(3);
+    expect(player.heat).eq(4);
     game.colonies.forEach((colony) => {
       if (colony.isActive) {
-        expect(colony.trackPosition).to.eq(0);
+        expect(colony.trackPosition).eq(0);
       } else {
-        expect(colony.trackPosition).to.eq(1);
+        expect(colony.trackPosition).eq(1);
       }
     });
   });

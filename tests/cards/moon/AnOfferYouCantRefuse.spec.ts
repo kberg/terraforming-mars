@@ -142,15 +142,15 @@ describe('AnOfferYouCantRefuse', () => {
     const switchParties = options.options[0].cb() as OrOptions;
 
     expect(parties.greens.delegates).to.have.members([redPlayer.id, player.id, player.id]);
-    expect(parties.greens.partyLeader).to.eq(player.id);
+    expect(parties.greens.partyLeader).eq(player.id);
 
     // Now choose reds (option 4).
     switchParties.options[4].cb();
 
     expect(parties.greens.delegates).to.have.members([redPlayer.id, player.id]);
-    expect(parties.greens.partyLeader).to.eq(player.id);
+    expect(parties.greens.partyLeader).eq(player.id);
     expect(parties.reds.delegates).to.have.members([player.id, player.id, 'NEUTRAL']);
-    expect(parties.reds.partyLeader).to.eq(player.id);
+    expect(parties.reds.partyLeader).eq(player.id);
   });
 
   function clearParties() {
