@@ -20,6 +20,11 @@ import {Units} from '../src/Units';
 import {SelfReplicatingRobots} from '../src/cards/promo/SelfReplicatingRobots';
 import {Pets} from '../src/cards/base/Pets';
 import {GlobalEventName} from '../src/turmoil/globalEvents/GlobalEventName';
+import {ArtificialLake} from '../src/cards/base/ArtificialLake';
+import {Phase} from '../src/Phase';
+import {Greens} from '../src/turmoil/parties/Greens';
+import {Reds} from '../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../src/turmoil/PoliticalAgendas';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -613,6 +618,33 @@ it('deduct production', () => {
     energy: 6,
     heat: 5,
   });
+});
+
+it('canPlay: reds tax applies by default when placing oceans', function() {
+  // ArtificialLake uses trSource.
+  const card = new ArtificialLake();
+  const player = TestPlayers.BLUE.newPlayer();
+  const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+  const turmoil = game.turmoil!;
+  (game as any).temperature = -6; // minimum requirement for the card.
+  game.phase = Phase.ACTION;
+
+  turmoil.rulingParty = new Greens();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.true;
+
+  turmoil.rulingParty = new Reds();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.false;
+
+  player.megaCredits = card.cost + 3;
+  expect(player.canPlay(card)).is.true;
+
+  TestingUtils.maxOutOceans(player);
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.true;
 });
 
 function waitingForGlobalParameters(player: Player): Array<GlobalParameter> {

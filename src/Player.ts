@@ -1849,16 +1849,18 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public canPlay(card: IProjectCard): boolean {
-    const cost = this.getCardCost(card) - MoonExpansion.spendableLunaArchiveResources(this, card);
+    const baseCost = this.getCardCost(card) - MoonExpansion.spendableLunaArchiveResources(this, card);
+    const redsCost = this.computeTerraformRatingBump(card) * REDS_RULING_POLICY_COST;
 
     const canAfford = this.canAfford(
-      cost,
+      baseCost,
       {
         steel: this.canUseSteel(card),
         titanium: this.canUseTitanium(card),
         floaters: this.canUseFloaters(card),
         microbes: this.canUseMicrobes(card),
         reserveUnits: MoonExpansion.adjustedReserveCosts(this, card),
+        redsCost,
       });
 
     return canAfford && (card.canPlay === undefined || card.canPlay(this));
@@ -1871,7 +1873,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     titanium?: boolean,
     floaters?: boolean,
     microbes?: boolean,
-    reserveUnits?: Units
+    reserveUnits?: Units,
+    redsCost?: number,
   }) {
     const reserveUnits = options?.reserveUnits ?? Units.EMPTY;
     if (!this.hasUnits(reserveUnits)) {
@@ -1884,12 +1887,58 @@ export class Player implements ISerializable<SerializedPlayer> {
     const canUseMicrobes: boolean = options?.microbes ?? false;
 
     return cost <=
-      this.megaCredits - reserveUnits.megacredits +
+      this.megaCredits - (reserveUnits.megacredits + (options?.redsCost ?? 0)) +
       (this.canUseHeatAsMegaCredits ? this.heat - reserveUnits.heat : 0) +
       (canUseSteel ? (this.steel - reserveUnits.steel) * this.getSteelValue() : 0) +
       (canUseTitanium ? (this.titanium - reserveUnits.titanium) * this.getTitaniumValue() : 0) +
       (canUseFloaters ? this.getFloatersCanSpend() * 3 : 0) +
       (canUseMicrobes ? this.getMicrobesCanSpend() * 2 : 0);
+  }
+
+  private computeTerraformRatingBump(card: IProjectCard): number {
+    if (!PartyHooks.shouldApplyPolicy(this, PartyName.REDS)) return 0;
+
+    const tr = card.tr;
+    if (tr === undefined) return 0;
+
+    let total = tr.tr ?? 0;
+
+    // if (tr.temperature !== undefined) {
+    //   const availableSteps = Math.floor((constants.MAX_TEMPERATURE - this.game.getTemperature()) / 2);
+    //   total = total + Math.min(availableSteps, tr.temperature);
+    // }
+
+    // if (tr.oxygen !== undefined) {
+    //   const availableSteps = constants.MAX_OXYGEN_LEVEL - this.game.getOxygenLevel();
+    //   total = total + Math.min(availableSteps, tr.oxygen);
+    // }
+
+    if (tr.oceans !== undefined) {
+      const availableSteps = constants.MAX_OCEAN_TILES - this.game.board.getOceansOnBoard();
+      total = total + Math.min(availableSteps, tr.oceans);
+    }
+
+    // if (tr.venus !== undefined) {
+    //   const availableSteps = Math.floor((constants.MAX_VENUS_SCALE - this.game.getVenusScaleLevel()) / 2);
+    //   total = total + Math.min(availableSteps, tr.venus);
+    // }
+
+    // MoonExpansion.ifMoon(this.game, (moonData) => {
+    //   if (tr.moonColony !== undefined) {
+    //     const availableSteps = constants.MAXIMUM_COLONY_RATE - moonData.colonyRate;
+    //     total = total + Math.min(availableSteps, tr.moonColony);
+    //   }
+
+    //   if (tr.moonMining !== undefined) {
+    //     const availableSteps = constants.MAXIMUM_MINING_RATE - moonData.miningRate;
+    //     total = total + Math.min(availableSteps, tr.moonMining);
+    //   }
+
+    //   if (tr.moonLogistics !== undefined) {
+    //     const availableSteps = constants.MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
+    //     total = total + Math.min(availableSteps, tr.moonLogistics);
+    //   }
+    return total;
   }
 
   private getStandardProjects(): Array<StandardProjectCard> {
