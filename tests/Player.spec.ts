@@ -26,6 +26,8 @@ import {Greens} from '../src/turmoil/parties/Greens';
 import {Reds} from '../src/turmoil/parties/Reds';
 import {PoliticalAgendas} from '../src/turmoil/PoliticalAgendas';
 import {LavaFlows} from '../src/cards/base/LavaFlows';
+import {StripMine} from '../src/cards/base/StripMine';
+import {MAX_OXYGEN_LEVEL} from '../src/constants';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -619,6 +621,87 @@ it('deduct production', () => {
     energy: 6,
     heat: 5,
   });
+});
+
+// TODO(kberg): Move tests and code to the turmoil branch.
+it('canPlay: reds tax applies by default when raising oxygen', function() {
+  // Strip Mine raises the oxygen level two steps.
+  const card = new StripMine();
+  const player = TestPlayers.BLUE.newPlayer();
+  const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+  const turmoil = game.turmoil!;
+  game.phase = Phase.ACTION;
+  player.setProductionForTest({energy: 2}); // Card requirement.
+
+  turmoil.rulingParty = new Greens();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.true;
+
+  turmoil.rulingParty = new Reds();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.false;
+
+  player.megaCredits = card.cost + 5;
+  expect(player.canPlay(card)).is.false;
+  player.megaCredits = card.cost + 6;
+  expect(player.canPlay(card)).is.true;
+
+  (game as any).oxygenLevel = MAX_OXYGEN_LEVEL - 1;
+  player.megaCredits = card.cost + 2;
+  expect(player.canPlay(card)).is.false;
+  player.megaCredits = card.cost + 3;
+  expect(player.canPlay(card)).is.true;
+
+  (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+
+  player.megaCredits = card.cost;
+  expect(player.canPlay(card)).is.true;
+});
+
+it('canPlay: when paying reds tax for oxygen, include the cost for the 8% temperature bump.', function() {
+  // Strip Mine raises the oxygen level two steps.
+  const card = new StripMine();
+  const player = TestPlayers.BLUE.newPlayer();
+  const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+  const turmoil = game.turmoil!;
+  game.phase = Phase.ACTION;
+  player.setProductionForTest({energy: 2}); // Card requirement.
+
+  turmoil.rulingParty = new Reds();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+
+  // Raising to 8%
+  (game as any).oxygenLevel = 7;
+
+  player.megaCredits = card.cost + 8;
+  expect(player.canPlay(card)).is.false;
+  player.megaCredits = card.cost + 9;
+  expect(player.canPlay(card)).is.true;
+});
+
+it('canPlay: when paying reds tax for oxygen, include the cost for the 8% temperature bump, which triggers 0° ocean bump.', function() {
+  // Strip Mine raises the oxygen level two steps.
+  const card = new StripMine();
+  const player = TestPlayers.BLUE.newPlayer();
+  const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+  const turmoil = game.turmoil!;
+  game.phase = Phase.ACTION;
+  player.setProductionForTest({energy: 2}); // Card requirement.
+
+  turmoil.rulingParty = new Reds();
+  PoliticalAgendas.setNextAgenda(turmoil, game);
+
+  // Raising to 8%
+  (game as any).oxygenLevel = 7;
+  // Raising to 0
+  (game as any).temperature = -2;
+
+  player.megaCredits = card.cost + 11;
+  expect(player.canPlay(card)).is.false;
+  player.megaCredits = card.cost + 12;
+  expect(player.canPlay(card)).is.true;
 });
 
 it('canPlay: reds tax applies by default when raising temperature', function() {
