@@ -36,19 +36,6 @@ describe('Asimov', function() {
     expect(card.canAct(player)).is.false;
   });
 
-  it('Includes only official awards in normal game', function() {
-    const orOptions = card.action(player) as OrOptions;
-    expect(orOptions.options).has.length(10);
-  });
-
-  it('Includes fan awards if New Ops expansion is selected', function() {
-    const gameOptions = TestingUtils.setCustomGameOptions({newOpsExpansion: true});
-    Game.newInstance('foobar', [player, player2], player, gameOptions);
-
-    const orOptions = card.action(player) as OrOptions;
-    expect(orOptions.options.length > 10).is.true;
-  });
-
   it('Has +2 score on awards', function() {
     player.playedCards.push(card);
 

@@ -10,6 +10,7 @@ import {SelectOption} from '../../inputs/SelectOption';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Size} from '../render/Size';
+import {Dealer} from '../../Dealer';
 
 export class Asimov extends Card implements LeaderCard {
   constructor() {
@@ -22,9 +23,9 @@ export class Asimov extends Card implements LeaderCard {
           b.br.br;
           b.award().nbsp.colon().text('+2', Size.LARGE);
           b.br.br.br;
-          b.opgArrow().award().asterix();
+          b.opgArrow().text('10-X').award().asterix();
         }),
-        description: 'You have +2 score for all awards. Once per game, put an award into the game and fund it for free.',
+        description: 'You have +2 score for all awards. Once per game, draw 10-X awards (min. 1), where X is the current generation number. You may put one into the game and fund it for free.',
       },
     });
   }
@@ -41,7 +42,8 @@ export class Asimov extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     const game = player.game;
-    const availableAwards = ALL_AWARDS.filter((award) => {
+    const awardCount = Math.max(1, 10 - game.generation);
+    let availableAwards = ALL_AWARDS.filter((award) => {
       if (game.awards.includes(award)) return false;
       if (!game.gameOptions.venusNextExtension && award.name === 'Venuphile') return false;
       if (!game.gameOptions.turmoilExtension && award.name === 'Politician') return false;
@@ -60,13 +62,26 @@ export class Asimov extends Card implements LeaderCard {
     const freeAward = new OrOptions();
     freeAward.title = 'Select award to put into play and fund';
     freeAward.buttonLabel = 'Confirm';
-    freeAward.options = availableAwards.map((award) => this.selectAwardToFund(player, award));
+
+    availableAwards = Dealer.shuffle(availableAwards);
+    freeAward.options = availableAwards.slice(0, awardCount).map((award) => this.selectAwardToFund(player, award));
+    freeAward.options.push(
+      new SelectOption('Do nothing', 'Confirm', () => {
+        game.log('${0} chose not to fund any award', (b) => b.player(player));
+        return undefined;
+      })
+    );
 
     return freeAward;
   }
 
   private selectAwardToFund(player: Player, award: IAward): SelectOption {
-    return new SelectOption('Fund ' + award.name + ' award', 'Confirm', () => {
+    let title = 'Fund ' + award.name + ' award' + ' [';
+    title += player.game.getPlayers()
+      .sort((a, b) => award.getScore(b) - award.getScore(a))
+      .map((player) => player.name + ': ' + award.getScore(player)).join(' / ') + ']';
+
+    return new SelectOption(title, 'Confirm', () => {
       player.game.awards.push(award);
       player.game.fundAward(player, award);
       this.isDisabled = true;
