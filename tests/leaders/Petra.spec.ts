@@ -59,6 +59,7 @@ describe('Petra', function() {
     const reds = turmoil.getPartyByName(PartyName.REDS)!;
     expect(reds.delegates.filter((delegate) => delegate === player.id)).has.length(1);
     expect(reds.partyLeader).eq(player.id);
+    expect(player.megaCredits).to.eq(15);
 
     // Send 3 Neutral delegates
     expect(game.deferredActions).has.lengthOf(3);
@@ -94,6 +95,7 @@ describe('Petra', function() {
     const reds = turmoil.getPartyByName(PartyName.REDS)!;
     expect(reds.delegates.filter((delegate) => delegate === player.id)).has.length(1);
     expect(reds.partyLeader).eq(player.id);
+    expect(player.megaCredits).to.eq(21);
   });
 
   it('Can only act once per game', function() {
