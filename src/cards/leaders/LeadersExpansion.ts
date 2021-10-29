@@ -13,12 +13,12 @@ export class LeadersExpansion {
     }
   }
 
-  public static getBonusWildTags(player: Player, tagCount: number) {
+  public static getBonusWildTags(player: Player) {
     const xavier = player.playedCards.find((card) => card.name === CardName.XAVIER);
     if (xavier !== undefined && (xavier as LeaderCard).opgActionIsActive === true) {
-      tagCount += 2;
+      return 2;
     }
 
-    return tagCount;
+    return 0;
   }
 }

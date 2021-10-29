@@ -820,7 +820,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       tagCount += 1;
     }
 
-    if (tag === Tags.WILDCARD) tagCount = LeadersExpansion.getBonusWildTags(this, tagCount);
+    if (tag === Tags.WILDCARD) tagCount += LeadersExpansion.getBonusWildTags(this);
 
     tagCount = MarsCoalition.checkBonusWildTag(this, tag, tagCount);
 
@@ -878,10 +878,12 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
+    const subtotal = uniqueTags.size + LeadersExpansion.getBonusWildTags(this);
+
     if (countWild) {
-      return uniqueTags.size + wildcardCount;
+      return subtotal + wildcardCount;
     } else {
-      return uniqueTags.size;
+      return subtotal;
     }
   }
 
