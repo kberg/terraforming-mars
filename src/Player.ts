@@ -1085,7 +1085,9 @@ export class Player implements ISerializable<SerializedPlayer> {
           this.corporationCard.canAct(this)) {
       result.push(this.corporationCard);
     }
-    for (const playedCard of this.playedCards) {
+
+    const playedCards = this.playedCards.filter((card) => card.cardType === CardType.ACTIVE);
+    for (const playedCard of playedCards) {
       if (
         playedCard.action !== undefined &&
               playedCard.canAct !== undefined &&
@@ -1096,6 +1098,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     return result;
+  }
+
+  public getPlayableLeaderCards(): Array<ICard> {
+    const leader = this.playedCards.find((card) => card.cardType === CardType.LEADER) as IProjectCard;
+    return [leader];
   }
 
   public runProductionPhase(): void {
@@ -1600,6 +1607,27 @@ export class Player implements ISerializable<SerializedPlayer> {
       'Perform an action from a played card',
       'Take action',
       this.getPlayableActionCards(),
+      (foundCards: Array<ICard>) => {
+        const foundCard = foundCards[0];
+        this.game.log('${0} used ${1} action', (b) => b.player(this).card(foundCard));
+        const action = foundCard.action!(this);
+        if (action !== undefined) {
+          this.game.defer(new DeferredAction(
+            this,
+            () => action,
+          ));
+        }
+        this.actionsThisGeneration.add(foundCard.name);
+        return undefined;
+      }, 1, 1, true,
+    );
+  }
+
+  private useLeaderAction(): PlayerInput {
+    return new SelectCard(
+      'Use CEO once per game action',
+      'Take action',
+      this.getPlayableLeaderCards(),
       (foundCards: Array<ICard>) => {
         const foundCard = foundCards[0];
         this.game.log('${0} used ${1} action', (b) => b.player(this).card(foundCard));
@@ -2209,6 +2237,10 @@ export class Player implements ISerializable<SerializedPlayer> {
         }
       }
     });
+
+    if (LeadersExpansion.leaderActionIsUsable(this)) {
+      action.options.push(this.useLeaderAction());
+    }
 
     if (this.game.getPlayers().length > 1 && this.actionsTakenThisRound > 0 && this.allOtherPlayersHavePassed() === false) {
       if (!this.game.gameOptions.fastModeOption) {

@@ -1,6 +1,7 @@
 import {CardName} from "../../CardName";
 import {Player} from "../../Player";
 import {VictoryPointsBreakdown} from "../../VictoryPointsBreakdown";
+import {CardType} from "../CardType";
 import {LeaderCard} from "../LeaderCard";
 
 export class LeadersExpansion {
@@ -20,5 +21,15 @@ export class LeadersExpansion {
     }
 
     return 0;
+  }
+
+  public static leaderActionIsUsable(player: Player): boolean {
+    if (player.game.gameOptions.leadersExpansion === false) return false;
+
+    const leader = player.playedCards.find((card) => card.cardType === CardType.LEADER);
+    if (leader === undefined) return false;
+    if (leader.canAct === undefined) return false;
+
+    return leader.canAct(player);
   }
 }
