@@ -31,6 +31,11 @@ describe('Duncan', function() {
     card.action(player);
     expect(player.getVictoryPoints().total).eq(18);
     expect(player.megaCredits).eq(32);
+
+    // Run for a few more generations, leader VP should not change
+    TestingUtils.forceGenerationEnd(player.game);
+    TestingUtils.forceGenerationEnd(player.game);
+    expect(player.getVictoryPoints().total).eq(18);
   });
 
   it('Does not affect VP if OPG action not used yet', function() {

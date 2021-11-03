@@ -8,8 +8,8 @@ export class LeadersExpansion {
   public static calculateVictoryPoints(player: Player, vpb: VictoryPointsBreakdown): void {
     if (player.cardIsInEffect(CardName.DUNCAN)) {
       const card = player.playedCards.find((c) => c.name === CardName.DUNCAN) as LeaderCard;
-      if (card.isDisabled === true) {
-        vpb.setVictoryPoints('victoryPoints', 6 - player.game.generation, 'Leaders VP');    
+      if (card.isDisabled === true && card.generationUsed !== undefined) {
+        vpb.setVictoryPoints('victoryPoints', 6 - card.generationUsed, 'Leaders VP');
       }
     }
   }

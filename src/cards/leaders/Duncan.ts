@@ -24,6 +24,7 @@ export class Duncan extends Card implements LeaderCard {
   }
 
   public isDisabled = false;
+  public generationUsed = 1;
 
   public play() {
     return undefined;
@@ -36,6 +37,7 @@ export class Duncan extends Card implements LeaderCard {
   public action(player: Player): PlayerInput | undefined {
     player.addResource(Resources.MEGACREDITS, 4 * player.game.generation, {log: true});
     this.isDisabled = true;
+    this.generationUsed = player.game.generation;
     return undefined;
   }
 }
