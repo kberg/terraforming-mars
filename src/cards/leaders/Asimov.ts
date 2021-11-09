@@ -68,6 +68,7 @@ export class Asimov extends Card implements LeaderCard {
     freeAward.options.push(
       new SelectOption('Do nothing', 'Confirm', () => {
         game.log('${0} chose not to fund any award', (b) => b.player(player));
+        this.isDisabled = true;
         return undefined;
       })
     );
