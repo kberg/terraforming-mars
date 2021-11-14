@@ -26,6 +26,7 @@ import {Color} from '../src/Color';
 import {RandomMAOptionType} from '../src/RandomMAOptionType';
 import {SpaceBonus} from '../src/SpaceBonus';
 import {TileType} from '../src/TileType';
+import {ALL_MILESTONES} from '../src/milestones/Milestones';
 
 describe('Game', () => {
   it('should initialize with right defaults', () => {
@@ -646,5 +647,15 @@ describe('Game', () => {
     delete serialized['moonData'];
     const deserialized = Game.deserialize(serialized);
     expect(deserialized.moonData).is.undefined;
+  });
+
+  it('deserializing a game with milestone as an object', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const player2 = TestPlayers.RED.newPlayer();
+    const game = Game.newInstance('foobar', [player, player2], player);
+    const serialized = game.serialize();
+    serialized.milestones = serialized.milestones.map((a: any) => ALL_MILESTONES.find((b) => b.name === a)!);
+    const deserialized = Game.deserialize(serialized);
+    expect(deserialized.milestones).deep.eq(game.milestones);
   });
 });
