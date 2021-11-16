@@ -13,7 +13,7 @@ const FAKE_DATABASE: IDatabase = {
   restoreGame: () => {},
   loadCloneableGame: () => {},
   saveGameResults: () => {},
-  saveGame: () => {},
+  saveGame: () => Promise.resolve(),
   purgeUnfinishedGames: () => {},
 };
 

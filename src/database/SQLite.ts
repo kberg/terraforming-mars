@@ -191,10 +191,10 @@ export class SQLite implements IDatabase {
     });
   }
 
-  saveGame(game: Game): void {
+  async saveGame(game: Game): Promise<void> {
     const gameJSON = game.toJSON();
     // Insert
-    this.runQuietly(
+    await this.runQuietly(
       'INSERT INTO games (game_id, save_id, game, players) VALUES (?, ?, ?, ?) ON CONFLICT (game_id, save_id) DO UPDATE SET game = ?',
       [game.id, game.lastSaveId, gameJSON, game.getPlayers().length, gameJSON]);
 
@@ -208,19 +208,23 @@ export class SQLite implements IDatabase {
     }
   }
 
-  // Run the given SQL but do not retuirn errors.
-  runQuietly(sql: string, params: any) {
-    this.db.run(
-      sql, params,
-      (err: Error | null) => {
-        if (err) {
-          console.error(err.message);
-          if (this.throwQuietFailures) {
-            throw err;
+  // Run the given SQL but do not return errors.
+  runQuietly(sql: string, params: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        sql, params,
+        (err: Error | null) => {
+          if (err) {
+            console.error(err.message);
+            if (this.throwQuietFailures) {
+              reject(err);
+              return;
+            }
+          } else {
+            resolve();
           }
-          return;
-        }
-      },
-    );
+        },
+      );
+    });
   }
 }
