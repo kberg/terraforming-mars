@@ -34,7 +34,7 @@ export class SendDelegateToArea implements DeferredAction {
     }
 
     // How many delegate to send
-    const numDelegateToSend = this.options.count || 1;
+    const numDelegateToSend = this.options.count ?? 1;
 
     const availableParties = parties.map((party) => party.name);
 
