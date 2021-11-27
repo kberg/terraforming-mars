@@ -12,6 +12,7 @@ import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../Units';
+import {AresHandler} from '../../ares/AresHandler';
 
 export class NaturalPreserve extends Card implements IProjectCard {
   constructor(
@@ -36,13 +37,23 @@ export class NaturalPreserve extends Card implements IProjectCard {
       metadata,
     });
   }
+
   public static getAvailableSpaces(player: Player): Array<ISpace> {
-    return player.game.board.getAvailableSpacesOnLand(player)
-      .filter((space) => player.game.board.getAdjacentSpaces(space).some((adjacentSpace) => adjacentSpace.tile !== undefined) === false);
+    const board = player.game.board;
+    const spacesWithNoAdjacentTiles = board.getAvailableSpacesOnLand(player)
+      .filter((space) => board.getAdjacentSpaces(space).some((adjacentSpace) => adjacentSpace.tile !== undefined) === false);
+
+    if (player.game.gameOptions.aresExtension === true) {
+      return spacesWithNoAdjacentTiles.filter((space) => AresHandler.canPayForTilePlacement(player, space));
+    }
+
+    return spacesWithNoAdjacentTiles;
   }
+
   public canPlay(player: Player): boolean {
     return super.canPlay(player) && NaturalPreserve.getAvailableSpaces(player).length > 0;
   }
+
   public play(player: Player) {
     return new SelectSpace('Select space for special tile next to no other tile', NaturalPreserve.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NATURAL_PRESERVE});
@@ -51,6 +62,7 @@ export class NaturalPreserve extends Card implements IProjectCard {
       return undefined;
     });
   }
+
   public getVictoryPoints() {
     return 1;
   }

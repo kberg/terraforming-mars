@@ -184,6 +184,12 @@ export class AresHandler {
     return {megacredits: megaCreditCost, production: productionCost};
   }
 
+  public static canPayForTilePlacement(player: Player, space: ISpace): boolean {
+    if (this.hazardSeverity(space) === HazardSeverity.MILD) return player.canAfford(8);
+    if (this.hazardSeverity(space) === HazardSeverity.SEVERE) return player.canAfford(16);
+    return true;
+  }
+
   public static assertCanPay(player: Player, space: ISpace, subjectToHazardAdjacency: boolean): IAdjacencyCost {
     if (player.game.phase === Phase.SOLAR) {
       return {megacredits: 0, production: 0};
