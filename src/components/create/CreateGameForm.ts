@@ -845,7 +845,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" v-model="escapeVelocityMode" id="escapevelocity-checkbox">
                             <label for="escapevelocity-checkbox">
                                 <div class="create-game-expansion-icon expansion-icon-escape-velocity"></div>
-                                <span v-i18n>Escape Velocity</span>&nbsp;<a href="https://www.notion.so/Escape-Velocity-ce1d115deeca484db16226dd247a31e7" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Escape Velocity</span>&nbsp;<a href="https://www.notion.so/Escape-Velocity-bdf4e51a2c9046e1aa17409a2cbefdff" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <label for="escapeThreshold-checkbox" v-show="escapeVelocityMode">
