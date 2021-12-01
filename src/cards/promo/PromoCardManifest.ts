@@ -49,6 +49,7 @@ import {TopsoilContract} from './TopsoilContract';
 import {BioPrintingFacility} from './BioPrintingFacility';
 import {BactoviralResearch} from './BactoviralResearch';
 import {Harvest} from './Harvest';
+import {OutdoorSports} from './OutdoorSports';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -93,6 +94,7 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.BIO_PRINTING_FACILITY, Factory: BioPrintingFacility},
     {cardName: CardName.BACTOVIRAL_RESEARCH, Factory: BactoviralResearch},
     {cardName: CardName.HARVEST, Factory: Harvest},
+    {cardName: CardName.OUTDOOR_SPORTS, Factory: OutdoorSports},
   ],
 
   cardsToRemove: [
