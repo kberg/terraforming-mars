@@ -707,7 +707,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" name="community" id="communityCards-checkbox" v-model="communityCardsOption">
                             <label for="communityCards-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-community"></div>
-                                <span v-i18n>Community</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#community" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Community</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Community-Add-ons-98a78a03dc6b4006926bf14e046309c8" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <input type="checkbox" name="themoon" id="themoon-checkbox" v-model="moonExpansion">
