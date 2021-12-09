@@ -114,6 +114,12 @@ class RedsPolicy03 implements Policy {
     const oxygenLevel = game.getOxygenLevel();
     const venusScaleLevel = game.getVenusScaleLevel();
 
+    // Temp patch to handle case where Mars is terraformed, but there is Mandatory Moon terraforming
+    // TODO: game.marsIsTerraformed() on line 110 returns false due to Moon parameters not maxed yet
+    if (temperature === MAX_TEMPERATURE && oceansPlaced === MAX_OCEAN_TILES && oxygenLevel === MAX_OXYGEN_LEVEL && venusScaleLevel === MAX_VENUS_SCALE) {
+      return false;
+    }
+
     if (temperature === MIN_TEMPERATURE && oceansPlaced === 0 && oxygenLevel === MIN_OXYGEN_LEVEL && venusScaleLevel === MIN_VENUS_SCALE) {
       return false;
     }
@@ -182,6 +188,7 @@ class RedsPolicy03 implements Policy {
           }
 
           if (orOptions.options.length === 1) return orOptions.options[0].cb();
+          if (orOptions.options.length === 0) return undefined;
 
           game.defer(new DeferredAction(player, () => orOptions));
           return undefined;
