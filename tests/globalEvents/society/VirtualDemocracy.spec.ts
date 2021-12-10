@@ -23,7 +23,7 @@ describe('VirtualDemocracy', function() {
     game.addCityTile(player, '21');
 
     card.resolve(game, turmoil);
-    expect(game.deferredActions).has.lengthOf(3);
+    expect(game.deferredActions).has.lengthOf(2);
 
     while (game.deferredActions.length > 0) {
       const selectParty = game.deferredActions.pop()!.execute() as SelectPartyToSendDelegate;
@@ -31,6 +31,6 @@ describe('VirtualDemocracy', function() {
     }
 
     const marsFirst = turmoil.getPartyByName(PartyName.MARS)!;
-    expect(marsFirst.delegates.filter((d) => d === player.id)).has.lengthOf(3);
+    expect(marsFirst.delegates.filter((d) => d === player.id)).has.lengthOf(2);
   });
 });

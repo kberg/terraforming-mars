@@ -13,7 +13,7 @@ export class VirtualDemocracy implements IGlobalEvent {
 
     public resolve(game: Game, turmoil: Turmoil) {
       game.getPlayers().forEach((player) => {
-        const citiesCount = Math.floor(player.getCitiesCount() / 2 + turmoil.getPlayerInfluence(player));
+        const citiesCount = Math.floor((player.getCitiesCount() + turmoil.getPlayerInfluence(player)) / 2);
         const amount = Math.min(citiesCount, 5);
 
         const playerHasLobbyDelegate = turmoil.lobby.has(player.id);
