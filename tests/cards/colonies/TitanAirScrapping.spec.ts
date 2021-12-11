@@ -27,7 +27,7 @@ describe('TitanAirScrapping', function() {
     expect(card.canAct(player)).is.true;
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions!.options[0].cb();
 
     expect(player.getTerraformRating()).eq(21);

@@ -30,7 +30,7 @@ describe('LabourUnion', function() {
     expect(game.deferredActions).has.lengthOf(1);
 
     const selectDiscard = game.deferredActions.peek()! as DiscardCards;
-    expect(selectDiscard instanceof DiscardCards).is.true;
+    expect(selectDiscard).instanceOf(DiscardCards);
   });
 
   it('Standard projects cost 4 MC less', function() {

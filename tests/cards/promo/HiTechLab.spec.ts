@@ -24,7 +24,7 @@ describe('HiTechLab', function() {
     expect(card.canAct(player)).is.true;
 
     const amount = card.action(player) as SelectAmount;
-    expect(amount instanceof SelectAmount).is.true;
+    expect(amount).instanceOf(SelectAmount);
 
     amount!.cb(3);
     expect(player.getResource(Resources.ENERGY)).eq(2);

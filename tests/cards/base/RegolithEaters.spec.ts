@@ -24,7 +24,7 @@ describe('RegolithEaters', function() {
     card.action(player);
     expect(card.resourceCount).eq(2);
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
 
     orOptions!.options[1].cb();
     expect(card.resourceCount).eq(3);

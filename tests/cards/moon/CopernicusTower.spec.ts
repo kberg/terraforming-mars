@@ -37,7 +37,7 @@ describe('CopernicusTower', () => {
 
     // Now that there's 1 resource, player will be presented with 2 options.
     input = card.action(player);
-    expect(input).is.instanceOf(OrOptions);
+    expect(input).instanceOf(OrOptions);
 
     // The first option of which is the same: increase the resource count.
     input!.options[0].cb();

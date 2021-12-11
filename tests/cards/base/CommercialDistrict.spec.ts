@@ -26,7 +26,7 @@ describe('CommercialDistrict', function() {
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);
-    expect(action instanceof SelectSpace);
+    expect(action).instanceOf(SelectSpace);
     action.cb(action.availableSpaces[0]);
 
     expect(player.getProduction(Resources.ENERGY)).eq(0);

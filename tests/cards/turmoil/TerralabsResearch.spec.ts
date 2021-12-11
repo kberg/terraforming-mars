@@ -27,8 +27,8 @@ describe('TerralabsResearch', function() {
 
     player.playedCards.push(card3);
     const action = card3.action(player);
-    expect(action).is.not.undefined;
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
+
     (action as SelectCard<IProjectCard>).cb([(action as SelectCard<IProjectCard>).cards[0]]);
     game.deferredActions.runNext();
     expect(player.megaCredits).eq(11);

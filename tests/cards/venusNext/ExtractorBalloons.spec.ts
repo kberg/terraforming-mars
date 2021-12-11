@@ -25,7 +25,7 @@ describe('ExtractorBalloons', function() {
     expect(card.resourceCount).eq(3);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
 
     orOptions!.options[0].cb();
     expect(card.resourceCount).eq(1);

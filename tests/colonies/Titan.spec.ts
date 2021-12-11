@@ -32,7 +32,7 @@ describe('Titan', function() {
 
     expect(game.deferredActions).has.lengthOf(1);
     const action = game.deferredActions.pop()!;
-    expect(action).to.be.an.instanceof(AddResourcesToCard);
+    expect(action).instanceof(AddResourcesToCard);
     expect(action.player).eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();
@@ -49,7 +49,7 @@ describe('Titan', function() {
     game.deferredActions.pop(); // GiveColonyBonus
 
     const action = game.deferredActions.pop()!; // AddResourcesToCard
-    expect(action).to.be.an.instanceof(AddResourcesToCard);
+    expect(action).instanceof(AddResourcesToCard);
     expect(action.player).eq(player);
     // Should directly add to AerialMappers, since there's no other target
     action.execute();

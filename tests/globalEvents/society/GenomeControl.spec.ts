@@ -20,6 +20,6 @@ describe('GenomeControl', function() {
 
     card.resolve(game, turmoil);
     expect(game.deferredActions).has.lengthOf(1);
-    expect(game.deferredActions.pop()!.execute() instanceof SelectCard).is.true;
+    expect(game.deferredActions.pop()!.execute()).instanceOf(SelectCard);
   });
 });

@@ -22,7 +22,7 @@ describe('Europa', function() {
     europa.addColony(player);
     expect(game.deferredActions).has.lengthOf(1);
     const action = game.deferredActions.pop()!;
-    expect(action).to.be.an.instanceof(PlaceOceanTile);
+    expect(action).instanceof(PlaceOceanTile);
     expect(action.player).eq(player);
   });
 

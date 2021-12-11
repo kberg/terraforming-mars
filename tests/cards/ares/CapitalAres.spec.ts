@@ -29,7 +29,7 @@ describe('CapitalAres', function() {
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);
-    expect(action instanceof SelectSpace).is.true;
+    expect(action).instanceOf(SelectSpace);
     expect(player.getProduction(Resources.ENERGY)).eq(0);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(5);
 

@@ -70,7 +70,7 @@ describe('PoliticalAgendas', () => {
     expect(game.deferredActions).has.lengthOf(2);
 
     const action = game.deferredActions.peek() as ChoosePoliticalAgenda;
-    expect(action instanceof ChoosePoliticalAgenda).is.true;
+    expect(action).instanceOf(ChoosePoliticalAgenda);
 
     const orOptions = action.execute() as OrOptions;
     expect(orOptions.options).has.lengthOf(2);

@@ -20,8 +20,7 @@ describe('ArcadianCommunities', function() {
     const initLands = player.game.board.getAvailableSpacesForGreenery(player);
     initLands[1].player = player;
     const action = card.action(player);
-    expect(action instanceof SelectSpace).is.true;
-    if ( ! (action instanceof SelectSpace)) return;
+    expect(action).instanceOf(SelectSpace);
 
     const lands = player.game.board.getAvailableSpacesForMarker(player);
     action.cb(lands[0]);

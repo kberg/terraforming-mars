@@ -33,8 +33,7 @@ describe('JetStreamMicroscrappers', function() {
 
     // both actions possible
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions).is.not.undefined;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(game.getVenusScaleLevel()).eq(2);

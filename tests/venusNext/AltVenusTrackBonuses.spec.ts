@@ -16,7 +16,7 @@ describe('AltVenusTrackresources', function() {
 
   function getAction(game: Game) {
     const action = game.deferredActions.pop();
-    expect(action).is.instanceOf(GrantVenusAltTrackBonusDeferred);
+    expect(action).instanceOf(GrantVenusAltTrackBonusDeferred);
     const deferred = action as GrantVenusAltTrackBonusDeferred;
     return {standardResourceCount: deferred.standardResourceCount, wildResource: deferred.wildResource};
   }

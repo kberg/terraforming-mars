@@ -38,7 +38,7 @@ describe('JunkVentures', function() {
     expect(game.deferredActions).has.lengthOf(1);
 
     const selectCardToKeep = game.deferredActions.pop()!.execute() as SelectCard<IProjectCard>;
-    expect(selectCardToKeep instanceof SelectCard).is.true;
+    expect(selectCardToKeep).instanceOf(SelectCard);
     selectCardToKeep.cb([keptCard]);
     expect(player.cardsInHand).has.lengthOf(1);
   });

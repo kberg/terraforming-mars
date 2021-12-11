@@ -28,7 +28,7 @@ describe('MetaSpirituality', function() {
     const action = game.deferredActions.pop()!.execute()! as AndOptions;
 
     action.options.forEach((option) => {
-      expect(option instanceof SelectAmount).is.true;
+      expect(option).instanceOf(SelectAmount);
       expect((option as SelectAmount).min).eq(1);
     })
     action.cb();

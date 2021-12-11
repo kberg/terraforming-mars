@@ -59,7 +59,7 @@ describe('TitanShuttles', function() {
     player.addResourceTo(card, 7);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     expect(orOptions.options).has.lengthOf(2);
 
     // spend floaters to gain titanium

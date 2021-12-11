@@ -24,7 +24,7 @@ describe('Virus', function() {
     player.plants = 5;
 
     const orOptions = card.play(player2) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
 
     orOptions.options[0].cb([player.playedCards[0]]);
     expect(player.getResourcesOnCard(birds)).eq(0);

@@ -31,7 +31,7 @@ describe('LTFHeadquarters', () => {
     card.play(player);
 
     const action = player.game.deferredActions.pop();
-    expect(action).is.instanceof(BuildColony);
+    expect(action).instanceof(BuildColony);
 
     expect(moonData.colonyRate).eq(1);
     expect(player.getTerraformRating()).eq(15);

@@ -38,7 +38,7 @@ describe('GHGProducingBacteria', () => {
     expect(card.resourceCount).eq(2);
 
     const orAction = card.action(player) as OrOptions;
-    expect(orAction instanceof OrOptions).is.true;
+    expect(orAction).instanceOf(OrOptions);
 
     orAction!.options[1].cb();
     expect(card.resourceCount).eq(3);

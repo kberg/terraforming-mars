@@ -23,7 +23,7 @@ describe('CommercialDistrictAres', function() {
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);
-    expect(action instanceof SelectSpace);
+    expect(action).instanceOf(SelectSpace);
     action.cb(action.availableSpaces[0]);
 
     expect(action.availableSpaces[0].adjacency).to.deep.eq({bonus: [SpaceBonus.MEGACREDITS, SpaceBonus.MEGACREDITS]});

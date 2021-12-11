@@ -53,7 +53,7 @@ describe('SteelMarketMonopolists', () => {
     player.megaCredits = 1;
     player.steel = 2;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(2);
@@ -66,7 +66,7 @@ describe('SteelMarketMonopolists', () => {
     player.megaCredits = 0;
     player.steel = 100;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(3);
@@ -76,7 +76,7 @@ describe('SteelMarketMonopolists', () => {
     player.megaCredits = 7;
     player.steel = 0;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(2);
@@ -89,7 +89,7 @@ describe('SteelMarketMonopolists', () => {
     player.megaCredits = 100;
     player.steel = 0;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(3);

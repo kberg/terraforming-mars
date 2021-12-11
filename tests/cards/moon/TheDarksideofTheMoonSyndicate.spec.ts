@@ -62,7 +62,7 @@ describe('TheDarksideofTheMoonSyndicate', () => {
     expect(options).is.undefined;
 
     const stealResource = player.game.deferredActions.pop();
-    expect(stealResource).is.instanceof(StealResources);
+    expect(stealResource).instanceof(StealResources);
     expect((stealResource as StealResources).count).eq(8);
 
     expect(card.resourceCount).eq(2);
@@ -80,7 +80,7 @@ describe('TheDarksideofTheMoonSyndicate', () => {
     expect(card.resourceCount).eq(2);
 
     (options as OrOptions).options[1].cb();
-    expect(game.deferredActions.pop()).is.instanceof(StealResources);
+    expect(game.deferredActions.pop()).instanceof(StealResources);
   });
 
   it('effect', () => {

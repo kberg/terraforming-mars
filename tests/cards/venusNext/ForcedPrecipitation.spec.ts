@@ -34,7 +34,7 @@ describe('ForcedPrecipitation', function() {
     expect(card.resourceCount).eq(2);
 
     const orOptions2 = card.action(player) as OrOptions;
-    expect(orOptions2 instanceof OrOptions).is.true;
+    expect(orOptions2).instanceOf(OrOptions);
     orOptions2.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(game.getVenusScaleLevel()).eq(2);

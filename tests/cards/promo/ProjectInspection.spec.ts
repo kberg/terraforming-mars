@@ -40,7 +40,7 @@ describe('ProjectInspection', function() {
     expect(card.canPlay(player)).is.true;
 
     const play = card.play(player);
-    expect(play instanceof SelectCard).is.true;
+    expect(play).instanceOf(SelectCard);
   });
 
   it('Can\'t play with Playwrights if there\'s no other card to chain', function() {

@@ -26,7 +26,7 @@ describe('Tate', function() {
 
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
     const action = orOptions.options[0].cb()! as SelectCard<ICard>;
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
 
     action.cb([action.cards[0], action.cards[3]]);
     game.deferredActions.runAll(() => {});

@@ -31,7 +31,7 @@ describe('CEOsFavoriteProject', function() {
     player.playedCards.push(searchForLife, securityFleet, decomposers, birds);
 
     const action = card.play(player);
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
 
     action.cb([searchForLife]);
     expect(player.getResourcesOnCard(searchForLife)).eq(2);
@@ -50,7 +50,7 @@ describe('CEOsFavoriteProject', function() {
     srr.targetCards.push({card: srrTarget, resourceCount: 0});
 
     const action = card.play(player);
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
     action.cb([srrTarget]);
     expect(srr.targetCards[0].resourceCount).eq(1);
   });

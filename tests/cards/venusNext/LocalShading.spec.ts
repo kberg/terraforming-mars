@@ -26,7 +26,7 @@ describe('LocalShading', function() {
 
     const orOptions = card.action(player) as OrOptions;
     expect(orOptions).is.not.undefined;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(1);

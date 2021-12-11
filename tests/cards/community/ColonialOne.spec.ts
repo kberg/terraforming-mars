@@ -29,7 +29,7 @@ describe('ColonialOne', function() {
 
   it('Can spend fighter resource to trade for free', function() {
     const action = card.action(player);
-    expect(action instanceof OrOptions).eq(true);
+    expect(action).instanceOf(OrOptions);
     expect(action!.options.length).eq(2);
 
     action!.options[0].cb();
@@ -46,6 +46,6 @@ describe('ColonialOne', function() {
     expect(game.deferredActions.length).eq(1);
 
     const selectColony = game.deferredActions.pop()!;
-    expect(selectColony.execute() instanceof SelectColony).eq(true);
+    expect(selectColony.execute()).instanceOf(SelectColony);
   });
 });

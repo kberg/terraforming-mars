@@ -56,7 +56,7 @@ describe('RotatorImpacts', () => {
 
     // two possible actions: add resource or spend titanium
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(game.getVenusScaleLevel()).eq(2);

@@ -88,6 +88,6 @@ describe('ProjectWorkshop', function() {
     player.playedCards.push(advancedAlloys);
     player.megaCredits = 4;
     const result = card.action(player);
-    expect(result instanceof OrOptions).is.true;
+    expect(result).instanceOf(OrOptions);
   });
 });

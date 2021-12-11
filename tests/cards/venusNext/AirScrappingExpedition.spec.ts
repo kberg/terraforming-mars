@@ -18,7 +18,7 @@ describe('AirScrappingExpedition', function() {
 
     const selectCard = card.play(player) as SelectCard<ICard>;
     expect(selectCard).is.not.undefined;
-    expect(selectCard instanceof SelectCard).is.true;
+    expect(selectCard).instanceOf(SelectCard);
 
     selectCard.cb([selectCard.cards[0]]);
     expect(player.getResourcesOnCard(corp)).eq(3);

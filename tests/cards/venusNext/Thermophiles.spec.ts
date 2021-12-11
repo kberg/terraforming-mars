@@ -34,15 +34,14 @@ describe('Thermophiles', function() {
     player.playedCards.push(card, new VenusianInsects());
 
     const action = card.action(player);
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
     action!.cb([card]);
     expect(card.resourceCount).eq(1);
 
     player.addResourceTo(card);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions).is.not.undefined;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(game.getVenusScaleLevel()).eq(2);
@@ -53,13 +52,13 @@ describe('Thermophiles', function() {
     player.playedCards.push(card);
 
     const action = card.action(player);
-    expect(action instanceof SelectCard).is.not.true;
+    expect(action).not.instanceOf(SelectCard);
     expect(card.resourceCount).eq(1);
 
     player.addResourceTo(card);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(game.getVenusScaleLevel()).eq(2);

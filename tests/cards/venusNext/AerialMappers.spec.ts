@@ -28,13 +28,13 @@ describe('AerialMappers', function() {
     const card2 = new Dirigibles();
     player.playedCards.push(card2);
     const action = card.action(player) as SelectCard<ICard>;
-    expect(action instanceof SelectCard).is.true;
+    expect(action).instanceOf(SelectCard);
 
     action.cb([card]);
     expect(card.resourceCount).eq(1);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
 
     orOptions.options[0].cb([card]);
     expect(card.resourceCount).eq(0);
@@ -46,7 +46,7 @@ describe('AerialMappers', function() {
     expect(card.resourceCount).eq(1);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions.options[0].cb([card]);
     expect(card.resourceCount).eq(0);
     expect(player.cardsInHand).has.lengthOf(1);

@@ -54,7 +54,7 @@ describe('TitaniumMarketMonopolists', () => {
     player.megaCredits = 1;
     player.titanium = 2;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(2);
@@ -67,7 +67,7 @@ describe('TitaniumMarketMonopolists', () => {
     player.megaCredits = 0;
     player.titanium = 100;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(4);
@@ -77,7 +77,7 @@ describe('TitaniumMarketMonopolists', () => {
     player.megaCredits = 7;
     player.titanium = 0;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(3);
@@ -90,7 +90,7 @@ describe('TitaniumMarketMonopolists', () => {
     player.megaCredits = 100;
     player.titanium = 0;
     const action = card.action(player);
-    expect(action).is.instanceof(SelectAmount);
+    expect(action).instanceof(SelectAmount);
     const selectAmount = action as SelectAmount;
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(4);

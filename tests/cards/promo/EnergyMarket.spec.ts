@@ -44,13 +44,13 @@ describe('EnergyMarket', function() {
     expect(card.canAct(player)).is.true;
 
     const result = card.action(player);
-    expect(result instanceof OrOptions).is.true;
+    expect(result).instanceOf(OrOptions);
   });
 
   it('Should act when sufficient MC resources available', function() {
     player.addResource(Resources.MEGACREDITS, 2);
     const result = card.action(player);
-    expect(result instanceof SelectAmount).is.true;
+    expect(result).instanceOf(SelectAmount);
   });
 
   it('Should act when energy production available', function() {

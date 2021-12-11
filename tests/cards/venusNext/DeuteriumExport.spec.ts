@@ -27,7 +27,7 @@ describe('DeuteriumExport', function() {
     expect(card.resourceCount).eq(1);
 
     const orOptions = card.action(player) as OrOptions;
-    expect(orOptions instanceof OrOptions).is.true;
+    expect(orOptions).instanceOf(OrOptions);
     orOptions!.options[0].cb();
     expect(card.resourceCount).eq(0);
     expect(player.getProduction(Resources.ENERGY)).eq(1);

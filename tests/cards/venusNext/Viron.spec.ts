@@ -20,7 +20,6 @@ describe('Viron', function() {
     player.megaCredits += 2;
     expect(card.canAct(player)).is.true;
     const action2 = card.action(player);
-    expect(action2).is.not.undefined;
-    expect(action2 instanceof SelectCard).is.true;
+    expect(action2).instanceOf(SelectCard);
   });
 });
