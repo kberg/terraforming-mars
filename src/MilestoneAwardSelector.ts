@@ -32,6 +32,7 @@ import {Thermalist} from './awards/Thermalist';
 import {Adapter} from './awards/vastitasBorealis/Adapter';
 import {Edgedancer} from './awards/vastitasBorealis/Edgedancer';
 import {Naturalist} from './awards/vastitasBorealis/Naturalist';
+import {Voyager} from './awards/vastitasBorealis/Voyager';
 import {Venuphile} from './awards/Venuphile';
 import {BoardName} from './boards/BoardName';
 import {GameOptions} from './Game';
@@ -262,6 +263,8 @@ export namespace MilestoneAwardSelector {
       bind(Naturalist, Benefactor, 5);
       bind(Naturalist, Cultivator, 3);
       bind(Naturalist, Edgedancer, 1);
+
+      bind(Voyager, RimSettler, 9);
 
       // Arabia Terra
       bind(Morningstar, Tycoon, 1);
