@@ -18,7 +18,7 @@ export class Xavier extends Card implements LeaderCard {
           b.text('GAIN').nbsp.wildTag(2).played;
           b.br.br;
         }),
-        description: 'Gain 2 wild tags for this generation.',
+        description: 'Gain 2 wild tags for THIS GENERATION.',
       },
     });
   }

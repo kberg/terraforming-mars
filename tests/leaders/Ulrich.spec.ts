@@ -25,10 +25,10 @@ describe('Ulrich', function() {
     expect(player.megaCredits).eq(32);
   });
 
-  it('Takes action: All oceans placed - gain only 12 M€', function() {
+  it('Takes action: All oceans placed - gain only 15 M€', function() {
     TestingUtils.maxOutOceans(player2);
     card.action(player);
-    expect(player.megaCredits).eq(12);
+    expect(player.megaCredits).eq(15);
   });
 
   it('Can only act once per game', function() {

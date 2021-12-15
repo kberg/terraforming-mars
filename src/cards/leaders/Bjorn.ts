@@ -18,7 +18,7 @@ export class Bjorn extends Card implements LeaderCard {
           b.opgArrow().text('STEAL').megacredits(0).multiplier.asterix();
           b.br;
         }),
-        description: 'Once per game, steal X M€ from each opponent that has more M€ than you, where X is the current generation number (max 7 M€).',
+        description: 'Once per game, steal X M€ from each opponent that has more M€ than you, where X is the current generation number.',
       },
     });
   }
@@ -38,7 +38,7 @@ export class Bjorn extends Card implements LeaderCard {
     const targetPlayers = game.getPlayers().filter((p) => p.id !== player.id && p.megaCredits > player.megaCredits);
 
     targetPlayers.forEach((target) => {
-      const qtyToSteal = Math.min(game.generation, target.megaCredits, 7);
+      const qtyToSteal = Math.min(game.generation, target.megaCredits);
       target.deductResource(Resources.MEGACREDITS, qtyToSteal, {log: true, from: player});
       player.addResource(Resources.MEGACREDITS, qtyToSteal);
     });

@@ -22,7 +22,7 @@ export class Tate extends Card implements LeaderCard {
           b.opgArrow().text('5', Size.LARGE).cards(1).secondaryTag(Tags.WILDCARD).asterix();
           b.br.br;
         }),
-        description: 'Once per game, name a tag. Reveal cards from the deck until you find 5 cards with that tag. Buy up to 2 cards and discard the rest.',
+        description: 'Once per game, name a tag. Reveal cards from the deck until you find 5 cards with that tag. BUY up to 2 cards and discard the rest.',
       },
     });
   }

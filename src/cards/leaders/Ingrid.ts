@@ -23,7 +23,7 @@ export class Ingrid extends Card implements LeaderCard {
           b.emptyTile('normal').asterix().nbsp.colon().nbsp.plus().cards(1);
           b.br;
         }),
-        description: 'When you take an action that places a tile on Mars this generation, draw a card.',
+        description: 'When you take an action that places a tile on Mars THIS GENERATION, draw a card.',
       },
     });
   }

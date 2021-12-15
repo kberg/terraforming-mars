@@ -105,6 +105,8 @@ export abstract class Colony implements SerializedColony {
       if (poseidon !== undefined) {
         poseidon.addProduction(Resources.MEGACREDITS, 1);
       }
+
+      if (player.cardIsInEffect(CardName.NAOMI)) player.addResource(Resources.ENERGY, 2, {log: true});
     }
 
     /*

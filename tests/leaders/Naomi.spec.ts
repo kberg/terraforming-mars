@@ -23,6 +23,12 @@ describe('Naomi', function() {
     game.colonies = [new Callisto(), new Ceres()];
   });
 
+  it('Gains 2 energy when building a colony', function() {
+    player.playedCards.push(card);
+    game.colonies[0].addColony(player);
+    expect(player.energy).to.eq(2);
+  })
+
   it('Can act', function() {
     expect(card.canAct(player)).is.true;
   });
