@@ -33,6 +33,13 @@ import {Turmoil} from '../turmoil/Turmoil';
 
 export enum ShouldIncreaseTrack { YES, NO, ASK }
 
+type TradeOptions = {
+  usesTradeFleet?: boolean;
+  decreaseTrackAfterTrade?: boolean;
+  giveColonyBonuses?: boolean;
+  selfishTrade?: boolean;
+};
+
 export abstract class Colony implements SerializedColony {
     public abstract name: ColonyName;
     public abstract description: string;
@@ -100,7 +107,18 @@ export abstract class Colony implements SerializedColony {
       }
     }
 
-    public trade(player: Player, bonusTradeOffset: number = 0, usesTradeFleet: boolean = true, decreaseTrackAfterTrade: boolean = true): void {
+    /*
+     * Trade with this colony.
+     *
+     * Before passing off the trade, this determines whether the track should advance prior to trading, and then
+     * hands off the real work to `handleTrade`.
+     *
+     * @param bonusTradeOffset an offset that allows a player to increase the colony tile track marker before trading.
+     * @param usesTradeFleet when false, the player can trade without an available trade fleet.
+     * @param decreaseTrackAfterTrade when false, the track does not decrease after trading.
+     * @returns
+     */
+    public trade(player: Player, tradeOptions: TradeOptions = {}, bonusTradeOffset = 0): void {
       let tradeOffset = player.colonyTradeOffset + bonusTradeOffset;
       if (player.hasTranshumansColonyTradeOffset) tradeOffset += 1;
 
@@ -109,7 +127,7 @@ export abstract class Colony implements SerializedColony {
 
       if (steps === 0 || this.shouldIncreaseTrack === ShouldIncreaseTrack.NO) {
         // Don't increase
-        this.handleTrade(player, usesTradeFleet, decreaseTrackAfterTrade);
+        this.handleTrade(player, tradeOptions);
         return;
       }
 
@@ -117,7 +135,7 @@ export abstract class Colony implements SerializedColony {
         // No point in asking the player, just increase it
         this.increaseTrack(steps);
         LogHelper.logColonyTrackIncrease(player, this, steps);
-        this.handleTrade(player, usesTradeFleet, decreaseTrackAfterTrade);
+        this.handleTrade(player, tradeOptions);
         return;
       }
 
@@ -126,25 +144,25 @@ export abstract class Colony implements SerializedColony {
         player,
         this,
         steps,
-        () => this.handleTrade(player, usesTradeFleet, decreaseTrackAfterTrade),
+        () => this.handleTrade(player, tradeOptions),
       ));
     }
 
-    private handleTrade(player: Player, usesTradeFleet: boolean, decreaseTrackAfterTrade: boolean, giveColonyBonuses: boolean = true) {
+    private handleTrade(player: Player, options: TradeOptions) {
       const resource = Array.isArray(this.tradeResource) ? this.tradeResource[this.trackPosition] : this.tradeResource;
 
       this.giveBonus(player, this.tradeType, this.tradeQuantity[this.trackPosition], resource);
 
-      if (giveColonyBonuses) {
+      if (options.giveColonyBonuses !== false) {
         player.game.defer(new GiveColonyBonus(player, this));
       }
 
-      if (usesTradeFleet) {
+      if (options.usesTradeFleet !== false) {
         this.visitor = player.id;
         player.tradesThisGeneration++;
       }
 
-      if (decreaseTrackAfterTrade) {
+      if (options.decreaseTrackAfterTrade !== false) {
         player.game.defer(new DeferredAction(player, () => {
           this.trackPosition = this.colonies.length;
           return undefined;
@@ -179,7 +197,7 @@ export abstract class Colony implements SerializedColony {
             openColonies.forEach((colony) => {
               if (colony.name === colonyName) {
                 game.log('${0} gained ${1} trade bonus', (b) => b.player(player).colony(colony));
-                colony.handleTrade(player, false, false, false);
+                colony.handleTrade(player, {usesTradeFleet: false, decreaseTrackAfterTrade: false, giveColonyBonuses: false});
               }
               return undefined;
             });
