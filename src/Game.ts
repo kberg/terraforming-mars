@@ -396,6 +396,10 @@ export class Game implements ISerializable<SerializedGame> {
           }
         }
         LogHelper.logDrawnCards(player, player.dealtCorporationCards, true, LogType.DREW);
+        if (game.gameOptions.leadersExpansion === true) {
+          LogHelper.logDrawnCards(player, player.dealtLeaderCards, true, LogType.DREW);
+        }
+
         if (gameOptions.initialDraftVariant === false) this.dealProjectCards(player, dealer, game);
         if (gameOptions.preludeExtension) this.dealPreludeCards(player, dealer);
         if (gameOptions.leadersExpansion) this.dealLeaderCards(player, dealer);
