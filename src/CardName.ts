@@ -525,6 +525,7 @@ export enum CardName {
     WILDLIFE_SPONSORS = 'Wildlife Sponsors',
     EXECUTIVE_ORDER = 'Executive Order',
     ECOLOGY_LAKE = 'Ecology Lake',
+    STAKEHOLDERS = 'Stakeholders',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

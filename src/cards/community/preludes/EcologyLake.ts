@@ -23,7 +23,7 @@ export class EcologyLake extends PreludeCard {
     });
   }
   public play(player: Player) {
-    player.addResource(Resources.PLANTS, 5, {log: true});
+    player.addResource(Resources.PLANTS, 5);
     player.game.defer(new PlaceOceanTile(player, 'Select space for ocean'));
     return undefined;
   }
