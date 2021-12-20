@@ -57,6 +57,7 @@ import {NobelLabs} from './NobelLabs';
 import {OrbitalLaboratories} from './OrbitalLaboratories';
 import {OzoneGenerators} from './OzoneGenerators';
 import {PersonalAgenda} from './PersonalAgenda';
+import {PlanetPR} from './PlanetPR';
 import {Polaris} from './Polaris';
 import {Pollinators} from './Pollinators';
 import {PowerPlant} from './PowerPlant';
@@ -170,7 +171,7 @@ export const PATHFINDERS_CARD_MANIFEST = new CardManifest({
   ],
   corporationCards: [
     {cardName: CardName.POLARIS, Factory: Polaris},
-    // {cardName: CardName.PLANET_PR, Factory: planetpr},
+    {cardName: CardName.PLANET_PR, Factory: planetpr},
     {cardName: CardName.AMBIENT, Factory: Ambient, compatibility: GameModule.Venus},
     {cardName: CardName.RINGCOM, Factory: Ringcom},
     {cardName: CardName.CHIMERA, Factory: Chimera},
