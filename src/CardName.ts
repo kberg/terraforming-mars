@@ -524,6 +524,7 @@ export enum CardName {
     TERRAFORMING_MISSION = 'Terraforming Mission',
     WILDLIFE_SPONSORS = 'Wildlife Sponsors',
     EXECUTIVE_ORDER = 'Executive Order',
+    ECOLOGY_LAKE = 'Ecology Lake',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

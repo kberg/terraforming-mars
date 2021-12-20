@@ -47,6 +47,7 @@ import {TerraformingMission} from './preludes/TerraformingMission';
 import {WildlifeSponsors} from './preludes/WildlifeSponsors';
 import {TempestInc} from './corporations/TempestInc';
 import {ExecutiveOrder} from './preludes/ExecutiveOrder';
+import {EcologyLake} from './preludes/EcologyLake';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -149,5 +150,6 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.TERRAFORMING_MISSION, Factory: TerraformingMission},
     {cardName: CardName.WILDLIFE_SPONSORS, Factory: WildlifeSponsors},
     {cardName: CardName.EXECUTIVE_ORDER, Factory: ExecutiveOrder, compatibility: GameModule.Turmoil},
+    {cardName: CardName.ECOLOGY_LAKE, Factory: EcologyLake},
   ],
 });
