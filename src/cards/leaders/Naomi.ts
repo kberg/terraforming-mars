@@ -43,9 +43,9 @@ export class Naomi extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     const game = player.game;
-    const openColonies = game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
+    const activeColonies = game.colonies.filter((colony) => colony.isActive);
 
-    openColonies.forEach((colony) => {
+    activeColonies.forEach((colony) => {
       game.defer(new DeferredAction(player, () => new OrOptions(
         new SelectOption('Increase ' + colony.name + ' track to its highest value', 'Select', () => {
           colony.trackPosition = MAX_COLONY_TRACK_POSITION;
