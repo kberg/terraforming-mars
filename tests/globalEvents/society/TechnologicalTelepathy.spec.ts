@@ -16,6 +16,7 @@ describe('TechnologicalTelepathy', function() {
     turmoil.dominantParty = turmoil.getPartyByName(PartyName.REDS)!;
     turmoil.dominantParty.partyLeader = player.id;
     turmoil.dominantParty.delegates.push(player.id);
+    turmoil.dominantParty.delegates.push(player.id);
     player.playedCards.push(new Research(), new Research());
 
     card.resolve(game, turmoil);
