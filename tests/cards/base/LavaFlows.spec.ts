@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {LavaFlows} from '../../../src/cards/base/LavaFlows';
 import {Game} from '../../../src/Game';
+import {SelectSpace} from '../../../src/inputs/SelectSpace';
 import {Player} from '../../../src/Player';
 import {SpaceName} from '../../../src/SpaceName';
 import {SpaceType} from '../../../src/SpaceType';
@@ -39,6 +40,24 @@ describe('LavaFlows', function() {
     expect(space.tile && space.tile.tileType).eq(TileType.LAVA_FLOWS);
     expect(space.player).eq(player);
     expect(game.getTemperature()).eq(-26);
+    expect(space.adjacency?.bonus).eq(undefined);
+  });
+
+  it('Plays correctly with bonus ocean at 0 degrees', function() {
+    (game as any).temperature = -4;
+    const action = card.play(player);
+    game.deferredActions.runNext();
+
+    const selectOceanSpace = game.deferredActions.pop()!.execute() as SelectSpace;
+    // Only 12 ocean spaces should be available for bonus ocean
+    expect(selectOceanSpace.availableSpaces).has.length(12);
+    expect(action).is.not.undefined;
+
+    const space = action.availableSpaces[0];
+    action.cb(space);
+    expect(space.tile && space.tile.tileType).eq(TileType.LAVA_FLOWS);
+    expect(space.player).eq(player);
+    expect(game.getTemperature()).eq(0);
     expect(space.adjacency?.bonus).eq(undefined);
   });
 });
