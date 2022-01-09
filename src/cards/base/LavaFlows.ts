@@ -10,6 +10,7 @@ import {BoardName} from '../../boards/BoardName';
 import {CardName} from '../../CardName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class LavaFlows extends Card implements IProjectCard {
   constructor(
@@ -52,9 +53,18 @@ export class LavaFlows extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.game.increaseTemperature(player, 2);
+    const game = player.game;
+
+    game.defer(new DeferredAction(
+      player,
+      () => {
+        game.increaseTemperature(player, 2)
+        return undefined;
+      },
+    ));
+
     return new SelectSpace('Select a volcanic area to place this tile on', LavaFlows.getVolcanicSpaces(player), (space: ISpace) => {
-      player.game.addTile(player, SpaceType.LAND, space, {tileType: TileType.LAVA_FLOWS});
+      game.addTile(player, SpaceType.LAND, space, {tileType: TileType.LAVA_FLOWS});
       space.adjacency = this.adjacencyBonus;
       return undefined;
     });

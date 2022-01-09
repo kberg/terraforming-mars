@@ -12,6 +12,7 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class NuclearZone extends Card implements IProjectCard {
   constructor(
@@ -49,9 +50,18 @@ export class NuclearZone extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.game.increaseTemperature(player, 2);
+    const game = player.game;
+
+    game.defer(new DeferredAction(
+      player,
+      () => {
+        game.increaseTemperature(player, 2)
+        return undefined;
+      },
+    ));
+
     return new SelectSpace('Select space for special tile', player.game.board.getAvailableSpacesOnLand(player), (foundSpace: ISpace) => {
-      player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NUCLEAR_ZONE});
+      game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NUCLEAR_ZONE});
       foundSpace.adjacency = this.adjacencyBonus;
       return undefined;
     });

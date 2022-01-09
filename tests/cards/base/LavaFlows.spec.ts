@@ -31,6 +31,7 @@ describe('LavaFlows', function() {
 
   it('Should play', function() {
     const action = card.play(player);
+    game.deferredActions.runNext();
     expect(action).is.not.undefined;
 
     const space = action.availableSpaces[0];
