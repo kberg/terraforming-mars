@@ -84,6 +84,7 @@ describe('Scientists', function() {
     const scientistsPolicy = SCIENTISTS_POLICY_4;
     scientistsPolicy.apply(game);
     player.playedCards.push(new Research());
+    expect(player.hasTurmoilScienceTagBonus).is.true;
     expect(card.canPlay(player)).to.be.true;
   });
 
