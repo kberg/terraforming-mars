@@ -27,6 +27,7 @@ import {Scientist} from './awards/Scientist';
 import {SpaceBaron} from './awards/SpaceBaron';
 import {Biologist} from './awards/terraCimmeria/Biologist';
 import {Economizer} from './awards/terraCimmeria/Economizer';
+import {Politician} from './awards/terraCimmeria/Politician';
 import {Urbanist} from './awards/terraCimmeria/Urbanist';
 import {Thermalist} from './awards/Thermalist';
 import {Adapter} from './awards/vastitasBorealis/Adapter';
@@ -51,6 +52,7 @@ import {Builder} from './milestones/Builder';
 import {Diversifier} from './milestones/Diversifier';
 import {Ecologist} from './milestones/Ecologist';
 import {Energizer} from './milestones/Energizer';
+import {Ambassador} from './milestones/fanmade/Ambassador';
 import {Monument} from './milestones/fanmade/Monument';
 import {Wanderer} from './milestones/fanmade/Wanderer';
 import {Gardener} from './milestones/Gardener';
@@ -421,6 +423,8 @@ export namespace MilestoneAwardSelector {
       bind(Wanderer, EstateDealer, 1);
       bind(Wanderer, Cultivator, 6);
 
+      bind(Ambassador, Politician, 9);
+
       return synergies;
     }
   }
@@ -603,6 +607,10 @@ export namespace MilestoneAwardSelector {
 
       if (gameOptions.turmoilExtension === false && candidateAwards.some((award) => award === 'Politician')) {
         candidateAwards.splice(candidateAwards.indexOf('Politician'), 1);
+      }
+
+      if (gameOptions.turmoilExtension === false && candidateAwards.some((award) => award === 'Ambassador')) {
+        candidateAwards.splice(candidateAwards.indexOf('Ambassador'), 1);
       }
     } else if (gameOptions.boardName === BoardName.AMAZONIS) {
       candidateMilestones.push(...AMAZONIS_PLANITIA_MILESTONES.map(toName));

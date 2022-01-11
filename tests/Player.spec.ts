@@ -282,6 +282,7 @@ describe('Player', function() {
       removedFromPlayCards: [],
       heatProductionStepsIncreasedThisGeneration: 0,
       totalDelegatesPlaced: 0,
+      totalChairmanshipsWon: 0,
       name: 'player-blue',
       color: 'purple' as Color,
       beginner: true,
