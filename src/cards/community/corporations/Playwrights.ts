@@ -19,14 +19,14 @@ export class Playwrights extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.PLAYWRIGHTS,
       tags: [Tags.ENERGY],
-      startingMegaCredits: 38,
+      startingMegaCredits: 44,
 
       metadata:  {
         cardNumber: 'R40',
-        description: 'You start with 38 M€ and 1 Energy production.',
+        description: 'You start with 44 M€ and 1 Energy production.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(38).production((pb) => pb.energy(1));
+          b.megacredits(44).production((pb) => pb.energy(1));
           b.corpBox('action', (cb) => {
             cb.action('Replay a played event from any player by paying its cost ONLY in M€ (discounts and rebates apply), then REMOVE IT FROM PLAY.', (eb) => {
               // TODO(chosta): find a reasonable way to represent "?" (alphanumeric maybe)

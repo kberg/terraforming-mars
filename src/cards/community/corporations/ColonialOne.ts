@@ -20,7 +20,7 @@ export class ColonialOne extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.COLONIAL_ONE,
-      tags: [Tags.SPACE],
+      tags: [Tags.SPACE, Tags.SPACE],
       startingMegaCredits: 35,
       resourceType: ResourceType.FIGHTER,
 
