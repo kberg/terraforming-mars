@@ -7,6 +7,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {SpaceType} from '../../../src/SpaceType';
 import {TileType} from '../../../src/TileType';
 import {TestPlayers} from '../../TestPlayers';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('ArtificialLake', function() {
   let card : ArtificialLake; let player : TestPlayer; let game : Game;
@@ -55,5 +56,18 @@ describe('ArtificialLake', function() {
     // ...but an action to place ocean is not unavailable
     const action = card.play(player);
     expect(action).is.undefined;
+  });
+
+  it('Can still play if oceans are maxed but no land spaces are available', function() {
+    (game as any).temperature = -6;
+    TestingUtils.maxOutOceans(player);
+
+    // Take all land spaces
+    const spaces = game.board.getAvailableSpacesOnLand(player);
+    spaces.forEach((space) => {
+      game.simpleAddTile(player, space, {tileType: TileType.GREENERY});
+    });
+
+    expect(card.canPlay(player)).is.true;
   });
 });

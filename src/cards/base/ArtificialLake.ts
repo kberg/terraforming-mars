@@ -30,6 +30,14 @@ export class ArtificialLake extends Card implements IProjectCard {
     });
   }
 
+  public canPlay(player: Player) {
+    if (!super.canPlay(player)) return false;
+
+    const board = player.game.board;
+    if (board.getOceansOnBoard() === MAX_OCEAN_TILES) return true;
+    return board.getAvailableSpacesOnLand(player).length > 0;
+  }
+
   public play(player: Player) {
     if (player.game.board.getOceansOnBoard() >= MAX_OCEAN_TILES) return undefined;
 
