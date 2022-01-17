@@ -1460,12 +1460,14 @@ export class Game implements ISerializable<SerializedGame> {
       space.player = undefined;
     }
 
-    this.players.forEach((p) => {
-      p.corporationCard?.onTilePlaced?.(p, player, space, BoardType.MARS);
-      p.playedCards.forEach((playedCard) => {
-        playedCard.onTilePlaced?.(p, player, space, BoardType.MARS);
+    if (grantSpaceBonus) {
+      this.players.forEach((p) => {
+        p.corporationCard?.onTilePlaced?.(p, player, space, BoardType.MARS);
+        p.playedCards.forEach((playedCard) => {
+            playedCard.onTilePlaced?.(p, player, space, BoardType.MARS);
+        });
       });
-    });
+    }
 
     AresHandler.ifAres(this, () => {
       AresHandler.grantBonusForRemovingHazard(player, initialTileTypeForAres);

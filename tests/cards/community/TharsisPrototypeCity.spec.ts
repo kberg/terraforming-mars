@@ -7,6 +7,7 @@ import {TileType} from '../../../src/TileType';
 import {TestPlayers} from '../../TestPlayers';
 import {Resources} from '../../../src/Resources';
 import {SpaceBonus} from '../../../src/SpaceBonus';
+import {MiningGuild} from '../../../src/cards/corporation/MiningGuild';
 
 describe('TharsisPrototypeCity', function() {
   let card : TharsisPrototypeCity; let player : Player; let game : Game;
@@ -34,5 +35,21 @@ describe('TharsisPrototypeCity', function() {
     expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
     expect(player.getProduction(Resources.ENERGY)).eq(1);
     expect(player.steel).eq(0); // No placement bonus granted
+  });
+
+  it('Does not give steel prod bonus for Mining Guild', function() {
+    player.corporationCard = new MiningGuild();
+    card.play(player);
+    expect(game.deferredActions).has.lengthOf(1);
+
+    const selectSpaceForCity = game.deferredActions.pop()!.execute() as SelectSpace;
+    // Manually set for test
+    selectSpaceForCity.availableSpaces[0].bonus = [SpaceBonus.STEEL, SpaceBonus.STEEL];
+
+    selectSpaceForCity.cb(selectSpaceForCity.availableSpaces[0]);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.steel).eq(0); // No placement bonus granted
+    expect(player.getProduction(Resources.STEEL)).eq(0); // No placement bonus granted
   });
 });
