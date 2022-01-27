@@ -25,13 +25,13 @@ describe('HAL 9000', function() {
     card.action(player);
 
     expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
-    expect(player.megaCredits).eq(3);
+    expect(player.megaCredits).eq(4);
     expect(player.getProduction(Resources.STEEL)).eq(0);
-    expect(player.steel).eq(3);
+    expect(player.steel).eq(4);
     expect(player.getProduction(Resources.TITANIUM)).eq(0);
-    expect(player.titanium).eq(3);
+    expect(player.titanium).eq(4);
     expect(player.getProduction(Resources.ENERGY)).eq(0);
-    expect(player.energy).eq(3);
+    expect(player.energy).eq(4);
   });
 
   it('Can only act once per game', function() {

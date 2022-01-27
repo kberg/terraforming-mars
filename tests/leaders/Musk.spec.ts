@@ -33,7 +33,7 @@ describe('Musk', function() {
     game.deferredActions.runAll(() => {});
     expect(player.cardsInHand).has.length(3);
     expect(player.cardsInHand.some((card) => !card.tags.includes(Tags.SPACE))).is.false;
-    expect(player.titanium).to.eq(6);
+    expect(player.titanium).to.eq(8);
   });
 
   it('Can only act once per game', function() {

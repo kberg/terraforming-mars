@@ -20,13 +20,12 @@ export class Musk extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L28',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
-          b.br.br;
-          b.minus().text('X').cards(1).secondaryTag(Tags.EARTH).colon().nbsp.plus().text('X').cards(1).secondaryTag(Tags.SPACE);
-          b.titanium(6);
+          b.opgArrow().minus().cards(1).secondaryTag(Tags.EARTH).colon().cards(1).secondaryTag(Tags.SPACE).titanium(1).asterix();
+          b.br;
+          b.titanium(5);
           b.br.br;
         }),
-        description: 'Once per game, discard any number of Earth cards up to the current generation number to draw that many Space cards. Gain 6 titanium.',
+        description: 'Once per game, discard any number of Earth cards to draw/gain that many Space cards and titanium. Gain 5 titanium.',
       },
     });
   }
@@ -42,8 +41,7 @@ export class Musk extends Card implements LeaderCard {
   }
 
   public action(player: Player): PlayerInput | undefined {
-    const earthCardsInHand = player.cardsInHand.filter((card) => card.tags.includes(Tags.EARTH));
-    const max = Math.min(earthCardsInHand.length, player.game.generation);
+    const max = player.cardsInHand.filter((card) => card.tags.includes(Tags.EARTH)).length;
 
     return new SelectAmount(
       'Select number of Earth cards to discard',
@@ -51,7 +49,7 @@ export class Musk extends Card implements LeaderCard {
       (amount: number) => {
         player.game.defer(new DiscardCards(player, amount), Priority.DISCARD_BEFORE_DRAW);
         player.game.defer(DrawCards.keepAll(player, amount, {tag: Tags.SPACE}));
-        player.addResource(Resources.TITANIUM, 6);
+        player.addResource(Resources.TITANIUM, 5 + amount);
         this.isDisabled = true;
         return undefined;
       },

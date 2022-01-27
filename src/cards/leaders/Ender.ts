@@ -18,9 +18,9 @@ export class Ender extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L05',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().minus().text('X').cards(1).plus().text('X').cards(1);
+          b.opgArrow().minus().text('2X').cards(1).plus().text('2X').cards(1);
         }),
-        description: 'Once per game, discard any number of cards up to the current generation number to draw that many cards.',
+        description: 'Once per game, discard any number of cards up to twice the current generation number to draw that many cards.',
       },
     });
   }
@@ -36,7 +36,7 @@ export class Ender extends Card implements LeaderCard {
   }
 
   public action(player: Player): PlayerInput | undefined {
-    const max = Math.min(player.cardsInHand.length, player.game.generation);
+    const max = Math.min(player.cardsInHand.length, player.game.generation * 2);
 
     return new SelectAmount(
       'Select number of cards to discard',
