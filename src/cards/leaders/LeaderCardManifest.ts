@@ -15,6 +15,7 @@ import {Jansson} from './Jansson';
 import {Karen} from './Karen';
 import {Lowell} from './Lowell';
 import {Maria} from './Maria';
+import {Musk} from './Musk';
 import {Naomi} from './Naomi';
 import {Oscar} from './Oscar';
 import {Petra} from './Petra';
@@ -59,5 +60,6 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.YVONNE, Factory: Yvonne, compatibility: GameModule.Colonies},
     {cardName: CardName.ZAN, Factory: Zan, compatibility: GameModule.Turmoil},
     {cardName: CardName.FARADAY, Factory: Faraday},
+    {cardName: CardName.MUSK, Factory: Musk},
   ],
 });
