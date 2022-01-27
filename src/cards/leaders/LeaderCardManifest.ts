@@ -6,6 +6,7 @@ import {Bjorn} from './Bjorn';
 import {Clarke} from './Clarke';
 import {Duncan} from './Duncan';
 import {Ender} from './Ender';
+import {Faraday} from './Faraday';
 import {Floyd} from './Floyd';
 import {Gordon} from './Gordon';
 import {HAL9000} from './HAL9000';
@@ -57,5 +58,6 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.XAVIER, Factory: Xavier, compatibility: GameModule.Prelude},
     {cardName: CardName.YVONNE, Factory: Yvonne, compatibility: GameModule.Colonies},
     {cardName: CardName.ZAN, Factory: Zan, compatibility: GameModule.Turmoil},
+    {cardName: CardName.FARADAY, Factory: Faraday},
   ],
 });

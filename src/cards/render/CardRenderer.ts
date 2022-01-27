@@ -295,8 +295,11 @@ class Builder {
     return this;
   }
 
-  public wildTag(amount: number = 1): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.WILD_TAG, amount));
+  public wildTag(amount: number = 1, size?: Size): Builder {
+    // this._addRowItem(new CardRenderItem(CardRenderItemType.WILD_TAG, amount));
+    const item = new CardRenderItem(CardRenderItemType.WILD_TAG, amount);
+    item.size = size;
+    this._addRowItem(item);
     return this;
   }
 
@@ -395,9 +398,10 @@ class Builder {
     return this;
   }
 
-  public diverseTag(amount: number = 1) {
+  public diverseTag(amount: number = 1, size?: Size) {
     const item = new CardRenderItem(CardRenderItemType.DIVERSE_TAG, amount);
     item.isPlayed = true;
+    item.size = size;
     this._addRowItem(item);
     return this;
   }

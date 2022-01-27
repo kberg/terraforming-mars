@@ -17,6 +17,8 @@ export enum AltSecondaryTag {
   FLOATER = 'floater',
   // 'blue' => used in Project Workshop
   BLUE = 'blue',
+  // used in Faraday CEO
+  DIVERSE = 'diverse',
   // render square resources instead of round tags
   ANIMAL_RESOURCE = 'animal-resource',
   STEEL_RESOURCE = 'steel-resource',

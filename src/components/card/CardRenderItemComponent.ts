@@ -104,8 +104,11 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         classes.push('card-resource');
         classes.push('card-resource-camp');
       } else if (type === CardRenderItemType.DIVERSE_TAG) {
-        classes.push('card-resource');
-        classes.push('card-resource-diverse');
+        if (this.item.size === undefined) {
+          classes.push('card-resource card-resource-diverse');
+        } else {
+          classes.push('card-resource-tag card-resource-diverse card-tag-medium');
+        }
       } else if (type === CardRenderItemType.SCIENCE) {
         classes.push('card-resource');
         classes.push('card-resource-science');
@@ -243,7 +246,11 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         } else if (type === CardRenderItemType.VENUS_TAG) {
           classes.push('card-tag-venus card-tag-large venus-tag-adjustment');
         } else if (type === CardRenderItemType.WILD_TAG) {
-          classes.push('card-tag-wild card-tag-large');
+          if (this.item.size === undefined) {
+            classes.push('card-tag-wild card-tag-large');
+          } else {
+            classes.push('card-tag-wild card-tag-medium');
+          }
         }
       }
 
