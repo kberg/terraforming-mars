@@ -1115,6 +1115,15 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.game.syndicatePirateRaider === undefined) {
       this.tradesThisGeneration = 0;
     } else if (this.game.syndicatePirateRaider === this.id) {
+      // CEO effect: Disable all other players from trading next gen,
+      // but free up all colonies (don't leave their trade fleets stuck there)
+      if (this.cardIsInEffect(CardName.HUAN)) {
+        this.game.getPlayers().forEach((player) => {
+          // Magic number high enough to disable other players' trading
+          player.tradesThisGeneration = 50;
+        })
+      }
+
       this.tradesThisGeneration = 0;
     }
 

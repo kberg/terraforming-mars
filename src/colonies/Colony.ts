@@ -72,6 +72,9 @@ export abstract class Colony implements SerializedColony {
       if (game.syndicatePirateRaider) {
         if (game.syndicatePirateRaider === this.visitor) {
           this.visitor = undefined;
+        } else {
+          const raider = game.getPlayerById(game.syndicatePirateRaider);
+          if (raider.cardIsInEffect(CardName.HUAN)) this.visitor = undefined;
         }
       } else {
         this.visitor = undefined;
