@@ -24,7 +24,7 @@ export class Rogers extends Card implements LeaderCard {
           b.venus(1).played.colon().nbsp.projectRequirements();
           b.br;
         }),
-        description: 'Ignore global requirements for your Venus cards THIS GENERATION. When you play a Venus tag, you pay 3 M€ less for it.',
+        description: 'Ignore global requirements for your Venus cards THIS GENERATION. When you play a Venus tag THIS GENERATION, you pay 3 M€ less for it.',
       },
     });
   }
