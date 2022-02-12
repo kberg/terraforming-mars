@@ -10,6 +10,7 @@ import {Faraday} from './Faraday';
 import {Floyd} from './Floyd';
 import {Gordon} from './Gordon';
 import {HAL9000} from './HAL9000';
+import {Huan} from './Huan';
 import {Ingrid} from './Ingrid';
 import {Jansson} from './Jansson';
 import {Karen} from './Karen';
@@ -21,7 +22,7 @@ import {Oscar} from './Oscar';
 import {Petra} from './Petra';
 import {Quill} from './Quill';
 import {Rogers} from './Rogers';
-import {Huan} from './Huan';
+import {Ryu} from './Ryu';
 import {Stefan} from './Stefan';
 import {Tate} from './Tate';
 import {Ulrich} from './Ulrich';
@@ -62,6 +63,7 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ZAN, Factory: Zan, compatibility: GameModule.Turmoil},
     {cardName: CardName.FARADAY, Factory: Faraday},
     {cardName: CardName.MUSK, Factory: Musk},
-    {cardName: CardName.HUAN, Factory: Huan},
+    {cardName: CardName.HUAN, Factory: Huan, compatibility: GameModule.Colonies},
+    {cardName: CardName.RYU, Factory: Ryu},
   ],
 });
