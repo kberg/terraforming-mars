@@ -299,6 +299,12 @@ export class Player implements ISerializable<SerializedPlayer> {
     for (let i = 0; i < value; i++) {
       this.increaseTerraformRating();
     }
+
+    // Greta CEO hook
+    if (this.cardIsInEffect(CardName.GRETA)) {
+      const greta = this.playedCards.find((card) => card.name === CardName.GRETA) as LeaderCard;
+      greta.onTRIncrease!(this);
+    }
   }
 
   public decreaseTerraformRatingSteps(value: number, log: boolean = false) {

@@ -30,6 +30,6 @@ export class BufferGasStandardProject extends StandardProjectCard {
   }
 
   actionEssence(player: Player): void {
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
   }
 }

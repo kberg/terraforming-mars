@@ -54,7 +54,7 @@ export class VoteOfNoConfidence extends Card implements IProjectCard {
     const index = turmoil.delegateReserve.indexOf(player.id);
 
     if (index > -1) turmoil.delegateReserve.splice(index, 1);
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     return undefined;
   }
 }

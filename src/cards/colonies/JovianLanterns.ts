@@ -68,7 +68,7 @@ export class JovianLanterns extends Card implements IProjectCard, IResourceCard 
 
   public play(player: Player) {
     player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {count: 2}));
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     return undefined;
   }
 

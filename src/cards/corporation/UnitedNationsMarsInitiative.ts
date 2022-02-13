@@ -49,7 +49,7 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
   }
   public action(player: Player) {
     player.megaCredits -= 3;
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     return undefined;
   }
 }

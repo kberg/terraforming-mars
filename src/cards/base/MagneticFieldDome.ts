@@ -46,7 +46,7 @@ export class MagneticFieldDome extends Card implements IProjectCard {
   public play(player: Player) {
     player.addProduction(Resources.ENERGY, -2);
     player.addProduction(Resources.PLANTS, 1);
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     return undefined;
   }
 }

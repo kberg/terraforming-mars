@@ -9,6 +9,7 @@ import {Ender} from './Ender';
 import {Faraday} from './Faraday';
 import {Floyd} from './Floyd';
 import {Gordon} from './Gordon';
+import {Greta} from './Greta';
 import {HAL9000} from './HAL9000';
 import {Huan} from './Huan';
 import {Ingrid} from './Ingrid';
@@ -65,5 +66,6 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.MUSK, Factory: Musk},
     {cardName: CardName.HUAN, Factory: Huan, compatibility: GameModule.Colonies},
     {cardName: CardName.RYU, Factory: Ryu},
+    {cardName: CardName.GRETA, Factory: Greta},
   ],
 });

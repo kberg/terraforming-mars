@@ -38,7 +38,7 @@ export class PoliticalAlliance extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     return undefined;
   }
 }

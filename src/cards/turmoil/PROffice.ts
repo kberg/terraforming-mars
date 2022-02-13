@@ -50,7 +50,7 @@ export class PROffice extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     const amount = player.getTagCount(Tags.EARTH) + 1;
     player.addResource(Resources.MEGACREDITS, amount);
     TurmoilHandler.handleSocietyPayment(player, PartyName.UNITY);

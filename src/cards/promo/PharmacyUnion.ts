@@ -95,7 +95,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
               }),
               new SelectOption('Add a disease to it and lose up to 4 M€, then remove a disease to gain 1 TR', 'Confirm', () => {
                 const megaCreditsLost = Math.min(player.megaCredits, 4);
-                player.increaseTerraformRating();
+                player.increaseTerraformRatingSteps(1);
                 player.megaCredits -= megaCreditsLost;
                 game.log('${0} added a disease to ${1} and lost ${2} M€', (b) => b.player(player).card(this).number(megaCreditsLost));
                 game.log('${0} removed a disease from ${1} to gain 1 TR', (b) => b.player(player).card(this));
@@ -125,7 +125,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
                 game.log('${0} cannot remove a disease from ${1} to gain 1 TR because of unaffordable Reds policy cost', (b) => b.player(player).card(this));
               } else {
                 this.resourceCount--;
-                player.increaseTerraformRating();
+                player.increaseTerraformRatingSteps(1);
                 game.log('${0} removed a disease from ${1} to gain 1 TR', (b) => b.player(player).card(this));
               }
               return undefined;

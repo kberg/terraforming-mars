@@ -22,7 +22,7 @@ export class NitrogenDelivery extends PreludeCard implements IProjectCard {
   }
   public play(player: Player) {
     player.megaCredits += 5;
-    player.increaseTerraformRating();
+    player.increaseTerraformRatingSteps(1);
     player.addProduction(Resources.PLANTS, 1);
     return undefined;
   }

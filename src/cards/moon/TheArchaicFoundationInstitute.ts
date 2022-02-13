@@ -49,7 +49,7 @@ export class TheArchaicFoundationInstitute extends Card implements CorporationCa
       player.addResourceTo(this, count);
       if (this.resourceCount >= 3) {
         player.removeResourceFrom(this, 3, player.game, player, true);
-        player.increaseTerraformRating();
+        player.increaseTerraformRatingSteps(1);
       }
     };
     return undefined;

@@ -1551,7 +1551,7 @@ export class Game implements ISerializable<SerializedGame> {
     });
     if (this.phase !== Phase.SOLAR) {
       TurmoilHandler.onGlobalParameterIncrease(player, GlobalParameter.OCEANS);
-      player.increaseTerraformRating();
+      player.increaseTerraformRatingSteps(1);
     }
     AresHandler.ifAres(this, (aresData) => {
       AresHandler.onOceanPlaced(aresData, player);
