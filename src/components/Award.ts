@@ -14,12 +14,8 @@ export const Award = Vue.component('award', {
     },
   },
   data: function() {
-    const showDescription: {[x: string]: boolean} = {};
-    for (const award of this.awards_list) {
-      showDescription[award.award.name] = false;
-    }
     return {
-      showDescription,
+      showDescription: false,
       showList: true,
     };
   },
@@ -29,14 +25,14 @@ export const Award = Vue.component('award', {
         'ma-name ma-name--' + awardName.replace(/ /g, '-').toLowerCase()
       );
     },
-    shouldShow: function(award: FundedAwardModel): boolean {
-      return this.showDescription[award.award.name] === true;
+    shouldShow: function(): boolean {
+      return this.showDescription === true;
     },
     shouldShowList: function(): boolean {
       return this.showList;
     },
-    toggle: function(award: FundedAwardModel) {
-      this.showDescription[award.award.name] = !this.showDescription[award.award.name];
+    toggle: function() {
+      this.showDescription = !this.showDescription;
     },
     toggleList: function() {
       this.showList = !this.showList;
@@ -73,7 +69,7 @@ export const Award = Vue.component('award', {
             </div>
 
             <div v-show="shouldShowList()">
-                <div title="press to show or hide the description" v-on:click.prevent="toggle(award)" v-for="award in awards_list" :class=getClassForAwardTile(award)>
+                <div title="press to show or hide the description" v-on:click.prevent="toggle()" v-for="award in awards_list" :class=getClassForAwardTile(award)>
                     <div class="ma-player" v-if="award.player_name"><i :title="award.player_name" :class="'board-cube board-cube--'+award.player_color" /></div>
                     <div class="ma-name--awards award-block" :class="getNameCss(award.award.name)" v-i18n>
                         {{award.award.name}}
@@ -83,7 +79,7 @@ export const Award = Vue.component('award', {
                             )" :class="'ma-score player_bg_color_'+score.playerColor">{{ score.playerScore }}</p>
                         </div>
                     </div>
-                    <div v-show="shouldShow(award)" class="ma-description" v-i18n>{{award.award.description}}</div>
+                    <div v-show="shouldShow()" class="ma-description" v-i18n>{{award.award.description}}</div>
                 </div>
             </div>
         </div>

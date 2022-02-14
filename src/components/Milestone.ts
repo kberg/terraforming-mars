@@ -14,13 +14,9 @@ export const Milestone = Vue.component('milestone', {
     },
   },
   data: function() {
-    const showDescription: {[x: string]: boolean} = {};
-    for (const milestone of this.milestones_list) {
-      showDescription[milestone.milestone.name] = false;
-    }
     return {
       showList: this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : true,
-      showDescription,
+      showDescription: false,
     };
   },
   methods: {
@@ -29,14 +25,14 @@ export const Milestone = Vue.component('milestone', {
         'ma-name ma-name--' + milestoneName.replace(/ /g, '-').toLowerCase()
       );
     },
-    shouldShow: function(milestone: ClaimedMilestoneModel): boolean {
-      return this.showDescription[milestone.milestone.name] === true;
+    shouldShow: function(): boolean {
+      return this.showDescription === true;
     },
     shouldShowList: function(): boolean {
       return this.showList;
     },
-    toggle: function(milestone: ClaimedMilestoneModel) {
-      this.showDescription[milestone.milestone.name] = !this.showDescription[milestone.milestone.name];
+    toggle: function() {
+      this.showDescription = !this.showDescription;
     },
     toggleList: function() {
       this.showList = !this.showList;
@@ -68,7 +64,7 @@ export const Milestone = Vue.component('milestone', {
                 </span>
             </div>
             <div v-show="shouldShowList()">
-                <div title="press to show or hide the description" v-on:click.prevent="toggle(milestone)" v-for="milestone in milestones_list" :class=getClassForMilestoneTile(milestone)>
+                <div title="press to show or hide the description" v-on:click.prevent="toggle()" v-for="milestone in milestones_list" :class=getClassForMilestoneTile(milestone)>
                     <div class="ma-player" v-if="milestone.player_name"><i :title="milestone.player_name" :class="'board-cube board-cube--'+milestone.player_color" /></div>
                     <div class="ma-name--milestones" :class="getNameCss(milestone.milestone.name)" v-i18n>
                         {{milestone.milestone.name}}
@@ -78,7 +74,7 @@ export const Milestone = Vue.component('milestone', {
                             )" :class="'ma-score player_bg_color_'+score.playerColor">{{ score.playerScore }}</p>
                         </div>
                     </div>
-                    <div v-show="shouldShow(milestone)" class="ma-description" v-i18n>{{milestone.milestone.description}}</div>
+                    <div v-show="shouldShow()" class="ma-description" v-i18n>{{milestone.milestone.description}}</div>
                 </div>
             </div>
         </div>

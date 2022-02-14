@@ -6,7 +6,7 @@ import {ASIMOV_AWARD_BONUS} from '../constants';
 
 export class Miner implements IAward {
     public name: string = 'Miner';
-    public description: string = 'Having the most steel and titanium resource cubes (after final production round)'
+    public description: string = 'Having the most steel and titanium resources'
     public getScore(player: Player): number {
       let score: number;
 
