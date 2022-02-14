@@ -49,7 +49,13 @@ export class Faraday extends Card implements LeaderCard {
 
     validTags.forEach((item) => {
       const count = item.count;
-      if (count % 4 === 0) player.drawCard(1, {tag: item.tag});
+      const tagsAdded = card.tags.filter((tag) => tag === item.tag).length;
+
+      if (count % 4 === 0) {
+        player.drawCard(1, {tag: item.tag});
+      } else if (tagsAdded > 1 && (count - 1) % 4 === 0) {
+        player.drawCard(1, {tag: item.tag});
+      }
     })
   }
 }
