@@ -841,6 +841,12 @@ export class Game implements ISerializable<SerializedGame> {
     });
 
     if (this.gameIsOver()) {
+      if (this.gameOptions.coloniesExtension) {
+        this.colonies.forEach((colony) => {
+          colony.visitor = undefined;
+        });
+      }
+
       this.log('Final greenery placement', (b) => b.forNewGeneration());
       this.gotoFinalGreeneryPlacement();
       return;
