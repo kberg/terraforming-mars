@@ -181,6 +181,7 @@ export const GameEnd = Vue.component('game-end', {
                                 <td>
                                   <a :href="'/player?id='+p.id+'&noredirect'">{{ p.name }}</a>
                                   <div class="column-corporation">{{ p.corporationCard === undefined ? "" : p.corporationCard.name }}</div>
+                                  <div v-if="p.playedCards.find((card) => card.cardType === 'leader') !== undefined" style="font-size:smaller">{{ p.playedCards.find((card) => card.cardType === 'leader').name }}</div>
                                 </td>
                                 <td>{{ p.victoryPointsBreakdown.terraformRating }}</td>
                                 <td>{{ p.victoryPointsBreakdown.milestones }}</td>
