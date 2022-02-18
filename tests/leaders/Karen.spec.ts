@@ -2,6 +2,7 @@ import {expect} from "chai";
 import {CardType} from "../../src/cards/CardType";
 import {IProjectCard} from "../../src/cards/IProjectCard";
 import {Karen} from "../../src/cards/leaders/Karen";
+import {GalileanMining} from "../../src/cards/prelude/GalileanMining";
 import {Game} from "../../src/Game";
 import {SelectCard} from "../../src/inputs/SelectCard";
 import {Player} from "../../src/Player";
@@ -44,6 +45,15 @@ describe('Karen', function() {
     
     selectCard.cb([selectCard.cards[0]]);
     expect(player.playedCards.filter((card) => card.cardType === CardType.PRELUDE)).has.length(1);
+  });
+
+  it('Discards unplayable prelude cards', function() {
+    player.megaCredits = 0;
+    game.dealer.preludeDeck.push(new GalileanMining());
+
+    const action = card.action(player);
+    expect(action).is.undefined;
+    expect(player.playedCards.filter((card) => card.cardType === CardType.PRELUDE)).has.length(0);
   });
 
   it('Can only act once per game', function() {
