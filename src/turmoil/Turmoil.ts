@@ -241,7 +241,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
   }
 
   // Launch the turmoil phase
-  public endGeneration(game: Game): void {
+  public endGeneration(game: Game, cb: () => void): void {
     // 1 - All player lose 1 TR
     game.getPlayers().forEach((player) => {
       player.decreaseTerraformRating();
@@ -249,11 +249,19 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
 
     // 2 - Global Event
     if (this.currentGlobalEvent !== undefined) {
-      const currentGlobalEvent: IGlobalEvent = this.currentGlobalEvent;
+      const currentGlobalEvent = this.currentGlobalEvent;
       game.log('Resolving global event ${0}', (b) => b.globalEvent(currentGlobalEvent));
       currentGlobalEvent.resolve(game, this);
     }
 
+    game.deferredActions.runAll(() => {
+      console.log('part 2 starting now');
+      this.endGenerationPart2(game);
+      game.deferredActions.runAll(() => cb());
+    });
+  }
+
+  public endGenerationPart2(game: Game): void {
     // 3 - New Government
     this.rulingParty = this.dominantParty;
 
@@ -297,7 +305,6 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
     if (this.distantGlobalEvent) {
       this.sendDelegateToParty('NEUTRAL', this.distantGlobalEvent.revealedDelegate, game);
     }
-    game.log('Turmoil phase has been resolved');
   }
 
   // Ruling Party changes

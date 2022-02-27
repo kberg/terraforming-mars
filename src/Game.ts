@@ -797,22 +797,15 @@ export class Game implements ISerializable<SerializedGame> {
       this.syndicatePirateRaider = undefined;
     }
 
-    Turmoil.ifTurmoil(this, (turmoil) => {
-      turmoil.endGeneration(this);
+    Turmoil.ifTurmoilElse(this, (turmoil) => {
+      turmoil.endGeneration(this, () => {
+        this.phase = Phase.INTERGENERATION;
+        this.goToDraftOrResearch();
+      });
+    }, () => {
+      this.phase = Phase.INTERGENERATION;
+      this.goToDraftOrResearch();
     });
-
-    // Resolve Turmoil deferred actions
-    if (this.deferredActions.length > 0) {
-      this.resolveTurmoilDeferredActions();
-      return;
-    }
-
-    this.phase = Phase.INTERGENERATION;
-    this.goToDraftOrResearch();
-  }
-
-  private resolveTurmoilDeferredActions() {
-    this.deferredActions.runAll(() => this.goToDraftOrResearch());
   }
 
   private goToDraftOrResearch() {

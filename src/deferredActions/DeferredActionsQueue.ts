@@ -57,6 +57,7 @@ export class DeferredActionsQueue {
     const next = this.nextItemIndex();
     const action = this.queue[next];
     if (action === undefined) {
+      console.log('calling cb');
       cb();
       return;
     }

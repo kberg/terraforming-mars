@@ -37,6 +37,11 @@ import {DarksideMeteorBombardment} from '../../src/cards/moon/DarksideMeteorBomb
 import {LunaStagingStation} from '../../src/cards/moon/LunaStagingStation';
 import {MoonExpansion} from '../../src/moon/MoonExpansion';
 import {TileType} from '../../src/common/TileType';
+import {IGlobalEvent} from '../../src/turmoil/globalEvents/IGlobalEvent';
+import {DeferredAction} from '../../src/deferredActions/DeferredAction';
+import {SelectOption} from '../../src/inputs/SelectOption';
+import {GlobalEventName} from '../../src/common/turmoil/globalEvents/GlobalEventName';
+import {AquiferReleasedByPublicCouncil} from '../../src/turmoil/globalEvents/AquiferReleasedByPublicCouncil';
 
 describe('Turmoil', function() {
   let player : TestPlayer; let player2 : Player; let game : Game; let turmoil: Turmoil;
@@ -160,10 +165,58 @@ describe('Turmoil', function() {
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
 
     game.phase = Phase.SOLAR;
-    turmoil.endGeneration(game);
-    game.deferredActions.runAll(() => {});
 
-    expect(game.getPlayerById(turmoil.chairman!)).to.eq(player);
+    turmoil.endGeneration(game, () => {});
+
+    expect(turmoil.chairman).to.eq(player.id);
+    // both players lose 1 TR; player gains 1 TR from Reds ruling bonus, 1 TR from chairman
+    expect(player.getTerraformRating()).to.eq(21);
+    expect(player2.getTerraformRating()).to.eq(20);
+
+    expect(turmoil.lobby.size).to.eq(2);
+    expect(turmoil.rulingParty).to.eq(turmoil.getPartyByName(PartyName.REDS));
+    expect(turmoil.dominantParty).to.eq(turmoil.getPartyByName(PartyName.GREENS));
+  });
+
+  it('Correctly run end generation when a user input event blocks processing', () => {
+    const globalEvent: Partial<IGlobalEvent> = {
+      name: 'hello' as GlobalEventName,
+      resolve: (game: Game) => {
+        game.defer(
+          new DeferredAction(
+            player,
+            () => new SelectOption('this', 'ok', () => undefined),
+          ),
+        );
+      },
+    };
+
+    turmoil.currentGlobalEvent = globalEvent as IGlobalEvent;
+    turmoil.currentGlobalEvent = new AquiferReleasedByPublicCouncil();
+    player.setTerraformRating(20);
+    player2.setTerraformRating(20);
+
+    turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
+    turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
+    turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);
+
+    game.phase = Phase.SOLAR;
+    turmoil.endGeneration(game, () => {
+      console.log('end now');
+    });
+
+    expect(player.getTerraformRating()).eq(19);
+    expect(player2.getTerraformRating()).eq(19);
+
+    expect(turmoil.chairman).to.eq('NEUTRAL');
+
+    const selectSpace = TestingUtils.cast(player.popWaitingFor(), SelectSpace);
+    selectSpace.cb(selectSpace.availableSpaces[0]);
+    console.log(game.deferredActions);
+    TestingUtils.runAllActions(game);
+
+    expect(turmoil.chairman).to.eq(player.id);
+
     // both players lose 1 TR; player gains 1 TR from Reds ruling bonus, 1 TR from chairman
     expect(player.getTerraformRating()).to.eq(21);
     expect(player2.getTerraformRating()).to.eq(20);
