@@ -470,6 +470,7 @@ export enum CardName {
     BACTOVIRAL_RESEARCH = 'Bactoviral Research',
     HARVEST = 'Harvest',
     OUTDOOR_SPORTS = 'Outdoor Sports',
+    NEW_PARTNER = 'New Partner',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',

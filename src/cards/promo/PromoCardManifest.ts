@@ -50,6 +50,7 @@ import {BioPrintingFacility} from './BioPrintingFacility';
 import {BactoviralResearch} from './BactoviralResearch';
 import {Harvest} from './Harvest';
 import {OutdoorSports} from './OutdoorSports';
+import {NewPartner} from './NewPartner';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -96,12 +97,14 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HARVEST, Factory: Harvest},
     {cardName: CardName.OUTDOOR_SPORTS, Factory: OutdoorSports},
   ],
-
+  preludeCards: [
+    {cardName: CardName.NEW_PARTNER, Factory: NewPartner},
+  ],
   cardsToRemove: [
     CardName.DEIMOS_DOWN,
     CardName.GREAT_DAM,
-    CardName.MAGNETIC_FIELD_GENERATORS],
-
+    CardName.MAGNETIC_FIELD_GENERATORS
+  ],
   corporationCards: [
     {cardName: CardName.ARCADIAN_COMMUNITIES, Factory: ArcadianCommunities},
     {cardName: CardName.ASTRODRILL, Factory: Astrodrill},
