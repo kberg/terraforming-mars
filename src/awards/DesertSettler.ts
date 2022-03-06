@@ -6,7 +6,7 @@ import {ASIMOV_AWARD_BONUS} from '../constants';
 
 export class DesertSettler implements IAward {
     public name: string = 'Desert Settler';
-    public description: string = 'Most tiles south of the equator (the four bottom rows)'
+    public description: string = 'Most tiles in the bottom four rows'
     public getScore(player: Player): number {
       let score = player.game.board.spaces
         .filter((space) => space.player !== undefined &&
