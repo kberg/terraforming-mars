@@ -19,10 +19,10 @@ export class Faraday extends Card implements LeaderCard {
         cardNumber: 'L27',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.text('4x', Size.LARGE).diverseTag(1, Size.MEDIUM).played.colon().cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
+          b.text('5x', Size.LARGE).diverseTag(1, Size.MEDIUM).played.colon().cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
           b.br.br;
         }),
-        description: 'When you gain a multiple of 4 for any tag type IN PLAY, draw a card with that tag. Wild tags do not count for this effect.',
+        description: 'When you gain a multiple of 5 for any tag type IN PLAY, draw a card with that tag. Wild tags do not count for this effect.',
       },
     });
   }
@@ -51,9 +51,9 @@ export class Faraday extends Card implements LeaderCard {
       const count = item.count;
       const tagsAdded = card.tags.filter((tag) => tag === item.tag).length;
 
-      if (count % 4 === 0) {
+      if (count % 5 === 0) {
         player.drawCard(1, {tag: item.tag});
-      } else if (tagsAdded > 1 && (count - 1) % 4 === 0) {
+      } else if (tagsAdded > 1 && (count - 1) % 5 === 0) {
         player.drawCard(1, {tag: item.tag});
       }
     })
