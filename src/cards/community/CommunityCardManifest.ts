@@ -68,7 +68,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ARISTARCHUS, Factory: Aristarchus},
     {cardName: CardName.LABOUR_UNION, Factory: LabourUnion},
     {cardName: CardName.UNITED_NATIONS_MISSION_ONE, Factory: UnitedNationsMissionOne},
-    {cardName: CardName.MARS_COALITION, Factory: MarsCoalition},
+    {cardName: CardName.MARS_COALITION, Factory: MarsCoalition, compatibility: GameModule.Turmoil},
     {cardName: CardName.TEMPEST_INC, Factory: TempestInc},
   ],
   preludeCards: [
