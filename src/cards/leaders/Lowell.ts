@@ -50,7 +50,6 @@ export class Lowell extends Card implements LeaderCard {
     return new SelectCard('Choose leader card to play', 'Play', cardsDrawn, (foundCards: Array<IProjectCard>) => {
       const cardIndex = player.playedCards.findIndex((c) => c.name === this.name);
       player.playedCards.splice(cardIndex, 1);
-      player.game.dealer.discard(this);
 
       return player.playCard(foundCards[0]);
     }, 1, 1);
