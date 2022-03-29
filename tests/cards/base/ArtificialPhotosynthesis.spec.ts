@@ -1,24 +1,28 @@
-
 import {expect} from 'chai';
 import {ArtificialPhotosynthesis} from '../../../src/cards/base/ArtificialPhotosynthesis';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('ArtificialPhotosynthesis', () => {
   it('Should play', () => {
     const card = new ArtificialPhotosynthesis();
     const player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player);
+    const game = Game.newInstance('foobar', [player], player);
+    player.popWaitingFor(); // Remove SelectInitialCards.
 
     const action = card.play(player);
-    expect(action).instanceOf(OrOptions);
-    expect(action.options).has.lengthOf(2);
+    expect(action).is.undefined;
 
-    action.options[0].cb();
+    TestingUtils.runAllActions(game);
+    const options = TestingUtils.cast(player.popWaitingFor(), OrOptions);
+    expect(options.options).has.lengthOf(2);
+
+    options.options[0].cb();
     expect(player.getProduction(Resources.ENERGY)).eq(2);
-    action.options[1].cb();
+    options.options[1].cb();
     expect(player.getProduction(Resources.PLANTS)).eq(1);
   });
 });

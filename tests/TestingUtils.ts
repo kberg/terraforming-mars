@@ -122,4 +122,13 @@ export class TestingUtils {
   public static formatLogMessage(message: LogMessage): string {
     return Log.applyData(message, (datum) => datum.value);
   }
+
+  // type Class<T> = new (...args: any[]) => T;
+  // export function cast<T>(klass: Class<T>, obj: any): T {
+  public static cast<T>(obj: any, klass: new (...args: any[]) => T): T {
+    if (!(obj instanceof klass)) {
+      throw new Error(`Not an instance of ${klass.name}: ${obj.constructor.name}`);
+    }
+    return obj;
+  }
 }

@@ -33,7 +33,7 @@ import {SelectAmount} from './inputs/SelectAmount';
 import {SelectCard} from './inputs/SelectCard';
 import {SellPatentsStandardProject} from './cards/base/standardProjects/SellPatentsStandardProject';
 import {SendDelegateToArea} from './deferredActions/SendDelegateToArea';
-import {DeferredAction} from './deferredActions/DeferredAction';
+import {DeferredAction, Priority} from './deferredActions/DeferredAction';
 import {SelectHowToPayDeferred} from './deferredActions/SelectHowToPayDeferred';
 import {SelectColony} from './inputs/SelectColony';
 import {SelectPartyToSendDelegate} from './inputs/SelectPartyToSendDelegate';
@@ -89,8 +89,8 @@ export type PlayerId = string;
 
 export class Player implements ISerializable<SerializedPlayer> {
   public readonly id: PlayerId;
-  private waitingFor?: PlayerInput;
-  private waitingForCb?: () => void;
+  protected waitingFor?: PlayerInput;
+  protected waitingForCb?: () => void;
   private _game: Game | undefined = undefined;
 
   // Corporate identity
@@ -912,7 +912,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   private runInputCb(result: PlayerInput | undefined): void {
     if (result !== undefined) {
-      this.game.defer(new DeferredAction(this, () => result));
+      this.defer(result, Priority.DEFAULT);
     }
   }
 
@@ -1551,12 +1551,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     // Play the card
     const action = selectedCard.play(this);
-    if (action !== undefined) {
-      this.game.defer(new DeferredAction(
-        this,
-        () => action,
-      ));
-    }
+    this.defer(action, Priority.DEFAULT);
 
     // Remove card from hand
     const projectCardIndex = this.cardsInHand.findIndex((card) => card.name === selectedCard.name);
@@ -2631,5 +2626,12 @@ export class Player implements ISerializable<SerializedPlayer> {
   public canUseTripleTurmoilAction(isDominantPartyAction: boolean): boolean {
     if (isDominantPartyAction) return this.dominantPartyActionUsedCount < POLITICAL_AGENDAS_MAX_ACTION_USES;
     return this.politicalAgendasActionUsedCount < POLITICAL_AGENDAS_MAX_ACTION_USES;
+  }
+
+  /* Shorthand for deferring things */
+  public defer(input: PlayerInput | undefined, priority: Priority): void {
+    if (input === undefined) return;
+    const action = new DeferredAction(this, () => input, priority);
+    this.game.defer(action);
   }
 }
