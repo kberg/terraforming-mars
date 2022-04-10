@@ -180,6 +180,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   public removedFromPlayCards: Array<IProjectCard> = [];
   // Hotsprings
   public heatProductionStepsIncreasedThisGeneration: number = 0;
+  // Passer
+  public consecutiveFirstPassCount: number = 0;
 
   // Stats
   public totalSpend: number = 0;
@@ -2429,6 +2431,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       removedFromPlayCards: this.removedFromPlayCards.map((c) => c.name),
       // Hotsprings
       heatProductionStepsIncreasedThisGeneration: this.heatProductionStepsIncreasedThisGeneration,
+      // Passer
+      consecutiveFirstPassCount: this.consecutiveFirstPassCount,
       name: this.name,
       color: this.color,
       beginner: this.beginner,
@@ -2459,6 +2463,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.colonyTradeDiscount = d.colonyTradeDiscount;
     player.colonyTradeOffset = d.colonyTradeOffset;
     player.colonyVictoryPoints = d.colonyVictoryPoints;
+    player.consecutiveFirstPassCount = d.consecutiveFirstPassCount;
     player.corporationInitialActionDone = d.corporationInitialActionDone;
     player.endGenerationScores = d.endGenerationScores;
     player.energy = d.energy;

@@ -41,6 +41,7 @@ import {Tropicalist} from './amazonisPlanitia/Tropicalist';
 import {Monument} from './fanmade/Monument';
 import {Wanderer} from './fanmade/Wanderer';
 import {Ambassador} from './fanmade/Ambassador';
+import {Passer} from './fanmade/Passer';
 
 export const ORIGINAL_MILESTONES: Array<IMilestone> = [
   new Terraformer(),
@@ -106,6 +107,7 @@ export const NEW_OPS_MILESTONES: Array<IMilestone> = [
   new Monument(),
   new Wanderer(),
   new Ambassador(),
+  new Passer(),
 ];
 
 export const ARES_MILESTONES: Array<IMilestone> = [

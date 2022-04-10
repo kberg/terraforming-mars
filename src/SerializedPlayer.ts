@@ -17,6 +17,7 @@ export interface SerializedPlayer {
     colonyTradeOffset: number;
     colonyVictoryPoints: number;
     color: Color;
+    consecutiveFirstPassCount: number;
     corporationCard: SerializedCard | undefined;
     corporationInitialActionDone: boolean;
     dealtCorporationCards: Array<CardName>;

@@ -55,6 +55,7 @@ import {Energizer} from './milestones/Energizer';
 import {Ambassador} from './milestones/fanmade/Ambassador';
 import {Monument} from './milestones/fanmade/Monument';
 import {Wanderer} from './milestones/fanmade/Wanderer';
+import {Passer} from './milestones/fanmade/Passer';
 import {Gardener} from './milestones/Gardener';
 import {Generalist} from './milestones/Generalist';
 import {Hoverlord} from './milestones/Hoverlord';
@@ -78,6 +79,7 @@ import {Electrician} from './milestones/vastitasBorealis/Electrician';
 import {Irrigator} from './milestones/vastitasBorealis/Irrigator';
 import {Smith} from './milestones/vastitasBorealis/Smith';
 import {Tradesman} from './milestones/vastitasBorealis/Tradesman';
+import {Capitalist} from './milestones/vastitasBorealis/Capitalist';
 import {FullMoon} from './moon/FullMoon';
 import {Lunarchitect} from './moon/Lunarchitect';
 import {LunarMagnate} from './moon/LunarMagnate';
@@ -425,6 +427,9 @@ export namespace MilestoneAwardSelector {
 
       bind(Ambassador, Politician, 9);
 
+      bind(Passer, Capitalist, 9);
+      bind(Passer, Planner, 9);
+
       return synergies;
     }
   }
@@ -609,8 +614,8 @@ export namespace MilestoneAwardSelector {
         candidateAwards.splice(candidateAwards.indexOf('Politician'), 1);
       }
 
-      if (gameOptions.turmoilExtension === false && candidateAwards.some((award) => award === 'Ambassador')) {
-        candidateAwards.splice(candidateAwards.indexOf('Ambassador'), 1);
+      if (gameOptions.turmoilExtension === false && candidateMilestones.some((milestone) => milestone === 'Ambassador')) {
+        candidateMilestones.splice(candidateMilestones.indexOf('Ambassador'), 1);
       }
     } else if (gameOptions.boardName === BoardName.AMAZONIS) {
       candidateMilestones.push(...AMAZONIS_PLANITIA_MILESTONES.map(toName));

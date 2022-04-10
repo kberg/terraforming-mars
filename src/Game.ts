@@ -936,6 +936,13 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public playerHasPassed(player: Player): void {
+    if (this.passedPlayers.size === 0) {
+      player.consecutiveFirstPassCount++;
+
+      const otherPlayers = this.getPlayers().filter((p) => p.id !== player.id);
+      otherPlayers.forEach((player) => player.consecutiveFirstPassCount = 0);
+    }
+
     this.passedPlayers.add(player.id);
   }
 

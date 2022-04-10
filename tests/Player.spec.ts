@@ -281,6 +281,7 @@ describe('Player', function() {
       removingPlayers: [],
       removedFromPlayCards: [],
       heatProductionStepsIncreasedThisGeneration: 0,
+      consecutiveFirstPassCount: 0,
       totalDelegatesPlaced: 0,
       totalChairmanshipsWon: 0,
       name: 'player-blue',
