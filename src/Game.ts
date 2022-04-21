@@ -731,7 +731,7 @@ export class Game implements ISerializable<SerializedGame> {
   public activateVenusColony(card: CorporationCard | IProjectCard): void {
     const venusColony = this.colonies.find((colony) => colony.name === ColonyName.VENUS);
     if (venusColony === undefined || venusColony.isActive) return;
-    if (card.tags.includes(Tags.VENUS)) venusColony.isActive = true;
+    if (card.tags.includes(Tags.VENUS) && card.resourceType !== undefined) venusColony.isActive = true;
   }
 
   private pickCorporationCard(player: Player): PlayerInput {

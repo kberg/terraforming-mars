@@ -12,6 +12,7 @@ import {SelectColony} from '../../inputs/SelectColony';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {Aridor} from '../colonies/Aridor';
 import {ColonyDealer} from '../../colonies/ColonyDealer';
+import {Tags} from '../Tags';
 
 export class Maria extends Card implements LeaderCard {
   constructor() {
@@ -62,6 +63,16 @@ export class Maria extends Card implements LeaderCard {
 
             game.defer(new DeferredAction(player, () => {
               Aridor.checkActivation(colony, game);
+
+              // Activate Venus colony
+              if (colony.name === ColonyName.VENUS) {
+                game.getPlayers().forEach((player) => {
+                  if (player.playedCards.some((card) => card.tags.includes(Tags.VENUS) && card.resourceType !== undefined)) {
+                    colony.isActive = true;
+                  }
+                })
+              }
+
               if (colony.isActive) colony.addColony(player);
               this.isDisabled = true;
               return undefined;
