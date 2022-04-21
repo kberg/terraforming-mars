@@ -128,6 +128,17 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
         }
       }
     },
+    getExpansionIcon: function(corpName: string) {
+      switch (corpName) {
+      case CardName.COLONIAL_ONE:
+        return `<span class='create-game-expansion-icon expansion-icon-colony expansion-icon-small'></span>`;
+      case CardName.INCITE:
+      case CardName.MARS_COALITION:
+        return `<span class='create-game-expansion-icon expansion-icon-turmoil expansion-icon-small'></span>`;
+      default:
+        return '';
+      }
+    },
   },
   watch: {
     selectedCorporations: function(value) {
@@ -184,6 +195,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
                 <label class="form-checkbox">
                     <input type="checkbox" v-model="selectedCorporations" :value="corporation"/>
                     <i class="form-icon"></i>{{ corporation }}
+                    <div v-html="getExpansionIcon(corporation)" style="display:inline-block"></div>
                 </label>
             </div>
         </div>
