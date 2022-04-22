@@ -1117,23 +1117,6 @@ export class Player implements ISerializable<SerializedPlayer> {
   public runProductionPhase(): void {
     this.actionsThisGeneration.clear();
     this.removingPlayers = [];
-    // Syndicate Pirate Raids hook. If it is in effect, then only the syndicate pirate raider will
-    // retrieve their fleets.
-    // See Colony.ts for the other half of this effect, and Game.ts which disables it.
-    if (this.game.syndicatePirateRaider === undefined) {
-      this.tradesThisGeneration = 0;
-    } else if (this.game.syndicatePirateRaider === this.id) {
-      // CEO effect: Disable all other players from trading next gen,
-      // but free up all colonies (don't leave their trade fleets stuck there)
-      if (this.cardIsInEffect(CardName.HUAN)) {
-        this.game.getPlayers().forEach((player) => {
-          // Magic number high enough to disable other players' trading
-          player.tradesThisGeneration = 50;
-        })
-      }
-
-      this.tradesThisGeneration = 0;
-    }
 
     this.turmoilPolicyActionUsed = false;
     this.politicalAgendasActionUsedCount = 0;
@@ -1154,6 +1137,26 @@ export class Player implements ISerializable<SerializedPlayer> {
     this.playedCards
       .filter((card) => card.cardType === CardType.LEADER)
       .forEach((card) => (card as LeaderCard).opgActionIsActive = false);
+  }
+
+  public returnTradeFleets(): void {
+    // Syndicate Pirate Raids hook. If it is in effect, then only the syndicate pirate raider will
+    // retrieve their fleets.
+    // See Colony.ts for the other half of this effect, and Game.ts which disables it.
+    if (this.game.syndicatePirateRaider === undefined) {
+      this.tradesThisGeneration = 0;
+    } else if (this.game.syndicatePirateRaider === this.id) {
+      // CEO effect: Disable all other players from trading next gen,
+      // but free up all colonies (don't leave their trade fleets stuck there)
+      if (this.cardIsInEffect(CardName.HUAN)) {
+        this.game.getPlayers().forEach((player) => {
+          // Magic number high enough to disable other players' trading
+          player.tradesThisGeneration = 50;
+        })
+      }
+
+      this.tradesThisGeneration = 0;
+    }
   }
 
   private doneWorldGovernmentTerraforming(): void {
