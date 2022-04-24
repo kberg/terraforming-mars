@@ -21,7 +21,7 @@ export class AncientShipyards extends MoonCard {
       reserveUnits: Units.of({titanium: 3}),
 
       metadata: {
-        description: 'Spend 3 titanium. -1 VP for every 2 resources here.',
+        description: 'Spend 3 titanium. -1 VP for every resource here.',
         cardNumber: 'M19',
         renderData: CardRenderer.builder((b) => {
           b.action('Steal 8 M€ from any player and add a resource cube here.', (eb) => {
@@ -29,7 +29,7 @@ export class AncientShipyards extends MoonCard {
           }).br.br;
           b.minus().titanium(3);
         }),
-        victoryPoints: CardRenderDynamicVictoryPoints.resourceCube(-1, 2),
+        victoryPoints: CardRenderDynamicVictoryPoints.resourceCube(-1, 1),
       },
     });
   };
@@ -54,6 +54,6 @@ export class AncientShipyards extends MoonCard {
   }
 
   public getVictoryPoints() {
-    return -Math.floor(this.resourceCount / 2);
+    return -Math.floor(this.resourceCount);
   }
 }

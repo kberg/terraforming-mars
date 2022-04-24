@@ -106,7 +106,7 @@ describe('ProjectWorkshop', function() {
     result!.options[1].cb([ancientShipyards]);
     expect(player.playedCards).is.empty;
     expect(game.dealer.discarded.includes(ancientShipyards)).is.true;
-    expect(player.getTerraformRating()).to.eq(originalTR - 2);
+    expect(player.getTerraformRating()).to.eq(originalTR - 5);
     expect(player.cardsInHand).has.lengthOf(2);
   });
 });
