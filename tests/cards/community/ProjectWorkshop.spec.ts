@@ -10,6 +10,7 @@ import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
+import {AncientShipyards} from '../../../src/cards/moon/AncientShipyards';
 
 describe('ProjectWorkshop', function() {
   let card : ProjectWorkshop; let player : Player; let game : Game; let advancedAlloys : AdvancedAlloys;
@@ -89,5 +90,23 @@ describe('ProjectWorkshop', function() {
     player.megaCredits = 4;
     const result = card.action(player);
     expect(result).instanceOf(OrOptions);
+  });
+
+  it('Project Workshop removes TR when flipping Ancient Shipyards', () => {
+    const ancientShipyards = new AncientShipyards();
+    player.addResourceTo(ancientShipyards, 5);
+    player.playedCards.push(ancientShipyards);
+    player.megaCredits = 4;
+
+    const originalTR = player.getTerraformRating();
+    const result = card.action(player) as OrOptions;
+    expect(result).instanceOf(OrOptions);
+    expect(result.options).has.lengthOf(2);
+
+    result!.options[1].cb([ancientShipyards]);
+    expect(player.playedCards).is.empty;
+    expect(game.dealer.discarded.includes(ancientShipyards)).is.true;
+    expect(player.getTerraformRating()).to.eq(originalTR - 2);
+    expect(player.cardsInHand).has.lengthOf(2);
   });
 });

@@ -53,8 +53,9 @@ export class LogHelper {
       b.player(player).colony(colony).number(steps));
   }
 
-  static logTRIncrease(player: Player, steps: number) {
-    player.game.log('${0} gained ${1} TR', (b) => b.player(player).number(steps));
+  static logTRChange(player: Player, steps: number) {
+    const verb = steps > 0 ? 'gained' : 'lost';
+    player.game.log('${0} ${1} ${2} TR', (b) => b.player(player).string(verb).number(steps));
   }
 
   static logGlobalEventTRDecrease(player: Player, steps: number = 1) {

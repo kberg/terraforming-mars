@@ -104,8 +104,15 @@ export class ProjectWorkshop extends Card implements CorporationCard {
   private convertCardPointsToTR(player: Player, card: ICard) {
     if (card.getVictoryPoints !== undefined) {
       const steps = card.getVictoryPoints(player);
-      player.increaseTerraformRatingSteps(steps);
-      LogHelper.logTRIncrease(player, steps);
+
+      if (steps > 0) {
+        player.increaseTerraformRatingSteps(steps);
+      } else if (steps < 0) {
+        const stepsToDecrease = Math.abs(steps);
+        player.decreaseTerraformRatingSteps(stepsToDecrease);
+      }
+
+      LogHelper.logTRChange(player, steps);
     }
   }
 
