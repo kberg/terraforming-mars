@@ -1561,6 +1561,15 @@ export class Game implements ISerializable<SerializedGame> {
     });
   }
 
+  public canAddOcean(): boolean {
+    return this.board.getOceansOnBoard() < constants.MAX_OCEAN_TILES;
+  }
+
+  public canRemoveOcean(): boolean {
+    const count = this.board.getOceansOnBoard();
+    return count > 0 && count < constants.MAX_OCEAN_TILES;
+  }
+
   public addOceanTile(
     player: Player, spaceId: SpaceId,
     spaceType: SpaceType = SpaceType.OCEAN): void {
