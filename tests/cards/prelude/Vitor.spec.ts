@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {Ants} from '../../../src/cards/base/Ants';
 import {LavaFlows} from '../../../src/cards/base/LavaFlows';
 import {Vitor} from '../../../src/cards/prelude/Vitor';
+import {OutdoorSports} from '../../../src/cards/promo/OutdoorSports';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
@@ -44,5 +45,8 @@ describe('Vitor', function() {
 
     card.onCardPlayed(player, new LavaFlows());
     expect(player.megaCredits).eq(3);
+
+    card.onCardPlayed(player, new OutdoorSports());
+    expect(player.megaCredits).eq(6);
   });
 });

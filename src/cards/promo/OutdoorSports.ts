@@ -37,4 +37,8 @@ export class OutdoorSports extends Card implements IProjectCard {
     player.adjustProduction(this.productionBox);
     return undefined;
   }
+
+  public getVictoryPoints() {
+    return 1;
+  }
 }
