@@ -195,7 +195,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
                 <label class="form-checkbox">
                     <input type="checkbox" v-model="selectedCorporations" :value="corporation"/>
                     <i class="form-icon"></i>{{ corporation }}
-                    <div v-html="getExpansionIcon(corporation)" style="display:inline-block"></div>
+                    <div v-if="getExpansionIcon(corporation) !== ''" v-html="getExpansionIcon(corporation)" style="display:inline-block"></div>
                 </label>
             </div>
         </div>
