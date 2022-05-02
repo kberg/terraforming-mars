@@ -2030,6 +2030,10 @@ export class Player implements ISerializable<SerializedPlayer> {
           return this.game.gameOptions.altVenusBoard === false;
         case CardName.AIR_SCRAPPING_STANDARD_PROJECT_VARIANT:
           return this.game.gameOptions.altVenusBoard === true;
+        case CardName.MOON_COLONY_STANDARD_PROJECT_V2:
+        case CardName.MOON_MINE_STANDARD_PROJECT_V2:
+        case CardName.MOON_ROAD_STANDARD_PROJECT_V2:
+          return this.game.gameOptions.moonStandardProjectVariant === true;
         default:
           return true;
         };
