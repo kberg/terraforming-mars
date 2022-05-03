@@ -51,7 +51,7 @@ export const TURMOIL_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.PRISTAR, Factory: Pristar},
     {cardName: CardName.TERRALABS_RESEARCH, Factory: TerralabsResearch},
     {cardName: CardName.UTOPIA_INVEST, Factory: UtopiaInvest},
-    {cardName: CardName.SEPTUM_TRIBUS, Factory: SeptumTribus},
+    {cardName: CardName.SEPTUM_TRIBUS, Factory: SeptumTribus, compatibility: GameModule.Turmoil},
   ],
 });
 

@@ -130,11 +130,27 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
     },
     getExpansionIcon: function(corpName: string) {
       switch (corpName) {
+      case CardName.APHRODITE:
+      case CardName.CELESTIC:
+      case CardName.MORNING_STAR_INC:
+        return `<span class='create-game-expansion-icon expansion-icon-venus expansion-icon-small'></span>`;
+      case CardName.ARIDOR:
+      case CardName.POSEIDON:
       case CardName.COLONIAL_ONE:
         return `<span class='create-game-expansion-icon expansion-icon-colony expansion-icon-small'></span>`;
+      case CardName.SEPTUM_TRIBUS:
       case CardName.INCITE:
       case CardName.MARS_COALITION:
         return `<span class='create-game-expansion-icon expansion-icon-turmoil expansion-icon-small'></span>`;
+      case CardName.NANOTECH_INDUSTRIES:
+      case CardName.THE_DARKSIDE_OF_THE_MOON_SYNDICATE:
+      case CardName.LUNA_HYPERLOOP_CORPORATION:
+      case CardName.CRESCENT_RESEARCH_ASSOCIATION:
+      case CardName.LUNA_FIRST_INCORPORATED:
+      case CardName.THE_GRAND_LUNA_CAPITAL_GROUP:
+      case CardName.INTRAGEN_SANCTUARY_HEADQUARTERS:
+      case CardName.THE_ARCHAIC_FOUNDATION_INSTITUTE:
+        return `<span class='create-game-expansion-icon expansion-icon-themoon expansion-icon-small'></span>`;
       default:
         return '';
       }

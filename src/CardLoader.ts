@@ -55,6 +55,8 @@ export class CardLoader {
         return gameOptions.coloniesExtension;
       case GameModule.Turmoil:
         return gameOptions.turmoilExtension;
+      case GameModule.Moon:
+        return gameOptions.moonExpansion;
       default:
         throw new Error(`Unhandled expansion type ${expansion} for card ${cf.cardName}`);
       }

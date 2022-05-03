@@ -117,9 +117,9 @@ export const VENUS_CARD_MANIFEST = new CardManifest({
   ],
 
   corporationCards: [
-    {cardName: CardName.APHRODITE, Factory: Aphrodite},
-    {cardName: CardName.CELESTIC, Factory: Celestic},
+    {cardName: CardName.APHRODITE, Factory: Aphrodite, compatibility: GameModule.Venus},
+    {cardName: CardName.CELESTIC, Factory: Celestic, compatibility: GameModule.Venus},
     {cardName: CardName.MANUTECH, Factory: Manutech},
-    {cardName: CardName.MORNING_STAR_INC, Factory: MorningStarInc},
+    {cardName: CardName.MORNING_STAR_INC, Factory: MorningStarInc, compatibility: GameModule.Venus},
     {cardName: CardName.VIRON, Factory: Viron},
   ]});

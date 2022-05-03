@@ -16,6 +16,7 @@ import {AgendaStyle} from '../../turmoil/PoliticalAgendas';
 
 import * as constants from '../../constants';
 import {$t} from '../../directives/i18n';
+import {GameModule} from '../../GameModule';
 
 export interface CreateGameModel {
     constants: typeof constants;
@@ -400,6 +401,20 @@ export const CreateGameForm = Vue.component('create-game-form', {
     },
     getPlayerContainerColorClass: function(color: string): string {
       return playerColorClass(color.toLowerCase(), 'bg_transparent');
+    },
+    isEnabled(module: GameModule): boolean {
+      switch (module) {
+      case GameModule.CorpEra: return this.$data.corpera;
+      case GameModule.Promo: return this.$data.promoCardsOption;
+      case GameModule.Venus: return this.$data.venusNext;
+      case GameModule.Colonies: return this.$data.colonies;
+      case GameModule.Prelude: return this.$data.prelude;
+      case GameModule.Turmoil: return this.$data.turmoil;
+      case GameModule.Community: return this.$data.communityCardsOption;
+      case GameModule.Ares: return this.$data.aresExtension;
+      case GameModule.Moon: return this.$data.moonExpansion;
+      default: return true;
+      }
     },
     serializeSettings: function() {
       const component = (this as any) as CreateGameModel;
