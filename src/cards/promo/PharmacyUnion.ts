@@ -11,7 +11,7 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardType} from '../CardType';
-import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 
@@ -105,7 +105,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
             orOptions.title = 'Choose the order of tag resolution for Pharmacy Union';
             return orOptions;
           },
-        ), -1); // Make it a priority
+        ), Priority.SUPERPOWER);
 
         return undefined;
       }

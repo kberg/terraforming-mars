@@ -4,15 +4,18 @@ import {Ants} from '../../../src/cards/base/Ants';
 import {Fish} from '../../../src/cards/base/Fish';
 import {LagrangeObservatory} from '../../../src/cards/base/LagrangeObservatory';
 import {Lichen} from '../../../src/cards/base/Lichen';
+import {MediaGroup} from '../../../src/cards/base/MediaGroup';
 import {Research} from '../../../src/cards/base/Research';
 import {SearchForLife} from '../../../src/cards/base/SearchForLife';
 import {ViralEnhancers} from '../../../src/cards/base/ViralEnhancers';
+import {Virus} from '../../../src/cards/base/Virus';
 import {PharmacyUnion} from '../../../src/cards/promo/PharmacyUnion';
 import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {AndOptions} from '../../../src/inputs/AndOptions';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
+import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('PharmacyUnion', function() {
@@ -172,5 +175,14 @@ describe('PharmacyUnion', function() {
     expect(card.isDisabled).is.true;
     expect(card.resourceCount).eq(0);
     expect(player.megaCredits).eq(0);
+  });
+
+  it('Edge Case - Lose MC before gaining', () => {
+    // See https://github.com/terraforming-mars/terraforming-mars/issues/2191
+    player.megaCredits = 0;
+    player.playedCards = [new MediaGroup()];
+    player.playCard(new Virus());
+    TestingUtils.runAllActions(player.game);
+    expect(player.megaCredits).eq(3);
   });
 });

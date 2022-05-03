@@ -2,6 +2,7 @@ import {Player} from '../Player';
 import {PlayerInput} from '../PlayerInput';
 
 export enum Priority {
+  SUPERPOWER = -1, // Legacy value that should not be further used.
   COST, // Cost of a blue card action. Must happen before the effects.
   OPPONENT_TRIGGER, // Any effect from one of your opponent's card that triggers during your turn.
   DISCARD_BEFORE_DRAW, // When you must discard before you can draw. Mars University, Sponsored Academies.

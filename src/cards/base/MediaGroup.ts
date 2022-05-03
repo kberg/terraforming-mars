@@ -5,6 +5,8 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {GainResources} from '../../deferredActions/GainResources';
+import {Resources} from '../../Resources';
 
 export class MediaGroup extends Card implements IProjectCard {
   constructor() {
@@ -27,7 +29,7 @@ export class MediaGroup extends Card implements IProjectCard {
 
   public onCardPlayed(player: Player, card: IProjectCard) {
     if (card.cardType === CardType.EVENT) {
-      player.megaCredits += 3;
+      player.game.defer(new GainResources(player, Resources.MEGACREDITS, {count: 3}));
     }
   }
   public play() {
