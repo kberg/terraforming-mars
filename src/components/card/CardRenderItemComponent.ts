@@ -175,7 +175,7 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         classes.push('card-resource-data');
       } else if (type === CardRenderItemType.RESOURCE_CUBE) {
         classes.push('card-resource');
-        classes.push('card-resource-cube');
+        classes.push('card-resource-resource-cube');
       } else if (this.item.type === CardRenderItemType.MOON_COLONY) {
         if (this.item.secondaryTag === AltSecondaryTag.MOON_COLONY_RATE) {
           classes.push(sized('card-tile-lunar-colony-rate', this.item.size));
