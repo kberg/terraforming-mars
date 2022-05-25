@@ -24,12 +24,12 @@ export class LunaEcumenopolis extends MoonCard {
       metadata: {
         description: 'Spend 2 Titanium. ' +
         'Place 2 colony tiles adjacent to at least 2 other colony tiles and raise Colony rate 2 steps. ' +
-        'Increase your TR 1 step for each step of the colony rate.',
+        'Increase your TR 1 step for each 2 steps of the colony rate.',
         cardNumber: 'M84',
         renderData: CardRenderer.builder((b) => {
           b.minus().titanium(2).nbsp;
           b.text('2').moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE).asterix().br;
-          b.tr(1).slash().moonColonyRate();
+          b.tr(1).slash().moonColonyRate().moonColonyRate();
         }),
       },
     }, {
@@ -42,6 +42,8 @@ export class LunaEcumenopolis extends MoonCard {
       return false;
     }
 
+    // TODO: if (!this.canAffordTRBump(player)) return false;
+
     const moonData = MoonExpansion.moonData(player.game);
     const spaces = moonData.moon.getAvailableSpacesOnLand(player);
     const len = spaces.length;
@@ -51,7 +53,7 @@ export class LunaEcumenopolis extends MoonCard {
     // This function returns true when this space is next to two colonies. Don't try to understand firstSpaceId yet.
     const nextToTwoColonies = function(space: ISpace): boolean {
       const adjacentSpaces = moonData.moon.getAdjacentSpaces(space).filter((adjacentSpace) => {
-        return adjacentSpace.tile?.tileType === TileType.MOON_COLONY || adjacentSpace.id === firstSpaceId;
+        return MoonExpansion.spaceHasType(adjacentSpace, TileType.MOON_COLONY) || adjacentSpace.id === firstSpaceId;
       });
       return adjacentSpaces.length >= 2;
     };
@@ -63,9 +65,10 @@ export class LunaEcumenopolis extends MoonCard {
       if (nextToTwoColonies(first) === true) {
         // Remember it.
         firstSpaceId = first.id;
-        // Now go through all the land spaces again (actually as an optimization, just continue with the space after.)
-        for (let y = x + 1; y < len; y++) {
+        // Now go through all the land spaces again
+        for (let y = 0; y < len; y++) {
           const second = spaces[y];
+          if (second.id === firstSpaceId) continue;
           // Now if it's next to two colonies, it includes the first colony you placed. That's what firstSpaceId is for.
           if (nextToTwoColonies(second) === true) {
             return true;
@@ -73,6 +76,7 @@ export class LunaEcumenopolis extends MoonCard {
         }
       }
     }
+
     return false;
   }
 
@@ -82,7 +86,7 @@ export class LunaEcumenopolis extends MoonCard {
     player.game.defer(new CustomPlaceMoonTile(player));
     player.game.defer(new DeferredAction(player, () => {
       const colonyRate = MoonExpansion.moonData(player.game).colonyRate;
-      player.increaseTerraformRatingSteps(colonyRate);
+      player.increaseTerraformRatingSteps(Math.floor(colonyRate / 2));
       return undefined;
     }));
     return undefined;
@@ -95,7 +99,7 @@ class CustomPlaceMoonTile extends PlaceMoonColonyTile {
     const spaces = moonData.moon.getAvailableSpacesOnLand(this.player);
     const filtered = spaces.filter((space) => {
       const adjacentSpaces = moonData.moon.getAdjacentSpaces(space).filter((adjacentSpace) => {
-        return adjacentSpace.tile?.tileType === TileType.MOON_COLONY;
+        return MoonExpansion.spaceHasType(adjacentSpace, TileType.MOON_COLONY);
       });
       return adjacentSpaces.length >= 2;
     });
