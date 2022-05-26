@@ -1164,7 +1164,7 @@ export class Game implements ISerializable<SerializedGame> {
             this.board.getAvailableSpacesForGreenery(player).length > 0;
   }
 
-  // Called when a player has chosen not to place any more greeneries.
+  // Called when a player cannot or chose not to place any more greeneries.
   public playerIsDoneWithGame(player: Player): void {
     this.donePlayers.add(player.id);
     this.gotoFinalGreeneryPlacement();

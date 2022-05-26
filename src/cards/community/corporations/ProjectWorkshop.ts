@@ -13,6 +13,9 @@ import {CardRenderer} from '../../render/CardRenderer';
 import {Size} from '../../render/Size';
 import {AltSecondaryTag} from '../../render/CardRenderItem';
 import {Card} from '../../Card';
+import {REDS_RULING_POLICY_COST} from '../../../constants';
+import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../../turmoil/parties/PartyName';
 
 export class ProjectWorkshop extends Card implements CorporationCard {
   constructor() {
@@ -56,13 +59,27 @@ export class ProjectWorkshop extends Card implements CorporationCard {
     return undefined;
   }
 
+  private getEligibleCards(player: Player) {
+    const cards = player.getCardsByCardType(CardType.ACTIVE);
+    if (!PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) return cards;
+
+    return cards.filter((card) => {
+      if (card.getVictoryPoints === undefined) return true;
+
+      const vp = card.getVictoryPoints(player);
+      if (vp <= 0) return true;
+
+      return player.canAfford(REDS_RULING_POLICY_COST * vp);
+    });
+  }
+
   public canAct(player: Player): boolean {
-    const activeCards = player.getCardsByCardType(CardType.ACTIVE);
-    return activeCards.length > 0 || player.megaCredits >= 4;
+    if (player.megaCredits >= 4) return true;
+    return this.getEligibleCards(player).length > 0;
   }
 
   public action(player: Player) {
-    const activeCards = player.getCardsByCardType(CardType.ACTIVE);
+    const activeCards = this.getEligibleCards(player);
 
     const flipBlueCard = new SelectOption(
       'Flip and discard a played blue card',

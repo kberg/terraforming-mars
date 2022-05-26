@@ -11,6 +11,11 @@ import {SelectCard} from '../../../src/inputs/SelectCard';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
 import {AncientShipyards} from '../../../src/cards/moon/AncientShipyards';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
+import {Birds} from '../../../src/cards/base/Birds';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('ProjectWorkshop', function() {
   let card : ProjectWorkshop; let player : Player; let game : Game; let advancedAlloys : AdvancedAlloys;
@@ -108,5 +113,58 @@ describe('ProjectWorkshop', function() {
     expect(game.dealer.discarded.includes(ancientShipyards)).is.true;
     expect(player.getTerraformRating()).to.eq(originalTR - 5);
     expect(player.cardsInHand).has.lengthOf(2);
+  });
+
+  it('Works with Reds taxes', () => {
+    const player2 = TestPlayers.RED.newPlayer();
+    game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions({turmoilExtension: true}));
+
+    card.play(player);
+    player.corporationCard = card;
+    player.game.phase = Phase.ACTION;
+
+    const turmoil = game.turmoil!;
+    turmoil.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(turmoil, game);
+
+    const smallAnimals = new SmallAnimals();
+    player.addResourceTo(smallAnimals, 4);
+    expect(smallAnimals.getVictoryPoints()).eq(2);
+
+    const extremophiles = new Extremophiles();
+    player.addResourceTo(extremophiles, 9);
+    expect(extremophiles.getVictoryPoints()).eq(3);
+
+    const birds = new Birds();
+    birds.resourceCount = 1;
+    expect(birds.getVictoryPoints()).eq(1);
+
+    player.playedCards.push(smallAnimals, extremophiles, birds);
+
+    const selectCard = function() {
+      const orOptions = TestingUtils.cast(card.action(player), OrOptions);
+      return TestingUtils.cast(orOptions.options[1].cb(), SelectCard);
+    };
+
+    player.megaCredits = 9;
+    expect(selectCard().cards).has.members([smallAnimals, extremophiles, birds]);
+
+    player.megaCredits = 8;
+    expect(selectCard().cards).has.members([smallAnimals, birds]);
+
+    player.megaCredits = 6;
+    expect(selectCard().cards).has.members([smallAnimals, birds]);
+
+    const originalTR = player.getTerraformRating();
+    player.megaCredits = 5;
+
+    const orOptions = TestingUtils.cast(card.action(player), OrOptions);
+    expect(orOptions.options[1].cb()).is.undefined;
+    TestingUtils.runAllActions(game);
+
+    expect(player.playedCards).has.members([smallAnimals, extremophiles]);
+    expect(game.dealer.discarded).contains(birds);
+    expect(player.getTerraformRating()).to.eq(originalTR + 1);
+    expect(player.megaCredits).eq(2); // Spent 3MC for the reds tax.
   });
 });
