@@ -7,6 +7,9 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Player} from '../../Player';
 import {SellSteel} from '../../moon/SellSteel';
+import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {Turmoil} from '../../turmoil/Turmoil';
+import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
 
 export class MooncrateConvoysToMars extends Card {
   constructor() {
@@ -28,7 +31,18 @@ export class MooncrateConvoysToMars extends Card {
     });
   };
 
+  public canPlay(player: Player): boolean {
+    const turmoil = Turmoil.getTurmoil(player.game);
+
+    if (turmoil.parties.find((p) => p.name === PartyName.MARS)) {
+      return turmoil.canPlay(player, PartyName.MARS);
+    }
+
+    return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+  }
+
   public play(player: Player) {
+    TurmoilHandler.handleSocietyPayment(player, PartyName.MARS);
     MoonExpansion.raiseLogisticRate(player, 1);
     const game = player.game;
     game.getPlayers().forEach((player) => {
