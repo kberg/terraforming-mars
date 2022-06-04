@@ -3,11 +3,13 @@ import {GameModule} from '../../GameModule';
 import {CardManifest} from '../CardManifest';
 import {Asimov} from './Asimov';
 import {Bjorn} from './Bjorn';
+import {Caesar} from './Caesar';
 import {Clarke} from './Clarke';
 import {Duncan} from './Duncan';
 import {Ender} from './Ender';
 import {Faraday} from './Faraday';
 import {Floyd} from './Floyd';
+import {Gaia} from './Gaia';
 import {Gordon} from './Gordon';
 import {Greta} from './Greta';
 import {HAL9000} from './HAL9000';
@@ -67,5 +69,7 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HUAN, Factory: Huan, compatibility: GameModule.Colonies},
     {cardName: CardName.RYU, Factory: Ryu},
     {cardName: CardName.GRETA, Factory: Greta},
+    {cardName: CardName.CAESAR, Factory: Caesar, compatibility: GameModule.Ares},
+    {cardName: CardName.GAIA, Factory: Gaia, compatibility: GameModule.Ares},
   ],
 });

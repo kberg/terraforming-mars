@@ -160,6 +160,8 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.LANDCLAIM_TILE) {
         classes.push('card-tile');
         classes.push('landclaim-tile');
+      } else if (type === CardRenderItemType.ADJACENCY_BONUS) {
+        classes.push('board-space-tile-adjacency-bonus');
       } else if (type === CardRenderItemType.COMMUNITY) {
         classes.push('card-resource');
         classes.push('card-resource-community');
@@ -169,7 +171,11 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.COLONY_PLACEMENT_BONUS) {
         classes.push('colony-placement');
       } else if (type === CardRenderItemType.HAZARD_TILE) {
-        classes.push('hazard-tile');
+        if (this.item.size !== undefined && this.item.size !== Size.MEDIUM) {
+          classes.push(`hazard-tile--${this.item.size}`);
+        } else {
+          classes.push('hazard-tile');
+        }
       } else if (type === CardRenderItemType.DATA_RESOURCE) {
         classes.push('card-resource');
         classes.push('card-resource-data');

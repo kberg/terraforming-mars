@@ -14,6 +14,7 @@ export class PlaceHazardTile implements DeferredAction {
         public game: Game,
         public title: string = 'Select space for hazard tile',
         public spaces: Array<ISpace> = [],
+        public collectBonuses: boolean = false,
   ) {}
 
   public execute() {
@@ -23,11 +24,13 @@ export class PlaceHazardTile implements DeferredAction {
 
     return new SelectSpace(this.title, this.spaces, (foundSpace: ISpace) => {
       const tileType = Math.floor(Math.random() * 2) === 0 ? TileType.DUST_STORM_MILD : TileType.EROSION_MILD;
-
       _AresHazardPlacement.putHazardAt(foundSpace, tileType);
-      foundSpace.bonus.forEach((spaceBonus) => this.game.grantSpaceBonus(this.player, spaceBonus));
-      LogHelper.logTilePlacement(this.player, foundSpace, tileType);
 
+      if (this.collectBonuses) {
+        foundSpace.bonus.forEach((spaceBonus) => this.game.grantSpaceBonus(this.player, spaceBonus));  
+      }
+
+      LogHelper.logTilePlacement(this.player, foundSpace, tileType);
       return undefined;
     });
   }

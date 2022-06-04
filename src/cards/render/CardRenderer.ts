@@ -336,8 +336,8 @@ class Builder {
     return this;
   }
 
-  public hazardTile(amount: number = 1): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.HAZARD_TILE, amount));
+  public hazardTile(amount: number = 1, options?: ItemOptions | undefined): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.HAZARD_TILE, amount).withOptions(options));
     return this;
   }
 
@@ -649,6 +649,11 @@ class Builder {
 
   public redsInactive(): Builder {
     this._addRowItem(new CardRenderItem(CardRenderItemType.REDS_DEACTIVATED));
+    return this;
+  }
+
+  public adjacencyBonus(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.ADJACENCY_BONUS));
     return this;
   }
 

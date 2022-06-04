@@ -97,14 +97,6 @@ export class AresHandler {
         addResourceToCard(player, ResourceType.ANIMAL, 'animal');
         break;
 
-      case SpaceBonus.MEGACREDITS:
-        player.megaCredits++;
-        break;
-
-      case SpaceBonus.POWER:
-        player.energy++;
-        break;
-
       case SpaceBonus.MICROBE:
         addResourceToCard(player, ResourceType.MICROBE, 'microbe');
         break;
