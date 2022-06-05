@@ -1153,6 +1153,9 @@ export class Game implements ISerializable<SerializedGame> {
       scores.push({corporation: corponame, playerScore: vpb.total});
     });
 
+    this.log('Final scores:');
+    this.players.forEach((player) => LogHelper.logFinalScore(this, player));
+
     Database.getInstance().saveGameResults(this.id, this.players.length, this.generation, this.gameOptions, scores);
     this.phase = Phase.END;
   }

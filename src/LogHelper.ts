@@ -183,4 +183,23 @@ export class LogHelper {
 
     return message;
   }
+
+  static logFinalScore(game: Game, player: Player) {
+    const vpb = player.getVictoryPoints();
+    let data = `Player: ${player.name}, TR: ${vpb.terraformRating}, `;
+
+    if (game.isSoloMode() === false) {
+      data += `Milestones: ${vpb.milestones}, Awards: ${vpb.awards}, `;
+    }
+
+    data += `Greenery: ${vpb.greenery}, City: ${vpb.city}, VP: ${vpb.victoryPoints}, `;
+
+    if (game.gameOptions.escapeVelocityMode) {
+      data += `EV: ${vpb.escapeVelocity}, `;
+    }
+
+    data += `Total: ${vpb.total}, M€: ${player.megaCredits}, Time: ${player.timer.getElapsedTimeInMinutes().toFixed(2)} mins, Actions: ${player.actionsTakenThisGame}`;
+
+    game.log(data);
+  }
 }
