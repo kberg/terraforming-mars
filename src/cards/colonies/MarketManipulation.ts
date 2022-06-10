@@ -4,11 +4,13 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {Game} from '../../Game';
-import {OrOptions} from '../../inputs/OrOptions';
-import {SelectOption} from '../../inputs/SelectOption';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
 import {CardRenderer} from '../render/CardRenderer';
+import {SelectColony} from '../../inputs/SelectColony';
+import {ColonyName} from '../../colonies/ColonyName';
+import {Colony} from '../../colonies/Colony';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class MarketManipulation extends Card implements IProjectCard {
   constructor() {
@@ -26,7 +28,6 @@ export class MarketManipulation extends Card implements IProjectCard {
       },
     });
   }
-
 
   public canPlay(player: Player): boolean {
     const increasableColonies = this.getIncreasableColonies(player.game);
@@ -50,32 +51,42 @@ export class MarketManipulation extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const selectColonies = new OrOptions();
-    selectColonies.title = 'Select colonies to increase and decrease tile track';
+    const game = player.game;
+    let increasableColonies = this.getIncreasableColonies(game);
+    const decreasableColonies = this.getDecreasableColonies(game);
 
-    const increasableColonies = this.getIncreasableColonies(player.game);
-    const decreasableColonies = this.getDecreasableColonies(player.game);
+    // if there is only one decreasable colony and it is an increasable colony, don't allow increase of that colony.
+    if (decreasableColonies.length === 1 && increasableColonies.some((colony) => colony.name === decreasableColonies[0].name)) {
+      increasableColonies = increasableColonies.filter((colony) => colony.name !== decreasableColonies[0].name);
+    }
 
-    increasableColonies.forEach(function(c1) {
-      decreasableColonies.forEach(function(c2) {
-        if (c1.name !== c2.name) {
-          const description = 'Increase ' + c1.name + ' (' + c1.description + ') and decrease ' + c2.name + ' (' + c2.description + ')';
-          const colonySelect = new SelectOption(
-            description,
-            'Select',
-            () => {
-              c1.increaseTrack();
-              c2.decreaseTrack();
-              player.game.log('${0} increased ${1} track and decreased ${2} track', (b) => b.player(player).string(c1.name).string(c2.name));
-              return undefined;
-            },
-          );
+    const increaseColonyTrack = new SelectColony(
+      'Select which colony tile track to increase',
+      'Increase',
+      game.getColoniesModel(increasableColonies),
+      (increasedColony: ColonyName) => {
+        const target = game.colonies.find((colony) => colony.name === increasedColony) as Colony;
+        target.increaseTrack();
+        game.log('${0} increased ${1} track', (b) => b.player(player).string(increasedColony));
 
-          selectColonies.options.push(colonySelect);
-        };
-      });
-    });
+        const decreaseColonyTrack = new SelectColony(
+          'Select which colony tile track to decrease',
+          'Decrease',
+           game.getColoniesModel(decreasableColonies).filter((decreaseableColony) => decreaseableColony.name !== increasedColony),
+          (decreasedColony: ColonyName) => {
+            const target = game.colonies.find((colony) => colony.name === decreasedColony) as Colony;
+            target.decreaseTrack();
+            game.log('${0} decreased ${1} track', (b) => b.player(player).string(decreasedColony));
+            return undefined;
+          },
+        );
 
-    return selectColonies;
+        game.defer(new DeferredAction(player, () => decreaseColonyTrack));
+        return undefined;
+      },
+    );
+
+    game.defer(new DeferredAction(player, () => increaseColonyTrack));
+    return undefined;
   }
 }

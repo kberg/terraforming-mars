@@ -1,46 +1,78 @@
 import {expect} from 'chai';
 import {Pets} from '../../../src/cards/base/Pets';
 import {MarketManipulation} from '../../../src/cards/colonies/MarketManipulation';
+import {Callisto} from '../../../src/colonies/Callisto';
+import {ColonyName} from '../../../src/colonies/ColonyName';
 import {Enceladus} from '../../../src/colonies/Enceladus';
+import {Europa} from '../../../src/colonies/Europa';
 import {Luna} from '../../../src/colonies/Luna';
 import {Miranda} from '../../../src/colonies/Miranda';
-import {Triton} from '../../../src/colonies/Triton';
+import {Pluto} from '../../../src/colonies/Pluto';
 import {Game} from '../../../src/Game';
-import {OrOptions} from '../../../src/inputs/OrOptions';
+import {SelectColony} from '../../../src/inputs/SelectColony';
 import {Player} from '../../../src/Player';
+import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('MarketManipulation', function() {
-  let card : MarketManipulation; let player : Player; let player2: Player; let luna: Luna;
+  let card : MarketManipulation; let player : Player; let player2: Player; let game: Game;
 
   beforeEach(() => {
     card = new MarketManipulation();
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
-    Game.newInstance('foobar', [player, player2], player);
-    luna = new Luna();
+
+    const gameOptions = TestingUtils.setCustomGameOptions({coloniesExtension: true});
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
   });
 
   it('Should play', function() {
-    const triton = new Triton();
-    player.game.colonies.push(luna, triton);
+    game.colonies = [new Pluto(), new Callisto(), new Europa()];
 
-    const action = card.play(player) as OrOptions;
-    expect(action).is.not.undefined;
-    expect(action.options[0].title).eq('Increase Luna (MegaCredits) and decrease Triton (Titanium)');
-    action.options[0].cb();
+    card.play(player);
+    const increaseColonyAction = game.deferredActions.pop()!.execute() as SelectColony;
+    increaseColonyAction.cb((<any>ColonyName)[increaseColonyAction.coloniesModel[0].name.toUpperCase()]);
+    expect(game.colonies[0].trackPosition).to.eq(2);
+    expect(game.colonies[1].trackPosition).to.eq(1);
+    expect(game.colonies[2].trackPosition).to.eq(1);
 
-    expect(luna.trackPosition).eq(2);
-    expect(triton.trackPosition).eq(0);
+    const decreaseColonyAction = game.deferredActions.pop()!.execute() as SelectColony;
+    decreaseColonyAction.cb((<any>ColonyName)[decreaseColonyAction.coloniesModel[0].name.toUpperCase()]);
+    expect(game.colonies[0].trackPosition).to.eq(2);
+    expect(game.colonies[1].trackPosition).to.eq(0);
+    expect(game.colonies[2].trackPosition).to.eq(1);
+  });
+
+  it('Should not allow increase of sole decreasable colony', function() {
+    const pluto = new Pluto();
+    pluto.trackPosition = 0;
+    const callisto = new Callisto();
+    callisto.trackPosition = 0;
+    const europa = new Europa();
+    europa.trackPosition = 1;
+
+    player.game.colonies = [pluto, callisto, europa];
+    player.game.gameOptions.coloniesExtension = true;
+    card.play(player);
+
+    const increaseColonyAction = game.deferredActions.pop()!.execute() as SelectColony;
+    expect(increaseColonyAction.coloniesModel.length).to.eq(2);
+    increaseColonyAction.cb((<any>ColonyName)[increaseColonyAction.coloniesModel[0].name.toUpperCase()]);
+    expect(game.colonies[0].trackPosition).to.eq(1);
+    expect(game.colonies[1].trackPosition).to.eq(0);
+    expect(game.colonies[2].trackPosition).to.eq(1);
+
+    const decreaseColonyAction = game.deferredActions.pop()!.execute() as SelectColony;
+    expect(decreaseColonyAction.coloniesModel.length).to.eq(1);
+    decreaseColonyAction.cb((<any>ColonyName)[decreaseColonyAction.coloniesModel[0].name.toUpperCase()]);
+    expect(game.colonies[0].trackPosition).to.eq(1);
+    expect(game.colonies[1].trackPosition).to.eq(0);
+    expect(game.colonies[2].trackPosition).to.eq(0);
   });
 
   it('Can\'t play', function() {
-    const enceladus = new Enceladus();
-    const miranda = new Miranda();
-
-    player.game.colonies.push(enceladus, miranda, luna);
-    player.game.gameOptions.coloniesExtension = true;
-    expect(card.canPlay(player)).is.not.true;
+    game.colonies = [new Enceladus(), new Miranda(), new Luna()];
+    expect(card.canPlay(player)).is.false;
 
     player.playCard(new Pets());
     expect(card.canPlay(player)).is.true;
