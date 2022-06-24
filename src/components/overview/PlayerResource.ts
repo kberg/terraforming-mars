@@ -36,7 +36,7 @@ export const PlayerResource = Vue.component('player-resource', {
       type: Object as () => TurmoilModel || undefined,
     },
     corporationCards: {
-      type: Object as () => Array<CardModel>,
+      type: Array as () => Array<CardModel>,
     },
   },
   data: function() {

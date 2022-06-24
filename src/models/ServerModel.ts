@@ -111,6 +111,7 @@ export class Server {
       oceans: game.board.getOceansOnBoard(),
       oxygenLevel: game.getOxygenLevel(),
       passedPlayers: game.getPassedPlayers(),
+      pendingInitialActions: getCards(player, player.pendingInitialActions),
       phase: game.phase,
       pickedCorporationCard: player.pickedCorporationCard ? getCards(player, [player.pickedCorporationCard]) : [],
       plants: player.plants,

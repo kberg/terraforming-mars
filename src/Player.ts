@@ -127,7 +127,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   public actionsTakenThisRound: number = 0;
   public actionsThisGeneration: Set<CardName> = new Set();
   public lastCardPlayed: IProjectCard | undefined;
-  private corporationInitialActionDone: boolean = false;
+  public pendingInitialActions: Array<CorporationCard> = [];
   public remainingStallActionsCount: number = 2;
 
   // Cards
@@ -2137,16 +2137,11 @@ export class Player implements ISerializable<SerializedPlayer> {
       return;
     }
 
-    const corporationCards = this.corporationCards;
+    if (this.pendingInitialActions.length > 0) {
+      const orOptions = new OrOptions();
 
-    // Vitor check
-    if (this.isCorporation(CardName.VITOR) && this.game.allAwardsFunded()) {
-      this.corporationInitialActionDone = true;
-    }
-
-    corporationCards.forEach((corp) => {
-      if (corp.initialAction !== undefined && corp.initialActionText !== undefined && this.corporationInitialActionDone === false) {
-        const initialActionOption = new SelectOption(
+      this.pendingInitialActions.forEach((corp) => {
+        const option = new SelectOption(
           {
             message: 'Take first action of ${0} corporation',
             data: [{
@@ -2162,26 +2157,23 @@ export class Player implements ISerializable<SerializedPlayer> {
                 return undefined;
               }
             }));
-            this.corporationInitialActionDone = true;
+
+            this.pendingInitialActions.splice(this.pendingInitialActions.indexOf(corp), 1);
             return undefined;
-          },
-        );
+          });
+        orOptions.options.push(option);
+      });
 
-        const initialActionOrPass = new OrOptions(
-          initialActionOption,
-          this.passOption(),
-        );
-
-        this.setWaitingFor(initialActionOrPass, () => {
-          this.actionsTakenThisRound++;
-          this.actionsTakenThisGame++;
-          this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
-          this.takeAction();
-        });
-
-        return;
-      }
-    });
+      orOptions.options.push(this.passOption());
+      
+      this.setWaitingFor(orOptions, () => {
+        this.actionsTakenThisRound++;
+        this.actionsTakenThisGame++;
+        this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
+        this.takeAction();
+      });
+      return;
+    };
 
     this.setWaitingFor(this.getActions(), () => {
       this.actionsTakenThisRound++;
@@ -2440,7 +2432,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       // This generation / this round
       actionsTakenThisRound: this.actionsTakenThisRound,
       actionsThisGeneration: Array.from(this.actionsThisGeneration),
-      corporationInitialActionDone: this.corporationInitialActionDone,
+      pendingInitialActions: this.pendingInitialActions.map((c) => c.name),
       remainingStallActionsCount: this.remainingStallActionsCount,
       // Cards
       dealtCorporationCards: this.dealtCorporationCards.map((c) => c.name),
@@ -2513,7 +2505,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.colonyTradeOffset = d.colonyTradeOffset;
     player.colonyVictoryPoints = d.colonyVictoryPoints;
     player.consecutiveFirstPassCount = d.consecutiveFirstPassCount;
-    player.corporationInitialActionDone = d.corporationInitialActionDone;
+    player.pendingInitialActions = cardFinder.corporationCardsFromJSON(d.pendingInitialActions);
     player.endGenerationScores = d.endGenerationScores;
     player.energy = d.energy;
     player.energyProduction = d.energyProduction;

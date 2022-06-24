@@ -62,6 +62,7 @@ export interface PlayerModel {
     oceans: number;
     oxygenLevel: number;
     passedPlayers: Array<Color>;
+    pendingInitialActions: Array<CardModel>;
     phase: Phase;
     pickedCorporationCard: Array<CardModel>;
     plants: number;

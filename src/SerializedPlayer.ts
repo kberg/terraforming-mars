@@ -19,7 +19,7 @@ export interface SerializedPlayer {
     color: Color;
     consecutiveFirstPassCount: number;
     corporationCards: Array<SerializedCard>;
-    corporationInitialActionDone: boolean;
+    pendingInitialActions: Array<CardName>;
     dealtCorporationCards: Array<CardName>;
     dealtLeaderCards: Array<CardName>;
     dealtPreludeCards: Array<CardName>;

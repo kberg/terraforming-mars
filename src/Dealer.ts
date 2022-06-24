@@ -103,6 +103,16 @@ export class Dealer implements ISerializable<SerializedDealer> {
       return result;
     }
 
+    // Corporation deck does not need discard and reshuffle mecanisms
+    public dealCorporationCard(): IProjectCard {
+      const result: IProjectCard | undefined = this.corporationCards.pop() as IProjectCard;
+      if (result === undefined) {
+        throw 'Unexpected empty corporation deck';
+      }
+      // All Corporation cards are expected to subclass IProjectCard
+      return result;
+    }
+
     public getDeckSize(): number {
       return this.deck.length;
     }

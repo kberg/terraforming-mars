@@ -676,7 +676,7 @@ export class Game implements ISerializable<SerializedGame> {
     }
   }
 
-  private playCorporationCard(
+  public playCorporationCard(
     player: Player, corporationCard: CorporationCard,
   ): void {
     player.corporationCards.push(corporationCard);
@@ -691,6 +691,7 @@ export class Game implements ISerializable<SerializedGame> {
       player.totalSpend += cardsToPayFor * player.cardCost;
     }
     corporationCard.play(player);
+    if (corporationCard.initialAction !== undefined) player.pendingInitialActions.push(corporationCard);
     this.log('${0} played ${1}', (b) => b.player(player).card(corporationCard));
     this.log('${0} kept ${1} project cards', (b) => b.player(player).number(player.cardsInHand.length));
 

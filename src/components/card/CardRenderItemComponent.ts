@@ -358,6 +358,9 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       if (this.item.type === CardRenderItemType.PRELUDE) {
         result = '<div class="card-prelude-icon"></div>';
       }
+      if (this.item.type === CardRenderItemType.CORPORATION) {
+        result = '<div class="card-corporation-icon"></div>';
+      }
       if (this.item.type === CardRenderItemType.AWARD) {
         // iconography on card shows plural (awards)
         result = '<span class="card-award-icon">awards</span>';

@@ -51,6 +51,7 @@ export enum CardRenderItemType {
   MULTIPLIER_WHITE = 'multiplier_white',
   PROJECT_REQUIREMENTS = 'project_requirements',
   PRELUDE = 'prelude',
+  CORPORATION = 'corporation',
   AWARD = 'award',
   VP = 'vp',
   COMMUNITY = 'community',

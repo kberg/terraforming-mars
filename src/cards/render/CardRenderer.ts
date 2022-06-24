@@ -426,6 +426,11 @@ class Builder {
     return this;
   }
 
+  public corporation() {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.CORPORATION));
+    return this;
+  }
+
   public award() {
     this._addRowItem(new CardRenderItem(CardRenderItemType.AWARD));
     return this;

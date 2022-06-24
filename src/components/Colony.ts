@@ -92,6 +92,11 @@ export const Colony = Vue.component('colony', {
         return 175;
       };
 
+      if (colony.name === ColonyName.GANYMEDE) {
+        if (isColonyCube) return 170;
+        return 175;
+      };
+
       let offset: number = 0;
       if (isColonyCube !== true) offset = 7;
 
