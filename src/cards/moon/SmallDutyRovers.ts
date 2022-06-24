@@ -1,7 +1,6 @@
 import {CardName} from '../../CardName';
 import {Player} from '../../Player';
 import {CardType} from '../CardType';
-import {IProjectCard} from '../IProjectCard';
 import {Tags} from '../Tags';
 import {CardRenderer} from '../render/CardRenderer';
 import {MoonExpansion} from '../../moon/MoonExpansion';
@@ -9,9 +8,9 @@ import {SpaceType} from '../../SpaceType';
 import {Resources} from '../../Resources';
 import {Units} from '../../Units';
 import {Size} from '../render/Size';
-import {Card} from '../Card';
+import {MoonCard} from './MoonCard';
 
-export class SmallDutyRovers extends Card implements IProjectCard {
+export class SmallDutyRovers extends MoonCard {
   constructor() {
     super({
       name: CardName.SMALL_DUTY_ROVERS,
@@ -35,7 +34,8 @@ export class SmallDutyRovers extends Card implements IProjectCard {
   };
 
   public play(player: Player) {
-    player.deductUnits(this.reserveUnits);
+    super.play(player);
+
     MoonExpansion.raiseLogisticRate(player);
     const moonData = MoonExpansion.moonData(player.game);
     const gain = moonData.moon.spaces.filter((s) => s.tile !== undefined && s.spaceType !== SpaceType.COLONY).length;
