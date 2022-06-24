@@ -80,7 +80,7 @@ describe('Kelvinists', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, kelvinists, KELVINISTS_POLICY_3.id);
 
     const stormcraft = new StormCraftIncorporated();
-    player.corporationCard = stormcraft;
+    player.corporationCards = [stormcraft];
     stormcraft.resourceCount = 2;
     player.addResource(Resources.HEAT, 8);
 

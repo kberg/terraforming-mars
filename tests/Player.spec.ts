@@ -33,7 +33,7 @@ import {GiantSolarShade} from '../src/cards/venusNext/GiantSolarShade';
 describe('Player', function() {
   it('should initialize with right defaults', function() {
     const player = TestPlayers.BLUE.newPlayer();
-    expect(player.corporationCard).is.undefined;
+    expect(player.corporationCards).has.length(0);
   });
   it('Should throw error if nothing to process', function() {
     const player = TestPlayers.BLUE.newPlayer();
@@ -116,7 +116,7 @@ describe('Player', function() {
     const card = new IoMiningIndustries();
     const corporationCard = new SaturnSystems();
     expect(player1.getProduction(Resources.MEGACREDITS)).eq(0);
-    player1.corporationCard = corporationCard;
+    player1.corporationCards = [corporationCard];
     player2.playCard(card, undefined);
     expect(player1.getProduction(Resources.MEGACREDITS)).eq(1);
   });
@@ -216,7 +216,7 @@ describe('Player', function() {
       id: 'blue-id',
       pickedCorporationCard: 'Tharsis Republic',
       terraformRating: 20,
-      corporationCard: undefined,
+      corporationCards: [],
       hasIncreasedTerraformRatingThisGeneration: false,
       terraformRatingAtGenerationStart: 20,
       endGenerationScores: [],

@@ -19,7 +19,7 @@ describe('Eris', function() {
     game = Game.newInstance('foobar', [player, redPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
 
     card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Starts with 1 Ares card', function() {

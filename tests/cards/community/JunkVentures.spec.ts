@@ -19,7 +19,7 @@ describe('JunkVentures', function() {
     game = Game.newInstance('foobar', [player, player2], player, gameOptions);
 
     card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Cannot act', function() {

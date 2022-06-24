@@ -11,7 +11,7 @@ describe('Aristarchus', function() {
     player = TestPlayers.BLUE.newPlayer();
 
     card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Cannot act', function() {

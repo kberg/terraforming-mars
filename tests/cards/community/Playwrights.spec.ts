@@ -24,7 +24,7 @@ describe('Playwrights', () => {
     game = Game.newInstance('foobar', [player, player2], player);
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Cannot act without any played events', () => {

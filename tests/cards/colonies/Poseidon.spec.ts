@@ -15,7 +15,7 @@ describe('Poseidon', function() {
     Game.newInstance('foobar', [player, player2], player);
     const play = card.play();
     expect(play).is.undefined;
-    player.corporationCard = card;
+    player.corporationCards = [card];
     const ceres = new Ceres();
     ceres.addColony(player);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(1);

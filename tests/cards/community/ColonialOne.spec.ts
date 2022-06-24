@@ -20,7 +20,7 @@ describe('ColonialOne', function() {
     game = Game.newInstance('foobar', [player, redPlayer], player, gameOptions);
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Starts with 3 fighter resources', function() {

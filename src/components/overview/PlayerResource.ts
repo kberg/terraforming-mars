@@ -35,8 +35,8 @@ export const PlayerResource = Vue.component('player-resource', {
     turmoil: {
       type: Object as () => TurmoilModel || undefined,
     },
-    corporationCard: {
-      type: Object as () => CardModel || undefined,
+    corporationCards: {
+      type: Object as () => Array<CardModel>,
     },
   },
   data: function() {
@@ -85,11 +85,13 @@ export const PlayerResource = Vue.component('player-resource', {
         return 'resource_item_stock_count resource-count-green-text';
       }
 
-      if (this.type === Resources.HEAT && this.corporationCard !== undefined) {
+      if (this.type === Resources.HEAT && this.corporationCards.length > 0) {
         let totalHeat: number = count;
 
-        if (this.corporationCard.name === CardName.STORMCRAFT_INCORPORATED && this.corporationCard.resources !== undefined) {
-          totalHeat += this.corporationCard.resources * 2;
+        const stormcraft = this.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED);
+
+        if (stormcraft !== undefined && stormcraft.resources !== undefined) {
+          totalHeat += stormcraft.resources * 2;
         }
 
         if (totalHeat >= HEAT_FOR_TEMPERATURE) return 'resource_item_stock_count resource-count-orange-text';

@@ -24,7 +24,7 @@ describe('Splice', function() {
     const play = card.play();
     expect(play).is.undefined;
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
 
     player2.playedCards.push(card2);
     const action = card.onCardPlayed(player2, card2) as OrOptions;
@@ -41,9 +41,9 @@ describe('Splice', function() {
   it('Should play with multiple microbe tags', function() {
     const card2 = new PharmacyUnion();
     const play = card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
     const play2 = card2.play(player);
-    player2.corporationCard = card2;
+    player2.corporationCards = [card2];
     expect(play).is.undefined;
     expect(play2).is.undefined;
 

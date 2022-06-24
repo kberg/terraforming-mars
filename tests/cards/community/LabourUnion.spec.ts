@@ -18,7 +18,7 @@ describe('LabourUnion', function() {
     game = Game.newInstance('foobar', [player], player);
 
     card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Must discard down to 6 cards at generation end', function() {

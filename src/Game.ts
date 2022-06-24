@@ -679,7 +679,7 @@ export class Game implements ISerializable<SerializedGame> {
   private playCorporationCard(
     player: Player, corporationCard: CorporationCard,
   ): void {
-    player.corporationCard = corporationCard;
+    player.corporationCards.push(corporationCard);
     player.megaCredits = corporationCard.startingMegaCredits;
     if (corporationCard.cardCost !== undefined) {
       player.cardCost = corporationCard.cardCost;
@@ -696,17 +696,19 @@ export class Game implements ISerializable<SerializedGame> {
 
     // trigger other corp's effect, e.g. SaturnSystems,PharmacyUnion,Splice
     for (const somePlayer of this.getPlayers()) {
-      if (somePlayer !== player && somePlayer.corporationCard !== undefined && somePlayer.corporationCard.onCorpCardPlayed !== undefined) {
-        this.defer(new DeferredAction(
-          player,
-          () => {
-            if (somePlayer.corporationCard !== undefined && somePlayer.corporationCard.onCorpCardPlayed !== undefined) {
-              return somePlayer.corporationCard.onCorpCardPlayed(player, corporationCard) || undefined;
-            }
-            return undefined;
-          },
-        ));
-      }
+      somePlayer.corporationCards.forEach((corp) => {
+        if (somePlayer !== player && corp.onCorpCardPlayed !== undefined) {
+          this.defer(new DeferredAction(
+            player,
+            () => {
+              if (corp.onCorpCardPlayed !== undefined) {
+                return corp.onCorpCardPlayed(player, corporationCard) || undefined;
+              }
+              return undefined;
+            },
+          ));
+        }
+      });
     }
 
     // Activate some colonies
@@ -1142,8 +1144,8 @@ export class Game implements ISerializable<SerializedGame> {
     this.players.forEach((player) => {
       let corponame: string = '';
       const vpb = player.getVictoryPoints();
-      if (player.corporationCard !== undefined) {
-        corponame = player.corporationCard.name;
+      if (player.corporationCards.length > 0) {
+        corponame = player.corporationCards[0].name;
       }
       scores.push({corporation: corponame, playerScore: vpb.total});
     });
@@ -1480,9 +1482,12 @@ export class Game implements ISerializable<SerializedGame> {
 
     if (grantSpaceBonus) {
       this.players.forEach((p) => {
-        p.corporationCard?.onTilePlaced?.(p, player, space, BoardType.MARS);
+        p.corporationCards.forEach((corp) => {
+          corp.onTilePlaced?.(p, player, space, BoardType.MARS);
+        });
+
         p.playedCards.forEach((playedCard) => {
-            playedCard.onTilePlaced?.(p, player, space, BoardType.MARS);
+          playedCard.onTilePlaced?.(p, player, space, BoardType.MARS);
         });
       });
     }
@@ -1620,8 +1625,8 @@ export class Game implements ISerializable<SerializedGame> {
           return player;
         }
       }
-      // Check player corporation
-      if (player.corporationCard !== undefined && player.corporationCard.name === name) {
+      // Check player corporations
+      if (player.corporationCards.some((corp) => corp.name === name)) {
         return player;
       }
     }
@@ -1787,7 +1792,7 @@ export class Game implements ISerializable<SerializedGame> {
     game.syndicatePirateRaider = d.syndicatePirateRaider;
 
     // Still in Draft or Research of generation 1
-    if (game.generation === 1 && players.some((p) => p.corporationCard === undefined)) {
+    if (game.generation === 1 && players.some((p) => p.corporationCards.length === 0)) {
       if (game.phase === Phase.INITIALDRAFTING) {
         if (game.initialDraftIteration === 3) {
           game.runDraftRound(true, true);

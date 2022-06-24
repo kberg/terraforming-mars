@@ -22,7 +22,7 @@ describe('InterplanetaryCinematics', function() {
   });
 
   it('Has onCardPlayed', function() {
-    player.corporationCard = card;
+    player.corporationCards = [card];
     card.onCardPlayed(player, new Bushes());
     expect(player.megaCredits).eq(0);
     card.onCardPlayed(player, new Virus());

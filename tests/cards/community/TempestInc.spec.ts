@@ -18,7 +18,7 @@ describe('TempestInc', function() {
 
     card.play(player);
     card.initialAction(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Can act', function() {

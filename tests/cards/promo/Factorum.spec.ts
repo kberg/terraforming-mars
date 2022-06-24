@@ -16,7 +16,7 @@ describe('Factorum', function() {
     expect(player.getProduction(Resources.STEEL)).eq(1);
     player.megaCredits = 10;
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
 
     const action = card.action(player) as OrOptions;
     expect(action).instanceOf(OrOptions);

@@ -27,7 +27,7 @@ describe('SpinInducingAsteroid', function() {
   });
 
   it('Should play with Morning Star', function() {
-    player.corporationCard = new MorningStarInc();
+    player.corporationCards = [new MorningStarInc()];
     (game as any).venusScaleLevel = 12;
     expect(card.canPlay(player)).is.true;
 

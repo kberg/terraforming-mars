@@ -34,11 +34,11 @@ export const OtherPlayer = Vue.component('other-player', {
   template: `<div>
             <div v-show="isVisible()" class="other_player_cont menu">
                 <Button size="big" type="close" :onClick="hideMe" :disableOnServerBusy="false" align="right" />
-                <div v-if="player.playedCards.length > 0 || player.corporationCard !== undefined" class="player_home_block">
+                <div v-if="player.playedCards.length > 0 || player.corporationCards !== []" class="player_home_block">
                     <span class="player_name" :class="'player_bg_color_' + player.color"> {{ player.name }} played cards </span>
                     <div>
-                        <div v-if="player.corporationCard !== undefined" class="cardbox">
-                            <Card :card="player.corporationCard" :actionUsed="isCardActivated(player.corporationCard, player)"/>
+                        <div v-for="card in player.corporationCards" class="cardbox">
+                            <Card :card="card" :actionUsed="isCardActivated(card, player)"/>
                         </div>
 
                         <div v-for="card in getCardsByType(player.playedCards, [getLeaderCardType()])" :key="card.name" class="cardbox">

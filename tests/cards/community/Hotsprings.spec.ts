@@ -14,7 +14,7 @@ describe('Hotsprings', function() {
     player = TestPlayers.BLUE.newPlayer();
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Cannot act', function() {

@@ -14,7 +14,7 @@ describe('Arklight', function() {
     const play = card.play(player);
     expect(play).is.undefined;
     expect(card.resourceCount).eq(1);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     card.onCardPlayed(player, {tags: [Tags.ANIMAL]} as IProjectCard);
     expect(card.resourceCount).eq(2);
     expect(card.getVictoryPoints()).eq(1);

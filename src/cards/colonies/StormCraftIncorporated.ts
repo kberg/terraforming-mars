@@ -86,7 +86,10 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
         if (floaterAmount > 0 && heatAmount + ((floaterAmount - 1) * 2) >= targetAmount) {
           throw new Error(`You cannot overspend floaters`);
         }
-        player.removeResourceFrom(player.corporationCard as ICard, floaterAmount);
+
+        const stormcraft = player.corporationCards.find((corp) => corp.name === this.name);
+
+        player.removeResourceFrom(stormcraft as ICard, floaterAmount);
         player.heat -= heatAmount;
         return cb();
       },

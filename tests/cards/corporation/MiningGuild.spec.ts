@@ -24,7 +24,7 @@ describe('MiningGuild', () => {
       aresHazards: false,
     }));
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Should play', () => {

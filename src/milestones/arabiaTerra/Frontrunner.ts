@@ -16,10 +16,12 @@ export class Frontrunner implements IMilestone {
       }
     }
 
-    // Victory points from corporation
-    if (player.corporationCard !== undefined && player.corporationCard.getVictoryPoints !== undefined) {
-      score += player.corporationCard.getVictoryPoints(player);
-    }
+    // Victory points from corporations
+    player.corporationCards.forEach((corp) => {
+      if (corp.getVictoryPoints !== undefined) {
+        score += corp.getVictoryPoints(player);
+      }
+    });
 
     // Victory points from CEO
     if (player.cardIsInEffect(CardName.DUNCAN)) {

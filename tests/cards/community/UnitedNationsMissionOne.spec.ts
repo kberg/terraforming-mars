@@ -19,7 +19,7 @@ describe('UnitedNationsMissionOne', function() {
     game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions());
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Initializes correctly', function() {

@@ -17,7 +17,7 @@ describe('CommunityServices', function() {
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
     player.playedCards.push(prelude, researchCoordination);
-    player.corporationCard = corpo;
+    player.corporationCards = [corpo];
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());
@@ -32,7 +32,7 @@ describe('CommunityServices', function() {
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
     player.playedCards.push(prelude, researchCoordination);
-    player.corporationCard = corpo;
+    player.corporationCards = [corpo];
     const action = card.play(player);
     expect(action).is.undefined;
     player.victoryPointsBreakdown.setVictoryPoints('victoryPoints', card.getVictoryPoints());

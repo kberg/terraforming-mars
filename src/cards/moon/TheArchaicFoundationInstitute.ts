@@ -40,7 +40,7 @@ export class TheArchaicFoundationInstitute extends Card implements CorporationCa
   }
 
   public onCardPlayed(player: Player, card: IProjectCard): void {
-    if (player.corporationCard?.name !== this.name) {
+    if (player.corporationCards.every((corp) => corp.name !== this.name)) {
       return undefined;
     }
     const moonTags = card.tags.filter((t) => t === Tags.MOON);

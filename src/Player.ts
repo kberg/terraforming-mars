@@ -94,7 +94,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   private _game: Game | undefined = undefined;
 
   // Corporate identity
-  public corporationCard: CorporationCard | undefined = undefined;
+  public corporationCards: Array<CorporationCard> = [];
   // Used only during set-up
   public pickedCorporationCard: CorporationCard | undefined = undefined;
 
@@ -225,7 +225,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public isCorporation(corporationName: CardName): boolean {
-    return this.corporationCard?.name === corporationName;
+    return this.corporationCards.some((corp) => corp.name === corporationName);
   }
 
   public getTitaniumValue(): number {
@@ -527,9 +527,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     const victoryPointsBreakdown = new VictoryPointsBreakdown();
 
     // Victory points from corporations
-    if (this.corporationCard !== undefined && this.corporationCard.getVictoryPoints !== undefined) {
-      victoryPointsBreakdown.setVictoryPoints('victoryPoints', this.corporationCard.getVictoryPoints(this), this.corporationCard.name);
-    }
+    this.corporationCards.forEach((corp) => {
+      if (corp.getVictoryPoints !== undefined) {
+        victoryPointsBreakdown.setVictoryPoints('victoryPoints', corp.getVictoryPoints(this), corp.name);
+      }
+    });
 
     // Victory points from cards
     for (const playedCard of this.playedCards) {
@@ -640,9 +642,11 @@ export class Player implements ISerializable<SerializedPlayer> {
   public getNoTagsCount() {
     let noTagsCount: number = 0;
 
-    if (this.corporationCard !== undefined && this.corporationCard.tags.filter((tag) => tag !== Tags.WILDCARD).length === 0) {
-      noTagsCount++;
-    }
+    this.corporationCards.forEach((corp) => {
+      if (corp.tags.filter((tag) => tag !== Tags.WILDCARD).length === 0) {
+        noTagsCount++;
+      }
+    });
 
     noTagsCount += this.playedCards.filter((card) => card.cardType !== CardType.EVENT && card.tags.filter((tag) => tag !== Tags.WILDCARD).length === 0).length;
 
@@ -663,7 +667,11 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public getPlayedEventsCount(): number {
     let count = this.playedCards.filter((card) => card.cardType === CardType.EVENT).length;
-    if (this.isCorporation(CardName.PHARMACY_UNION) && this.corporationCard?.isDisabled) count++;
+
+    if (this.isCorporation(CardName.PHARMACY_UNION)) {
+      const pharmacyUnion = this.corporationCards.find((corp) => corp.name === CardName.PHARMACY_UNION);
+      if (pharmacyUnion?.isDisabled) count++;
+    }
 
     return count;
   }
@@ -675,16 +683,26 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public getResourcesOnCorporation():number {
-    if (this.corporationCard?.resourceCount !== undefined) {
-      return this.corporationCard.resourceCount;
-    } else return 0;
+    let count: number = 0;
+
+    this.corporationCards.forEach((corp) => {
+      if (corp.resourceCount !== undefined) {
+        count += corp.resourceCount;
+      }
+    });
+
+    return count;
   }
 
   public getRequirementsBonus(parameter: GlobalParameter): number {
     let requirementsBonus: number = 0;
-    if (this.corporationCard?.getRequirementBonus !== undefined) {
-      requirementsBonus += this.corporationCard.getRequirementBonus(this, parameter);
-    }
+
+    this.corporationCards.forEach((corp) => {
+      if (corp.getRequirementBonus !== undefined) {
+        requirementsBonus += corp.getRequirementBonus(this, parameter);
+      }
+    });
+
     for (const playedCard of this.playedCards) {
       if (playedCard.getRequirementBonus !== undefined &&
           playedCard.getRequirementBonus(this, parameter)) {
@@ -746,12 +764,12 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public getCardsWithResources(resource?: ResourceType): Array<ICard & IResourceCard> {
     let result: Array<ICard & IResourceCard> = this.playedCards.filter((card) => card.resourceType !== undefined && card.resourceCount && card.resourceCount > 0);
-    if (this.corporationCard !== undefined &&
-          this.corporationCard.resourceType !== undefined &&
-          this.corporationCard.resourceCount !== undefined &&
-          this.corporationCard.resourceCount > 0) {
-      result.push(this.corporationCard);
-    }
+    
+    this.corporationCards.forEach((corp) => {
+      if (corp.resourceType !== undefined && corp.resourceCount !== undefined && corp.resourceCount > 0) {
+        result.push(corp);
+      }
+    });
 
     if (resource !== undefined) {
       result = result.filter((card) => card.resourceType === resource);
@@ -763,9 +781,11 @@ export class Player implements ISerializable<SerializedPlayer> {
   public getResourceCards(resource: ResourceType | undefined = undefined): Array<ICard> {
     let result: Array<ICard> = this.playedCards.filter((card) => card.resourceType !== undefined);
 
-    if (this.corporationCard?.resourceType !== undefined) {
-      result.push(this.corporationCard);
-    }
+    this.corporationCards.forEach((corp) => {
+      if (corp.resourceType !== undefined) {
+        result.push(corp);
+      }
+    });
 
     if (resource !== undefined) {
       result = result.filter((card) => card.resourceType === resource);
@@ -813,11 +833,13 @@ export class Player implements ISerializable<SerializedPlayer> {
       tagCount += card.tags.filter((cardTag) => cardTag === tag).length;
     });
 
-    if (this.corporationCard !== undefined && !this.corporationCard.isDisabled) {
-      tagCount += this.corporationCard.tags.filter(
-        (cardTag) => cardTag === tag,
-      ).length;
-    }
+    this.corporationCards.forEach((corp) => {
+      if (!corp.isDisabled) {
+        tagCount += corp.tags.filter(
+          (cardTag) => cardTag === tag,
+        ).length;
+      }
+    });
 
     // Leavitt Station hook
     if (tag === Tags.SCIENCE && this.scienceTagCount > 0) {
@@ -864,9 +886,11 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (extraTag !== undefined) allTags.push(extraTag);
 
-    if (this.corporationCard !== undefined && this.corporationCard.tags.length > 0 && !this.corporationCard.isDisabled) {
-      this.corporationCard.tags.forEach((tag) => allTags.push(tag));
-    }
+    this.corporationCards.forEach((corp) => {
+      if (corp.tags.length > 0 && !corp.isDisabled) {
+        corp.tags.forEach((tag) => allTags.push(tag));
+      }
+    });
 
     this.playedCards.forEach((card) => {
       if (card.cardType === CardType.EVENT) {
@@ -1086,14 +1110,14 @@ export class Player implements ISerializable<SerializedPlayer> {
   public getPlayableActionCards(): Array<ICard> {
     const result: Array<ICard> = [];
 
-    if (
-      this.corporationCard !== undefined &&
-          !this.actionsThisGeneration.has(this.corporationCard.name) &&
-          this.corporationCard.action !== undefined &&
-          this.corporationCard.canAct !== undefined &&
-          this.corporationCard.canAct(this)) {
-      result.push(this.corporationCard);
-    }
+    this.corporationCards.forEach((corp) => {
+      if (!this.actionsThisGeneration.has(corp.name) &&
+        corp.action !== undefined &&
+        corp.canAct !== undefined &&
+        corp.canAct(this)) {
+        result.push(corp);
+      }
+    });
 
     const playedCards = this.playedCards.filter((card) => card.cardType === CardType.ACTIVE);
     for (const playedCard of playedCards) {
@@ -1129,9 +1153,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     this.steel += this.steelProduction;
     this.plants += this.plantProduction;
 
-    if (this.corporationCard?.onProductionPhase !== undefined) {
-      this.corporationCard.onProductionPhase(this);
-    }
+    this.corporationCards.forEach((corp) => {
+      if (corp.onProductionPhase !== undefined) {
+        corp.onProductionPhase(this);
+      }
+    });
 
     // Leader OPG actions reset hook
     this.playedCards
@@ -1341,10 +1367,12 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     });
 
-    // Check corporation too
-    if (this.corporationCard !== undefined && this.corporationCard.getCardDiscount !== undefined) {
-      cost -= this.corporationCard.getCardDiscount(this, card);
-    }
+    // Check corporations too
+    this.corporationCards.forEach((corp) => {
+      if (corp.getCardDiscount !== undefined) {
+        cost -= corp.getCardDiscount(this, card);
+      }
+    });
 
     // Playwrights hook
     this.removedFromPlayCards.forEach((removedFromPlayCard) => {
@@ -1599,18 +1627,21 @@ export class Player implements ISerializable<SerializedPlayer> {
     TurmoilHandler.applyOnCardPlayedEffect(this, selectedCard);
 
     for (const somePlayer of this.game.getPlayers()) {
-      if (somePlayer.corporationCard !== undefined && somePlayer.corporationCard.onCardPlayed !== undefined) {
-        // For Colosseum variant, only trigger the effect once for each player (e.g. Vitor receives only 3 MC)
-        if (this.game.gameOptions.colosseumVariant && somePlayer.color !== this.color) continue;
-
-        const actionFromPlayedCard: OrOptions | void = somePlayer.corporationCard.onCardPlayed(this, selectedCard);
-        if (actionFromPlayedCard !== undefined) {
-          this.game.defer(new DeferredAction(
-            this,
-            () => actionFromPlayedCard,
-          ));
+      somePlayer.corporationCards.forEach((corp) => {
+        if (corp.onCardPlayed !== undefined) {
+          // For Colosseum variant, only trigger the effect once for each player (e.g. Vitor receives only 3 MC)
+          if (this.game.gameOptions.colosseumVariant && somePlayer.color !== this.color) {
+          } else {
+            const actionFromPlayedCard: OrOptions | void = corp.onCardPlayed(this, selectedCard);
+            if (actionFromPlayedCard !== undefined) {
+              this.game.defer(new DeferredAction(
+                this,
+                () => actionFromPlayedCard,
+              ));
+            }
+          };          
         }
-      }
+      });
     }
 
     return undefined;
@@ -1671,9 +1702,14 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public spendHeat(amount: number, cb: () => (undefined | PlayerInput) = () => undefined) : PlayerInput | undefined {
-    if (this.isCorporation(CardName.STORMCRAFT_INCORPORATED) && this.getResourcesOnCorporation() > 0 ) {
-      return (<StormCraftIncorporated> this.corporationCard).spendHeat(this, amount, cb);
+    if (this.corporationCards.some((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED)) {
+      const stormcraft = this.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED);
+
+      if (stormcraft?.resourceCount! > 0) {
+        return (<StormCraftIncorporated> stormcraft).spendHeat(this, amount, cb);
+      }
     }
+
     this.heat -= amount;
     return cb();
   }
@@ -2101,50 +2137,51 @@ export class Player implements ISerializable<SerializedPlayer> {
       return;
     }
 
-    const corporationCard = this.corporationCard;
+    const corporationCards = this.corporationCards;
 
     // Vitor check
     if (this.isCorporation(CardName.VITOR) && this.game.allAwardsFunded()) {
       this.corporationInitialActionDone = true;
     }
 
-    if (corporationCard !== undefined &&
-          corporationCard.initialAction !== undefined &&
-          corporationCard.initialActionText !== undefined &&
-          this.corporationInitialActionDone === false
-    ) {
-      const initialActionOption = new SelectOption(
-        {
-          message: 'Take first action of ${0} corporation',
-          data: [{
-            type: LogMessageDataType.RAW_STRING,
-            value: corporationCard.name,
-          }],
-        },
-        corporationCard.initialActionText, () => {
-          game.defer(new DeferredAction(this, () => {
-            if (corporationCard.initialAction) {
-              return corporationCard.initialAction(this);
-            } else {
-              return undefined;
-            }
-          }));
-          this.corporationInitialActionDone = true;
-          return undefined;
-        },
-      );
-      const initialActionOrPass = new OrOptions(
-        initialActionOption,
-        this.passOption(),
-      );
-      this.setWaitingFor(initialActionOrPass, () => {
-        this.actionsTakenThisRound++;
-        this.actionsTakenThisGame++;
-        this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
-        this.takeAction();
-      });
-      return;
-    }
+    corporationCards.forEach((corp) => {
+      if (corp.initialAction !== undefined && corp.initialActionText !== undefined && this.corporationInitialActionDone === false) {
+        const initialActionOption = new SelectOption(
+          {
+            message: 'Take first action of ${0} corporation',
+            data: [{
+              type: LogMessageDataType.RAW_STRING,
+              value: corp.name,
+            }],
+          },
+          corp.initialActionText, () => {
+            game.defer(new DeferredAction(this, () => {
+              if (corp.initialAction) {
+                return corp.initialAction(this);
+              } else {
+                return undefined;
+              }
+            }));
+            this.corporationInitialActionDone = true;
+            return undefined;
+          },
+        );
+
+        const initialActionOrPass = new OrOptions(
+          initialActionOption,
+          this.passOption(),
+        );
+
+        this.setWaitingFor(initialActionOrPass, () => {
+          this.actionsTakenThisRound++;
+          this.actionsTakenThisGame++;
+          this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
+          this.takeAction();
+        });
+
+        return;
+      }
+    });
 
     this.setWaitingFor(this.getActions(), () => {
       this.actionsTakenThisRound++;
@@ -2366,12 +2403,16 @@ export class Player implements ISerializable<SerializedPlayer> {
   public serialize(): SerializedPlayer {
     const result: SerializedPlayer = {
       id: this.id,
-      corporationCard: this.corporationCard === undefined ? undefined : {
-        name: this.corporationCard.name,
-        resourceCount: this.corporationCard.resourceCount,
-        allTags: this.corporationCard instanceof Aridor ? Array.from(this.corporationCard.allTags) : [],
-        isDisabled: this.corporationCard instanceof PharmacyUnion && this.corporationCard.isDisabled,
-      },
+      corporationCards: this.corporationCards.map((c) => {
+        const data = {
+          name: c.name,
+          resourceCount: c.resourceCount,
+          allTags: c instanceof Aridor ? Array.from(c.allTags) : [],
+          isDisabled: c instanceof PharmacyUnion && c.isDisabled,
+        };
+
+        return data;
+      }),
       // Used only during set-up
       pickedCorporationCard: this.pickedCorporationCard?.name,
       // Terraforming Rating
@@ -2523,25 +2564,35 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Rebuild corporation card
-    if (d.corporationCard !== undefined) {
-      player.corporationCard = cardFinder.getCorporationCardByName(d.corporationCard.name);
-      if (player.corporationCard !== undefined) {
-        if (d.corporationCard.resourceCount !== undefined) {
-          player.corporationCard.resourceCount = d.corporationCard.resourceCount;
+    if (d.corporationCards !== []) {
+      const playerCorps: Array<CorporationCard> = [];
+
+      d.corporationCards.forEach((corp) => {
+        const corpCard = cardFinder.getCorporationCardByName(corp.name);
+        if (corpCard !== undefined) {
+          if (corpCard.resourceCount !== undefined) {
+            corpCard.resourceCount = corp.resourceCount;
+          }
         }
-      }
-      if (player.corporationCard instanceof Aridor) {
-        if (d.corporationCard.allTags !== undefined) {
-          player.corporationCard.allTags = new Set(d.corporationCard.allTags);
-        } else {
-          console.warn('did not find allTags for ARIDOR');
+
+        if (corpCard instanceof Aridor) {
+          if (corp.allTags !== undefined) {
+            corpCard.allTags = new Set(corp.allTags);
+          } else {
+            console.warn('did not find allTags for ARIDOR');
+          }
         }
-      }
-      if (player.corporationCard instanceof PharmacyUnion) {
-        player.corporationCard.isDisabled = Boolean(d.corporationCard.isDisabled);
-      }
+
+        if (corpCard instanceof PharmacyUnion) {
+          corpCard.isDisabled = Boolean(corp.isDisabled);
+        }
+
+        playerCorps.push(corpCard!);
+      });
+
+      player.corporationCards = playerCorps;
     } else {
-      player.corporationCard = undefined;
+      player.corporationCards = [];
     }
 
     // Rebuild dealt corporation array

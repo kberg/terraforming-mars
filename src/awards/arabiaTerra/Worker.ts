@@ -9,7 +9,11 @@ export class Worker implements IAward {
   
   public getScore(player: Player): number {
     let score = player.playedCards.filter((card) => card.action !== undefined).length;
-    if (player.corporationCard?.action !== undefined) score += 1;
+
+    player.corporationCards.forEach((corp) => {
+      if (corp.action !== undefined) score += 1;
+    });
+
     if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
 
     return score;

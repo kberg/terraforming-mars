@@ -30,7 +30,7 @@ export class CrediCor extends Card implements CorporationCard {
     });
   }
   private effect(player: Player, card: IProjectCard | StandardProjectCard): void {
-    if (player.corporationCard !== undefined && player.corporationCard.name === this.name && card.cost >= 20) {
+    if (player.corporationCards.some((corp) => corp.name === this.name) && card.cost >= 20) {
       player.megaCredits += 4;
     }
   }

@@ -28,7 +28,7 @@ describe('ProjectWorkshop', function() {
     advancedAlloys = new AdvancedAlloys();
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Starts with correct resources', function() {
@@ -120,7 +120,7 @@ describe('ProjectWorkshop', function() {
     game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions({turmoilExtension: true}));
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.game.phase = Phase.ACTION;
 
     const turmoil = game.turmoil!;

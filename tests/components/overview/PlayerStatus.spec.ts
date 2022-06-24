@@ -23,7 +23,7 @@ describe('PlayerStatus', function() {
           id: 'foobar',
         },
         player: {
-          corporationCard: {},
+          corporationCards: [],
           id: 'foobar',
           playedCards: [],
           gameOptions: {
@@ -33,6 +33,6 @@ describe('PlayerStatus', function() {
       },
     });
     const test = playerStatus.find('div[class*="played-cards-count"]');
-    expect(test.text()).eq('1');
+    expect(test.text()).eq('0');
   });
 });

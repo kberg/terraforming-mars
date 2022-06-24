@@ -32,7 +32,7 @@ describe('MonsInsurance', () => {
 
   it('Triggers effect when resources are removed', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 2;
     player2.titanium = 3;
 
@@ -47,7 +47,7 @@ describe('MonsInsurance', () => {
 
   it('Does not trigger effect when player removes resources from self', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 2;
 
     const ants = new Ants();
@@ -62,7 +62,7 @@ describe('MonsInsurance', () => {
 
   it('Does not trigger effect when player should pay itself', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 2;
 
     const tardigrades = new Tardigrades();
@@ -79,7 +79,7 @@ describe('MonsInsurance', () => {
 
   it('Effect triggers direct calls to addResource', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 10;
     player2.megaCredits = 10;
     player2.steel = 1;
@@ -92,7 +92,7 @@ describe('MonsInsurance', () => {
 
   it('Effect does not trigger direct calls to addResource for Global Event', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 10;
     player2.megaCredits = 10;
     player2.steel = 1;
@@ -105,7 +105,7 @@ describe('MonsInsurance', () => {
 
   it('Effect triggers direct calls to addProduction', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.setProductionForTest({megacredits: 1});
     player.megaCredits = 10;
     player2.megaCredits = 10;
@@ -118,7 +118,7 @@ describe('MonsInsurance', () => {
 
   it('Effect does not trigger direct calls to addProduction for Global Event', () => {
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.setProductionForTest({megacredits: 1});
     player.megaCredits = 10;
     player2.megaCredits = 10;

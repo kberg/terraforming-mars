@@ -11,7 +11,11 @@ export class Engineer implements IAward {
   public getScore(player: Player): number {
     let score = player.playedCards.filter((card) => card.produce !== undefined || (card.productionBox !== undefined && card.productionBox !== Units.EMPTY)).length;
     score += player.playedCards.filter((card) => Engineer.productionCards.includes(card.name)).length;
-    if (player.corporationCard !== undefined && Engineer.productionCards.includes(player.corporationCard.name)) score += 1;
+
+    player.corporationCards.forEach((corp) => {
+      if (Engineer.productionCards.includes(corp.name)) score += 1;
+    });
+
     if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
 
     return score;

@@ -392,7 +392,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
           const player = game.getPlayerById(this.chairman);
           player.totalChairmanshipsWon++;
           // Tempest Consultancy Hook (gains an additional TR when they become chairman)
-          const steps = player.corporationCard?.name === CardName.TEMPEST_CONSULTANCY ? 2 :1;
+          const steps = player.corporationCards.some((corp) => corp.name === CardName.TEMPEST_CONSULTANCY) ? 2 :1;
 
           game.defer(new DeferredAction(player, () => {
             player.increaseTerraformRatingSteps(steps);

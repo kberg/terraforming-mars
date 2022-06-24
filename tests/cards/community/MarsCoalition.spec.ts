@@ -19,7 +19,7 @@ describe('MarsCoalition', function() {
     game = Game.newInstance('foobar', [player], player, gameOptions);
 
     card.play();
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 10;
   });
 

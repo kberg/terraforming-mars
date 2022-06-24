@@ -222,7 +222,7 @@ export const PlayerHome = Vue.component('player-home', {
                 <div class="deck-size">{{ player.deckSize }}</div>
             </sidebar>
 
-            <div v-if="player.corporationCard">
+            <div v-if="player.corporationCards.length > 0">
 
                 <div class="player_home_block">
                     <a name="board" class="player_home_anchor"></a>
@@ -291,8 +291,8 @@ export const PlayerHome = Vue.component('player-home', {
                           <span>{{'&nbsp;('+getCardsByType(player.playedCards, [getEventCardType()]).length.toString()+')' }}</span>
                         </div>
                     </div>
-                    <div v-if="player.corporationCard !== undefined" class="cardbox">
-                        <Card :card="player.corporationCard" :actionUsed="isCardActivated(player.corporationCard, player)"/>
+                    <div v-for="card in player.corporationCards" class="cardbox">
+                        <Card :card="card" :actionUsed="isCardActivated(card, player)"/>
                     </div>
 
                     <div v-for="card in getCardsByType(player.playedCards, [getLeaderCardType()])" :key="card.name" class="cardbox">
@@ -320,7 +320,7 @@ export const PlayerHome = Vue.component('player-home', {
 
             </div>
 
-            <div class="player_home_block player_home_block--setup nofloat"  v-if="!player.corporationCard">
+            <div class="player_home_block player_home_block--setup nofloat"  v-if="player.corporationCards.length === 0">
 
                 <div v-for="card in player.dealtCorporationCards" :key="card.name" class="cardbox" v-if="isInitialDraftingPhase()">
                     <Card :card="card"/>
@@ -414,7 +414,7 @@ export const PlayerHome = Vue.component('player-home', {
             <div v-if="player.colonies.length > 0" class="player_home_block" ref="colonies" id="shortkey-colonies">
                 <a name="colonies" class="player_home_anchor"></a>
                 <dynamic-title title="Colonies" :color="player.color"/>
-                <div class="colonies-fleets-cont" v-if="player.corporationCard">
+                <div class="colonies-fleets-cont" v-if="player.corporationCards.length > 0">
                     <div class="colonies-player-fleets" v-for="colonyPlayer in player.players">
                         <div :class="'colonies-fleet colonies-fleet-'+ colonyPlayer.color" v-for="idx in getFleetsCountRange(colonyPlayer)"></div>
                     </div>

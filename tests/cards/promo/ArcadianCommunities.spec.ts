@@ -15,7 +15,7 @@ describe('ArcadianCommunities', function() {
     const play = card.play(player);
     expect(play).is.undefined;
     expect(player.steel).eq(10);
-    player.corporationCard = card;
+    player.corporationCards = [card];
 
     const initLands = player.game.board.getAvailableSpacesForGreenery(player);
     initLands[1].player = player;

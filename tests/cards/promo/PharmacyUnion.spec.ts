@@ -27,7 +27,7 @@ describe('PharmacyUnion', function() {
     player2 = TestPlayers.RED.newPlayer();
     Game.newInstance('foobar', [player, player2], player);
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Should play', function() {

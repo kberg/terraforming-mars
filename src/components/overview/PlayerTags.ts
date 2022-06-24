@@ -122,7 +122,7 @@ export const PlayerTags = Vue.component('player-tags', {
       return isTagsViewConcise(this.$root);
     },
     hasTagDiscount: function(tag: InterfaceTagsType): boolean {
-      for (const card of [...this.player.playedCards, this.player.corporationCard]) {
+      for (const card of [...this.player.playedCards, ...this.player.corporationCards]) {
         if (card !== undefined) {
           if (hasDiscount(tag, card)) {
             return true;
@@ -135,7 +135,7 @@ export const PlayerTags = Vue.component('player-tags', {
       const rulingPartyPolicyId = turmoil?.politicalAgendas?.currentAgenda.policyId;
       const dominantParty = turmoil?.dominant;
       const dominantPartyPolicyId = turmoil?.parties.find((party) => party.name === dominantParty)?.rulingPolicy;
-      const isMarsCoalition = this.player.corporationCard?.name === CardName.MARS_COALITION;
+      const isMarsCoalition = this.player.corporationCards.some((corp) => corp.name === CardName.MARS_COALITION);
 
       switch (tag) {
       case Tags.SPACE:
@@ -166,7 +166,7 @@ export const PlayerTags = Vue.component('player-tags', {
     },
     getTagDiscountAmount: function(tag: InterfaceTagsType): number {
       let discount = 0;
-      for (const card of [...this.player.playedCards, this.player.corporationCard]) {
+      for (const card of [...this.player.playedCards, ...this.player.corporationCards]) {
         if (card !== undefined) {
           discount += getDiscountAmount(tag, card);
         }
@@ -176,7 +176,7 @@ export const PlayerTags = Vue.component('player-tags', {
       const rulingPartyPolicyId = turmoil?.politicalAgendas?.currentAgenda.policyId;
       const dominantParty = turmoil?.dominant;
       const dominantPartyPolicyId = turmoil?.parties.find((party) => party.name === dominantParty)?.rulingPolicy;
-      const isMarsCoalition = this.player.corporationCard?.name === CardName.MARS_COALITION;
+      const isMarsCoalition = this.player.corporationCards.some((corp) => corp.name === CardName.MARS_COALITION);
 
       switch (tag) {
       case Tags.SPACE:

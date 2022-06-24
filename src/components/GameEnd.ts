@@ -180,7 +180,7 @@ export const GameEnd = Vue.component('game-end', {
                             <tr v-for="p in getSortedPlayers()" :class="getEndGamePlayerRowColorClass(p.color)">
                                 <td>
                                   <a :href="'/player?id='+p.id+'&noredirect'">{{ p.name }}</a>
-                                  <div class="column-corporation">{{ p.corporationCard === undefined ? "" : p.corporationCard.name }}</div>
+                                  <div v-for="corp in p.corporationCards" class="column-corporation">{{ corp.name }}</div>
                                   <div v-if="p.playedCards.find((card) => card.cardType === 'leader') !== undefined" style="font-size:smaller">{{ p.playedCards.find((card) => card.cardType === 'leader').name }}</div>
                                 </td>
                                 <td>{{ p.victoryPointsBreakdown.terraformRating }}</td>

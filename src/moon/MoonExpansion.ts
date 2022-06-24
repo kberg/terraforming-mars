@@ -131,9 +131,11 @@ export class MoonExpansion {
       // Ideally, this should be part of game.addTile, but since it isn't it's convenient enough to
       // hard-code onTilePlaced here. I wouldn't be surprised if this introduces a problem, but for now
       // it's not a problem until it is.
-      if (player.corporationCard !== undefined && player.corporationCard.onTilePlaced !== undefined) {
-        player.corporationCard.onTilePlaced(player, player, space, BoardType.MOON);
-      }
+      player.corporationCards.forEach((corp) => {
+        if (corp.onTilePlaced !== undefined) {
+          corp.onTilePlaced(player, player, space, BoardType.MOON);
+        }
+      });
     });
   }
 

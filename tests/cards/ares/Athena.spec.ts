@@ -19,7 +19,7 @@ describe('Athena', function() {
     game = Game.newInstance('foobar', [player, player2], player, ARES_OPTIONS_WITH_HAZARDS);
 
     card.play(player);
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Correctly sets property', function() {

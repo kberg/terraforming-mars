@@ -13,7 +13,7 @@ describe('Aphrodite', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     expect(player.getProduction(Resources.PLANTS)).eq(1);
-    player.corporationCard = card;
+    player.corporationCards = [card];
     expect(player.megaCredits).eq(0);
     game.increaseVenusScaleLevel(player2, 2);
     expect(game.getVenusScaleLevel()).eq(4);

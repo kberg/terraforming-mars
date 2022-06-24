@@ -17,7 +17,7 @@ export const PlayerResources = Vue.component('player-resources', {
   },
   methods: {
     canUseHeatAsMegaCredits: function(): boolean {
-      return this.player.corporationCard?.name === CardName.HELION;
+      return this.player.corporationCards.some((corp) => corp.name === CardName.HELION);
     },
   },
   components: {
@@ -27,10 +27,10 @@ export const PlayerResources = Vue.component('player-resources', {
         <div class="resource_items_cont">
             <player-resource :type="resources.MEGACREDITS" :count="player.megaCredits" :production="player.megaCreditProduction"></player-resource>
             <player-resource :type="resources.STEEL" :count="player.steel" :production="player.steelProduction" :steelValue="player.steelValue" :turmoil="player.turmoil"></player-resource>
-            <player-resource :type="resources.TITANIUM" :count="player.titanium" :production="player.titaniumProduction" :titaniumValue="player.titaniumValue" :turmoil="player.turmoil" :corporationCard="player.corporationCard"></player-resource>
+            <player-resource :type="resources.TITANIUM" :count="player.titanium" :production="player.titaniumProduction" :titaniumValue="player.titaniumValue" :turmoil="player.turmoil" :corporationCards="player.corporationCards"></player-resource>
             <player-resource :type="resources.PLANTS" :count="player.plants" :production="player.plantProduction" :plantsAreProtected="player.plantsAreProtected" :plantsNeededForGreenery="player.plantsNeededForGreenery"></player-resource>
             <player-resource :type="resources.ENERGY" :count="player.energy" :production="player.energyProduction"></player-resource>
-            <player-resource :type="resources.HEAT" :count="player.heat" :production="player.heatProduction" :canUseHeatAsMegaCredits="canUseHeatAsMegaCredits()" :corporationCard="player.corporationCard"></player-resource>
+            <player-resource :type="resources.HEAT" :count="player.heat" :production="player.heatProduction" :canUseHeatAsMegaCredits="canUseHeatAsMegaCredits()" :corporationCards="player.corporationCards"></player-resource>
         </div>
     `,
 });

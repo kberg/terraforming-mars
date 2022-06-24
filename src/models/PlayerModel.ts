@@ -29,7 +29,7 @@ export interface PlayerModel {
     colonies: Array<ColonyModel>;
     coloniesCount: number;
     color: Color;
-    corporationCard: CardModel | undefined;
+    corporationCards: Array<CardModel>;
     dealtCorporationCards: Array<CardModel>;
     dealtLeaderCards: Array<CardModel>;
     dealtPreludeCards: Array<CardModel>;

@@ -20,7 +20,7 @@ describe('CuriosityII', function() {
     game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions({aresExtension: true, aresHazards: false}));
     game.phase = Phase.ACTION;
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 2;
   });
 

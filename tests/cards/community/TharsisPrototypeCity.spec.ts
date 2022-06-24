@@ -38,7 +38,7 @@ describe('TharsisPrototypeCity', function() {
   });
 
   it('Does not give steel prod bonus for Mining Guild', function() {
-    player.corporationCard = new MiningGuild();
+    player.corporationCards = [new MiningGuild()];
     card.play(player);
     expect(game.deferredActions).has.lengthOf(1);
 

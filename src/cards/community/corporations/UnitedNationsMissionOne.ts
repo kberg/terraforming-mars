@@ -46,7 +46,7 @@ export class UnitedNationsMissionOne extends Card implements CorporationCard {
     if (playerId !== undefined) {
       if (game.gameOptions.colosseumVariant === true) {
         game.getPlayers().forEach((player) => {
-          if (player.corporationCard === undefined) return;
+          if (player.corporationCards.length === 0) return;
           if (shouldAwardMc && playerId === player.id) return;
           if (shouldAwardMc || game.phase === Phase.ACTION || game.phase === Phase.PRELUDES) player.megaCredits += 1;
         });

@@ -17,7 +17,7 @@ describe('TharsisRepublic', function() {
     player2 = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, player2], player);
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
   });
 
   it('Should take initial action', function() {

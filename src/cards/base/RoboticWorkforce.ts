@@ -56,9 +56,10 @@ export class RoboticWorkforce extends Card implements IProjectCard {
 
   private getAvailableCards(player: Player): Array<ICard> {
     const availableCards: Array<ICard> = player.playedCards.filter((card) => this.isCardApplicable(card, player));
-    if (player.corporationCard !== undefined && this.isCardApplicable(player.corporationCard, player)) {
-      availableCards.push(player.corporationCard);
-    }
+
+    player.corporationCards.forEach((corp) => {
+      if (this.isCardApplicable(corp, player)) availableCards.push(corp);
+    });
 
     return availableCards;
   }

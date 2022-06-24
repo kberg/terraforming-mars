@@ -78,7 +78,7 @@ export class Server {
       colonies: getColonies(game),
       coloniesCount: player.getColoniesCount(),
       color: player.color,
-      corporationCard: getCorporationCard(player),
+      corporationCards: getCorporationCards(player),
       dealtCorporationCards: getCards(player, player.dealtCorporationCards),
       dealtLeaderCards: getCards(player, player.dealtLeaderCards),
       dealtPreludeCards: getCards(player, player.dealtPreludeCards),
@@ -257,16 +257,19 @@ function getAwards(game: Game): Array<FundedAwardModel> {
   return awardModels;
 }
 
-function getCorporationCard(player: Player): CardModel | undefined {
-  if (player.corporationCard === undefined) return undefined;
-  return {
-    name: player.corporationCard.name,
-    resources: player.getResourcesOnCard(player.corporationCard),
-    cardType: CardType.CORPORATION,
-    isDisabled: player.corporationCard.isDisabled,
-    warning: player.corporationCard.warning,
-    discount: player.corporationCard.cardDiscount,
-  } as CardModel;
+function getCorporationCards(player: Player): CardModel[] {
+  const data = player.corporationCards.map((corp) => {
+    return {
+      name: corp.name,
+      resources: player.getResourcesOnCard(corp),
+      cardType: CardType.CORPORATION,
+      isDisabled: corp.isDisabled,
+      warning: corp.warning,
+      discount: corp.cardDiscount
+    };
+  });
+
+  return data as Array<CardModel>;
 }
 
 function getWaitingFor(
@@ -446,7 +449,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
     return {
         cardDiscount: player.cardDiscount,
         color: player.color,
-        corporationCard: getCorporationCard(player),
+        corporationCards: getCorporationCards(player),
         endGenerationScores: player.endGenerationScores,
         energy: player.energy,
         energyProduction: player.getProduction(Resources.ENERGY),

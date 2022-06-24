@@ -33,7 +33,7 @@ describe('NanotechIndustries', () => {
   });
 
   it('act', () => {
-    player.corporationCard = nanotechIndustries;
+    player.corporationCards = [nanotechIndustries];
     player.playedCards = [physicsComplex, searchForLife, olympusConference, prideoftheEarthArkship];
     nanotechIndustries.action(player);
 

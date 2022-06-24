@@ -56,7 +56,7 @@ describe('ImmigrantCity', function() {
   });
 
   it('Tharsis can play at -5 M€ production', function() {
-    player.corporationCard = new TharsisRepublic();
+    player.corporationCards = [new TharsisRepublic()];
     player.addProduction(Resources.ENERGY, 1);
     player.addProduction(Resources.MEGACREDITS, -5);
     expect(card.canPlay(player)).is.true;

@@ -66,7 +66,7 @@ describe('LocalHeatTrapping', () => {
   it('Cannot play as Helion if not enough heat left after paying for card', () => {
     const corp = new Helion();
     corp.play(player);
-    player.corporationCard = corp;
+    player.corporationCards = [corp];
 
     player.megaCredits = 0;
     player.heat = 5; // have to pay for card with 1 heat

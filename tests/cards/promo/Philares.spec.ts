@@ -35,7 +35,7 @@ describe('Philares', function() {
     adjacentSpace = game.board.getAdjacentSpaces(space)[0];
     adjacentSpace2 = game.board.getAdjacentSpaces(space)[2];
 
-    philaresPlayer.corporationCard = card;
+    philaresPlayer.corporationCards = [card];
   });
 
   it('Should take initial action', function() {

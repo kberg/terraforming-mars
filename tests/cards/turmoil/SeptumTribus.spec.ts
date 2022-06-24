@@ -15,7 +15,7 @@ describe('SeptumTribus', function() {
     const game = Game.newInstance('foobar', [player, player2], player, gameOptions);
     card.play();
 
-    player.corporationCard = card;
+    player.corporationCards = [card];
     player.megaCredits = 0;
 
     const turmoil = game.turmoil;
