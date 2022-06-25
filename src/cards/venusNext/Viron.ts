@@ -43,6 +43,17 @@ export class Viron extends Card implements ICard, CorporationCard {
         result.push(playedCard);
       }
     }
+
+    for (const corp of player.corporationCards) {
+      if (
+        player.getActionsThisGeneration().has(corp.name) &&
+          corp.action !== undefined &&
+          corp.canAct !== undefined &&
+          corp.canAct(player)) {
+        result.push(corp);
+      }
+    }
+
     return result;
   }
 
