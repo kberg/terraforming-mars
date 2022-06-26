@@ -764,7 +764,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public getCardsWithResources(resource?: ResourceType): Array<ICard & IResourceCard> {
     let result: Array<ICard & IResourceCard> = this.playedCards.filter((card) => card.resourceType !== undefined && card.resourceCount && card.resourceCount > 0);
-    
+
     this.corporationCards.forEach((corp) => {
       if (corp.resourceType !== undefined && corp.resourceCount !== undefined && corp.resourceCount > 0) {
         result.push(corp);
