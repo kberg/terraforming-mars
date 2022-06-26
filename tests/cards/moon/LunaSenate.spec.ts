@@ -5,6 +5,8 @@ import {TestPlayer} from '../../TestPlayer';
 import {LunaSenate} from '../../../src/cards/moon/LunaSenate';
 import {expect} from 'chai';
 import {Resources} from '../../../src/Resources';
+import {ThoriumRush} from '../../../src/cards/moon/ThoriumRush';
+import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -46,6 +48,14 @@ describe('LunaSenate', () => {
     expect(card.getVictoryPoints(player)).eq(3);
 
     player.tagsForTest = {moon: 4};
+    expect(card.getVictoryPoints(player)).eq(4);
+
+    // Does not count tags on event cards
+    player.playedCards.push(new ThoriumRush());
+    expect(card.getVictoryPoints(player)).eq(4);
+
+    // Does not count wild tags
+    player.playedCards.push(new ResearchCoordination());
     expect(card.getVictoryPoints(player)).eq(4);
   });
 });
