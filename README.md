@@ -22,6 +22,10 @@
 This is an open-source online implementation of the great board game Terraforming Mars. **It is not affiliated
 with FryxGames, Asmodee Digital or Steam in any way.**
 
+**Note:** This project has no affiliation with "Rebalanced Mars". Any new features you see on this repo made available on that server are without our permission.
+
+**Buy The Board Game**
+
 The board game is great and this repository highly recommends [purchasing it](https://www.amazon.com/Stronghold-Games-6005SG-Terraforming-Board/dp/B01GSYA4K2) for personal use.
 
 ## ⬤ I want to join the community!
