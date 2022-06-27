@@ -2207,12 +2207,16 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (this.game.gameOptions.coloniesExtension) {
       const openColonies = this.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
-      if (openColonies.length > 0 &&
-        this.fleetSize > this.tradesThisGeneration &&
-        (this.canAfford(this.getMcTradeCost()) ||
-          this.energy >= this.getEnergyTradeCost() ||
-          this.titanium >= this.getTitaniumTradeCost())
-      ) {
+      let canTrade = this.canAfford(this.getMcTradeCost()) || this.energy >= this.getEnergyTradeCost() || this.titanium >= this.getTitaniumTradeCost()
+
+      if (canTrade === false) {
+        const titanFloatingLaunchPad = this.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
+        if (titanFloatingLaunchPad !== undefined && titanFloatingLaunchPad.resourceCount! > 0) {
+          canTrade = true;
+        }
+      }
+
+      if (openColonies.length > 0 && this.fleetSize > this.tradesThisGeneration && canTrade) {
         action.options.push(
           this.tradeWithColony(openColonies),
         );
