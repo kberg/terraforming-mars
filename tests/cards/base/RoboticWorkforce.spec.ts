@@ -26,6 +26,7 @@ import {SolarWindPower} from '../../../src/cards/base/SolarWindPower';
 import {MarsUniversity} from '../../../src/cards/base/MarsUniversity';
 import {Gyropolis} from '../../../src/cards/venusNext/Gyropolis';
 import {VenusGovernor} from '../../../src/cards/venusNext/VenusGovernor';
+import {ResearchNetwork} from '../../../src/cards/prelude/ResearchNetwork';
 
 describe('RoboticWorkforce', () => {
   let card : RoboticWorkforce; let player : TestPlayer; let game : Game;
@@ -150,6 +151,18 @@ describe('RoboticWorkforce', () => {
 
     const action = card.play(player);
     expect(action).is.undefined;
+  });
+
+  it('Should work with Research Network', () => {
+    const researchNetwork = new ResearchNetwork();
+    player.playedCards.push(researchNetwork);
+
+    const action = card.play(player);
+    expect(action).is.not.undefined;
+
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
+    action!.cb([researchNetwork as any]);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
   });
 
   describe('test all cards', () => {
