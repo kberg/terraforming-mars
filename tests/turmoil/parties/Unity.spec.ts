@@ -45,7 +45,7 @@ describe('Unity', function() {
     expect(player.getTitaniumValue()).eq(4);
   });
 
-  it('Ruling policy 2: Spend 4 M€ to gain 2 titanium or add 2 floaters to any card', function() {
+  it('Ruling policy 2: Spend 4 M€ to gain 2 titanium or add 2 floaters to ANY card', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, unity, unity.policies[1].id);
 
     const unityPolicy = UNITY_POLICY_2;

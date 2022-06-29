@@ -124,7 +124,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <span class="money resource">4</span>
     <span class="red-arrow-3x"></span>2<span class="titanium resource"></span> / 2<span class="floater resource"></span>
     </div>
-    <div class="bonus-text">Spend 4 M€ to gain 2 titanium or add 2 floaters to any card</div>`);
+    <div class="bonus-text">Spend 4 M€ to gain 2 titanium or add 2 floaters to ANY card</div>`);
   AGENDA_HTML.set('up03',
     `<span class="money resource">4</span>
     <span class="red-arrow-3x"></span>
@@ -196,7 +196,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <span class="money resource">5</span>
     <span class="red-arrow-3x"></span>3<span class="plant resource"></span> / 2<span class="microbe resource"></span>
     </div>
-    <div class="bonus-text">Spend 5 M€ to gain 3 plants or add 2 microbes to any card</div>`);
+    <div class="bonus-text">Spend 5 M€ to gain 3 plants or add 2 microbes to ANY card</div>`);
   AGENDA_HTML.set('spb01',
     `<div class = "tooltip tooltip-bottom" data-tooltip="Gain 1 M€ for each different tag">
     <div class="resource money party-resource">1</div> / <div class="resource-tag tag-diverse party-resource-tag"></div>

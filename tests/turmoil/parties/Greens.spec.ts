@@ -68,7 +68,7 @@ describe('Greens', function() {
     expect(player.megaCredits).eq(2);
   });
 
-  it('Ruling policy 4: Spend 5 M€ to gain 3 plants or add 2 microbes to any card', function() {
+  it('Ruling policy 4: Spend 5 M€ to gain 3 plants or add 2 microbes to ANY card', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, greens, greens.policies[3].id);
 
     const greensPolicy = GREENS_POLICY_4;
