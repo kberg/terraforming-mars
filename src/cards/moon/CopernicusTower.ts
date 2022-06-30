@@ -61,7 +61,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
   }
 
   public getVictoryPoints(player: Player) {
-    return player.getTagCount(Tags.MOON, true, false);
+    return player.getTagCount(Tags.MOON, false, false);
   }
 
   private addResource(player: Player) {

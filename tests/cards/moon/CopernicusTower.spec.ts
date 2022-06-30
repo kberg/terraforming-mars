@@ -5,6 +5,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {CopernicusTower} from '../../../src/cards/moon/CopernicusTower';
 import {expect} from 'chai';
 import {OrOptions} from '../../../src/inputs/OrOptions';
+import {RevoltingColonists} from '../../../src/cards/moon/RevoltingColonists';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -54,6 +55,10 @@ describe('CopernicusTower', () => {
   it('victory points', () => {
     expect(card.getVictoryPoints(player)).eq(0);
     player.tagsForTest = {moon: 7};
+    expect(card.getVictoryPoints(player)).eq(7);
+
+    // Does not count Moon tags on event cards
+    player.playedCards.push(new RevoltingColonists());
     expect(card.getVictoryPoints(player)).eq(7);
   });
 });

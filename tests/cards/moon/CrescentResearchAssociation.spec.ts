@@ -6,6 +6,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
 import {MareNectarisMine} from '../../../src/cards/moon/MareNectarisMine';
 import {Predators} from '../../../src/cards/base/Predators';
+import {RevoltingColonists} from '../../../src/cards/moon/RevoltingColonists';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -74,6 +75,10 @@ describe('CrescentResearchAssociation', () => {
     player.tagsForTest = {moon: 7};
     expect(card.getVictoryPoints(player)).eq(2);
     player.tagsForTest = {moon: 8};
+    expect(card.getVictoryPoints(player)).eq(2);
+
+    // Does not count Moon tags on event cards
+    player.playedCards.push(new RevoltingColonists());
     expect(card.getVictoryPoints(player)).eq(2);
   });
 });
