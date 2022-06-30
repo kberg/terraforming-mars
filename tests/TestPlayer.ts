@@ -32,6 +32,12 @@ export class TestPlayer extends Player {
     }
   }
 
+  public getRawTagCount(tag: Tags, includeEventsTags:boolean = false): number {
+    return this.tagsForTest !== undefined ?
+      this.tagsForTest[tag] ?? 0 :
+      super.getRawTagCount(tag, includeEventsTags);
+  }
+
   public getVictoryPoints(): VictoryPointsBreakdown {
     this.victoryPointsBreakdown = super.getVictoryPoints();
     return this.victoryPointsBreakdown;
@@ -43,11 +49,11 @@ export class TestPlayer extends Player {
 
   public tagsForTest: Partial<TagsForTest> | undefined = undefined;
 
-  public getTagCount(tag: Tags, includeEventsTags:boolean = false, includeWildcardTags:boolean = true): number {
+  public getTagCount(tag: Tags, mode: 'default' | 'raw' | 'milestone' | 'award' = 'default'): number {
     if (this.tagsForTest !== undefined) {
       return this.tagsForTest[tag] || 0;
     }
-    return super.getTagCount(tag, includeEventsTags, includeWildcardTags);
+    return super.getTagCount(tag, mode);
   }
 
   public runInput(input: ReadonlyArray<ReadonlyArray<string>>, pi: PlayerInput): void {

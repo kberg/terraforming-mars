@@ -788,28 +788,85 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public getAllTags(): Array<ITagCount> {
     return [
-      {tag: Tags.BUILDING, count: this.getTagCount(Tags.BUILDING, false, false)},
-      {tag: Tags.CITY, count: this.getTagCount(Tags.CITY, false, false)},
-      {tag: Tags.EARTH, count: this.getTagCount(Tags.EARTH, false, false)},
-      {tag: Tags.ENERGY, count: this.getTagCount(Tags.ENERGY, false, false)},
-      {tag: Tags.JOVIAN, count: this.getTagCount(Tags.JOVIAN, false, false)},
-      {tag: Tags.MICROBE, count: this.getTagCount(Tags.MICROBE, false, false)},
-      {tag: Tags.MOON, count: this.getTagCount(Tags.MOON, false, false)},
-      {tag: Tags.PLANT, count: this.getTagCount(Tags.PLANT, false, false)},
-      {tag: Tags.SCIENCE, count: this.getTagCount(Tags.SCIENCE, false, false)},
-      {tag: Tags.SPACE, count: this.getTagCount(Tags.SPACE, false, false)},
-      {tag: Tags.VENUS, count: this.getTagCount(Tags.VENUS, false, false)},
-      {tag: Tags.WILDCARD, count: this.getTagCount(Tags.WILDCARD, false, false)},
-      {tag: Tags.ANIMAL, count: this.getTagCount(Tags.ANIMAL, false, false)},
+      {tag: Tags.BUILDING, count: this.getTagCount(Tags.BUILDING, 'raw')},
+      {tag: Tags.CITY, count: this.getTagCount(Tags.CITY, 'raw')},
+      {tag: Tags.EARTH, count: this.getTagCount(Tags.EARTH, 'raw')},
+      {tag: Tags.ENERGY, count: this.getTagCount(Tags.ENERGY, 'raw')},
+      {tag: Tags.JOVIAN, count: this.getTagCount(Tags.JOVIAN, 'raw')},
+      {tag: Tags.MICROBE, count: this.getTagCount(Tags.MICROBE, 'raw')},
+      {tag: Tags.MOON, count: this.getTagCount(Tags.MOON, 'raw')},
+      {tag: Tags.PLANT, count: this.getTagCount(Tags.PLANT, 'raw')},
+      {tag: Tags.SCIENCE, count: this.getTagCount(Tags.SCIENCE, 'raw')},
+      {tag: Tags.SPACE, count: this.getTagCount(Tags.SPACE, 'raw')},
+      {tag: Tags.VENUS, count: this.getTagCount(Tags.VENUS, 'raw')},
+      {tag: Tags.WILDCARD, count: this.getTagCount(Tags.WILDCARD, 'raw')},
+      {tag: Tags.ANIMAL, count: this.getTagCount(Tags.ANIMAL, 'raw')},
       {tag: Tags.EVENT, count: this.getPlayedEventsCount()},
     ].filter((tag) => tag.count > 0);
   }
 
-  public getTagCount(tag: Tags, includeEventsTags:boolean = false, includeTagSubstitutions:boolean = true): number {
+  /*
+   * Get the number of tags a player has, depending on certain conditions.
+   *
+   * 'raw': count face-up tags literally, including Leavitt Station.
+   * 'default': Same as raw, but include the wild tags.
+   * 'milestone': Same as raw
+   * 'award': Same as raw
+   */
+  public getTagCount(tag: Tags, mode: 'default' | 'raw' | 'milestone' | 'award' = 'default') {
+    const includeTagSubstitutions = (mode === 'default' || mode === 'milestone');
+    let tagCount = this.getRawTagCount(tag, false);
+
+    // Leavitt Station hook
+    if (tag === Tags.SCIENCE && this.scienceTagCount > 0) {
+      tagCount += this.scienceTagCount;
+    }
+
+    // PoliticalAgendas Transhumans P1 hook
+    if ((tag === Tags.WILDCARD || includeTagSubstitutions) && PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_DEFAULT_POLICY)) {
+      tagCount += 1;
+    }
+
+    if (tag === Tags.WILDCARD || includeTagSubstitutions) {
+      tagCount += LeadersExpansion.getBonusWildTags(this);
+    }
+
+    tagCount = MarsCoalition.checkBonusWildTag(this, tag, tagCount);
+
+    if (includeTagSubstitutions) {
+      // Earth Embassy hook
+      if (tag === Tags.EARTH && this.cardIsInEffect(CardName.EARTH_EMBASSY)) {
+        tagCount += this.getRawTagCount(Tags.MOON, false);
+      }
+
+      if (tag !== Tags.WILDCARD) {
+        tagCount += this.getRawTagCount(Tags.WILDCARD, false);
+      }
+    }
+
+    return tagCount;
+  }
+
+  public cardHasTag(card: ICard, target: Tags): boolean {
+    for (const tag of card.tags) {
+      if (tag === target) return true;
+    }
+    return false;
+  }
+  public cardTagCount(card: ICard, target: Tags): number {
+    let count = 0;
+    for (const tag of card.tags) {
+      if (tag === target) count++;
+    }
+    return count;
+  }
+
+  // Counts the tags in the player's play area only.
+  public getRawTagCount(tag: Tags, includeEventsTags: boolean) {
     let tagCount = 0;
 
     this.playedCards.forEach((card: IProjectCard) => {
-      if ( ! includeEventsTags && card.cardType === CardType.EVENT) return;
+      if (!includeEventsTags && card.cardType === CardType.EVENT) return;
       tagCount += card.tags.filter((cardTag) => cardTag === tag).length;
     });
 
@@ -818,89 +875,66 @@ export class Player implements ISerializable<SerializedPlayer> {
         (cardTag) => cardTag === tag,
       ).length;
     }
-
-    // Leavitt Station hook
-    if (tag === Tags.SCIENCE && this.scienceTagCount > 0) {
-      tagCount += this.scienceTagCount;
-    }
-
-    // PoliticalAgendas Transhumans P1 hook
-    if (tag === Tags.WILDCARD && PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_DEFAULT_POLICY)) {
-      tagCount += 1;
-    }
-
-    if (tag === Tags.WILDCARD) tagCount += LeadersExpansion.getBonusWildTags(this);
-
-    tagCount = MarsCoalition.checkBonusWildTag(this, tag, tagCount);
-
-    if (includeTagSubstitutions) {
-      // Earth Embassy hook
-      if (tag === Tags.EARTH && this.playedCards.some((c) => c.name === CardName.EARTH_EMBASSY)) {
-        tagCount += this.getTagCount(Tags.MOON, includeEventsTags, false);
-      }
-      if (tag !== Tags.WILDCARD) {
-        tagCount += this.getTagCount(Tags.WILDCARD, includeEventsTags, false);
-      }
-    }
-
     return tagCount;
   }
 
   // Return the total number of tags assocaited with these types.
-  // Wild tags are included.
-  public getMultipleTagCount(tags: Array<Tags>): number {
+  // Tag substitutions are included
+  public getMultipleTagCount(tags: Array<Tags>, _mode: 'default' | 'milestones' = 'default'): number {
     let tagCount = 0;
     tags.forEach((tag) => {
-      tagCount += this.getTagCount(tag, false, false);
+      tagCount += this.getRawTagCount(tag, false);
     });
-    return tagCount + this.getTagCount(Tags.WILDCARD);
+
+    // This is repeated behavior from getTagCount, sigh, OK.
+    if (tags.includes(Tags.EARTH) && !tags.includes(Tags.MOON) && this.cardIsInEffect(CardName.EARTH_EMBASSY)) {
+      tagCount += this.getRawTagCount(Tags.MOON, false);
+    }
+
+    tagCount += this.getRawTagCount(Tags.WILDCARD, false);
+
+    return tagCount;
   }
 
-  // TODO(kberg): Describe this function.
-  public getDistinctTagCount(countWild: boolean, extraTag?: Tags): number {
-    const allTags: Tags[] = [];
-    let wildcardCount: number = 0;
-    const uniqueTags: Set<Tags> = new Set();
-
-    if (extraTag !== undefined) allTags.push(extraTag);
-
-    if (this.corporationCard !== undefined && this.corporationCard.tags.length > 0 && !this.corporationCard.isDisabled) {
-      this.corporationCard.tags.forEach((tag) => allTags.push(tag));
-    }
-
-    this.playedCards.forEach((card) => {
-      if (card.cardType === CardType.EVENT) {
-        return;
-      }
-      card.tags.forEach((tag) => {
-        allTags.push(tag);
-      });
-    });
-
-    if (this.scienceTagCount > 0) allTags.push(Tags.SCIENCE);
-
-    for (const tags of allTags) {
-      if (tags === Tags.WILDCARD) {
-        wildcardCount++;
+  // Counts the number of distinct tags
+  public getDistinctTagCount(mode: 'default' | 'milestone' | 'globalEvent', extraTag?: Tags): number {
+    let wildTagCount: number = LeadersExpansion.getBonusWildTags(this);
+    const uniqueTags = new Set<Tags>();
+    const addTag = (tag: Tags) => {
+      if (tag === Tags.WILDCARD) {
+        wildTagCount++;
       } else {
-        uniqueTags.add(tags);
+        uniqueTags.add(tag);
+      }
+    };
+    if (extraTag !== undefined) {
+      uniqueTags.add(extraTag);
+    }
+    if (this.corporationCard !== undefined && !this.corporationCard?.isDisabled) {
+      this.corporationCard.tags.forEach(addTag);
+    }
+    for (const card of this.playedCards) {
+      if (card.cardType !== CardType.EVENT) {
+        card.tags.forEach(addTag);
       }
     }
+    if (this.scienceTagCount > 0) uniqueTags.add(Tags.SCIENCE);
 
-    const subtotal = uniqueTags.size + LeadersExpansion.getBonusWildTags(this);
+    if (mode === 'globalEvent') return uniqueTags.size;
 
-    if (countWild) {
-      return subtotal + wildcardCount;
-    } else {
-      return subtotal;
-    }
+    let maxTagCount = 10;
+    if (this.game.gameOptions.venusNextExtension) maxTagCount++;
+    if (this.game.gameOptions.moonExpansion) maxTagCount++;
+
+    const total = uniqueTags.size + wildTagCount;
+    return Math.min(total, maxTagCount);
   }
 
   // Return true if this player has all the tags in `tags` showing.
   public checkMultipleTagPresence(tags: Array<Tags>): boolean {
     let distinctCount = 0;
     tags.forEach((tag) => {
-      if (this.getTagCount(tag, false, false) > 0) {
+      if (this.getTagCount(tag, 'raw') > 0) {
         distinctCount++;
       } else if (tag === Tags.SCIENCE && this.hasTurmoilScienceTagBonus) {
         distinctCount++;
@@ -911,7 +945,6 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
     return false;
   }
-
   private runInputCb(result: PlayerInput | undefined): void {
     if (result !== undefined) {
       this.defer(result, Priority.DEFAULT);
