@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {WaterImportFromEuropa} from '../../../src/cards/base/WaterImportFromEuropa';
+import {ResearchCoordination} from '../../../src/cards/prelude/ResearchCoordination';
 import {Game} from '../../../src/Game';
 import {SelectSpace} from '../../../src/inputs/SelectSpace';
 import {Player} from '../../../src/Player';
@@ -19,9 +20,13 @@ describe('WaterImportFromEuropa', function() {
     expect(card.canAct(player)).is.not.true;
   });
 
-  it('Should play', function() {
+  it('Should play - correct victory points', function() {
     card.play();
     player.playedCards.push(card);
+    expect(card.getVictoryPoints(player)).eq(1);
+
+    // Does not count wild tags for VP
+    player.playedCards.push(new ResearchCoordination());
     expect(card.getVictoryPoints(player)).eq(1);
   });
 

@@ -10,11 +10,10 @@ describe('TollStation', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const anotherPlayer = TestPlayers.RED.newPlayer();
     Game.newInstance('foobar', [player, anotherPlayer], player);
-    const action = card.play(player);
-    expect(action).is.undefined;
-    anotherPlayer.playedCards.push(card);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(0);
+
+    player.tagsForTest = {space: 5};
+    anotherPlayer.tagsForTest = {space: 5, wild: 2};
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(5);
   });
 });
