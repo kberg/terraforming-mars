@@ -46,13 +46,13 @@ export class ArcadianCommunities extends Card implements IActionCard, Corporatio
   }
 
   public canAct(player: Player): boolean {
-    return player.game.board.getAvailableSpacesForMarker(player).length > 0;
+    return this.getAvailableSpacesForMarker(player).length > 0;
   }
 
   public action(player: Player) {
     return new SelectSpace(
       'Select space for claim',
-      player.game.board.getAvailableSpacesForMarker(player),
+      this.getAvailableSpacesForMarker(player),
       (foundSpace: ISpace) => {
         foundSpace.player = player;
         this.logMarkerPlacement(player, foundSpace);
@@ -64,6 +64,17 @@ export class ArcadianCommunities extends Card implements IActionCard, Corporatio
   public play(player: Player) {
     player.steel = 10;
     return undefined;
+  }
+
+  public getAvailableSpacesForMarker(player: Player): Array<ISpace> {
+    const board = player.game.board;
+
+    const spaces = board.getAvailableSpacesOnLand(player)
+      .filter((space) => space.player === undefined)
+      .filter((space) => board.getAdjacentSpaces(space).find((adj) => adj.player === player) !== undefined);
+
+      // Remove duplicates
+    return spaces.filter((space, index) => spaces.indexOf(space) === index);
   }
 
   private logMarkerPlacement(player: Player, space: ISpace): void {

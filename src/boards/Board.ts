@@ -139,17 +139,6 @@ export abstract class Board {
     );
   }
 
-  public getAvailableSpacesForMarker(player: Player): Array<ISpace> {
-    const spaces = this.getAvailableSpacesOnLand(player)
-      .filter(
-        (space) => this.getAdjacentSpaces(space).find(
-          (adj) => adj.player === player,
-        ) !== undefined,
-      );
-      // Remove duplicates
-    return spaces.filter((space, index) => spaces.indexOf(space) === index);
-  }
-
   public getAvailableSpacesForGreenery(player: Player): Array<ISpace> {
     if (player.cardIsInEffect(CardName.GORDON)) return this.getAvailableSpacesOnLand(player);
 
