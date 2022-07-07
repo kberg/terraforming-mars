@@ -384,6 +384,108 @@ describe('drafting', () => {
       CardName.BEAM_FROM_A_THORIUM_ASTEROID,
       CardName.BIOMASS_COMBUSTORS]);
   });
+
+  // it('2 player - corporation draft', () => {
+  //   const game = newTestGame(2, {corporationsDraft: true});
+  //   const player = getTestPlayer(game, 0);
+  //   const otherPlayer = getTestPlayer(game, 1);
+  //   const deck = game.dealer.deck;
+
+  //   unshiftCards(deck, [
+  //     CardName.ACQUIRED_COMPANY,
+  //     CardName.BIOFERTILIZER_FACILITY,
+  //     CardName.CAPITAL,
+  //     CardName.DECOMPOSERS,
+  //     CardName.EARTH_OFFICE,
+  //     CardName.FISH,
+  //     CardName.GENE_REPAIR,
+  //     CardName.HACKERS]);
+
+  //   game.generation = 1;
+  //   // This moves into draft phase
+  //   finishGeneration(game);
+
+  //   // First round
+
+  //   expect(draftSelection(player)).deep.eq([
+  //     CardName.ACQUIRED_COMPANY,
+  //     CardName.BIOFERTILIZER_FACILITY,
+  //     CardName.CAPITAL,
+  //     CardName.DECOMPOSERS]);
+
+  //   expect(draftSelection(otherPlayer)).deep.eq([
+  //     CardName.EARTH_OFFICE,
+  //     CardName.FISH,
+  //     CardName.GENE_REPAIR,
+  //     CardName.HACKERS]);
+
+  //   selectCard(player, CardName.BIOFERTILIZER_FACILITY);
+  //   expect(player.getWaitingFor()).is.undefined;
+  //   selectCard(otherPlayer, CardName.GENE_REPAIR);
+
+  //   expect(cardNames(player.draftedCards)).deep.eq([CardName.BIOFERTILIZER_FACILITY]);
+  //   expect(cardNames(otherPlayer.draftedCards)).deep.eq([CardName.GENE_REPAIR]);
+
+  //   // Second card
+
+  //   expect(draftSelection(player)).deep.eq([
+  //     CardName.EARTH_OFFICE,
+  //     CardName.FISH,
+  //     CardName.HACKERS]);
+
+  //   expect(draftSelection(otherPlayer)).deep.eq([
+  //     CardName.ACQUIRED_COMPANY,
+  //     CardName.CAPITAL,
+  //     CardName.DECOMPOSERS]);
+
+
+  //   selectCard(player, CardName.FISH);
+  //   expect(player.getWaitingFor()).is.undefined;
+  //   selectCard(otherPlayer, CardName.ACQUIRED_COMPANY);
+
+  //   expect(cardNames(player.draftedCards)).deep.eq([
+  //     CardName.BIOFERTILIZER_FACILITY,
+  //     CardName.FISH,
+  //   ]);
+  //   expect(cardNames(otherPlayer.draftedCards)).deep.eq([
+  //     CardName.GENE_REPAIR,
+  //     CardName.ACQUIRED_COMPANY,
+  //   ]);
+
+  //   // Third round
+
+  //   expect(draftSelection(player)).deep.eq([
+  //     CardName.CAPITAL,
+  //     CardName.DECOMPOSERS]);
+
+  //   expect(draftSelection(otherPlayer)).deep.eq([
+  //     CardName.EARTH_OFFICE,
+  //     CardName.HACKERS]);
+
+  //   selectCard(player, CardName.DECOMPOSERS);
+  //   expect(player.getWaitingFor()).is.undefined;
+  //   selectCard(otherPlayer, CardName.EARTH_OFFICE);
+
+  //   // No longer drafted cards, they're just cards to buy.
+  //   expect(player.draftedCards).is.empty;
+  //   expect(otherPlayer.draftedCards).is.empty;
+
+  //   expect(draftSelection(player)).deep.eq([
+  //     CardName.BIOFERTILIZER_FACILITY,
+  //     CardName.FISH,
+  //     CardName.DECOMPOSERS,
+  //     CardName.HACKERS,
+  //   ]);
+  //   expect(draftSelection(otherPlayer)).deep.eq([
+  //     CardName.GENE_REPAIR,
+  //     CardName.ACQUIRED_COMPANY,
+  //     CardName.EARTH_OFFICE,
+  //     CardName.CAPITAL,
+  //   ]);
+
+  //   // A nice next step would be to show that those cards above are for purchase, and acquiring them puts them in cardsInHand
+  //   // and that the rest of them are discarded.
+  // });
 });
 
 function getWaitingFor(player: Player): SelectCard<IProjectCard> {
