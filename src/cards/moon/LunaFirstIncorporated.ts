@@ -17,22 +17,29 @@ export class LunaFirstIncorporated extends Card implements CorporationCard {
       startingMegaCredits: 40,
 
       metadata: {
-        description: 'You start with 40 M€, 2 steel, and 2 Titanium.',
+        description: 'You start with 40 M€, 2 steel and 2 titanium.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(40).steel(2).titanium(2).br;
-          b.effect('When you raise any Moon Rate, increase your M€ production 1 step per step.', (eb) => {
-            eb.moonColonyRate({size: Size.SMALL}).slash()
-              .moonMiningRate({size: Size.SMALL}).slash()
+          b.br;
+          b.megacredits(40).steel(2).titanium(2).nbsp;
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect(undefined, (eb) => {
+              eb.moonColonyRate({size: Size.SMALL}).any.slash(Size.LARGE)
+              .moonMiningRate({size: Size.SMALL}).any.slash(Size.LARGE)
+              .moonLogisticsRate({size: Size.SMALL}).any
+              .startEffect.megacredits(1);
+            });
+            ce.vSpace();
+            ce.effect(undefined, (eb) => {
+              eb.moonColonyRate({size: Size.SMALL}).slash(Size.LARGE)
+              .moonMiningRate({size: Size.SMALL}).slash(Size.LARGE)
               .moonLogisticsRate({size: Size.SMALL})
               .startEffect.production((pb) => pb.megacredits(1));
-          }).br,
-          b.effect('When any player raises any Moon Rate, gain 1M€ per step.', (eb) => {
-            eb.moonColonyRate({size: Size.SMALL}).any.slash()
-              .moonMiningRate({size: Size.SMALL}).any.slash()
-              .moonLogisticsRate({size: Size.SMALL}).any.
-              startEffect.megacredits(1);
-          }).br;
+            });
+            ce.vSpace(Size.SMALL);
+            ce.text('(Effect: When any player raises a Moon rate, gain 1 M€ per step. When you raise a Moon rate, gain 1 M€ production per step.)', Size.TINY, false, false);
+          });
         }),
       },
     });
