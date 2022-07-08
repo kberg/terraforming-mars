@@ -1736,14 +1736,14 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public spendHeat(amount: number, cb: () => (undefined | PlayerInput) = () => undefined) : PlayerInput | undefined {
     if (this.corporationCards.some((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED)) {
-      const stormcraft = this.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED);
+      const stormcraft = this.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED)!;
 
-      if (stormcraft?.resourceCount! > 0) {
+      if (stormcraft.resourceCount! > 0) {
         return (<StormCraftIncorporated> stormcraft).spendHeat(this, amount, cb);
       }
     }
 
-    this.heat -= amount;
+    this.deductResource(Resources.HEAT, amount);
     return cb();
   }
 
