@@ -1,14 +1,14 @@
 import * as http from 'http';
 import {Player} from '../Player';
 import {Server} from '../models/ServerModel';
-import {AsyncHandler} from './Handler';
+import {Handler} from './Handler';
 import {IContext} from './IHandler';
 import {OrOptions} from '../inputs/OrOptions';
 import {UndoActionOption} from '../inputs/UndoActionOption';
 import {InputResponse} from '../common/inputs/InputResponse';
 import {Game} from '../Game';
 
-export class PlayerInput extends AsyncHandler {
+export class PlayerInput extends Handler {
   public static readonly INSTANCE = new PlayerInput();
   private constructor() {
     super();
