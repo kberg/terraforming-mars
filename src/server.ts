@@ -33,7 +33,7 @@ const fields: Array<keyof HeapInfo> = [
 
 for (const field of fields) {
   const val = heapStatistics[field];
-  console.log(`HealInfo.${field} = ${val.toLocaleString('EN-US')}`);
+  console.log(`HeapInfo.${field} = ${val.toLocaleString('EN-US')}`);
 }
 
 const serverId = process.env.SERVER_ID || GameHandler.INSTANCE.generateRandomId('');
