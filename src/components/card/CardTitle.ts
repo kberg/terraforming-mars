@@ -47,9 +47,11 @@ export const CardTitle = Vue.component('CardTitle', {
 
       const localeSpecificTitle = translateText(this.getCardTitleWithoutSuffix(title));
 
-      if (localeSpecificTitle.length > 26) {
+      if (localeSpecificTitle.length > 28) {
+        classes.push('title-smallest');
+      } else if (localeSpecificTitle.length > 26) {
         classes.push('title-smaller');
-      } else if (localeSpecificTitle.length > 23) {
+      }else if (localeSpecificTitle.length > 23) {
         classes.push('title-small');
       }
 

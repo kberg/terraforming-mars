@@ -6,6 +6,7 @@ import {CorporationCard} from '../corporation/CorporationCard';
 import {IProjectCard} from '../IProjectCard';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {CardRenderer} from '../render/CardRenderer';
+import {Size} from '../render/Size';
 import {Tags} from '../Tags';
 
 export class CrescentResearchAssociation extends Card implements CorporationCard {
@@ -20,9 +21,16 @@ export class CrescentResearchAssociation extends Card implements CorporationCard
         description: 'You start with 50 M€. 1 VP for every 3 Moon tags you have.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(50).br;
-          b.effect('When you play a moon tag, you pay 1 M€ less for each Moon tag you have.', (eb) => {
-            eb.moon().startEffect.megacredits(1).slash().moon();
+          b.br;
+          b.megacredits(50);
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect('When you play a moon tag, you pay 1 M€ less for each Moon tag you have.', (eb) => {
+              eb.moon().startEffect.megacredits(-1).slash().moon();
+            });
+            ce.vSpace();
+            ce.vSpace();
+            ce.vSpace(Size.LARGE);
           });
         }),
         victoryPoints: CardRenderDynamicVictoryPoints.moon(1, 3),
