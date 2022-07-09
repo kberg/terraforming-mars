@@ -245,6 +245,11 @@ class Builder {
     return this;
   }
 
+  public discardedCards(amount: number): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.DISCARDED_CARDS, amount));
+    return this;
+  }
+
   public floaters(amount: number): Builder {
     this._addRowItem(new CardRenderItem(CardRenderItemType.FLOATERS, amount));
     return this;

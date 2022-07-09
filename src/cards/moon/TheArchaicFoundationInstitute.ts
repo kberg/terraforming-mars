@@ -7,6 +7,7 @@ import {IProjectCard} from '../IProjectCard';
 import {ResourceType} from '../../ResourceType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
+import {Size} from '../render/Size';
 
 export class TheArchaicFoundationInstitute extends Card implements CorporationCard {
   constructor() {
@@ -21,12 +22,17 @@ export class TheArchaicFoundationInstitute extends Card implements CorporationCa
         description: 'You start with 55 M€.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(55).br;
-          b.effect('When you play a Moon tag, add a bronze resource cube on this card.', (eb) => {
-            eb.moon().startEffect.resourceCube();
-          }).br;
-          b.effect('Automatically remove every 3 bronze resource cubes collected here and increase your TR 1 step.', (eb) => {
-            eb.resourceCube(3).startEffect.tr(1);
+          b.br;
+          b.megacredits(55);
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect(undefined, (eb) => {
+              eb.moon().startEffect.resourceCube();
+            });
+            ce.vSpace();
+            ce.effect('When you play a Moon tag, add a resource cube to this card. Automatically remove every 3 resource cubes collected here to increase your TR 1 step.', (eb) => {
+              eb.resourceCube(3).startEffect.tr(1, Size.SMALL);
+            });
           });
         }),
       },

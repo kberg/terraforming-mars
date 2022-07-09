@@ -29,17 +29,17 @@ export class TheDarksideofTheMoonSyndicate extends Card implements CorporationCa
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
           b.megacredits(40).syndicateFleet(2).br;
-          b.text('You start with 40 M€ and 2 syndicate fleets on this card.', Size.SMALL, false, false).br;
-          b.titanium(1).arrow(Size.SMALL).syndicateFleet()
-            .slash(Size.SMALL)
-            .syndicateFleet().arrow(Size.SMALL).text('steal', Size.TINY).megacredits(8).any.br;
-          b.text('Action: Spend 1 titanium to add 1 syndicate fleet on this card OR remove 1 syndicate fleet from this card to steal 8M€ from any opponent.', Size.TINY, false, false).br;
-          b
-            .effect('When you place a tile on the Moon, steal 2 M€ from opponents for each of their tiles next to yours.', (eb) => {
-              eb.emptyTile('normal', Size.SMALL).secondaryTag(Tags.MOON)
-                .startEffect
-                .text('STEAL').megacredits(2).any.slash().emptyTile('normal', Size.SMALL).emptyTile('normal', Size.SMALL).any;
+          b.text('You start with 40 M€ and 2 syndicate fleets.', Size.SMALL, false, false);
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect('When you place a tile on the Moon, steal 2 M€ from each player for each adjacency.', (eb) => {
+              eb.emptyTile('normal', Size.SMALL).secondaryTag(Tags.MOON).startEffect.text('STEAL', Size.SMALL).nbsp.megacredits(2).any.slash().emptyTile('normal', Size.SMALL).emptyTile('normal', Size.SMALL).any;
             });
+            ce.vSpace(Size.SMALL);
+            ce.action('Spend 1 titanium to add 1 syndicate fleet here OR remove 1 syndicate fleet from this card to steal 8 M€ from any player.', (eb) => {
+              eb.titanium(1).startAction.syndicateFleet().slash(Size.SMALL).syndicateFleet().arrow().megacredits(8).any;
+            });
+          });
         }),
       },
     });
@@ -59,14 +59,14 @@ export class TheDarksideofTheMoonSyndicate extends Card implements CorporationCa
   public action(player: Player) {
     const orOptions = new OrOptions();
     if (player.titanium > 0) {
-      orOptions.options.push(new SelectOption('Spend 1 titanium to add 1 syndicate fleet on this card', 'Add syndicate fleet', () => {
+      orOptions.options.push(new SelectOption('Spend 1 titanium to add 1 syndicate fleet to this card', 'Add syndicate fleet', () => {
         player.titanium--;
         player.addResourceTo(this);
         return undefined;
       }));
     }
     if (this.resourceCount > 0) {
-      orOptions.options.push(new SelectOption('Remove 1 syndicate fleet from this card to steal 8M€ from any opponent.', 'Remove syndicate fleet', () => {
+      orOptions.options.push(new SelectOption('Remove 1 syndicate fleet from this card to steal 8 M€ from any player', 'Remove syndicate fleet', () => {
         player.removeResourceFrom(this);
         player.game.defer(new StealResources(player, Resources.MEGACREDITS, 8));
         return undefined;

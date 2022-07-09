@@ -18,7 +18,7 @@ export class CrescentResearchAssociation extends Card implements CorporationCard
       startingMegaCredits: 50,
 
       metadata: {
-        description: 'You start with 50 M€. 1 VP for every 3 Moon tags you have.',
+        description: 'You start with 50 M€.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
           b.br;
@@ -32,6 +32,7 @@ export class CrescentResearchAssociation extends Card implements CorporationCard
             ce.vSpace();
             ce.vSpace(Size.LARGE);
           });
+          b.vpText('1 VP for every 3 Moon tags you have.');
         }),
         victoryPoints: CardRenderDynamicVictoryPoints.moon(1, 3),
       },

@@ -10,6 +10,7 @@ import {ResourceType} from '../../ResourceType';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {Card} from '../Card';
+import {AltSecondaryTag} from '../render/CardRenderItem';
 
 export class IntragenSanctuaryHeadquarters extends Card implements CorporationCard {
   constructor() {
@@ -22,15 +23,17 @@ export class IntragenSanctuaryHeadquarters extends Card implements CorporationCa
       initialActionText: 'Place a colony tile on the Moon.',
 
       metadata: {
-        description: 'You start with 38 M€. ' +
-        'As your first action, place a colony tile on the Moon and raise the Colony Rate 1 step.',
+        description: 'You start with 38 M€. As your first action, place a colony tile on the Moon and raise the Colony Rate 1 step.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(38).br;
-          b.effect('When any player plays an animal tag (including this), add 1 animal on this card.', (eb) => {
-            eb.animals(1).played.startEffect.animals(1);
-          }).br,
-          b.text('1 VP for every 2 animals on this card.').br;
+          b.br;
+          b.megacredits(38).moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE);
+          b.corpBox('effect', (ce) => {
+            ce.effect('When any player plays an animal tag (including this), add 1 animal to this card.', (eb) => {
+              eb.animals(1).any.played.startEffect.animals(1);
+              eb.vpText('1 VP for every 2 animals on this card.');
+            });
+          });
         }),
         victoryPoints: CardRenderDynamicVictoryPoints.animals(1, 2),
       },

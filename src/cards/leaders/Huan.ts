@@ -20,7 +20,7 @@ export class Huan extends Card implements LeaderCard {
           b.text('DISABLE').tradeFleet().megacredits(0).multiplier.asterix();
           b.br.br;
         }),
-        description: 'All opponents cannot trade next generation. Gain X M€.',
+        description: 'All opponents cannot trade next generation. Gain X M€, where X is the current generation number.',
       },
     });
   }

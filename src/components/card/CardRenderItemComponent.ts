@@ -79,6 +79,10 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.CARDS) {
         classes.push('card-resource');
         classes.push('card-card');
+      } else if (type === CardRenderItemType.DISCARDED_CARDS) {
+        classes.push('card-resource');
+        classes.push('card-card');
+        classes.push('card-card-grayscale');
       } else if (type === CardRenderItemType.FLOATERS) {
         classes.push('card-resource');
         classes.push('card-resource-floater');

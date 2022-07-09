@@ -21,12 +21,17 @@ export class TempestConsultancy extends Card implements CorporationCard {
         description: 'You start with 37 M€. As your first action, place 2 delegates in one party.',
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(37).delegates(1).delegates(1).br;
-          b.action('Place 1 delegate in any party for every 5 moon tags you have [max 3.]', (eb) => {
-            eb.empty().startAction.delegates(1).text('(max 3)', Size.SMALL).slash().text('5 ').moon();
-          }).br;
-          b.effect('When your delegate becomes the chairman, increase your TR 1 step.', (eb) => {
-            eb.chairman().startEffect.tr(1);
+          b.br;
+          b.megacredits(37).delegates(2);
+          b.corpBox('effect', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.effect('When your delegate becomes the chairman, increase your TR 1 step.', (eb) => {
+              eb.chairman().startEffect.tr(1, Size.SMALL);
+            });
+            ce.vSpace(Size.SMALL);
+            ce.action('Place 1 delegate in any party for every 5 moon tags you have [max 3.]', (eb) => {
+              eb.empty().startAction.delegates(1).slash(Size.LARGE).text('5').nbsp.moon(1).nbsp.asterix();
+            });
           });
         }),
       },

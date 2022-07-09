@@ -263,7 +263,7 @@ export const DebugUI = Vue.component('debug-ui', {
               <input type="checkbox" name="leaders" id="leaders-checkbox" v-model="leaders"></input>
               <label for="leaders-checkbox" class="expansion-button">
                 <div class="create-game-expansion-icon expansion-icon-leaders"></div>
-                <span v-i18n>Leaders</span>
+                <span v-i18n>CEOs</span>
               </label><span/>
             </div>
 

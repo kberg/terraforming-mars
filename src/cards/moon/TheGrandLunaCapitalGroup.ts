@@ -24,19 +24,17 @@ export class TheGrandLunaCapitalGroup extends Card implements CorporationCard {
       initialActionText: 'Place a colony tile',
 
       metadata: {
-        description: {
-          text: 'You start with 32 M€ and 1 titanium. As your first action, place a colony tile on the Moon and raise the Colony Rate 1 step.',
-          align: 'left',
-        },
+        description: 'You start with 32 M€ and 1 titanium. As your first action, place a colony tile on the Moon and raise the Colony Rate 1 step.',
         cardNumber: 'MC7',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(32).titanium(1).moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE).br;
-          b.effect('When you place a colony tile, gain 2 M€ for each adjacent colony tile.', (eb) => {
-            eb.moonColony({size: Size.SMALL}).any.moonColony({size: Size.SMALL}).asterix()
+          b.megacredits(32).titanium(1).moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE);
+          b.corpBox('effect', (ce) => {
+            ce.effect('When you place a colony tile, gain 2 M€ for each adjacent colony tile. 1 VP for each colony tile adjacent to your colony tiles.', (eb) => {
+              eb.moonColony({size: Size.SMALL}).any.moonColony({size: Size.SMALL}).nbsp.asterix()
               .startEffect
-              .megacredits(2).slash().moonColony({size: Size.SMALL}).any;
-          }).br,
-          b.vpText('1 VP for each colony tile adjacent to your colony tiles.').br;
+              .megacredits(2).slash().nbsp.moonColony({size: Size.SMALL}).any;
+            });
+          });
         }),
         victoryPoints: CardRenderDynamicVictoryPoints.moonColonyTile(1),
       },

@@ -11,6 +11,7 @@ export enum CardRenderItemType {
   STEEL = 'steel',
   MEGACREDITS = 'megacredits',
   CARDS = 'cards',
+  DISCARDED_CARDS = 'discarded_cards',
   FLOATERS = 'floaters',
   ASTEROIDS = 'asteroids',
   MICROBES = 'microbes',

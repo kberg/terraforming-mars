@@ -18,7 +18,7 @@ export class Bjorn extends Card implements LeaderCard {
           b.opgArrow().text('STEAL').megacredits(0).multiplier.asterix();
           b.br;
         }),
-        description: 'Once per game, steal X M€ from each opponent that has more M€ than you, where X is the current generation number.',
+        description: 'Once per game, steal X M€ from each player that has more M€ than you, where X is the current generation number.',
       },
     });
   }
