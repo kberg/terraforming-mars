@@ -67,6 +67,7 @@ import {IPathfindersData} from './pathfinders/IPathfindersData';
 import {AddResourcesToCard} from './deferredActions/AddResourcesToCard';
 import {isProduction} from './utils/server';
 import {ColonyDeserializer} from './colonies/ColonyDeserializer';
+import {GameLoader} from './database/GameLoader';
 
 export interface Score {
   corporation: String;
@@ -1064,6 +1065,7 @@ export class Game {
     }).catch((err) => {
       console.error(err);
     });
+    GameLoader.getInstance().markComplete(this.id);
   }
 
   // Part of final greenery placement.

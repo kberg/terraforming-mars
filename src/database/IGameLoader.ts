@@ -26,4 +26,6 @@ export interface IGameLoader {
    * validation.
    */
   rollbackOnce(gameId: GameId, lastSaveId: number): Promise<Game>;
+  // DO NOT SUBMIT WITHOUT DOCUMENTATION.
+  markComplete(gameId: GameId): void;
 }

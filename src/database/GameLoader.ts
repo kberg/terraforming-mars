@@ -6,6 +6,7 @@ import {MultiMap} from 'mnemonist';
 import {Metrics} from '../server/metrics';
 import {once} from 'events';
 import {EventEmitter} from 'events';
+import {Phase} from '../common/Phase';
 /**
  * Loads games from javascript memory or database
  * Loads games from database sequentially as needed
@@ -73,7 +74,7 @@ export class GameLoader implements IGameLoader {
     const game = Game.deserialize(serializedGame);
     // TODO(kberg): make deleteGameNbrSaves return a promise.
     await Database.getInstance().deleteGameNbrSaves(gameId, 1);
-    await this.add(game);
+    this.add(game);
     game.undoCount++;
     return game;
   }
@@ -119,12 +120,18 @@ export class GameLoader implements IGameLoader {
       return undefined;
     }
   }
+  public markComplete(gameId: GameId): void {
+    this.cache.markComplete(gameId);
+    // this is also the opportunity to sweep the cache
+    this.cache.sweep();
+  }
 }
 
 class Cache extends EventEmitter {
   private loaded = false;
   private readonly games = new Map<GameId, Game | undefined>();
   private readonly participantIds = new Map<SpectatorId | PlayerId, GameId>();
+  private readonly finishedGames: Array<{gameId: GameId, insertedMs: number}> = [];
 
   public async load(): Promise<void> {
     try {
@@ -154,6 +161,28 @@ class Cache extends EventEmitter {
     }
   }
 
+  public markComplete(gameId: GameId) {
+    this.finishedGames.push({gameId, insertedMs: new Date().getTime()});
+  }
+
+  // Games are kept in cache for 30 minutes after they're complete or reloaded.
+  public sweep() {
+    const nowMs = new Date().getTime();
+    const thirtyMinutesAgo = nowMs - (30 * 60 * 1000);
+
+    for (let idx = 0; idx < this.finishedGames.length; idx++) {
+      const entry = this.finishedGames[idx];
+      if (entry.insertedMs > thirtyMinutesAgo) {
+        // Not clearing participantIds, it's necessary for reloading.
+        // This presumably should be enough to unload games fully from memory.
+        this.games.delete(entry.gameId);
+      } else {
+        this.finishedGames.splice(0, idx - 1);
+        break;
+      }
+    }
+  }
+
   private async getInstance(gameId: GameId) : Promise<void> {
     const game = await Database.getInstance().getGame(gameId);
     // This is almost exactly the same as add(game) but deals with a SerializedGame. Still duplicates code, but worth noting.
@@ -165,6 +194,9 @@ class Cache extends EventEmitter {
       for (const player of game.players) {
         this.participantIds.set(player.id, gameId);
       }
+    }
+    if (game.phase === Phase.END) {
+      this.markComplete(gameId);
     }
   }
 
