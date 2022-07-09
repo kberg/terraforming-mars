@@ -11,6 +11,7 @@ import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {MoonCards} from '../../moon/MoonCards';
 import {PlayerInput} from '../../PlayerInput';
 import {Card} from '../Card';
+import {Size} from '../render/Size';
 
 export class NanotechIndustries extends Card implements IActionCard, CorporationCard {
   constructor() {
@@ -25,13 +26,17 @@ export class NanotechIndustries extends Card implements IActionCard, Corporation
       metadata: {
         cardNumber: 'MC1',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(42).cards(3).minus().cards(1).br;
-          b.action('Add 1 science resource to ANY card [except those giving 2 or more VP per 1 science resource.]', (eb) => {
-            eb.empty().startAction.science(1).asterix();
+          b.br;
+          b.megacredits(42).cards(2).asterix();
+          b.corpBox('action', (ce) => {
+            ce.vSpace(Size.LARGE);
+            ce.action('Add 1 science resource to ANY card, except those giving 2 or more VP per resource.', (eb) => {
+              eb.empty().startAction.science(1).asterix();
+            });
+            ce.vSpace(Size.LARGE);
           });
         }),
-        description: 'You start with 42 M€. As your first action, draw 3 cards. Take 2 of them into hand, and discard the rest. ' +
-          '1 VP for every 2 science resources here.',
+        description: 'You start with 42 M€. As your first action, draw 3 cards. Keep 2 and discard the rest. 1 VP for every 2 science resources here.',
         victoryPoints: CardRenderDynamicVictoryPoints.science(1, 2),
       },
     });
