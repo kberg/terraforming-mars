@@ -1,8 +1,10 @@
 import {expect} from "chai";
+import {ICard} from "../../src/cards/ICard";
 import {Quill} from "../../src/cards/leaders/Quill";
 import {Dirigibles} from "../../src/cards/venusNext/Dirigibles";
 import {LocalShading} from "../../src/cards/venusNext/LocalShading";
 import {Game} from "../../src/Game";
+import {SelectCard} from "../../src/inputs/SelectCard";
 import {Player} from "../../src/Player";
 import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
@@ -30,6 +32,11 @@ describe('Quill', function() {
     card.action(player);
     expect(dirigibles.resourceCount).eq(2);
     expect(localShading.resourceCount).eq(2);
+    expect(game.deferredActions).has.length(1);
+
+    const addFloaters = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
+    addFloaters.cb([dirigibles]);
+    expect(dirigibles.resourceCount).eq(4);
   });
 
   it('Can only act once per game', function() {

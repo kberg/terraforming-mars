@@ -269,7 +269,7 @@ export const DebugUI = Vue.component('debug-ui', {
 
             <template v-if="this.leaders === true">
                 <section class="debug-ui-cards-list">
-                    <h2>Leader Cards</h2>
+                    <h2>CEO Cards</h2>
                     <div class="cardbox" v-for="card in getAllLeaderCards()">
                         <Card v-show="filtered(card)" :card="{'name': card}" />
                     </div>

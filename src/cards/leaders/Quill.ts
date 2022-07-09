@@ -7,6 +7,7 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {ResourceType} from '../../ResourceType';
+import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 
 export class Quill extends Card implements LeaderCard {
   constructor() {
@@ -19,7 +20,7 @@ export class Quill extends Card implements LeaderCard {
           b.opgArrow().cards(1).secondaryTag(AltSecondaryTag.FLOATER).colon().nbsp;
           b.plus().floaters(2).asterix();
         }),
-        description: 'Once per game, add 2 floaters to each of your cards that collect floaters.',
+        description: 'Once per game, add 2 floaters to each of your cards that collect floaters, then add 2 floaters to ANY card.',
       },
     });
   }
@@ -37,6 +38,9 @@ export class Quill extends Card implements LeaderCard {
   public action(player: Player): PlayerInput | undefined {
     const resourceCards = player.getResourceCards(ResourceType.FLOATER);
     resourceCards.forEach((card) => player.addResourceTo(card, {qty: 2, log: true}));
+
+    player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {count: 2}));
+
     this.isDisabled = true;
     return undefined;
   }
