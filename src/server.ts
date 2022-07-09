@@ -95,6 +95,9 @@ async function start() {
   }
   Database.getInstance().purgeUnfinishedGames();
 
+  // TODO(kberg): Add GameLoader.getInstance() here just to trigger the load.
+  // Doesn't have to be awaited.
+
   const port = process.env.PORT || 8080;
   console.log(`Starting ${raw_settings.head}, built at ${raw_settings.builtAt}`);
   console.log(`Starting server on port ${port}`);

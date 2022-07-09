@@ -8,12 +8,13 @@ export type GameIdLedger = {id: GameId, participants: Array<SpectatorId | Player
  * Loads games from database sequentially as needed
  */
 export interface IGameLoader {
-  add(game: Game): Promise<void>;
+  /** Called when the server creates a new game. */
+  add(game: Game): void;
   getLoadedGameIds(): Promise<Array<GameIdLedger>>;
   /**
    * Gets a game from javascript memory or pulls from database if needed.
    * @param {GameId} gameId the id of the game to retrieve
-   * @param {boolean} bypassCache always pull from database
+   * @param {boolean} bypassCache when true just pull from the database, otherwise check the cache.
    */
   getByGameId(gameId: GameId, bypassCache: boolean): Promise<Game | undefined>;
   getByParticipantId(playerId: PlayerId | SpectatorId): Promise<Game | undefined>;

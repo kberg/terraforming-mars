@@ -2,10 +2,10 @@ import {Database} from './Database';
 import {Game} from '../Game';
 import {PlayerId, GameId, SpectatorId} from '../common/Types';
 import {GameIdLedger, IGameLoader} from './IGameLoader';
-import {GameIds} from './GameIds';
 import {MultiMap} from 'mnemonist';
 import {Metrics} from '../server/metrics';
-
+import {once} from 'events';
+import {EventEmitter} from 'events';
 /**
  * Loads games from javascript memory or database
  * Loads games from database sequentially as needed
@@ -13,17 +13,18 @@ import {Metrics} from '../server/metrics';
 export class GameLoader implements IGameLoader {
   private static instance?: GameLoader;
 
-  private idsContainer = new GameIds();
+  private cache = new Cache();
 
   private constructor() {
     Metrics.INSTANCE.time('gameloader-initialize', () => {
-      this.idsContainer.load();
+      this.cache.load();
     });
   }
 
+  // Exposed for testing.
   public reset(): void {
-    this.idsContainer = new GameIds();
-    this.idsContainer.load();
+    this.cache = new Cache();
+    this.cache.load();
   }
 
   public static getInstance(): IGameLoader {
@@ -33,19 +34,12 @@ export class GameLoader implements IGameLoader {
     return GameLoader.instance;
   }
 
-  public async add(game: Game): Promise<void> {
-    const d = await this.idsContainer.getGames();
-    d.games.set(game.id, game);
-    if (game.spectatorId !== undefined) {
-      d.participantIds.set(game.spectatorId, game.id);
-    }
-    for (const player of game.getPlayers()) {
-      d.participantIds.set(player.id, game.id);
-    }
+  public add(game: Game): void {
+    return this.cache.add(game);
   }
 
   public async getLoadedGameIds(): Promise<Array<GameIdLedger>> {
-    const d = await this.idsContainer.getGames();
+    const d = await this.cache.get();
     const map = new MultiMap<GameId, SpectatorId | PlayerId>();
     d.participantIds.forEach((gameId, participantId) => map.set(gameId, participantId));
     const arry: Array<[GameId, Array<PlayerId | SpectatorId>]> = Array.from(map.associations());
@@ -53,26 +47,25 @@ export class GameLoader implements IGameLoader {
   }
 
   public async getByGameId(gameId: GameId, bypassCache: boolean): Promise<Game | undefined> {
-    const d = await this.idsContainer.getGames();
+    const d = await this.cache.get();
     if (bypassCache === false && d.games.get(gameId) !== undefined) {
       return d.games.get(gameId);
     } else if (d.games.has(gameId)) {
-      return this.loadGameAsync(gameId, bypassCache);
+      return this.loadGame(gameId, bypassCache);
     } else {
       return undefined;
     }
   }
 
   public async getByParticipantId(id: PlayerId | SpectatorId): Promise<Game | undefined> {
-    const d = await this.idsContainer.getGames();
+    const d = await this.cache.get();
+
     const gameId = d.participantIds.get(id);
-    if (gameId !== undefined && d.games.get(gameId) !== undefined) {
-      return d.games.get(gameId);
-    } else if (gameId !== undefined) {
-      return this.loadParticipant(id);
-    } else {
-      return undefined;
-    }
+    if (gameId === undefined) return undefined;
+
+    const cachedGame = d.games.get(gameId);
+    if (cachedGame !== undefined) return cachedGame;
+    return this.loadGame(gameId, true);
   }
 
   public async restoreGameAt(gameId: GameId, saveId: number): Promise<Game> {
@@ -103,8 +96,8 @@ export class GameLoader implements IGameLoader {
     return game;
   }
 
-  private async loadGameAsync(gameId: GameId, bypassCache: boolean): Promise<Game | undefined> {
-    const d = await this.idsContainer.getGames();
+  private async loadGame(gameId: GameId, bypassCache: boolean): Promise<Game | undefined> {
+    const d = await this.cache.get();
     if (bypassCache === false) {
       const game = d.games.get(gameId);
       if (game !== undefined) {
@@ -126,17 +119,64 @@ export class GameLoader implements IGameLoader {
       return undefined;
     }
   }
+}
 
-  private async loadParticipant(id: PlayerId | SpectatorId): Promise<Game | undefined> {
-    const d = await this.idsContainer.getGames();
-    const gameId = d.participantIds.get(id);
-    if (gameId === undefined) {
-      return undefined;
+class Cache extends EventEmitter {
+  private loaded = false;
+  private readonly games = new Map<GameId, Game | undefined>();
+  private readonly participantIds = new Map<SpectatorId | PlayerId, GameId>();
+
+  public async load(): Promise<void> {
+    try {
+      const allGameIds = await Database.getInstance().getGameIds();
+      await this.getAllInstances(allGameIds);
+    } catch (err) {
+      console.error('error loading all games', err);
     }
-    const game = d.games.get(gameId);
-    if (game !== undefined) {
-      return game;
+    this.loaded = true;
+    this.emit('loaded');
+  }
+
+  public async get(): Promise<{games:ReadonlyMap<GameId, Game | undefined>, participantIds:ReadonlyMap<SpectatorId | PlayerId, GameId>}> {
+    if (!this.loaded) {
+      await once(this, 'loaded');
     }
-    return this.loadGameAsync(gameId, false);
+    return {games: this.games, participantIds: this.participantIds};
+  }
+
+  public add(game: Game): void {
+    this.games.set(game.id, game);
+    if (game.spectatorId !== undefined) {
+      this.participantIds.set(game.spectatorId, game.id);
+    }
+    for (const player of game.getPlayers()) {
+      this.participantIds.set(player.id, game.id);
+    }
+  }
+
+  private async getInstance(gameId: GameId) : Promise<void> {
+    const game = await Database.getInstance().getGame(gameId);
+    // This is almost exactly the same as add(game) but deals with a SerializedGame. Still duplicates code, but worth noting.
+    if (this.games.get(gameId) === undefined) {
+      this.games.set(gameId, undefined);
+      if (game.spectatorId !== undefined) {
+        this.participantIds.set(game.spectatorId, gameId);
+      }
+      for (const player of game.players) {
+        this.participantIds.set(player.id, gameId);
+      }
+    }
+  }
+
+  private async getAllInstances(allGameIds: Array<GameId>): Promise<void> {
+    Metrics.INSTANCE.mark('game-ids-get-all-instances-started');
+    const sliceSize = 1000;
+    for (let i = 0; i < allGameIds.length; i += sliceSize) {
+      const slice = allGameIds.slice(i, i + sliceSize);
+      await Promise.all(slice.map((x) => this.getInstance(x))).then(() => {
+        console.log(`Loaded ${i} to ${i + slice.length} of ${allGameIds.length}`);
+      });
+    }
+    Metrics.INSTANCE.mark('game-ids-get-all-instances-finished');
   }
 }
