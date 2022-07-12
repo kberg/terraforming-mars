@@ -31,12 +31,22 @@ export class PointLuna extends Card implements CorporationCard {
       },
     });
   }
+
   public onCardPlayed(player: Player, card: IProjectCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  public onCorpCardPlayed(player: Player, card: CorporationCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
     const tagCount = card.tags.filter((tag) => tag === Tags.EARTH).length;
     if (player.isCorporation(this.name) && card.tags.includes(Tags.EARTH)) {
       player.drawCard(tagCount);
     }
   }
+
   public play(player: Player) {
     player.addProduction(Resources.TITANIUM, 1);
     player.drawCard();

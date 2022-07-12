@@ -103,7 +103,7 @@ export class Merger extends PreludeCard {
   private static triggerOtherCorpEffects(player: Player, corporationCard: CorporationCard): void {
     for (const somePlayer of player.game.getPlayers()) {
       somePlayer.corporationCards.forEach((corp) => {
-        if (somePlayer !== player && corp.onCorpCardPlayed !== undefined) {
+        if (corp.onCorpCardPlayed !== undefined && corp.name !== corporationCard.name) {
           player.game.defer(new DeferredAction(
             player,
             () => {

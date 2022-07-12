@@ -17,6 +17,8 @@ import {Polyphemos} from '../../../src/cards/colonies/Polyphemos';
 import {CARD_COST} from '../../../src/constants';
 import {TharsisRepublic} from '../../../src/cards/corporation/TharsisRepublic';
 import {CardName} from '../../../src/CardName';
+import {PointLuna} from '../../../src/cards/prelude/PointLuna';
+import {Teractor} from '../../../src/cards/corporation/Teractor';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -121,5 +123,14 @@ describe('Merger', function() {
     const index = selectCorp.cards.findIndex((card) => card.name === CardName.ARCADIAN_COMMUNITIES);
     selectCorp.cb([selectCorp.cards[index]]); // Arcadian
     expect(player.pendingInitialActions).has.length(2);
+  });
+
+  it('Works with Point Luna and second corp with Earth tag', function() {
+    game.playCorporationCard(player, new PointLuna());
+    const handSize = player.cardsInHand.length;
+
+    Merger.playSecondCorporationCard(player, new Teractor());
+    game.deferredActions.runAll(() => {});
+    expect(player.cardsInHand.length).to.eq(handSize + 1);
   });
 });
