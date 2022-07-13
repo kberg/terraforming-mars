@@ -149,6 +149,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   // Colonies
   private fleetSize: number = 1;
   public tradesThisGeneration: number = 0;
+  public hasTradedThisTurn: boolean = false;
   public colonyTradeOffset: number = 0;
   public colonyTradeDiscount: number = 0;
   public colonyVictoryPoints: number = 0;
@@ -1204,6 +1205,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     // See Colony.ts for the other half of this effect, and Game.ts which disables it.
     if (this.game.syndicatePirateRaider === undefined) {
       this.tradesThisGeneration = 0;
+      this.hasTradedThisTurn = false;
     } else if (this.game.syndicatePirateRaider === this.id) {
       // CEO effect: Disable all other players from trading next gen,
       // but free up all colonies (don't leave their trade fleets stuck there)
@@ -1215,6 +1217,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
 
       this.tradesThisGeneration = 0;
+      this.hasTradedThisTurn = false;
     }
   }
 
@@ -2166,6 +2169,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (game.hasPassedThisActionPhase(this) || (allOtherPlayersHavePassed === false && this.actionsTakenThisRound >= 2)) {
       this.actionsTakenThisRound = 0;
+      this.hasTradedThisTurn = false;
       game.playerIsFinishedTakingActions();
       return;
     }
@@ -2354,7 +2358,9 @@ export class Player implements ISerializable<SerializedPlayer> {
     return action;
   }
 
-  private canTrade(): boolean {
+  public canTrade(): boolean {
+    if (this.game.gameOptions.singleTradeVariant && this.hasTradedThisTurn && !this.allOtherPlayersHavePassed()) return false;
+
     if (this.canAfford(this.getMcTradeCost())) return true;
     if (this.energy >= this.getEnergyTradeCost()) return true;
     if (this.titanium >= this.getTitaniumTradeCost()) return true;
@@ -2488,7 +2494,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       cardDiscount: this.cardDiscount,
       // Colonies
       fleetSize: this.fleetSize,
-      tradesThisTurn: this.tradesThisGeneration,
+      tradesThisGeneration: this.tradesThisGeneration,
+      hasTradedThisTurn: this.hasTradedThisTurn,
       colonyTradeOffset: this.colonyTradeOffset,
       colonyTradeDiscount: this.colonyTradeDiscount,
       colonyVictoryPoints: this.colonyVictoryPoints,
@@ -2576,7 +2583,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.titaniumValue = d.titaniumValue;
     player.totalDelegatesPlaced = d.totalDelegatesPlaced;
     player.totalChairmanshipsWon = d.totalChairmanshipsWon;
-    player.tradesThisGeneration = d.tradesThisTurn;
+    player.tradesThisGeneration = d.tradesThisGeneration;
+    player.hasTradedThisTurn = d.hasTradedThisTurn;
     player.turmoilPolicyActionUsed = d.turmoilPolicyActionUsed;
     player.politicalAgendasActionUsedCount = d.politicalAgendasActionUsedCount;
     player.dominantPartyActionUsedCount = d.dominantPartyActionUsedCount;

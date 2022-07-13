@@ -604,6 +604,7 @@ function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     showTimers: options.showTimers,
     shuffleMapOption: options.shuffleMapOption,
     silverCubeVariant: options.silverCubeVariant,
+    singleTradeVariant: options.singleTradeVariant,
     solarPhaseOption: options.solarPhaseOption,
     soloTR: options.soloTR,
     randomMA: options.randomMA,

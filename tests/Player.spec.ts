@@ -29,6 +29,8 @@ import {LavaFlows} from '../src/cards/base/LavaFlows';
 import {StripMine} from '../src/cards/base/StripMine';
 import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../src/constants';
 import {GiantSolarShade} from '../src/cards/venusNext/GiantSolarShade';
+import {Luna} from '../src/colonies/Luna';
+import {Callisto} from '../src/colonies/Callisto';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -253,13 +255,14 @@ describe('Player', function() {
       cardCost: 3,
       cardDiscount: 7,
       fleetSize: 99,
-      tradesThisTurn: 100,
+      tradesThisGeneration: 100,
       colonyTradeOffset: 101,
       colonyTradeDiscount: 102,
       colonyVictoryPoints: 104,
       turmoilPolicyActionUsed: false,
       politicalAgendasActionUsedCount: 0,
       dominantPartyActionUsedCount: 0,
+      hasTradedThisTurn: false,
       hasTurmoilScienceTagBonus: false,
       hasBureaucratsColonyTradePenalty: false,
       hasTranshumansColonyTradeOffset: false,
@@ -978,4 +981,50 @@ it('addResource logging from global event', () => {
   const log = game.gameLog;
   const logEntry = log[log.length - 1];
   expect(TestingUtils.formatLogMessage(logEntry)).eq('blue\'s megacredits amount increased by 12 by Global Event');
+});
+
+describe('canTrade', function() {
+  let luna: Luna; let player: Player; let player2: Player; let game: Game;
+
+  beforeEach(() => {
+    luna = new Luna();
+    const callisto = new Callisto();
+    player = TestPlayers.BLUE.newPlayer();
+    player2 = TestPlayers.RED.newPlayer();
+
+    const gameOptions = TestingUtils.setCustomGameOptions({coloniesExtension: true});
+    game = Game.newInstance('foobar', [player, player2,], player, gameOptions);
+
+    game.colonies = [luna, callisto];
+    player.increaseFleetSize();
+    player.energy = 6;
+  });
+
+  it('Allows double trades by default', () => {
+    expect(player.canTrade()).is.true;
+
+    luna.trade(player);
+    expect(player.canTrade()).is.true;
+  });
+
+  it('Blocks double trades if singleTradeVariant is selected', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions({coloniesExtension: true, singleTradeVariant: true});
+    game = Game.newInstance('foobar', [player, player2,], player, gameOptions);
+
+    expect(player.canTrade()).is.true;
+
+    luna.trade(player);
+    expect(player.canTrade()).is.false;
+  });
+
+  it('Allows double trades with singleTradeVariant if all other players have passed', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions({coloniesExtension: true, singleTradeVariant: true});
+    game = Game.newInstance('foobar', [player, player2,], player, gameOptions);
+    player2.pass();
+
+    expect(player.canTrade()).is.true;
+
+    luna.trade(player);
+    expect(player.canTrade()).is.true;
+  });
 });

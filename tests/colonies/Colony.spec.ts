@@ -129,6 +129,7 @@ describe('Colony', function() {
       luna.trade(player);
       game.deferredActions.runAll(() => {});
       expect(player.megaCredits).eq(income[i]);
+      expect(player.hasTradedThisTurn).is.true;
     }
   });
 

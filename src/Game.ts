@@ -122,6 +122,7 @@ export interface GameOptions {
   altVenusBoard: boolean;
   silverCubeVariant: boolean; // modified WGT phase
   requiresMoonTrackCompletion: boolean; // Moon must be completed to end the game
+  singleTradeVariant: boolean; // Allow only 1 trade per turn
   escapeVelocityMode: boolean;
   escapeVelocityThreshold?: number;
   escapeVelocityPeriod?: number;
@@ -165,6 +166,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   shuffleMapOption: false,
   solarPhaseOption: false,
   silverCubeVariant: false,
+  singleTradeVariant: false,
   soloTR: false,
   startingCorporations: 2,
   turmoilExtension: false,

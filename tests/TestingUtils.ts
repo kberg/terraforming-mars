@@ -52,6 +52,7 @@ export class TestingUtils {
       customCorporationsList: [],
       solarPhaseOption: false,
       silverCubeVariant: false,
+      singleTradeVariant: false,
       shuffleMapOption: false,
       promoCardsOption: true,
       communityCardsOption: false,

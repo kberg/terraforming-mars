@@ -173,6 +173,8 @@ export abstract class Colony implements SerializedColony {
           return undefined;
         }), Priority.DECREASE_COLONY_TRACK_AFTER_TRADE);
       }
+
+      player.hasTradedThisTurn = true;
     }
 
     public giveColonyBonus(player: Player, isGiveColonyBonus: boolean = false): undefined | PlayerInput {

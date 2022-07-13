@@ -31,6 +31,7 @@ export interface SerializedPlayer {
     fleetSize: number;
     handicap: number;
     hasIncreasedTerraformRatingThisGeneration: boolean;
+    hasTradedThisTurn: boolean;
     hasTurmoilScienceTagBonus: boolean;
     hasBureaucratsColonyTradePenalty: boolean;
     hasTranshumansColonyTradeOffset: boolean;
@@ -69,7 +70,6 @@ export interface SerializedPlayer {
     totalDelegatesPlaced: number;
     totalChairmanshipsWon: number;
     totalSpend: number;
-    // TODO(kberg): change tradesThisTurn to tradeThisGeneration later
-    tradesThisTurn: number;
+    tradesThisGeneration: number;
     turmoilPolicyActionUsed: boolean;
 }

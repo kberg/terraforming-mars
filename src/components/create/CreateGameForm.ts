@@ -45,6 +45,7 @@ export interface CreateGameModel {
     seed: number;
     solarPhaseOption: boolean;
     silverCubeVariant: boolean;
+    singleTradeVariant: boolean;
     shuffleMapOption: boolean;
     promoCardsOption: boolean;
     communityCardsOption: boolean;
@@ -131,6 +132,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       seededGame: false,
       solarPhaseOption: false,
       silverCubeVariant: false,
+      singleTradeVariant: false,
       shuffleMapOption: false,
       promoCardsOption: false,
       communityCardsOption: false,
@@ -346,7 +348,10 @@ export const CreateGameForm = Vue.component('create-game-form', {
       if (this.$data.venusNext === false) this.societyExpansion = false;
     },
     toggleColonies: function() {
-      if (this.$data.colonies === false) this.societyExpansion = false;
+      if (this.$data.colonies === false) {
+        this.societyExpansion = false;
+        this.singleTradeVariant = false;
+      }
     },
     toggleTurmoil: function() {
       if (this.$data.turmoil === false) {
@@ -464,6 +469,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const turmoil = component.turmoil;
       const solarPhaseOption = this.solarPhaseOption;
       const silverCubeVariant = this.silverCubeVariant;
+      const singleTradeVariant = this.singleTradeVariant;
       const shuffleMapOption = this.shuffleMapOption;
       const customCorporationsList = component.customCorporationsList;
       const customColoniesList = component.customColoniesList;
@@ -548,6 +554,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         seed,
         solarPhaseOption,
         silverCubeVariant,
+        singleTradeVariant: singleTradeVariant,
         promoCardsOption,
         communityCardsOption,
         colosseumVariant: colosseumVariant,
@@ -948,6 +955,14 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <label for="altVenusBoard-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="colonies">
+                                <input type="checkbox" v-model="singleTradeVariant" id="singleTradeVariant-checkbox">
+                                <label for="singleTradeVariant-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-colony"></div>
+                                    <span v-i18n>Single Trade Variant</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 

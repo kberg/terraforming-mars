@@ -29,6 +29,7 @@ export interface GameOptionsModel {
   showTimers: boolean,
   shuffleMapOption: boolean,
   silverCubeVariant: boolean,
+  singleTradeVariant: boolean,
   solarPhaseOption: boolean,
   soloTR: boolean,
   randomMA: RandomMAOptionType,
