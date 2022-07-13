@@ -2269,14 +2269,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (this.game.gameOptions.coloniesExtension) {
       const openColonies = this.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
-      let canTrade = this.canAfford(this.getMcTradeCost()) || this.energy >= this.getEnergyTradeCost() || this.titanium >= this.getTitaniumTradeCost()
-
-      if (canTrade === false) {
-        const titanFloatingLaunchPad = this.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
-        if (titanFloatingLaunchPad !== undefined && titanFloatingLaunchPad.resourceCount! > 0) {
-          canTrade = true;
-        }
-      }
+      const canTrade = this.canTrade();
 
       if (openColonies.length > 0 && this.fleetSize > this.tradesThisGeneration && canTrade) {
         action.options.push(
@@ -2359,6 +2352,19 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     return action;
+  }
+
+  private canTrade(): boolean {
+    if (this.canAfford(this.getMcTradeCost())) return true;
+    if (this.energy >= this.getEnergyTradeCost()) return true;
+    if (this.titanium >= this.getTitaniumTradeCost()) return true;
+
+    const titanFloatingLaunchPad = this.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
+    if (titanFloatingLaunchPad !== undefined && titanFloatingLaunchPad.resourceCount! > 0) {
+      return true;
+    }
+
+    return false;
   }
 
   private allOtherPlayersHavePassed(): boolean {
