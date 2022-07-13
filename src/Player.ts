@@ -2322,7 +2322,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       action.options.push(this.useLeaderAction());
     }
 
-    if (this.game.getPlayers().length > 1 && this.actionsTakenThisRound > 0 && this.allOtherPlayersHavePassed() === false) {
+    if (!this.game.isSoloMode() && this.actionsTakenThisRound > 0 && this.allOtherPlayersHavePassed() === false) {
       if (!this.game.gameOptions.fastModeOption) {
         action.options.push(this.endTurnOption());
       } else if (this.game.gameOptions.fastModeOption && this.remainingStallActionsCount > 0) {

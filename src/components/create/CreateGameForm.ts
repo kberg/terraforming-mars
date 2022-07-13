@@ -146,7 +146,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       moonExpansion: false,
       undoOption: false,
       showTimers: true,
-      fastModeOption: false,
+      fastModeOption: true,
       startingCorporations: 2,
       soloTR: false,
       clonedGameData: undefined,
