@@ -16,6 +16,8 @@ export class DesperateMeasures extends Card implements IProjectCard {
       cardType: CardType.EVENT,
       name: CardName.DESPERATE_MEASURES,
       cost: 1,
+      // TODO: Handle 7% oxygen and -2 deg temperature track bonuses
+      tr: {tr: 1},
 
       metadata: {
         cardNumber: 'A04',

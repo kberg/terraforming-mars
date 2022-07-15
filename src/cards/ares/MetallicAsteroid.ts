@@ -19,6 +19,7 @@ export class MetallicAsteroid extends Card implements IProjectCard {
       name: CardName.METALLIC_ASTEROID,
       tags: [Tags.SPACE],
       cost: 13,
+      tr: {temperature: 1},
 
       metadata: {
         cardNumber: 'A13',

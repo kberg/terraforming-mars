@@ -16,6 +16,9 @@ import {CardRenderer} from '../render/CardRenderer';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {Size} from '../render/Size';
 import {HAZARD_TILES} from '../../TileType';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class Eris extends Card implements CorporationCard {
     constructor() {
@@ -77,7 +80,9 @@ export class Eris extends Card implements CorporationCard {
         }));
       }
 
-      if (hazardSpaces.length > 0) {
+      const canAffordReds = !PartyHooks.shouldApplyPolicy(player, PartyName.REDS) || player.canAfford(REDS_RULING_POLICY_COST);
+
+      if (hazardSpaces.length > 0 && canAffordReds) {
         orOptions.options.push(new SelectOption('Remove a hazard tile to gain 1 TR', 'Select', () => {
           return new SelectSpace(
               'Select hazard tile to remove',

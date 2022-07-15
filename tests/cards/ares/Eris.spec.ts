@@ -7,16 +7,20 @@ import {SelectSpace} from '../../../src/inputs/SelectSpace';
 import {_AresHazardPlacement} from '../../../src/ares/AresHazards';
 import {ARES_OPTIONS_WITH_HAZARDS} from '../../ares/AresTestHelper';
 import {TestPlayers} from '../../TestPlayers';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('Eris', function() {
-  let card : Eris; let player : Player; let game : Game;
+  let card : Eris; let player : Player; let player2 : Player; let game : Game;
 
   beforeEach(() => {
     card = new Eris();
     player = TestPlayers.BLUE.newPlayer();
-    const redPlayer = TestPlayers.RED.newPlayer();
+    player2 = TestPlayers.RED.newPlayer();
 
-    game = Game.newInstance('foobar', [player, redPlayer], player, ARES_OPTIONS_WITH_HAZARDS);
+    game = Game.newInstance('foobar', [player, player2], player, ARES_OPTIONS_WITH_HAZARDS);
 
     card.play();
     player.corporationCards = [card];
@@ -44,5 +48,24 @@ describe('Eris', function() {
     removableHazards.cb(removableHazards.availableSpaces[0]);
     expect(_AresHazardPlacement.getHazardsCount(game)).eq(initialHazardsCount);
     expect(player.getTerraformRating()).eq(initialTR + 1);
+  });
+
+  it('Respects Reds', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
+    const action = card.action(player);
+    expect(action).is.undefined;
+    const initialHazardsCount = _AresHazardPlacement.getHazardsCount(game);
+
+    // Option to place a hazard tile is auto selected as player cannot afford Reds
+    expect(game.deferredActions).has.lengthOf(1);
+    const placeHazard = game.deferredActions.pop()!.execute() as SelectSpace;
+    placeHazard.cb(placeHazard.availableSpaces[0]);
+    expect(_AresHazardPlacement.getHazardsCount(game)).eq(initialHazardsCount + 1);
   });
 });

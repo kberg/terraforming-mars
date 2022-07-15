@@ -32,6 +32,7 @@ export class NuclearZone extends Card implements IProjectCard {
       cardType: CardType.AUTOMATED,
       name,
       tags: [Tags.EARTH],
+      tr: {temperature: 2},
       cost,
       adjacencyBonus,
       metadata,
