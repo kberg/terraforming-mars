@@ -1,9 +1,14 @@
 import {expect} from 'chai';
 import {Asteroid} from '../../../src/cards/base/Asteroid';
+import {REDS_RULING_POLICY_COST} from '../../../src/constants';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
+import {Phase} from '../../../src/Phase';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
+import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Asteroid', function() {
@@ -30,5 +35,20 @@ describe('Asteroid', function() {
 
     expect(player.titanium).eq(2);
     expect(game.getTemperature()).eq(-28);
+  });
+
+  it('Respects Reds', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST;
+    expect(player.canPlay(card)).is.true;
   });
 });

@@ -6,6 +6,10 @@ import {TestingUtils} from '../../TestingUtils';
 import {SelectSpace} from '../../../src/inputs/SelectSpace';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {TestPlayers} from '../../TestPlayers';
+import {REDS_RULING_POLICY_COST} from '../../../src/constants';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
 
 describe('Comet', function() {
   let card : Comet; let player : Player; let player2 : Player; let player3: Player; let game : Game;
@@ -54,5 +58,24 @@ describe('Comet', function() {
     const action = card.play(player);
     expect(action).is.undefined;
     expect(player.plants).eq(8);
+  });
+
+  it('Respects Reds', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 2;
+    expect(player.canPlay(card)).is.true;
+
+    player.megaCredits = card.cost;
+    player.titanium = 2;
+    expect(player.canPlay(card)).is.true;
   });
 });

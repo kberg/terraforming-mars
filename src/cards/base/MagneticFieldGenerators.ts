@@ -5,9 +5,6 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
-import {PartyHooks} from '../../turmoil/parties/PartyHooks';
-import {PartyName} from '../../turmoil/parties/PartyName';
-import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../Units';
 
@@ -18,6 +15,7 @@ export class MagneticFieldGenerators extends Card implements IProjectCard {
       name: CardName.MAGNETIC_FIELD_GENERATORS,
       tags: [Tags.BUILDING],
       cost: 20,
+      tr: {tr: 3},
       productionBox: Units.of({energy: -4, plants: 2}),
 
       metadata: {
@@ -35,13 +33,8 @@ export class MagneticFieldGenerators extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    const meetsEnergyRequirements = player.getProduction(Resources.ENERGY) >= 4;
-
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * 3, {steel: true}) && meetsEnergyRequirements;
-    }
-
-    return meetsEnergyRequirements;
+    if (!super.canPlay(player)) return false;
+    return player.getProduction(Resources.ENERGY) >= 4;
   }
 
   public play(player: Player) {

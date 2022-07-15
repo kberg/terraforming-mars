@@ -170,33 +170,47 @@ describe('Turmoil', function() {
   });
 
   it('Can\'t play cards to raise TR directly if Reds are ruling and player cannot pay', function() {
-    setRulingParty(turmoil, game, new Reds());
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
     player.megaCredits = 16;
     const releaseOfInertGases = new ReleaseOfInertGases();
     const jovianEmbassy = new JovianEmbassy();
 
-    expect(releaseOfInertGases.canPlay(player)).is.not.true; // needs 20 MC
-    expect(jovianEmbassy.canPlay(player)).is.not.true; // needs 17 MC
+    expect(player.canPlay(releaseOfInertGases)).is.false; // needs 20 MC
+    expect(player.canPlay(jovianEmbassy)).is.false; // needs 17 MC
 
     player.addProduction(Resources.ENERGY, 4);
     player.megaCredits = 30;
     const magneticFieldGeneratorsPromo = new MagneticFieldGeneratorsPromo();
-    expect(magneticFieldGeneratorsPromo.canPlay(player)).is.not.true; // needs 31 MC
+    expect(magneticFieldGeneratorsPromo.canPlay(player)).is.false; // needs 31 MC
   });
 
   it('Can\'t play cards to raise TR via global parameters if Reds are ruling and player cannot pay', function() {
-    setRulingParty(turmoil, game, new Reds());
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
     player.megaCredits = 25;
     const iceAsteroid = new IceAsteroid();
     const protectedValley = new ProtectedValley();
 
-    expect(iceAsteroid.canPlay(player)).is.not.true; // needs 29 MC
-    expect(protectedValley.canPlay(player)).is.not.true; // needs 26 MC
+    expect(player.canPlay(iceAsteroid)).is.false; // needs 29 MC
+    expect(player.canPlay(protectedValley)).is.false; // needs 26 MC
 
     // can play if won't gain TR from raising global parameter
-    TestingUtils.maxOutOceans(player, 9);
-    expect(protectedValley.canPlay(player)).is.true;
+    TestingUtils.maxOutOceans(player);
     expect(iceAsteroid.canPlay(player)).is.true;
+
+    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
+    expect(protectedValley.canPlay(player)).is.true;
   });
 
   it('Applies card discounts when checking canPlay while Reds are ruling', function() {
