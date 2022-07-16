@@ -326,6 +326,7 @@ export class MoonExpansion {
 
     const reserveUnits: Units = card.reserveUnits || Units.EMPTY;
 
+    const megacredits = reserveUnits.megacredits || 0;
     const heat = reserveUnits.heat || 0;
     let steel = reserveUnits.steel || 0;
     let titanium = reserveUnits.titanium || 0;
@@ -346,7 +347,7 @@ export class MoonExpansion {
 
     steel = Math.max(steel, 0);
     titanium = Math.max(titanium, 0);
-    return Units.of({steel, titanium, heat});
+    return Units.of({megacredits, steel, titanium, heat});
   }
 
   public static calculateVictoryPoints(player: Player, vpb: VictoryPointsBreakdown): void {

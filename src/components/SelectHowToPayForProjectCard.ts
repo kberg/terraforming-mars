@@ -31,6 +31,7 @@ import {PreferencesManager} from './PreferencesManager';
 import {TranslateMixin} from './TranslateMixin';
 import {CardName} from '../CardName';
 import {Units} from '../Units';
+import {DEFAULT_FLOATERS_VALUE, DEFAULT_MICROBES_VALUE, DEFAULT_STEEL_VALUE, DEFAULT_TITANIUM_VALUE} from '../constants';
 
 export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for-project-card', {
   props: {
@@ -121,7 +122,8 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       this.titanium = 0;
       this.heat = 0;
 
-      let megacreditBalance = Math.max(this.cost - this.player.megaCredits, 0);
+      const units = this.card.reserveUnits || Units.EMPTY;
+      let megacreditBalance = Math.max(this.cost - this.player.megaCredits + units.megacredits, 0);
 
       // Calcualtes the optimal number of units to use given the unit value.
       //
@@ -194,10 +196,19 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         // We do not need to save Ti either because Ti is paid last before heat. If we overspend, it is because of Ti.
         // We cannot reduce the amount of Ti and still pay enough.
         this.steel -= saveOverSpendingUnits(this.steel, this.player.steelValue);
-        this.floaters -= saveOverSpendingUnits(this.floaters, 3);
-        this.microbes -= saveOverSpendingUnits(this.microbes, 2);
+        this.floaters -= saveOverSpendingUnits(this.floaters, DEFAULT_FLOATERS_VALUE);
+        this.microbes -= saveOverSpendingUnits(this.microbes, DEFAULT_MICROBES_VALUE);
         this.science -= saveOverSpendingUnits(this.science, 1);
-        this.megaCredits -= saveOverSpendingUnits(this.megaCredits, 1);
+
+        let finalmegaCreditsCost = this.cost;
+        finalmegaCreditsCost -= (this.titanium || 0) * (this.player.titaniumValue || DEFAULT_TITANIUM_VALUE);
+        finalmegaCreditsCost -= (this.steel || 0) * (this.player.steelValue || DEFAULT_STEEL_VALUE);
+        finalmegaCreditsCost -= (this.floaters || 0) * DEFAULT_FLOATERS_VALUE;
+        finalmegaCreditsCost -= (this.microbes || 0) * DEFAULT_MICROBES_VALUE;
+        finalmegaCreditsCost -= this.heat || 0;
+        finalmegaCreditsCost -= this.science || 0;
+
+        this.megaCredits = Math.max(0, finalmegaCreditsCost);
       }
     },
     canUseHeat: function(): boolean {
@@ -261,6 +272,13 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
     hasCardWarning: function(): boolean {
       return this.card !== undefined && this.card.warning !== undefined;
     },
+    showReserveMegaCreditsWarning: function(): boolean {
+      if (!this.canUseSteel() && !this.canUseTitanium()) return false;
+      if (this.card?.reserveUnits?.megacredits === undefined) return false;
+      if (this.card.reserveUnits.megacredits === 0) return false;
+
+      return this.card.reserveUnits.megacredits > 0 && this.player.megaCredits < this.cost + this.card.reserveUnits.megacredits;
+    },
     showReserveSteelWarning: function(): boolean {
       return this.card?.reserveUnits?.steel > 0 && this.canUseSteel();
     },
@@ -282,6 +300,10 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       };
       if (htp.megaCredits > this.player.megaCredits) {
         this.warning = 'You don\'t have that many M€';
+        return;
+      }
+      if (htp.megaCredits > this.player.megaCredits - this.card.reserveUnits.megacredits) {
+        this.warning = 'Must save enough M€ for Reds';
         return;
       }
       if (this.playerinput.microbes !== undefined && htp.microbes > this.playerinput.microbes) {
@@ -350,7 +372,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
           return;
         }
         if (htp.megaCredits && diff >= 1) {
-          this.warning = 'You cannot overspend megaCredits';
+          this.warning = 'You cannot overspend M€';
           return;
         }
       }
@@ -456,6 +478,9 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       <Button type="minus" :onClick="_=>reduceValue('megaCredits', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="megaCredits" />
       <Button type="plus" :onClick="_=>addValue('megaCredits', 1)" />
+    </div>
+    <div v-if="showReserveMegaCreditsWarning()" class="card-warning" v-i18n>
+    (Some M€ is unavailable here in reserve for Reds.)
     </div>
 
     <div v-if="hasWarning()" class="tm-warning">

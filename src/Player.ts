@@ -1051,6 +1051,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       const foundCard: IProjectCard = _data.card;
       const howToPay: HowToPay = this.parseHowToPayJSON(input[0][1]);
       const reserveUnits = pi.reserveUnits[_data.idx];
+      if (reserveUnits.megacredits + howToPay.megaCredits > this.megaCredits) {
+        throw new Error(`${reserveUnits.megacredits} M€ must be reserved for ${cardName}`);
+      }
       if (reserveUnits.steel + howToPay.steel > this.steel) {
         throw new Error(`${reserveUnits.steel} units of steel must be reserved for ${cardName}`);
       }
@@ -1968,6 +1971,19 @@ export class Player implements ISerializable<SerializedPlayer> {
     const baseCost = this.getCardCost(card) - MoonExpansion.spendableLunaArchiveResources(this, card);
     const redsCost = this.computeTerraformRatingBump(card) * REDS_RULING_POLICY_COST;
 
+    if (card.reserveUnits !== undefined || card.reserveUnits === Units.EMPTY) {
+      card.reserveUnits = Units.of({
+        megacredits: redsCost,
+        steel: card.reserveUnits.steel,
+        titanium: card.reserveUnits.titanium,
+        heat: card.reserveUnits.heat,
+        plants: card.reserveUnits.plants,
+        energy: card.reserveUnits.energy,
+      });
+    } else {
+      card.reserveUnits = Units.of({megacredits: redsCost});
+    }
+
     const canAfford = this.canAfford(
       baseCost,
       {
@@ -1976,7 +1992,6 @@ export class Player implements ISerializable<SerializedPlayer> {
         floaters: this.canUseFloaters(card),
         microbes: this.canUseMicrobes(card),
         reserveUnits: MoonExpansion.adjustedReserveCosts(this, card),
-        redsCost,
       });
 
     return canAfford && (card.canPlay === undefined || card.canPlay(this));
@@ -1990,7 +2005,6 @@ export class Player implements ISerializable<SerializedPlayer> {
     floaters?: boolean,
     microbes?: boolean,
     reserveUnits?: Units,
-    redsCost?: number,
   }) {
     const reserveUnits = options?.reserveUnits ?? Units.EMPTY;
     if (!this.hasUnits(reserveUnits)) {
@@ -2002,7 +2016,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     const canUseFloaters: boolean = options?.floaters ?? false;
     const canUseMicrobes: boolean = options?.microbes ?? false;
 
-    const availableMegacredits = this.megaCredits - (reserveUnits.megacredits + (options?.redsCost ?? 0));
+    const availableMegacredits = this.megaCredits - reserveUnits.megacredits;
     if (availableMegacredits < 0) return false;
 
     return cost <=
@@ -2014,7 +2028,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       (canUseMicrobes ? this.getMicrobesCanSpend() * 2 : 0);
   }
 
-  private computeTerraformRatingBump(card: IProjectCard): number {
+  public computeTerraformRatingBump(card: IProjectCard): number {
     if (!PartyHooks.shouldApplyPolicy(this, PartyName.REDS)) return 0;
 
     let tr = card.tr;
