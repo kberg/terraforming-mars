@@ -89,6 +89,9 @@ export abstract class Card {
   public get reserveUnits(): Units {
     return this.properties.reserveUnits || Units.EMPTY;
   }
+  public set reserveUnits(value: Units) {
+    this.properties.reserveUnits = value;
+  };
   public get tr(): TRSource {
     return this.properties.tr || {};
   }

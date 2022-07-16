@@ -644,7 +644,9 @@ it('canPlay: reds tax applies by default when raising oxygen', function() {
   turmoil.rulingParty = new Reds();
   PoliticalAgendas.setNextAgenda(turmoil, game);
   player.megaCredits = card.cost;
+  expect(player.computeTerraformRatingBump(card)).to.eq(2);
   expect(player.canPlay(card)).is.false;
+  expect(card.reserveUnits.megacredits).to.eq(6);
 
   player.megaCredits = card.cost + 5;
   expect(player.canPlay(card)).is.false;
@@ -652,15 +654,21 @@ it('canPlay: reds tax applies by default when raising oxygen', function() {
   expect(player.canPlay(card)).is.true;
 
   (game as any).oxygenLevel = MAX_OXYGEN_LEVEL - 1;
+  expect(player.computeTerraformRatingBump(card)).to.eq(1);
+
   player.megaCredits = card.cost + 2;
   expect(player.canPlay(card)).is.false;
+  expect(card.reserveUnits.megacredits).to.eq(3);
+
   player.megaCredits = card.cost + 3;
   expect(player.canPlay(card)).is.true;
 
   (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+  expect(player.computeTerraformRatingBump(card)).to.eq(0);
 
   player.megaCredits = card.cost;
   expect(player.canPlay(card)).is.true;
+  expect(card.reserveUnits.megacredits).to.eq(0);
 });
 
 it('canPlay: when paying reds tax for oxygen, include the cost for the 8% temperature bump.', function() {

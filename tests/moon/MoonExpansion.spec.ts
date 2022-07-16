@@ -16,6 +16,9 @@ import {TestingUtils} from '../TestingUtils';
 import {TestPlayer} from '../TestPlayer';
 import {TestPlayers} from '../TestPlayers';
 import {Phase} from '../../src/Phase';
+import {Comet} from '../../src/cards/base/Comet';
+import {Reds} from '../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../src/turmoil/PoliticalAgendas';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -218,5 +221,21 @@ describe('MoonExpansion', () => {
     MoonExpansion.raiseLogisticRate(player);
     expect(moonData.logisticRate).eq(1);
     expect(player.getTerraformRating()).eq(20);
+  });
+
+  it('calculates adjustedReserveCosts with Reds ruling', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
+    const card = new Comet();
+    const trBump = player.computeTerraformRatingBump(card);
+    expect(trBump).to.eq(2);
+
+    const reserveUnits = MoonExpansion.adjustedReserveCosts(player, card);
+    expect(reserveUnits.megacredits).to.eq(6);
   });
 });
