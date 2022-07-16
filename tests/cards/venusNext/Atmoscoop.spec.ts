@@ -9,17 +9,22 @@ import * as constants from '../../../src/constants';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectCard} from '../../../src/inputs/SelectCard';
+import {Phase} from '../../../src/Phase';
 import {Player} from '../../../src/Player';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
+import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Atmoscoop', function() {
-  let card : Atmoscoop; let player : Player; let game : Game; let dirigibles: Dirigibles; let floatingHabs: FloatingHabs;
+  let card : Atmoscoop; let player : Player; let player2 : Player;
+  let game : Game; let dirigibles: Dirigibles; let floatingHabs: FloatingHabs;
 
   beforeEach(() => {
     card = new Atmoscoop();
     player = TestPlayers.BLUE.newPlayer();
-    const redPlayer = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, redPlayer], player);
+    player2 = TestPlayers.RED.newPlayer();
+    game = Game.newInstance('foobar', [player, player2], player);
     dirigibles = new Dirigibles();
     floatingHabs = new FloatingHabs();
   });
@@ -115,5 +120,22 @@ describe('Atmoscoop', function() {
     expect(action).instanceOf(SelectCard);
     action.cb([dirigibles]);
     expect(dirigibles.resourceCount).eq(2);
+  });
+
+  it('Respects Reds', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions();
+    game = Game.newInstance('foobar', [player, player2], player, gameOptions);
+
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+
+    player.playedCards.push(new Research(), new SearchForLife());
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + constants.REDS_RULING_POLICY_COST * 2;
+    expect(player.canPlay(card)).is.true;
   });
 });

@@ -10,8 +10,6 @@ import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
 import {CardName} from '../../CardName';
 import * as constants from './../../constants';
-import {PartyHooks} from '../../turmoil/parties/PartyHooks';
-import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
@@ -24,6 +22,8 @@ export class Atmoscoop extends Card implements IProjectCard {
       name: CardName.ATMOSCOOP,
       cost: 22,
       tags: [Tags.JOVIAN, Tags.SPACE],
+      // TODO: Handle 16% Venus and -2 deg temperature track bonuses
+      tr: {tr: 2},
 
       requirements: CardRequirements.builder((b) => b.tag(Tags.SCIENCE, 3)),
       metadata: {
@@ -36,21 +36,6 @@ export class Atmoscoop extends Card implements IProjectCard {
         victoryPoints: 1,
       },
     });
-  }
-
-  public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) {
-      return false;
-    }
-    const remainingTemperatureSteps = (constants.MAX_TEMPERATURE - player.game.getTemperature()) / 2;
-    const remainingVenusSteps = (constants.MAX_VENUS_SCALE - player.game.getVenusScaleLevel()) / 2;
-    const stepsRaised = Math.min(remainingTemperatureSteps, remainingVenusSteps, 2);
-
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(this.cost + constants.REDS_RULING_POLICY_COST * stepsRaised, {titanium: true});
-    }
-
-    return true;
   }
 
   public play(player: Player) {
