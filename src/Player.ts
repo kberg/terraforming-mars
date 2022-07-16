@@ -2272,7 +2272,18 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     if (this.game.gameOptions.coloniesExtension) {
-      const openColonies = this.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
+      let openColonies = this.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
+      const iapetus = openColonies.find((colony) => colony.name === ColonyName.IAPETUS);
+
+      if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS) && iapetus !== undefined) {
+        const tradePosition = iapetus.trackPosition + this.colonyTradeOffset;
+        const trGainedFromTrade = iapetus.tradeQuantity[tradePosition];
+
+        if (!this.canAfford(trGainedFromTrade * REDS_RULING_POLICY_COST)) {
+          openColonies = openColonies.filter((colony) => colony.name !== ColonyName.IAPETUS);
+        }
+      }
+
       const canTrade = this.canTrade();
 
       if (openColonies.length > 0 && this.fleetSize > this.tradesThisGeneration && canTrade) {

@@ -4,6 +4,9 @@ import {Colony} from '../colonies/Colony';
 import {ColonyName} from '../colonies/ColonyName';
 import {ColonyModel} from '../models/ColonyModel';
 import {DeferredAction, Priority} from './DeferredAction';
+import {REDS_RULING_POLICY_COST} from '../constants';
+import {PartyHooks} from '../turmoil/parties/PartyHooks';
+import {PartyName} from '../turmoil/parties/PartyName';
 
 export class BuildColony implements DeferredAction {
   public priority = Priority.BUILD_COLONY;
@@ -24,6 +27,11 @@ export class BuildColony implements DeferredAction {
 
     if (this.openColonies.length === 0) {
       return undefined;
+    }
+
+    // TODO: Europa sometimes costs additional 3.
+    if (PartyHooks.shouldApplyPolicy(this.player, PartyName.REDS) && !this.player.canAfford(REDS_RULING_POLICY_COST)) {
+      this.openColonies = this.openColonies.filter((colony) => [ColonyName.VENUS, ColonyName.IAPETUS].includes(colony.name) === false);
     }
 
     const openColonies = this.openColonies;

@@ -7,6 +7,7 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import * as constants from '../../constants';
 import {ColonyName} from '../../colonies/ColonyName';
 import {BuildColony} from '../../deferredActions/BuildColony';
+import {Colony} from '../../colonies/Colony';
 
 export class BuildColonyStandardProject extends StandardProjectCard {
   constructor() {
@@ -24,14 +25,14 @@ export class BuildColonyStandardProject extends StandardProjectCard {
     });
   }
 
-  private getOpenColonies(player: Player) {
+  private getOpenColonies(player: Player): Array<Colony> {
     let openColonies = player.game.colonies.filter((colony) => colony.colonies.length < 3 &&
       colony.colonies.includes(player.id) === false &&
       colony.isActive);
 
     // TODO: Europa sometimes costs additional 3.
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !player.canAfford(this.cost + constants.REDS_RULING_POLICY_COST)) {
-      openColonies = openColonies.filter((colony) => colony.name !== ColonyName.VENUS);
+      openColonies = openColonies.filter((colony) => [ColonyName.VENUS, ColonyName.IAPETUS].includes(colony.name) === false);
     }
 
     return openColonies;
