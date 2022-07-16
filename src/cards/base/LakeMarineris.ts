@@ -25,10 +25,6 @@ export class LakeMarineris extends Card implements IProjectCard {
     });
   }
 
-  public canPlay(player: Player): boolean {
-    return super.canPlay(player);
-  }
-
   public play(player: Player) {
     player.game.defer(new PlaceOceanTile(player, 'Select space for first ocean'));
     player.game.defer(new PlaceOceanTile(player, 'Select space for second ocean'));

@@ -19,6 +19,7 @@ export class PROffice extends Card implements IProjectCard {
       name: CardName.PR_OFFICE,
       tags: [Tags.EARTH],
       cost: 7,
+      tr: {tr: 1},
 
       requirements: CardRequirements.builder((b) => b.party(PartyName.UNITY)),
       metadata: {

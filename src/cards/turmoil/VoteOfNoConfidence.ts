@@ -16,6 +16,7 @@ export class VoteOfNoConfidence extends Card implements IProjectCard {
       name: CardName.VOTE_OF_NO_CONFIDENCE,
       cardType: CardType.EVENT,
       cost: 5,
+      tr: {tr: 1},
 
       requirements: CardRequirements.builder((b) => b.partyLeaders()),
       metadata: {

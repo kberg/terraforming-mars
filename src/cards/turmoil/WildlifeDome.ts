@@ -23,6 +23,7 @@ export class WildlifeDome extends Card implements IProjectCard {
       tags: [Tags.ANIMAL, Tags.PLANT, Tags.BUILDING],
       cardType: CardType.AUTOMATED,
       requirements: CardRequirements.builder((b) => b.party(PartyName.GREENS)),
+      tr: {oxygen: 1},
 
       metadata: {
         cardNumber: 'T15',

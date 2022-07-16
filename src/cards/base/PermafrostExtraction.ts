@@ -28,10 +28,6 @@ export class PermafrostExtraction extends Card implements IProjectCard {
     });
   }
 
-  public canPlay(player: Player): boolean {
-    return super.canPlay(player);
-  }
-
   public play(player: Player) {
     if (player.game.board.getOceansOnBoard() === MAX_OCEAN_TILES) {
       return undefined;

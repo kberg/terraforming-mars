@@ -13,6 +13,7 @@ export class DiversitySupport extends Card implements IProjectCard {
       name: CardName.DIVERSITY_SUPPORT,
       tags: [],
       cost: 1,
+      tr: {tr: 1},
 
       requirements: CardRequirements.builder((b) => b.resourceTypes(9)),
       metadata: {

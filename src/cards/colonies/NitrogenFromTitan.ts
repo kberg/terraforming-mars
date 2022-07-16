@@ -18,6 +18,7 @@ export class NitrogenFromTitan extends Card implements IProjectCard {
       tags: [Tags.JOVIAN, Tags.SPACE],
       name: CardName.NITROGEN_FROM_TITAN,
       cardType: CardType.AUTOMATED,
+      tr: {tr: 2},
 
       metadata: {
         cardNumber: 'C28',
