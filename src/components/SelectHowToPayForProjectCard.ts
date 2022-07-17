@@ -190,7 +190,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       }
 
       // If we are overspending
-      if (megacreditBalance < 0) {
+      if (megacreditBalance - this.card.reserveUnits.megacredits < 0) {
         // Try to spend less resource if possible, in the reverse order of the payment (also from high to low)
         // We need not try to save heat since heat is paid last at value 1. We will never overspend in heat.
         // We do not need to save Ti either because Ti is paid last before heat. If we overspend, it is because of Ti.
@@ -302,10 +302,6 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.warning = 'You don\'t have that many M€';
         return;
       }
-      if (htp.megaCredits > this.player.megaCredits - this.card.reserveUnits.megacredits) {
-        this.warning = 'Must save enough M€ for Reds';
-        return;
-      }
       if (this.playerinput.microbes !== undefined && htp.microbes > this.playerinput.microbes) {
         this.warning = 'You don\'t have enough microbes';
         return;
@@ -375,6 +371,11 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
           this.warning = 'You cannot overspend M€';
           return;
         }
+      }
+
+      if (htp.megaCredits > this.player.megaCredits - this.card.reserveUnits.megacredits) {
+        this.warning = 'Must save enough M€ for Reds';
+        return;
       }
 
       const showAlert = PreferencesManager.load('show_alerts') === '1';
