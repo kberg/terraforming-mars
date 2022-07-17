@@ -44,9 +44,12 @@ export class Viron extends Card implements ICard, CorporationCard {
       }
     }
 
+    // The corp.name !== this.name check here ensures Viron cannot use its own action,
+    // which causes a maximum call stack error due to the infinite loop
     for (const corp of player.corporationCards) {
       if (
         player.getActionsThisGeneration().has(corp.name) &&
+          corp.name !== this.name &&
           corp.action !== undefined &&
           corp.canAct !== undefined &&
           corp.canAct(player)) {
