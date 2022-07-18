@@ -8,7 +8,7 @@ import {DiscardCards} from '../../../deferredActions/DiscardCards';
 
 export class GenomeControl implements IGlobalEvent {
     public name = GlobalEventName.GENOME_CONTROL;
-    public description = 'The player(s) with the most tags in play (reduced by influence) discards 2 cards. SOLO: Discard 2 cards if you have 5 or more tags, reduced by influence.';
+    public description = 'The player(s) with the most unique tags in play (reduced by influence) discards 2 cards. SOLO: Discard 2 cards if you have 5+ unique tags, reduced by influence.';
     public revealedDelegate = PartyName.SPOME;
     public currentDelegate = PartyName.BUREAUCRATS;
 
