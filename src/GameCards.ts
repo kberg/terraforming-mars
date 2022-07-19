@@ -23,11 +23,7 @@ import {GameOptions} from './Game';
  * and considers the denylist, and extra-module compatibility
  * (e.g. cards in one module that can't be played without another one.)
  *
- * Therefore, this is only used when constructing a brand new instance.
- *
- * ... and one other place. When trying to determine the available standard
- * projects for a game. This is just done on the fly all the time, rather
- * that store them. (We should do that.)
+ * Therefore, this is only used when constructing an instance.
  */
 export class GameCards {
   private readonly gameOptions: GameOptions;

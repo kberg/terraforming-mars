@@ -67,6 +67,7 @@ import {IPathfindersData} from './pathfinders/IPathfindersData';
 import {AddResourcesToCard} from './deferredActions/AddResourcesToCard';
 import {isProduction} from './utils/server';
 import {ColonyDeserializer} from './colonies/ColonyDeserializer';
+import {StandardProjectCard} from './cards/StandardProjectCard';
 
 export interface Score {
   corporation: String;
@@ -176,6 +177,7 @@ export class Game {
   public phase: Phase = Phase.RESEARCH;
   public dealer: Dealer;
   public board: Board;
+  public standardProjects: Array<StandardProjectCard>;
 
   // Global parameters
   private oxygenLevel: number = constants.MIN_OXYGEN_LEVEL;
@@ -245,6 +247,7 @@ export class Game {
     this.rng = rng;
     this.dealer = dealer;
     this.board = board;
+    this.standardProjects = new GameCards(gameOptions).getStandardProjects();
 
     this.players.forEach((player) => {
       player.game = this;
