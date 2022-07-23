@@ -17,7 +17,7 @@ export class Oscar extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.plus().influence(1);
           b.br.br;
-          b.opgArrow().minus().nbsp.chairman().any.asterix();
+          b.opgArrow().chairman();
         }),
         description: 'You have +1 influence. Once per game, replace the Chairman with one of your delegates.',
       },

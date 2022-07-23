@@ -9,7 +9,8 @@ import {Turmoil} from '../../turmoil/Turmoil';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {SelectPartyToSendDelegate} from '../../inputs/SelectPartyToSendDelegate';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import { Resources } from '../../Resources';
+import {Resources} from '../../Resources';
+import {Size} from '../render/Size';
 
 export class Petra extends Card implements LeaderCard {
   constructor() {
@@ -21,7 +22,7 @@ export class Petra extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br;
-          b.minus().text('ALL').delegates(1).any.colon().megacredits(3).asterix();
+          b.text('REPLACE ALL NEUTRAL', Size.TINY).delegates(1).colon().megacredits(3).asterix();
           b.br.br;
           b.plus().delegates(3).asterix;
         }),
