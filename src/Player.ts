@@ -2176,7 +2176,11 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     // Leader cards have to be played right after Preludes
     if (this.leaderCardsInHand.length > 0) {
-      this.leaderCardsInHand.forEach((card) => this.playCard(card));
+      this.leaderCardsInHand.forEach((card) => {
+        if (!this.playedCards.includes(card)) {
+          this.playCard(card);
+        }
+      });
     } else {
       game.phase = Phase.ACTION;
     }
