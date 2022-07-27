@@ -66,17 +66,21 @@ export class Aridor extends Card implements CorporationCard {
     }
 
     public static checkActivation(colony: Colony, game: Game): void {
-      if (colony.resourceType === undefined) return;
-      game.getPlayers().forEach((player) => {
-        player.corporationCards.forEach((corp) => {
-          if (corp.resourceType === colony.resourceType) {
-            colony.isActive = true;
-            return;
-          }
-        });
+      if (colony.isActive) return;
 
-        const resourceCard = player.playedCards.find((card) => card.resourceType === colony.resourceType);
-        if (resourceCard !== undefined) {
+      game.getPlayers().forEach((player) => {
+        const allCards = [...player.corporationCards, ...player.playedCards];
+
+        // Activate Venus colony if there is a Venus resource card in play
+        if (colony.name === ColonyName.VENUS && allCards.some((card) => card.tags.includes(Tags.VENUS) && card.resourceType !== undefined)) {
+          colony.isActive = true;
+          return;
+        }
+
+        if (colony.resourceType === undefined) return;
+
+        // Check activation of other colonies that have a resourceType
+        if (allCards.some((card) => card.resourceType === colony.resourceType)) {
           colony.isActive = true;
           return;
         }
