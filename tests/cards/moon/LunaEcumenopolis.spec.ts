@@ -8,8 +8,12 @@ import {LunaEcumenopolis} from '../../../src/cards/moon/LunaEcumenopolis';
 import {expect} from 'chai';
 import {TileType} from '../../../src/TileType';
 import {SelectSpace} from '../../../src/inputs/SelectSpace';
+import {REDS_RULING_POLICY_COST} from '../../../src/constants';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
 
-const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
+const MOON_OPTIONS = TestingUtils.setCustomGameOptions({turmoilExtension: true, moonExpansion: true});
 
 describe('LunaEcumenopolis', () => {
   let game: Game;
@@ -65,6 +69,27 @@ describe('LunaEcumenopolis', () => {
     moonData.moon.getSpace('m09').tile = {tileType: TileType.MOON_COLONY};
     moonData.moon.getSpace('m18').tile = {tileType: TileType.MOON_COLONY};
     expect(player.getPlayableCards()).does.not.include(card);
+  });
+
+  it('Cannot play: cannot afford Reds cost', function() {
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+    
+    const moon = moonData.moon;
+    moon.getSpace('m12').tile = {tileType: TileType.MOON_COLONY};
+    moon.getSpace('m19').tile = {tileType: TileType.MOON_COLONY};
+    moonData.colonyRate = 5;
+    player.titanium = 2;
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 2;
+    expect(player.canPlay(card)).is.true;
   });
 
   it('Place 2 colony tiles', () => {

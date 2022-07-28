@@ -6,17 +6,22 @@ import {AIControlledMineNetwork} from '../../../src/cards/moon/AIControlledMineN
 import {expect} from 'chai';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
 import {IMoonData} from '../../../src/moon/IMoonData';
+import {REDS_RULING_POLICY_COST} from '../../../src/constants';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
 
-const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
+const MOON_OPTIONS = TestingUtils.setCustomGameOptions({turmoilExtension: true, moonExpansion: true});
 
 describe('AIControlledMineNetwork', () => {
   let player: Player;
   let card: AIControlledMineNetwork;
   let moonData: IMoonData;
+  let game: Game;
 
   beforeEach(() => {
     player = TestPlayers.BLUE.newPlayer();
-    const game = Game.newInstance('id', [player], player, MOON_OPTIONS);
+    game = Game.newInstance('id', [player], player, MOON_OPTIONS);
     card = new AIControlledMineNetwork();
     moonData = MoonExpansion.moonData(game);
   });
@@ -40,6 +45,19 @@ describe('AIControlledMineNetwork', () => {
 
     expect(moonData.logisticRate).eq(1);
     expect(player.getTerraformRating()).eq(15);
+  });
+
+  it('Respects Reds', function() {
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+    moonData.logisticRate = 2;
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST;
+    expect(player.canPlay(card)).is.true;
   });
 });
 

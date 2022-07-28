@@ -2071,21 +2071,22 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
-    // MoonExpansion.ifMoon(this.game, (moonData) => {
-    //   if (tr.moonColony !== undefined) {
-    //     const availableSteps = constants.MAXIMUM_COLONY_RATE - moonData.colonyRate;
-    //     total = total + Math.min(availableSteps, tr.moonColony);
-    //   }
+    MoonExpansion.ifMoon(this.game, (moonData) => {
+      if (tr!.moonColony !== undefined) {
+        const availableSteps = constants.MAXIMUM_COLONY_RATE - moonData.colonyRate;
+        total = total + Math.min(availableSteps, tr!.moonColony);
+      }
 
-    //   if (tr.moonMining !== undefined) {
-    //     const availableSteps = constants.MAXIMUM_MINING_RATE - moonData.miningRate;
-    //     total = total + Math.min(availableSteps, tr.moonMining);
-    //   }
+      if (tr!.moonMining !== undefined) {
+        const availableSteps = constants.MAXIMUM_MINING_RATE - moonData.miningRate;
+        total = total + Math.min(availableSteps, tr!.moonMining);
+      }
 
-    //   if (tr.moonLogistics !== undefined) {
-    //     const availableSteps = constants.MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
-    //     total = total + Math.min(availableSteps, tr.moonLogistics);
-    //   }
+      if (tr!.moonLogistics !== undefined) {
+        const availableSteps = constants.MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
+        total = total + Math.min(availableSteps, tr!.moonLogistics);
+      }
+    });
 
     total += tr.tr ?? 0;
     return total;

@@ -11,6 +11,9 @@ import {MoonExpansion} from '../../moon/MoonExpansion';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {ISpace} from '../../boards/ISpace';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class LunaEcumenopolis extends MoonCard {
   constructor() {
@@ -42,9 +45,15 @@ export class LunaEcumenopolis extends MoonCard {
       return false;
     }
 
-    // TODO: if (!this.canAffordTRBump(player)) return false;
-
     const moonData = MoonExpansion.moonData(player.game);
+    const trStepsIncreased = Math.floor(moonData.colonyRate / 2);
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      if (!player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * trStepsIncreased)) {
+        return false;
+      }
+    }
+
     const spaces = moonData.moon.getAvailableSpacesOnLand(player);
     const len = spaces.length;
 

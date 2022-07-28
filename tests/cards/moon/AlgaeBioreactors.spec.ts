@@ -7,8 +7,12 @@ import {expect} from 'chai';
 import {Resources} from '../../../src/Resources';
 import {IMoonData} from '../../../src/moon/IMoonData';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
+import {REDS_RULING_POLICY_COST} from '../../../src/constants';
+import {Phase} from '../../../src/Phase';
+import {Reds} from '../../../src/turmoil/parties/Reds';
+import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
 
-const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
+const MOON_OPTIONS = TestingUtils.setCustomGameOptions({turmoilExtension: true, moonExpansion: true});
 
 describe('AlgaeBioreactors', () => {
   let player: TestPlayer;
@@ -46,6 +50,19 @@ describe('AlgaeBioreactors', () => {
     expect(moonData.colonyRate).eq(1);
     expect(game.getOxygenLevel()).eq(1);
     expect(player.getTerraformRating()).eq(16);
+  });
+
+  it('Respects Reds', function() {
+    game.phase = Phase.ACTION;
+    game.turmoil!.rulingParty = new Reds();
+    PoliticalAgendas.setNextAgenda(game.turmoil!, game);
+    player.setProductionForTest({plants: 1});
+
+    player.megaCredits = card.cost;
+    expect(player.canPlay(card)).is.false;
+
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 2;
+    expect(player.canPlay(card)).is.true;
   });
 });
 

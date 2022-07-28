@@ -15,6 +15,7 @@ export class AlgaeBioreactors extends MoonCard {
       tags: [Tags.PLANT],
       cost: 9,
       productionBox: Units.of({plants: -1}),
+      tr: {moonColony: 1, oxygen: 1},
 
       metadata: {
         description: 'Decrease your plant production 1 step. Raise the Colony Rate 1 step and oxygen 1%.',

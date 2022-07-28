@@ -20,6 +20,7 @@ export class LunarMineUrbanization extends Card implements IProjectCard {
       tags: [Tags.MOON, Tags.BUILDING],
       cost: 8,
       productionBox: Units.of({megacredits: 1}),
+      tr: {moonColony: 1},
       // NOTE(kberg): Rules were that it says it Requires 1 mine tile. Changing to "Requires you have 1 mine tile."
       requirements: CardRequirements.builder((b) => b.miningTiles(1)),
       metadata: {
