@@ -13,6 +13,9 @@ import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictory
 import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {LogHelper} from '../../LogHelper';
+import {MAXIMUM_COLONY_RATE, REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class DarksideIncubationPlant extends MoonCard implements IActionCard, IProjectCard {
   constructor() {
@@ -57,14 +60,17 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
   }
 
   public action(player: Player) {
-    const options: Array<SelectOption> = [];
-    options.push(new SelectOption('Add 1 microbe to this card', 'Select', () => {
-      player.addResourceTo(this, 1);
+    if (this.resourceCount < 2) {
+      player.addResourceTo(this, {log: true});
       return undefined;
-    }));
+    }
+
+    const orOptions = new OrOptions();
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      if (this.resourceCount >= 2 && moonData.colonyRate < 8) {
-        options.push(new SelectOption('Spend 2 microbes to raise the Colony Rate 1 step.', 'Select', () => {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST)) || moonData.colonyRate === MAXIMUM_COLONY_RATE) {
+        orOptions.options.push(new SelectOption('Spend 2 microbes to raise the Colony Rate 1 step.', 'Select', () => {
           player.removeResourceFrom(this, 2);
           LogHelper.logRemoveResource(player, this, 2, 'raise the Colony Rate');
           MoonExpansion.raiseColonyRate(player);
@@ -72,11 +78,14 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
         }));
       }
     });
-    if (options.length === 1) {
-      return options[0].cb();
-    } else {
-      return new OrOptions(...options);
-    }
+
+    orOptions.options.push(new SelectOption('Add 1 microbe to this card', 'Add microbe', () => {
+      player.addResourceTo(this, {log: true});
+      return undefined;
+    }));
+
+    if (orOptions.options.length === 1) return orOptions.options[0].cb();
+    return orOptions;
   }
 
   public getVictoryPoints() {
