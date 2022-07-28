@@ -25,7 +25,7 @@ export class UndergroundCity extends Card implements IProjectCard {
           b.production((pb) => {
             pb.minus().energy(2).br;
             pb.plus().steel(2);
-          }).nbsp.city();
+          }).nbsp().city();
         }),
         description: 'Place a City tile. Decrease your Energy production 2 steps and increase your steel production 2 steps.',
       },

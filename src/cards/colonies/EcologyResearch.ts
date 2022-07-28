@@ -23,7 +23,7 @@ export class EcologyResearch extends Card implements IProjectCard {
         cardNumber: 'C09',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.plants(1).slash().colonies(1, Size.SMALL)).br;
-          b.animals(1).asterix().nbsp.nbsp.microbes(2).asterix();
+          b.animals(1).asterix().nbsp().nbsp().microbes(2).asterix();
         }),
         victoryPoints: 1,
       },

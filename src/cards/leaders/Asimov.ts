@@ -21,7 +21,7 @@ export class Asimov extends Card implements LeaderCard {
         cardNumber: 'L01',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.award().nbsp.colon().text('+2', Size.LARGE);
+          b.award().nbsp().colon().text('+2', Size.LARGE);
           b.br.br.br;
           b.opgArrow().text('10-X').award().asterix();
         }),

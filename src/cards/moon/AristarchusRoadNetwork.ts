@@ -24,7 +24,7 @@ export class AristarchusRoadNetwork extends MoonCard {
         'Place a road tile on the Moon and raise the Logistics Rate 1 step.',
         cardNumber: 'M10',
         renderData: CardRenderer.builder((b) => {
-          b.minus().steel(2).nbsp.production((eb) => eb.megacredits(2)).br;
+          b.minus().steel(2).nbsp().production((eb) => eb.megacredits(2)).br;
           b.moonRoad().secondaryTag(AltSecondaryTag.MOON_LOGISTICS_RATE);
         }),
       },

@@ -20,7 +20,7 @@ export class Zan extends Card implements LeaderCard {
           b.br.br;
           b.redsInactive().asterix();
           b.br.br;
-          b.opgArrow().text('ALL').delegates(1).colon().nbsp.nbsp.reds();
+          b.opgArrow().text('ALL').delegates(1).colon().nbsp().nbsp().reds();
         }),
         description: 'You are immune to Reds\' ruling policy. Once per game, place all your delegates in Reds.',
       },

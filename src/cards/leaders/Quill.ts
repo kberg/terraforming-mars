@@ -17,7 +17,7 @@ export class Quill extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L17',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().cards(1).secondaryTag(AltSecondaryTag.FLOATER).colon().nbsp;
+          b.opgArrow().cards(1).secondaryTag(AltSecondaryTag.FLOATER).colon().nbsp();
           b.plus().floaters(2).asterix();
         }),
         description: 'Once per game, add 2 floaters to each of your cards that collect floaters, then add 2 floaters to ANY card.',

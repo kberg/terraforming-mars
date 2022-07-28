@@ -19,8 +19,8 @@ export class Sabotage extends Card implements IProjectCard {
       metadata: {
         cardNumber: '121',
         renderData: CardRenderer.builder((b) => {
-          b.minus().titanium(3).digit.any.nbsp.or(Size.SMALL).nbsp;
-          b.minus().steel(4).digit.any.br.or(Size.SMALL).nbsp;
+          b.minus().titanium(3).digit.any.nbsp().or(Size.SMALL).nbsp();
+          b.minus().steel(4).digit.any.br.or(Size.SMALL).nbsp();
           b.minus().megacredits(7).any;
         }),
         description: 'Remove up to 3 titanium from any player, or 4 steel, or 7 M€.',

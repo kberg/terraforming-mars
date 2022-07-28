@@ -21,7 +21,7 @@ export class NaturalPreserve extends Card implements IProjectCard {
     metadata = {
       cardNumber: '044',
       renderData: CardRenderer.builder((b) => {
-        b.production((pb) => pb.megacredits(1)).nbsp.tile(TileType.NATURAL_PRESERVE, true).asterix();
+        b.production((pb) => pb.megacredits(1)).nbsp().tile(TileType.NATURAL_PRESERVE, true).asterix();
       }),
       description: 'Oxygen must be 4% or less. Place this tile NEXT TO NO OTHER TILE. Increase your M€ production 1 step.',
       victoryPoints: 1,

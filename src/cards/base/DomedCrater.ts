@@ -32,7 +32,7 @@ export class DomedCrater extends Card implements IProjectCard {
           b.production((pb) => {
             pb.minus().energy(1).br;
             pb.plus().megacredits(3);
-          }).nbsp.city().plants(3).digit.br;
+          }).nbsp().city().plants(3).digit.br;
         }),
         victoryPoints: 1,
       },

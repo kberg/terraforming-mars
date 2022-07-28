@@ -21,7 +21,7 @@ export class PointLuna extends Card implements CorporationCard {
         description: 'You start with 1 titanium production and 38 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.production((pb) => pb.titanium(1)).nbsp.megacredits(38);
+          b.production((pb) => pb.titanium(1)).nbsp().megacredits(38);
           b.corpBox('effect', (ce) => {
             ce.effect('When you play an Earth tag, including this, draw a card.', (eb) => {
               eb.earth().played.startEffect.cards(1);

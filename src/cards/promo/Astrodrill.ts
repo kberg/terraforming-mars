@@ -28,7 +28,7 @@ export class Astrodrill extends Card implements IActionCard, CorporationCard {
         description: 'You start with 35 M€ and 3 asteroid resources.',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.megacredits(35).nbsp.asteroids(3).digit;
+          b.megacredits(35).nbsp().asteroids(3).digit;
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.action(undefined, (eb) => {

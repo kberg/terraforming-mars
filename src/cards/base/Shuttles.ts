@@ -25,7 +25,7 @@ export class Shuttles extends Card implements IProjectCard {
             eb.space().played.startEffect.megacredits(-2);
           }).br;
           b.production((pb) => {
-            pb.minus().energy(1).nbsp;
+            pb.minus().energy(1).nbsp();
             pb.plus().megacredits(2);
           });
         }),

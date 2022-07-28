@@ -25,7 +25,7 @@ export class DeimosDownPromo extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.temperature(3).br;
           b.tile(TileType.DEIMOS_DOWN, true).asterix().br;
-          b.steel(4).digit.nbsp.minus().plants(-6).any;
+          b.steel(4).digit.nbsp().minus().plants(-6).any;
         }),
       },
     });

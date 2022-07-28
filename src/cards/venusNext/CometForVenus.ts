@@ -22,7 +22,7 @@ export class CometForVenus extends Card {
         description: 'Raise Venus 1 step. Remove up to 4M€ from any player WITH A VENUS TAG IN PLAY.',
         cardNumber: '218',
         renderData: CardRenderer.builder((b) => {
-          b.venus(1).nbsp.nbsp.minus().megacredits(4).secondaryTag(Tags.VENUS).any;
+          b.venus(1).nbsp().nbsp().minus().megacredits(4).secondaryTag(Tags.VENUS).any;
         }),
       },
     });

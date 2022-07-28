@@ -24,7 +24,7 @@ export class Flooding extends Card implements IProjectCard {
       metadata: {
         cardNumber: '188',
         renderData: CardRenderer.builder((b) => {
-          b.oceans(1).nbsp.minus().megacredits(4).any.asterix();
+          b.oceans(1).nbsp().minus().megacredits(4).any.asterix();
         }),
         description: 'Place an ocean tile. IF THERE ARE TILES ADJACENT TO THIS OCEAN TILE, YOU MAY REMOVE 4 M€ FROM THE OWNER OF ONE OF THOSE TILES.',
         victoryPoints: -1,

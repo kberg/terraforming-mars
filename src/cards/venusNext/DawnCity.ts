@@ -25,7 +25,7 @@ export class DawnCity extends Card {
           b.production((pb) => {
             pb.minus().energy(1).br;
             pb.plus().titanium(1);
-          }).nbsp.city().asterix();
+          }).nbsp().city().asterix();
         }),
         victoryPoints: 3,
       },

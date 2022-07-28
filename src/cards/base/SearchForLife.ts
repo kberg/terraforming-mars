@@ -26,7 +26,7 @@ export class SearchForLife extends Card implements IActionCard, IProjectCard, IR
         description: 'Oxygen must be 6% or less.',
         renderData: CardRenderer.builder((b) => {
           b.action('Spend 1 M€ to reveal the top card of the draw deck. If that card has a Microbe tag, add a Science resource here.', (eb) => {
-            eb.megacredits(1).startAction.microbes(1).played.asterix().nbsp.colon().nbsp.science();
+            eb.megacredits(1).startAction.microbes(1).played.asterix().nbsp().colon().nbsp().science();
           }).br;
           b.vpText('3 VPs if you have one or more Science resources here.');
         }),

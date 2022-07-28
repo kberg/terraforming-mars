@@ -26,7 +26,7 @@ export class AsteroidDeflectionSystem extends Card implements IActionCard, IProj
         cardNumber: 'X14',
         renderData: CardRenderer.builder((b) => {
           b.action('REVEAL AND DISCARD the top card of the deck. If it has a space tag, add an asteroid here.', (eb) => {
-            eb.empty().startAction.cards(1).asterix().nbsp.space().played.colon().asteroids(1);
+            eb.empty().startAction.cards(1).asterix().nbsp().space().played.colon().asteroids(1);
           }).br;
           b.production((pb) => pb.minus().energy(1)).text('opponents may not remove your plants', Size.SMALL, true);
         }),

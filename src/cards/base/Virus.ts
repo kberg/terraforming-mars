@@ -23,8 +23,8 @@ export class Virus extends Card implements IProjectCard {
       metadata: {
         cardNumber: '050',
         renderData: CardRenderer.builder((b) => {
-          b.minus().animals(2).any.digit.nbsp;
-          b.or().nbsp.minus().plants(5).any.digit;
+          b.minus().animals(2).any.digit.nbsp();
+          b.or().nbsp().minus().plants(5).any.digit;
         }),
         description: 'Remove up to 2 Animals or 5 Plants from any player.',
       },

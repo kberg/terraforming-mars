@@ -25,7 +25,7 @@ export class CommercialDistrict extends Card implements IProjectCard {
         b.production((pb) => {
           pb.minus().energy(1).br;
           pb.plus().megacredits(4).br;
-        }).nbsp.nbsp.tile(TileType.COMMERCIAL_DISTRICT, true).br;
+        }).nbsp().nbsp().tile(TileType.COMMERCIAL_DISTRICT, true).br;
         b.vpText('1 VP per adjacent city tile.');
       }),
       victoryPoints: CardRenderDynamicVictoryPoints.cities(1, 1, true),

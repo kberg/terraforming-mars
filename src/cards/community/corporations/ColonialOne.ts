@@ -36,7 +36,7 @@ export class ColonialOne extends Card implements CorporationCard {
               eb.empty().startAction.text('+/-', Size.LARGE).colonies(1, Size.SMALL).text(' TRACK', Size.SMALL);
             });
             ce.action('Increase or decrease any colony tile track 1 step, or spend 1 fighter resource on this card to trade for free.', (eb) => {
-              eb.or(Size.MEDIUM).nbsp.fighter().startAction.trade();
+              eb.or(Size.MEDIUM).nbsp().fighter().startAction.trade();
             });
           });
         }),

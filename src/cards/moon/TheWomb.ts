@@ -25,7 +25,7 @@ export class TheWomb extends MoonCard {
         cardNumber: 'M08',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => {
-            pb.minus().energy(2).nbsp.megacredits(4);
+            pb.minus().energy(2).nbsp().megacredits(4);
           }).br;
           b.minus().titanium(2).moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE);
         }),

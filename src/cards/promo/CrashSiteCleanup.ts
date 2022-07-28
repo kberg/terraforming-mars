@@ -21,7 +21,7 @@ export class CrashSiteCleanup extends Card implements IProjectCard {
         description: 'Requires that a player removed ANOTHER PLAYER\'s plants this generation. Gain 1 titanium or 2 steel.',
         cardNumber: 'X17',
         renderData: CardRenderer.builder((b) => {
-          b.titanium(1).nbsp.or().nbsp.steel(2);
+          b.titanium(1).nbsp().or().nbsp().steel(2);
         }),
         victoryPoints: 1,
       },

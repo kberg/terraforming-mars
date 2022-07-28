@@ -493,6 +493,7 @@ export enum CardName {
     PROJECT_WORKSHOP = 'Project Workshop',
     MARS_COALITION = 'Mars Coalition',
     TEMPEST_INC = 'Tempest Inc',
+    SPACEWAYS = 'Spaceways',
 
     // Community preludes
     VALUABLE_GASES = 'Valuable Gases',

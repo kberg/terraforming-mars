@@ -33,7 +33,7 @@ export class Playwrights extends Card implements CorporationCard {
               // use 1000 as an id to tell Vue to render the '?'
               eb.megacredits(1000).startAction;
               eb.text('replay', Size.SMALL, true);
-              eb.nbsp.cards(1).any.secondaryTag(Tags.EVENT);
+              eb.nbsp().cards(1).any.secondaryTag(Tags.EVENT);
             });
           });
         }),

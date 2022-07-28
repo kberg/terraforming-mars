@@ -23,7 +23,7 @@ export class Incite extends Card implements CorporationCard {
         description: 'You start with 32 M€. As your first action, place two delegates in one party.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(32).nbsp.delegates(2);
+          b.megacredits(32).nbsp().delegates(2);
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {

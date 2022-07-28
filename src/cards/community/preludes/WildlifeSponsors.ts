@@ -16,7 +16,7 @@ export class WildlifeSponsors extends PreludeCard implements IProjectCard {
       metadata: {
         cardNumber: 'Y30',
         renderData: CardRenderer.builder((b) => {
-          b.production((pb) => pb.megacredits(3)).nbsp;
+          b.production((pb) => pb.megacredits(3)).nbsp();
           b.cards(2).secondaryTag(AltSecondaryTag.ANIMAL_RESOURCE).br;
         }),
         description: 'Increase your M€ production 3 steps. Draw 2 cards with an animal icon or tag.',

@@ -20,7 +20,7 @@ export class Inventrix extends Card implements CorporationCard {
         description: 'As your first action in the game, draw 3 cards. Start with 45 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.megacredits(45).nbsp.cards(3);
+          b.megacredits(45).nbsp().cards(3);
           b.corpBox('effect', (ce) => {
             ce.effect('Your temperature, oxygen, ocean, and Venus requirements are +2 or -2 steps, your choice in each case.', (eb) => {
               eb.plate('Global requirements').startEffect.text('+/- 2');

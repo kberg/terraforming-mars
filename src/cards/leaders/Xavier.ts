@@ -15,7 +15,7 @@ export class Xavier extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br.br;
-          b.text('GAIN').nbsp.wildTag(2).played;
+          b.text('GAIN').nbsp().wildTag(2).played;
           b.br.br;
         }),
         description: 'Gain 2 wild tags for THIS GENERATION.',

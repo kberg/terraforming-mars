@@ -25,7 +25,7 @@ export class FieldCappedCity extends Card implements IProjectCard {
           b.production((pb) => {
             pb.megacredits(2).br;
             pb.energy(1);
-          }).nbsp.city().br;
+          }).nbsp().city().br;
           b.plants(3);
         }),
       },

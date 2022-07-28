@@ -21,7 +21,7 @@ export class LunaFirstIncorporated extends Card implements CorporationCard {
         cardNumber: '',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.megacredits(40).steel(2).titanium(2).nbsp;
+          b.megacredits(40).steel(2).titanium(2).nbsp();
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect(undefined, (eb) => {

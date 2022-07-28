@@ -26,7 +26,7 @@ export class MareNectarisMine extends MoonCard implements IProjectCard, IMoonCar
         description: 'Spend 1 titanium. Increase your steel production 1 step. Place a mine ON THE RESERVED AREA and raise the Mining Rate 1 step.',
         cardNumber: 'M01',
         renderData: CardRenderer.builder((b) => {
-          b.minus().titanium(1).nbsp;
+          b.minus().titanium(1).nbsp();
           b.production((pb) => pb.steel(1));
           b.moonMine().secondaryTag(AltSecondaryTag.MOON_MINING_RATE).asterix();
         }),

@@ -15,7 +15,7 @@ export class NitrateReducers extends PreludeCard implements IProjectCard {
         metadata: {
           cardNumber: 'Y15',
           renderData: CardRenderer.builder((b) => {
-            b.production((pb) => pb.megacredits(3)).nbsp;
+            b.production((pb) => pb.megacredits(3)).nbsp();
             b.cards(2).secondaryTag(Tags.MICROBE).br;
           }),
           description: 'Increase your M€ production 3 steps. Draw 2 microbe cards.',

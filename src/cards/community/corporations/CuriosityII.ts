@@ -32,14 +32,14 @@ export class CuriosityII extends Card implements CorporationCard {
         description: 'You start with 36 M€ and 2 steel production.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(36).nbsp.production((pb) => pb.steel(2));
+          b.megacredits(36).nbsp().production((pb) => pb.steel(2));
           b.corpBox('effect', (ce) => {
             ce.vSpace();
             ce.effect(
               'When you place a tile on an area that has a RESOURCE placement bonus, ' +
               'or on top of another tile, you may pay 2 M€ to draw a card.',
               (eb) => {
-                eb.emptyTile('normal', Size.SMALL).nbsp.asterix().startEffect.megacredits(-2).cards(1);
+                eb.emptyTile('normal', Size.SMALL).nbsp().asterix().startEffect.megacredits(-2).cards(1);
               });
           });
         }),

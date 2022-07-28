@@ -703,9 +703,9 @@ class Builder {
   /**
    * add non breakable space or simply empty space between items
    */
-  public get nbsp(): Builder {
+  public nbsp(size: Size = Size.MEDIUM): Builder {
     this._checkExistingItem();
-    this._addSymbol(CardRenderSymbol.nbsp());
+    this._addSymbol(CardRenderSymbol.nbsp(size));
     return this;
   }
 

@@ -24,7 +24,7 @@ export class NoctisFarming extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => {
             pb.megacredits(1);
-          }).nbsp.plants(2);
+          }).nbsp().plants(2);
         }),
         description: 'Requires -20 C or warmer. Increase your M€ production 1 step and gain 2 Plants.',
         victoryPoints: 1,

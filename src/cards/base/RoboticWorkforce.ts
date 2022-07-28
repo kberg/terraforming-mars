@@ -21,7 +21,7 @@ export class RoboticWorkforce extends Card implements IProjectCard {
       metadata: {
         cardNumber: '086',
         renderData: CardRenderer.builder((b) => {
-          b.text('Copy A', Size.SMALL, true).nbsp;
+          b.text('Copy A', Size.SMALL, true).nbsp();
           b.production((pb) => pb.building().played);
         }),
         description: 'Duplicate only the production box of one of your building cards.',

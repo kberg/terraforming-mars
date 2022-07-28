@@ -30,9 +30,9 @@ export class TheGrandLunaCapitalGroup extends Card implements CorporationCard {
           b.megacredits(32).titanium(1).moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE);
           b.corpBox('effect', (ce) => {
             ce.effect('When you place a colony tile, gain 2 M€ for each adjacent colony tile. 1 VP for each colony tile adjacent to your colony tiles.', (eb) => {
-              eb.moonColony({size: Size.SMALL}).any.moonColony({size: Size.SMALL}).nbsp.asterix()
+              eb.moonColony({size: Size.SMALL}).any.moonColony({size: Size.SMALL}).nbsp().asterix()
               .startEffect
-              .megacredits(2).slash().nbsp.moonColony({size: Size.SMALL}).any;
+              .megacredits(2).slash().nbsp().moonColony({size: Size.SMALL}).any;
             });
           });
         }),

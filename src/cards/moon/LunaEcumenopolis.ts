@@ -27,7 +27,7 @@ export class LunaEcumenopolis extends MoonCard {
         'Increase your TR 1 step for each 2 steps of the colony rate.',
         cardNumber: 'M84',
         renderData: CardRenderer.builder((b) => {
-          b.minus().titanium(2).nbsp;
+          b.minus().titanium(2).nbsp();
           b.text('2').moonColony().secondaryTag(AltSecondaryTag.MOON_COLONY_RATE).asterix().br;
           b.tr(1).slash().moonColonyRate().moonColonyRate();
         }),

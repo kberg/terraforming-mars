@@ -19,7 +19,7 @@ export class AccumulatedKnowledge extends PreludeCard implements IProjectCard {
           cardNumber: 'Y08',
           renderData: CardRenderer.builder((b) => {
             b.cards(4).br;
-            b.minus().cards(1).nbsp.plus().cards(1)
+            b.minus().cards(1).nbsp().plus().cards(1)
           }),
           description: 'Draw 4 cards. You may discard a card to draw a card.',
         },

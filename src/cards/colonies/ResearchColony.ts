@@ -18,7 +18,7 @@ export class ResearchColony extends Card implements IProjectCard {
       metadata: {
         cardNumber: 'C34',
         renderData: CardRenderer.builder((b) => {
-          b.colonies(1).asterix().nbsp.cards(2);
+          b.colonies(1).asterix().nbsp().cards(2);
         }),
         description: 'Place a colony. MAY BE PLACED WHERE YOU ALREADY HAVE A COLONY. Draw 2 cards.',
       },

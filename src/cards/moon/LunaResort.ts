@@ -25,7 +25,7 @@ export class LunaResort extends MoonCard {
         cardNumber: 'M21',
         renderData: CardRenderer.builder((b) => {
           b.minus().titanium(2).production((pb) => {
-            pb.minus().energy(1).nbsp.megacredits(3);
+            pb.minus().energy(1).nbsp().megacredits(3);
           }).br;
           b.moonColonyRate();
         }),

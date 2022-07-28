@@ -33,7 +33,7 @@ export class TheDarksideofTheMoonSyndicate extends Card implements CorporationCa
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect('When you place a tile on the Moon, steal 2 M€ from each player for each adjacency.', (eb) => {
-              eb.emptyTile('normal', Size.SMALL).secondaryTag(Tags.MOON).startEffect.text('STEAL', Size.SMALL).nbsp.megacredits(2).any.slash().emptyTile('normal', Size.SMALL).emptyTile('normal', Size.SMALL).any;
+              eb.emptyTile('normal', Size.SMALL).secondaryTag(Tags.MOON).startEffect.text('STEAL', Size.SMALL).nbsp().megacredits(2).any.slash().emptyTile('normal', Size.SMALL).emptyTile('normal', Size.SMALL).any;
             });
             ce.vSpace(Size.SMALL);
             ce.action('Spend 1 titanium to add 1 syndicate fleet here OR remove 1 syndicate fleet from this card to steal 8 M€ from any player.', (eb) => {

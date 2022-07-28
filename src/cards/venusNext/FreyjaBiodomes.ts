@@ -23,7 +23,7 @@ export class FreyjaBiodomes extends Card {
         cardNumber: '227',
         renderData: CardRenderer.builder((b) => {
           b.microbes(2).secondaryTag(Tags.VENUS).or().animals(2).secondaryTag(Tags.VENUS).br;
-          b.production((pb) => pb.minus().energy(1).nbsp.plus().megacredits(2));
+          b.production((pb) => pb.minus().energy(1).nbsp().plus().megacredits(2));
         }),
         description: {
           text: 'Requires 10% on the Venus track. Add 2 Microbes or 2 Animals to another Venus card. Production: energy -1, M€ +2.',

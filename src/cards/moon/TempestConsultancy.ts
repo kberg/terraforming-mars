@@ -30,7 +30,7 @@ export class TempestConsultancy extends Card implements CorporationCard {
             });
             ce.vSpace(Size.SMALL);
             ce.action('Place 1 delegate in any party for every 5 moon tags you have [max 3.]', (eb) => {
-              eb.empty().startAction.delegates(1).slash(Size.LARGE).text('5').nbsp.moon(1).nbsp.asterix();
+              eb.empty().startAction.delegates(1).slash(Size.LARGE).text('5').nbsp().moon(1).nbsp().asterix();
             });
           });
         }),

@@ -17,7 +17,7 @@ export class HAL9000 extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br.br;
-          b.minus().text('EACH').production((pb) => pb.wild(1)).nbsp.colon().wild(4).digit.asterix();
+          b.minus().text('EACH').production((pb) => pb.wild(1)).nbsp().colon().wild(4).digit.asterix();
           b.br;
         }),
         description: 'Once per game, decrease each of your productions 1 step to gain 4 of that resource.',

@@ -25,7 +25,7 @@ export class Farming extends Card implements IProjectCard {
           b.production((pb) => {
             pb.megacredits(2).br;
             pb.plants(2);
-          }).nbsp.plants(2);
+          }).nbsp().plants(2);
         }),
         victoryPoints: 2,
       },

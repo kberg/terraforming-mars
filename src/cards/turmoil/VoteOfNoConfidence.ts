@@ -23,7 +23,7 @@ export class VoteOfNoConfidence extends Card implements IProjectCard {
         cardNumber: 'T16',
         renderData: CardRenderer.builder((b) => {
           b.minus().chairman().any.asterix();
-          b.nbsp.plus().partyLeaders().br;
+          b.nbsp().plus().partyLeaders().br;
           b.tr(1);
         }),
         description: 'Requires that you have a Party Leader in any party and that the sitting Chairman is neutral. ' +

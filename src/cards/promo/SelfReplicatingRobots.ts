@@ -28,7 +28,7 @@ export class SelfReplicatingRobots extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.action('Reveal and place a SPACE OR BUILDING card here from hand, and place 2 resources on it, OR double the resources on a card here.', (eb) => {
             eb.empty().startAction.selfReplicatingRobots();
-            eb.nbsp.or().nbsp.arrow().multiplierWhite().text('x2');
+            eb.nbsp().or().nbsp().arrow().multiplierWhite().text('x2');
           }).br;
           b.text('Effect: Card here may be played as if from hand with its cost reduced by the number of resources on it.', Size.TINY, true);
         }),

@@ -29,7 +29,7 @@ export class LunaHyperloopCorporation extends Card implements IActionCard, Corpo
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.action('Gain 1 M€ for each road tile on the Moon.', (eb) => {
-              eb.empty().startAction.megacredits(1).slash().nbsp.moonRoad({size: Size.SMALL}).any;
+              eb.empty().startAction.megacredits(1).slash().nbsp().moonRoad({size: Size.SMALL}).any;
             });
             ce.vSpace(Size.LARGE);
             ce.vSpace(Size.LARGE);

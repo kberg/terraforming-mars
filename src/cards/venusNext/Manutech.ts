@@ -22,7 +22,7 @@ export class Manutech extends Card implements CorporationCard {
         description: 'You start with 1 steel production, and 35 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.production((pb) => pb.steel(1)).nbsp.megacredits(35);
+          b.production((pb) => pb.steel(1)).nbsp().megacredits(35);
           b.corpBox('effect', (ce) => {
             ce.effect('For each step you increase the production of a resource, including this, you also gain that resource.', (eb) => {
               eb.production((pb) => pb.wild(1)).startEffect.wild(1);

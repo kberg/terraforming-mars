@@ -27,10 +27,10 @@ export class Philares extends Card implements CorporationCard {
         cardNumber: 'R25',
         description: 'You start with 47 M€. As your first action, place a greenery tile and raise the oxygen 1 step.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(47).nbsp.greenery();
+          b.megacredits(47).nbsp().greenery();
           b.corpBox('effect', (ce) => {
             ce.effect('Each new adjacency between your tile and an opponent\'s tile gives you a standard resource of your choice [regardless of who just placed a tile].', (eb) => {
-              eb.emptyTile('normal', Size.SMALL).any.nbsp;
+              eb.emptyTile('normal', Size.SMALL).any.nbsp();
               eb.emptyTile('normal', Size.SMALL).startEffect.wild(1);
             });
           });

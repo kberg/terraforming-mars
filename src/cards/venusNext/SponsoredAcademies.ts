@@ -20,7 +20,7 @@ export class SponsoredAcademies extends Card {
         cardNumber: '247',
         renderData: CardRenderer.builder((b) => {
           b.minus().cards(1).br;
-          b.plus().cards(3).digit.asterix().nbsp.plus().cards(1).any.asterix();
+          b.plus().cards(3).digit.asterix().nbsp().plus().cards(1).any.asterix();
         }),
         description: 'Discard 1 card from your hand and THEN draw 3 cards. All OPPONENTS draw 1 card.',
         victoryPoints: 1,
