@@ -13,6 +13,10 @@ import {SelectOption} from '../../inputs/SelectOption';
 import {Card} from '../Card';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {Size} from '../render/Size';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {MoonExpansion } from '../../moon/MoonExpansion';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class CopernicusTower extends Card implements IActionCard, IProjectCard {
   constructor() {
@@ -54,10 +58,19 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
       return undefined;
     }
 
-    return new OrOptions(
-      new SelectOption('Add 1 science resource to this card', 'Add resource', () => this.addResource(player)),
-      new SelectOption('Remove 1 science resource to increase TR 1 step', 'Remove resource', () => this.spendResource(player)),
-    );
+    const orOptions = new OrOptions();
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+
+    MoonExpansion.ifMoon(player.game, () => {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+        orOptions.options.push(new SelectOption('Remove 1 science resource to increase TR 1 step', 'Remove resource', () => this.spendResource(player)));
+      }
+    });
+
+    orOptions.options.push(new SelectOption('Add 1 science resource to this card', 'Add resource', () => this.addResource(player)));
+
+    if (orOptions.options.length === 1) return orOptions.options[0].cb();
+    return orOptions;
   }
 
   public getVictoryPoints(player: Player) {
@@ -72,7 +85,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
   private spendResource(player: Player) {
     player.removeResourceFrom(this);
     player.increaseTerraformRatingSteps(1);
-    player.addProduction(Resources.MEGACREDITS, 1);
+    player.addProduction(Resources.MEGACREDITS, 1, {log: true});
     return undefined;
   }
 }

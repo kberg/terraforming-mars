@@ -70,7 +70,7 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
 
     MoonExpansion.ifMoon(player.game, (moonData) => {
       if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST)) || moonData.colonyRate === MAXIMUM_COLONY_RATE) {
-        orOptions.options.push(new SelectOption('Spend 2 microbes to raise the Colony Rate 1 step.', 'Select', () => {
+        orOptions.options.push(new SelectOption('Spend 2 microbes to raise the Colony Rate 1 step', 'Select', () => {
           player.removeResourceFrom(this, 2);
           LogHelper.logRemoveResource(player, this, 2, 'raise the Colony Rate');
           MoonExpansion.raiseColonyRate(player);
