@@ -16,7 +16,7 @@ describe('TempestInc', function() {
     player2 = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, player2], player);
 
-    card.play(player);
+    card.play();
     card.initialAction(player);
     player.corporationCards = [card];
   });
@@ -27,11 +27,12 @@ describe('TempestInc', function() {
 
   it('Starts with correct resources', function() {
     expect(player.getTerraformRating()).eq(22);
-    expect(card.resourceCount).eq(2);
+    expect(card.resourceCount).eq(0);
     expect(game.getOxygenLevel()).eq(2);
   });
 
   it('Can raise global parameter if have floaters', function() {
+    card.resourceCount = 1;
     const action = card.action(player) as OrOptions;
     const globalParameterChoices = action.options[1].cb() as OrOptions;;
 
@@ -39,7 +40,7 @@ describe('TempestInc', function() {
     globalParameterChoices.options[0].cb();
     expect(game.getTemperature()).eq(-28);
     expect(player.getTerraformRating()).eq(23);
-    expect(card.resourceCount).eq(1);
+    expect(card.resourceCount).eq(0);
   });
 
   it('Adds floater immediately if there are no floaters', function() {
@@ -51,7 +52,8 @@ describe('TempestInc', function() {
 
   it('Works with Venus expansion', function() {
     game = Game.newInstance('foobar2', [player, player2], player, TestingUtils.setCustomGameOptions({venusNextExtension: true}));
-    card.play(player);
+    card.play();
+    card.resourceCount = 1;
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;
@@ -67,7 +69,8 @@ describe('TempestInc', function() {
 
   it('Venus option omitted when not using Venus', function() {
     game = Game.newInstance('foobar2', [player, player2], player, TestingUtils.setCustomGameOptions({venusNextExtension: false}));
-    card.play(player);
+    card.play();
+    card.resourceCount = 1;
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;
@@ -78,7 +81,8 @@ describe('TempestInc', function() {
 
   it('Works with Moon expansion', function() {
     game = Game.newInstance('foobar2', [player, player2], player, TestingUtils.setCustomGameOptions({moonExpansion: true}));
-    card.play(player);
+    card.play();
+    card.resourceCount = 1;
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;

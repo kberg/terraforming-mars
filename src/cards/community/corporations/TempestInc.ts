@@ -27,9 +27,9 @@ export class TempestInc extends Card implements CorporationCard {
 
       metadata: {
         cardNumber: 'R54',
-        description: 'You start with 28 M€ and 2 floaters on this card. As your first action, raise oxygen 2 steps.',
+        description: 'You start with 28 M€. As your first action, raise oxygen 2 steps.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(28).floaters(2).oxygen(2).digit;
+          b.megacredits(28).oxygen(2);
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.action(undefined, (eb) => {
@@ -48,8 +48,7 @@ export class TempestInc extends Card implements CorporationCard {
 
   public resourceCount: number = 0;
 
-  public play(player: Player) {
-    player.addResourceTo(this, {qty: 2, log: true});
+  public play() {
     return undefined;
   }
 
