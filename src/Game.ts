@@ -1379,6 +1379,18 @@ export class Game implements ISerializable<SerializedGame> {
     return player;
   }
 
+  public getAllValidTags(): Array<Tags> {
+    const tags = [
+      Tags.BUILDING, Tags.CITY, Tags.EARTH, Tags.ENERGY, Tags.JOVIAN,
+      Tags.MICROBE, Tags.PLANT, Tags.SCIENCE, Tags.SPACE, Tags.ANIMAL,
+    ];
+
+    if (this.gameOptions.venusNextExtension) tags.push(Tags.VENUS);
+    if (this.gameOptions.moonExpansion) tags.push(Tags.MOON);
+
+    return tags;
+  }
+
   public getCitiesInPlayOnMars(): number {
     return this.board.spaces.filter(
       (space) => Board.isCitySpace(space) && space.spaceType !== SpaceType.COLONY).length;

@@ -39,13 +39,7 @@ export class Tate extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     const game = player.game;
-    const tags = [
-        Tags.BUILDING, Tags.CITY, Tags.EARTH, Tags.ENERGY, Tags.JOVIAN,
-        Tags.MICROBE, Tags.PLANT, Tags.SCIENCE, Tags.SPACE, Tags.ANIMAL,
-    ];
-
-    if (game.gameOptions.venusNextExtension) tags.push(Tags.VENUS);
-    if (game.gameOptions.moonExpansion) tags.push(Tags.MOON);
+    const tags = game.getAllValidTags();
 
     const options = tags.map((tag) => {
       return new SelectOption('Search for ' + tag + ' tags', 'Search', () => {

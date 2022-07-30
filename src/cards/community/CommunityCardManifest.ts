@@ -50,6 +50,7 @@ import {ExecutiveOrder} from './preludes/ExecutiveOrder';
 import {EcologyLake} from './preludes/EcologyLake';
 import {Stakeholders} from './preludes/Stakeholders';
 import {Spaceways} from './corporations/Spaceways';
+import {MaraboutShiritori} from './corporations/MaraboutShiritori';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -72,6 +73,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.MARS_COALITION, Factory: MarsCoalition, compatibility: GameModule.Turmoil},
     {cardName: CardName.TEMPEST_INC, Factory: TempestInc},
     {cardName: CardName.SPACEWAYS, Factory: Spaceways},
+    {cardName: CardName.MARABOUT_SHIRITORI, Factory: MaraboutShiritori},
   ],
   preludeCards: [
     {cardName: CardName.RESEARCH_GRANT, Factory: ResearchGrant},
