@@ -1,6 +1,8 @@
 import {Player, PlayerId} from '../../Player';
 import {Game} from '../../Game';
 import {NeutralPlayer} from '../Turmoil';
+import {IParty} from './IParty';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export abstract class Party {
     public partyLeader: undefined | PlayerId | NeutralPlayer = undefined;
@@ -20,20 +22,21 @@ export abstract class Party {
 
     // Check if you are the new party leader
     public checkPartyLeader(newPlayer: PlayerId | NeutralPlayer, game: Game): void {
+      const currentPartyLeader = this.partyLeader;
       // If there is a party leader
-      if (this.partyLeader) {
+      if (currentPartyLeader !== undefined) {
         if (game) {
           const sortedPlayers = [...this.getPresentPlayers()].sort(
             (p1, p2) => this.getDelegates(p2) - this.getDelegates(p1),
           );
           const max = this.getDelegates(sortedPlayers[0]);
 
-          if (this.getDelegates(this.partyLeader) !== max) {
+          if (this.getDelegates(currentPartyLeader) !== max) {
             let currentIndex = 0;
             if (this.partyLeader === 'NEUTRAL') {
               currentIndex = game.getPlayers().indexOf(game.getPlayerById(game.activePlayer));
             } else {
-              currentIndex = game.getPlayers().indexOf(game.getPlayerById(this.partyLeader));
+              currentIndex = game.getPlayers().indexOf(game.getPlayerById(currentPartyLeader));
             }
 
             let playersToCheck: Array<Player | NeutralPlayer> = [];
@@ -62,6 +65,14 @@ export abstract class Party {
               }
               if (this.getDelegates(nextPlayerId) === max) {
                 this.partyLeader = nextPlayerId;
+
+                if (nextPlayer !== 'NEUTRAL') {
+                  game.defer(new DeferredAction(nextPlayer, () => {
+                    game.log('${0} is the new ${1} party leader', (b) => b.player(nextPlayer).string((this as unknown as IParty).name));
+                    return undefined;
+                  }));
+                }
+
                 return true;
               }
               return false;
