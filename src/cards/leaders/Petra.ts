@@ -83,6 +83,7 @@ export class Petra extends Card implements LeaderCard {
     // Place 3 Neutral delegates
     const availableParties = turmoil.parties.map((party) => party.name);
     const title = 'Select where to send a Neutral delegate';
+    const previousDominantParty = turmoil.dominantParty.name;
 
     for (let i = 0; i < 3; i++) {
       player.game.defer(new DeferredAction(player, () => {
@@ -93,6 +94,13 @@ export class Petra extends Card implements LeaderCard {
         });
       }));
     }
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (turmoil.dominantParty.name !== previousDominantParty) {
+        player.game.log('${0} is the new dominant party', (b) => b.string(turmoil.dominantParty.name));
+      }
+      return undefined;
+    }));
 
     this.isDisabled = true;
     return undefined;

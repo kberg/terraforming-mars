@@ -221,7 +221,13 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
         }
       }
       party.sendDelegate(playerId, game);
-      this.checkDominantParty(party);
+
+      const dominantPartyChanged = this.checkDominantParty(party);
+
+      if (dominantPartyChanged && game.turmoil?.dominantParty !== undefined && playerId !== 'NEUTRAL') {
+        this.logDominantPartyChange(playerId, game);
+      }
+
       MarsCoalition.applyDominantPartyPolicy(game, previousDominantParty);
     }
 
@@ -231,8 +237,23 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       const party = this.getPartyByName(partyName);
       this.delegateReserve.push(playerId);
       party.removeDelegate(playerId, game);
-      this.checkDominantParty(party);
+
+      const dominantPartyChanged = this.checkDominantParty(party);
+
+      if (dominantPartyChanged && game.turmoil?.dominantParty !== undefined && playerId !== 'NEUTRAL') {
+        this.logDominantPartyChange(playerId, game);
+      }
+
       MarsCoalition.applyDominantPartyPolicy(game, previousDominantParty);
+    }
+
+    public logDominantPartyChange(playerId: PlayerId, game: Game) {
+      const player = game.getPlayerById(playerId);
+
+      game.defer(new DeferredAction(player, () => {
+        game.log('${0} is the new dominant party', (b) => b.string(game.turmoil!.dominantParty.name));
+        return undefined;
+      }));
     }
 
     // Use to replace a delegate from a specific party with another delegate with NO DOMINANCE CHANGE
@@ -249,7 +270,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
     }
 
     // Check dominant party
-    public checkDominantParty(party:IParty): void {
+    public checkDominantParty(party:IParty): boolean {
       // If there is a dominant party
       if (this.dominantParty) {
         const sortParties = [...this.parties].sort(
@@ -258,10 +279,13 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
         const max = sortParties[0].delegates.length;
         if (this.dominantParty.delegates.length !== max) {
           this.setNextPartyAsDominant(this.dominantParty);
+          return true;
         }
       } else {
         this.dominantParty = party;
       }
+
+      return false;
     }
 
     // Function to get next dominant party taking into account the clockwise order
