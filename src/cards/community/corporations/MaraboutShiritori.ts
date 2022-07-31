@@ -10,6 +10,7 @@ import {IProjectCard} from '../../IProjectCard';
 import {DeferredAction} from '../../../deferredActions/DeferredAction';
 import {OrOptions} from '../../../inputs/OrOptions';
 import {SelectOption} from '../../../inputs/SelectOption';
+import {AltSecondaryTag} from '../../render/CardRenderItem';
 
 export class MaraboutShiritori extends Card implements CorporationCard {
   constructor() {
@@ -25,12 +26,12 @@ export class MaraboutShiritori extends Card implements CorporationCard {
         description: 'You start with 37 M€. As your first action, name a tag. Draw a card with that tag.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(37).cards(1).secondaryTag(Tags.WILDCARD).asterix();
+          b.megacredits(37).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
 
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
             ce.effect('The next card you play costs 3 M€ less if it shares a tag with the last project card you played this generation.', (eb) => {
-              eb.wild(1).played.equals().wild(1).played.startEffect;
+              eb.diverseTag(1).played.equals().nbsp(Size.SMALL).text('LAST', Size.SMALL).nbsp(Size.SMALL).diverseTag(1).played.startEffect;
               eb.megacredits(-3).asterix();
             });
             ce.vSpace(Size.SMALL);
