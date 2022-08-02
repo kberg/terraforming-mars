@@ -13,6 +13,7 @@ export class Dealer implements ISerializable<SerializedDealer> {
     public preludeDeck: Array<IProjectCard> = [];
     public discarded: Array<IProjectCard> = [];
     public corporationCards: Array<CorporationCard> = [];
+    public discardedCorporations: Array<CorporationCard> = [];
     public leaderDeck: Array<IProjectCard> = [];
 
     private constructor() { }
@@ -37,6 +38,9 @@ export class Dealer implements ISerializable<SerializedDealer> {
     }
     public discard(card: IProjectCard): void {
       this.discarded.push(card);
+    }
+    public discardCorporation(card: CorporationCard): void {
+      this.discardedCorporations.push(card);
     }
     public dealCard(game: Game, isResearchPhase: boolean = false): IProjectCard {
       let result: IProjectCard | undefined;
@@ -126,6 +130,7 @@ export class Dealer implements ISerializable<SerializedDealer> {
       const cardFinder = new CardFinder();
 
       dealer.corporationCards = cardFinder.corporationCardsFromJSON(d.corporationCards);
+      dealer.discardedCorporations = cardFinder.corporationCardsFromJSON(d.discardedCorporations);
       dealer.deck = cardFinder.cardsFromJSON(d.deck);
       dealer.discarded = cardFinder.cardsFromJSON(d.discarded);
       dealer.preludeDeck = cardFinder.cardsFromJSON(d.preludeDeck);
@@ -136,6 +141,7 @@ export class Dealer implements ISerializable<SerializedDealer> {
     public serialize(): SerializedDealer {
       return {
         corporationCards: this.corporationCards.map((c) => c.name),
+        discardedCorporations: this.discardedCorporations.map((c) => c.name),
         deck: this.deck.map((c) => c.name),
         discarded: this.discarded.map((c) => c.name),
         preludeDeck: this.preludeDeck.map((c) => c.name),

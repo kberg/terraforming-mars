@@ -59,8 +59,10 @@ export class Merger extends PreludeCard {
   public static dealCorporationCards(player: Player, dealer: Dealer): IProjectCard[] {
     const cards: Array<IProjectCard> = [];
     const corpsInPlay = player.game.getPlayers().map((p) => p.corporationCards).reduce((a, b) => a.concat(b)).map((c) => c.name);
+    const discardedCorpNames = dealer.discardedCorporations.map((c) => c.name);
 
     let candidateCards = dealer.corporationCards.filter((card) => !corpsInPlay.includes(card.name));
+    candidateCards = candidateCards.filter((card) => !discardedCorpNames.includes(card.name));
     candidateCards = Dealer.shuffle(candidateCards);
 
     while (cards.length < 4) {

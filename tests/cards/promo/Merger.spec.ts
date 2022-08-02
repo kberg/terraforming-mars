@@ -133,4 +133,28 @@ describe('Merger', function() {
     game.deferredActions.runAll(() => {});
     expect(player.cardsInHand.length).to.eq(handSize + 1);
   });
+
+  it('dealCorporationCards does not deal corps already in play', function() {
+    const pointLuna = new PointLuna();
+    const teractor = new Teractor();
+    game.dealer.corporationCards = [pointLuna, teractor, ...game.dealer.corporationCards];
+    player.corporationCards = [pointLuna];
+    player2.corporationCards = [teractor];
+
+    const dealtCorps = Merger.dealCorporationCards(player, game.dealer);
+    expect(dealtCorps).has.length(4);
+    expect(dealtCorps).to.not.include(pointLuna);
+    expect(dealtCorps).to.not.include(teractor);
+  });
+
+  it('dealCorporationCards does not deal discarded corps', function() {
+    const pointLuna = new PointLuna();
+    const teractor = new Teractor();
+    game.dealer.discarded = [pointLuna, teractor];
+
+    const dealtCorps = Merger.dealCorporationCards(player, game.dealer);
+    expect(dealtCorps).has.length(4);
+    expect(dealtCorps).to.not.include(pointLuna);
+    expect(dealtCorps).to.not.include(teractor);
+  });
 });

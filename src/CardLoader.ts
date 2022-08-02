@@ -80,8 +80,12 @@ export class CardLoader {
     return this.getCards((manifest) => manifest.standardProjects);
   }
   public getCorporationCards() {
-    return this.getCards((manifest) => manifest.corporationCards)
-      .filter((card) => card.name !== CardName.BEGINNER_CORPORATION);
+    const corporationCards = this.getCards((manifest) => manifest.corporationCards);
+    // If customCorporationsList has been specified, use it for Merger corp list
+    if (this.gameOptions.customCorporationsList.length > 0) {
+      return corporationCards.filter((card) => this.gameOptions.customCorporationsList.includes(card.name));
+    }
+    return corporationCards.filter((card) => card.name !== CardName.BEGINNER_CORPORATION);
   }
   public getPreludeCards() {
     const preludes = this.getCards((manifest) => manifest.preludeCards);

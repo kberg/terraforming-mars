@@ -751,7 +751,15 @@ export class Game implements ISerializable<SerializedGame> {
         }
       });
 
-      this.playerHasPickedCorporationCard(player, corporation); return undefined;
+      this.playerHasPickedCorporationCard(player, corporation);
+      // discard remaining corps that were not chosen
+      player.dealtCorporationCards.forEach((card) => {
+        if (card.name !== corporation.name) {
+          this.dealer.discardCorporation(card);
+        }
+      });
+
+      return undefined;
     });
   }
 

@@ -65,5 +65,44 @@ describe('CardLoader', function() {
       expect(preludeDeck.includes(preludeCard)).is.not.true;
     });
   });
+
+  it('getCorporationCards excludes Beginner Corp by default', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions({customCorporationsList: []});
+    const names = new CardLoader(gameOptions).getCorporationCards().map((c) => c.name);
+    expect(names).to.not.contain(CardName.BEGINNER_CORPORATION);
+  });
+
+  it('getCorporationCards uses customCorporationsList if it was set', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions({
+      corporateEra: true,
+      preludeExtension: true,
+      venusNextExtension: true,
+      coloniesExtension: true,
+      turmoilExtension: true,
+      promoCardsOption: true,
+      customCorporationsList: [
+        CardName.BEGINNER_CORPORATION,
+        CardName.ECOLINE,
+        CardName.THARSIS_REPUBLIC,
+        CardName.TERACTOR,
+        CardName.SATURN_SYSTEMS,
+        CardName.VIRON,
+        CardName.MANUTECH,
+        CardName.ROBINSON_INDUSTRIES,
+        CardName.POINT_LUNA,
+        CardName.STORMCRAFT_INCORPORATED,
+        CardName.POSEIDON,
+        CardName.SEPTUM_TRIBUS,
+        CardName.TERRALABS_RESEARCH,
+        CardName.RECYCLON,
+        CardName.ARCADIAN_COMMUNITIES,
+      ],
+    });
+
+    const names = new CardLoader(gameOptions).getCorporationCards().map((c) => c.name);
+    expect(names).has.length(15);
+    expect(names).to.contain(CardName.ECOLINE);
+    expect(names).to.contain(CardName.BEGINNER_CORPORATION);
+  });
 });
 

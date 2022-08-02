@@ -519,7 +519,9 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
       // Check custom corp count
       if (customCorporationsList.length > 0) {
-        const neededCorpsCount = players.length * startingCorporations;
+        let neededCorpsCount = players.length * startingCorporations;
+        // For Merger
+        if (this.prelude && this.promoCardsOption) neededCorpsCount += 4;
 
         if (customCorporationsList.length < neededCorpsCount && component.colosseumVariant === false) {
           window.alert(translateTextWithParams('Must select at least ${0} corporations', [neededCorpsCount.toString()]));
