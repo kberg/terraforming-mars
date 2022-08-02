@@ -6,8 +6,10 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {PlaceHazardTile} from '../../deferredActions/PlaceHazardTile';
-import {Resources} from '../../Resources';
 import {Size} from '../render/Size';
+import {SelectProductionToLoseDeferred} from '../../deferredActions/SelectProductionToLoseDeferred';
+import {HAZARD_TILES} from '../../TileType';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class Caesar extends Card implements LeaderCard {
   constructor() {
@@ -17,10 +19,11 @@ export class Caesar extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L33',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().colon().text('X').hazardTile(1, {size: Size.LARGE}).megacredits(2).multiplier.asterix();
+          b.opgArrow().colon().text('X').hazardTile(1, {size: Size.LARGE}).nbsp();
+          b.minus().production((pb) => pb.wild(1).any).asterix();
           b.br;
         }),
-        description: 'Once per game, place X hazard tiles. Do not trigger any adjacency effects or collect any tile placement bonuses. Gain 2X M€.',
+        description: 'Once per game, place X hazard tiles. Do not trigger any adjacency penalties. Each opponent loses 1 unit of production, or 2 units if there are more than 5 hazard tiles.',
       },
     });
   }
@@ -45,7 +48,22 @@ export class Caesar extends Card implements LeaderCard {
       game.defer(new PlaceHazardTile(player, game, title, availableSpaces));
     }
 
-    player.addResource(Resources.MEGACREDITS, game.generation * 2, {log: true});
+    const otherPlayers = game.getPlayers().filter((p) => p.id !== player.id);
+
+    game.defer(new DeferredAction(player, () => {
+      const hazardTileCount = game.board.spaces.filter((space) => space.tile && HAZARD_TILES.has(space.tile.tileType)).length;
+
+      otherPlayers.forEach((player) => {
+        if (hazardTileCount > 5) {
+          game.defer(new SelectProductionToLoseDeferred(player, 2));
+        } else {
+          game.defer(new SelectProductionToLoseDeferred(player, 1));
+        }
+      });
+
+      return undefined;
+    }));
+
     this.isDisabled = true;
     return undefined;
   }

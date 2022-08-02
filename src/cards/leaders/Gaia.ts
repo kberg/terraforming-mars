@@ -25,7 +25,7 @@ export class Gaia extends Card implements LeaderCard {
           b.opgArrow().colon().adjacencyBonus().any.asterix();
           b.br;
         }),
-        description: 'Once per game, gain the adjacency bonuses of all tiles placed on Mars.',
+        description: 'Once per game, gain the Ares adjacency bonuses of all tiles placed on Mars.',
       },
     });
   }
