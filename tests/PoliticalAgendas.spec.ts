@@ -66,6 +66,9 @@ describe('PoliticalAgendas', () => {
     turmoil.sendDelegateToParty(player.id, PartyName.MARS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.MARS, game);
 
+    // Clear extra deferredActions for logging
+    game.deferredActions.runAll(() => {});
+
     turmoil.endGeneration(game);
     expect(game.deferredActions).has.lengthOf(2);
 

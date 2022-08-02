@@ -23,9 +23,10 @@ describe('PoliticalUprising', function() {
     expect(game.deferredActions).has.lengthOf(4);
 
     while (game.deferredActions.length) {
-      const selectParty = game.deferredActions.peek()!.execute() as SelectPartyToSendDelegate;
-      selectParty.cb(PartyName.MARS);
-      game.deferredActions.pop();
+      const selectParty = game.deferredActions.pop()!.execute() as SelectPartyToSendDelegate;
+      if (selectParty !== undefined) {
+        selectParty.cb(PartyName.MARS);
+      }
     }
 
     const turmoil = game.turmoil!;

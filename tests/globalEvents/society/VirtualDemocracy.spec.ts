@@ -27,7 +27,9 @@ describe('VirtualDemocracy', function() {
 
     while (game.deferredActions.length > 0) {
       const selectParty = game.deferredActions.pop()!.execute() as SelectPartyToSendDelegate;
-      selectParty.cb(PartyName.MARS);
+      if (selectParty !== undefined) {
+        selectParty.cb(PartyName.MARS);  
+      }
     }
 
     const marsFirst = turmoil.getPartyByName(PartyName.MARS)!;

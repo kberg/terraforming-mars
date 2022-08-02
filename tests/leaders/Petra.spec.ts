@@ -62,12 +62,14 @@ describe('Petra', function() {
     expect(player.megaCredits).to.eq(15);
 
     // Send 3 Neutral delegates
-    expect(game.deferredActions).has.lengthOf(3);
+    // This creates at least 3 deferredActions, with possible extra deferredActions for logging
+    expect(game.deferredActions.length).is.greaterThanOrEqual(3);
 
     while (game.deferredActions.length) {
-      const selectParty = game.deferredActions.peek()!.execute() as SelectPartyToSendDelegate;
-      selectParty.cb(PartyName.GREENS);
-      game.deferredActions.pop();
+      const selectParty = game.deferredActions.pop()!.execute() as SelectPartyToSendDelegate;
+      if (selectParty !== undefined) {
+        selectParty.cb(PartyName.GREENS);
+      }
     }
 
     expect(greens.delegates.filter((delegate) => delegate === 'NEUTRAL')).has.length(3);
