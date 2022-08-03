@@ -6,6 +6,7 @@ import {Tags} from '../../cards/Tags';
 import {SpecialTags} from '../../cards/SpecialTags';
 import {isTagsViewConcise} from './OverviewSettings';
 import {PlayerTagDiscount} from './PlayerTagDiscount';
+import {VictoryPointMultiplier} from './VictoryPointMultiplier';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {TurmoilPolicy} from '../../turmoil/TurmoilPolicy';
 import {CardModel} from '../../models/CardModel';
@@ -13,6 +14,17 @@ import {PreferencesManager} from '../PreferencesManager';
 import {CardName} from '../../CardName';
 
 type InterfaceTagsType = Tags | SpecialTags | 'all' | 'separator';
+
+const JOVIAN_MULTIPLIERS: Array<CardName> = [
+  CardName.IO_MINING_INDUSTRIES,
+  CardName.GANYMEDE_COLONY,
+  CardName.WATER_IMPORT_FROM_EUROPA,
+];
+
+const MOON_MULTIPLIERS: Array<CardName> = [
+  CardName.COPERNICUS_TOWER,
+  CardName.LUNA_SENATE,
+];
 
 const hasDiscount = (tag: InterfaceTagsType, card: CardModel): boolean => {
   if (tag === SpecialTags.COLONY_COUNT || tag === SpecialTags.CITY_COUNT) return false;
@@ -85,6 +97,7 @@ export const PlayerTags = Vue.component('player-tags', {
   components: {
     'tag-count': TagCount,
     PlayerTagDiscount,
+    VictoryPointMultiplier,
   },
   methods: {
     showColonyCount: function(): boolean {
@@ -232,6 +245,30 @@ export const PlayerTags = Vue.component('player-tags', {
 
       return 0;
     },
+    showJovianMultipliers: function(tag: InterfaceTagsType): boolean {
+      return tag === Tags.JOVIAN && this.playerJovianMultipliersCount() > 0;
+    },
+    playerJovianMultipliersCount: function(): number {
+      let multipliers = 0;
+      for (const card of this.player.playedCards) {
+        if (card !== undefined && JOVIAN_MULTIPLIERS.includes(card.name as CardName)) {
+          multipliers += 1;
+        }
+      }
+      return multipliers;
+    },
+    showMoonMultipliers: function(tag: InterfaceTagsType): boolean {
+      return tag === Tags.MOON && this.playerMoonMultipliersCount() > 0;
+    },
+    playerMoonMultipliersCount: function(): number {
+      let multipliers = 0;
+      for (const card of this.player.playedCards) {
+        if (card !== undefined && MOON_MULTIPLIERS.includes(card.name as CardName)) {
+          multipliers += 1;
+        }
+      }
+      return multipliers;
+    },
     getAvailableBlueActionCount: function(): number {
       return this.player.availableBlueCardActionCount;
     },
@@ -274,6 +311,8 @@ export const PlayerTags = Vue.component('player-tags', {
                   <div class="tag-count-container" v-for="tag in player.tags">
                     <div class="tag-and-discount" :key="tag.tag">
                       <PlayerTagDiscount v-if="hasTagDiscount(tag.tag)" :amount="getTagDiscountAmount(tag.tag)" :color="player.color" />
+                      <VictoryPointMultiplier v-if="showJovianMultipliers(tag.tag)" :amount="playerJovianMultipliersCount()" />
+                      <VictoryPointMultiplier v-if="showMoonMultipliers(tag.tag)" :amount="playerMoonMultipliersCount()" />
                       <tag-count :tag="tag.tag" :count="tag.count" :size="'big'" :type="'secondary'"/>
                     </div>
                   </div>
@@ -282,6 +321,8 @@ export const PlayerTags = Vue.component('player-tags', {
                     <div class="tag-count-container" v-for="tagName in getTagsPlaceholders()" :key="tagName">
                       <div class="tag-and-discount" v-if="tagName !== 'separator'">
                         <PlayerTagDiscount v-if="hasTagDiscount(tagName)" :color="player.color" :amount="getTagDiscountAmount(tagName)"/>
+                        <VictoryPointMultiplier v-if="showJovianMultipliers(tagName)" :amount="playerJovianMultipliersCount()" />
+                        <VictoryPointMultiplier v-if="showMoonMultipliers(tagName)" :amount="playerMoonMultipliersCount()" />
                         <tag-count :tag="tagName" :count="getTagCount(tagName)" :size="'big'" :type="'secondary'"/>
                       </div>
                       <div v-else class="tag-separator"></div>
