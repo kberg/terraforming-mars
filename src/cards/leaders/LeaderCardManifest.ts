@@ -21,6 +21,7 @@ import {Lowell} from './Lowell';
 import {Maria} from './Maria';
 import {Musk} from './Musk';
 import {Naomi} from './Naomi';
+import {Neil} from './Neil';
 import {Oscar} from './Oscar';
 import {Petra} from './Petra';
 import {Quill} from './Quill';
@@ -71,5 +72,6 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.GRETA, Factory: Greta},
     {cardName: CardName.CAESAR, Factory: Caesar, compatibility: GameModule.Ares},
     {cardName: CardName.GAIA, Factory: Gaia, compatibility: GameModule.Ares},
+    {cardName: CardName.NEIL, Factory: Neil, compatibility: GameModule.Moon},
   ],
 });

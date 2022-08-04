@@ -706,4 +706,5 @@ export enum CardName {
     GRETA = 'Greta',
     CAESAR = 'Caesar',
     GAIA = 'Gaia',
+    NEIL = 'Neil',
 }
