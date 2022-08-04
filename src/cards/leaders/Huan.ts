@@ -5,7 +5,6 @@ import {PlayerInput} from '../../PlayerInput';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {Resources} from '../../Resources';
 
 export class Huan extends Card implements LeaderCard {
   constructor() {
@@ -17,10 +16,10 @@ export class Huan extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br.br;
-          b.text('DISABLE').tradeFleet().megacredits(0).multiplier.asterix();
+          b.tradeFleet().any.tradeFleet().asterix();
           b.br.br;
         }),
-        description: 'All opponents cannot trade next generation. Gain X M€, where X is the current generation number.',
+        description: 'All opponents cannot trade next generation. Gain 1 permanent trade fleet.',
       },
     });
   }
@@ -37,7 +36,7 @@ export class Huan extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     const game = player.game;
-    player.addResource(Resources.MEGACREDITS, game.generation, {log: true});
+    player.increaseFleetSize();
     game.syndicatePirateRaider = player.id;
 
     game.log(

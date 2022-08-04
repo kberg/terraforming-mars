@@ -28,6 +28,7 @@ describe('Huan', function() {
     expect(game.colonies[1].visitor).eq(player2.id);
 
     // Blocks opponents from trading, but clears all colony visitors
+    const initialFleetSize = player.getFleetSize();
     card.action(player);
     TestingUtils.forceGenerationEnd(game);
 
@@ -35,6 +36,9 @@ describe('Huan', function() {
     expect(player2.tradesThisGeneration).eq(50);
     expect(game.colonies[0].visitor).is.undefined;
     expect(game.colonies[1].visitor).is.undefined;
+
+    // Player gains an extra trade fleet
+    expect(player.getFleetSize()).to.eq(initialFleetSize + 1);
   });
 
   it('Can only act once per game', function() {
