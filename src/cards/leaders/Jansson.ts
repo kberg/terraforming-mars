@@ -17,7 +17,7 @@ export class Jansson extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().emptyTile().wild(1).asterix();
         }),
-        description: 'Once per game, gain all placement bonuses under your tiles.',
+        description: 'Once per game, gain all placement bonuses under your tiles on Mars.',
       },
     });
   }
@@ -34,7 +34,7 @@ export class Jansson extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     const spaces = player.game.board.spaces.filter((space) => space.tile !== undefined && space.player === player);
-    
+
     spaces.forEach((space) => {
       const bonuses = new Multiset(space.bonus);
       bonuses.entries().forEach(([bonus, count]) => {
