@@ -8,7 +8,6 @@ import {Tags} from '../../Tags';
 import {SpaceBonus} from '../../../SpaceBonus';
 import {ISpace} from '../../../boards/ISpace';
 import {SelectSpace} from '../../../inputs/SelectSpace';
-import {SpaceType} from '../../../SpaceType';
 import {Units} from '../../../Units';
 import {AltSecondaryTag} from '../../render/CardRenderItem';
 
@@ -40,7 +39,7 @@ export class GroundwaterMohole extends PreludeCard implements IProjectCard {
       .filter((space) => space.bonus.includes(SpaceBonus.STEEL));
 
     return new SelectSpace('Select a space with a steel placement bonus to place an ocean', spaces, (foundSpace: ISpace) => {
-      player.game.addOceanTile(player, foundSpace.id, SpaceType.LAND);
+      player.game.addOceanTile(player, foundSpace.id, foundSpace.spaceType);
       return undefined;
     });
   }
