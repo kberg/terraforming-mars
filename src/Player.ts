@@ -1491,6 +1491,10 @@ export class Player implements ISerializable<SerializedPlayer> {
     );
   }
 
+  public payMegacreditsDeferred(cost: number, title: string, afterPay?: () => void) {
+    this.game.defer(new SelectHowToPayDeferred(this, cost, {title, afterPay}));
+  }
+
   public checkHowToPayAndPlayCard(selectedCard: IProjectCard, howToPay: HowToPay) {
     const cardCost: number = this.getCardCost(selectedCard);
     let totalToPay: number = 0;

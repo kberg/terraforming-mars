@@ -4,15 +4,16 @@ import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
+import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('RobinsonIndustries', function() {
-  let card : RobinsonIndustries; let player : Player;
+  let card : RobinsonIndustries; let player : Player; let game: Game;
 
   beforeEach(() => {
     card = new RobinsonIndustries();
     player = TestPlayers.BLUE.newPlayer();
-    Game.newInstance('foobar', [player], player);
+    game = Game.newInstance('foobar', [player], player);
     player.corporationCards = [card];
   });
 
@@ -29,6 +30,7 @@ describe('RobinsonIndustries', function() {
     expect(result.options).has.lengthOf(6);
 
     result.options[1].cb();
+    TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(1);
     expect(player.megaCredits).eq(0);
   });

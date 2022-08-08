@@ -19,6 +19,10 @@ import {TharsisRepublic} from '../../../src/cards/corporation/TharsisRepublic';
 import {CardName} from '../../../src/CardName';
 import {PointLuna} from '../../../src/cards/prelude/PointLuna';
 import {Teractor} from '../../../src/cards/corporation/Teractor';
+import {RobinsonIndustries} from '../../../src/cards/prelude/RobinsonIndustries';
+import {Helion} from '../../../src/cards/corporation/Helion';
+import {OrOptions} from '../../../src/inputs/OrOptions';
+import {SelectHowToPay} from '../../../src/inputs/SelectHowToPay';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -156,5 +160,32 @@ describe('Merger', function() {
     expect(dealtCorps).has.length(4);
     expect(dealtCorps).to.not.include(pointLuna);
     expect(dealtCorps).to.not.include(teractor);
+  });
+
+  it('Works with Helion + Robinson Industries', () => {
+    const helion = new Helion();
+    const robinson = new RobinsonIndustries();
+    helion.play(player);
+    player.corporationCards.push(helion);
+
+    player.megaCredits = 3;
+    expect(robinson.canAct(player)).is.false;
+
+    player.heat = 1;
+    expect(robinson.canAct(player)).is.true;
+
+    // Setting a larger amount of heat just to make the test results
+    player.heat = 5;
+
+    const selectResource = robinson.action(player) as OrOptions;
+    expect((selectResource.options[1].title as String).includes('steel')).is.true;
+
+    selectResource.options[1].cb();
+    TestingUtils.runAllActions(game);
+    const howToPay = player.getWaitingFor() as SelectHowToPay;
+    howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.megaCredits).to.eq(1);
+    expect(player.heat).to.eq(3);
   });
 });
