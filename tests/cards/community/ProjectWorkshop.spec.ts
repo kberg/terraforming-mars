@@ -50,6 +50,7 @@ describe('ProjectWorkshop', function() {
 
     expect(card.canAct(player)).is.true;
     card.action(player);
+    TestingUtils.runAllActions(game);
     expect(player.cardsInHand).has.lengthOf(1);
     expect(player.cardsInHand[0].cardType).eq(CardType.ACTIVE);
   });

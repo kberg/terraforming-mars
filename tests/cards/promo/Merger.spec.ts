@@ -26,6 +26,8 @@ import {SelectHowToPay} from '../../../src/inputs/SelectHowToPay';
 import {UnitedNationsMarsInitiative} from '../../../src/cards/corporation/UnitedNationsMarsInitiative';
 import {Factorum} from '../../../src/cards/promo/Factorum';
 import {SelectOption} from '../../../src/inputs/SelectOption';
+import {ProjectWorkshop} from '../../../src/cards/community/corporations/ProjectWorkshop';
+import {CardType} from '../../../src/cards/CardType';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -242,6 +244,30 @@ describe('Merger', function() {
     expect(player.cardsInHand).has.lengthOf(1);
     expect(player.megaCredits).to.eq(1);
     expect(player.heat).to.eq(3);
+  });
+
+  it('Works with Helion + Project Workshop', () => {
+    setupHelionForPlayer(player);
+    const pw = new ProjectWorkshop();
+
+    player.megaCredits = 3;
+    expect(pw.canAct(player)).is.false;
+
+    player.heat = 1;
+    expect(pw.canAct(player)).is.true;
+
+    // Setting a larger amount of heat just to make the test results more interesting
+    player.heat = 5;
+
+    pw.action(player);
+    TestingUtils.runAllActions(game);
+
+    const howToPay = player.getWaitingFor() as SelectHowToPay;
+    howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    expect(player.megaCredits).to.eq(1);
+    expect(player.heat).to.eq(3);
+    expect(player.cardsInHand).has.lengthOf(1);
+    expect(player.cardsInHand[0].cardType).to.eq(CardType.ACTIVE);
   });
 
   function setupHelionForPlayer(player: Player) {

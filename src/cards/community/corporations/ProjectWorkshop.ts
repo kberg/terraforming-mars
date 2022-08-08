@@ -74,7 +74,7 @@ export class ProjectWorkshop extends Card implements CorporationCard {
   }
 
   public canAct(player: Player): boolean {
-    if (player.megaCredits >= 4) return true;
+    if (player.canAfford(4)) return true;
     return this.getEligibleCards(player).length > 0;
   }
 
@@ -107,8 +107,11 @@ export class ProjectWorkshop extends Card implements CorporationCard {
     );
 
     const drawBlueCard = new SelectOption('Spend 4 M€ to draw a blue card', 'Draw card', () => {
-      player.megaCredits -= 4;
-      player.drawCard(1, {cardType: CardType.ACTIVE});
+      player.payMegacreditsDeferred(
+        4,
+        'Select how to pay for Project Workshop action.',
+        () => player.drawCard(1, {cardType: CardType.ACTIVE}),
+      );
       return undefined;
     });
 
