@@ -23,6 +23,7 @@ import {RobinsonIndustries} from '../../../src/cards/prelude/RobinsonIndustries'
 import {Helion} from '../../../src/cards/corporation/Helion';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectHowToPay} from '../../../src/inputs/SelectHowToPay';
+import {UnitedNationsMarsInitiative} from '../../../src/cards/corporation/UnitedNationsMarsInitiative';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -185,6 +186,35 @@ describe('Merger', function() {
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
     expect(player.getProduction(Resources.STEEL)).to.eq(1);
+    expect(player.megaCredits).to.eq(1);
+    expect(player.heat).to.eq(3);
+  });
+
+  it('Works with Helion + UNMI', () => {
+    const helion = new Helion();
+    const unmi = new UnitedNationsMarsInitiative();
+    helion.play(player);
+    player.corporationCards.push(helion);
+
+    player.increaseTerraformRating();
+    expect(player.getTerraformRating()).to.eq(21);
+
+    player.megaCredits = 2;
+    expect(unmi.canAct(player)).is.false;
+
+    player.heat = 1;
+    expect(unmi.canAct(player)).is.true;
+
+    // Setting a larger amount of heat just to make the test results
+    player.heat = 5;
+
+    unmi.action(player);
+    TestingUtils.runAllActions(game);
+
+    const howToPay = player.getWaitingFor() as SelectHowToPay;
+    howToPay.cb({megaCredits: 1, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+
+    expect(player.getTerraformRating()).to.eq(22);
     expect(player.megaCredits).to.eq(1);
     expect(player.heat).to.eq(3);
   });

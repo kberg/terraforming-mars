@@ -48,8 +48,11 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
     return hasIncreasedTR && player.canAfford(actionCost);
   }
   public action(player: Player) {
-    player.megaCredits -= 3;
-    player.increaseTerraformRatingSteps(1);
+    player.payMegacreditsDeferred(
+      3,
+      'Select how to pay for UNMI action.',
+      () => player.increaseTerraformRatingSteps(1),
+    );
     return undefined;
   }
 }
