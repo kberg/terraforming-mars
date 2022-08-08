@@ -24,6 +24,8 @@ import {Helion} from '../../../src/cards/corporation/Helion';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectHowToPay} from '../../../src/inputs/SelectHowToPay';
 import {UnitedNationsMarsInitiative} from '../../../src/cards/corporation/UnitedNationsMarsInitiative';
+import {Factorum} from '../../../src/cards/promo/Factorum';
+import {SelectOption} from '../../../src/inputs/SelectOption';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -164,10 +166,8 @@ describe('Merger', function() {
   });
 
   it('Works with Helion + Robinson Industries', () => {
-    const helion = new Helion();
+    setupHelionForPlayer(player);
     const robinson = new RobinsonIndustries();
-    helion.play(player);
-    player.corporationCards.push(helion);
 
     player.megaCredits = 3;
     expect(robinson.canAct(player)).is.false;
@@ -183,6 +183,7 @@ describe('Merger', function() {
 
     selectResource.options[1].cb();
     TestingUtils.runAllActions(game);
+
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
     expect(player.getProduction(Resources.STEEL)).to.eq(1);
@@ -191,10 +192,8 @@ describe('Merger', function() {
   });
 
   it('Works with Helion + UNMI', () => {
-    const helion = new Helion();
+    setupHelionForPlayer(player);
     const unmi = new UnitedNationsMarsInitiative();
-    helion.play(player);
-    player.corporationCards.push(helion);
 
     player.increaseTerraformRating();
     expect(player.getTerraformRating()).to.eq(21);
@@ -218,4 +217,36 @@ describe('Merger', function() {
     expect(player.megaCredits).to.eq(1);
     expect(player.heat).to.eq(3);
   });
+
+  it('Works with Helion + Factorum', () => {
+    setupHelionForPlayer(player);
+    const factorum = new Factorum();
+
+    player.megaCredits = 2;
+    player.energy = 5;
+    expect(factorum.canAct(player)).is.false;
+
+    player.heat = 1;
+    expect(factorum.canAct(player)).is.true;
+
+    // Setting a larger amount of heat just to make the test results more interesting
+    player.heat = 5;
+
+    const selectOption = factorum.action(player) as SelectOption;
+    selectOption.cb();
+    TestingUtils.runAllActions(game);
+
+    const howToPay = player.getWaitingFor() as SelectHowToPay;
+    howToPay.cb({megaCredits: 1, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+
+    expect(player.cardsInHand).has.lengthOf(1);
+    expect(player.megaCredits).to.eq(1);
+    expect(player.heat).to.eq(3);
+  });
+
+  function setupHelionForPlayer(player: Player) {
+    const helion = new Helion();
+    helion.play(player);
+    player.corporationCards.push(helion);
+  }
 });
