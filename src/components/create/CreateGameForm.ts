@@ -912,6 +912,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <div v-if="moonExpansion">
                                 <input type="checkbox" v-model="shuffleMoonMapOption" id="shuffleMoonMap-checkbox" v-on:change="moonToggle()">
                                 <label for="shuffleMoonMap-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-themoon"></div>
                                     <span v-i18n>Moon tiles</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </div>
@@ -919,6 +920,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <div v-if="isRandomTurmoilEnabled()">
                                 <input type="checkbox" v-model="randomTurmoil" id="randomTurmoil-checkbox" v-on:change="randomTurmoilToggle()">
                                 <label for="randomTurmoil-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-turmoil"></div>
                                     <span v-i18n>Turmoil parties</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </div>
