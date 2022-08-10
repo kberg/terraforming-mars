@@ -111,6 +111,7 @@ export interface GameOptions {
   archaeologyExtension: boolean;
   startingCorporations: number;
   shuffleMapOption: boolean;
+  shuffleMoonMapOption: boolean;
   randomMA: RandomMAOptionType;
   randomTurmoil: boolean;
   soloTR: boolean; // Solo victory by getting TR 63 by game end
@@ -164,6 +165,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   requiresVenusTrackCompletion: false,
   showTimers: true,
   shuffleMapOption: false,
+  shuffleMoonMapOption: false,
   solarPhaseOption: false,
   silverCubeVariant: false,
   singleTradeVariant: false,
@@ -338,7 +340,7 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     if (gameOptions.moonExpansion) {
-      game.moonData = MoonExpansion.initialize();
+      game.moonData = MoonExpansion.initialize(game.gameOptions.shuffleMoonMapOption);
     }
 
     // Setup custom corporation list

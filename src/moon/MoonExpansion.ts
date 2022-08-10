@@ -68,9 +68,9 @@ export class MoonExpansion {
     throw new Error('Assertion error: Using a Moon feature when the Moon expansion is undefined.');
   }
 
-  public static initialize(): IMoonData {
+  public static initialize(shuffleMoonMapOption: boolean): IMoonData {
     return {
-      moon: MoonBoard.newInstance(),
+      moon: MoonBoard.newInstance(shuffleMoonMapOption),
       colonyRate: 0,
       miningRate: 0,
       logisticRate: 0,

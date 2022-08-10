@@ -107,6 +107,7 @@ function simpleGameOptions(): GameOptions {
     initialDraftVariant: false,
     startingCorporations: 0,
     shuffleMapOption: false,
+    shuffleMoonMapOption: false,
     soloTR: false,
     customCorporationsList: [],
     cardsBlackList: [],

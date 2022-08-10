@@ -54,6 +54,7 @@ export class TestingUtils {
       silverCubeVariant: false,
       singleTradeVariant: false,
       shuffleMapOption: false,
+      shuffleMoonMapOption: false,
       promoCardsOption: true,
       communityCardsOption: false,
       colosseumVariant: false,

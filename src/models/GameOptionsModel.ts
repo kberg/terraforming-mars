@@ -28,6 +28,7 @@ export interface GameOptionsModel {
   societyExpansion: boolean,
   showTimers: boolean,
   shuffleMapOption: boolean,
+  shuffleMoonMapOption: boolean,
   silverCubeVariant: boolean,
   singleTradeVariant: boolean,
   solarPhaseOption: boolean,

@@ -7,7 +7,7 @@ describe('MoonBoard', function() {
   let board : MoonBoard;
 
   beforeEach(() => {
-    board = MoonBoard.newInstance();
+    board = MoonBoard.newInstance(false);
   });
 
   it('getSpace', () => {

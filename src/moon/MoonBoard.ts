@@ -2,6 +2,7 @@ import {Board} from '../boards/Board';
 import {ISpace} from '../boards/ISpace';
 import {SerializedBoard} from '../boards/SerializedBoard';
 import {Player} from '../Player';
+import {Random} from '../Random';
 import {SpaceBonus} from '../SpaceBonus';
 import {SpaceType} from '../SpaceType';
 import {MoonSpaces} from './MoonSpaces';
@@ -47,12 +48,12 @@ export class MoonBoard extends Board {
     return spaces;
   }
 
-  public static newInstance(): MoonBoard {
+  public static newInstance(shuffleMoonMapOption: boolean): MoonBoard {
     const STEEL = SpaceBonus.STEEL;
     const DRAW_CARD = SpaceBonus.DRAW_CARD;
     const TITANIUM = SpaceBonus.TITANIUM;
 
-    const b = new Builder();
+    let b = new Builder();
     b.colony(); // Luna Trade Station
     b.row(2).land().land(STEEL, DRAW_CARD).land().mine(TITANIUM);
     b.row(1).mine(TITANIUM, TITANIUM).mine(/* Mare Imbrium */).land(STEEL).land().land();
@@ -62,6 +63,12 @@ export class MoonBoard extends Board {
     b.row(1).land().land(STEEL).land(STEEL).land(DRAW_CARD, DRAW_CARD).land(STEEL);
     b.row(2).land(DRAW_CARD, DRAW_CARD).mine(TITANIUM).mine(TITANIUM, TITANIUM).land();
     b.colony();
+
+    if (shuffleMoonMapOption) {
+      const rng = new Random(Math.random());
+      b.shuffle(rng);
+    }
+
     return new MoonBoard(b.spaces);
   }
 
@@ -89,6 +96,22 @@ class Builder {
     this.idx++;
     const strId = this.idx.toString().padStart(2, '0');
     return 'm' + strId;
+  }
+  // Shuffle the Moon spaces, except for reserved and offworld spaces
+  public shuffle(rng: Random) {
+    const excludedSpaces: string[] = [MoonSpaces.LUNA_TRADE_STATION, MoonSpaces.MARE_IMBRIUM, MoonSpaces.MARE_NECTARIS, MoonSpaces.MARE_NUBIUM, MoonSpaces.MARE_SERENITATIS, MoonSpaces.MOMENTUM_VIRIUM];
+
+    for (let i = 0; i < 100; i++) {
+      const first = rng.nextInt(this.spaces.length - 1);
+      const second = rng.nextInt(this.spaces.length - 1);
+      const firstSelectedSpace = this.spaces[first];
+      const secondSelectedSpace = this.spaces[second];
+
+      if (excludedSpaces.includes(firstSelectedSpace.id) || excludedSpaces.includes(secondSelectedSpace.id)) continue;
+
+      [firstSelectedSpace.spaceType, secondSelectedSpace.spaceType] = [secondSelectedSpace.spaceType,firstSelectedSpace.spaceType];
+      [firstSelectedSpace.bonus, secondSelectedSpace.bonus] = [secondSelectedSpace.bonus, firstSelectedSpace.bonus];
+    }
   }
 }
 

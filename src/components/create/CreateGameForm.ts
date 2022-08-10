@@ -47,6 +47,7 @@ export interface CreateGameModel {
     silverCubeVariant: boolean;
     singleTradeVariant: boolean;
     shuffleMapOption: boolean;
+    shuffleMoonMapOption: boolean;
     promoCardsOption: boolean;
     communityCardsOption: boolean;
     colosseumVariant: boolean;
@@ -134,6 +135,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       silverCubeVariant: false,
       singleTradeVariant: false,
       shuffleMapOption: false,
+      shuffleMoonMapOption: false,
       promoCardsOption: false,
       communityCardsOption: false,
       colosseumVariant: false,
@@ -329,6 +331,9 @@ export const CreateGameForm = Vue.component('create-game-form', {
     randomTurmoilToggle: function() {
       if (!this.isRandomTurmoilEnabled()) this.randomTurmoil = false;
     },
+    moonToggle: function() {
+      if (!this.moonExpansion) this.shuffleMoonMapOption = false;
+    },
     isBeginnerToggleEnabled: function(): Boolean {
       return !(this.initialDraft || this.prelude || this.venusNext || this.colonies || this.turmoil);
     },
@@ -471,6 +476,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const silverCubeVariant = this.silverCubeVariant;
       const singleTradeVariant = this.singleTradeVariant;
       const shuffleMapOption = this.shuffleMapOption;
+      const shuffleMoonMapOption = this.shuffleMoonMapOption;
       const customCorporationsList = component.customCorporationsList;
       const customColoniesList = component.customColoniesList;
       const cardsBlackList = component.cardsBlackList;
@@ -577,6 +583,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         randomMA,
         randomTurmoil,
         shuffleMapOption,
+        shuffleMoonMapOption,
         randomFirstPlayer,
         requiresVenusTrackCompletion,
         requiresMoonTrackCompletion,
@@ -902,10 +909,17 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                     <span v-i18n>Board tiles</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#randomize-board-tiles" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
+                            <div v-if="moonExpansion">
+                                <input type="checkbox" v-model="shuffleMoonMapOption" id="shuffleMoonMap-checkbox" v-on:change="moonToggle()">
+                                <label for="shuffleMoonMap-checkbox">
+                                    <span v-i18n>Moon tiles</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </div>
+
                             <div v-if="isRandomTurmoilEnabled()">
                                 <input type="checkbox" v-model="randomTurmoil" id="randomTurmoil-checkbox" v-on:change="randomTurmoilToggle()">
                                 <label for="randomTurmoil-checkbox">
-                                    <span v-i18n>Turmoil</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Turmoil parties</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </div>
 

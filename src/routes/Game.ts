@@ -96,6 +96,7 @@ export class GameHandler extends Handler {
           initialDraftVariant: gameReq.initialDraft,
           startingCorporations: gameReq.startingCorporations,
           shuffleMapOption: gameReq.shuffleMapOption,
+          shuffleMoonMapOption: gameReq.shuffleMoonMapOption,
           randomMA: gameReq.randomMA,
           randomTurmoil: gameReq.randomTurmoil,
           soloTR: gameReq.soloTR,
