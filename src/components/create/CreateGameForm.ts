@@ -795,19 +795,20 @@ export const CreateGameForm = Vue.component('create-game-form', {
                         </div>
 
                         <div class="create-game-page-column">
-                            <h4 v-i18n>Options</h4>
+                            <h4 v-i18n>Corporations</h4>
 
                             <label for="startingCorps-checkbox" class="startingCorps-checkbox">
                                 <span>
-                                    <template v-for="n in 3">
+                                    <template v-for="n in [1, 2, 3, 5]">
                                         <input type="radio" :value="n+1" v-model="startingCorporations" :id="n+'-checkbox'">
                                         <label :for="n+'-checkbox'" class="corporation-count">
                                             <span>{{ n + 1 }}</span>
                                         </label>
                                     </template>
                                 </span>
-                                <span v-i18n>Corporations</span>
                             </label>
+
+                            <h4 v-i18n style="margin-top: 10px;">Options</h4>
 
                             <input type="checkbox" v-model="solarPhaseOption" id="WGT-checkbox" v-on:change="toggleSolarPhase()">
                             <label for="WGT-checkbox">
@@ -851,15 +852,15 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                             <label for="escapeThreshold-checkbox" v-show="escapeVelocityMode">
                               <span v-i18n>After&nbsp;</span>
-                              <input type="number" class="create-game-corporations-count" value="30" step="5" min="0" :max="180" v-model="escapeVelocityThreshold" id="escapeThreshold-checkbox">
+                              <input type="number" value="30" step="5" min="0" :max="180" v-model="escapeVelocityThreshold" id="escapeThreshold-checkbox">
                               <span v-i18n>&nbsp;min</span>
                             </label>
 
                             <label for="escapePeriod-checkbox" v-show="escapeVelocityMode">
                               <span v-i18n>Reduce&nbsp;</span>
-                              <input type="number" class="create-game-corporations-count" value="1" min="1" :max="10" v-model="escapeVelocityPenalty" id="escapePeriod-checkbox">
+                              <input type="number" value="1" min="1" :max="10" v-model="escapeVelocityPenalty" id="escapePeriod-checkbox">
                               <span v-i18n>&nbsp;VP every&nbsp;</span>
-                              <input type="number" class="create-game-corporations-count" value="2" min="1" :max="10" v-model="escapeVelocityPeriod" id="escapePeriod-checkbox">
+                              <input type="number" value="2" min="1" :max="10" v-model="escapeVelocityPeriod" id="escapePeriod-checkbox">
                               <span v-i18n>&nbsp;min</span>
                             </label>
 
