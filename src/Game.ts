@@ -105,6 +105,7 @@ export interface GameOptions {
 
   // Variants
   colosseumVariant: boolean;
+  twoCorpsVariant: boolean;
   draftVariant: boolean;
   initialDraftVariant: boolean;
   newOpsExpansion: boolean;
@@ -172,6 +173,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   soloTR: false,
   startingCorporations: 2,
   turmoilExtension: false,
+  twoCorpsVariant: false,
   undoOption: false,
   venusNextExtension: false,
 };
@@ -803,7 +805,15 @@ export class Game implements ISerializable<SerializedGame> {
 
   private gotoInitialResearchPhase(): void {
     this.phase = Phase.RESEARCH;
+
+    // As each player who doesn't have Merger is dealt Merger in SelectInitialCards.ts,
+    // remove it from the deck to avoid possible conflicts (e.g. Valley Trust / New Partner)
+    if (this.gameOptions.twoCorpsVariant) {
+      this.dealer.preludeDeck = this.dealer.preludeDeck.filter((c) => c.name !== CardName.MERGER);
+    }
+
     this.save();
+
     for (const player of this.players) {
       if (player.pickedCorporationCard === undefined && player.dealtCorporationCards.length > 0) {
         player.setWaitingFor(this.pickCorporationCard(player));

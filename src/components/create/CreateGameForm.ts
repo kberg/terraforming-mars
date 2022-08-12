@@ -51,6 +51,7 @@ export interface CreateGameModel {
     promoCardsOption: boolean;
     communityCardsOption: boolean;
     colosseumVariant: boolean;
+    twoCorpsVariant: boolean;
     newOpsExpansion: boolean;
     archaeologyExtension: boolean;
     leadersExpansion: boolean;
@@ -139,6 +140,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       promoCardsOption: false,
       communityCardsOption: false,
       colosseumVariant: false,
+      twoCorpsVariant: false,
       newOpsExpansion: false,
       archaeologyExtension: false,
       leadersExpansion: false,
@@ -334,6 +336,9 @@ export const CreateGameForm = Vue.component('create-game-form', {
     moonToggle: function() {
       if (!this.moonExpansion) this.shuffleMoonMapOption = false;
     },
+    soloToggle: function() {
+      if (this.isSoloGame()) this.twoCorpsVariant = false;
+    },
     isBeginnerToggleEnabled: function(): Boolean {
       return !(this.initialDraft || this.prelude || this.venusNext || this.colonies || this.turmoil);
     },
@@ -485,6 +490,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const promoCardsOption = component.promoCardsOption;
       const communityCardsOption = component.communityCardsOption;
       const colosseumVariant = component.colosseumVariant;
+      const twoCorpsVariant = component.twoCorpsVariant;
       const newOpsExpansion = component.newOpsExpansion;
       const archaeologyExtension = component.archaeologyExtension;
       const leadersExpansion = component.leadersExpansion;
@@ -566,6 +572,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         promoCardsOption,
         communityCardsOption,
         colosseumVariant: colosseumVariant,
+        twoCorpsVariant: twoCorpsVariant,
         newOpsExpansion: newOpsExpansion,
         archaeologyExtension: archaeologyExtension,
         leadersExpansion: leadersExpansion,
@@ -632,7 +639,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                         <div class="create-game-page-column">
                             <h4 v-i18n>№ of Players</h4>
                                 <template v-for="pCount in [1,2,3,4,5,6]">
-                                    <input type="radio" :value="pCount" name="playersCount" v-model="playersCount" :id="pCount+'-radio'">
+                                    <input type="radio" :value="pCount" name="playersCount" v-model="playersCount" v-on:change="soloToggle()" :id="pCount+'-radio'">
                                     <label :for="pCount+'-radio'">
                                         <span v-html="pCount === 1 ? 'Solo' : pCount"></span>
                                     </label>
@@ -966,6 +973,14 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <label for="requiresVenusTrackCompletion-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="!isSoloGame() && prelude">
+                                <input type="checkbox" name="twoCorpsVariant" v-model="twoCorpsVariant" id="twoCorps-checkbox">
+                                <label for="twoCorps-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-prelude"></div>
+                                    <span v-i18n>Merger</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 

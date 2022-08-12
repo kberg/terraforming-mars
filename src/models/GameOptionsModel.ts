@@ -36,6 +36,7 @@ export interface GameOptionsModel {
   randomMA: RandomMAOptionType,
   randomTurmoil: boolean,
   turmoilExtension: boolean,
+  twoCorpsVariant: boolean,
   venusNextExtension: boolean,
   requiresVenusTrackCompletion: boolean,
   altVenusBoard: boolean,

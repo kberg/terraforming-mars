@@ -611,6 +611,7 @@ function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     randomMA: options.randomMA,
     randomTurmoil: options.randomTurmoil,
     turmoilExtension: options.turmoilExtension,
+    twoCorpsVariant: options.twoCorpsVariant,
     venusNextExtension: options.venusNextExtension,
     requiresVenusTrackCompletion: options.requiresVenusTrackCompletion,
   };

@@ -58,6 +58,7 @@ export class TestingUtils {
       promoCardsOption: true,
       communityCardsOption: false,
       colosseumVariant: false,
+      twoCorpsVariant: false,
       newOpsExpansion: false,
       archaeologyExtension: false,
       leadersExpansion: false,

@@ -48,6 +48,17 @@ export class Merger extends PreludeCard {
     game.defer(new DeferredAction(player, () => {
       return new SelectCard('Choose corporation card to play', 'Play', availableCorps, (foundCards: Array<IProjectCard>) => {
         Merger.playSecondCorporationCard(player, foundCards[0] as CorporationCard);
+
+        game.defer(new DeferredAction(player, () => {
+          for (const corp of foundCards) {
+            if (corp.name !== foundCards[0].name) {
+              game.dealer.discardCorporation(corp as CorporationCard);
+            }
+          }
+
+          return undefined;
+        }));        
+
         return undefined;
       });
     }));

@@ -131,6 +131,7 @@ function simpleGameOptions(): GameOptions {
     societyExpansion: false,
     randomTurmoil: false,
     colosseumVariant: false,
+    twoCorpsVariant: false,
     newOpsExpansion: false,
     archaeologyExtension: false,
     leadersExpansion: false,
