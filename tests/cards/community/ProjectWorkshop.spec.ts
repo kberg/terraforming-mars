@@ -85,10 +85,12 @@ describe('ProjectWorkshop', function() {
     selectCard.cb([smallAnimals]);
     expect(player.getTerraformRating()).eq(originalTR + 2);
     expect(player.cardsInHand).has.lengthOf(2);
+    expect(smallAnimals.resourceCount).to.eq(0);
 
     selectCard.cb([extremophiles]);
     expect(player.getTerraformRating()).eq(originalTR + 5);
     expect(player.cardsInHand).has.lengthOf(4);
+    expect(extremophiles.resourceCount).to.eq(0);
   });
 
   it('Can select option if able to do both actions', function() {

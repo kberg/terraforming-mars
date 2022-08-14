@@ -132,6 +132,7 @@ export class ProjectWorkshop extends Card implements CorporationCard {
         player.decreaseTerraformRatingSteps(stepsToDecrease);
       }
 
+      if (card.resourceCount !== undefined) card.resourceCount = 0;
       LogHelper.logTRChange(player, steps);
     }
   }
