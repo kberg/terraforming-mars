@@ -2,6 +2,7 @@ import {Player} from '../Player';
 import {AndOptions} from '../inputs/AndOptions';
 import {SelectAmount} from '../inputs/SelectAmount';
 import {DeferredAction, Priority} from './DeferredAction';
+import {Resources} from '../Resources';
 
 export class MetaSpiritualityDeferredAction implements DeferredAction {
   public priority = Priority.DEFAULT;
@@ -61,15 +62,20 @@ export class MetaSpiritualityDeferredAction implements DeferredAction {
           throw new Error('Need to select ' + this.count + ' resource(s)');
         }
 
-        if (Math.min(...amounts) < minSelectionPerResource || Math.max(...amounts) > maxSelectionPerResource) {
-          throw new Error('Must select at least ' + this.count + ' of each resource');
+        if (Math.min(...amounts) < minSelectionPerResource) {
+          throw new Error('Must select at least ' + minSelectionPerResource + ' of each resource');
         }
-        this.player.megaCredits += megacreditsAmount;
-        this.player.steel += steelAmount;
-        this.player.titanium += titaniumAmount;
-        this.player.plants += plantsAmount;
-        this.player.energy += energyAmount;
-        this.player.heat += heatAmount;
+        if (Math.max(...amounts) > maxSelectionPerResource) {
+          throw new Error('Can select at most ' + maxSelectionPerResource + ' of each resource');
+        }
+
+        this.player.addResource(Resources.MEGACREDITS, megacreditsAmount, {log: true});
+        this.player.addResource(Resources.STEEL, steelAmount, {log: true});
+        this.player.addResource(Resources.TITANIUM, titaniumAmount, {log: true});
+        this.player.addResource(Resources.PLANTS, plantsAmount, {log: true});
+        this.player.addResource(Resources.ENERGY, energyAmount, {log: true});
+        this.player.addResource(Resources.HEAT, heatAmount, {log: true});
+
         return undefined;
       },
       selectMegacredit,
