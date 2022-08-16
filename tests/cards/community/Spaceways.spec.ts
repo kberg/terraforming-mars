@@ -19,6 +19,10 @@ describe('Spaceways', function() {
     player.corporationCards = [card];
   });
 
+  it('Starts with correct resources', function() {
+    expect(player.titanium).to.eq(2);
+  });
+
   it('Gains 2 M€ if another player plays a Space Event', function() {
     const techDemo = new TechnologyDemonstration();
 

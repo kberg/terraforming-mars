@@ -42,6 +42,8 @@ export class Spaceways extends Card implements CorporationCard {
   }
 
   public play(player: Player) {
+    player.titanium = 2;
+
     player.drawCard(1, {
       include: (card) => card.cardType === CardType.EVENT && card.tags.includes(Tags.SPACE),
     });
