@@ -41,10 +41,10 @@ export class NaturalPreserve extends Card implements IProjectCard {
     return player.game.board.getAvailableSpacesOnLand(player)
       .filter(nextToNoOtherTileFn(player.game.board));
   }
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace('Select space for special tile next to no other tile', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NATURAL_PRESERVE});
       foundSpace.adjacency = this.adjacencyBonus;

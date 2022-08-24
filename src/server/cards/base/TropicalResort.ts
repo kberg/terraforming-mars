@@ -28,4 +28,7 @@ export class TropicalResort extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

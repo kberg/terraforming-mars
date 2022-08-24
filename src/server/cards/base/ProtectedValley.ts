@@ -31,7 +31,7 @@ export class ProtectedValley extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace(
       'Select space reserved for ocean to place greenery tile',
       player.game.board.getAvailableSpacesForOcean(player),

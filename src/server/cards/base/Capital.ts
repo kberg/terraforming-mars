@@ -49,7 +49,7 @@ export class Capital extends Card implements IProjectCard {
       metadata,
     });
   }
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return player.game.board.getAvailableSpacesForCity(player).length > 0;
   }
   public override getVictoryPoints(player: Player) {
@@ -60,7 +60,7 @@ export class Capital extends Card implements IProjectCard {
     }
     return 0;
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace(
       'Select space for special city tile',
       player.game.board.getAvailableSpacesForCity(player),

@@ -27,7 +27,7 @@ export class DeepWellHeating extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return player.game.increaseTemperature(player, 1);
   }
 }

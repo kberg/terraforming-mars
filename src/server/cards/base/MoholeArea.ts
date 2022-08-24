@@ -36,7 +36,7 @@ export class MoholeArea extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace('Select an ocean space for special tile', player.game.board.getAvailableSpacesForOcean(player), (space: ISpace) => {
       player.game.addTile(player, SpaceType.OCEAN, space, {tileType: TileType.MOHOLE_AREA});
       space.adjacency = this.adjacencyBonus;

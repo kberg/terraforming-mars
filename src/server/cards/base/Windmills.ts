@@ -27,4 +27,7 @@ export class Windmills extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

@@ -42,7 +42,7 @@ export class CommercialDistrict extends Card implements IProjectCard {
     });
   }
 
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return player.game.board.getAvailableSpacesOnLand(player).length > 0;
   }
   public override getVictoryPoints(player: Player) {
@@ -54,7 +54,7 @@ export class CommercialDistrict extends Card implements IProjectCard {
     }
     return 0;
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace(
       'Select space for special tile',
       player.game.board.getAvailableSpacesOnLand(player),

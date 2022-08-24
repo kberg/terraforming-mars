@@ -34,7 +34,7 @@ export class OceanCity extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace(
       'Select space for Ocean City',
       player.game.board.getOceanSpaces({upgradedOceans: false}),

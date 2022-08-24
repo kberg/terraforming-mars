@@ -26,5 +26,7 @@ export class FusionPower extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }
-

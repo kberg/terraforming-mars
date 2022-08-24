@@ -28,4 +28,7 @@ export class BuildingIndustries extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

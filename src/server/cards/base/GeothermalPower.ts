@@ -22,4 +22,7 @@ export class GeothermalPower extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

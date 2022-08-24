@@ -35,10 +35,10 @@ export class UrbanizedArea extends Card implements IProjectCard {
     return player.game.board.getAvailableSpacesOnLand(player)
       .filter((space) => player.game.board.getAdjacentSpaces(space).filter((adjacentSpace) => Board.isCitySpace(adjacentSpace)).length >= 2);
   }
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace('Select space next to at least 2 other city tiles', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addCityTile(player, foundSpace.id);
       return undefined;

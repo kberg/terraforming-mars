@@ -35,7 +35,7 @@ export class OceanFarm extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return new SelectSpace(
       'Select space for Ocean Farm',
       player.game.board.getOceanSpaces({upgradedOceans: false}),

@@ -24,5 +24,7 @@ export class PowerPlant extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }
-

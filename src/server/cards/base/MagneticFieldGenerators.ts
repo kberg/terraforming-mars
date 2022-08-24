@@ -32,7 +32,7 @@ export class MagneticFieldGenerators extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.increaseTerraformRatingSteps(3);
     return undefined;
   }

@@ -28,4 +28,7 @@ export class GHGFactories extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

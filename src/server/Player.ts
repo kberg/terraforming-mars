@@ -1078,6 +1078,15 @@ export class Player {
     }
   }
 
+  public simplePlayCard(card: ICard) {
+    if (card.productionBox) {
+      this.production.adjust(card.productionBox);
+    }
+
+    // Play the card
+    return card.play(this);
+  }
+
   public playCard(selectedCard: IProjectCard, payment?: Payment, cardAction: 'add' | 'discard' | 'nothing' = 'add'): undefined {
     if (payment !== undefined) {
       this.pay(payment);
@@ -1090,8 +1099,7 @@ export class Player {
       this.game.log('${0} played ${1}', (b) => b.player(this).card(selectedCard));
     }
 
-    // Play the card
-    const action = selectedCard.play(this);
+    const action = this.simplePlayCard(selectedCard);
     this.defer(action, Priority.DEFAULT);
 
     // This could probably include 'nothing' but for now this will work.
@@ -1390,12 +1398,17 @@ export class Player {
     return this.canAffordCard(card) && this.canPlayIgnoringCost(card);
   }
 
-  // Verify if requirements for the card can be met, ignoring the project cost.
+  // Verify if requirements and production for the card can be met, ignoring the project cost.
   // Only made public for tests.
+  // TODO(kberg): rename to `simpleCanPlay`
   public canPlayIgnoringCost(card: IProjectCard): boolean {
     if (card.requirements !== undefined && !card.requirements.satisfies(this)) {
       return false;
     }
+    if (card.productionBox && !this.production.canAdjust(card.productionBox)) {
+      return false;
+    }
+
     return card.canPlay(this);
   }
 

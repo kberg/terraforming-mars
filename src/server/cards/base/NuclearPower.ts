@@ -27,4 +27,7 @@ export class NuclearPower extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

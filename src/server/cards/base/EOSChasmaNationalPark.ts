@@ -32,7 +32,7 @@ export class EosChasmaNationalPark extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.plants += 3;
 
     const cards = player.getResourceCards(CardResource.ANIMAL);

@@ -33,6 +33,9 @@ export class AICentral extends Card implements IActionCard, IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
   public canAct(): boolean {
     return true;
   }

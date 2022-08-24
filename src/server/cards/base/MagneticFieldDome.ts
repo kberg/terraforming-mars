@@ -31,7 +31,7 @@ export class MagneticFieldDome extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.increaseTerraformRating();
     return undefined;
   }

@@ -27,7 +27,7 @@ export class RadChemFactory extends Card implements IProjectCard {
       },
     });
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.increaseTerraformRatingSteps(2);
     return undefined;
   }

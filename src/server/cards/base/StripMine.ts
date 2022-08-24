@@ -30,7 +30,7 @@ export class StripMine extends Card implements IProjectCard {
       },
     });
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     return player.game.increaseOxygenLevel(player, 2);
   }
 }

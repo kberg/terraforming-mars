@@ -25,4 +25,7 @@ export class SolarPower extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

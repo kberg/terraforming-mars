@@ -27,4 +27,7 @@ export class FueledGenerators extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

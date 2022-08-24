@@ -34,7 +34,7 @@ export class SpacePort extends Card implements IProjectCard {
     });
   }
 
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     if (player.game.board.getAvailableSpacesForCity(player).length === 0) return false;
     let coloniesCount: number = 0;
     player.game.colonies.forEach((colony) => {
@@ -43,7 +43,7 @@ export class SpacePort extends Card implements IProjectCard {
     return coloniesCount > 0;
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.colonies.increaseFleetSize();
 
     return new SelectSpace('Select space for city tile', player.game.board.getAvailableSpacesForCity(player), (space: ISpace) => {

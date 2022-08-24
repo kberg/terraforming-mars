@@ -39,6 +39,10 @@ export class ElectroCatapult extends Card implements IActionCard, IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
+
   public canAct(player: Player): boolean {
     return player.plants > 0 || player.steel > 0;
   }

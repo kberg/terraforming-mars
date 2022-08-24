@@ -27,4 +27,7 @@ export class PeroxidePower extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }

@@ -38,5 +38,7 @@ export class SpaceElevator extends Card implements IActionCard, IProjectCard {
     player.megaCredits += 5;
     return undefined;
   }
+  public play() {
+    return undefined;
+  }
 }
-

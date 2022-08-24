@@ -31,7 +31,7 @@ export class NoctisFarming extends Card implements IProjectCard {
     });
   }
 
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     player.plants += 2;
     return undefined;
   }

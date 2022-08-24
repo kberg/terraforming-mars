@@ -31,14 +31,14 @@ export class NoctisCity extends Card implements IProjectCard {
     });
   }
 
-  public override innerCanPlay(player: Player): boolean {
+  public override canPlay(player: Player): boolean {
     if (player.game.board.getNoctisCitySpaceId !== undefined) {
       return true;
     } else {
       return player.game.board.getAvailableSpacesForCity(player).length > 0;
     }
   }
-  public override innerPlay(player: Player) {
+  public play(player: Player) {
     const noctisCitySpaceId = player.game.board.getNoctisCitySpaceId();
     if (noctisCitySpaceId !== undefined) {
       player.game.addCityTile(player, noctisCitySpaceId);

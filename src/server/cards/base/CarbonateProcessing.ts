@@ -26,4 +26,7 @@ export class CarbonateProcessing extends Card implements IProjectCard {
       },
     });
   }
+  public play() {
+    return undefined;
+  }
 }
