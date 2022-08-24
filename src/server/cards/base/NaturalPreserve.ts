@@ -6,7 +6,6 @@ import {CardType} from '../../../common/cards/CardType';
 import {Player} from '../../Player';
 import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {AdjacencyBonus} from '../../ares/AdjacencyBonus';
 import {CardRequirements} from '../CardRequirements';
@@ -42,14 +41,13 @@ export class NaturalPreserve extends Card implements IProjectCard {
     return player.game.board.getAvailableSpacesOnLand(player)
       .filter(nextToNoOtherTileFn(player.game.board));
   }
-  public override canPlay(player: Player): boolean {
+  public override innerCanPlay(player: Player): boolean {
     return this.getAvailableSpaces(player).length > 0;
   }
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     return new SelectSpace('Select space for special tile next to no other tile', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NATURAL_PRESERVE});
       foundSpace.adjacency = this.adjacencyBonus;
-      player.production.add(Resources.MEGACREDITS, 1);
       return undefined;
     });
   }

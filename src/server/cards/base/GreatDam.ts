@@ -1,9 +1,7 @@
 import {IProjectCard} from '../IProjectCard';
 import {Tag} from '../../../common/cards/Tag';
-import {Player} from '../../Player';
 import {Card} from '../Card';
 import {CardType} from '../../../common/cards/CardType';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -28,10 +26,6 @@ export class GreatDam extends Card implements IProjectCard {
         description: 'Requires 4 ocean tiles. Increase your Energy production 2 steps.',
       },
     });
-  }
-  public play(player: Player) {
-    player.production.add(Resources.ENERGY, 2);
-    return undefined;
   }
 }
 

@@ -5,7 +5,6 @@ import {CardType} from '../../../common/cards/CardType';
 import {Player} from '../../Player';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../../common/Units';
@@ -31,14 +30,12 @@ export class UndergroundCity extends Card implements IProjectCard {
       },
     });
   }
-  public override canPlay(player: Player): boolean {
-    return player.production.energy >= 2 && player.game.board.getAvailableSpacesForCity(player).length > 0;
+  public override innerCanPlay(player: Player): boolean {
+    return player.game.board.getAvailableSpacesForCity(player).length > 0;
   }
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     return new SelectSpace('Select space for city tile', player.game.board.getAvailableSpacesForCity(player), (foundSpace: ISpace) => {
       player.game.addCityTile(player, foundSpace.id);
-      player.production.add(Resources.ENERGY, -2);
-      player.production.add(Resources.STEEL, 2);
       return undefined;
     });
   }

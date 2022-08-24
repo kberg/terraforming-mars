@@ -6,7 +6,6 @@ import {Player} from '../../Player';
 import {TileType} from '../../../common/TileType';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {Board} from '../../boards/Board';
 import {AdjacencyBonus} from '../../ares/AdjacencyBonus';
@@ -43,9 +42,8 @@ export class CommercialDistrict extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
-    return player.production.energy >= 1 &&
-      player.game.board.getAvailableSpacesOnLand(player).length > 0;
+  public override innerCanPlay(player: Player): boolean {
+    return player.game.board.getAvailableSpacesOnLand(player).length > 0;
   }
   public override getVictoryPoints(player: Player) {
     const usedSpace = player.game.board.getSpaceByTileCard(this.name);
@@ -56,7 +54,7 @@ export class CommercialDistrict extends Card implements IProjectCard {
     }
     return 0;
   }
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     return new SelectSpace(
       'Select space for special tile',
       player.game.board.getAvailableSpacesOnLand(player),
@@ -66,8 +64,6 @@ export class CommercialDistrict extends Card implements IProjectCard {
           card: this.name,
         });
         foundSpace.adjacency = this.adjacencyBonus;
-        player.production.add(Resources.ENERGY, -1);
-        player.production.add(Resources.MEGACREDITS, 4);
         return undefined;
       },
     );

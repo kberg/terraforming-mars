@@ -7,7 +7,6 @@ import {Player} from '../../Player';
 import {Tag} from '../../../common/cards/Tag';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {AdjacencyBonus} from '../../ares/AdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
@@ -37,11 +36,10 @@ export class MoholeArea extends Card implements IProjectCard {
     });
   }
 
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     return new SelectSpace('Select an ocean space for special tile', player.game.board.getAvailableSpacesForOcean(player), (space: ISpace) => {
       player.game.addTile(player, SpaceType.OCEAN, space, {tileType: TileType.MOHOLE_AREA});
       space.adjacency = this.adjacencyBonus;
-      player.production.add(Resources.HEAT, 4);
       return undefined;
     });
   }

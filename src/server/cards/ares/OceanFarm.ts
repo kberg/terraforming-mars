@@ -3,7 +3,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {Player} from '../../Player';
-import {Resources} from '../../../common/Resources';
 import {SpaceBonus} from '../../../common/boards/SpaceBonus';
 import {TileType} from '../../../common/TileType';
 import {CardType} from '../../../common/cards/CardType';
@@ -36,10 +35,7 @@ export class OceanFarm extends Card implements IProjectCard {
     });
   }
 
-  public play(player: Player) {
-    player.production.add(Resources.HEAT, 1);
-    player.production.add(Resources.PLANTS, 1);
-
+  public override innerPlay(player: Player) {
     return new SelectSpace(
       'Select space for Ocean Farm',
       player.game.board.getOceanSpaces({upgradedOceans: false}),

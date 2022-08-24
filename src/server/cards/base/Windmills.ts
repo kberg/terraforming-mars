@@ -2,9 +2,6 @@ import {IProjectCard} from '../IProjectCard';
 import {Tag} from '../../../common/cards/Tag';
 import {Card} from '../Card';
 import {CardType} from '../../../common/cards/CardType';
-import {Player} from '../../Player';
-import {PlayerInput} from '../../PlayerInput';
-import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
@@ -29,10 +26,5 @@ export class Windmills extends Card implements IProjectCard {
         description: 'Requires 7% oxygen. Increase your Energy production 1 step.',
       },
     });
-  }
-
-  public play(player: Player): PlayerInput | undefined {
-    player.production.add(Resources.ENERGY, 1);
-    return undefined;
   }
 }

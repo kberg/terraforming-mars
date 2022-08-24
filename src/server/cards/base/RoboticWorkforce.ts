@@ -61,7 +61,7 @@ export class RoboticWorkforce extends Card implements IProjectCard {
     ];
   }
 
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     const availableCards = this.getAvailableCards(player);
 
     if (availableCards.length === 0) {

@@ -13,6 +13,7 @@ import {CardRenderDynamicVictoryPoints} from './render/CardRenderDynamicVictoryP
 import {CardRenderItemType} from '../../common/cards/render/CardRenderItemType';
 import {IVictoryPoints} from '../../common/cards/IVictoryPoints';
 import {IProjectCard} from './IProjectCard';
+import {PlayerInput} from '../PlayerInput';
 
 export interface StaticCardProperties {
   adjacencyBonus?: AdjacencyBonus;
@@ -105,8 +106,23 @@ export abstract class Card {
   public get victoryPoints(): number | 'special' | IVictoryPoints | undefined {
     return this.properties.victoryPoints;
   }
-  public canPlay(_player: Player) {
+  public canPlay(player: Player) {
+    if (this.productionBox && !player.production.canAdjust(this.productionBox)) {
+      return false;
+    }
+    return this.innerCanPlay(player);
+  }
+  public innerCanPlay(_player: Player): boolean {
     return true;
+  }
+  public play(player: Player) {
+    if (this.productionBox) {
+      player.production.adjust(this.productionBox);
+    }
+    return this.innerPlay(player);
+  }
+  public innerPlay(_player: Player): PlayerInput | undefined {
+    return undefined;
   }
 
   // player is optional to support historical tests.

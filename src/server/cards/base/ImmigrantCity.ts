@@ -9,7 +9,6 @@ import {Resources} from '../../../common/Resources';
 import {CardName} from '../../../common/cards/CardName';
 import {Priority} from '../../deferredActions/DeferredAction';
 import {GainProduction} from '../../deferredActions/GainProduction';
-import {LoseProduction} from '../../deferredActions/LoseProduction';
 import {Board} from '../../boards/Board';
 import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../../common/Units';
@@ -37,12 +36,8 @@ export class ImmigrantCity extends Card implements IProjectCard {
     });
   }
 
-  public override canPlay(player: Player): boolean {
-    const hasEnergyProduction = player.production.energy >= 1;
-    const canPlaceCityOnMars = player.game.board.getAvailableSpacesForCity(player).length > 0;
-    const canDecreaseMcProduction = player.production.megacredits >= -4 || player.isCorporation(CardName.THARSIS_REPUBLIC);
-
-    return hasEnergyProduction && canDecreaseMcProduction && canPlaceCityOnMars;
+  public override innerCanPlay(player: Player): boolean {
+    return player.game.board.getAvailableSpacesForCity(player).length > 0;
   }
 
   public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace) {
@@ -54,11 +49,9 @@ export class ImmigrantCity extends Card implements IProjectCard {
     }
   }
 
-  public play(player: Player) {
+  public override innerPlay(player: Player) {
     return new SelectSpace('Select space for city tile', player.game.board.getAvailableSpacesForCity(player), (space: ISpace) => {
       player.game.addCityTile(player, space.id);
-      player.game.defer(new LoseProduction(player, Resources.ENERGY, {count: 1}));
-      player.game.defer(new LoseProduction(player, Resources.MEGACREDITS, {count: 2}));
       return undefined;
     });
   }
