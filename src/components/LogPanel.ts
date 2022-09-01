@@ -21,6 +21,9 @@ import {getGlobalEventByName} from '../turmoil/globalEvents/GlobalEventDealer';
 import {GlobalEventModel} from '../models/TurmoilModel';
 import {PartyName} from '../turmoil/parties/PartyName';
 import {Log} from '../Log';
+import {ColonyName} from '../colonies/ColonyName';
+import {Colony} from './Colony';
+import {ColonyModel} from '../models/ColonyModel';
 
 let logRequest: XMLHttpRequest | undefined;
 
@@ -46,6 +49,7 @@ export const LogPanel = Vue.component('log-panel', {
     return {
       // temporary storage used when showing cards on the log line.
       cards: [] as Array<CardName>,
+      colonyNames: [] as Array<ColonyName>,
       globalEventNames: [] as Array<GlobalEventName>,
       messages: [] as Array<LogMessage>,
       selectedGeneration: this.generation,
@@ -53,6 +57,7 @@ export const LogPanel = Vue.component('log-panel', {
   },
   components: {
     Card,
+    Colony,
     GlobalEvent,
   },
   methods: {
@@ -140,6 +145,10 @@ export const LogPanel = Vue.component('log-panel', {
       case LogMessageDataType.GLOBAL_EVENT:
         const globalEventName = data.value as GlobalEventName;
         return '<span class="log-card background-color-global-event">' + $t(globalEventName) + '</span>';
+
+      case LogMessageDataType.COLONY:
+        const colonyName = data.value as ColonyName;
+        return '<span class="log-card background-color-colony">' + $t(colonyName) + '</span>';
 
       case LogMessageDataType.TILE_TYPE:
         const tileType: TileType = +data.value;
@@ -232,10 +241,22 @@ export const LogPanel = Vue.component('log-panel', {
             this.globalEventNames.splice(index, 1);
           }
         }
+
+        if (data.type === LogMessageDataType.COLONY) {
+          const colonyName = data.value as ColonyName;
+          const index = this.colonyNames.indexOf(colonyName);
+
+          if (index === -1) {
+            this.colonyNames.push(colonyName);
+          } else {
+            this.colonyNames.splice(index, 1);
+          }
+        }
       });
     },
     hideMe: function() {
       this.cards = [];
+      this.colonyNames = [];
       this.globalEventNames = [];
     },
     getCrossHtml: function() {
@@ -358,6 +379,15 @@ export const LogPanel = Vue.component('log-panel', {
         current: PartyName.GREENS,
       };
     },
+    getColony: function(colonyName: ColonyName): ColonyModel {
+      return {
+        colonies: [],
+        isActive: true,
+        name: colonyName,
+        trackPosition: 5,
+        visitor: undefined,
+      };
+    },
     getResourcesOnCard(cardName: CardName) {
       for (const player of this.players) {
         const foundCard = player.playedCards.find((card) => card.name === cardName);
@@ -395,13 +425,16 @@ export const LogPanel = Vue.component('log-panel', {
             </ul>
           </div>
         </div>
-        <div class="card-panel" v-if="cards.length > 0 || globalEventNames.length > 0">
+        <div class="card-panel" v-if="cards.length + globalEventNames.length + colonyNames.length > 0">
           <Button size="big" type="close" :disableOnServerBusy="false" :onClick="hideMe" align="right"/>
           <div id="log_panel_card" class="cardbox" v-for="(card, index) in cards" :key="card">
             <Card :card="{name: card, resources: getResourcesOnCard(card)}"/>
           </div>
           <div id="log_panel_card" class="cardbox" v-for="(globalEventName, index) in globalEventNames" :key="globalEventName">
             <global-event :globalEvent="getGlobalEvent(globalEventName)" type="prior"></global-event>
+          </div>
+          <div id="log_panel_card" class="cardbox" v-for="(colonyName, index) in colonyNames" :key="colonyName">
+            <colony :colony="getColony(colonyName)"></colony>
           </div>
         </div>
       </div>
