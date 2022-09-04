@@ -125,6 +125,7 @@ export interface GameOptions {
   silverCubeVariant: boolean; // modified WGT phase
   requiresMoonTrackCompletion: boolean; // Moon must be completed to end the game
   singleTradeVariant: boolean; // Allow only 1 trade per turn
+  equalOpportunityVariant: boolean; // Allow colony build if player has no colony on the tile yet
   escapeVelocityMode: boolean;
   escapeVelocityThreshold?: number;
   escapeVelocityPeriod?: number;
@@ -170,6 +171,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   solarPhaseOption: false,
   silverCubeVariant: false,
   singleTradeVariant: false,
+  equalOpportunityVariant: false,
   soloTR: false,
   startingCorporations: 2,
   turmoilExtension: false,

@@ -53,6 +53,7 @@ export class TestingUtils {
       solarPhaseOption: false,
       silverCubeVariant: false,
       singleTradeVariant: false,
+      equalOpportunityVariant: false,
       shuffleMapOption: false,
       shuffleMoonMapOption: false,
       promoCardsOption: true,

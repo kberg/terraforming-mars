@@ -128,6 +128,7 @@ function simpleGameOptions(): GameOptions {
     moonExpansion: false,
     silverCubeVariant: false,
     singleTradeVariant: false,
+    equalOpportunityVariant: false,
     societyExpansion: false,
     randomTurmoil: false,
     colosseumVariant: false,

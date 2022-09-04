@@ -26,9 +26,11 @@ export class BuildColonyStandardProject extends StandardProjectCard {
   }
 
   private getOpenColonies(player: Player): Array<Colony> {
-    let openColonies = player.game.colonies.filter((colony) => colony.colonies.length < 3 &&
-      colony.colonies.includes(player.id) === false &&
-      colony.isActive);
+    let openColonies = player.game.colonies.filter((colony) => colony.isActive && colony.colonies.includes(player.id) === false);
+
+    if (player.game.gameOptions.equalOpportunityVariant === false) {
+      openColonies = openColonies.filter((colony) => colony.colonies.length < 3);
+    }
 
     // TODO: Europa sometimes costs additional 3.
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !player.canAfford(this.cost + constants.REDS_RULING_POLICY_COST)) {

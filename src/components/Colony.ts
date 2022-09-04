@@ -190,6 +190,9 @@ export const Colony = Vue.component('colony', {
     <div v-if="colony.colonies.length > 0" :style="'margin-left: ' + getColonyXPosition(0) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[0]"></div>
     <div v-if="colony.colonies.length > 1" :style="'margin-left: ' + getColonyXPosition(1) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[1]"></div>
     <div v-if="colony.colonies.length > 2" :style="'margin-left: ' + getColonyXPosition(2) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[2]"></div>
+    <div v-if="colony.colonies.length > 3" :style="'margin-left: ' + getColonyXPosition(3) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[3]"></div>
+    <div v-if="colony.colonies.length > 4" :style="'margin-left: ' + getColonyXPosition(4) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[4]"></div>
+    <div v-if="colony.colonies.length > 5" :style="'margin-left: ' + getColonyXPosition(5) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[5]"></div>
 
     <div class="colony-card-title-div">
       <span class="colony-card-title-span" :class="colony.name + '-title'">{{colony.name}}</span>

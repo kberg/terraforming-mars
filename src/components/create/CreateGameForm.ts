@@ -46,6 +46,7 @@ export interface CreateGameModel {
     solarPhaseOption: boolean;
     silverCubeVariant: boolean;
     singleTradeVariant: boolean;
+    equalOpportunityVariant: boolean;
     shuffleMapOption: boolean;
     shuffleMoonMapOption: boolean;
     promoCardsOption: boolean;
@@ -135,6 +136,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       solarPhaseOption: false,
       silverCubeVariant: false,
       singleTradeVariant: false,
+      equalOpportunityVariant: false,
       shuffleMapOption: false,
       shuffleMoonMapOption: false,
       promoCardsOption: false,
@@ -361,6 +363,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       if (this.$data.colonies === false) {
         this.societyExpansion = false;
         this.singleTradeVariant = false;
+        this.equalOpportunityVariant = false;
       }
     },
     toggleTurmoil: function() {
@@ -480,6 +483,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const solarPhaseOption = this.solarPhaseOption;
       const silverCubeVariant = this.silverCubeVariant;
       const singleTradeVariant = this.singleTradeVariant;
+      const equalOpportunityVariant = this.equalOpportunityVariant;
       const shuffleMapOption = this.shuffleMapOption;
       const shuffleMoonMapOption = this.shuffleMoonMapOption;
       const customCorporationsList = component.customCorporationsList;
@@ -569,6 +573,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         solarPhaseOption,
         silverCubeVariant,
         singleTradeVariant: singleTradeVariant,
+        equalOpportunityVariant: equalOpportunityVariant,
         promoCardsOption,
         communityCardsOption,
         colosseumVariant: colosseumVariant,
@@ -997,6 +1002,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <label for="singleTradeVariant-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-colony"></div>
                                     <span v-i18n>Single Trade Variant</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+
+                                <input type="checkbox" v-model="equalOpportunityVariant" id="equalOpportunityVariant-checkbox">
+                                <label for="equalOpportunityVariant-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-colony"></div>
+                                    <span v-i18n>Equal Opportunity</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 

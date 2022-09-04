@@ -19,10 +19,15 @@ export class BuildColony implements DeferredAction {
 
   public execute() {
     if (this.openColonies === undefined) {
-      this.openColonies = this.player.game.colonies.filter((colony) =>
-        colony.colonies.length < 3 &&
-        (colony.colonies.includes(this.player.id) === false || this.allowDuplicate) &&
-        colony.isActive);
+      if (this.allowDuplicate) {
+        this.openColonies = this.player.game.colonies.filter((colony) => colony.isActive && colony.colonies.length < 3);
+      } else {
+        this.openColonies = this.player.game.colonies.filter((colony) => colony.isActive && colony.colonies.includes(this.player.id) === false);
+      }
+
+      if (this.player.game.gameOptions.equalOpportunityVariant === false) {
+        this.openColonies = this.openColonies.filter((colony) => colony.colonies.length < 3);
+      }
     }
 
     if (this.openColonies.length === 0) {

@@ -91,6 +91,7 @@ export class GameHandler extends Handler {
           solarPhaseOption: gameReq.solarPhaseOption,
           silverCubeVariant: gameReq.silverCubeVariant,
           singleTradeVariant: gameReq.singleTradeVariant,
+          equalOpportunityVariant: gameReq.equalOpportunityVariant,
           leadersExpansion: gameReq.leadersExpansion,
 
           draftVariant: gameReq.draftVariant,
