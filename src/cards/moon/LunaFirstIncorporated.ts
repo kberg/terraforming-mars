@@ -47,8 +47,8 @@ export class LunaFirstIncorporated extends Card implements CorporationCard {
 
   public play(player: Player) {
     MoonExpansion.moonData(player.game).lunaFirstPlayer = player;
-    player.steel = 2;
-    player.titanium = 2;
+    player.steel += 2;
+    player.titanium += 2;
     return undefined;
   }
 }
