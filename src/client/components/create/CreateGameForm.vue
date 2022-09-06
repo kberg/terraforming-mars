@@ -53,17 +53,17 @@
                                 <span v-i18n>Colonies</span>
                             </label>
 
-                            <input type="checkbox" name="turmoil" id="turmoil-checkbox" v-model="turmoil">
-                            <label for="turmoil-checkbox" class="expansion-button">
-                                <div class="create-game-expansion-icon expansion-icon-turmoil"></div>
-                                <span v-i18n>Turmoil</span>
-                            </label>
+                            <label-input
+                              title="Turmoil"
+                              prefix="turmoil"
+                              :checked="turmoil">
+                            </label-input>
 
-                            <input type="checkbox" name="promo" id="promo-checkbox" v-model="promoCardsOption">
-                            <label for="promo-checkbox" class="expansion-button">
-                                <div class="create-game-expansion-icon expansion-icon-promo"></div>
-                                <span v-i18n>Promos</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
-                            </label>
+                            <label-input
+                              title="Promo"
+                              prefix="promo"
+                              :checked="promoCardsOption">
+                            </label-input>
 
                             <div class="create-game-subsection-label" v-i18n>Fan-made</div>
 
@@ -446,6 +446,7 @@ import CorporationsFilter from '@/client/components/create/CorporationsFilter.vu
 import PreludesFilter from '@/client/components/create/PreludesFilter.vue';
 import {translateText, translateTextWithParams} from '@/client/directives/i18n';
 import ColoniesFilter from '@/client/components/create/ColoniesFilter.vue';
+import LabelInput from '@/client/components/create/LabelInput.vue';
 import {ColonyName} from '@/common/colonies/ColonyName';
 import CardsFilter from '@/client/components/create/CardsFilter.vue';
 import Button from '@/client/components/common/Button.vue';
@@ -608,6 +609,7 @@ export default (Vue as WithRefs<Refs>).extend({
     CorporationsFilter,
     PreludesFilter,
     PreferencesIcon,
+    LabelInput,
   },
   watch: {
     allOfficialExpansions(value: boolean) {
