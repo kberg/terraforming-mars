@@ -184,7 +184,8 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.titanium = deductUnits(this.available.titanium, this.player.titaniumValue, true);
       }
 
-      this.available.heat = Math.max(this.player.heat - this.card.reserveUnits.heat, 0);
+      this.available.heat = Math.max(this.availableHeat() - this.card.reserveUnits.heat, 0);
+
       if (megacreditBalance > 0 && this.canUseHeat()) {
         this.heat = deductUnits(this.available.heat, 1);
       }
@@ -211,8 +212,17 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.megaCredits = Math.max(0, finalmegaCreditsCost);
       }
     },
+    availableHeat: function(): number {
+      const stormcraft = this.player.corporationCards.find((c) => c.name === CardName.STORMCRAFT_INCORPORATED);
+
+      if (stormcraft !== undefined && stormcraft.resources !== undefined) {
+        return this.player.heat + (stormcraft.resources * 2);
+      }
+
+      return this.player.heat;
+    },
     canUseHeat: function(): boolean {
-      return this.playerinput.canUseHeat === true && this.player.heat > 0;
+      return this.playerinput.canUseHeat === true && this.availableHeat() > 0;
     },
     canUseSteel: function() {
       if (this.card !== undefined && this.available.steel > 0) {
@@ -314,7 +324,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.warning = 'You don\'t have enough science resources';
         return;
       }
-      if (htp.heat > this.player.heat) {
+      if (htp.heat > this.availableHeat()) {
         this.warning = 'You don\'t have enough heat';
         return;
       }
@@ -444,7 +454,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       <Button type="minus" :onClick="_=>reduceValue('heat', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="heat" />
       <Button type="plus" :onClick="_=>addValue('heat', 1, this.available.heat)" />
-      <Button type="max" :onClick="_=>setMaxValue('heat', this.available.heat)" title="MAX" />
+      <Button type="max" :onClick="_=>setMaxValue('heat', this.availableHeat())" title="MAX" />
     </div>
     <div v-if="showReserveHeatWarning()" class="card-warning" v-i18n>
     (Some heat is unavailable here in reserve for the project card.)

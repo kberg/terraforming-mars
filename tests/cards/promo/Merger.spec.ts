@@ -28,6 +28,9 @@ import {Factorum} from '../../../src/cards/promo/Factorum';
 import {SelectOption} from '../../../src/inputs/SelectOption';
 import {ProjectWorkshop} from '../../../src/cards/community/corporations/ProjectWorkshop';
 import {CardType} from '../../../src/cards/CardType';
+import {StormCraftIncorporated} from '../../../src/cards/colonies/StormCraftIncorporated';
+import {AndOptions} from '../../../src/inputs/AndOptions';
+import {SelectAmount} from '../../../src/inputs/SelectAmount';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -188,6 +191,7 @@ describe('Merger', function() {
 
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).to.eq(1);
     expect(player.megaCredits).to.eq(1);
     expect(player.heat).to.eq(3);
@@ -214,6 +218,7 @@ describe('Merger', function() {
 
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 1, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    TestingUtils.runAllActions(game);
 
     expect(player.getTerraformRating()).to.eq(22);
     expect(player.megaCredits).to.eq(1);
@@ -240,6 +245,7 @@ describe('Merger', function() {
 
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 1, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    TestingUtils.runAllActions(game);
 
     expect(player.cardsInHand).has.lengthOf(1);
     expect(player.megaCredits).to.eq(1);
@@ -264,10 +270,41 @@ describe('Merger', function() {
 
     const howToPay = player.getWaitingFor() as SelectHowToPay;
     howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    TestingUtils.runAllActions(game);
+
     expect(player.megaCredits).to.eq(1);
     expect(player.heat).to.eq(3);
     expect(player.cardsInHand).has.lengthOf(1);
     expect(player.cardsInHand[0].cardType).to.eq(CardType.ACTIVE);
+  });
+
+  it('Works with Helion + Stormcraft', () => {
+    setupHelionForPlayer(player);
+    const stormcraft = new StormCraftIncorporated();
+    player.corporationCards.push(stormcraft);
+
+    player.heat = 4;
+    player.megaCredits = 0;
+
+    expect(player.availableHeat).eq(4);
+    expect(player.canAfford(10)).is.false;
+
+    stormcraft.resourceCount = 3;
+
+    expect(player.availableHeat).eq(10);
+    expect(player.canAfford(10)).is.true;
+
+    // Stormcraft's AndOptions for selecting payment amounts
+    const action = player.spendHeat(7) as AndOptions;
+
+    const heatOption = action.options[0] as SelectAmount;
+    const floaterOption = action.options[1] as SelectAmount;
+    heatOption.cb(3);
+    floaterOption.cb(2);
+    action.cb();
+
+    expect(player.heat).eq(1);
+    expect(stormcraft.resourceCount).eq(1);
   });
 
   function setupHelionForPlayer(player: Player) {

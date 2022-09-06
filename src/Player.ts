@@ -456,7 +456,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.titanium - units.titanium >= 0 &&
       this.plants - units.plants >= 0 &&
       this.energy - units.energy >= 0 &&
-      this.heat - units.heat >= 0;
+      this.availableHeat - units.heat >= 0;
   }
 
   public addUnits(units: Partial<Units>, options? : {
@@ -1372,10 +1372,10 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   /**
    * @return {number} the number of available megacredits. Which is just a shorthand for megacredits,
-   * plus any units of heat available thanks to Helion.
+   * plus any units of heat available thanks to Helion (and Stormcraft, by proxy).
    */
   public spendableMegacredits(): number {
-    return (this.canUseHeatAsMegaCredits) ? (this.heat + this.megaCredits) : this.megaCredits;
+    return this.megaCredits + (this.canUseHeatAsMegaCredits ? this.availableHeat : 0);
   }
 
   public runResearchPhase(draftVariant: boolean): void {
@@ -1590,7 +1590,11 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.steel -= howToPay.steel;
       this.titanium -= howToPay.titanium;
       this.megaCredits -= howToPay.megaCredits;
-      this.heat -= howToPay.heat;
+
+      if (howToPay.heat > 0) {
+        this.game.defer(new DeferredAction(this, () => this.spendHeat(howToPay.heat)));
+      }
+
       for (const playedCard of this.playedCards) {
         if (playedCard.name === CardName.PSYCHROPHILES) {
           this.removeResourceFrom(playedCard, howToPay.microbes);
@@ -1748,7 +1752,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.corporationCards.some((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED)) {
       const stormcraft = this.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED)!;
 
-      if (stormcraft.resourceCount! > 0) {
+      if (stormcraft !== undefined && stormcraft.resourceCount !== undefined && amount > 0) {
         return (<StormCraftIncorporated> stormcraft).spendHeat(this, amount, cb);
       }
     }
@@ -2025,7 +2029,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     return cost <=
       availableMegacredits +
-      (this.canUseHeatAsMegaCredits ? this.heat - reserveUnits.heat : 0) +
+      (this.canUseHeatAsMegaCredits ? this.availableHeat - reserveUnits.heat : 0) +
       (canUseSteel ? (this.steel - reserveUnits.steel) * this.getSteelValue() : 0) +
       (canUseTitanium ? (this.titanium - reserveUnits.titanium) * this.getTitaniumValue() : 0) +
       (canUseFloaters ? this.getFloatersCanSpend() * 3 : 0) +

@@ -360,6 +360,7 @@ describe('SelectHowToPayForProjectCard', function() {
     reserveUnits: Units = Units.EMPTY) {
     const player: Partial<PlayerModel> = Object.assign({
       cards: [{name: cardName, calculatedCost: cardCost}],
+      corporationCards: [],
       id: 'foo',
       steel: 0,
       titanium: 0,

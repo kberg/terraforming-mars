@@ -7,6 +7,7 @@ import {PlayerModel} from '../models/PlayerModel';
 import {PreferencesManager} from './PreferencesManager';
 import {Button} from '../components/common/Button';
 import {TranslateMixin} from './TranslateMixin';
+import {CardName} from '../CardName';
 
 interface SelectHowToPayModel {
     cost: number;
@@ -132,8 +133,18 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
     canAffordWithMcOnly: function() {
       return this.player.megaCredits >= this.$data.cost;
     },
+    getAvailableHeat: function() {
+      let availableHeat = this.player.heat;
+      const stormcraft = this.player.corporationCards.find((c) => c.name === CardName.STORMCRAFT_INCORPORATED);
+
+      if (stormcraft !== undefined && stormcraft.resources !== undefined) {
+        availableHeat += stormcraft.resources * 2;
+      }
+
+      return availableHeat;
+    },
     canUseHeat: function() {
-      return this.playerinput.canUseHeat && this.player.heat > 0;
+      return this.playerinput.canUseHeat && this.getAvailableHeat() > 0;
     },
     canUseSteel: function() {
       return this.playerinput.canUseSteel && this.player.steel > 0;
@@ -156,7 +167,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         this.$data.warning = 'You don\'t have that many M€';
         return;
       }
-      if (htp.heat > this.player.heat) {
+      if (htp.heat > this.getAvailableHeat()) {
         this.$data.warning = 'You don\'t have enough heat';
         return;
       }

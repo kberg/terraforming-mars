@@ -82,6 +82,7 @@ describe('TitaniumMarketMonopolists', () => {
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(3);
     selectAmount.cb(2);
+    TestingUtils.runAllActions(game);
     expect(player.megaCredits).eq(3);
     expect(player.titanium).eq(2);
   });

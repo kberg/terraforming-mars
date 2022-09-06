@@ -76,16 +76,16 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
     let heatAmount: number;
     let floaterAmount: number;
 
-    return new AndOptions(
+    const options = new AndOptions(
       () => {
         if (heatAmount + (floaterAmount * 2) < targetAmount) {
           throw new Error(`Need to pay ${targetAmount} heat`);
         }
         if (heatAmount > 0 && heatAmount - 1 + (floaterAmount * 2) >= targetAmount) {
-          throw new Error(`You cannot overspend heat`);
+          throw new Error('You cannot overspend heat');
         }
         if (floaterAmount > 0 && heatAmount + ((floaterAmount - 1) * 2) >= targetAmount) {
-          throw new Error(`You cannot overspend floaters`);
+          throw new Error('You cannot overspend floaters');
         }
 
         const stormcraft = player.corporationCards.find((corp) => corp.name === this.name);
@@ -94,14 +94,17 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
         player.deductResource(Resources.HEAT, heatAmount);
         return cb();
       },
-      new SelectAmount('Select amount of heat to spend', 'Spend heat', (amount: number) => {
+      new SelectAmount('Heat', 'Spend heat', (amount: number) => {
         heatAmount = amount;
         return undefined;
       }, 0, Math.min(player.heat, targetAmount)),
-      new SelectAmount('Select amount of floaters on corporation to spend', 'Spend floaters', (amount: number) => {
+      new SelectAmount('Stormcraft Incorporated Floaters (2 heat each)', 'Spend floaters', (amount: number) => {
         floaterAmount = amount;
         return undefined;
       }, 0, Math.min(player.getResourcesOnCorporation(), Math.ceil(targetAmount / 2))),
     );
+
+    options.title = `Select how to spend ${targetAmount} heat`;
+    return options;
   }
 }

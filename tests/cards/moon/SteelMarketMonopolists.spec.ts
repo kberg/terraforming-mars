@@ -81,6 +81,7 @@ describe('SteelMarketMonopolists', () => {
     expect(selectAmount.min).eq(1);
     expect(selectAmount.max).eq(2);
     selectAmount.cb(2);
+    TestingUtils.runAllActions(game);
     expect(player.megaCredits).eq(1);
     expect(player.steel).eq(4);
   });

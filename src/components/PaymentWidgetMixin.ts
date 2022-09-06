@@ -80,6 +80,7 @@ export const PaymentWidgetMixin = {
       let currentValue: number = (this as any)[target];
       const cardCost: number = (this as any).$data.cost;
       let amountHave: number = max ?? (this as any).player[target];
+      if (target === 'heat') amountHave = this.availableHeat();
 
       let amountNeed: number = cardCost;
       if (['titanium', 'steel', 'microbes', 'floaters'].includes(target)) {
@@ -105,6 +106,17 @@ export const PaymentWidgetMixin = {
         return cardsWithFloaters.length === 1;
       }
       return false;
+    },
+    availableHeat(): number {
+      const thisPlayer = (this as any).player;
+      const corpCards = thisPlayer.corporationCards as Array<CardModel>;
+
+      const stormcraft = corpCards.find((card) => card.name === CardName.STORMCRAFT_INCORPORATED);
+      if (stormcraft !== undefined && stormcraft.resources !== undefined) {
+        return thisPlayer['heat'] + (stormcraft.resources * 2);
+      }
+
+      return thisPlayer['heat'];
     },
   },
 };
