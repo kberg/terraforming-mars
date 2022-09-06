@@ -255,7 +255,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
       <Button type="minus" :onClick="_=>reduceValue('heat', 1)" />
       <input class="form-input form-inline payments_input" v-model.number="heat" />
       <Button type="plus" :onClick="_=>addValue('heat', 1)" />
-      <Button type="max" :onClick="_=>setMaxValue('heat')" title="MAX" />
+      <Button type="max" :onClick="_=>setMaxValue('heat', this.getAvailableHeat())" title="MAX" />
     </div>
 
     <div class="payments_type input-group">

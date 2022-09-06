@@ -213,13 +213,14 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       }
     },
     availableHeat: function(): number {
+      const availableHeat = this.player.heat - this.card?.reserveUnits?.heat;
       const stormcraft = this.player.corporationCards.find((c) => c.name === CardName.STORMCRAFT_INCORPORATED);
 
       if (stormcraft !== undefined && stormcraft.resources !== undefined) {
-        return this.player.heat + (stormcraft.resources * 2);
+        return availableHeat + (stormcraft.resources * 2);
       }
 
-      return this.player.heat;
+      return availableHeat;
     },
     canUseHeat: function(): boolean {
       return this.playerinput.canUseHeat === true && this.availableHeat() > 0;
