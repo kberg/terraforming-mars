@@ -14,6 +14,7 @@ export interface SpectatorModel {
   aresData: IAresData | undefined;
   awards: Array<FundedAwardModel>;
   colonies: Array<ColonyModel>;
+  discardedColonies: Array<ColonyModel>;
   coloniesCount: number;
   color: Color;
   deckSize: number;

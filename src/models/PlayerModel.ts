@@ -27,6 +27,7 @@ export interface PlayerModel {
     cardsInHandNbr: number;
     citiesCount: number;
     colonies: Array<ColonyModel>;
+    discardedColonies: Array<ColonyModel>;
     coloniesCount: number;
     color: Color;
     corporationCards: Array<CardModel>;

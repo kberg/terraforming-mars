@@ -11,6 +11,7 @@ import {PlayerModel} from '../models/PlayerModel';
 import {SelectCard} from './SelectCard';
 import {ConfirmDialog} from './common/ConfirmDialog';
 import {PreferencesManager} from './PreferencesManager';
+import {Colony} from '../components/Colony';
 
 export const SelectInitialCards = Vue.component('select-initial-cards', {
   props: {
@@ -34,6 +35,7 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
     Button,
     'select-card': SelectCard,
     'confirm-dialog': ConfirmDialog,
+    Colony,
   },
   data: function() {
     return {
@@ -228,6 +230,9 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
 
       this.onsave(result);
     },
+    playerCanChooseAridor: function() {
+      return this.player.dealtCorporationCards.some((card) => card.name === CardName.ARIDOR);
+    },
     hasPrelude: function() {
       return this.playerinput.options !== undefined && this.player.gameOptions.preludeExtension;
     },
@@ -257,6 +262,14 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
       ref="confirmation"
       v-on:accept="confirmSelection" />
     <select-card :player="player" :playerinput="getOption(0)" :showtitle="true" v-on:cardschanged="corporationChanged" />
+    <div v-if="playerCanChooseAridor()" class="player_home_colony_cont">
+      <div v-i18n>These are the colony tiles Aridor may choose from:</div>
+      <div class="discarded-colonies-for-aridor">
+        <div class="player_home_colony small_colony" v-for="colony in player.discardedColonies" :key="colony.name">
+          <colony :colony="colony"></colony>
+        </div>
+      </div>
+    </div>
     <select-card v-if="hasPrelude()" :player="player" :playerinput="getOption(1)" :showtitle="true" v-on:cardschanged="preludesChanged" />
     <select-card v-if="hasLeaders()" :player="player" :playerinput="getOption(hasPrelude() ? 2 : 1)" :showtitle="true" v-on:cardschanged="leadersChanged" />
     <select-card :player="player" :playerinput="getProjectCardsOption()" :showtitle="true" v-on:cardschanged="cardsChanged" />

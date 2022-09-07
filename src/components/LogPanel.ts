@@ -382,9 +382,9 @@ export const LogPanel = Vue.component('log-panel', {
     getColony: function(colonyName: ColonyName): ColonyModel {
       return {
         colonies: [],
-        isActive: true,
+        isActive: false,
         name: colonyName,
-        trackPosition: 5,
+        trackPosition: 0,
         visitor: undefined,
       };
     },

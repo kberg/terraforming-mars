@@ -18,6 +18,7 @@ describe('SelectInitialCards', function() {
       propsData: {
         player: {
           id: 'foo',
+          dealtCorporationCards: [],
           gameOptions: {
             preludeExtension: false,
             leadersExpansion: false,
@@ -57,6 +58,7 @@ describe('SelectInitialCards', function() {
       propsData: {
         player: {
           id: 'foo',
+          dealtCorporationCards: [],
           gameOptions: {
             preludeExtension: true,
             leadersExpansion: false,

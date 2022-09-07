@@ -76,6 +76,7 @@ export class Server {
       cardsInHandNbr: player.cardsInHand.length,
       citiesCount: player.getCitiesCount(),
       colonies: getColonies(game),
+      discardedColonies: getDiscardedColonies(game),
       coloniesCount: player.getColoniesCount(),
       color: player.color,
       corporationCards: getCorporationCards(player),
@@ -157,6 +158,7 @@ export class Server {
       aresData: game.aresData,
       awards: getAwards(game),
       colonies: getColonies(game),
+      discardedColonies: getDiscardedColonies(game),
       coloniesCount: getColonies(game).length,
       color: Color.NEUTRAL,
       deckSize: game.dealer.getDeckSize(),
@@ -484,6 +486,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
         isActive: player.id === game.activePlayer,
         venusScaleLevel: game.getVenusScaleLevel(),
         colonies: getColonies(game),
+        discardedColonies: getDiscardedColonies(game),
         tags: player.getAllTags(),
         showTimers: game.gameOptions.showTimers,
         actionsThisGeneration: Array.from(
@@ -536,6 +539,25 @@ function getColonies(game: Game): Array<ColonyModel> {
     }),
   );
 }
+
+function getDiscardedColonies(game: Game): Array<ColonyModel> {
+    if (game.colonyDealer === undefined) return [];
+
+    return game.colonyDealer.discardedColonies.map(
+      (colony): ColonyModel => ({
+        colonies: colony.colonies.map(
+          (playerId): Color => game.getPlayerById(playerId).color,
+        ),
+        isActive: colony.isActive,
+        name: colony.name,
+        trackPosition: colony.trackPosition,
+        visitor:
+            colony.visitor === undefined ?
+              undefined :
+              game.getPlayerById(colony.visitor).color,
+      }),
+    );
+  }
 
 // Oceans can't be owned so they shouldn't have a color associated with them
 // Land claim can have a color on a space without a tile
