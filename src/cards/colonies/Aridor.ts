@@ -87,6 +87,10 @@ export class Aridor extends Card implements CorporationCard {
       });
     }
 
+    public onCorpCardPlayed(player: Player, card: CorporationCard) {
+      return this.onCardPlayed(player, card as IProjectCard);
+    }
+
     public onCardPlayed(player: Player, card: IProjectCard) {
       if (
         card.cardType === CardType.EVENT ||

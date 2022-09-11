@@ -31,6 +31,8 @@ import {CardType} from '../../../src/cards/CardType';
 import {StormCraftIncorporated} from '../../../src/cards/colonies/StormCraftIncorporated';
 import {AndOptions} from '../../../src/inputs/AndOptions';
 import {SelectAmount} from '../../../src/inputs/SelectAmount';
+import {Aridor} from '../../../src/cards/colonies/Aridor';
+import {PharmacyUnion} from '../../../src/cards/promo/PharmacyUnion';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -305,6 +307,19 @@ describe('Merger', function() {
 
     expect(player.heat).eq(1);
     expect(stormcraft.resourceCount).eq(1);
+  });
+
+  it('Works with Aridor', () => {
+    const aridor = new Aridor();
+    aridor.play();
+    player.corporationCards.push(aridor);
+    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(0);
+
+    const pharmacyUnion = new PharmacyUnion();
+    Merger.playSecondCorporationCard(player, pharmacyUnion);
+
+    TestingUtils.runAllActions(game);
+    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
   });
 
   function setupHelionForPlayer(player: Player) {
