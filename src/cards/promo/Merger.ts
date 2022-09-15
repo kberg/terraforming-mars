@@ -42,6 +42,7 @@ export class Merger extends PreludeCard {
     });
 
     if (availableCorps.length === 0) {
+      game.log('None of the four drawn corporation cards are affordable.');
       return undefined;
     }
 
@@ -63,7 +64,7 @@ export class Merger extends PreludeCard {
       });
     }));
 
-    game.defer(new SelectHowToPayDeferred(player, this.mergerCost, {title: 'Select how to pay for prelude'}));
+    game.defer(new SelectHowToPayDeferred(player, this.mergerCost, {title: 'Select how to pay for Merger prelude'}));
     return undefined;
   }
 
