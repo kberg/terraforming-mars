@@ -509,10 +509,24 @@ export namespace MilestoneAwardSelector {
       case BoardName.TERRA_CIMMERIA:
         drawnMilestonesAndAwards.milestones.push(...TERRA_CIMMERIA_MILESTONES);
         drawnMilestonesAndAwards.awards.push(...TERRA_CIMMERIA_AWARDS);
+
+        if (gameOptions.turmoilExtension === false && drawnMilestonesAndAwards.awards.some((award) => award.name === 'Politician')) {
+          const randomAward = [...ORIGINAL_AWARDS, ...HELLAS_AWARDS, ...ELYSIUM_AWARDS].find((a) => !drawnMilestonesAndAwards.awards.includes(a))!;
+          drawnMilestonesAndAwards.awards = drawnMilestonesAndAwards.awards.filter((a) => a.name !== 'Politician');
+          drawnMilestonesAndAwards.awards.push(randomAward);
+        }
+
         break;
       case BoardName.AMAZONIS:
         drawnMilestonesAndAwards.milestones.push(...AMAZONIS_PLANITIA_MILESTONES);
         drawnMilestonesAndAwards.awards.push(...AMAZONIS_PLANITIA_AWARDS);
+
+        if (gameOptions.coloniesExtension === false && drawnMilestonesAndAwards.milestones.some((milestone) => milestone.name === 'Colonizer')) {
+          const randomMilestone = [...ORIGINAL_MILESTONES, ...HELLAS_MILESTONES, ...ELYSIUM_MILESTONES].find((m) => !drawnMilestonesAndAwards.milestones.includes(m))!;
+          drawnMilestonesAndAwards.milestones = drawnMilestonesAndAwards.milestones.filter((m) => m.name !== 'Colonizer');
+          drawnMilestonesAndAwards.milestones.push(randomMilestone);
+        }
+
         break;
       case BoardName.HELLAS:
         drawnMilestonesAndAwards.milestones.push(...HELLAS_MILESTONES);
