@@ -330,7 +330,7 @@ export namespace MilestoneAwardSelector {
       bind(Pioneer, DesertSettler, 6);
       bind(Pioneer, EstateDealer, 3);
 
-      bind(Biologist, Ecologist, 4);
+      bind(Biologist, Ecologist, 8);
       bind(Biologist, Excentric, 4);
 
       bind(Urbanist, Mayor, 6);
