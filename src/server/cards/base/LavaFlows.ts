@@ -29,6 +29,7 @@ export class LavaFlows extends Card implements IProjectCard {
       adjacencyBonus,
       metadata,
       tr: {temperature: 2},
+      tilesBuilt: [TileType.LAVA_FLOWS],
     });
   }
 

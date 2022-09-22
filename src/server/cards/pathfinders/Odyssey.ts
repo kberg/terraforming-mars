@@ -47,6 +47,7 @@ export class Odyssey extends Card implements ICorporationCard, IActionCard {
       return player.playedCards.filter((card) => {
         return card.cardType === CardType.EVENT &&
         card.cost <= 16 &&
+        (card.tilesBuilt ?? []).length === 0 &&
         player.canPlay(card);
       });
     } finally {

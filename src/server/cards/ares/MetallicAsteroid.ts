@@ -26,6 +26,8 @@ export class MetallicAsteroid extends Card implements IProjectCard {
         removeAnyPlants: 4,
       },
 
+      tilesBuilt: [TileType.METALLIC_ASTEROID],
+
       metadata: {
         cardNumber: 'A13',
         renderData: CardRenderer.builder((b) => {
