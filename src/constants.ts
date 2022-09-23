@@ -44,14 +44,14 @@ export const ASIMOV_AWARD_BONUS = 2;
 
 export const LANGUAGES = [
   {'id': 'en', 'title': 'English'},
-  {'id': 'de', 'title': 'German'},
-  {'id': 'fr', 'title': 'French'},
-  {'id': 'ru', 'title': 'Russian'},
-  {'id': 'cn', 'title': 'Chinese'},
-  {'id': 'pl', 'title': 'Polish'},
-  {'id': 'es', 'title': 'Spanish'},
+  {'id': 'de', 'title': 'Deutsch'},
+  {'id': 'fr', 'title': 'Français'},
+  {'id': 'ru', 'title': 'Русский'},
+  {'id': 'cn', 'title': '华语'},
+  {'id': 'pl', 'title': 'Polskie'},
+  {'id': 'es', 'title': 'Español'},
   {'id': 'br', 'title': 'Português Brasileiro'},
-  {'id': 'it', 'title': 'Italian'},
+  {'id': 'it', 'title': 'Italiano'},
 ];
 
 export const APP_NAME = 'Terraforming Mars';
