@@ -1,6 +1,7 @@
 import {CardName} from '../../CardName';
 import {SendDelegateToArea} from '../../deferredActions/SendDelegateToArea';
 import {Player} from '../../Player';
+import {Turmoil} from '../../turmoil/Turmoil';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {CorporationCard} from '../corporation/CorporationCard';
@@ -50,7 +51,10 @@ export class TempestConsultancy extends Card implements CorporationCard {
   }
 
   public canAct(player: Player) {
-    return player.getTagCount(Tags.MOON) >= 5;
+    const delegatesToPlace = Math.min(Math.floor(player.getTagCount(Tags.MOON) / 5), 3);
+    const turmoil = Turmoil.getTurmoil(player.game);
+
+    return player.getTagCount(Tags.MOON) >= 5 && turmoil.getDelegatesInReserve(player.id) >= delegatesToPlace;
   }
 
   public action(player: Player) {
