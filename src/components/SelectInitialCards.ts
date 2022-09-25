@@ -106,6 +106,9 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
         case CardName.EXECUTIVE_ORDER:
           result += 10;
           break;
+        case CardName.CORPORATE_ARCHIVES:
+          result += 13;
+          break;
         }
         switch (this.selectedCorporation?.name) {
         case CardName.MANUTECH:
