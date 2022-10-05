@@ -45,6 +45,7 @@ export class Faraday extends Card implements LeaderCard {
 
   public onCardPlayed(player: Player, card: IProjectCard) {
     if (card.cardType === CardType.EVENT) return;
+    if (!player.canAfford(2)) return;
 
     const validTags =
       player.getAllTags()
@@ -64,8 +65,6 @@ export class Faraday extends Card implements LeaderCard {
   }
 
   public effectOptions(player: Player, tag: Tags) {
-    if (!player.canAfford(2)) return undefined;
-
     return new OrOptions(
       new SelectOption(`Pay 2 M€ to draw a ${tag} card`, 'Confirm', () => {
         player.game.defer(new SelectHowToPayDeferred(player, 2, {title: 'Select how to pay for card'}));

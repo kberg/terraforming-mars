@@ -61,7 +61,6 @@ describe('Faraday', function() {
     player.playedCards.push(new Research());
     player.playCard(new TransNeptuneProbe());
 
-    game.deferredActions.pop()!.execute();
     expect(game.deferredActions).has.length(0);
     expect(player.cardsInHand).has.length(0);
     expect(player.megaCredits).to.eq(1);
