@@ -220,7 +220,7 @@ export const Colony = Vue.component('colony', {
       <div v-if="colony.name === getMercury()" class="resource money" style="margin-top: 10px">2</div>
       <div v-if="colony.name === getHygiea()" class="resource money" style="margin-top: 10px">3</div>
       <div v-if="colony.name === getTitania()" class="resource money">-3</div>
-      <div v-if="colony.name === getVenus()" class="resource" style="background:white;margin:15px 10px 10px 20px;">?<div class="card-icon tag-venus" style="color: white;margin-top: -36px;margin-left: 16px;"></div></div>
+      <div v-if="colony.name === getVenus()" class="resource wild" style="margin:15px 10px 10px 20px;"><div class="card-icon tag-venus" style="color: white;margin-left: 16px;"></div></div>
 
       <div v-if="colony.name === getPallas()" style="display:inline-block">
         <div class="resource money">1</div> / party <div class="delegate"></div>
@@ -278,7 +278,7 @@ export const Colony = Vue.component('colony', {
       <div v-if="colony.name === getPallas()" class="white-x" style="margin-left:52px; margin-right: -30px;"></div>
       <div v-if="colony.name === getPallas()" class="delegate" style="margin-top:-23px; margin-right:5px"></div>
       <div v-if="colony.name === getVenus()" class="white-x" style="margin-left:55px; margin-right:-10px;"></div>
-      <div v-if="colony.name === getVenus()" class="resource" style="background:white;margin:10px 10px 10px -20px;">?<div class="card-icon tag-venus" style="color: white;margin-top: -36px;margin-left: 16px;"></div></div>
+      <div v-if="colony.name === getVenus()" class="resource wild" style="margin:10px 10px 10px -20px;"><div class="card-icon tag-venus" style="color: white;margin-left: 16px;"></div></div>
       <div v-if="colony.name === getLeavitt()" class="resource card card-with-border" style="margin-left:5px;transform: scale(0.8)"></div>
       <span v-if="colony.name !== getEuropa() && colony.name !== getPluto() && colony.name !== getMercury() && colony.name !== getIapetus() && colony.name !== getHygiea() && colony.name !== getTitania() && colony.name !== getLeavitt() && colony.name !== getPallas() && colony.name !== getDeimos() && colony.name !== getTerra()" class="colony-background-color">
         Trade Income
