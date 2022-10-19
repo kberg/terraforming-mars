@@ -9,8 +9,6 @@ import {OrOptions} from '../../inputs/OrOptions';
 import {Resources} from '../../Resources';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectAmount} from '../../inputs/SelectAmount';
-import {Size} from '../render/Size';
-import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 
 export class Ryu extends Card implements LeaderCard {
   constructor() {
@@ -22,10 +20,10 @@ export class Ryu extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br;
-          b.text('PAY', Size.SMALL).megacredits(2).multiplier.colon().text('SWAP X', Size.SMALL).production((pb) => pb.wild(1));
+          b.text('SWAP X+2').production((pb) => pb.wild(1));
           b.br.br;
         }),
-        description: 'Once per game, pay 2X M€ to swap up to X of any two productions, where X is the current generation number.',
+        description: 'Once per game, swap up to X+2 of ANY two productions, where X is the current generation number.',
       },
     });
   }
@@ -37,8 +35,6 @@ export class Ryu extends Card implements LeaderCard {
   }
 
   public canAct(player: Player): boolean {
-    if (player.canAfford(player.game.generation * 2) === false) return false;
-
     const resources = [Resources.MEGACREDITS, Resources.STEEL, Resources.TITANIUM, Resources.PLANTS, Resources.ENERGY, Resources.HEAT];
     if (resources.some((res) => this.productionIsDecreasable(player, res)) === false) return false;
 
@@ -53,7 +49,7 @@ export class Ryu extends Card implements LeaderCard {
       const selectOption = new SelectOption(`Decrease ${resourceToDecrease} production`, 'Select', () => {
         // M€ production can go down to -5
         const decreasable = resourceToDecrease === Resources.MEGACREDITS ? player.getProduction(resourceToDecrease) + 5 : player.getProduction(resourceToDecrease);
-        const maxDecreasableAmt = Math.min(player.game.generation, decreasable);
+        const maxDecreasableAmt = Math.min(player.game.generation + 2, decreasable);
 
         return new SelectAmount(
           `Select amount of ${resourceToDecrease} production to decrease`,
@@ -62,7 +58,6 @@ export class Ryu extends Card implements LeaderCard {
             const productionToIncrease =
               resources.filter((res) => res !== resourceToDecrease)
               .map((res) => new SelectOption(`Increase ${res} production`, 'Select', () => {
-                  player.game.defer(new SelectHowToPayDeferred(player, player.game.generation * 2, {title: 'Select how to pay for action'}));
                   player.addProduction(resourceToDecrease, -amount, {log: true});
                   player.addProduction(res, amount, {log: true});
                   return undefined;
