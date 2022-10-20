@@ -35,7 +35,13 @@ export class RoverConstruction extends Card implements IProjectCard {
   public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace) {
     if (Board.isCitySpace(space)) {
       cardOwner.game.defer(
-        new GainResources(cardOwner, Resources.MEGACREDITS, {count: 2}),
+        new GainResources(cardOwner, Resources.MEGACREDITS, {
+          count: 2,
+          cb: () => cardOwner.game.log(
+            '${0} gained 2 ${1} from ${2}',
+            (b) => b.player(cardOwner).string(Resources.MEGACREDITS).cardName(this.name)
+          ),
+        }),
         cardOwner.id !== activePlayer.id ? Priority.OPPONENT_TRIGGER : undefined,
       );
     }
