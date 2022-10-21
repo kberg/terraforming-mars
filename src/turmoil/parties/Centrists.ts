@@ -78,7 +78,7 @@ class CentristsPolicy02 implements Policy {
 
 class CentristsPolicy03 implements Policy {
   id = TurmoilPolicy.CENTRISTS_POLICY_3;
-  description: string = 'Trade with any colony tile for free (Turmoil Centrists)';
+  description: string = 'Trade with any colony for free (Turmoil Centrists)';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
