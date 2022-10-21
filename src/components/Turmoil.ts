@@ -353,7 +353,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     `<div class="policy-top-margin">
     <div class="trade"></div> : +1
     </div>
-    <div class="bonus-text">When you trade, you may first increase that Colony Tile track 1 step</div>`);
+    <div class="bonus-text" style="margin-top:10px">When you trade, you may first increase that Colony Tile track 1 step</div>`);
   AGENDA_HTML.set('cb01', `
     <div class = "tooltip tooltip-bottom" data-tooltip="Gain 8 M€">
     <div class="resource money party-resource">8</div>
@@ -497,7 +497,7 @@ export const Turmoil = Vue.component('turmoil', {
 
       if (policyId !== undefined) {
         let policy = AGENDA_HTML.get(policyId)!;
-        if (includeDescription === false) policy = policy.split('<div class="bonus-text">')[0];
+        if (includeDescription === false) policy = policy.split('<div class="bonus-text"')[0];
         return policy || `No ruling Policy`;
       }
       return '<p>' + $t('No ruling Policy') + '</p>';
