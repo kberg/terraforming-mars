@@ -1,6 +1,6 @@
-import { Colony } from "../../../colonies/Colony";
-import { ColonyName } from "../../../colonies/ColonyName";
-import { ColonyBenefit } from "../../../colonies/ColonyBenefit";
+import {Colony, ShouldIncreaseTrack} from "../../../colonies/Colony";
+import {ColonyName} from "../../../colonies/ColonyName";
+import {ColonyBenefit} from "../../../colonies/ColonyBenefit";
 
 export class Terra extends Colony {
     public name = ColonyName.TERRA;
@@ -9,4 +9,5 @@ export class Terra extends Colony {
     public tradeType = ColonyBenefit.WGT_RAISE_GLOBAL_PARAMETER;
     public tradeQuantity = [0, 0, 0, 1, 1, 2, 2];
     public colonyBonusType = ColonyBenefit.GAIN_MC_FOR_EARTH_TAGS;
+    public shouldIncreaseTrack = ShouldIncreaseTrack.ASK;
 }
