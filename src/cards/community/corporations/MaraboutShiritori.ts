@@ -17,7 +17,6 @@ export class MaraboutShiritori extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.MARABOUT_SHIRITORI,
-      tags: [Tags.WILDCARD],
       startingMegaCredits: 37,
       initialActionText: 'Draw a card with a tag of your choice',
 
