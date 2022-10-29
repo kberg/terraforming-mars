@@ -221,7 +221,12 @@ export abstract class Colony implements SerializedColony {
         break;
 
       case ColonyBenefit.DRAW_CARDS_AND_BUY_ONE:
-        action = DrawCards.keepSome(player, 1, {paying: true, logDrawnCard: true});
+        if (player.canAfford(player.cardCost)) {
+          action = DrawCards.keepSome(player, 1, {paying: true, logDrawnCard: true});
+        } else {
+          action = DrawCards.keepSome(player, 1, {paying: true, logDrawnCard: true, keepMax: 0});
+        }
+
         break;
 
       case ColonyBenefit.DRAW_CARDS_AND_DISCARD_ONE:
