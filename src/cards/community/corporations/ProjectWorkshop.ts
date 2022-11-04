@@ -16,6 +16,7 @@ import {Card} from '../../Card';
 import {REDS_RULING_POLICY_COST} from '../../../constants';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
+import {Resources} from '../../../Resources';
 
 export class ProjectWorkshop extends Card implements CorporationCard {
   constructor() {
@@ -49,8 +50,8 @@ export class ProjectWorkshop extends Card implements CorporationCard {
   }
 
   public play(player: Player) {
-    player.steel = 1;
-    player.titanium = 1;
+    player.addResource(Resources.STEEL, 1);
+    player.addResource(Resources.TITANIUM, 1);
     return undefined;
   }
 
