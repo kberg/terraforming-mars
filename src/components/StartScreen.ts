@@ -46,6 +46,12 @@ export const StartScreen = Vue.component('start-screen', {
         <div class="nowrap start-screen-version"><span v-i18n>version</span>: {{getAppVersion()}}</div>
       </div>
     </div>
+    <div class="source-code">
+      <a href="https://github.com/nwai90/terraforming-mars" target="_blank" class="source-code-text">
+        <img src="/assets/misc/github.png" class="source-code-img">
+        source code
+      </a>
+    </div>
   </div>
 </div>`,
 });
