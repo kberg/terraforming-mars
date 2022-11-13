@@ -692,7 +692,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" name="promo" id="promo-checkbox" v-model="promoCardsOption">
                             <label for="promo-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-promo"></div>
-                                <span v-i18n>Promos</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Promos</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <div class="create-game-subsection-label" v-i18n>Fan-made</div>
@@ -706,7 +706,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension">
                             <label for="ares-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-ares"></div>
-                                <span v-i18n>Ares</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Ares" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Ares</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Ares" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <template v-if="!isSoloGame()">
@@ -726,7 +726,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" name="themoon" id="themoon-checkbox" v-model="moonExpansion">
                             <label for="themoon-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-themoon"></div>
-                                <span v-i18n>The Moon</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/The-Moon" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>The Moon</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/The-Moon" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <template v-if="!isSoloGame()">
@@ -824,24 +824,24 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                             <input type="checkbox" v-model="solarPhaseOption" id="WGT-checkbox" v-on:change="toggleSolarPhase()">
                             <label for="WGT-checkbox">
-                                <span v-i18n>Solar Phase</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#solar-phase" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Solar Phase</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#solar-phase" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <template v-if="playersCount === 1">
                             <input type="checkbox" v-model="soloTR" id="soloTR-checkbox">
                             <label for="soloTR-checkbox">
-                                <span v-i18n>63 TR solo mode</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#tr-solo-mode" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>63 TR solo mode</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#tr-solo-mode" class="tooltip" target="_blank">&#9432;</a>
                             </label>
                             </template>
 
                             <input type="checkbox" v-model="undoOption" id="undo-checkbox">
                             <label for="undo-checkbox">
-                                <span v-i18n>Allow undo</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#allow-undo" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Allow undo</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#allow-undo" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <input type="checkbox" v-model="seededGame" id="seeded-checkbox">
                             <label for="seeded-checkbox">
-                                <span v-i18n>Set Predefined Game</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#set-predefined-game" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Set Predefined Game</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#set-predefined-game" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <div class="create-game-subsection-label" v-i18n>Time</div>
@@ -853,7 +853,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                             <input type="checkbox" v-model="fastModeOption" id="fastMode-checkbox">
                             <label for="fastMode-checkbox" v-if="!isSoloGame()">
-                               <span v-i18n>Fast mode</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#fast-mode" class="tooltip" target="_blank">&#9432;</a>
+                               <span v-i18n>Fast mode</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#fast-mode" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <input type="checkbox" v-model="escapeVelocityMode" id="escapevelocity-checkbox">
@@ -896,7 +896,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <div v-if="!isSoloGame()">
                                 <input type="checkbox" name="randomMAToggle" id="randomMA-checkbox" v-on:change="randomMAToggle()">
                                 <label for="randomMA-checkbox">
-                                    <span v-i18n>Milestones/Awards</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#random-milestones-and-awards" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Milestones/Awards</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#random-milestones-and-awards" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
 
 
@@ -919,7 +919,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                             <input type="checkbox" v-model="shuffleMapOption" id="shuffleMap-checkbox">
                             <label for="shuffleMap-checkbox">
-                                    <span v-i18n>Board tiles</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#randomize-board-tiles" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Board tiles</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#randomize-board-tiles" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <div v-if="moonExpansion">
@@ -969,7 +969,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                                 <input type="checkbox" name="initialDraft" v-model="initialDraft" id="initialDraft-checkbox">
                                 <label for="initialDraft-checkbox">
-                                    <span v-i18n>Initial Draft</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Initial Draft</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 
@@ -977,7 +977,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
                                 <label for="requiresVenusTrackCompletion-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
-                                    <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 
@@ -993,7 +993,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <input type="checkbox" v-model="altVenusBoard" id="altVenusBoard-checkbox">
                                 <label for="altVenusBoard-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
-                                    <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 
@@ -1015,12 +1015,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <input type="checkbox" v-model="requiresMoonTrackCompletion" id="requiresMoonTrackCompletion-checkbox">
                                 <label for="requiresMoonTrackCompletion-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-themoon"></div>
-                                    <span v-i18n>Moon Terraforming</span> &nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#moon-terraforming" class="tooltip" target="_blank">&#9432;</a>
+                                    <span v-i18n>Moon Terraforming</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-terraforming" class="tooltip" target="_blank">&#9432;</a>
                                     </label>
                                     <input type="checkbox" v-model="moonStandardProjectVariant" id="moonStandardProjectVariant-checkbox">
                                     <label for="moonStandardProjectVariant-checkbox">
                                         <div class="create-game-expansion-icon expansion-icon-themoon"></div>
-                                        <span v-i18n>Standard Project Variant</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
+                                        <span v-i18n>Standard Project Variant</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
                                     </label>
                             </template>
                         </div>
@@ -1044,12 +1044,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                         <div>
                                             <label v-if="isBeginnerToggleEnabled()" class="form-switch form-inline create-game-beginner-option-label">
                                                 <input type="checkbox" v-model="newPlayer.beginner">
-                                                <i class="form-icon"></i> <span v-i18n>Beginner?</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#beginner-corporation" class="tooltip" target="_blank">&#9432;</a>
+                                                <i class="form-icon"></i> <span v-i18n>Beginner?</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#beginner-corporation" class="tooltip" target="_blank">&#9432;</a>
                                             </label>
 
                                             <label class="form-label" style="margin-top:0.3rem">
                                                 <input type="number" class="form-input form-inline player-handicap" value="0" min="0" :max="10" v-model.number="newPlayer.handicap" />
-                                                <i class="form-icon"></i><span v-i18n>TR Boost</span>&nbsp;<a href="https://github.com/bafolts/terraforming-mars/wiki/Variants#tr-boost" class="tooltip" target="_blank">&#9432;</a>
+                                                <i class="form-icon"></i><span v-i18n>TR Boost</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#tr-boost" class="tooltip" target="_blank">&#9432;</a>
                                             </label>
 
                                             <label class="form-radio form-inline" v-if="!randomFirstPlayer">

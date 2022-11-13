@@ -145,7 +145,7 @@ describe('PharmacyUnion', function() {
 
   it('Edge Case - Let player pick the tag resolution order', function() {
     // Edge case, let player pick order of resolution
-    // see https://github.com/bafolts/terraforming-mars/issues/1286
+    // see https://github.com/terraforming-mars/terraforming-mars/issues/1286
 
     player.megaCredits = 12;
     const viralEnhancers = new ViralEnhancers();

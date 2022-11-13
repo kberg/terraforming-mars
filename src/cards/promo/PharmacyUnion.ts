@@ -77,9 +77,9 @@ export class PharmacyUnion extends Card implements CorporationCard {
     const isPharmacyUnion = player.isCorporation(CardName.PHARMACY_UNION);
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-    // Edge case, let player pick order of resolution (see https://github.com/bafolts/terraforming-mars/issues/1286)
+    // Edge case, let player pick order of resolution (see https://github.com/terraforming-mars/terraforming-mars/issues/1286)
     if (isPharmacyUnion && hasScienceTag && hasMicrobesTag && this.resourceCount === 0) {
-      // TODO (Lynesth): Modify this when https://github.com/bafolts/terraforming-mars/issues/1670 is fixed
+      // TODO (Lynesth): Modify this when https://github.com/terraforming-mars/terraforming-mars/issues/1670 is fixed
       if (!redsAreRuling || redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST * 3) === true) {
         game.defer(new DeferredAction(
           player,

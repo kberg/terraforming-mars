@@ -45,19 +45,19 @@ but to make sure your game remains, we highly recommended to host your own web s
 There are far too many good tutorials online.
 
 ## ⬤ I want to run a copy of the server locally
-Check out our [Local setup wiki page](https://github.com/bafolts/terraforming-mars/wiki/Local-Setup). Honestly, it's really simple.
+Check out our [Local setup wiki page](https://github.com/terraforming-mars/terraforming-mars/wiki/Local-Setup). Honestly, it's really simple.
 
 ## ⬤ I want to run a copy of the server on Heroku
-Check out our [Heroku setup wiki page](https://github.com/bafolts/terraforming-mars/wiki/Heroku-Setup).
+Check out our [Heroku setup wiki page](https://github.com/terraforming-mars/terraforming-mars/wiki/Heroku-Setup).
 
 (Good choice. A free Heroku account will satisfy most needs, and will take five minutes to set up. This is
 our preferred recommendation for online hosting.)
 
 ## ⬤ I want to run a copy of the server on Docker
-Check out our [Docker setup wiki page](https://github.com/bafolts/terraforming-mars/wiki/Docker-Setup).
+Check out our [Docker setup wiki page](https://github.com/terraforming-mars/terraforming-mars/wiki/Docker-Setup).
 
 ## ⬤ I want to report a bug or feature request
-Add it to our [issues tab](https://github.com/bafolts/terraforming-mars/issues/new).
+Add it to our [issues tab](https://github.com/terraforming-mars/terraforming-mars/issues/new).
 
 ## ⬤ I want to win!
 Me too, pal. Me too.
