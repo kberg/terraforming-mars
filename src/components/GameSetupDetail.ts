@@ -130,6 +130,7 @@ export const GameSetupDetail = Vue.component('game-setup-detail', {
 
             <li><div class="setup-item" v-i18n>Game configs:</div>
               <div v-if="gameOptions.fastModeOption" class="game-config fastmode" v-i18n>fast mode</div>
+              <div v-if="gameOptions.twoCorpsVariant" class="game-config merger" v-i18n>merger</div>
               <div v-if="gameOptions.showTimers" class="game-config timer" v-i18n>timer</div>
               <div v-if="gameOptions.undoOption" class="game-config undo" v-i18n>undo</div>
             </li>
