@@ -51,6 +51,8 @@ import {EcologyLake} from './preludes/EcologyLake';
 import {Stakeholders} from './preludes/Stakeholders';
 import {Spaceways} from './corporations/Spaceways';
 import {MaraboutShiritori} from './corporations/MaraboutShiritori';
+import {EnergyBeam} from './preludes/EnergyBeam';
+import {CommitteeRepresentative} from './preludes/CommitteeRepresentative';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -157,5 +159,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.EXECUTIVE_ORDER, Factory: ExecutiveOrder, compatibility: GameModule.Turmoil},
     {cardName: CardName.ECOLOGY_LAKE, Factory: EcologyLake},
     {cardName: CardName.STAKEHOLDERS, Factory: Stakeholders},
+    {cardName: CardName.ENERGY_BEAM, Factory: EnergyBeam},
+    {cardName: CardName.COMMITTEE_REPRESENTATIVE, Factory: CommitteeRepresentative, compatibility: GameModule.Turmoil},
   ],
 });

@@ -531,6 +531,8 @@ export enum CardName {
     EXECUTIVE_ORDER = 'Executive Order',
     ECOLOGY_LAKE = 'Ecology Lake',
     STAKEHOLDERS = 'Stakeholders',
+    ENERGY_BEAM = 'Energy Beam',
+    COMMITTEE_REPRESENTATIVE = 'Committee Representative',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

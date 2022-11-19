@@ -36,7 +36,7 @@ export class Vitor extends Card implements CorporationCard {
     });
   }
 
-  private selectAwardToFund(player: Player, award: IAward): SelectOption {
+  private static selectAwardToFund(player: Player, award: IAward): SelectOption {
     return new SelectOption('Fund ' + award.name + ' award', 'Confirm', () => {
       player.game.fundAward(player, award);
       return undefined;
@@ -44,6 +44,10 @@ export class Vitor extends Card implements CorporationCard {
   }
 
   public initialAction(player: Player) {
+    return Vitor.fundAwardForFree(player);
+  }
+
+  public static fundAwardForFree(player: Player) {
     const game = player.game;
 
     // Awards are disabled for 1 player games
@@ -56,7 +60,7 @@ export class Vitor extends Card implements CorporationCard {
     freeAward.buttonLabel = 'Confirm';
 
     const availableAwards = game.awards.filter((award) => !game.fundedAwards.map((fa) => fa.award).includes(award));
-    freeAward.options = availableAwards.map((award) => this.selectAwardToFund(player, award));
+    freeAward.options = availableAwards.map((award) => Vitor.selectAwardToFund(player, award));
 
     return freeAward;
   }
