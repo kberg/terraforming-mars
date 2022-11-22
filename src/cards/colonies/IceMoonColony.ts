@@ -26,6 +26,9 @@ export class IceMoonColony extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     return player.hasAvailableColonyTileToBuildOn();
   }
 

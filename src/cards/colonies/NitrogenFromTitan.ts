@@ -32,6 +32,9 @@ export class NitrogenFromTitan extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player) : boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * 2, {titanium: true});
     }
