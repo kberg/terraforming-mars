@@ -31,6 +31,10 @@ export class RadChemFactory extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     return player.getProduction(Resources.ENERGY) >= 1;
   }
 

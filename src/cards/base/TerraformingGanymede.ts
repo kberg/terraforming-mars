@@ -30,6 +30,7 @@ export class TerraformingGanymede extends Card implements IProjectCard {
   }
   public canPlay(player: Player): boolean {
     const steps = 1 + player.getTagCount(Tags.JOVIAN);
+    Card.setRedsWarningText(steps, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * steps, {titanium: true});

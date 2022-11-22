@@ -32,6 +32,9 @@ export class StripMine extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     return player.getProduction(Resources.ENERGY) >= 2;
   }
 
