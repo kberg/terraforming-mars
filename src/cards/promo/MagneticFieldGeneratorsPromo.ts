@@ -37,6 +37,9 @@ export class MagneticFieldGeneratorsPromo extends Card implements IProjectCard {
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
 
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     const meetsEnergyRequirements = player.getProduction(Resources.ENERGY) >= 4;
     const canPlaceTile = player.game.board.getAvailableSpacesOnLand(player).length > 0;
 

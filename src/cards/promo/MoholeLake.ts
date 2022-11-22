@@ -33,6 +33,15 @@ export class MoholeLake extends Card implements IActionCard, IProjectCard {
     });
   }
 
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
+
   public play(player: Player) {
     player.game.increaseTemperature(player, 1);
     player.game.defer(new PlaceOceanTile(player));
