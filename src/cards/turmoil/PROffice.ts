@@ -33,8 +33,11 @@ export class PROffice extends Card implements IProjectCard {
     });
   }
 
+  // Avoid checking super.canPlay(player) here due to Society's alternate rule for parties not in game
   public canPlay(player: Player): boolean {
     const turmoil = player.game.turmoil;
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
 
     if (turmoil !== undefined) {
       if (turmoil.parties.find((p) => p.name === PartyName.UNITY)) {
