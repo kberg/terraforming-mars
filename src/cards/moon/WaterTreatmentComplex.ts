@@ -6,6 +6,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {CardRequirements} from '../CardRequirements';
+import {Card} from '../Card';
 
 export class WaterTreatmentComplex extends MoonCard {
   constructor() {
@@ -25,6 +26,15 @@ export class WaterTreatmentComplex extends MoonCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

@@ -7,6 +7,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {CardRequirements} from '../CardRequirements';
 import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
+import {Card} from '../Card';
 
 export class LunaStagingStation extends MoonCard {
   constructor() {
@@ -29,6 +30,15 @@ export class LunaStagingStation extends MoonCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

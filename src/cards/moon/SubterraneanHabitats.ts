@@ -6,6 +6,7 @@ import {Units} from '../../Units';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Player} from '../../Player';
 import {MoonCard} from './MoonCard';
+import {Card} from '../Card';
 
 export class SubterraneanHabitats extends MoonCard implements IProjectCard {
   constructor() {
@@ -29,6 +30,15 @@ export class SubterraneanHabitats extends MoonCard implements IProjectCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

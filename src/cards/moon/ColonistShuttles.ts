@@ -9,6 +9,7 @@ import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
+import {Card} from '../Card';
 
 export class ColonistShuttles extends MoonCard {
   constructor() {
@@ -32,6 +33,15 @@ export class ColonistShuttles extends MoonCard {
       tilesBuilt: [TileType.MOON_COLONY],
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

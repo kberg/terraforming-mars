@@ -9,6 +9,7 @@ import {Resources} from '../../Resources';
 import {Units} from '../../Units';
 import {Size} from '../render/Size';
 import {MoonCard} from './MoonCard';
+import {Card} from '../Card';
 
 export class SmallDutyRovers extends MoonCard {
   constructor() {
@@ -33,6 +34,15 @@ export class SmallDutyRovers extends MoonCard {
       },
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

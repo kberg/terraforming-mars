@@ -6,6 +6,7 @@ import {Units} from '../../Units';
 import {Player} from '../../Player';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {MoonCard} from './MoonCard';
+import {Card} from '../Card';
 
 export class ImprovedMoonConcrete extends MoonCard implements IProjectCard {
   constructor() {
@@ -27,6 +28,15 @@ export class ImprovedMoonConcrete extends MoonCard implements IProjectCard {
         }),
       },
     });
+  }
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
   }
 
   public play(player: Player) {

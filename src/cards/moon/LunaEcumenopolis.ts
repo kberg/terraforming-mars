@@ -14,6 +14,7 @@ import {ISpace} from '../../boards/ISpace';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
+import {Card} from '../Card';
 
 export class LunaEcumenopolis extends MoonCard {
   constructor() {
@@ -41,12 +42,11 @@ export class LunaEcumenopolis extends MoonCard {
   };
 
   public canPlay(player: Player) {
-    if (!super.canPlay(player)) {
-      return false;
-    }
+    if (!super.canPlay(player)) return false;
 
     const moonData = MoonExpansion.moonData(player.game);
     const trStepsIncreased = Math.floor(moonData.colonyRate / 2);
+    Card.setRedsWarningText(trStepsIncreased, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       if (!player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * trStepsIncreased)) {

@@ -7,6 +7,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../Units';
 import {TileType} from '../../TileType';
 import {MoonCard} from './MoonCard';
+import {Card} from '../Card';
 
 
 export class Habitat14 extends MoonCard {
@@ -34,6 +35,15 @@ export class Habitat14 extends MoonCard {
     }, {
       tilesBuilt: [TileType.MOON_COLONY],
     });
+  }
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
   }
 
   public play(player: Player) {

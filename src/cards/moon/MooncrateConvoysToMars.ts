@@ -33,6 +33,9 @@ export class MooncrateConvoysToMars extends Card {
   };
 
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
     const turmoil = Turmoil.getTurmoil(player.game);
 
     if (turmoil.parties.find((p) => p.name === PartyName.MARS)) {

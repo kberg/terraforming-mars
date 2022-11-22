@@ -8,6 +8,7 @@ import {Units} from '../../Units';
 import {TileType} from '../../TileType';
 import {MoonCard} from './MoonCard';
 import {AltSecondaryTag} from '../render/CardRenderItem';
+import {Card} from '../Card';
 
 export class TychoRoadNetwork extends MoonCard {
   constructor() {
@@ -33,6 +34,15 @@ export class TychoRoadNetwork extends MoonCard {
     }, {
       tilesBuilt: [TileType.MOON_ROAD],
     });
+  }
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
   }
 
   public play(player: Player) {

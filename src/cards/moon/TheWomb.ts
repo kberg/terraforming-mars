@@ -8,6 +8,7 @@ import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {TileType} from '../../TileType';
 import {AltSecondaryTag} from '../render/CardRenderItem';
+import {Card} from '../Card';
 
 export class TheWomb extends MoonCard {
   constructor() {
@@ -35,6 +36,15 @@ export class TheWomb extends MoonCard {
       tilesBuilt: [TileType.MOON_COLONY],
     });
   };
+
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
 
   public play(player: Player) {
     super.play(player);

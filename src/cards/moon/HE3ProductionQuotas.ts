@@ -38,6 +38,9 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
   };
 
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+    
     const turmoil = Turmoil.getTurmoil(player.game);
     const hasMiningTileOnMoon = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true}).length >= 1;
     const moonTiles = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true});
