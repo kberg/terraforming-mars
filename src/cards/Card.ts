@@ -7,7 +7,8 @@ import {Tags} from './Tags';
 import {Player} from '../Player';
 import {Units} from '../Units';
 import {CardRequirements} from './CardRequirements';
-import {CardDiscount, TRSource} from './ICard';
+import {CardDiscount, ICard, TRSource} from './ICard';
+import {REDS_RULING_POLICY_COST} from '../constants';
 
 export interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -100,5 +101,14 @@ export abstract class Card {
       return true;
     }
     return this.properties.requirements.satisfies(player);
+  }
+
+  public static setRedsWarningText(trGain: number, card: ICard): void {
+    if (trGain > 0) {
+      const redsCost = trGain * REDS_RULING_POLICY_COST;
+      card.warning = `You will lose an additional ${redsCost} M€ if you play this card this generation.`;
+    } else {
+      card.warning = undefined;
+    }
   }
 }

@@ -6,7 +6,6 @@ import {Card} from '../Card';
 import {CardName} from '../../CardName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
-import {REDS_RULING_POLICY_COST} from '../../constants';
 
 export class IceAsteroid extends Card implements IProjectCard {
   constructor() {
@@ -25,19 +24,11 @@ export class IceAsteroid extends Card implements IProjectCard {
     });
   }
 
-  public warning?: string;
-
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
-
-    if (trGain > 0) {
-      const redsCost = trGain * REDS_RULING_POLICY_COST;
-      this.warning = `You will lose an additional ${redsCost} M€ if you play this card this generation.`;
-    } else {
-      this.warning = undefined;
-    }
+    Card.setRedsWarningText(trGain, this);
 
     return true;
   }
