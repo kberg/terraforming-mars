@@ -36,6 +36,15 @@ export class VenusianPlants extends Card implements IProjectCard {
     });
   }
 
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
+
   public play(player: Player) {
     player.game.increaseVenusScaleLevel(player, 1);
     const cards = this.getResCards(player);

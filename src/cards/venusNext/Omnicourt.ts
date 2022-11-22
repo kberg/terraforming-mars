@@ -26,6 +26,15 @@ export class Omnicourt extends Card {
     });
   };
 
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
+
   public play(player: Player) {
     player.increaseTerraformRatingSteps(2);
     return undefined;

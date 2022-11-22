@@ -28,6 +28,15 @@ export class HydrogenToVenus extends Card {
     });
   };
 
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
+
   public play(player: Player) {
     const jovianTags: number = player.getTagCount(Tags.JOVIAN);
     const floatersCards = player.getResourceCards(ResourceType.FLOATER).filter((card) => card.tags.includes(Tags.VENUS));

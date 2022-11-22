@@ -27,6 +27,15 @@ export class GHGImportFromVenus extends Card {
     });
   };
 
+  public canPlay(player: Player): boolean {
+    if (!super.canPlay(player)) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
+
+    return true;
+  }
+
   public play(player: Player) {
     player.addProduction(Resources.HEAT, 3);
     player.game.increaseVenusScaleLevel(player, 1);
