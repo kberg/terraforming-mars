@@ -46,7 +46,10 @@ export class LunaEcumenopolis extends MoonCard {
 
     const moonData = MoonExpansion.moonData(player.game);
     const trStepsIncreased = Math.floor(moonData.colonyRate / 2);
-    Card.setRedsWarningText(trStepsIncreased, this);
+
+    // Do not use trStepsIncreased here as it does not consider whether Reds is ruling
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       if (!player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * trStepsIncreased)) {
