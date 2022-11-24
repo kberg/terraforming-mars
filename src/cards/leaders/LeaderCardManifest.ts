@@ -1,6 +1,7 @@
 import {CardName} from '../../CardName';
 import {GameModule} from '../../GameModule';
 import {CardManifest} from '../CardManifest';
+import {Apollo} from './Apollo';
 import {Asimov} from './Asimov';
 import {Bjorn} from './Bjorn';
 import {Caesar} from './Caesar';
@@ -73,5 +74,6 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.CAESAR, Factory: Caesar, compatibility: GameModule.Ares},
     {cardName: CardName.GAIA, Factory: Gaia, compatibility: GameModule.Ares},
     {cardName: CardName.NEIL, Factory: Neil, compatibility: GameModule.Moon},
+    {cardName: CardName.APOLLO, Factory: Apollo, compatibility: GameModule.Moon},
   ],
 });
