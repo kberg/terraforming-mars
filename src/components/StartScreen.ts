@@ -52,6 +52,11 @@ export const StartScreen = Vue.component('start-screen', {
         source code
       </a>
     </div>
+    <div class="source-code">
+      <a href="https://www.buymeacoffee.com/memories90" target="_blank">
+        <img src="/assets/misc/bmac.png" class="bmac">
+      </a>
+    </div>
   </div>
 </div>`,
 });
