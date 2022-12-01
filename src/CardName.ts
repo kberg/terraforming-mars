@@ -473,6 +473,7 @@ export enum CardName {
     NEW_PARTNER = 'New Partner',
     MERGER = 'Merger',
     CORPORATE_ARCHIVES = 'Corporate Archives',
+    DOUBLE_DOWN = 'Double Down',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',

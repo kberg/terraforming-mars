@@ -53,6 +53,7 @@ import {OutdoorSports} from './OutdoorSports';
 import {NewPartner} from './NewPartner';
 import {Merger} from './Merger';
 import {CorporateArchives} from './CorporateArchives';
+import {DoubleDown} from './DoubleDown';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -103,6 +104,7 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.NEW_PARTNER, Factory: NewPartner},
     {cardName: CardName.MERGER, Factory: Merger},
     {cardName: CardName.CORPORATE_ARCHIVES, Factory: CorporateArchives},
+    {cardName: CardName.DOUBLE_DOWN, Factory: DoubleDown},
   ],
   cardsToRemove: [
     CardName.DEIMOS_DOWN,
