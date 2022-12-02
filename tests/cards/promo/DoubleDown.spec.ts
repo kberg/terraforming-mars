@@ -22,12 +22,10 @@ describe('DoubleDown', function() {
     game = Game.newInstance('foobar', [player], player, gameOptions);
   });
 
-  it('Can play as first prelude', function() {
+  it('Cannot play as first prelude', function() {
+    player.playedCards = [];
     player.preludeCardsInHand = [card, new Donation()];
-
-    card.play(player);
-    game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(21);
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play as second prelude', function() {
@@ -43,12 +41,12 @@ describe('DoubleDown', function() {
 
     // Cannot afford
     player.megaCredits = 0;
-    card.play(player);
-    game.deferredActions.runAll(() => {});
-    expect(player.getProduction(Resources.TITANIUM)).to.eq(0);
+    expect(card.canPlay(player)).is.false;
 
     // Can afford
     player.megaCredits = 5;
+    expect(card.canPlay(player)).is.true;
+
     card.play(player);
     game.deferredActions.runAll(() => {});
     expect(player.getProduction(Resources.TITANIUM)).to.eq(2);
