@@ -9,6 +9,7 @@ import {PlaceMoonRoadTile} from '../../moon/PlaceMoonRoadTile';
 import {PlaceMoonMineTile} from '../../moon/PlaceMoonMineTile';
 import {Card} from '../Card';
 import {AltSecondaryTag} from '../render/CardRenderItem';
+import {MoonExpansion} from '../../moon/MoonExpansion';
 
 export class ThoriumRush extends Card implements IProjectCard {
   constructor() {
@@ -34,6 +35,14 @@ export class ThoriumRush extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
+
+    const moonData = MoonExpansion.moonData(player.game);
+
+    const spaces = moonData.moon.getAvailableSpacesOnLand(player);
+    if (spaces.length < 2) return false;
+
+    const mineSpaces = moonData.moon.getAvailableSpacesForMine(player);
+    if (mineSpaces.length === 0) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);

@@ -9,6 +9,7 @@ import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {TileType} from '../../TileType';
 import {Card} from '../Card';
+import {MoonExpansion} from '../../moon/MoonExpansion';
 
 export class LunarIndustryComplex extends MoonCard implements IProjectCard {
   constructor() {
@@ -37,6 +38,10 @@ export class LunarIndustryComplex extends MoonCard implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
+
+    const moonData = MoonExpansion.moonData(player.game);
+    const spaces = moonData.moon.getAvailableSpacesForMine(player);
+    if (spaces.length === 0) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);

@@ -9,6 +9,7 @@ import {MoonCard} from './MoonCard';
 import {TileType} from '../../TileType';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {Card} from '../Card';
+import {MoonExpansion} from '../../moon/MoonExpansion';
 
 export class GeodesicTents extends MoonCard {
   constructor() {
@@ -40,6 +41,10 @@ export class GeodesicTents extends MoonCard {
 
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
+
+    const moonData = MoonExpansion.moonData(player.game);
+    const spaces = moonData.moon.getAvailableSpacesOnLand(player);
+    if (spaces.length === 0) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);

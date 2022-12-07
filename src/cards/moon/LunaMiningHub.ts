@@ -46,6 +46,10 @@ export class LunaMiningHub extends MoonCard {
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
 
+    const moonData = MoonExpansion.moonData(player.game);
+    const spaces = moonData.moon.getAvailableSpacesOnLand(player);
+    if (spaces.length === 0) return false;
+
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 

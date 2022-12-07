@@ -9,6 +9,7 @@ import {Units} from '../../Units';
 import {MoonCard} from './MoonCard';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {Card} from '../Card';
+import {MoonExpansion} from '../../moon/MoonExpansion';
 
 export class AristarchusRoadNetwork extends MoonCard {
   constructor() {
@@ -37,6 +38,10 @@ export class AristarchusRoadNetwork extends MoonCard {
 
   public canPlay(player: Player): boolean {
     if (!super.canPlay(player)) return false;
+
+    const moonData = MoonExpansion.moonData(player.game);
+    const spaces = moonData.moon.getAvailableSpacesOnLand(player);
+    if (spaces.length === 0) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
