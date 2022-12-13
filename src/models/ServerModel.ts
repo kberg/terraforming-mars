@@ -109,6 +109,7 @@ export class Server {
       name: player.name,
       needsToDraft: player.needsToDraft,
       noTagsCount: player.getNoTagsCount(),
+      password: player.password,
       oceans: game.board.getOceansOnBoard(),
       oxygenLevel: game.getOxygenLevel(),
       passedPlayers: game.getPassedPlayers(),
@@ -474,6 +475,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
         citiesCount: player.getCitiesCount(),
         coloniesCount: player.getColoniesCount(),
         noTagsCount: player.getNoTagsCount(),
+        password: player.password,
         influence: Turmoil.ifTurmoilElse(game, (turmoil) => turmoil.getPlayerInfluence(player), () => 0),
         steel: player.steel,
         steelProduction: player.getProduction(Resources.STEEL),
@@ -636,6 +638,7 @@ function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     turmoilExtension: options.turmoilExtension,
     twoCorpsVariant: options.twoCorpsVariant,
     venusNextExtension: options.venusNextExtension,
+    requiresPassword: options.requiresPassword,
     requiresVenusTrackCompletion: options.requiresVenusTrackCompletion,
   };
 }

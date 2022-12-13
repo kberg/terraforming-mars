@@ -120,6 +120,7 @@ function simpleGameOptions(): GameOptions {
     escapeVelocityThreshold: undefined,
     escapeVelocityPeriod: undefined,
     escapeVelocityPenalty: undefined,
+    requiresPassword: false,
 
     // The options that can change, should be parameters.
     boardName: BoardName.ORIGINAL,

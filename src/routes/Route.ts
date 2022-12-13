@@ -12,6 +12,15 @@ export class Route {
     }
     res.end();
   }
+  public incorrectPassword(res: http.ServerResponse, err?: string): void {
+    res.writeHead(401);
+    res.write('Incorrect Password');
+    if (err) {
+      res.write(': ');
+      res.write(err);
+    }
+    res.end();
+  }
   public notFound(req: http.IncomingMessage, res: http.ServerResponse, err?: string): void {
     if (!process.argv.includes('hide-not-found-warnings')) {
       console.warn('Not found', req.method, req.url);

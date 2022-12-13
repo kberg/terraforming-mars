@@ -143,6 +143,8 @@ export const mainAppSettings = {
               );
             }
           }
+        } else if (xhr.status === 401) {
+          alert('Incorrect password.\n(If you accidentally closed your player page, check your browser\'s History > Recently Closed tabs.)');
         } else {
           alert('Unexpected server response');
         }

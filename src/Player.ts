@@ -86,9 +86,11 @@ import {LeadersExpansion} from './cards/leaders/LeadersExpansion';
 import {VanAllen} from './cards/leaders/VanAllen';
 
 export type PlayerId = string;
+export type Password = string;
 
 export class Player implements ISerializable<SerializedPlayer> {
   public readonly id: PlayerId;
+  public password: Password | undefined = undefined;
   protected waitingFor?: PlayerInput;
   protected waitingForCb?: () => void;
   private _game: Game | undefined = undefined;
@@ -2487,6 +2489,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   public serialize(): SerializedPlayer {
     const result: SerializedPlayer = {
       id: this.id,
+      password: this.password,
       corporationCards: this.corporationCards.map((c) => {
         const data = {
           name: c.name,
@@ -2614,6 +2617,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.megaCredits = d.megaCredits;
     player.needsToDraft = d.needsToDraft;
     player.oceanBonus = d.oceanBonus;
+    player.password = d.password;
     player.plantProduction = d.plantProduction;
     player.plants = d.plants;
     player.plantsNeededForGreenery = d.plantsNeededForGreenery;

@@ -13,6 +13,7 @@ import {SpaceModel} from './SpaceModel';
 import {IAresData} from '../ares/IAresData';
 import {SerializedTimer} from '../SerializedTimer';
 import {MoonModel} from './MoonModel';
+import {Password} from '../Player';
 
 export interface PlayerModel {
     actionsTakenThisRound: number;
@@ -62,6 +63,7 @@ export interface PlayerModel {
     noTagsCount: number;
     oceans: number;
     oxygenLevel: number;
+    password: Password | undefined;
     passedPlayers: Array<Color>;
     pendingInitialActions: Array<CardModel>;
     phase: Phase;

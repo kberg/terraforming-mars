@@ -299,6 +299,7 @@ describe('Player', function() {
         lastStoppedAt: 0,
       } as SerializedTimer,
       totalSpend: 0,
+      password: undefined
     };
 
     const newPlayer = Player.deserialize(json as SerializedPlayer);

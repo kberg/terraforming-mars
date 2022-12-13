@@ -76,6 +76,7 @@ export interface CreateGameModel {
     escapeVelocityThreshold: number;
     escapeVelocityPeriod: number;
     escapeVelocityPenalty: number;
+    requiresPassword: boolean;
 }
 
 export interface NewPlayerModel {
@@ -160,6 +161,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       allOfficialExpansions: false,
       requiresVenusTrackCompletion: false,
       requiresMoonTrackCompletion: false,
+      requiresPassword: true,
       moonStandardProjectVariant: false,
       altVenusBoard: false,
       escapeVelocityMode: false,
@@ -510,6 +512,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const randomFirstPlayer = component.randomFirstPlayer;
       const requiresVenusTrackCompletion = component.requiresVenusTrackCompletion;
       const requiresMoonTrackCompletion = component.requiresMoonTrackCompletion;
+      const requiresPassword = component.requiresPassword;
       const escapeVelocityMode = component.escapeVelocityMode;
       const escapeVelocityThreshold = component.escapeVelocityMode ? component.escapeVelocityThreshold : undefined;
       const escapeVelocityPeriod = component.escapeVelocityMode ? component.escapeVelocityPeriod : undefined;
@@ -599,6 +602,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         randomFirstPlayer,
         requiresVenusTrackCompletion,
         requiresMoonTrackCompletion,
+        requiresPassword,
         moonStandardProjectVariant: component.moonStandardProjectVariant,
         altVenusBoard: component.altVenusBoard,
         escapeVelocityMode,
@@ -937,6 +941,13 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                     <span v-i18n>Turmoil parties</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#db8ed5d103f14fc69ec3248ecddc1617" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </div>
+
+                            <div class="create-game-subsection-label" v-i18n>Security</div>
+
+                            <input type="checkbox" v-model="requiresPassword" id="requirePassword-checkbox">
+                            <label for="requirePassword-checkbox">
+                                <span v-i18n>Require password</span>
+                            </label>
 
                             <div class="create-game-subsection-label" v-i18n>Filter</div>
 
