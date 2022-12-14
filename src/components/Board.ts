@@ -139,6 +139,8 @@ export const Board = Vue.component('board', {
   },
   template: `
     <div :class="getGameBoardClassName()">
+        <div class="seasonal-xmas-tree"></div>
+        <div class="seasonal-santa"></div>
         <div class="hide-tile-button-container">
         <div class="hide-tile-button" v-on:click.prevent="toggleHideTile()">{{ toggleHideTileLabel() }}</div>
         </div>
