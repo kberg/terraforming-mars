@@ -53,6 +53,7 @@ import {Spaceways} from './corporations/Spaceways';
 import {MaraboutShiritori} from './corporations/MaraboutShiritori';
 import {EnergyBeam} from './preludes/EnergyBeam';
 import {CommitteeRepresentative} from './preludes/CommitteeRepresentative';
+import {SecretSantaSociety} from './corporations/SecretSantaSociety';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -76,6 +77,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.TEMPEST_INC, Factory: TempestInc},
     {cardName: CardName.SPACEWAYS, Factory: Spaceways},
     {cardName: CardName.MARABOUT_SHIRITORI, Factory: MaraboutShiritori},
+    {cardName: CardName.SECRET_SANTA_SOCIETY, Factory: SecretSantaSociety},
   ],
   preludeCards: [
     {cardName: CardName.RESEARCH_GRANT, Factory: ResearchGrant},
