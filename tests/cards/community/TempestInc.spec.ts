@@ -8,7 +8,7 @@ import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('TempestInc', function() {
-  let card : TempestInc; let player : Player; let player2 : Player; let game: Game;
+  let card: TempestInc; let player: Player; let player2: Player; let game: Game;
 
   beforeEach(() => {
     card = new TempestInc();
@@ -34,7 +34,7 @@ describe('TempestInc', function() {
   it('Can raise global parameter if have floaters', function() {
     card.resourceCount = 1;
     const action = card.action(player) as OrOptions;
-    const globalParameterChoices = action.options[1].cb() as OrOptions;;
+    const globalParameterChoices = action.options[1].cb() as OrOptions;
 
     // Raise temperature
     globalParameterChoices.options[0].cb();
