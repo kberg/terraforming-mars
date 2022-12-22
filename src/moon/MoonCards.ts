@@ -7,6 +7,7 @@ export class MoonCards {
     CardName.LUNA_ARCHIVES,
     CardName.PRIDE_OF_THE_EARTH_ARKSHIP,
     CardName.NANOTECH_INDUSTRIES,
+    CardName.SECRET_SANTA_SOCIETY,
   ]);
   otherScienceCards: Set<CardName> = new Set([
     CardName.PHYSICS_COMPLEX,
