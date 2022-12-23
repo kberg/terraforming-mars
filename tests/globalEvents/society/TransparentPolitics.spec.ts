@@ -5,15 +5,17 @@ import {Turmoil} from '../../../src/turmoil/Turmoil';
 import {TestPlayers} from '../../TestPlayers';
 import {PartyName} from '../../../src/turmoil/parties/PartyName';
 import {OrOptions} from '../../../src/inputs/OrOptions';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('TransparentPolitics', function() {
   it('resolve play', function() {
     const card = new TransparentPolitics();
     const player = TestPlayers.BLUE.newPlayer();
-    const game = Game.newInstance('foobar', [player], player);
-    const turmoil = Turmoil.newInstance(game);
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({turmoilExtension: true}));
+    const turmoil = Turmoil.getTurmoil(game);
 
     const reds = turmoil.getPartyByName(PartyName.REDS)!;
+    const originalReserveDelegateCount = turmoil.getDelegatesInReserve(player.id);
     turmoil.dominantParty = reds;
     turmoil.dominantParty.partyLeader = player.id;
     turmoil.dominantParty.delegates.push(player.id);
@@ -22,5 +24,6 @@ describe('TransparentPolitics', function() {
     const removeDelegate = game.deferredActions.pop()!.execute() as OrOptions;
     removeDelegate.options[0].cb();
     expect(reds.delegates.find((p) => p === player.id)).is.undefined;
+    expect(turmoil.getDelegatesInReserve(player.id)).to.eq(originalReserveDelegateCount + 1);
   });
 });

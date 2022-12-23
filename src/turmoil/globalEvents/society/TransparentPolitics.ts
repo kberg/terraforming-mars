@@ -27,7 +27,7 @@ export class TransparentPolitics implements IGlobalEvent {
                 'Remove delegate from ' + party.name,
                 'Remove delegate',
                 () => {
-                  party.delegates.splice(party.delegates.indexOf(player.id), 1);
+                  turmoil.removeDelegateFromParty(player.id, party.name, game);
                   return undefined;
                 }),
               );
