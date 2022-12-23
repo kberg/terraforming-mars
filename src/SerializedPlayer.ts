@@ -59,6 +59,7 @@ export interface SerializedPlayer {
     removingPlayers: Array<PlayerId>;
     scienceTagCount: number;
     heatProductionStepsIncreasedThisGeneration: number;
+    hasUsedHeadStart: boolean;
     steel: number;
     steelProduction: number;
     steelValue: number;

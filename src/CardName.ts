@@ -474,6 +474,7 @@ export enum CardName {
     MERGER = 'Merger',
     CORPORATE_ARCHIVES = 'Corporate Archives',
     DOUBLE_DOWN = 'Double Down',
+    HEAD_START = 'Head Start',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',

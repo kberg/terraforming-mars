@@ -185,6 +185,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   public heatProductionStepsIncreasedThisGeneration: number = 0;
   // Passer
   public consecutiveFirstPassCount: number = 0;
+  // Head Start
+  public hasUsedHeadStart: boolean = false;
 
   // Stats
   public totalSpend: number = 0;
@@ -2568,6 +2570,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       removedFromPlayCards: this.removedFromPlayCards.map((c) => c.name),
       // Hotsprings
       heatProductionStepsIncreasedThisGeneration: this.heatProductionStepsIncreasedThisGeneration,
+      // Head Start
+      hasUsedHeadStart: this.hasUsedHeadStart,
       // Passer
       consecutiveFirstPassCount: this.consecutiveFirstPassCount,
       name: this.name,
@@ -2610,6 +2614,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.hasTurmoilScienceTagBonus = d.hasTurmoilScienceTagBonus;
     player.hasBureaucratsColonyTradePenalty = d.hasBureaucratsColonyTradePenalty;
     player.hasTranshumansColonyTradeOffset = d.hasTranshumansColonyTradeOffset;
+    player.hasUsedHeadStart = d.hasUsedHeadStart;
     player.heat = d.heat;
     player.heatProduction = d.heatProduction;
     player.heatProductionStepsIncreasedThisGeneration = d.heatProductionStepsIncreasedThisGeneration;

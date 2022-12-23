@@ -54,6 +54,7 @@ import {NewPartner} from './NewPartner';
 import {Merger} from './Merger';
 import {CorporateArchives} from './CorporateArchives';
 import {DoubleDown} from './DoubleDown';
+import {HeadStart} from './HeadStart';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -105,6 +106,7 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.MERGER, Factory: Merger},
     {cardName: CardName.CORPORATE_ARCHIVES, Factory: CorporateArchives},
     {cardName: CardName.DOUBLE_DOWN, Factory: DoubleDown},
+    {cardName: CardName.HEAD_START, Factory: HeadStart},
   ],
   cardsToRemove: [
     CardName.DEIMOS_DOWN,

@@ -1124,6 +1124,14 @@ export class Game implements ISerializable<SerializedGame> {
       return undefined;
     }
 
+    // Head Start: Allow current player to take 2 more actions before moving on to next player
+    const shouldGiveHeadStart = player.lastCardPlayed?.name === CardName.HEAD_START || player.game.phase === Phase.PRELUDES && player.playedCards[0].name === CardName.HEAD_START;
+
+    if (shouldGiveHeadStart && player.hasUsedHeadStart === false) {
+      player.hasUsedHeadStart = true;
+      return this.players[playerIndex];
+    }
+
     // Go to the beginning of the array if we reached the end
     return this.players[(playerIndex + 1 >= this.players.length) ? 0 : playerIndex + 1];
   }

@@ -37,6 +37,8 @@ export const CardRenderSymbolComponent = Vue.component('CardRenderSymbolComponen
       } else if (type === CardRenderSymbolType.ARROW) {
         if (size === Size.SMALL) {
           classes.push('card-red-arrow--small');
+        } else if (size === Size.LARGE) {
+          classes.push('card-red-arrow--large');
         } else {
           classes.push('card-red-arrow');
         }
