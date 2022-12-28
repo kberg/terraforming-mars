@@ -6,6 +6,7 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Resources} from '../../Resources';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class Duncan extends Card implements LeaderCard {
   constructor() {
@@ -36,8 +37,13 @@ export class Duncan extends Card implements LeaderCard {
 
   public action(player: Player): PlayerInput | undefined {
     player.addResource(Resources.MEGACREDITS, 4 * player.game.generation, {log: true});
-    this.isDisabled = true;
-    this.generationUsed = player.game.generation;
+    
+    player.game.defer(new DeferredAction(player, () => {
+      this.isDisabled = true;
+      this.generationUsed = player.game.generation;
+      return undefined;
+    }));
+
     return undefined;
   }
 }

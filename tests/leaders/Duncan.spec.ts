@@ -6,18 +6,19 @@ import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
 
 describe('Duncan', function() {
-  let card: Duncan; let player: Player; let player2: Player;
+  let card: Duncan; let player: Player; let player2: Player; let game: Game;
 
   beforeEach(() => {
     card = new Duncan();
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
-    Game.newInstance('foobar', [player, player2], player);
+    game = Game.newInstance('foobar', [player, player2], player);
     player.playedCards.push(card);
   });
 
   it('Has 5 VP and 4 MC in gen 1', function() {
     card.action(player);
+    game.deferredActions.runAll(() => {});
     expect(player.getVictoryPoints().total).eq(25);
     expect(player.megaCredits).eq(4);
   });
@@ -29,6 +30,7 @@ describe('Duncan', function() {
 
     player.megaCredits = 0;
     card.action(player);
+    game.deferredActions.runAll(() => {});
     expect(player.getVictoryPoints().total).eq(18);
     expect(player.megaCredits).eq(32);
 
@@ -44,6 +46,7 @@ describe('Duncan', function() {
 
   it('Can only act once per game', function() {
     card.action(player);
+    game.deferredActions.runAll(() => {});
     TestingUtils.forceGenerationEnd(player.game);
     expect(card.isDisabled).is.true;
     expect(card.canAct()).is.false;
