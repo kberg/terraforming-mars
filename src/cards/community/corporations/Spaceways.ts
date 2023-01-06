@@ -42,7 +42,7 @@ export class Spaceways extends Card implements CorporationCard {
   }
 
   public play(player: Player) {
-    player.titanium = 2;
+    player.addResource(Resources.TITANIUM, 2);
     return undefined;
   }
 

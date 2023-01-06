@@ -6,6 +6,7 @@ import {Player} from '../../Player';
 import {CardType} from '../CardType';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class InterplanetaryCinematics extends Card implements CorporationCard {
   constructor() {
@@ -36,7 +37,7 @@ export class InterplanetaryCinematics extends Card implements CorporationCard {
     }
   }
   public play(player: Player) {
-    player.steel = 20;
+    player.addResource(Resources.STEEL, 20);
     return undefined;
   }
 }

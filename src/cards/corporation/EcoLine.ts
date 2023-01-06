@@ -32,7 +32,7 @@ export class EcoLine extends Card implements CorporationCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 2);
-    player.plants = 3;
+    player.addResource(Resources.PLANTS, 3);
     player.plantsNeededForGreenery = 7;
     return undefined;
   }

@@ -8,6 +8,7 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {Resources} from '../../Resources';
 
 export class ArcadianCommunities extends Card implements IActionCard, CorporationCard {
   constructor() {
@@ -62,7 +63,7 @@ export class ArcadianCommunities extends Card implements IActionCard, Corporatio
   }
 
   public play(player: Player) {
-    player.steel = 10;
+    player.addResource(Resources.STEEL, 10);
     return undefined;
   }
 

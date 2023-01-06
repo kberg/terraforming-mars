@@ -6,6 +6,7 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {Resources} from '../../Resources';
 
 export class PhoboLog extends Card implements CorporationCard {
   constructor() {
@@ -31,7 +32,7 @@ export class PhoboLog extends Card implements CorporationCard {
     });
   }
   public play(player: Player) {
-    player.titanium = 10;
+    player.addResource(Resources.TITANIUM, 10);
     player.increaseTitaniumValue();
     return undefined;
   }

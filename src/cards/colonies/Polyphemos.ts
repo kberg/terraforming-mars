@@ -31,7 +31,7 @@ export class Polyphemos extends Card implements CorporationCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, 5);
-    player.titanium = 5;
+    player.addResource(Resources.TITANIUM, 5);
     return undefined;
   }
 }
