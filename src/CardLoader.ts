@@ -59,6 +59,8 @@ export class CardLoader {
         return gameOptions.aresExtension;
       case GameModule.Moon:
         return gameOptions.moonExpansion;
+      case GameModule.Leader:
+        return gameOptions.leadersExpansion;
       default:
         throw new Error(`Unhandled expansion type ${expansion} for card ${cf.cardName}`);
       }

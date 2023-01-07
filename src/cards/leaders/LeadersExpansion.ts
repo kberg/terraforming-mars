@@ -26,10 +26,10 @@ export class LeadersExpansion {
   public static leaderActionIsUsable(player: Player): boolean {
     if (player.game.gameOptions.leadersExpansion === false) return false;
 
-    const leader = player.playedCards.find((card) => card.cardType === CardType.LEADER);
-    if (leader === undefined) return false;
-    if (leader.canAct === undefined) return false;
+    const leaders = player.playedCards.filter((card) => card.cardType === CardType.LEADER);
+    if (leaders.length === 0) return false;
+    if (leaders.every((leader) => leader.canAct === undefined)) return false;
 
-    return leader.canAct(player);
+    return leaders.some((leader) => leader.canAct !== undefined && leader.canAct(player));
   }
 }

@@ -536,6 +536,7 @@ export enum CardName {
     STAKEHOLDERS = 'Stakeholders',
     ENERGY_BEAM = 'Energy Beam',
     COMMITTEE_REPRESENTATIVE = 'Committee Representative',
+    CO_LEADERSHIP = 'Co-Leadership',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

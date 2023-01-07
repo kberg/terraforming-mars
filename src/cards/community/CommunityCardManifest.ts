@@ -54,6 +54,7 @@ import {MaraboutShiritori} from './corporations/MaraboutShiritori';
 import {EnergyBeam} from './preludes/EnergyBeam';
 import {CommitteeRepresentative} from './preludes/CommitteeRepresentative';
 import {SecretSantaSociety} from './corporations/SecretSantaSociety';
+import {CoLeadership} from './preludes/CoLeadership';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -163,5 +164,6 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.STAKEHOLDERS, Factory: Stakeholders},
     {cardName: CardName.ENERGY_BEAM, Factory: EnergyBeam},
     {cardName: CardName.COMMITTEE_REPRESENTATIVE, Factory: CommitteeRepresentative, compatibility: GameModule.Turmoil},
+    {cardName: CardName.CO_LEADERSHIP, Factory: CoLeadership, compatibility: GameModule.Leader},
   ],
 });

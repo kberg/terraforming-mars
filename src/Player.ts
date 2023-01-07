@@ -1175,8 +1175,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public getPlayableLeaderCards(): Array<ICard> {
-    const leader = this.playedCards.find((card) => card.cardType === CardType.LEADER) as IProjectCard;
-    return [leader];
+    const leaders = this.playedCards.filter((card) => card.cardType === CardType.LEADER) as IProjectCard[];
+    return leaders.filter((leader) => leader.canAct !== undefined && leader.canAct(this) && (leader as LeaderCard).isDisabled === false);
   }
 
   public runProductionPhase(): void {
