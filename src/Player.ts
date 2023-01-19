@@ -1930,7 +1930,9 @@ export class Player implements ISerializable<SerializedPlayer> {
           'Select space for greenery',
           this.game.board.getAvailableSpacesForGreenery(this), (space) => {
             // Do not raise oxygen or award TR for final greenery placements
-            this.game.addGreenery(this, space.id, SpaceType.LAND, false);
+            // Unless it is a 63 TR solo game that was already won before final placement
+            const shouldRaiseOxygen = this.game.isSoloMode() ? this.game.isSoloModeWin() : false;
+            this.game.addGreenery(this, space.id, SpaceType.LAND, shouldRaiseOxygen);
             this.plants -= this.plantsNeededForGreenery;
             this.takeActionForFinalGreenery();
 

@@ -332,6 +332,49 @@ describe('Game', () => {
     expect(game.getOxygenLevel()).eq(12);
   });
 
+  it('Give TR and raise oxygen for final greenery placements if player has won 63 TR solo mode', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const gameOptions = TestingUtils.setCustomGameOptions({soloTR: true});
+    const game = Game.newInstance('foobar', [player], player, gameOptions);
+    game.generation = 14;
+
+    // Terraform
+    (game as any).temperature = constants.MAX_TEMPERATURE;
+    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL - 2;
+    TestingUtils.maxOutOceans(player);
+
+    // Must remove waitingFor or playerIsFinishedTakingActions
+    // Will pre-emptively exit - you can't end the game if it is waiting for a player to do something!
+    (player as any).waitingFor = undefined;
+
+    // Trigger end game
+    player.setTerraformRating(63);
+    expect(game.isSoloModeWin()).is.true;
+
+    player.plants = 14;
+    player.takeActionForFinalGreenery();
+
+    // Place first greenery to get 2 plants
+    const placeFirstGreenery = player.getWaitingFor() as OrOptions;
+    const arsiaMons = game.board.getSpace(SpaceName.ARSIA_MONS);
+    placeFirstGreenery.options[0].cb(arsiaMons);
+    expect(player.plants).eq(8);
+
+    // Place second greenery
+    const placeSecondGreenery = player.getWaitingFor() as OrOptions;
+    const otherSpace = game.board.getSpace('30');
+    placeSecondGreenery.options[0].cb(otherSpace); ;
+
+    // End the game
+    game.playerHasPassed(player);
+    game.playerIsDoneWithGame(player);
+    expect(game.phase).eq(Phase.END);
+
+    // Give TR and raise oxygen for final greenery placements
+    expect(player.getTerraformRating()).eq(65);
+    expect(game.getOxygenLevel()).eq(14);
+  });
+
   it('Final greenery placement in order of the current generation', () => {
     const player1 = new Player('p1', Color.BLUE, false, 0, 'p1-id');
     const player2 = new Player('p2', Color.GREEN, false, 0, 'p2-id');
