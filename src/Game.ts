@@ -897,7 +897,9 @@ export class Game implements ISerializable<SerializedGame> {
     // Maybe spawn a new hazard on Mars every 3 generations
     if (gameOptions.aresExtension && gameOptions.aresExtremeVariant && generation % 3 === 0) {
       const direction = Math.floor(Math.random() * 2) === 0 ? 1 : -1;
-      _AresHazardPlacement.randomlyPlaceHazard(this, TileType.DUST_STORM_MILD, direction, false);
+      const tileType = this.board.getOceansOnBoard() >= 3 ? TileType.EROSION_MILD : TileType.DUST_STORM_MILD;
+
+      _AresHazardPlacement.randomlyPlaceHazard(this, tileType, direction, false);
     }
 
     if (this.gameOptions.solarPhaseOption && !this.marsIsTerraformed()) {
