@@ -70,6 +70,7 @@ import {VictoryPointsBreakdown} from './VictoryPointsBreakdown';
 import {LogType} from './deferredActions/DrawCards';
 import {ArchaeologyHandler} from './community/ArchaeologyHandler';
 import {_AresHazardPlacement} from './ares/AresHazards';
+import {Eris} from './cards/ares/Eris';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -631,8 +632,12 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     // Complete terraforing victory condition.
-    if (!this.marsIsTerraformed()) {
-      return false;
+    if (!this.marsIsTerraformed()) return false;
+
+    // Ares Extreme: Solo player must remove all unprotected hazards to win
+    if (this.gameOptions.aresExtension && this.gameOptions.aresExtremeVariant) {
+      const unprotectedHazardsRemaining = Eris.getAllUnprotectedHazardSpaces(this);
+      if (unprotectedHazardsRemaining.length > 0) return false;
     }
 
     // This last conditional doesn't make much sense to me. It's only ever really used

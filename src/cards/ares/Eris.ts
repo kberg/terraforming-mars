@@ -60,7 +60,7 @@ export class Eris extends Card implements CorporationCard {
     public canAct(player: Player): boolean {
       const game = player.game;
       const availableSpaces = this.getAvailableSpaces(player, game);
-      const hazardSpaces = this.getAllUnprotectedHazardSpaces(game);
+      const hazardSpaces = Eris.getAllUnprotectedHazardSpaces(game);
 
       if (availableSpaces.length === 0 && hazardSpaces.length === 0) return false;
       return true;
@@ -70,7 +70,7 @@ export class Eris extends Card implements CorporationCard {
       const game = player.game;
       const orOptions = new OrOptions();
       const availableSpaces = this.getAvailableSpaces(player, game);
-      const hazardSpaces = this.getAllUnprotectedHazardSpaces(game);
+      const hazardSpaces = Eris.getAllUnprotectedHazardSpaces(game);
 
       if (availableSpaces.length > 0) {
         orOptions.options.push(new SelectOption('Place a hazard tile adjacent to no other tile', 'Select', () => {
@@ -86,7 +86,7 @@ export class Eris extends Card implements CorporationCard {
         orOptions.options.push(new SelectOption('Remove a hazard tile to gain 1 TR', 'Select', () => {
           return new SelectSpace(
               'Select hazard tile to remove',
-              this.getAllUnprotectedHazardSpaces(game),
+              Eris.getAllUnprotectedHazardSpaces(game),
               (space: ISpace) => {
                 space.tile = undefined;
                 player.increaseTerraformRatingSteps(1);
@@ -118,7 +118,7 @@ export class Eris extends Card implements CorporationCard {
           });
     }
 
-    private getAllUnprotectedHazardSpaces(game: Game): Array<ISpace> {
+    public static getAllUnprotectedHazardSpaces(game: Game): Array<ISpace> {
       return game.board.spaces.filter(
           (space) => space.tile && HAZARD_TILES.has(space.tile.tileType) && space.tile.protectedHazard === false,
       );
