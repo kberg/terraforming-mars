@@ -47,6 +47,7 @@ export interface CreateGameModel {
     silverCubeVariant: boolean;
     singleTradeVariant: boolean;
     equalOpportunityVariant: boolean;
+    aresExtremeVariant: boolean;
     shuffleMapOption: boolean;
     shuffleMoonMapOption: boolean;
     promoCardsOption: boolean;
@@ -138,6 +139,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       silverCubeVariant: false,
       singleTradeVariant: false,
       equalOpportunityVariant: false,
+      aresExtremeVariant: false,
       shuffleMapOption: false,
       shuffleMoonMapOption: false,
       promoCardsOption: false,
@@ -375,6 +377,11 @@ export const CreateGameForm = Vue.component('create-game-form', {
         this.randomTurmoil = false;
       }
     },
+    toggleAres: function() {
+      if (this.$data.aresExtension === false) {
+        this.aresExtremeVariant = false;
+      }
+    },
     deselectVenusCompletion: function() {
       if (this.$data.venusNext === false) {
         this.requiresVenusTrackCompletion = false;
@@ -486,6 +493,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const silverCubeVariant = this.silverCubeVariant;
       const singleTradeVariant = this.singleTradeVariant;
       const equalOpportunityVariant = this.equalOpportunityVariant;
+      const aresExtremeVariant = this.aresExtremeVariant;
       const shuffleMapOption = this.shuffleMapOption;
       const shuffleMoonMapOption = this.shuffleMoonMapOption;
       const customCorporationsList = component.customCorporationsList;
@@ -577,6 +585,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         silverCubeVariant,
         singleTradeVariant: singleTradeVariant,
         equalOpportunityVariant: equalOpportunityVariant,
+        aresExtremeVariant: aresExtremeVariant,
         promoCardsOption,
         communityCardsOption,
         colosseumVariant: colosseumVariant,
@@ -707,7 +716,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <span v-i18n>Archaeology</span>&nbsp;<a href="https://www.notion.so/Variants-32b53050f10a4cfbaea117c34d4f3a03#ff6078e896a6448ab29b0a6bd9f2b11c" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
-                            <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension">
+                            <input type="checkbox" name="ares" id="ares-checkbox" v-model="aresExtension" v-on:change="toggleAres()">
                             <label for="ares-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-ares"></div>
                                 <span v-i18n>Ares</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Ares" class="tooltip" target="_blank">&#9432;</a>
@@ -969,7 +978,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             </template>
                         </div>
 
-                        <div v-if="!isSoloGame() || venusNext || moonExpansion" class="create-game-page-column">
+                        <div v-if="!isSoloGame() || venusNext || moonExpansion || aresExtension" class="create-game-page-column">
                             <h4 v-i18n>Variants</h4>
 
                             <template v-if="!isSoloGame()">
@@ -1019,6 +1028,14 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 <label for="equalOpportunityVariant-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-colony"></div>
                                     <span v-i18n>Equal Opportunity</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="aresExtension">
+                                <input type="checkbox" v-model="aresExtremeVariant" id="aresExtremeVariant-checkbox">
+                                <label for="aresExtremeVariant-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-ares"></div>
+                                    <span v-i18n>Extreme</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 

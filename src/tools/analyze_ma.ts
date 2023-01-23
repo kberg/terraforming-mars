@@ -130,6 +130,7 @@ function simpleGameOptions(): GameOptions {
     silverCubeVariant: false,
     singleTradeVariant: false,
     equalOpportunityVariant: false,
+    aresExtremeVariant: false,
     societyExpansion: false,
     randomTurmoil: false,
     colosseumVariant: false,

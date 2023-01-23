@@ -32,6 +32,7 @@ export interface GameOptionsModel {
   silverCubeVariant: boolean,
   singleTradeVariant: boolean,
   equalOpportunityVariant: boolean,
+  aresExtremeVariant: boolean,
   solarPhaseOption: boolean,
   soloTR: boolean,
   randomMA: RandomMAOptionType,

@@ -631,6 +631,7 @@ function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     silverCubeVariant: options.silverCubeVariant,
     singleTradeVariant: options.singleTradeVariant,
     equalOpportunityVariant: options.equalOpportunityVariant,
+    aresExtremeVariant: options.aresExtremeVariant,
     solarPhaseOption: options.solarPhaseOption,
     soloTR: options.soloTR,
     randomMA: options.randomMA,

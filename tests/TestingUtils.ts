@@ -54,6 +54,7 @@ export class TestingUtils {
       silverCubeVariant: false,
       singleTradeVariant: false,
       equalOpportunityVariant: false,
+      aresExtremeVariant: false,
       shuffleMapOption: false,
       shuffleMoonMapOption: false,
       promoCardsOption: true,

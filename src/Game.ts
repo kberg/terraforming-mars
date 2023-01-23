@@ -126,6 +126,7 @@ export interface GameOptions {
   requiresMoonTrackCompletion: boolean; // Moon must be completed to end the game
   singleTradeVariant: boolean; // Allow only 1 trade per turn
   equalOpportunityVariant: boolean; // Allow colony build if player has no colony on the tile yet
+  aresExtremeVariant: boolean;
   escapeVelocityMode: boolean;
   escapeVelocityThreshold?: number;
   escapeVelocityPeriod?: number;
@@ -174,6 +175,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   silverCubeVariant: false,
   singleTradeVariant: false,
   equalOpportunityVariant: false,
+  aresExtremeVariant: false,
   soloTR: false,
   startingCorporations: 2,
   turmoilExtension: false,
