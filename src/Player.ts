@@ -85,6 +85,8 @@ import {LeaderCard} from './cards/LeaderCard';
 import {LeadersExpansion} from './cards/leaders/LeadersExpansion';
 import {VanAllen} from './cards/leaders/VanAllen';
 import {_AresHazardPlacement} from './ares/AresHazards';
+import {ISpace} from './boards/ISpace';
+import {Eris} from './cards/ares/Eris';
 
 export type PlayerId = string;
 export type Password = string;
@@ -1279,6 +1281,24 @@ export class Player implements ISerializable<SerializedPlayer> {
             game.log('${0} acted as World Government and increased Venus scale', (b) => b.player(this));
             return undefined;
           }),
+        );
+      }
+    }
+
+    if (game.gameOptions.aresExtension && game.gameOptions.aresExtremeVariant) {
+      const unprotectedHazardSpaces = Eris.getAllUnprotectedHazardSpaces(game);
+
+      if (unprotectedHazardSpaces.length > 0) {
+        action.options.push(
+          new SelectSpace(
+            'Remove an unprotected hazard',
+            Eris.getAllUnprotectedHazardSpaces(game),
+            (space: ISpace) => {
+              space.tile = undefined;
+              game.log('${0} acted as World Government and removed a hazard tile', (b) => b.player(this));
+              return undefined;
+            },
+          ),
         );
       }
     }
