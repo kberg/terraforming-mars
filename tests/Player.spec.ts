@@ -286,6 +286,7 @@ describe('Player', function() {
       heatProductionStepsIncreasedThisGeneration: 0,
       hasUsedHeadStart: false,
       consecutiveFirstPassCount: 0,
+      hazardsRemoved: 0,
       totalDelegatesPlaced: 0,
       totalChairmanshipsWon: 0,
       name: 'player-blue',

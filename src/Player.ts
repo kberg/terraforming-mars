@@ -190,6 +190,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   public consecutiveFirstPassCount: number = 0;
   // Head Start
   public hasUsedHeadStart: boolean = false;
+  // Purifier
+  public hazardsRemoved: number = 0;
 
   // Stats
   public totalSpend: number = 0;
@@ -2597,6 +2599,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       hasUsedHeadStart: this.hasUsedHeadStart,
       // Passer
       consecutiveFirstPassCount: this.consecutiveFirstPassCount,
+      // Purifier
+      hazardsRemoved: this.hazardsRemoved,
       name: this.name,
       color: this.color,
       beginner: this.beginner,
@@ -2638,6 +2642,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.hasBureaucratsColonyTradePenalty = d.hasBureaucratsColonyTradePenalty;
     player.hasTranshumansColonyTradeOffset = d.hasTranshumansColonyTradeOffset;
     player.hasUsedHeadStart = d.hasUsedHeadStart;
+    player.hazardsRemoved = d.hazardsRemoved;
     player.heat = d.heat;
     player.heatProduction = d.heatProduction;
     player.heatProductionStepsIncreasedThisGeneration = d.heatProductionStepsIncreasedThisGeneration;

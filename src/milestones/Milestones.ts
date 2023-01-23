@@ -42,6 +42,7 @@ import {Monument} from './fanmade/Monument';
 import {Wanderer} from './fanmade/Wanderer';
 import {Ambassador} from './fanmade/Ambassador';
 import {Passer} from './fanmade/Passer';
+import {Purifier} from './fanmade/Purifier';
 
 export const ORIGINAL_MILESTONES: Array<IMilestone> = [
   new Terraformer(),
@@ -108,6 +109,7 @@ export const NEW_OPS_MILESTONES: Array<IMilestone> = [
   new Wanderer(),
   new Ambassador(),
   new Passer(),
+  new Purifier(),
 ];
 
 export const ARES_MILESTONES: Array<IMilestone> = [

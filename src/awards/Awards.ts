@@ -40,6 +40,7 @@ import {Zoologist} from './amazonisPlanitia/Zoologist';
 import {Engineer} from './amazonisPlanitia/Engineer';
 import {Player} from '../Player';
 import {VictoryPointsBreakdown} from '../VictoryPointsBreakdown';
+import {Rugged} from './fanmade/Rugged';
 
 export const ORIGINAL_AWARDS: Array<IAward> = [
   new Landlord(),
@@ -110,6 +111,10 @@ export const MOON_AWARDS: Array<IAward> = [
   new LunarMagnate(),
 ];
 
+export const NEW_OPS_AWARDS: Array<IAward> = [
+  new Rugged(),
+];
+
 export const ALL_AWARDS: Array<IAward> = [
   ...ORIGINAL_AWARDS,
   ...ELYSIUM_AWARDS,
@@ -121,6 +126,7 @@ export const ALL_AWARDS: Array<IAward> = [
   ...ARABIA_TERRA_AWARDS,
   ...TERRA_CIMMERIA_AWARDS,
   ...AMAZONIS_PLANITIA_AWARDS,
+  ...NEW_OPS_AWARDS
 ];
 
 export namespace Awards {

@@ -250,9 +250,8 @@ export class AresHandler {
   }
 
   public static grantBonusForRemovingHazard(player: Player, initialTileType: TileType | undefined) {
-    if (player.game.phase === Phase.SOLAR) {
-      return;
-    }
+    if (player.game.phase === Phase.SOLAR) return;
+
     let steps: number;
     switch (initialTileType) {
     case TileType.DUST_STORM_MILD:
@@ -271,6 +270,7 @@ export class AresHandler {
 
     player.increaseTerraformRatingSteps(steps);
     player.game.log('${0}\'s TR increases ${1} step(s) for removing ${2}', (b) => b.player(player).number(steps).string(TileType.toString(initialTileType)));
+    player.hazardsRemoved += 1;
   }
 }
 

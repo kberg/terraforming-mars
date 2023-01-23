@@ -85,6 +85,7 @@ import {Lunarchitect} from './moon/Lunarchitect';
 import {LunarMagnate} from './moon/LunarMagnate';
 import {OneGiantStep} from './moon/OneGiantStep';
 import {RandomMAOptionType} from './RandomMAOptionType';
+import {Rugged} from './awards/fanmade/Rugged';
 
 export namespace MilestoneAwardSelector {
   // This map uses keys of the format "X|Y" where X and Y are MA names. Entries are stored as "X|Y"
@@ -430,6 +431,9 @@ export namespace MilestoneAwardSelector {
       bind(Passer, Capitalist, 9);
       bind(Passer, Planner, 9);
 
+      bind(Rugged, Landlord, 6);
+      bind(Rugged, DesertSettler, 5);
+
       return synergies;
     }
   }
@@ -630,6 +634,14 @@ export namespace MilestoneAwardSelector {
 
       if (gameOptions.turmoilExtension === false && candidateMilestones.some((milestone) => milestone === 'Ambassador')) {
         candidateMilestones.splice(candidateMilestones.indexOf('Ambassador'), 1);
+      }
+
+      if (gameOptions.aresExtension === false && gameOptions.aresExtremeVariant === false && candidateMilestones.some((milestone) => milestone === 'Purifier')) {
+        candidateMilestones.splice(candidateMilestones.indexOf('Purifier'), 1);
+      }
+
+      if (gameOptions.aresExtension === false && gameOptions.aresExtremeVariant === false && gameOptions && candidateAwards.some((award) => award === 'Rugged')) {
+        candidateAwards.splice(candidateAwards.indexOf('Rugged'), 1);
       }
     } else if (gameOptions.boardName === BoardName.AMAZONIS) {
       candidateMilestones.push(...AMAZONIS_PLANITIA_MILESTONES.map(toName));

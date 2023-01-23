@@ -35,6 +35,7 @@ export interface SerializedPlayer {
     hasTurmoilScienceTagBonus: boolean;
     hasBureaucratsColonyTradePenalty: boolean;
     hasTranshumansColonyTradeOffset: boolean;
+    hazardsRemoved: number;
     heat: number;
     heatProduction: number;
     id: string;
