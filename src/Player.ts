@@ -84,6 +84,7 @@ import {Turmoil} from './turmoil/Turmoil';
 import {LeaderCard} from './cards/LeaderCard';
 import {LeadersExpansion} from './cards/leaders/LeadersExpansion';
 import {VanAllen} from './cards/leaders/VanAllen';
+import {_AresHazardPlacement} from './ares/AresHazards';
 
 export type PlayerId = string;
 export type Password = string;
@@ -1233,10 +1234,10 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public worldGovernmentTerraforming(): void {
-    const action: OrOptions = new OrOptions();
-    action.title = 'Select action for Solar Phase';
-    action.buttonLabel = 'Confirm';
     const game = this.game;
+    const action: OrOptions = new OrOptions();
+    action.title = 'Select action for World Government Terraforming';
+    action.buttonLabel = 'Confirm';
 
     if (game.gameOptions.silverCubeVariant === true) {
       SilverCubeHandler.addSilverCubeWGTOptions(this, game, action);

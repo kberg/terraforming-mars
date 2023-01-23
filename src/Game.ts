@@ -69,6 +69,7 @@ import {GrantVenusAltTrackBonusDeferred} from './venusNext/GrantVenusAltTrackBon
 import {VictoryPointsBreakdown} from './VictoryPointsBreakdown';
 import {LogType} from './deferredActions/DrawCards';
 import {ArchaeologyHandler} from './community/ArchaeologyHandler';
+import {_AresHazardPlacement} from './ares/AresHazards';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -883,9 +884,18 @@ export class Game implements ISerializable<SerializedGame> {
       });
     }
 
-    // solar Phase Option
+    // Solar Phase Option
     this.phase = Phase.SOLAR;
-    if (this.gameOptions.solarPhaseOption && ! this.marsIsTerraformed()) {
+    const gameOptions = this.gameOptions;
+    const generation = this.generation;
+
+    // Maybe spawn a new hazard on Mars every 3 generations
+    if (gameOptions.aresExtension && gameOptions.aresExtremeVariant && generation % 3 === 0) {
+      const direction = Math.floor(Math.random() * 2) === 0 ? 1 : -1;
+      _AresHazardPlacement.randomlyPlaceHazard(this, TileType.DUST_STORM_MILD, direction, false);
+    }
+
+    if (this.gameOptions.solarPhaseOption && !this.marsIsTerraformed()) {
       this.gotoWorldGovernmentTerraforming();
       return;
     }
@@ -1723,7 +1733,7 @@ export class Game implements ISerializable<SerializedGame> {
     return card.cost;
   }
 
-  public getSpaceByOffset(direction: -1 | 1, toPlace: TileType) {
+  public getSpaceByOffset(direction: -1 | 1, toPlace: TileType, raiseError: boolean = true) {
     const cost = this.discardForCost(toPlace);
 
     const distance = Math.max(cost-1, 0); // Some cards cost zero.
@@ -1734,7 +1744,11 @@ export class Game implements ISerializable<SerializedGame> {
             adjacentSpaces.find((sp) => this.board.canPlaceTile(sp)) !== undefined; // can place forest nearby
       });
     if (space === undefined) {
-      throw new Error('Couldn\'t find space when card cost is ' + cost);
+      if (raiseError) {
+        throw new Error('Couldn\'t find space when card cost is ' + cost);
+      } else {
+        this.log('No hazard was placed as the selected space is not eligible');
+      }
     }
     return space;
   }
