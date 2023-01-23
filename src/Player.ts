@@ -1287,7 +1287,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
-    if (game.gameOptions.aresExtension && game.gameOptions.aresExtremeVariant) {
+    if (game.gameOptions.aresExtension && game.gameOptions.aresExtremeVariant && game.isSoloMode()) {
       const unprotectedHazardSpaces = Eris.getAllUnprotectedHazardSpaces(game);
 
       if (unprotectedHazardSpaces.length > 0) {
