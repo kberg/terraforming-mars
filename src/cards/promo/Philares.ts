@@ -43,9 +43,6 @@ export class Philares extends Card implements CorporationCard {
     return new SelectSpace('Select space for greenery tile',
       player.game.board.getAvailableSpacesForGreenery(player), (space: ISpace) => {
         player.game.addGreenery(player, space.id);
-
-        player.game.log('${0} placed a Greenery tile', (b) => b.player(player));
-
         return undefined;
       });
   }
