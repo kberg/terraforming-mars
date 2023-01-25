@@ -20,14 +20,14 @@ export class SecretSantaSociety extends Card implements CorporationCard {
       name: CardName.SECRET_SANTA_SOCIETY,
       tags: [Tags.WILDCARD],
       resourceType: ResourceType.SCIENCE,
-      startingMegaCredits: 33,
+      startingMegaCredits: 36,
 
       metadata: {
         cardNumber: 'R57',
-        description: 'You start with 33 M€.',
+        description: 'You start with 36 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(33);
+          b.megacredits(36);
 
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);

@@ -258,7 +258,7 @@ describe('Merger', function() {
     setupHelionForPlayer(player);
     const pw = new ProjectWorkshop();
 
-    player.megaCredits = 3;
+    player.megaCredits = 4;
     expect(pw.canAct(player)).is.false;
 
     player.heat = 1;
@@ -271,7 +271,7 @@ describe('Merger', function() {
     TestingUtils.runAllActions(game);
 
     const howToPay = player.getWaitingFor() as SelectHowToPay;
-    howToPay.cb({megaCredits: 2, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
+    howToPay.cb({megaCredits: 3, heat: 2, steel: 0, titanium: 0, microbes: 0, floaters: 0, science: 0});
     TestingUtils.runAllActions(game);
 
     expect(player.megaCredits).to.eq(1);

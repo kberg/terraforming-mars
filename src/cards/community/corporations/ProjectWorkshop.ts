@@ -25,13 +25,13 @@ export class ProjectWorkshop extends Card implements CorporationCard {
       name: CardName.PROJECT_WORKSHOP,
       tags: [Tags.EARTH],
       initialActionText: 'Draw a blue card',
-      startingMegaCredits: 39,
+      startingMegaCredits: 34,
 
       metadata: {
         cardNumber: 'R45',
-        description: 'You start with 39 M€, 1 steel and 1 titanium. As your first action, draw a blue card.',
+        description: 'You start with 34 M€, 1 steel and 1 titanium. As your first action, draw a blue card.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(39).steel(1).titanium(1).cards(1).secondaryTag(AltSecondaryTag.BLUE);
+          b.megacredits(34).steel(1).titanium(1).cards(1).secondaryTag(AltSecondaryTag.BLUE);
           b.corpBox('action', (cb) => {
             cb.vSpace(Size.LARGE);
             cb.action(undefined, (eb) => {
@@ -40,8 +40,8 @@ export class ProjectWorkshop extends Card implements CorporationCard {
               eb.cards(2).digit;
             });
             cb.vSpace(Size.SMALL);
-            cb.action('Flip and discard a played blue card to convert any VP on it into TR and draw 2 cards, or spend 4 M€ to draw a blue card.', (eb) => {
-              eb.or().megacredits(4).startAction.cards(1).secondaryTag(AltSecondaryTag.BLUE);
+            cb.action('Flip and discard a played blue card to convert any VP on it into TR and draw 2 cards, or spend 5 M€ to draw a blue card.', (eb) => {
+              eb.or().megacredits(5).startAction.cards(1).secondaryTag(AltSecondaryTag.BLUE);
             });
           });
         }),
@@ -75,7 +75,7 @@ export class ProjectWorkshop extends Card implements CorporationCard {
   }
 
   public canAct(player: Player): boolean {
-    if (player.canAfford(4)) return true;
+    if (player.canAfford(5)) return true;
     return this.getEligibleCards(player).length > 0;
   }
 
@@ -107,9 +107,9 @@ export class ProjectWorkshop extends Card implements CorporationCard {
       },
     );
 
-    const drawBlueCard = new SelectOption('Spend 4 M€ to draw a blue card', 'Draw card', () => {
+    const drawBlueCard = new SelectOption('Spend 5 M€ to draw a blue card', 'Draw card', () => {
       player.payMegacreditsDeferred(
-        4,
+        5,
         'Select how to pay for Project Workshop action.',
         () => player.drawCard(1, {cardType: CardType.ACTIVE}),
       );
@@ -117,7 +117,7 @@ export class ProjectWorkshop extends Card implements CorporationCard {
     });
 
     if (activeCards.length === 0) return drawBlueCard.cb();
-    if (!player.canAfford(4)) return flipBlueCard.cb();
+    if (!player.canAfford(5)) return flipBlueCard.cb();
 
     return new OrOptions(drawBlueCard, flipBlueCard);
   }

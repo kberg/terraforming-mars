@@ -41,12 +41,12 @@ describe('ProjectWorkshop', function() {
   });
 
   it('Can\'t act', function() {
-    player.megaCredits = 3;
+    player.megaCredits = 4;
     expect(card.canAct(player)).is.not.true;
   });
 
-  it('Can spend 4 M€ to draw a blue card', function() {
-    player.megaCredits = 4;
+  it('Can spend 5 M€ to draw a blue card', function() {
+    player.megaCredits = 5;
 
     expect(card.canAct(player)).is.true;
     card.action(player);
@@ -95,7 +95,7 @@ describe('ProjectWorkshop', function() {
 
   it('Can select option if able to do both actions', function() {
     player.playedCards.push(advancedAlloys);
-    player.megaCredits = 4;
+    player.megaCredits = 5;
     const result = card.action(player);
     expect(result).instanceOf(OrOptions);
   });
@@ -104,7 +104,7 @@ describe('ProjectWorkshop', function() {
     const ancientShipyards = new AncientShipyards();
     player.addResourceTo(ancientShipyards, 5);
     player.playedCards.push(ancientShipyards);
-    player.megaCredits = 4;
+    player.megaCredits = 5;
 
     const originalTR = player.getTerraformRating();
     const result = card.action(player) as OrOptions;

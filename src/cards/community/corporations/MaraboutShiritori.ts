@@ -17,15 +17,15 @@ export class MaraboutShiritori extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.MARABOUT_SHIRITORI,
-      startingMegaCredits: 37,
+      startingMegaCredits: 35,
       initialActionText: 'Draw a card with a tag of your choice',
 
       metadata: {
         cardNumber: 'R56',
-        description: 'You start with 37 M€. As your first action, name a tag. Draw a card with that tag.',
+        description: 'You start with 35 M€. As your first action, name a tag. Draw a card with that tag.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(37).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
+          b.megacredits(35).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
 
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
