@@ -159,7 +159,7 @@ class RedsPolicy03 implements Policy {
     const moonParametersAtMinimum = MoonExpansion.ifElseMoon(
       game,
       (moonData) => moonData.colonyRate === 0 && moonData.logisticRate === 0 && moonData.miningRate === 0,
-      () => false);
+      () => true);
 
     if (basicParametersAtMinimum && moonParametersAtMinimum) {
       return false;

@@ -8,6 +8,7 @@ import {Reds, REDS_BONUS_1, REDS_BONUS_2, REDS_POLICY_3} from '../../../src/turm
 import {Resources} from '../../../src/Resources';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
 import {OrOptions} from '../../../src/inputs/OrOptions';
+import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE} from '../../../src/constants';
 
 describe('Reds', function() {
   let player : TestPlayer; let secondPlayer : TestPlayer; let game : Game; let turmoil: Turmoil; let reds: Reds;
@@ -122,6 +123,35 @@ describe('Reds', function() {
     expect(MoonExpansion.moonData(game).colonyRate).eq(0);
     expect(MoonExpansion.moonData(game).miningRate).eq(1);
     expect(MoonExpansion.moonData(game).logisticRate).eq(1);
+  });
+
+  it('Ruling policy 3: Cannot act if all global parameters and Moon parameters are maxed', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions({moonExpansion: true});
+    game = Game.newInstance('foobar', [player, secondPlayer], player, gameOptions);
+    TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, reds, reds.policies[2].id);
+
+    const redsPolicy = REDS_POLICY_3;
+    player.megaCredits = 7;
+
+    // Terraform
+    (game as any).temperature = MAX_TEMPERATURE;
+    (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+    TestingUtils.maxOutOceans(player);
+
+    const moonData = MoonExpansion.moonData(game);
+    moonData.colonyRate = MAXIMUM_COLONY_RATE;
+    moonData.logisticRate = MAXIMUM_LOGISTICS_RATE;
+    moonData.miningRate = MAXIMUM_MINING_RATE;
+
+    expect(redsPolicy.canAct(player)).to.be.false;
+  });
+
+  it('Ruling policy 3: Cannot act if all global parameters are 0 in a non-Moon game', function() {
+    TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, reds, reds.policies[2].id);
+
+    const redsPolicy = REDS_POLICY_3;
+    player.megaCredits = 7;
+    expect(redsPolicy.canAct(player)).to.be.false;
   });
 
   it('Ruling policy 4: When you raise a global parameter, decrease your M€ production 1 step per step raised if possible', function() {
