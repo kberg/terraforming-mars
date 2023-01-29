@@ -11,6 +11,7 @@ import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Size} from '../render/Size';
 import {Dealer} from '../../Dealer';
+import {ASIMOV_AWARD_BONUS} from '../../constants';
 
 export class Asimov extends Card implements LeaderCard {
   constructor() {
@@ -21,11 +22,11 @@ export class Asimov extends Card implements LeaderCard {
         cardNumber: 'L01',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.award().nbsp().colon().text('+2', Size.LARGE);
+          b.award().nbsp().colon().text(`+${ASIMOV_AWARD_BONUS}`, Size.LARGE);
           b.br.br.br;
           b.opgArrow().text('10-X').award().asterix();
         }),
-        description: 'You have +2 score for all awards. Once per game, draw 10-X awards (min. 1), where X is the current generation number. You may put one into the game and fund it for free.',
+        description: `You have +${ASIMOV_AWARD_BONUS} score for all awards. Once per game, draw 10-X awards (min. 1), where X is the current generation number. You may put one into the game and fund it for free.`,
       },
     });
   }

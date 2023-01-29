@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {Player} from "../../Player";
 import {isAresTile} from "../../TileType";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Edgedancer implements IAward {
   public name: string = 'Edgedancer';
@@ -15,10 +13,8 @@ export class Edgedancer implements IAward {
         space.tile !== undefined &&
         isAresTile(space.tile.tileType) === false &&
         this.isOnEdge(space.x, space.y)).length;
-
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
     
-    return score;
+    return score + getAdditionalScore(player);
   }
 
   private isOnEdge(x: number, y: number): boolean {

@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {CardType} from "../../cards/CardType";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Adapter implements IAward {
   public name: string = 'Adapter';
@@ -16,8 +14,6 @@ export class Adapter implements IAward {
       return isValidCardType && hasRequirements;
     }).length;
 
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

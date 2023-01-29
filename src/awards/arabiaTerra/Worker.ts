@@ -1,7 +1,5 @@
-import {CardName} from "../../CardName";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Worker implements IAward {
   public name: string = 'Worker';
@@ -14,8 +12,6 @@ export class Worker implements IAward {
       if (corp.action !== undefined) score += 1;
     });
 
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

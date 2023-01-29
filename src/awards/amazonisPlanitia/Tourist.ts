@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {RedTourismWave} from "../../cards/turmoil/RedTourismWave";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Tourist implements IAward {
   public name: string = 'Tourist';
@@ -10,7 +8,6 @@ export class Tourist implements IAward {
 
   public getScore(player: Player): number {
     let score = RedTourismWave.getAdjacentEmptySpacesCount(player);
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

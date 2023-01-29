@@ -1,7 +1,6 @@
 import {CardName} from "../../CardName";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Warmonger implements IAward {
   public name: string = 'Warmonger';
@@ -10,9 +9,7 @@ export class Warmonger implements IAward {
   public getScore(player: Player): number {
     const cardNames = player.playedCards.map((card) => card.name);
     let score = cardNames.filter((name) => Warmonger.attackCards.includes(name)).length;
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 
   private static attackCards = [

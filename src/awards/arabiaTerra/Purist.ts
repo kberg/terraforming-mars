@@ -1,9 +1,7 @@
-import {CardName} from "../../CardName";
 import {CardType} from "../../cards/CardType";
 import {BASE_CARD_MANIFEST} from "../../cards/StandardCardManifests";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Purist implements IAward {
   public name: string = 'Purist';
@@ -12,7 +10,6 @@ export class Purist implements IAward {
   public getScore(player: Player): number {
     const validCardTypes = [CardType.ACTIVE, CardType.AUTOMATED];
     let score = player.playedCards.filter((card) => (BASE_CARD_MANIFEST.projectCards.factories.has(card.name)) && validCardTypes.includes(card.cardType)).length;
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

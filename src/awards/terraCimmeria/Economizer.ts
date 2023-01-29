@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {CardType} from "../../cards/CardType";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Economizer implements IAward {
   public name: string = 'Economizer';
@@ -13,7 +11,6 @@ export class Economizer implements IAward {
     let score = player.playedCards
       .filter((card) => (card.cost <= 10) && validCardTypes.includes(card.cardType)).length;
 
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

@@ -1,10 +1,8 @@
 import {Board} from "../../boards/Board";
-import {CardName} from "../../CardName";
 import {Player} from "../../Player";
 import {SpaceType} from "../../SpaceType";
 import {isAresTile} from "../../TileType";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Highlander implements IAward {
   public name: string = 'Highlander';
@@ -19,8 +17,6 @@ export class Highlander implements IAward {
       player.game.board.getAdjacentSpaces(space).every((space) => !Board.isOceanSpace(space)),
     ).length;
 
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {Player} from "../../Player";
 import {Resources} from "../../Resources";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Naturalist implements IAward {
   public name: string = 'Naturalist';
@@ -10,8 +8,6 @@ export class Naturalist implements IAward {
   
   public getScore(player: Player): number {
     let score = player.getProduction(Resources.HEAT) + player.getProduction(Resources.PLANTS);
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

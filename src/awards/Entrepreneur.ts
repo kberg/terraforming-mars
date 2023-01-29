@@ -1,7 +1,5 @@
-import {IAward} from './IAward';
+import {getAdditionalScore, IAward} from './IAward';
 import {Player} from '../Player';
-import {CardName} from '../CardName';
-import {ASIMOV_AWARD_BONUS} from '../constants';
 
 export class Entrepreneur implements IAward {
     public name: string = 'Entrepreneur';
@@ -14,7 +12,6 @@ export class Entrepreneur implements IAward {
               space.adjacency &&
               space.adjacency.bonus.length > 0)).length;
 
-      if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-      return score;
+      return score + getAdditionalScore(player);
     }
 }

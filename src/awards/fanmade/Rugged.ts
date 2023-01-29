@@ -1,8 +1,6 @@
-import {IAward} from './../IAward';
+import {getAdditionalScore, IAward} from './../IAward';
 import {Player} from '../../Player';
 import {isAresTile} from '../../TileType';
-import {CardName} from '../../CardName';
-import {ASIMOV_AWARD_BONUS} from '../../constants';
 
 export class Rugged implements IAward {
     public name: string = 'Rugged';
@@ -15,7 +13,6 @@ export class Rugged implements IAward {
         player.game.board.getAdjacentSpaces(space).some((space) => space.tile !== undefined && isAresTile(space.tile.tileType)),
       ).length;
 
-      if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-      return score;
+      return score + getAdditionalScore(player);
     }
 }

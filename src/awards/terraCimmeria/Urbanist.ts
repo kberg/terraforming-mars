@@ -1,9 +1,7 @@
 import {Board} from "../../boards/Board";
-import {CardName} from "../../CardName";
 import {Player} from "../../Player";
 import {TileType} from "../../TileType";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Urbanist implements IAward {
   public name: string = 'Urbanist';
@@ -21,9 +19,7 @@ export class Urbanist implements IAward {
         }
       }
     });
-    
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
 
-    return score;
+    return score + getAdditionalScore(player);
   }
 }

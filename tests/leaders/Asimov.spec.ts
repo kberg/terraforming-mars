@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {Asimov} from "../../src/cards/leaders/Asimov";
+import {ASIMOV_AWARD_BONUS} from "../../src/constants";
 import {Game} from "../../src/Game";
 import {OrOptions} from "../../src/inputs/OrOptions";
 import {Player} from "../../src/Player";
@@ -40,7 +41,7 @@ describe('Asimov', function() {
     player.playedCards.push(card);
 
     game.awards.forEach((award) => {
-      expect(award.getScore(player)).eq(2);
+      expect(award.getScore(player)).eq(ASIMOV_AWARD_BONUS);
     });
   });
 });

@@ -1,8 +1,7 @@
 import {CardName} from "../../CardName";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
 import {Player} from "../../Player";
 import {Units} from "../../Units";
-import {IAward} from "../IAward";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Engineer implements IAward {
   public name: string = 'Engineer';
@@ -16,9 +15,7 @@ export class Engineer implements IAward {
       if (Engineer.productionCards.includes(corp.name)) score += 1;
     });
 
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 
   private static productionCards = [

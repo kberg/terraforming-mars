@@ -1,8 +1,6 @@
-import {CardName} from "../../CardName";
 import {Tags} from "../../cards/Tags";
 import {Player} from "../../Player";
-import {IAward} from "../IAward";
-import {ASIMOV_AWARD_BONUS} from "../../constants";
+import {getAdditionalScore, IAward} from "../IAward";
 
 export class Voyager implements IAward {
   public name: string = 'Voyager';
@@ -10,8 +8,6 @@ export class Voyager implements IAward {
 
   public getScore(player: Player): number {
     let score = player.getTagCount(Tags.JOVIAN, 'award');
-    if (player.cardIsInEffect(CardName.ASIMOV)) score += ASIMOV_AWARD_BONUS;
-
-    return score;
+    return score + getAdditionalScore(player);
   }
 }
