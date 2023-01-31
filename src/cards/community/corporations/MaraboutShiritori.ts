@@ -7,10 +7,6 @@ import {Size} from '../../render/Size';
 import {Card} from '../../Card';
 import {Tags} from '../../Tags';
 import {IProjectCard} from '../../IProjectCard';
-import {DeferredAction} from '../../../deferredActions/DeferredAction';
-import {OrOptions} from '../../../inputs/OrOptions';
-import {SelectOption} from '../../../inputs/SelectOption';
-import {AltSecondaryTag} from '../../render/CardRenderItem';
 
 export class MaraboutShiritori extends Card implements CorporationCard {
   constructor() {
@@ -22,10 +18,10 @@ export class MaraboutShiritori extends Card implements CorporationCard {
 
       metadata: {
         cardNumber: 'R56',
-        description: 'You start with 35 M€. As your first action, name a tag. Draw a card with that tag.',
+        description: 'You start with 35 M€.',
         renderData: CardRenderer.builder((b) => {
-          b.br.br;
-          b.megacredits(35).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
+          b.br.br.br.br;
+          b.megacredits(35);
 
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
@@ -41,22 +37,6 @@ export class MaraboutShiritori extends Card implements CorporationCard {
   }
 
   public play() {
-    return undefined;
-  }
-
-  public initialAction(player: Player) {
-    const game = player.game;
-    const tags = game.getAllValidTags();
-
-    const options = tags.map((tag) => {
-      return new SelectOption('Draw 1 ' + tag + ' card', 'Select', () => {
-        player.drawCard(1, {tag: tag});
-        return undefined;
-      });
-    });
-
-    game.defer(new DeferredAction(player, () => new OrOptions(...options)));
-
     return undefined;
   }
 
