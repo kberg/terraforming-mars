@@ -377,7 +377,14 @@ export class Player implements ISerializable<SerializedPlayer> {
       log?: boolean,
       from? : Player | GlobalEventName,
     }) {
-    this.addResource(resource, -amount, options);
+    const shouldApplyBentenmaruEffect = options?.from !== undefined && options.from instanceof Player && options.from.isCorporation(CardName.BENTENMARU) && options.from.id !== this.id;
+
+    if (shouldApplyBentenmaruEffect) {
+      const bentenmaruPlayer = (options!.from as Player);
+      bentenmaruPlayer.addResource(resource, amount, options);
+    } else {
+      this.addResource(resource, -amount, options);
+    }
   }
 
   public addResource(resource: Resources, amount: number = 1, options? : { log?: boolean, from? : Player | GlobalEventName}) {
@@ -420,22 +427,54 @@ export class Player implements ISerializable<SerializedPlayer> {
   public addProduction(resource: Resources, amount : number = 1, options? : { log: boolean, from? : Player | GlobalEventName}) {
     const adj = resource === Resources.MEGACREDITS ? -5 : 0;
     const delta = (amount >= 0) ? amount : Math.max(amount, -(this.getProduction(resource) - adj));
+    const shouldApplyBentenmaruEffect = delta < 0 && options?.from !== undefined && options.from instanceof Player && options.from.isCorporation(CardName.BENTENMARU) && options.from.id !== this.id;
 
-    if (resource === Resources.MEGACREDITS) this.megaCreditProduction += delta;
-    else if (resource === Resources.STEEL) this.steelProduction += delta;
-    else if (resource === Resources.TITANIUM) this.titaniumProduction += delta;
-    else if (resource === Resources.PLANTS) this.plantProduction += delta;
-    else if (resource === Resources.ENERGY) {
-      this.energyProduction += delta;
-      if (PartyHooks.shouldApplyPolicy(this, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_3)) {
-        this.addResource(Resources.ENERGY, 2);
+    if (resource === Resources.MEGACREDITS) {
+      if (shouldApplyBentenmaruEffect) {
+        (options!.from as Player).addProduction(Resources.MEGACREDITS, Math.abs(delta));
+      } else {
+        this.megaCreditProduction += delta;
       }
-    }
-    else if (resource === Resources.HEAT) {
-      this.heatProduction += delta;
-      if (amount > 0) this.heatProductionStepsIncreasedThisGeneration += amount; // Hotsprings hook
-    }
-    else {
+    } else if (resource === Resources.STEEL) {
+      if (shouldApplyBentenmaruEffect) {
+        (options!.from as Player).addProduction(Resources.STEEL, Math.abs(delta));
+      } else {
+        this.steelProduction += delta;
+      }
+    } else if (resource === Resources.TITANIUM) {
+      if (shouldApplyBentenmaruEffect) {
+        (options!.from as Player).addProduction(Resources.TITANIUM, Math.abs(delta));
+      } else {
+        this.titaniumProduction += delta;
+      }
+    } else if (resource === Resources.PLANTS) {
+      if (shouldApplyBentenmaruEffect) {
+        (options!.from as Player).addProduction(Resources.PLANTS, Math.abs(delta));
+      } else {
+        this.plantProduction += delta;
+      }
+    } else if (resource === Resources.ENERGY) {
+      const shouldGrantBonusEnergy = PartyHooks.shouldApplyPolicy(this, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_POLICY_3);
+
+      if (shouldApplyBentenmaruEffect) {
+        (options!.from as Player).addProduction(Resources.ENERGY, Math.abs(delta));
+        if (shouldGrantBonusEnergy) (options!.from as Player).addResource(Resources.ENERGY, 2);
+      } else {
+        this.energyProduction += delta;
+        if (shouldGrantBonusEnergy) this.addResource(Resources.ENERGY, 2);
+      }
+    } else if (resource === Resources.HEAT) {
+      if (shouldApplyBentenmaruEffect) {
+        const bentenmaruPlayer = (options!.from as Player);
+        const heatProdGained = Math.abs(delta);
+
+        bentenmaruPlayer.addProduction(Resources.HEAT, heatProdGained);
+        if (heatProdGained > 0) bentenmaruPlayer.heatProductionStepsIncreasedThisGeneration += amount; // Hotsprings hook
+      } else {
+        this.heatProduction += delta;
+        if (amount > 0) this.heatProductionStepsIncreasedThisGeneration += amount; // Hotsprings hook
+      }
+    } else {
       throw new Error(`tried to add unsupported production ${resource}`);
     }
 
@@ -1925,6 +1964,10 @@ export class Player implements ISerializable<SerializedPlayer> {
   public pass(): void {
     this.game.playerHasPassed(this);
     this.lastCardPlayed = undefined;
+
+    if (this.isCorporation(CardName.BENTENMARU)) {
+      this.megaCredits = 0;
+    }
   }
 
   private passOption(): PlayerInput {

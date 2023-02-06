@@ -3,6 +3,7 @@ import {Resources} from '../Resources';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction, Priority} from './DeferredAction';
+import {CardName} from '../CardName';
 
 export class RemoveAnyPlants implements DeferredAction {
   public priority = Priority.ATTACK_OPPONENT;
@@ -16,6 +17,10 @@ export class RemoveAnyPlants implements DeferredAction {
     if (this.player.game.isSoloMode()) {
       // Crash site cleanup hook
       this.player.game.someoneHasRemovedOtherPlayersPlants = true;
+      // Bentenmaru hook
+      if (this.player.isCorporation(CardName.BENTENMARU)) {
+        this.player.addResource(Resources.PLANTS, this.count);
+      }
       return undefined;
     }
 

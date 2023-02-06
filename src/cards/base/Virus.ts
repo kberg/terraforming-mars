@@ -11,6 +11,7 @@ import {ResourceType} from '../../ResourceType';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class Virus extends Card implements IProjectCard {
   constructor() {
@@ -33,6 +34,9 @@ export class Virus extends Card implements IProjectCard {
   public play(player: Player): PlayerInput | undefined {
     if (player.game.getPlayers().length === 1) {
       player.game.someoneHasRemovedOtherPlayersPlants = true;
+      if (player.isCorporation(CardName.BENTENMARU)) {
+        player.addResource(Resources.PLANTS, 5);
+      }
       return undefined;
     }
 

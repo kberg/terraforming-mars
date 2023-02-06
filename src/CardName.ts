@@ -499,6 +499,7 @@ export enum CardName {
     SPACEWAYS = 'Spaceways',
     MARABOUT_SHIRITORI = 'Marabout Shiritori',
     SECRET_SANTA_SOCIETY = 'Secret Santa Society',
+    BENTENMARU = 'Bentenmaru',
 
     // Community preludes
     VALUABLE_GASES = 'Valuable Gases',

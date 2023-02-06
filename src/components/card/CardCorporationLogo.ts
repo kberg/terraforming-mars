@@ -187,6 +187,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-marabout-shiritori-logo"></div>';
       case CardName.SECRET_SANTA_SOCIETY:
         return '<div class="card-secret-santa-society-logo"></div>';
+      case CardName.BENTENMARU:
+        return '<div class="card-bentenmaru-logo"></div>';
       }
       return '';
     },

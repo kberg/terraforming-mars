@@ -28,7 +28,26 @@ export class Sabotage extends Card implements IProjectCard {
     });
   }
   public play(player: Player) {
-    if (player.game.isSoloMode()) return undefined;
+    if (player.game.isSoloMode()) {
+      if (player.isCorporation(CardName.BENTENMARU)) {
+        return new OrOptions(
+          new SelectOption('Gain 7 M€', 'Select', () => {
+            player.addResource(Resources.MEGACREDITS, 7, {log: true});
+            return undefined;
+          }),
+          new SelectOption('Gain 4 steel', 'Select', () => {
+            player.addResource(Resources.STEEL, 4, {log: true});
+            return undefined;
+          }),
+          new SelectOption('Gain 3 titanium', 'Select', () => {
+            player.addResource(Resources.TITANIUM, 3, {log: true});
+            return undefined;
+          }),
+        );
+      }
+
+      return undefined;
+    }
 
     const availablePlayerTargets = player.game.getPlayers().filter((p) => p.id !== player.id);
     const availableActions = new OrOptions();
