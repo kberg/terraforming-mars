@@ -30,21 +30,24 @@ export class ExecutiveOrder extends PreludeCard implements IProjectCard {
 
   public play(player: Player) {
     player.addResource(Resources.MEGACREDITS, 10, {log: true});
-    const turmoil = Turmoil.getTurmoil(player.game);
+    const game = player.game;
+    const turmoil = Turmoil.getTurmoil(game);
     const globalEvents: IGlobalEvent[] = [];
 
     for (let i = 0; i < 4; i++) {
       globalEvents.push(turmoil.globalEventDealer.draw()!);
     }
 
-    player.game.defer(new DeferredAction(player, () => {
+    game.defer(new DeferredAction(player, () => {
       return new OrOptions(
         ...globalEvents.map((event) => {
           // TODO: Render as SelectGlobalEvent
           const description = event.name + ': ' + event.description + ' Neutral delegate added: ' + event.currentDelegate;
           return new SelectOption(description, 'Select', () => {
             turmoil.currentGlobalEvent = event;
-            turmoil.sendDelegateToParty('NEUTRAL', event.currentDelegate, player.game);
+            turmoil.sendDelegateToParty('NEUTRAL', event.currentDelegate, game);
+
+            game.log('The current global event is ${0} Neutral delegate added: ${1}', (b) => b.globalEventName(event.name).string(event.currentDelegate));
 
             globalEvents.forEach((ge) => {
               if (ge.name !== event.name) {
@@ -58,7 +61,7 @@ export class ExecutiveOrder extends PreludeCard implements IProjectCard {
       );
     }));
 
-    player.game.defer(new SendDelegateToArea(player, 'Select where to send 2 delegates', {count: 2, source: 'reserve'}));
+    game.defer(new SendDelegateToArea(player, 'Select where to send 2 delegates', {count: 2, source: 'reserve'}));
     return undefined;
   }
 }
