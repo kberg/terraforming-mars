@@ -5,7 +5,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Urbanist implements IAward {
   public name: string = 'Urbanist';
-  public description: string = 'Most VP from city tile adjacencies on Mars'
+  public description: string = 'Most VP from city tiles on Mars'
 
   public getScore(player: Player): number {
     let score = 0;
@@ -16,6 +16,12 @@ export class Urbanist implements IAward {
         const adjacent = player.game.board.getAdjacentSpaces(space);
         for (const adj of adjacent) {
           if (adj.tile && adj.tile.tileType === TileType.GREENERY) score++;
+        }
+
+        if (space.tile?.tileType === TileType.CAPITAL) {
+          for (const adj of adjacent) {
+            if (adj.tile && [TileType.OCEAN, TileType.OCEAN_CITY].includes(adj.tile.tileType)) score++;
+          }
         }
       }
     });
