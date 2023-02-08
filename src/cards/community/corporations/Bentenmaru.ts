@@ -14,17 +14,17 @@ export class Bentenmaru extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.BENTENMARU,
       tags: [Tags.SPACE],
-      startingMegaCredits: 28,
+      startingMegaCredits: 25,
 
       metadata: {
         cardNumber: 'R58',
-        description: 'You start with 28 M€ and 10 M€ production.',
+        description: 'You start with 25 M€ and 10 M€ production.',
         renderData: CardRenderer.builder((b) => {
-          b.megacredits(28).production((pb) => pb.megacredits(10));
+          b.megacredits(25).production((pb) => pb.megacredits(10));
 
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.LARGE);
-            ce.effect('When you play a card that would decrease an OPPONENT\'s production or resources, increase YOUR production or resources by that amount instead.', (eb) => {
+            ce.effect('When you take an action that would decrease an OPPONENT\'s production or resources, increase YOUR production or resources by that amount instead.', (eb) => {
               eb.minus(Size.SMALL).wild(1).any.production((pb) => pb.wild(1).any);
               eb.startEffect.wild(1).production((pb) => pb.wild(1));
             });
