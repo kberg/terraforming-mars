@@ -55,6 +55,7 @@ import {Merger} from './Merger';
 import {CorporateArchives} from './CorporateArchives';
 import {DoubleDown} from './DoubleDown';
 import {HeadStart} from './HeadStart';
+import {SixteenPsyche} from './16Psyche';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -100,6 +101,7 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.BACTOVIRAL_RESEARCH, Factory: BactoviralResearch},
     {cardName: CardName.HARVEST, Factory: Harvest},
     {cardName: CardName.OUTDOOR_SPORTS, Factory: OutdoorSports},
+    {cardName: CardName.SIXTEEN_PSYCHE, Factory: SixteenPsyche},
   ],
   preludeCards: [
     {cardName: CardName.NEW_PARTNER, Factory: NewPartner},
