@@ -40,12 +40,16 @@ export class AirScrappingExpedition extends Card {
     player.game.increaseVenusScaleLevel(player, 1);
     let floaterCards = player.getResourceCards(ResourceType.FLOATER);
     floaterCards = floaterCards.filter((card) => card.tags.some((cardTag) => cardTag === Tags.VENUS));
-    if (floaterCards.length === 0) {
+
+    if (floaterCards.length === 0) return undefined;
+
+    if (floaterCards.length === 1) {
+      player.addResourceTo(floaterCards[0], {qty: 3, log: true});
       return undefined;
     }
 
     return new SelectCard('Select card to add 3 floaters', 'Add floaters', floaterCards, (foundCards: Array<ICard>) => {
-      player.addResourceTo(foundCards[0], 3);
+      player.addResourceTo(foundCards[0], {qty: 3, log: true});
       return undefined;
     });
   }
