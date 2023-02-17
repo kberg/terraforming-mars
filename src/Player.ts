@@ -634,9 +634,6 @@ export class Player implements ISerializable<SerializedPlayer> {
       victoryPointsBreakdown.setVictoryPoints('victoryPoints', this.colonyVictoryPoints, 'Colony VP');
     }
 
-    // Leaders VP
-    LeadersExpansion.calculateVictoryPoints(this, victoryPointsBreakdown);
-
     MoonExpansion.calculateVictoryPoints(this, victoryPointsBreakdown);
 
     // Escape velocity VP penalty

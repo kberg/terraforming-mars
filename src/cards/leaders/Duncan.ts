@@ -7,6 +7,7 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {Resources} from '../../Resources';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 
 export class Duncan extends Card implements LeaderCard {
   constructor() {
@@ -20,12 +21,13 @@ export class Duncan extends Card implements LeaderCard {
           b.br;
         }),
         description: 'Once per game, gain 6-X VP and 4X M€, where X is the current generation number.',
+        victoryPoints: CardRenderDynamicVictoryPoints.questionmark(),
       },
     });
   }
 
   public isDisabled = false;
-  public generationUsed = 1;
+  public generationUsed: number | undefined = undefined;
 
   public play() {
     return undefined;
@@ -45,5 +47,13 @@ export class Duncan extends Card implements LeaderCard {
     }));
 
     return undefined;
+  }
+
+  public getVictoryPoints(): number {
+    if (this.isDisabled === true && this.generationUsed !== undefined) {
+      return 6 - this.generationUsed;
+    }
+
+    return 0;
   }
 }

@@ -1,19 +1,9 @@
 import {CardName} from "../../CardName";
 import {Player} from "../../Player";
-import {VictoryPointsBreakdown} from "../../VictoryPointsBreakdown";
 import {CardType} from "../CardType";
 import {LeaderCard} from "../LeaderCard";
 
 export class LeadersExpansion {
-  public static calculateVictoryPoints(player: Player, vpb: VictoryPointsBreakdown): void {
-    if (player.cardIsInEffect(CardName.DUNCAN)) {
-      const card = player.playedCards.find((c) => c.name === CardName.DUNCAN) as LeaderCard;
-      if (card.isDisabled === true && card.generationUsed !== undefined) {
-        vpb.setVictoryPoints('victoryPoints', 6 - card.generationUsed, 'Leaders VP');
-      }
-    }
-  }
-
   public static getBonusWildTags(player: Player) {
     const xavier = player.playedCards.find((card) => card.name === CardName.XAVIER);
     if (xavier !== undefined && (xavier as LeaderCard).opgActionIsActive === true) {
