@@ -4,6 +4,7 @@ import {PreludeCard} from './PreludeCard';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class EccentricSponsor extends PreludeCard {
   constructor() {
@@ -26,7 +27,23 @@ export class EccentricSponsor extends PreludeCard {
   }
 
   public play(player: Player) {
+    let copiedByDoubleDown: boolean = false;
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (player.lastCardPlayed !== undefined && player.lastCardPlayed.name === CardName.DOUBLE_DOWN) {
+        copiedByDoubleDown = true;
+        player.cardDiscount += 25;
+      }
+      return undefined;
+    }));
+
     player.game.defer(new PlayProjectCard(player));
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (copiedByDoubleDown) player.cardDiscount -= 25;
+      return undefined;
+    }));
+
     return undefined;
   }
 }

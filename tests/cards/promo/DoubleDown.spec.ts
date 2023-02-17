@@ -1,6 +1,8 @@
 import {expect} from 'chai';
+import {AsteroidMining} from '../../../src/cards/base/AsteroidMining';
 import {ICard} from '../../../src/cards/ICard';
 import {Donation} from '../../../src/cards/prelude/Donation';
+import {EccentricSponsor} from '../../../src/cards/prelude/EccentricSponsor';
 import {GalileanMining} from '../../../src/cards/prelude/GalileanMining';
 import {PowerGeneration} from '../../../src/cards/prelude/PowerGeneration';
 import {DoubleDown} from '../../../src/cards/promo/DoubleDown';
@@ -59,5 +61,23 @@ describe('DoubleDown', function() {
     selectCard.cb([selectCard.cards[1]]);
     game.deferredActions.runAll(() => {});
     expect(player.getProduction(Resources.ENERGY)).to.eq(3);
+  });
+
+  it('Works with Eccentric Sponsor', function() {
+    player.playedCards.push(new EccentricSponsor());
+    const asteroidMining = new AsteroidMining();
+    expect(player.getCardCost(asteroidMining)).eq(30);
+
+    player.playCard(card);
+    expect(player.lastCardPlayed!.name).to.eq(card.name);
+    expect(player.cardDiscount).to.eq(0);
+
+    game.deferredActions.runNext();
+    game.deferredActions.runNext();
+    expect(player.cardDiscount).to.eq(25);
+    expect(player.getCardCost(asteroidMining)).eq(5);
+
+    game.deferredActions.runAll(() => {});
+    expect(player.cardDiscount).to.eq(0);
   });
 });
