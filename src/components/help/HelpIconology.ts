@@ -59,11 +59,14 @@ export const HelpIconology = Vue.component('help-iconology', {
             <div>
                 <div class="resource-tag tag-moon"></div>
                 <div class="help-icon-label" v-i18n>Moon</div>
+                <div class="expansion-icon expansion-icon-themoon"></div>
             </div>
-            <br>
             <div>
                 <div class="resource-tag tag-wild"></div>
                 <div class="help-icon-label" v-i18n>Wild</div>
+                <div class="expansion-icon expansion-icon-prelude"></div>
+                <div class="expansion-icon expansion-icon-colony"></div>
+                <div class="expansion-icon expansion-icon-turmoil"></div>
             </div>
             <div>
                 <div class="resource-tag tag-event"></div>
@@ -124,6 +127,23 @@ export const HelpIconology = Vue.component('help-iconology', {
             <div>
                 <div class="help-icon-resource asteroid"></div>
                 <div class="help-icon-label" v-i18n>Asteroid</div>
+                <div class="expansion-icon expansion-icon-venus"></div>
+                <div class="expansion-icon expansion-icon-promo"></div>
+            </div>
+            <div>
+                <div class="help-icon-resource pristar"></div>
+                <div class="help-icon-label" v-i18n>Preservation</div>
+                <div class="expansion-icon expansion-icon-turmoil"></div>
+            </div>
+            <div>
+                <div class="help-icon-resource camp"></div>
+                <div class="help-icon-label" v-i18n>Camp</div>
+                <div class="expansion-icon expansion-icon-colony"></div>
+            </div>
+            <div>
+                <div class="help-icon-resource disease"></div>
+                <div class="help-icon-label" v-i18n>Disease</div>
+                <div class="expansion-icon expansion-icon-promo"></div>
             </div>
         </div>
 
