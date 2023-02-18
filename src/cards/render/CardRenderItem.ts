@@ -17,6 +17,8 @@ export enum AltSecondaryTag {
   FLOATER = 'floater',
   // 'blue' => used in Project Workshop
   BLUE = 'blue',
+  // used in Buck CEO
+  GREEN = 'green',
   // used in Faraday CEO
   DIVERSE = 'diverse',
   // render square resources instead of round tags
