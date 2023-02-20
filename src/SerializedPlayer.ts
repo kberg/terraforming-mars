@@ -58,6 +58,7 @@ export interface SerializedPlayer {
     remainingStallActionsCount: number;
     removedFromPlayCards: Array<CardName>;
     removingPlayers: Array<PlayerId>;
+    requirementsBonus: number;
     scienceTagCount: number;
     heatProductionStepsIncreasedThisGeneration: number;
     hasUsedHeadStart: boolean;

@@ -284,6 +284,7 @@ describe('Player', function() {
       removingPlayers: [],
       removedFromPlayCards: [],
       heatProductionStepsIncreasedThisGeneration: 0,
+      requirementsBonus: 0,
       hasUsedHeadStart: false,
       consecutiveFirstPassCount: 0,
       hazardsRemoved: 0,

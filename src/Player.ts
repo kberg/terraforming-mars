@@ -188,6 +188,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   public heatProductionStepsIncreasedThisGeneration: number = 0;
   // Passer
   public consecutiveFirstPassCount: number = 0;
+  // Double Down
+  public requirementsBonus: number = 0;
   // Head Start
   public hasUsedHeadStart: boolean = false;
   // Purifier
@@ -741,7 +743,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public getRequirementsBonus(parameter: GlobalParameter): number {
-    let requirementsBonus: number = 0;
+    let requirementsBonus: number = this.requirementsBonus;
 
     this.corporationCards.forEach((corp) => {
       if (corp.getRequirementBonus !== undefined) {
@@ -2635,6 +2637,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       removedFromPlayCards: this.removedFromPlayCards.map((c) => c.name),
       // Hotsprings
       heatProductionStepsIncreasedThisGeneration: this.heatProductionStepsIncreasedThisGeneration,
+      // Double Down
+      requirementsBonus: this.requirementsBonus,
       // Head Start
       hasUsedHeadStart: this.hasUsedHeadStart,
       // Passer
@@ -2696,6 +2700,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.plantsNeededForGreenery = d.plantsNeededForGreenery;
     player.remainingStallActionsCount = d.remainingStallActionsCount;
     player.removingPlayers = d.removingPlayers;
+    // TODO: Remove after 28 Feb 2023
+    player.requirementsBonus = d.requirementsBonus || 0;
     player.scienceTagCount = d.scienceTagCount;
     player.steel = d.steel;
     player.steelProduction = d.steelProduction;

@@ -1,8 +1,10 @@
 import {expect} from 'chai';
 import {AsteroidMining} from '../../../src/cards/base/AsteroidMining';
+import {KelpFarming} from '../../../src/cards/base/KelpFarming';
 import {ICard} from '../../../src/cards/ICard';
 import {Donation} from '../../../src/cards/prelude/Donation';
 import {EccentricSponsor} from '../../../src/cards/prelude/EccentricSponsor';
+import {EcologyExperts} from '../../../src/cards/prelude/EcologyExperts';
 import {GalileanMining} from '../../../src/cards/prelude/GalileanMining';
 import {PowerGeneration} from '../../../src/cards/prelude/PowerGeneration';
 import {DoubleDown} from '../../../src/cards/promo/DoubleDown';
@@ -79,5 +81,25 @@ describe('DoubleDown', function() {
 
     game.deferredActions.runAll(() => {});
     expect(player.cardDiscount).to.eq(0);
+  });
+
+  it('Works with Ecology Experts', function() {
+    player.playedCards.push(new EcologyExperts());
+    player.megaCredits = 50;
+
+    const kelpFarming = new KelpFarming();
+    expect(player.canPlay(kelpFarming)).is.false;
+
+    player.playCard(card);
+    expect(player.lastCardPlayed!.name).to.eq(card.name);
+    expect(player.requirementsBonus).to.eq(0);
+
+    game.deferredActions.runNext();
+    game.deferredActions.runNext();
+    expect(player.requirementsBonus).to.eq(50);
+    expect(player.canPlay(kelpFarming)).is.true;
+
+    game.deferredActions.runAll(() => {});
+    expect(player.requirementsBonus).to.eq(0);
   });
 });

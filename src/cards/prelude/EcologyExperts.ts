@@ -5,6 +5,7 @@ import {PreludeCard} from './PreludeCard';
 import {Resources} from '../../Resources';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {CardRenderer} from '../render/CardRenderer';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class EcologyExperts extends PreludeCard {
   constructor() {
@@ -22,16 +23,36 @@ export class EcologyExperts extends PreludeCard {
       },
     });
   }
+
+  // Magic number high enough to always ignore requirements.
+  public requirementsBonus: number = 50;
+
   public getRequirementBonus(player: Player): number {
     if (player.lastCardPlayed !== undefined && player.lastCardPlayed.name === this.name) {
-      // Magic number high enough to always ignore requirements.
-      return 50;
+      return this.requirementsBonus;
     }
     return 0;
   }
+
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
+    let copiedByDoubleDown: boolean = false;
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (player.lastCardPlayed !== undefined && player.lastCardPlayed.name === CardName.DOUBLE_DOWN) {
+        copiedByDoubleDown = true;
+        player.requirementsBonus += this.requirementsBonus;
+      }
+      return undefined;
+    }));
+
     player.game.defer(new PlayProjectCard(player));
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (copiedByDoubleDown) player.requirementsBonus -= this.requirementsBonus;
+      return undefined;
+    }));
+
     return undefined;
   }
 }
