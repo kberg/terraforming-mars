@@ -186,7 +186,7 @@ export class LogHelper {
 
   static logFinalScore(game: Game, player: Player) {
     const vpb = player.getVictoryPoints();
-    let data = `Player: ${player.name}, TR: ${vpb.terraformRating}, `;
+    let data = `Player: ${player.name}, Total: ${vpb.total}, TR: ${vpb.terraformRating}, `;
 
     if (game.isSoloMode() === false) {
       data += `Milestones: ${vpb.milestones}, Awards: ${vpb.awards}, `;
@@ -198,7 +198,7 @@ export class LogHelper {
       data += `EV: ${vpb.escapeVelocity}, `;
     }
 
-    data += `Total: ${vpb.total}, M€: ${player.megaCredits}, Time: ${player.timer.getElapsedTimeInMinutes().toFixed(2)} mins, Actions: ${player.actionsTakenThisGame}`;
+    data += `M€: ${player.megaCredits}, Time: ${player.timer.getElapsedTimeInMinutes().toFixed(2)} mins, Actions: ${player.actionsTakenThisGame}`;
 
     game.log(data);
   }
