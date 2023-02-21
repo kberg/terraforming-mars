@@ -9,6 +9,7 @@ interface SelectHowToPayForProjectCardModel {
   tags: Array<Tags>
   heat: number;
   megaCredits: number;
+  mustSpendAtMost: number;
   steel: number;
   titanium: number;
   microbes: number;
@@ -74,6 +75,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       tags: [],
       heat: 0,
       megaCredits: 0,
+      mustSpendAtMost: 0,
       steel: 0,
       titanium: 0,
       microbes: 0,
@@ -94,7 +96,9 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       app.$data.card = app.getCard();
       app.$data.cost = app.$data.card.calculatedCost;
       app.$data.tags = app.getCardTags(),
-      app.$data.megaCredits = (app as unknown as typeof PaymentWidgetMixin.methods).getMegaCreditsMax();
+
+      app.$data.mustSpendAtMost = (app as unknown as typeof PaymentWidgetMixin.methods).getMegaCreditsMax();
+      app.$data.megaCredits = app.$data.mustSpendAtMost;
 
       app.setDefaultValues();
     });
@@ -123,9 +127,9 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       this.heat = 0;
 
       const units = this.card.reserveUnits || Units.EMPTY;
-      let megacreditBalance = Math.max(this.cost - this.player.megaCredits + units.megacredits, 0);
+      let megacreditBalance = Math.max(this.cost - this.mustSpendAtMost + units.megacredits, 0);
 
-      // Calcualtes the optimal number of units to use given the unit value.
+      // Calculates the optimal number of units to use given the unit value.
       //
       // It reads `megacreditBalance` as the remaining balance, and deducts the
       // consumed balance as part of this method.
@@ -200,17 +204,17 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.floaters -= saveOverSpendingUnits(this.floaters, DEFAULT_FLOATERS_VALUE);
         this.microbes -= saveOverSpendingUnits(this.microbes, DEFAULT_MICROBES_VALUE);
         this.science -= saveOverSpendingUnits(this.science, 1);
-
-        let finalmegaCreditsCost = this.cost;
-        finalmegaCreditsCost -= (this.titanium || 0) * (this.player.titaniumValue || DEFAULT_TITANIUM_VALUE);
-        finalmegaCreditsCost -= (this.steel || 0) * (this.player.steelValue || DEFAULT_STEEL_VALUE);
-        finalmegaCreditsCost -= (this.floaters || 0) * DEFAULT_FLOATERS_VALUE;
-        finalmegaCreditsCost -= (this.microbes || 0) * DEFAULT_MICROBES_VALUE;
-        finalmegaCreditsCost -= this.heat || 0;
-        finalmegaCreditsCost -= this.science || 0;
-
-        this.megaCredits = Math.max(0, finalmegaCreditsCost);
       }
+
+      let finalmegaCreditsCost = this.cost;
+      finalmegaCreditsCost -= (this.titanium || 0) * (this.player.titaniumValue || DEFAULT_TITANIUM_VALUE);
+      finalmegaCreditsCost -= (this.steel || 0) * (this.player.steelValue || DEFAULT_STEEL_VALUE);
+      finalmegaCreditsCost -= (this.floaters || 0) * DEFAULT_FLOATERS_VALUE;
+      finalmegaCreditsCost -= (this.microbes || 0) * DEFAULT_MICROBES_VALUE;
+      finalmegaCreditsCost -= this.heat || 0;
+      finalmegaCreditsCost -= this.science || 0;
+
+      this.megaCredits = Math.max(0, finalmegaCreditsCost);
     },
     availableHeat: function(): number {
       const availableHeat = this.player.heat - this.card?.reserveUnits?.heat;
@@ -288,7 +292,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       if (this.card?.reserveUnits?.megacredits === undefined) return false;
       if (this.card.reserveUnits.megacredits === 0) return false;
 
-      return this.card.reserveUnits.megacredits > 0 && this.player.megaCredits < this.cost + this.card.reserveUnits.megacredits;
+      return this.card.reserveUnits.megacredits > 0 && this.mustSpendAtMost < this.cost + this.card.reserveUnits.megacredits;
     },
     showReserveSteelWarning: function(): boolean {
       return this.card?.reserveUnits?.steel > 0 && this.canUseSteel();

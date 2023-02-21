@@ -1531,6 +1531,19 @@ export class Player implements ISerializable<SerializedPlayer> {
     return Math.max(cost, 0);
   }
 
+  public getMustSpendAtMost(card: IProjectCard): number | undefined {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS)) {
+      if (card.getActionDetails !== undefined) {
+        const actionDetails = card.getActionDetails(this, card);
+        card.howToAffordReds = RedsPolicy.canAffordRedsPolicy(this, this.game, actionDetails, card.tags.includes(Tags.BUILDING), card.tags.includes(Tags.SPACE));
+
+        return card.howToAffordReds.mustSpendAtMost;
+      }
+    }
+
+    return undefined;
+  }
+
   private canUseSteel(card: ICard): boolean {
     return card.tags.includes(Tags.BUILDING);
   }

@@ -7,7 +7,16 @@ export const PaymentWidgetMixin = {
   'name': 'PaymentWidgetMixin',
   'methods': {
     getMegaCreditsMax: function(): number {
-      return Math.min((this as any).player.megaCredits, (this as any).$data.cost);
+      const $this = (this as any);
+
+      if ($this.$data.card !== undefined && $this.playerinput !== undefined && $this.playerinput.cards !== undefined) {
+        const card = ($this.playerinput.cards as Array<CardModel>).find((card) => $this.$data.card.name === card.name);
+        if (card !== undefined && card.mustSpendAtMost !== undefined) {
+          return card.mustSpendAtMost;
+        }
+      }
+
+      return Math.min($this.player.megaCredits, $this.$data.cost);
     },
     getCssClassFor: function(action: string, target: string): string {
       const currentValue: number = (this as any)[target];

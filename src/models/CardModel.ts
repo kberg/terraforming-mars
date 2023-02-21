@@ -11,6 +11,7 @@ export interface CardModel {
     resources: number | undefined;
     resourceType: ResourceType | undefined;
     calculatedCost?: number;
+    mustSpendAtMost?: number;
     discount?: CardDiscount,
     cardType: CardType;
     isDisabled: boolean;

@@ -201,6 +201,7 @@ function getSelfReplicatingRobotsTargetCards(player: Player): Array<CardModel> {
     resourceType: undefined, // Card on SRR cannot gather its own resources (if any)
     name: targetCard.card.name,
     calculatedCost: player.getCardCost(targetCard.card),
+    mustSpendAtMost: player.getMustSpendAtMost(targetCard.card),
     cardType: CardType.ACTIVE,
     isDisabled: false,
     reserveUnits: Units.EMPTY, // I wonder if this could just be removed.
@@ -441,6 +442,7 @@ function getCards(
     resourceType: card.resourceType,
     name: card.name,
     calculatedCost: options.showNewCost ? (card.cost === undefined ? undefined : player.getCardCost(card as IProjectCard)) : card.cost,
+    mustSpendAtMost: player.getMustSpendAtMost(card as IProjectCard),
     cardType: card.cardType,
     isDisabled: options.enabled?.[index] === false || (card as LeaderCard).isDisabled === true,
     opgActionIsActive: (card as LeaderCard).opgActionIsActive === true,

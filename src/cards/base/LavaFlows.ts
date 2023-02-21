@@ -14,6 +14,7 @@ import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 
 export class LavaFlows extends Card implements IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -61,6 +62,7 @@ export class LavaFlows extends Card implements IProjectCard {
     Card.setRedsWarningText(trGain, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits.megacredits = trGain * REDS_RULING_POLICY_COST;
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails);
       return canPlaceTile && this.howToAffordReds.canAfford;

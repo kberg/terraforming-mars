@@ -6,8 +6,15 @@ import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {CardRenderer} from '../../cards/render/CardRenderer';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Resources} from '../../Resources';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 
 export class BigAsteroid extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.EVENT,
@@ -29,18 +36,27 @@ export class BigAsteroid extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    return true;
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits.megacredits = trGain * REDS_RULING_POLICY_COST;
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+      return this.howToAffordReds.canAfford;
+    } else {
+      return true;
+    }
   }
 
   public play(player: Player) {
     player.game.increaseTemperature(player, 2);
     player.game.defer(new RemoveAnyPlants(player, 4));
-    player.titanium += 4;
+    player.addResource(Resources.TITANIUM, 4);
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, temperatureIncrease: 2});
   }
 }
