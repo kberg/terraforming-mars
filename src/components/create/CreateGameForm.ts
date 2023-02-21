@@ -837,7 +837,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                             <input type="checkbox" v-model="solarPhaseOption" id="WGT-checkbox" v-on:change="toggleSolarPhase()">
                             <label for="WGT-checkbox">
-                                <span v-i18n>Solar Phase</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#solar-phase" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>WGT</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#world-government-terraforming" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <template v-if="playersCount === 1">
