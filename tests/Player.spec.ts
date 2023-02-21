@@ -773,8 +773,11 @@ it('canPlay: reds tax applies by default when raising temperature', function() {
     // Raising to 0
     (game as any).temperature = -2;
   
-    player.megaCredits = card.cost + 8;
+    player.megaCredits = card.cost + 6;
     expect(player.canPlay(card)).is.false;
+    // An extra 2 M€ is needed, but it can be obtained by placing Lava Flows tile next to the new ocean
+    player.megaCredits = card.cost + 7;
+    expect(player.canPlay(card)).is.true;
     player.megaCredits = card.cost + 9;
     expect(player.canPlay(card)).is.true;
   });

@@ -87,6 +87,7 @@ import {VanAllen} from './cards/leaders/VanAllen';
 import {_AresHazardPlacement} from './ares/AresHazards';
 import {ISpace} from './boards/ISpace';
 import {Eris} from './cards/ares/Eris';
+import {HowToAffordRedsPolicy, RedsPolicy} from './turmoil/RedsPolicy';
 
 export type PlayerId = string;
 export type Password = string;
@@ -167,6 +168,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   public turmoilPolicyActionUsed: boolean = false;
   public politicalAgendasActionUsedCount: number = 0;
   public dominantPartyActionUsedCount: number = 0; // Mars Coalition
+  public howToAffordReds?: HowToAffordRedsPolicy;
   public victoryPointsBreakdown = new VictoryPointsBreakdown();
 
   public oceanBonus: number = constants.OCEAN_BONUS;
@@ -1146,6 +1148,10 @@ export class Player implements ISerializable<SerializedPlayer> {
       if (foundSpace === undefined) {
         throw new Error('Space not available');
       }
+      // If there's more spaces down that branch, set them up as the next ones
+      if (this.howToAffordReds !== undefined && this.howToAffordReds.spaces !== undefined) {
+        this.howToAffordReds.spaces = this.howToAffordReds.spaces.get(foundSpace);
+      }
       this.runInputCb(pi.cb(foundSpace));
     } else if (pi instanceof SelectPlayer) {
       this.checkInputLength(input, 1, 1);
@@ -1699,6 +1705,10 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
+    if (selectedCard.howToAffordReds !== undefined) {
+      this.howToAffordReds = selectedCard.howToAffordReds;
+    }
+
     // Activate some colonies
     if (this.game.gameOptions.coloniesExtension && selectedCard.resourceType !== undefined) {
       this.game.colonies.forEach((colony) => {
@@ -1771,7 +1781,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     for (const somePlayer of this.game.getPlayers()) {
       somePlayer.corporationCards.forEach((corp) => {
         if (corp.onCardPlayed !== undefined) {
-          // For Colosseum variant, only trigger the effect once for each player (e.g. Vitor receives only 3 MC)
+          // For Colosseum variant, only trigger the effect once for each player (e.g. Vitor receives only 3 M€)
           if (this.game.gameOptions.colosseumVariant && somePlayer.color !== this.color) {
           } else {
             const actionFromPlayedCard: OrOptions | void = corp.onCardPlayed(this, selectedCard);
@@ -2075,7 +2085,14 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public canPlay(card: IProjectCard): boolean {
     const baseCost = this.getCardCost(card) - MoonExpansion.spendableLunaArchiveResources(this, card);
-    const redsCost = this.computeTerraformRatingBump(card) * REDS_RULING_POLICY_COST;
+    let redsCost = this.computeTerraformRatingBump(card) * REDS_RULING_POLICY_COST;
+
+    if (card.getActionDetails !== undefined) {
+      const actionDetails = card.getActionDetails(this, card);
+      if (RedsPolicy.canAffordRedsPolicy(this, this.game, actionDetails)) {
+        redsCost = 0;
+      }
+    }
 
     if (card.reserveUnits !== undefined || card.reserveUnits === Units.EMPTY) {
       card.reserveUnits = Units.of({
@@ -2257,6 +2274,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.actionsTakenThisRound === 0 || game.gameOptions.undoOption) {
       game.save();
     }
+
+    this.howToAffordReds = undefined;
 
     // Prelude cards have to be played first
     if (this.preludeCardsInHand.length > 0) {
@@ -2563,6 +2582,19 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.waitingFor !== undefined) {
       // Add a metric.
       console.error('Overwriting a waitingFor: ' + this.waitingFor);
+    }
+
+    // If availables spaces are restricted to be able to afford Reds policy
+    if (input instanceof SelectSpace && this.howToAffordReds !== undefined && this.howToAffordReds.spaces !== undefined) {
+      const availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
+      // Check that it's a subset of defaults spaces
+      if (availableSpaces.every(space => input.availableSpaces.includes(space))) {
+        input.title += " (Adjusted for Reds policy)";
+        input.availableSpaces = availableSpaces;
+      } else {
+        // This is not supposed to happen let's simply reset it to prevent game breaking errors
+        this.howToAffordReds = undefined;
+      }
     }
 
     this.timer.start();

@@ -11,8 +11,13 @@ import {CardName} from '../../CardName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
 
 export class LavaFlows extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor(
     name: CardName = CardName.LAVA_FLOWS,
     adjacencyBonus: IAdjacencyBonus | undefined = undefined,
@@ -49,12 +54,19 @@ export class LavaFlows extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
+    const game = player.game;
+    const volcanicSpaces = LavaFlows.getVolcanicSpaces(player);
+    const canPlaceTile = volcanicSpaces.length > 0;
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    return LavaFlows.getVolcanicSpaces(player).length > 0;
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails);
+      return canPlaceTile && this.howToAffordReds.canAfford;
+    } else {
+      return canPlaceTile;
+    }
   }
 
   public play(player: Player) {
@@ -73,5 +85,10 @@ export class LavaFlows extends Card implements IProjectCard {
       space.adjacency = this.adjacencyBonus;
       return undefined;
     });
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const volcanicSpaces = LavaFlows.getVolcanicSpaces(player);
+    return new ActionDetails({card: card, temperatureIncrease: 2, nonOceanToPlace: TileType.LAVA_FLOWS, nonOceanAvailableSpaces: volcanicSpaces});
   }
 }

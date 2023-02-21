@@ -21,6 +21,7 @@ import {CardRequirements} from './CardRequirements';
 import {GlobalParameter} from '../GlobalParameter';
 import {BoardType} from '../boards/BoardType';
 import {Units} from '../Units';
+import {ActionDetails, HowToAffordRedsPolicy} from '../turmoil/RedsPolicy';
 
 export interface IActionCard {
     action: (player: Player) => OrOptions | SelectOption | AndOptions | SelectAmount | SelectCard<ICard> | SelectCard<IProjectCard> | SelectHowToPay | SelectPlayer | SelectSpace | undefined;
@@ -71,6 +72,8 @@ export interface ICard {
     cardType: CardType;
     requirements?: CardRequirements;
     metadata: ICardMetadata;
+    howToAffordReds?: HowToAffordRedsPolicy;
+    getActionDetails?: (player: Player, card: IProjectCard) => ActionDetails;
     warning?: string | Message;
     productionBox?: Units;
     produce?: (player: Player) => void;
