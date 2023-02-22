@@ -292,7 +292,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       if (this.card?.reserveUnits?.megacredits === undefined) return false;
       if (this.card.reserveUnits.megacredits === 0) return false;
 
-      return this.card.reserveUnits.megacredits > 0 && this.mustSpendAtMost < this.cost + this.card.reserveUnits.megacredits;
+      return this.card.reserveUnits.megacredits > 0 && this.player.megaCredits < this.cost + this.card.reserveUnits.megacredits;
     },
     showReserveSteelWarning: function(): boolean {
       return this.card?.reserveUnits?.steel > 0 && this.canUseSteel();

@@ -43,6 +43,11 @@ export class BigAsteroid extends Card implements IProjectCard {
       this.reserveUnits.megacredits = trGain * REDS_RULING_POLICY_COST;
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined) {
+        this.reserveUnits.megacredits -= Math.max(player.megaCredits - this.howToAffordReds.mustSpendAtMost, 0);
+      }
+
       return this.howToAffordReds.canAfford;
     } else {
       return true;

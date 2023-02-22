@@ -65,6 +65,11 @@ export class LavaFlows extends Card implements IProjectCard {
       this.reserveUnits.megacredits = trGain * REDS_RULING_POLICY_COST;
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined) {
+        this.reserveUnits.megacredits -= Math.max(player.megaCredits - this.howToAffordReds.mustSpendAtMost, 0);
+      }
+
       return canPlaceTile && this.howToAffordReds.canAfford;
     } else {
       return canPlaceTile;

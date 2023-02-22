@@ -266,7 +266,7 @@ export class RedsPolicy {
 
     // If our tree has at least one branch, we can afford to pay Reds
     if (spacesTree.size > 0) {
-      return {canAfford: true, mustSpendAtMost: mustSpendAtMost, spaces: spacesTree};
+      return {canAfford: true, mustSpendAtMost: mustSpendAtMost + Math.max(...spacesBonusMC), spaces: spacesTree};
     }
 
     // We did all we could, still can't pay
