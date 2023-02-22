@@ -142,11 +142,17 @@ export const GameEnd = Vue.component('game-end', {
                         </div>
                     </div>
                 </div>
-                <div class="game_end_go_home">
-                    <a href="/" v-i18n>
-                        <Button size="big" type="back" />
-                        Go to main page
-                    </a>
+                <div class="game_end_navigation">
+                    <div>
+                        <a href="new-game">
+                            <Button size="big" type="back" />
+                            <span v-i18n>Create New Game</span>
+                        </a>
+                        <a href="/" v-i18n>
+                            <Button size="big" type="back" />
+                            <span v-i18n>Go to Main Page</span>
+                        </a>
+                    </div>
                 </div>
                 <div v-if="!isSoloGame() || player.isSoloModeWin" class="game-end-winer-announcement">
                     <span v-for="p in getWinners()"><span :class="'log-player ' + getEndGamePlayerRowColorClass(p.color)">{{ p.name }}</span></span> won!
