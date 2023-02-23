@@ -54,6 +54,8 @@ export interface HowToAffordRedsPolicy {
   spaces?: ISpaceTree
   // Number of oceans to be placed (for computing reserved M€ correctly in case of Lakefront)
   oceansToPlace?: number
+  // How much the player gets as rebates from project/corporation cards
+  bonusMCFromPlay?: number
 }
 
 export class RedsPolicy {  
@@ -223,7 +225,7 @@ export class RedsPolicy {
     const totalToPay = redTaxes + action.cost - bonusMCFromPlay;
 
     // Player has enough M€ to cover for everything
-    if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace};
+    if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
 
     let mustSpendAtMost = player.spendableMegacredits() - (redTaxes - bonusMCFromPlay);
     let missingMC: number = totalToPay - player.spendableMegacredits();
@@ -249,7 +251,7 @@ export class RedsPolicy {
       * Additionally, we decrease mustSpendAtMost here so that it doesn't exceed player.megacredits
       */
       if (action.nonOceanToPlace !== TileType.OCEAN) {
-        return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace};
+        return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
       } else {
         mustSpendAtMost += missingMC;
       }
@@ -301,13 +303,18 @@ export class RedsPolicy {
         }
       }
 
-      return {canAfford: true, mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)), spaces: spacesTree, oceansToPlace: action.oceansToPlace};
+      return {
+        canAfford: true,
+        mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)),
+        spaces: spacesTree,
+        oceansToPlace: action.oceansToPlace,
+        bonusMCFromPlay: bonusMCFromPlay,
+      };
     }
 
     // We did all we could, still can't pay
     return {canAfford: false, oceansToPlace: action.oceansToPlace};
   }
-
 
   public static getBoardSpacesBonusMC(player: Player, game: Game, isHelion: boolean = false): Array<number> {
     return game.board.spaces.map((space) => {

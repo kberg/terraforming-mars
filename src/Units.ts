@@ -88,6 +88,12 @@ export namespace Units {
       reservedMegacredits-= (player.oceanBonus - OCEAN_BONUS) * howToAffordReds.oceansToPlace;
     }
 
+    if (howToAffordReds.bonusMCFromPlay !== undefined) {
+      reservedMegacredits -= howToAffordReds.bonusMCFromPlay;
+    }
+
+    reservedMegacredits = Math.max(reservedMegacredits, 0);
+
     return {
       megacredits: purse.megacredits - reservedMegacredits,
       steel: purse.steel,
