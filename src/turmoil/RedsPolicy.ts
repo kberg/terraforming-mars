@@ -225,8 +225,8 @@ export class RedsPolicy {
     // Player has enough M€ to cover for everything
     if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace};
 
-    let mustSpendAtMost = player.megaCredits - (redTaxes - bonusMCFromPlay) + (isHelion ? player.heat : 0);
-    let missingMC: number = totalToPay - (player.megaCredits + (isHelion ? player.heat : 0));
+    let mustSpendAtMost = player.spendableMegacredits() - (redTaxes - bonusMCFromPlay);
+    let missingMC: number = totalToPay - player.spendableMegacredits();
 
     if (canUseSteel) {
       missingMC -= Math.min(player.steel, Math.ceil(missingMC / player.getSteelValue())) * player.getSteelValue();
