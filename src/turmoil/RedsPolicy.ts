@@ -288,6 +288,14 @@ export class RedsPolicy {
 
     // If our tree has at least one branch, we can afford to pay Reds
     if (spacesTree.size > 0) {
+      if (action.card !== undefined) {
+        if (action.card.warning !== undefined) {
+          action.card.warning += ' Tile placement will be limited due to Reds policy.';
+        } else {
+          action.card.warning = 'Tile placement will be limited due to Reds policy.';
+        }
+      }
+
       return {canAfford: true, mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)), spaces: spacesTree, oceansToPlace: action.oceansToPlace};
     }
 
