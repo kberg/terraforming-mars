@@ -12,6 +12,7 @@ import {HELLAS_BONUS_OCEAN_COST, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERAT
 import {Board} from "../boards/Board";
 import {ISpace} from "../boards/ISpace";
 import {BoardName} from "../boards/BoardName";
+import {CardType} from "../cards/CardType";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -133,8 +134,11 @@ export class RedsPolicy {
     const isManutech = player.isCorporation(CardName.MANUTECH);
     const isRecyclon = player.isCorporation(CardName.RECYCLON);
     const isVitor = player.isCorporation(CardName.VITOR);
+    const isUNMO = player.isCorporation(CardName.UNITED_NATIONS_MISSION_ONE);
 
     let bonusMCFromPlay: number = 0;
+
+    if (isUNMO) bonusMCFromPlay += totalTRGain;
 
     // Plants conversion
     if (action.isPlantsConversion === true) {
@@ -188,15 +192,16 @@ export class RedsPolicy {
         }
       }
 
-      if (hasAdvertising && isManutech && action.card.cost >= 20) {
-        bonusMCFromPlay += 1;
+      if (action.card.cost >= 20) {
+        if (isCredicor) bonusMCFromPlay += 4;
+        if (hasAdvertising && isManutech) bonusMCFromPlay += 1;
       }
 
-      if (action.card.tags.filter((tag) => tag === Tags.EVENT).length > 0) {
+      if (action.card.cardType === CardType.EVENT) {
         if (isInterplanetary) bonusMCFromPlay += 2;
         if (hasMediaGroup) bonusMCFromPlay += 3;
 
-        if (hasOptimalAerobraking) {
+        if (hasOptimalAerobraking && action.card.tags.some((tag) => tag === Tags.SPACE)) {
           bonusMCFromPlay += 3;
           if (isHelion) bonusMCFromPlay += 3;
         }
