@@ -9,6 +9,9 @@ import {IceAsteroid} from "../src/cards/base/IceAsteroid";
 import {LavaFlows} from "../src/cards/base/LavaFlows";
 import {ProtectedValley} from "../src/cards/base/ProtectedValley";
 import {ArtificialLake} from "../src/cards/base/ArtificialLake";
+import {BribedCommittee} from "../src/cards/base/BribedCommittee";
+import {MediaGroup} from "../src/cards/base/MediaGroup";
+import {AquiferPumping} from "../src/cards/base/AquiferPumping";
 
 describe("RedsPolicy", function () {
   let player : Player, player2 : Player, game : Game, iceAsteroid: ActionDetails, protectedValley: ActionDetails, lavaFlows: ActionDetails;
@@ -114,5 +117,42 @@ describe("RedsPolicy", function () {
     expect(spaces).has.lengthOf(4);
     const tharsisTholus = game.board.getSpace("09");
     expect(spaces.has(tharsisTholus)).is.true;
+  });
+
+  it("Should work with Bribed Committee", function() {
+    const bribedCommittee = new BribedCommittee();
+    const actionDetails = bribedCommittee.getActionDetails(player, bribedCommittee);
+
+    player.megaCredits = 12;
+    expect(RedsPolicy.canAffordRedsPolicy(player, game, actionDetails).canAfford).is.false;
+
+    player.megaCredits = 13;
+    expect(RedsPolicy.canAffordRedsPolicy(player, game, actionDetails).canAfford).is.true;
+
+    player.playedCards.push(new MediaGroup());
+    player.megaCredits = 10;
+    expect(RedsPolicy.canAffordRedsPolicy(player, game, actionDetails).canAfford).is.true;
+  });
+
+  it("Should work with Aquifer Pumping", function() {
+    const aquiferPumping = new AquiferPumping();
+    const actionDetails = aquiferPumping.getActionDetails();
+
+    player.megaCredits = 11;
+    expect(RedsPolicy.canAffordRedsPolicy(player, game, actionDetails, true).canAfford).is.true;
+
+    player.megaCredits = 9;
+    player.steel = 1;
+    expect(RedsPolicy.canAffordRedsPolicy(player, game, actionDetails, true).canAfford).is.true;
+
+    game.addOceanTile(player, "07");
+    TestingUtils.runAllActions(game);
+
+    player.megaCredits = 7;
+    player.steel = 1;
+    const howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails, true);
+    expect(howToAffordReds.canAfford).is.true;
+    // Ocean spaces 06 and 13 provide adjacency bonus of 2 M€ for the shortfall
+    expect(howToAffordReds.spaces).has.length(2);
   });
 });
