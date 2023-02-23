@@ -7,10 +7,18 @@ import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {SpaceType} from '../../SpaceType';
 import {CardName} from '../../CardName';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
+import {TileType} from '../../TileType';
 
 export class ArtificialLake extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.AUTOMATED,
@@ -35,9 +43,24 @@ export class ArtificialLake extends Card implements IProjectCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    const board = player.game.board;
+    const game = player.game;
+    const board = game.board;
+    const canPlaceTile = board.getAvailableSpacesOnLand(player).length > 0;
     if (board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) return true;
-    return board.getAvailableSpacesOnLand(player).length > 0;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return canPlaceTile && this.howToAffordReds.canAfford;
+    }
+
+    return canPlaceTile;
   }
 
   public play(player: Player) {
@@ -48,6 +71,12 @@ export class ArtificialLake extends Card implements IProjectCard {
       return undefined;
     });
   }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const landSpaces = player.game.board.getAvailableSpacesOnLand(player);
+    return new ActionDetails({card: card, oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN, nonOceanAvailableSpaces: landSpaces});
+  }
+
   public getVictoryPoints() {
     return 1;
   }

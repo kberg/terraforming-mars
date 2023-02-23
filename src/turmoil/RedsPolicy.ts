@@ -220,7 +220,7 @@ export class RedsPolicy {
     // Player has enough M€ to cover for everything
     if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace};
 
-    const mustSpendAtMost = player.megaCredits - (redTaxes - bonusMCFromPlay) + (isHelion ? player.heat : 0);
+    let mustSpendAtMost = player.megaCredits - (redTaxes - bonusMCFromPlay) + (isHelion ? player.heat : 0);
     let missingMC: number = totalToPay - (player.megaCredits + (isHelion ? player.heat : 0));
 
     if (canUseSteel) {
@@ -238,7 +238,16 @@ export class RedsPolicy {
 
     // If player uses steel/titanium/etc it can pay for everything but must not spend more than |mustSpendAtMost| M€ on the action/card itself
     if (missingMC <= 0) {
-      return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace};
+      /*
+      * {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} is used for Artificial Lake edge case
+      * We don't want to return here as we need to compute adjacency bonuses from placing its ocean on a land space
+      * Additionally, we decrease mustSpendAtMost here so that it doesn't exceed player.megacredits
+      */
+      if (action.nonOceanToPlace !== TileType.OCEAN) {
+        return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace};
+      } else {
+        mustSpendAtMost += missingMC;
+      }
     }
 
     // If we still can't pay, and there's no tile to place, there's no way to get more cash, so player can't pay Reds
@@ -257,12 +266,20 @@ export class RedsPolicy {
     // Let's compute bonus M€ from each board space
     const spacesBonusMC = RedsPolicy.getBoardSpacesBonusMC(player, game, isHelion);
 
+    /*
+     * Edge case for ArtificialLake, which uses a {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} hack for its ActionDetails
+     * Making oceansToPlace = 0 does two important things here
+     * First it ensures we don't enter the if block on line 316, since we are in fact only placing 1 tile, not 2 tiles
+     * Second on line 341 because we have TileType.OCEAN as our "nonOceanToPlace" we will get an array of land spaces instead of ocean spaces
+     */
+    const oceansToPlace = action.card?.name === CardName.ARTIFICIAL_LAKE ? 0 : action.oceansToPlace;
+
     // And generate a tree of tile placements that provide at least |missingMC|
     const spacesTree: ISpaceTree = RedsPolicy.makeISpaceTree(
         player,
         game,
         spacesBonusMC,
-        action.oceansToPlace,
+        oceansToPlace,
         action.oceansAvailableSpaces,
         action.nonOceanToPlace !== undefined ? 1 : 0,
         action.nonOceanAvailableSpaces,
@@ -271,7 +288,7 @@ export class RedsPolicy {
 
     // If our tree has at least one branch, we can afford to pay Reds
     if (spacesTree.size > 0) {
-      return {canAfford: true, mustSpendAtMost: mustSpendAtMost + Math.max(...spacesBonusMC), spaces: spacesTree, oceansToPlace: action.oceansToPlace};
+      return {canAfford: true, mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)), spaces: spacesTree, oceansToPlace: action.oceansToPlace};
     }
 
     // We did all we could, still can't pay

@@ -50,7 +50,7 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails();
-      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, true, false);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, true);
 
       if (this.howToAffordReds.mustSpendAtMost !== undefined) {
         this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
