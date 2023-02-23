@@ -2282,13 +2282,12 @@ export class Player implements ISerializable<SerializedPlayer> {
       return;
     }
 
+    this.howToAffordReds = undefined;
     const allOtherPlayersHavePassed = this.allOtherPlayersHavePassed();
 
     if (this.actionsTakenThisRound === 0 || game.gameOptions.undoOption) {
       game.save();
     }
-
-    this.howToAffordReds = undefined;
 
     // Prelude cards have to be played first
     if (this.preludeCardsInHand.length > 0) {
