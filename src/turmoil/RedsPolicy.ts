@@ -28,6 +28,9 @@ export class ActionDetails {
   public oxygenIncrease: number = 0; // If action increases oxygen
   public temperatureIncrease: number = 0; // If action increases temperature
   public venusIncrease: number = 0; // If action increases Venus scale
+  public moonColonyRateIncrease: number = 0; // If action increases Moon colony rate
+  public moonLogisticsRateIncrease: number = 0; // If action increases Moon logistics rate
+  public moonMiningRateIncrease: number = 0; // If action increases Moon mining rate
   public oceansToPlace: number = 0; // If action places an ocean tile
   public oceansAvailableSpaces: Array<ISpace> = []; // Default spaces where the ocean tile can be placed
   public nonOceanToPlace?: TileType; // If action places a non ocean tile (City, Greenery, Special, etc)
