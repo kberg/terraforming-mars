@@ -6,8 +6,15 @@ import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
+import {MAX_OCEAN_TILES, REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class BlackPolarDust extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.AUTOMATED,
@@ -28,12 +35,27 @@ export class BlackPolarDust extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    return player.getProduction(Resources.MEGACREDITS) >= -3;
+    const game = player.game;
+    const board = game.board;
+    const hasEnoughMegacreditProduction = player.getProduction(Resources.MEGACREDITS) >= -3;
+    if (board.getOceansOnBoard() === MAX_OCEAN_TILES) return hasEnoughMegacreditProduction;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return hasEnoughMegacreditProduction && this.howToAffordReds.canAfford;
+    }
+
+    return hasEnoughMegacreditProduction;
   }
 
   public play(player: Player) {
@@ -41,5 +63,10 @@ export class BlackPolarDust extends Card implements IProjectCard {
     player.addProduction(Resources.HEAT, 3);
     player.game.defer(new PlaceOceanTile(player));
     return undefined;
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const spaces = player.game.board.getAvailableSpacesForOcean(player);
+    return new ActionDetails({card: card, oceansToPlace: 1, oceansAvailableSpaces: spaces});
   }
 }
