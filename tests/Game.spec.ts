@@ -338,6 +338,9 @@ describe('Game', () => {
     const game = Game.newInstance('foobar', [player], player, gameOptions);
     game.generation = 14;
 
+    // Clear cities and greeneries placed in solo mode
+    TestingUtils.resetBoard(game);
+
     // Terraform
     (game as any).temperature = constants.MAX_TEMPERATURE;
     (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL - 2;
