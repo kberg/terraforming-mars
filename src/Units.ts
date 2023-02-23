@@ -1,7 +1,9 @@
 // A representation of a value associated with each standard resource type.
 // Could be a player's inventory, or their production, or just a way to pass several resource-related values
 
-// import {Player} from './Player';
+import {OCEAN_BONUS} from "./constants";
+import {Player} from "./Player";
+import {HowToAffordRedsPolicy} from "./turmoil/RedsPolicy";
 
 // Units represents any value of each standard unit.
 // Could be positive or negative, depending on how it's used.
@@ -67,15 +69,32 @@ export namespace Units {
     };
   }
 
-  // export function adjustUnits(delta: PartialUnits, player: Player, purse: Units) {
-  //   if (!player.hasUnits(delta)) {
-  //     throw new Error();
-  //   }
-  //   purse.megacredits += delta.megacredits || 0;
-  //   purse.steel += delta.steel || 0;
-  //   purse.titanium += delta.titanium || 0;
-  //   purse.plants += delta.plants || 0;
-  //   purse.energy += delta.energy || 0;
-  //   purse.heat += delta.heat || 0;
-  // }
+  export function adjustUnits(purse: Units, delta: Partial<Units>): Units {
+    return {
+      megacredits: purse.megacredits + (delta.megacredits || 0),
+      steel: purse.steel + (delta.steel || 0),
+      titanium: purse.titanium + (delta.titanium || 0),
+      plants: purse.plants + (delta.plants || 0),
+      energy: purse.energy + (delta.energy || 0),
+      heat: purse.heat + (delta.heat || 0),
+    };
+  }
+
+  export function maybeAdjustReservedMegacredits(player: Player, purse: Units, howToAffordReds: HowToAffordRedsPolicy): Units {
+    let reservedMegacredits = purse.megacredits - Math.max(player.megaCredits - howToAffordReds.mustSpendAtMost!, 0);
+
+    // Edge case handling for Lakefront, which receives additional ocean adjacency placement bonus
+    if (player.oceanBonus > OCEAN_BONUS && howToAffordReds.oceansToPlace !== undefined) {
+      reservedMegacredits-= (player.oceanBonus - OCEAN_BONUS) * howToAffordReds.oceansToPlace;
+    }
+
+    return {
+      megacredits: purse.megacredits - reservedMegacredits,
+      steel: purse.steel,
+      titanium: purse.titanium,
+      plants: purse.plants,
+      energy: purse.energy,
+      heat: purse.heat,
+    };
+  }
 }

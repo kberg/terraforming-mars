@@ -11,6 +11,7 @@ import {TileType} from "../TileType";
 import {HELLAS_BONUS_OCEAN_COST, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from "../constants";
 import {Board} from "../boards/Board";
 import {ISpace} from "../boards/ISpace";
+import {BoardName} from "../boards/BoardName";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -50,6 +51,8 @@ export interface HowToAffordRedsPolicy {
   mustSpendAtMost?: number,
   // A tree limiting available spaces for tile placements, if needed
   spaces?: ISpaceTree
+  // Number of oceans to be placed (for computing reserved M€ correctly in case of Lakefront)
+  oceansToPlace?: number
 }
 
 export class RedsPolicy {  
@@ -78,9 +81,11 @@ export class RedsPolicy {
     // If temperature increase will place an ocean
     if (game.getTemperature() < 0 && game.getTemperature() + action.temperatureIncrease * 2 >= 0) {
       if (action.oceansToPlace === 0 && action.oceansAvailableSpaces.length === 0) {
-        action.oceansAvailableSpaces = game.board.getAvailableSpacesForOcean(player)
+        action.oceansAvailableSpaces = game.board.getAvailableSpacesForOcean(player);
       }
       action.oceansToPlace++;
+    } else if (action.oceansToPlace > 0 && action.oceansAvailableSpaces.length === 0) {
+      action.oceansAvailableSpaces = game.board.getAvailableSpacesForOcean(player);
     }
 
     // If venus increase will increase TR
@@ -213,7 +218,7 @@ export class RedsPolicy {
     const totalToPay = redTaxes + action.cost - bonusMCFromPlay;
 
     // Player has enough M€ to cover for everything
-    if (player.canAfford(totalToPay)) return {canAfford: true};
+    if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace};
 
     const mustSpendAtMost = player.megaCredits - (redTaxes - bonusMCFromPlay) + (isHelion ? player.heat : 0);
     let missingMC: number = totalToPay - (player.megaCredits + (isHelion ? player.heat : 0));
@@ -233,12 +238,12 @@ export class RedsPolicy {
 
     // If player uses steel/titanium/etc it can pay for everything but must not spend more than |mustSpendAtMost| M€ on the action/card itself
     if (missingMC <= 0) {
-      return {canAfford: true, mustSpendAtMost: mustSpendAtMost};
+      return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace};
     }
 
     // If we still can't pay, and there's no tile to place, there's no way to get more cash, so player can't pay Reds
     if (action.oceansToPlace === 0 && action.nonOceanToPlace === undefined) {
-      return {canAfford: false};
+      return {canAfford: false, oceansToPlace: action.oceansToPlace};
     }
 
     /*
@@ -246,7 +251,7 @@ export class RedsPolicy {
      * Let's see if we can manage to pay Reds using the bonus placement from those tiles
      *
      * TODO: Include Ares adjacency bonus/malus/hazards
-     * TODO: Improve calculation for placement on HELIAS special ocean tile
+     * TODO: Improve calculation for placement on HELLAS special ocean tile
      */
 
     // Let's compute bonus M€ from each board space
@@ -266,11 +271,11 @@ export class RedsPolicy {
 
     // If our tree has at least one branch, we can afford to pay Reds
     if (spacesTree.size > 0) {
-      return {canAfford: true, mustSpendAtMost: mustSpendAtMost + Math.max(...spacesBonusMC), spaces: spacesTree};
+      return {canAfford: true, mustSpendAtMost: mustSpendAtMost + Math.max(...spacesBonusMC), spaces: spacesTree, oceansToPlace: action.oceansToPlace};
     }
 
     // We did all we could, still can't pay
-    return {canAfford: false};
+    return {canAfford: false, oceansToPlace: action.oceansToPlace};
   }
 
 
@@ -279,7 +284,10 @@ export class RedsPolicy {
       let bonus = game.board.getAdjacentSpaces(space).filter(
         (adjacentSpace) => Board.isOceanSpace(adjacentSpace)).length * player.oceanBonus;
 
-      if (space.id === SpaceName.HELLAS_OCEAN_TILE) bonus -= HELLAS_BONUS_OCEAN_COST;
+      if (space.id === SpaceName.HELLAS_OCEAN_TILE && game.gameOptions.boardName === BoardName.HELLAS) {
+        bonus -= HELLAS_BONUS_OCEAN_COST;
+      }
+
       if (isHelion) bonus += space.bonus.filter(b => b === SpaceBonus.HEAT).length;
 
       return bonus;

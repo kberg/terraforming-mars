@@ -11,8 +11,12 @@ import {REDS_RULING_POLICY_COST} from '../../constants';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
+import {RedsPolicy, ActionDetails, HowToAffordRedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class AquiferPumping extends Card implements IActionCard, IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -32,22 +36,42 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
   public play() {
     return undefined;
   }
+
   public canAct(player: Player): boolean {
     const oceansMaxed = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
     const oceanCost = 8;
 
+    const trGain = oceansMaxed ? 0 : 1;
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    Card.setRedsActionWarningText(trGain, this, redsAreRuling);
+
     if (oceansMaxed) return false;
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(oceanCost + REDS_RULING_POLICY_COST, {steel: true});
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, true, false);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
     }
 
     return player.canAfford(oceanCost, {steel: true});
   }
+
   public action(player: Player) {
     player.game.defer(new SelectHowToPayDeferred(player, 8, {canUseSteel: true, title: 'Select how to pay for action', afterPay: () => {
+      if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
       player.game.defer(new PlaceOceanTile(player));
     }}));
+
     return undefined;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({cost: 8, oceansToPlace: 1});
   }
 }

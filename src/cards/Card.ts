@@ -114,4 +114,13 @@ export abstract class Card {
       card.warning = undefined;
     }
   }
+
+  public static setRedsActionWarningText(trGain: number, card: ICard, redsAreRuling: boolean): void {
+    if (trGain > 0 && redsAreRuling) {
+      const redsCost = trGain * REDS_RULING_POLICY_COST;
+      card.warning = `You will lose an additional ${redsCost} M€ if you take this action this generation.`;
+    } else {
+      card.warning = undefined;
+    }
+  }
 }

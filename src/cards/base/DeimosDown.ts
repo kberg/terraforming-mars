@@ -11,6 +11,7 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {RedsPolicy, ActionDetails, HowToAffordRedsPolicy} from '../../turmoil/RedsPolicy';
 import {Resources} from '../../Resources';
+import {Units} from '../../Units';
 
 export class DeimosDown extends Card implements IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -40,12 +41,12 @@ export class DeimosDown extends Card implements IProjectCard {
     Card.setRedsWarningText(trGain, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      this.reserveUnits.megacredits = trGain * REDS_RULING_POLICY_COST;
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
 
       if (this.howToAffordReds.mustSpendAtMost !== undefined) {
-        this.reserveUnits.megacredits -= Math.max(player.megaCredits - this.howToAffordReds.mustSpendAtMost, 0);
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
       }
 
       return this.howToAffordReds.canAfford;
