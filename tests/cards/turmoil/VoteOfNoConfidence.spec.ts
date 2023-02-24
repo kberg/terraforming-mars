@@ -1,28 +1,47 @@
 import {expect} from 'chai';
 import {VoteOfNoConfidence} from '../../../src/cards/turmoil/VoteOfNoConfidence';
 import {Game} from '../../../src/Game';
+import {Player} from '../../../src/Player';
 import {PartyName} from '../../../src/turmoil/parties/PartyName';
+import {Turmoil} from '../../../src/turmoil/Turmoil';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('VoteOfNoConfidence', function() {
-  it('Should play', function() {
-    const card = new VoteOfNoConfidence();
-    const player = TestPlayers.BLUE.newPlayer();
+  let card : VoteOfNoConfidence; let player : Player; let game : Game; let turmoil: Turmoil;
 
+  beforeEach(() => {
+    card = new VoteOfNoConfidence();
+    player = TestPlayers.BLUE.newPlayer();
     const gameOptions = TestingUtils.setCustomGameOptions();
-    const game = Game.newInstance('foobar', [player], player, gameOptions);
+    game = Game.newInstance('foobar', [player], player, gameOptions);
+    turmoil = game.turmoil!;
+  });
+
+  it('Should play', function() {
     expect(card.canPlay(player)).is.not.true;
 
-    game.turmoil!.chairman = 'NEUTRAL';
+    turmoil.chairman = 'NEUTRAL';
     expect(card.canPlay(player)).is.not.true;
 
-    const greens = game.turmoil!.getPartyByName(PartyName.GREENS)!;
+    const greens = turmoil.getPartyByName(PartyName.GREENS)!;
     greens.partyLeader = player.id;
     expect(card.canPlay(player)).is.true;
 
     card.play(player);
-    expect(game.getPlayerById(game.turmoil!.chairman)).eq(player);
+    expect(game.getPlayerById(turmoil.chairman)).eq(player);
     expect(player.getTerraformRating()).eq(15);
+  });
+
+  it('Neutral Delegate returns to Reserve', function() {
+    const neutralReserve = turmoil.getDelegatesInReserve('NEUTRAL');
+    turmoil.chairman = 'NEUTRAL';
+
+    const greens = turmoil.getPartyByName(PartyName.GREENS);
+    greens.partyLeader = player.id;
+
+    card.play(player);
+    TestingUtils.runAllActions(game);
+    expect(turmoil.getDelegatesInReserve('NEUTRAL')).to.eq(neutralReserve + 1);
   });
 });
