@@ -14,7 +14,7 @@ import {IColony} from '../colonies/IColony';
 import {Message} from '../../common/logs/Message';
 
 export class MessageBuilder {
-  protected message: Message;
+  private message: Message;
 
   constructor(message: string) {
     this.message = {
@@ -105,7 +105,7 @@ export class MessageBuilder {
     return this;
   }
 
-  public getMessage(): Message {
+  public build(): Message {
     return this.message;
   }
 }

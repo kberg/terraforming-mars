@@ -19,8 +19,8 @@ export class LogBuilder extends MessageBuilder {
     return this;
   }
 
-  public build(): LogMessage {
-    const message = this.getMessage();
+  public override build(): LogMessage {
+    const message = super.build();
     return new LogMessage(this.type, message.message, message.data);
   }
 }
