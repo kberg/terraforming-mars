@@ -18,6 +18,7 @@ describe('BigAsteroid', function() {
   it('Should play', function() {
     player2.plants = 5;
     card.play(player);
+    game.deferredActions.runNext(); // raise temperature
     expect(game.deferredActions).has.lengthOf(1);
 
     const orOptions = game.deferredActions.peek()!.execute() as OrOptions;
@@ -34,6 +35,7 @@ describe('BigAsteroid', function() {
     game = Game.newInstance('foobar', [player], player);
     player.plants = 5;
     card.play(player);
+    game.deferredActions.runNext(); // raise temperature
     expect(game.deferredActions).has.lengthOf(1);
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;

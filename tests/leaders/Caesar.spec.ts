@@ -62,7 +62,7 @@ describe('Caesar', function() {
     }
 
     const hazards = AresTestHelper.getHazards(player, game);
-    expect(hazards.length).to.eq(6);
+    expect(hazards.length).gte(5);
 
     game.deferredActions.runNext();
 

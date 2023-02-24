@@ -93,6 +93,7 @@ describe('Bentenmaru', function() {
     expect(player2.megaCredits).eq(20); // no decrease
 
     bigAsteroid.play(player);
+    game.deferredActions.runNext(); // raise temperature
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
     orOptions.options[0].cb(); // choose to remove plants
     expect(player.plants).to.eq(4);

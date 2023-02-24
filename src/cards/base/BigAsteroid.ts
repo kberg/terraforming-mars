@@ -12,6 +12,7 @@ import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/Re
 import {Resources} from '../../Resources';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {Units} from '../../Units';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class BigAsteroid extends Card implements IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -56,7 +57,11 @@ export class BigAsteroid extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.game.increaseTemperature(player, 2);
+    player.game.defer(new DeferredAction(player, () => {
+      player.game.increaseTemperature(player, 2);
+      return undefined;
+    }));
+
     player.game.defer(new RemoveAnyPlants(player, 4));
     player.addResource(Resources.TITANIUM, 4);
     return undefined;

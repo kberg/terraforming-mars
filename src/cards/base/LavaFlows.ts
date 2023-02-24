@@ -83,7 +83,7 @@ export class LavaFlows extends Card implements IProjectCard {
     game.defer(new DeferredAction(
       player,
       () => {
-        game.increaseTemperature(player, 2)
+        game.increaseTemperature(player, 2);
         return undefined;
       },
     ));

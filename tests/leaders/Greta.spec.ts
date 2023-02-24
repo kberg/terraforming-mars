@@ -23,6 +23,7 @@ describe('Greta', function() {
     card.action();
 
     player.playCard(new BigAsteroid());
+    game.deferredActions.runAll(() => {});;
     expect(player.megaCredits).to.eq(4);
 
     player.playCard(new Omnicourt());

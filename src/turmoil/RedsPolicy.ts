@@ -311,7 +311,7 @@ export class RedsPolicy {
         mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)),
         spaces: spacesTree,
         oceansToPlace: action.oceansToPlace,
-        bonusMCFromPlay: bonusMCFromPlay,
+        bonusMCFromPlay: bonusMCFromPlay + Math.max(...spacesBonusMC),
       };
     }
 

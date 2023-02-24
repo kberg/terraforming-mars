@@ -27,11 +27,14 @@ describe('Comet', function() {
     player3.plants = 4;
 
     card.play(player);
-    expect(game.getTemperature()).eq(-28);
-    expect(game.deferredActions).has.lengthOf(2);
+    expect(game.deferredActions).has.lengthOf(3);
 
+    // Oceans have higher priority and will proc first
     const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
     selectSpace.cb(selectSpace.availableSpaces[0]);
+
+    game.deferredActions.runNext(); // raise temperature
+    expect(game.getTemperature()).eq(-28);
     expect(player.getTerraformRating()).eq(22);
 
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
@@ -44,6 +47,7 @@ describe('Comet', function() {
     player.plants = 8;
 
     card.play(player);
+    game.deferredActions.runNext(); // raise temperature
     const input = game.deferredActions.peek()!.execute();
     expect(input).is.undefined;
 

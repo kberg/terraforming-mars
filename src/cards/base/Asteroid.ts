@@ -12,6 +12,7 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {HowToAffordRedsPolicy, RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
 import {Units} from '../../Units';
+import {DeferredAction} from '../../deferredActions/DeferredAction';
 
 export class Asteroid extends Card implements IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -56,7 +57,11 @@ export class Asteroid extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    player.game.increaseTemperature(player, 1);
+    player.game.defer(new DeferredAction(player, () => {
+      player.game.increaseTemperature(player, 1);
+      return undefined;
+    }));
+
     player.game.defer(new RemoveAnyPlants(player, 3));
     player.addResource(Resources.TITANIUM, 2);
     return undefined;
