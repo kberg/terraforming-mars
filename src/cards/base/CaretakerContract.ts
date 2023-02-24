@@ -9,8 +9,12 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class CaretakerContract extends Card implements IActionCard, IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -33,17 +37,34 @@ export class CaretakerContract extends Card implements IActionCard, IProjectCard
   }
   public canAct(player: Player): boolean {
     const hasEnoughHeat = player.availableHeat >= 8;
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    Card.setRedsActionWarningText(1, this, redsAreRuling);
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(REDS_RULING_POLICY_COST) && hasEnoughHeat;
+    if (!hasEnoughHeat) return false;
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
     }
 
-    return hasEnoughHeat;
+    return true;
   }
+
   public action(player: Player) {
     return player.spendHeat(8, () => {
       player.increaseTerraformRatingSteps(1);
       return undefined;
     });
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({TRIncrease: 1});
   }
 }
