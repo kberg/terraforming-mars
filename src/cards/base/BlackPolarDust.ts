@@ -6,7 +6,7 @@ import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
-import {MAX_OCEAN_TILES, REDS_RULING_POLICY_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
@@ -39,9 +39,8 @@ export class BlackPolarDust extends Card implements IProjectCard {
     Card.setRedsWarningText(trGain, this);
 
     const game = player.game;
-    const board = game.board;
     const hasEnoughMegacreditProduction = player.getProduction(Resources.MEGACREDITS) >= -3;
-    if (board.getOceansOnBoard() === MAX_OCEAN_TILES) return hasEnoughMegacreditProduction;
+    if (trGain === 0) return hasEnoughMegacreditProduction;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
