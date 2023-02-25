@@ -13,9 +13,13 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
-import {REDS_RULING_POLICY_COST} from '../../constants';
+import {MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../constants';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class GHGProducingBacteria extends Card implements IActionCard, IProjectCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -46,19 +50,38 @@ export class GHGProducingBacteria extends Card implements IActionCard, IProjectC
     public play() {
       return undefined;
     }
-    public canAct(): boolean {
+
+    public canAct(player: Player): boolean {
+      const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+      const trGain = this.getTotalTRGain(player);
+
+      Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise temperature');
+
+      if (redsAreRuling) {
+        this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+        const actionDetails = this.getActionDetails(player);
+        this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+        if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+          this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+        }
+      }
+
       return true;
     }
+
     public action(player: Player) {
       if (this.resourceCount < 2) {
         player.addResourceTo(this, {log: true});
         return undefined;
       }
 
+      if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
+
       const orOptions = new OrOptions();
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         orOptions.options.push(new SelectOption('Remove 2 microbes to raise temperature 1 step', 'Remove microbes', () => {
           player.removeResourceFrom(this, 2);
           LogHelper.logRemoveResource(player, this, 2, 'raise temperature 1 step');
@@ -73,5 +96,20 @@ export class GHGProducingBacteria extends Card implements IActionCard, IProjectC
 
       if (orOptions.options.length === 1) return orOptions.options[0].cb();
       return orOptions;
+    }
+
+    public getActionDetails(player: Player) {
+      const trGain = this.getTotalTRGain(player);
+      const temperatureIncrease = trGain >= 1 ? 1 : 0;
+
+      return new ActionDetails({temperatureIncrease: temperatureIncrease});
+    }
+
+    private getTotalTRGain(player: Player): number {
+      const temperature = player.game.getTemperature();
+      let trGain = temperature === MAX_TEMPERATURE ? 0 : 1;
+      if (temperature === -2) trGain += 1;
+
+      return trGain;
     }
 }

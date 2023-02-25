@@ -115,10 +115,10 @@ export abstract class Card {
     }
   }
 
-  public static setRedsActionWarningText(trGain: number, card: ICard, redsAreRuling: boolean): void {
+  public static setRedsActionWarningText(trGain: number, card: ICard, redsAreRuling: boolean, actionText: string = 'take this action'): void {
     if (trGain > 0 && redsAreRuling) {
       const redsCost = trGain * REDS_RULING_POLICY_COST;
-      card.warning = `You will lose an additional ${redsCost} M€ if you take this action this generation.`;
+      card.warning = `You will lose an additional ${redsCost} M€ if you ${actionText} this generation.`;
     } else {
       card.warning = undefined;
     }
