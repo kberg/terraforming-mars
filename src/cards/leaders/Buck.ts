@@ -9,6 +9,7 @@ import {SelectCard} from '../../inputs/SelectCard';
 import {IProjectCard} from '../IProjectCard';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {Size} from '../render/Size';
+import {BoardName} from '../../boards/BoardName';
 
 export class Buck extends Card implements LeaderCard {
   constructor() {
@@ -21,7 +22,7 @@ export class Buck extends Card implements LeaderCard {
           b.opgArrow().text('TAKE BACK', Size.SMALL).cards(1).secondaryTag(AltSecondaryTag.GREEN).asterix();
           b.br;
         }),
-        description: 'Once per game, take a played automated (green) card back into your hand. You may not take back a card that places a non-ocean tile on ocean spaces.',
+        description: 'Once per game, take a played automated (green) card back into your hand. You may not take back a card that places a non-ocean tile on reserved spaces.',
       },
     });
   }
@@ -52,7 +53,29 @@ export class Buck extends Card implements LeaderCard {
   }
 
   private getAvailableCards(player: Player): IProjectCard[] {
-    const disallowedCards = [CardName.PROTECTED_VALLEY, CardName.MOHOLE_AREA, CardName.MANGROVE];
+    const disallowedCards = [
+      CardName.PROTECTED_VALLEY,
+      CardName.MOHOLE_AREA,
+      CardName.MANGROVE,
+      CardName.GANYMEDE_COLONY,
+      CardName.PHOBOS_SPACE_HAVEN,
+      // Venus and Promo,
+      CardName.DAWN_CITY,
+      CardName.LUNA_METROPOLIS,
+      CardName.MAXWELL_BASE,
+      CardName.STRATOPOLIS,
+      CardName.STANFORD_TORUS,
+      // Moon
+      CardName.MARE_IMBRIUM_MINE,
+      CardName.MARE_NECTARIS_MINE,
+      CardName.MARE_NUBIUM_MINE,
+      CardName.MARE_SERENITATIS_MINE,
+    ];
+
+    if (player.game.gameOptions.boardName !== BoardName.HELLAS) {
+      disallowedCards.push(CardName.NOCTIS_CITY);
+    }
+
     let targetCards = player.playedCards.filter((c) => c.cardType === CardType.AUTOMATED);
     targetCards = targetCards.filter((c) => !disallowedCards.includes(c.name));
 
