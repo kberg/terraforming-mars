@@ -84,6 +84,11 @@ export class RedsPolicy {
       action.temperatureIncrease++;
     }
 
+    // Set default oceansAvailableSpaces if action places oceans and no custom spaces were specified
+    if (action.oceansToPlace > 0 && action.oceansAvailableSpaces.length === 0) {
+      action.oceansAvailableSpaces = player.game.board.getAvailableSpacesForOcean(player);
+    }
+
     // If temperature increase will place an ocean
     if (game.getTemperature() < 0 && game.getTemperature() + action.temperatureIncrease * 2 >= 0) {
       if (action.oceansToPlace === 0 && action.oceansAvailableSpaces.length === 0) {
@@ -230,14 +235,28 @@ export class RedsPolicy {
     // Player has enough M€ to cover for everything
     if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
 
-    let mustSpendAtMost = player.spendableMegacredits() - (redTaxes - bonusMCFromPlay);
+    const spendableMegacredits = player.spendableMegacredits();
+    let mustSpendAtMost = spendableMegacredits - (redTaxes - bonusMCFromPlay);
     let missingMC: number = totalToPay - player.spendableMegacredits();
 
     if (canUseSteel) {
       missingMC -= Math.min(player.steel, Math.ceil(missingMC / player.getSteelValue())) * player.getSteelValue();
     }
     if (canUseTitanium) {
-      missingMC -= Math.min(player.titanium, Math.ceil(missingMC / player.getTitaniumValue())) * player.getTitaniumValue();
+      const titaniumValue = player.getTitaniumValue();
+      const titaniumUsed = Math.min(player.titanium, Math.ceil(missingMC / titaniumValue));
+      missingMC -= titaniumUsed * titaniumValue;
+
+      /*
+       * Here we have a possible scenario where a player can use multiple Ti to pay for a card
+       * And at the same time they are missing (titaniumValue - 1) M€ to be able to afford this action
+       * mustSpendAtMost is incremented by 1 here as long as it still remains within the player's spendable M€
+       * This ensures that SelectHowToPay will display the correct M€ value when the player decrements Ti amount
+       */
+
+      if (titaniumUsed > 0 && Math.abs(missingMC) % titaniumValue === titaniumValue - 1 && mustSpendAtMost + 1 < spendableMegacredits) {
+        mustSpendAtMost += 1;
+      }
     }
     if (canUseMicrobes) {
       missingMC -= Math.min(player.getMicrobesCanSpend(), Math.ceil(missingMC / 2)) * 2;
@@ -249,11 +268,11 @@ export class RedsPolicy {
     // If player uses steel/titanium/etc it can pay for everything but must not spend more than |mustSpendAtMost| M€ on the action/card itself
     if (missingMC <= 0) {
       /*
-      * {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} is used for Artificial Lake edge case
-      * We don't want to return here as we need to compute adjacency bonuses from placing its ocean on a land space
-      * Additionally, we decrease mustSpendAtMost here so that it doesn't exceed player.megacredits
-      */
-      if (action.nonOceanToPlace !== TileType.OCEAN) {
+       * {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} is used for Artificial Lake edge case
+       * We don't want to return here as we need to compute adjacency bonuses from placing its ocean on a land space
+       * Additionally, we decrease mustSpendAtMost here so that it doesn't exceed player.megacredits
+       */
+      if (action.nonOceanToPlace !== undefined && action.nonOceanToPlace !== TileType.OCEAN) {
         return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
       } else {
         mustSpendAtMost += missingMC;
@@ -285,7 +304,7 @@ export class RedsPolicy {
     const oceansToPlace = action.card?.name === CardName.ARTIFICIAL_LAKE ? 0 : action.oceansToPlace;
 
     // And generate a tree of tile placements that provide at least |missingMC|
-    const spacesTree: ISpaceTree = RedsPolicy.makeISpaceTree(
+    const [spacesTree, max]: [ISpaceTree, number] = RedsPolicy.makeISpaceTree(
         player,
         game,
         spacesBonusMC,
@@ -293,7 +312,8 @@ export class RedsPolicy {
         action.oceansAvailableSpaces,
         action.nonOceanToPlace !== undefined ? 1 : 0,
         action.nonOceanAvailableSpaces,
-        missingMC
+        missingMC,
+        mustSpendAtMost,
     );
 
     // If our tree has at least one branch, we can afford to pay Reds
@@ -306,9 +326,15 @@ export class RedsPolicy {
         }
       }
 
+      /*
+       * If placing oceans, subsequent oceans can benefit from placing adjacent to existing/previous ones
+       * There must be a better way to do this, but it's not immediately clear
+       */
+      const adjustment = oceansToPlace > 0 ? max : Math.max(...spacesBonusMC);
+
       return {
         canAfford: true,
-        mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + Math.max(...spacesBonusMC)),
+        mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + adjustment),
         spaces: spacesTree,
         oceansToPlace: action.oceansToPlace,
         bonusMCFromPlay: bonusMCFromPlay + Math.max(...spacesBonusMC),
@@ -334,7 +360,7 @@ export class RedsPolicy {
     });
   }
 
-  public static makeISpaceTree(player: Player, game: Game, spacesBonusMC: Array<number>, oceans: number, oceansSpaces: Array<ISpace>, nonOcean: number, nonOceanSpaces: Array<ISpace>, target: number, iteration: number = 1, totalBonus: number = 0): ISpaceTree {
+  public static makeISpaceTree(player: Player, game: Game, spacesBonusMC: Array<number>, oceans: number, oceansSpaces: Array<ISpace>, nonOcean: number, nonOceanSpaces: Array<ISpace>, target: number, mustSpendAtMost: number, iteration: number = 1, totalBonus: number = 0, max: number = 0): [ISpaceTree, number] {
     const spacesTree = new Map();
 
     if (iteration < oceans + nonOcean) {
@@ -345,23 +371,41 @@ export class RedsPolicy {
           tempBonusMC[game.board.spaces.indexOf(s)] += player.oceanBonus;
         });
 
-        const tree = RedsPolicy.makeISpaceTree(
+        const [tree, branchMax] = RedsPolicy.makeISpaceTree(
             player,
             game,
             tempBonusMC,
             oceans,
-            oceansSpaces.filter((s) => s.id !== space.id),
+            oceansSpaces.filter((s) => s.id !== space.id).filter((s) => tempBonusMC[game.board.spaces.indexOf(s)] >= target),
             nonOcean,
             nonOceanSpaces.filter((s) => s.id !== space.id),
             target,
+            mustSpendAtMost,
             iteration + 1,
-            totalBonus + tempBonusMC[game.board.spaces.indexOf(space)]
+            totalBonus + tempBonusMC[game.board.spaces.indexOf(space)],
+            Math.max(...tempBonusMC),
         );
 
+        if (branchMax > max) max = branchMax;
         if (tree.size > 0) spacesTree.set(space, tree);
       });
     } else {
-      const spaces = nonOcean === 0 ? oceansSpaces : nonOceanSpaces;
+      let spaces = nonOcean === 0 ? oceansSpaces : nonOceanSpaces;
+
+      // If we are placing an ocean and we already have enough M€ to pay Reds tax, we can place on any available ocean spot
+      if (Math.max(...spacesBonusMC) >= target && nonOcean === 0) spaces = game.board.getAvailableSpacesForOcean(player);
+
+      /*
+       * This line of code looks strange, but is actually somewhat valid
+       * What actually happens here is that sometimes a player can pay for a card that raises TR with steel or titanium
+       * And this causes missingMC (target) to go negative as per the operations leading up to line 262
+       * These operations assume that the player always uses as much metals as possible to pay
+       * A negative target implies that all spaces are eligible for tile placement as per the forEach block below
+       * However during payment, the player may spend less metals than the above assumed amount and use more M€ instead
+       */
+      target = Math.abs(target);
+
+      mustSpendAtMost += Math.max(...spacesBonusMC);
 
       spaces.forEach((space) => {
         const bonus = totalBonus + spacesBonusMC[game.board.spaces.indexOf(space)];
@@ -369,6 +413,6 @@ export class RedsPolicy {
       });
     }
 
-    return spacesTree;
+    return [spacesTree, Math.max(...spacesBonusMC, max)];
   }
 }

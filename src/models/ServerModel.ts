@@ -204,6 +204,7 @@ function getSelfReplicatingRobotsTargetCards(player: Player): Array<CardModel> {
     cardType: CardType.ACTIVE,
     isDisabled: false,
     reserveUnits: Units.EMPTY, // I wonder if this could just be removed.
+    mustSpendAtMost: targetCard.card.howToAffordReds?.mustSpendAtMost,
   }));
 }
 
@@ -277,7 +278,8 @@ function getCorporationCards(player: Player): CardModel[] {
       cardType: CardType.CORPORATION,
       isDisabled: corp.isDisabled,
       warning: corp.warning,
-      discount: corp.cardDiscount
+      discount: corp.cardDiscount,
+      mustSpendAtMost: corp.howToAffordReds?.mustSpendAtMost,
     };
   });
 
@@ -449,6 +451,7 @@ function getCards(
     reserveUnits: options.reserveUnits ? options.reserveUnits[index] : Units.EMPTY,
     bonusResource: (card as IProjectCard).bonusResource,
     discount: card.cardDiscount,
+    mustSpendAtMost: card.howToAffordReds?.mustSpendAtMost,
   }));
 }
 

@@ -26,12 +26,14 @@ describe('GiantIceAsteroid', function() {
     player2.plants = 4;
     player3.plants = 6;
     card.play(player);
-    expect(game.deferredActions).has.lengthOf(3);
+    expect(game.deferredActions).has.lengthOf(4);
 
     const firstOcean = game.deferredActions.pop()!.execute() as SelectSpace;
     firstOcean.cb(firstOcean.availableSpaces[0]);
     const secondOcean = game.deferredActions.pop()!.execute() as SelectSpace;
     secondOcean.cb(secondOcean.availableSpaces[1]);
+
+    game.deferredActions.runNext(); // raise temperature
 
     const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
     expect(orOptions.options).has.lengthOf(3);

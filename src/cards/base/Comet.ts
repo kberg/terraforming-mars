@@ -7,7 +7,7 @@ import {CardName} from '../../CardName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {CardRenderer} from '../render/CardRenderer';
-import {MAX_OCEAN_TILES, MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
@@ -68,13 +68,7 @@ export class Comet extends Card implements IProjectCard {
     return undefined;
   }
 
-  public getActionDetails(player: Player, card: IProjectCard) {
-    const oceansMaxed = player.game.board.getOceansOnBoard() === MAX_OCEAN_TILES;
-    const oceansToPlace = oceansMaxed ? 0 : 1;
-
-    const temperatureMaxed = player.game.getTemperature() === MAX_TEMPERATURE;
-    const temperatureIncrease = temperatureMaxed ? 0 : 1;
-
-    return new ActionDetails({card: card, temperatureIncrease: temperatureIncrease, oceansToPlace: oceansToPlace});
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, temperatureIncrease: 1, oceansToPlace: 1});
   }
 }
