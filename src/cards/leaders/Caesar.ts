@@ -23,7 +23,7 @@ export class Caesar extends Card implements LeaderCard {
           b.minus().production((pb) => pb.wild(1).any).asterix();
           b.br;
         }),
-        description: 'Once per game, place X hazard tiles. Each opponent loses 1 unit of production, or 2 units if there are more than 5 hazard tiles.',
+        description: 'Once per game, place X hazard tiles equal to the current generation number. Each opponent loses 1 unit of production, or 2 units if there are more than 5 hazard tiles.',
       },
     });
   }
