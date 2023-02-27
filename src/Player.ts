@@ -298,7 +298,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Turmoil Reds capacity
-    if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS, )) {
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS)) {
       if (this.canAfford(REDS_RULING_POLICY_COST)) {
         this.game.defer(new SelectHowToPayDeferred(this, REDS_RULING_POLICY_COST, {title: 'Select how to pay for TR increase'}));
       } else {
@@ -2583,7 +2583,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       console.error('Overwriting a waitingFor: ' + this.waitingFor);
     }
 
-    // If availables spaces are restricted to be able to afford Reds policy
+    // If available spaces are restricted to be able to afford Reds policy
     if (input instanceof SelectSpace && this.howToAffordReds !== undefined && this.howToAffordReds.spaces !== undefined) {
       const availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
       // Check that it's a subset of defaults spaces
