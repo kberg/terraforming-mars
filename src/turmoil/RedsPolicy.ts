@@ -13,6 +13,7 @@ import {Board} from "../boards/Board";
 import {ISpace} from "../boards/ISpace";
 import {BoardName} from "../boards/BoardName";
 import {CardType} from "../cards/CardType";
+import {SpaceType} from "../SpaceType";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -59,6 +60,8 @@ export interface HowToAffordRedsPolicy {
   oceansToPlace?: number
   // How much the player gets as rebates from project/corporation cards
   bonusMCFromPlay?: number
+  // How much the player had to pay in Reds taxes
+  redTaxes: number
 }
 
 export class RedsPolicy {  
@@ -79,6 +82,8 @@ export class RedsPolicy {
     canUseFloaters: boolean = false,
     canUseMicrobes: boolean = false
   ): HowToAffordRedsPolicy {
+    const board = game.board;
+
     // If oxygen increase will increase temperature
     if (game.getOxygenLevel() < 8 && game.getOxygenLevel() + action.oxygenIncrease >= 8) {
       action.temperatureIncrease++;
@@ -86,17 +91,17 @@ export class RedsPolicy {
 
     // Set default oceansAvailableSpaces if action places oceans and no custom spaces were specified
     if (action.oceansToPlace > 0 && action.oceansAvailableSpaces.length === 0) {
-      action.oceansAvailableSpaces = player.game.board.getAvailableSpacesForOcean(player);
+      action.oceansAvailableSpaces = board.getAvailableSpacesForOcean(player);
     }
 
     // If temperature increase will place an ocean
     if (game.getTemperature() < 0 && game.getTemperature() + action.temperatureIncrease * 2 >= 0) {
       if (action.oceansToPlace === 0 && action.oceansAvailableSpaces.length === 0) {
-        action.oceansAvailableSpaces = game.board.getAvailableSpacesForOcean(player);
+        action.oceansAvailableSpaces = board.getAvailableSpacesForOcean(player);
       }
       action.oceansToPlace++;
     } else if (action.oceansToPlace > 0 && action.oceansAvailableSpaces.length === 0) {
-      action.oceansAvailableSpaces = game.board.getAvailableSpacesForOcean(player);
+      action.oceansAvailableSpaces = board.getAvailableSpacesForOcean(player);
     }
 
     // If venus increase will increase TR
@@ -107,12 +112,12 @@ export class RedsPolicy {
     action.oxygenIncrease = Math.min(action.oxygenIncrease, MAX_OXYGEN_LEVEL - game.getOxygenLevel());
     action.temperatureIncrease = Math.min(action.temperatureIncrease, (MAX_TEMPERATURE - game.getTemperature()) / 2);
     action.venusIncrease = Math.min(action.venusIncrease, (MAX_VENUS_SCALE - game.getVenusScaleLevel()) / 2);
-    action.oceansToPlace = Math.min(action.oceansToPlace, MAX_OCEAN_TILES - game.board.getOceansOnBoard());
+    action.oceansToPlace = Math.min(action.oceansToPlace, MAX_OCEAN_TILES - board.getOceansOnBoard());
 
     const totalTRGain = action.TRIncrease + action.oxygenIncrease + action.temperatureIncrease + action.oceansToPlace;
 
     // This is how much the player will have to pay Reds
-    const redTaxes = totalTRGain * REDS_RULING_POLICY_COST;
+    const redTaxes = player.cardIsInEffect(CardName.ZAN) ? 0 : totalTRGain * REDS_RULING_POLICY_COST;
 
     /*
      * This could probably be saved on the player directly when said card is played
@@ -233,14 +238,16 @@ export class RedsPolicy {
     const totalToPay = redTaxes + action.cost - bonusMCFromPlay;
 
     // Player has enough M€ to cover for everything
-    if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
+    if (player.canAfford(totalToPay)) return {canAfford: true, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay, redTaxes: redTaxes};
 
     const spendableMegacredits = player.spendableMegacredits();
     let mustSpendAtMost = spendableMegacredits - (redTaxes - bonusMCFromPlay);
     let missingMC: number = totalToPay - player.spendableMegacredits();
 
     if (canUseSteel) {
-      missingMC -= Math.min(player.steel, Math.ceil(missingMC / player.getSteelValue())) * player.getSteelValue();
+      const steelValue = player.getSteelValue();
+      const steelUsed = Math.min(player.steel, Math.ceil(missingMC / steelValue));
+      missingMC -= steelUsed * steelValue;
     }
     if (canUseTitanium) {
       const titaniumValue = player.getTitaniumValue();
@@ -269,11 +276,11 @@ export class RedsPolicy {
     if (missingMC <= 0) {
       /*
        * {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} is used for Artificial Lake edge case
-       * We don't want to return here as we need to compute adjacency bonuses from placing its ocean on a land space
+       * We don't want to return here for Artificial Lake as we need to compute adjacency bonuses from placing its ocean on a land space
        * Additionally, we decrease mustSpendAtMost here so that it doesn't exceed player.megacredits
        */
-      if (action.nonOceanToPlace !== undefined && action.nonOceanToPlace !== TileType.OCEAN) {
-        return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay};
+      if ((action.nonOceanToPlace === undefined && action.oceansToPlace === 0) || (action.nonOceanToPlace !== undefined && action.nonOceanToPlace !== TileType.OCEAN)) {
+        return {canAfford: true, mustSpendAtMost: mustSpendAtMost, oceansToPlace: action.oceansToPlace, bonusMCFromPlay: bonusMCFromPlay, redTaxes: redTaxes};
       } else {
         mustSpendAtMost += missingMC;
       }
@@ -281,7 +288,7 @@ export class RedsPolicy {
 
     // If we still can't pay, and there's no tile to place, there's no way to get more cash, so player can't pay Reds
     if (action.oceansToPlace === 0 && action.nonOceanToPlace === undefined) {
-      return {canAfford: false, oceansToPlace: action.oceansToPlace};
+      return {canAfford: false, oceansToPlace: action.oceansToPlace, redTaxes: redTaxes};
     }
 
     /*
@@ -338,11 +345,12 @@ export class RedsPolicy {
         spaces: spacesTree,
         oceansToPlace: action.oceansToPlace,
         bonusMCFromPlay: bonusMCFromPlay + Math.max(...spacesBonusMC),
+        redTaxes: redTaxes
       };
     }
 
     // We did all we could, still can't pay
-    return {canAfford: false, oceansToPlace: action.oceansToPlace};
+    return {canAfford: false, oceansToPlace: action.oceansToPlace, redTaxes: redTaxes};
   }
 
   public static getBoardSpacesBonusMC(player: Player, game: Game, isHelion: boolean = false): Array<number> {
@@ -362,13 +370,29 @@ export class RedsPolicy {
 
   public static makeISpaceTree(player: Player, game: Game, spacesBonusMC: Array<number>, oceans: number, oceansSpaces: Array<ISpace>, nonOcean: number, nonOceanSpaces: Array<ISpace>, target: number, mustSpendAtMost: number, iteration: number = 1, totalBonus: number = 0, max: number = 0): [ISpaceTree, number] {
     const spacesTree = new Map();
+    const board = game.board;
 
     if (iteration < oceans + nonOcean) {
       oceansSpaces.forEach((space) => {
         const tempBonusMC = Array.from(spacesBonusMC);
+        const adjacentSpaces = board.getAdjacentSpaces(space);
 
-        game.board.getAdjacentSpaces(space).forEach((s) => {
-          tempBonusMC[game.board.spaces.indexOf(s)] += player.oceanBonus;
+        /*
+         * If some adjacent space of the target space is an ocean tile,
+         * OR we are placing multiple oceans that can benefit from being placed adjacent to each other,
+         * grant the ocean adjacency bonus for placing on that space
+         */
+        adjacentSpaces.forEach((s) => {
+          if (adjacentSpaces.some((adjSpace) => {
+            const hasEnoughPlacementBonus = spacesBonusMC[board.spaces.indexOf(adjSpace)] >= totalBonus;
+            const isOceanSpace = adjSpace.spaceType === SpaceType.OCEAN;
+
+            return hasEnoughPlacementBonus && (adjSpace.tile !== undefined || oceans > 1) && isOceanSpace;
+          })) {
+            tempBonusMC[board.spaces.indexOf(s)] += player.oceanBonus;
+          } else {
+            tempBonusMC[board.spaces.indexOf(s)] = 0;
+          }
         });
 
         const [tree, branchMax] = RedsPolicy.makeISpaceTree(
@@ -376,13 +400,13 @@ export class RedsPolicy {
             game,
             tempBonusMC,
             oceans,
-            oceansSpaces.filter((s) => s.id !== space.id).filter((s) => tempBonusMC[game.board.spaces.indexOf(s)] >= target),
+            oceansSpaces.filter((s) => s.id !== space.id).filter((s) => tempBonusMC[board.spaces.indexOf(s)] >= target),
             nonOcean,
             nonOceanSpaces.filter((s) => s.id !== space.id),
             target,
             mustSpendAtMost,
             iteration + 1,
-            totalBonus + tempBonusMC[game.board.spaces.indexOf(space)],
+            totalBonus + tempBonusMC[board.spaces.indexOf(space)],
             Math.max(...tempBonusMC),
         );
 
@@ -393,7 +417,7 @@ export class RedsPolicy {
       let spaces = nonOcean === 0 ? oceansSpaces : nonOceanSpaces;
 
       // If we are placing an ocean and we already have enough M€ to pay Reds tax, we can place on any available ocean spot
-      if (Math.max(...spacesBonusMC) >= target && nonOcean === 0) spaces = game.board.getAvailableSpacesForOcean(player);
+      if (Math.max(...spacesBonusMC) >= target && nonOcean === 0) spaces = board.getAvailableSpacesForOcean(player);
 
       /*
        * This line of code looks strange, but is actually somewhat valid
@@ -408,7 +432,7 @@ export class RedsPolicy {
       mustSpendAtMost += Math.max(...spacesBonusMC);
 
       spaces.forEach((space) => {
-        const bonus = totalBonus + spacesBonusMC[game.board.spaces.indexOf(space)];
+        const bonus = totalBonus + spacesBonusMC[board.spaces.indexOf(space)];
         if (bonus >= target) spacesTree.set(space, undefined);
       });
     }

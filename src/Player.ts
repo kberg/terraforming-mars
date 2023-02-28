@@ -2585,11 +2585,30 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     // If available spaces are restricted to be able to afford Reds policy
     if (input instanceof SelectSpace && this.howToAffordReds !== undefined && this.howToAffordReds.spaces !== undefined) {
-      const availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
+      let availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
+
+      /*
+       * If we are placing an ocean, and we have enough M€ to pay off all Reds taxes, we can place the ocean anywhere
+       * This can happen if we played a card that could use steel or titanium, and we spent all available metals so we have excess M€
+       * This situation arises because we do not know in advance how much of their available metals a player will choose to spend
+       */
+      if (this.spendableMegacredits() >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
+        availableSpaces = this.game.board.getAvailableSpacesForOcean(this);
+      }
+
       // Check that it's a subset of defaults spaces
-      if (availableSpaces.every(space => input.availableSpaces.includes(space))) {
+      /*
+       * TODO: This should ideally use .every() instead of .some() plus the filter below
+       * Currently it's being hacked as availableSpaces sometimes returns occupied spaces
+       * Specifically, this happens when multiple ocean tiles need to be placed
+       * And input.availableSpaces returns a list of valid ocean placement spots
+       * However availableSpaces may include spots where an ocean was placed in the previous DeferredAction
+       */
+      // if (availableSpaces.every(space => input.availableSpaces.includes(space))) {
+      if (availableSpaces.some(space => input.availableSpaces.includes(space))) {
         input.title += " (Adjusted for Reds policy)";
-        input.availableSpaces = availableSpaces;
+        // input.availableSpaces = availableSpaces;
+        input.availableSpaces = availableSpaces.filter((s) => input.availableSpaces.includes(s));
       } else {
         // This is not supposed to happen let's simply reset it to prevent game breaking errors
         this.howToAffordReds = undefined;
