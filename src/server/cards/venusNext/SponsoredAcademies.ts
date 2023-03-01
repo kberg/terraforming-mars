@@ -31,7 +31,7 @@ export class SponsoredAcademies extends Card implements IProjectCard {
     });
   }
   public override bespokeCanPlay(player: Player): boolean {
-    return player.cardsInHand.length > 1; // this card and at least another
+    return player.cardsInHand.size > 1; // this card and at least another
   }
 
   public override bespokePlay(player: Player) {

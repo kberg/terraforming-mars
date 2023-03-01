@@ -61,7 +61,7 @@ describe('LargeConvoy', function() {
     player.playedCards.push(pets);
     maxOutOceans(player);
     const plantsCount = player.plants;
-    const cardsInHand = player.cardsInHand.length;
+    const cardsInHand = player.cardsInHand.size;
 
     const action = cast(card.play(player), OrOptions);
 

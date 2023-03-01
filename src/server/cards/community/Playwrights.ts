@@ -63,10 +63,7 @@ export class Playwrights extends Card implements ICorporationCard {
         const selectedCard: IProjectCard = card;
 
         players.forEach((p) => {
-          const cardIndex = p.playedCards.findIndex((c) => c.name === selectedCard.name);
-          if (cardIndex !== -1) {
-            p.playedCards.splice(cardIndex, 1);
-          }
+          p.playedCards.delete(selectedCard.name);
         });
 
         const cost = player.getCardCost(selectedCard);
@@ -85,12 +82,7 @@ export class Playwrights extends Card implements ICorporationCard {
                    */
                 player.game.defer(new SimpleDeferredAction(player, () => {
                   player.game.getPlayers().some((p) => {
-                    const card = p.playedCards[p.playedCards.length - 1];
-                    if (card?.name === selectedCard.name) {
-                      p.playedCards.pop();
-                      return true;
-                    }
-                    return false;
+                    return p.playedCards.delete(CardName.LAW_SUIT);
                   });
                   return undefined;
                 }));

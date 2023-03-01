@@ -4,7 +4,6 @@ import {Board} from './boards/Board';
 import {BoardName} from '../common/boards/BoardName';
 import {CardFinder} from './CardFinder';
 import {CardName} from '../common/cards/CardName';
-import {CardType} from '../common/cards/CardType';
 import {ClaimedMilestone, serializeClaimedMilestones, deserializeClaimedMilestones} from './milestones/ClaimedMilestone';
 import {ColonyDealer} from './colonies/ColonyDealer';
 import {IColony} from './colonies/IColony';
@@ -69,6 +68,7 @@ import {CorporationDeck, PreludeDeck, ProjectDeck, CeoDeck} from './cards/Deck';
 import {Logger} from './logs/Logger';
 import {addDays, dayStringToDays} from './database/utils';
 import {ALL_TAGS, Tag} from '../common/cards/Tag';
+import {newCardMap} from './CardMap';
 
 export interface Score {
   corporation: String;
@@ -642,7 +642,7 @@ export class Game implements Logger {
     this.save();
 
     for (const player of this.players) {
-      if (player.pickedCorporationCard === undefined && player.dealtCorporationCards.length > 0) {
+      if (player.pickedCorporationCard === undefined && player.dealtCorporationCards.size > 0) {
         player.setWaitingFor(this.selectInitialCards(player));
       }
     }
@@ -844,10 +844,10 @@ export class Game implements Logger {
       if (initialDraft) {
         if (this.initialDraftIteration === 2) {
           player.dealtProjectCards = player.draftedCards;
-          player.draftedCards = [];
+          player.draftedCards = newCardMap();
         } else if (this.initialDraftIteration === 3) {
           player.dealtPreludeCards = player.draftedCards;
-          player.draftedCards = [];
+          player.draftedCards = newCardMap();
         }
       }
     });
@@ -1467,24 +1467,17 @@ export class Game implements Logger {
   }
 
   // Returns the player holding a card in hand. Return undefined when nobody has that card in hand.
-  public getCardHolder(name: CardName): [Player | undefined, IProjectCard | undefined] {
+  public getCardHolder(name: CardName): [Player, IProjectCard] | [undefined, undefined] {
     for (const player of this.players) {
       // Check cards player has in hand
-      for (const card of [...player.preludeCardsInHand, ...player.cardsInHand]) {
-        if (card.name === name) {
-          return [player, card];
-        }
+      if (player.preludeCardsInHand.has(name)) {
+        [player, player.preludeCardsInHand.get(name)];
+      }
+      if (player.cardsInHand.has(name)) {
+        [player, player.cardsInHand.get(name)];
       }
     }
     return [undefined, undefined];
-  }
-
-  public getCardsInHandByResource(player: Player, resourceType: CardResource) {
-    return player.cardsInHand.filter((card) => card.resourceType === resourceType);
-  }
-
-  public getCardsInHandByType(player: Player, cardType: CardType) {
-    return player.cardsInHand.filter((card) => card.cardType === cardType);
   }
 
   public log(message: string, f?: (builder: LogBuilder) => void, options?: {reservedFor?: Player}) {

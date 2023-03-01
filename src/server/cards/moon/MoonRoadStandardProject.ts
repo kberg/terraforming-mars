@@ -28,7 +28,7 @@ export class MoonRoadStandardProject extends StandardProjectCard {
   }
 
   protected override discount(player: Player): number {
-    if (player.playedCards.find((card) => card.name === CardName.MOONCRATE_BLOCK_FACTORY)) {
+    if (player.cardIsInEffect(CardName.MOONCRATE_BLOCK_FACTORY)) {
       return 4;
     }
     return super.discount(player);

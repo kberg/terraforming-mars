@@ -46,7 +46,7 @@ export class Musk extends CeoCard {
       (cards) => {
         player.addResource(Resources.TITANIUM, cards.length + 6, {log: true});
         for (const card of cards) {
-          player.cardsInHand.splice(player.cardsInHand.indexOf(card), 1);
+          player.cardsInHand.delete(card.name);
           game.projectDeck.discard(card);
         }
         player.game.defer(DrawCards.keepAll(player, cards.length, {tag: Tag.SPACE}));

@@ -28,7 +28,7 @@ export class Floyd extends CeoCard {
     if (!super.canAct(player)) {
       return false;
     }
-    return player.cardsInHand.length > 0;
+    return player.cardsInHand.size > 0;
   }
 
   public action(player: Player): PlayerInput | undefined {

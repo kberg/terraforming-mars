@@ -51,8 +51,7 @@ export class Lowell extends CeoCard {
     this.isDisabled = true;
 
     return new SelectCard('Choose CEO card to play', 'Play', cardsDrawn, (([card]) => {
-      const cardIndex = player.playedCards.findIndex((c) => c.name === this.name);
-      player.playedCards.splice(cardIndex, 1);
+      player.playedCards.delete(this.name);
       game.ceoDeck.discard(this);
 
       return player.playCard(card);

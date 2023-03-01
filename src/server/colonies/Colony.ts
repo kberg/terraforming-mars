@@ -297,7 +297,7 @@ export abstract class Colony implements IColony {
         action = new SimpleDeferredAction(
           player,
           () => {
-            const playersWithCards = game.getPlayers().filter((p) => p.cardsInHand.length > 0);
+            const playersWithCards = game.getPlayers().filter((p) => p.cardsInHand.size > 0);
             if (playersWithCards.length === 0) return undefined;
             return new SelectPlayer(
               playersWithCards,

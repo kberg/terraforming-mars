@@ -85,14 +85,14 @@ export class SelectInitialCards extends AndOptions {
     const player = this.player;
     // Check for negative M€
     const cardCost = corporation.cardCost !== undefined ? corporation.cardCost : player.cardCost;
-    if (corporation.name !== CardName.BEGINNER_CORPORATION && player.cardsInHand.length * cardCost > corporation.startingMegaCredits) {
-      player.cardsInHand = [];
-      player.preludeCardsInHand = [];
+    if (corporation.name !== CardName.BEGINNER_CORPORATION && player.cardsInHand.size * cardCost > corporation.startingMegaCredits) {
+      player.cardsInHand.clear();
+      player.preludeCardsInHand.clear();
       throw new Error('Too many cards selected');
     }
     // discard all unpurchased cards
     player.dealtProjectCards.forEach((card) => {
-      if (player.cardsInHand.includes(card) === false) {
+      if (player.cardsInHand.has(card.name) === false) {
         player.game.projectDeck.discard(card);
       }
     });

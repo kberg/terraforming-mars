@@ -4,6 +4,7 @@ import {BasePlayerInput, getCardFromPlayerInput, PlayerInput} from '../PlayerInp
 import {PlayerInputType} from '../../common/input/PlayerInputType';
 import {CardName} from '../../common/cards/CardName';
 import {InputResponse, isSelectCardResponse} from '../../common/inputs/InputResponse';
+import {CardMap} from '../CardMap';
 
 export type Options = {
   max: number,
@@ -19,7 +20,7 @@ export class SelectCard<T extends ICard> extends BasePlayerInput {
   constructor(
     title: string | Message,
     buttonLabel: string = 'Save',
-    public cards: Array<T>,
+    public cards: CardMap<T>,
     public cb: (cards: Array<T>) => PlayerInput | undefined,
     config?: Partial<Options>,
   ) {
@@ -47,11 +48,14 @@ export class SelectCard<T extends ICard> extends BasePlayerInput {
     }
     const cards: Array<T> = [];
     for (const cardName of input.cards) {
-      const {card, idx} = getCardFromPlayerInput(this.cards, cardName);
-      cards.push(card);
+      const card = this.cards.get(cardName);
+      if (card === undefined) {
+        throw new Error(`${cardName} not found`);
+      }
       if (this.config.enabled?.[idx] === false) {
         throw new Error(`${cardName} is not available`);
       }
+      cards.push(card);
     }
     return this.cb(cards);
   }

@@ -403,7 +403,7 @@ export class Server {
       availableBlueCardActionCount: player.getAvailableBlueActionCount(),
       cardCost: player.cardCost,
       cardDiscount: player.colonies.cardDiscount,
-      cardsInHandNbr: player.cardsInHand.length,
+      cardsInHandNbr: player.cardsInHand.size,
       citiesCount: player.game.getCitiesCount(player),
       coloniesCount: player.getColoniesCount(),
       color: player.color,

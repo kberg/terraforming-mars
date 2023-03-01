@@ -3,6 +3,7 @@ import {Message} from '../common/logs/Message';
 import {PlayerInputType} from '../common/input/PlayerInputType';
 import {InputResponse} from '../common/inputs/InputResponse';
 import {Player} from './Player';
+import {CardMap} from './CardMap';
 
 export interface PlayerInput {
     inputType: PlayerInputType;
@@ -32,11 +33,10 @@ export abstract class BasePlayerInput implements PlayerInput {
   }
 }
 
-export function getCardFromPlayerInput<T extends ICard>(cards: Array<T>, cardName: string): {card: T, idx: number} {
-  const idx = cards.findIndex((card) => card.name === cardName);
+export function getCardFromPlayerInput<T extends ICard>(cards: CardMap<T>, cardName: CardName): {card: T, idx: number} {
+  const idx = cards.filter(() => true).findIndex((card) => card.name === cardName);
   if (idx === -1) {
     throw new Error(`Card ${cardName} not found`);
   }
-  const card = cards[idx];
-  return {card, idx};
+  return {cards [idx], idx};
 }

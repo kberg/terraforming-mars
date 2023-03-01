@@ -17,11 +17,6 @@ export class CeoExtension {
   }
 
   public static ceoActionIsUsable(player: Player): boolean {
-    for (const card of player.playedCards) {
-      if (isCeoCard(card)) {
-        return card.canAct(player);
-      }
-    }
-    return false;
+    return player.playedCards.filter(isCeoCard).some((card) => card.canAct(player));
   }
 }

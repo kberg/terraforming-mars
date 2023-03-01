@@ -24,14 +24,14 @@ export class CityStandardProject extends StandardProjectCard {
   }
 
   protected override discount(player: Player): number {
-    if (player.playedCards.find((card) => card.name === CardName.PREFABRICATION_OF_HUMAN_HABITATS)) {
+    if (player.cardIsInEffect(CardName.PREFABRICATION_OF_HUMAN_HABITATS)) {
       return 2 + super.discount(player);
     }
     return super.discount(player);
   }
 
   public override canPayWith(player: Player) {
-    if (player.playedCards.find((card) => card.name === CardName.PREFABRICATION_OF_HUMAN_HABITATS)) {
+    if (player.cardIsInEffect(CardName.PREFABRICATION_OF_HUMAN_HABITATS)) {
       return {steel: true};
     } else {
       return {};

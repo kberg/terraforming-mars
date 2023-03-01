@@ -70,7 +70,7 @@ describe('Will', function() {
 
     // Sanity
     expect(comms.resourceCount).eq(2);
-    expect(player.cardsInHand.length).to.eq(0);
+    expect(player.cardsInHand.size).to.eq(0);
 
     // Action
     card.action(player);
@@ -84,6 +84,6 @@ describe('Will', function() {
 
     // We should have drawn a card here
     expect(comms.resourceCount).eq(0);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 });

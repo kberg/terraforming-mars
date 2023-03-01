@@ -69,6 +69,8 @@ import {ICeoCard, isCeoCard} from './cards/ceos/ICeoCard';
 import {AwardScorer} from './awards/AwardScorer';
 import {FundedAward} from './awards/FundedAward';
 import {MessageBuilder} from './logs/MessageBuilder';
+import {CardMap, newCardMap, Arrayish} from './CardMap';
+import {IPreludeCard} from './cards/prelude/IPreludeCard';
 
 /**
  * Behavior when playing a card:
@@ -76,8 +78,8 @@ import {MessageBuilder} from './logs/MessageBuilder';
  *   discard it from the tableau
  *   or do nothing.
  */
-
 export type CardAction ='add' | 'discard' | 'nothing';
+
 export class Player {
   public readonly id: PlayerId;
   protected waitingFor?: PlayerInput;
@@ -121,16 +123,16 @@ export class Player {
   public pendingInitialActions: Array<ICorporationCard> = [];
 
   // Cards
-  public dealtCorporationCards: Array<ICorporationCard> = [];
-  public dealtPreludeCards: Array<IProjectCard> = [];
-  public dealtCeoCards: Array<ICeoCard> = [];
-  public dealtProjectCards: Array<IProjectCard> = [];
-  public cardsInHand: Array<IProjectCard> = [];
-  public preludeCardsInHand: Array<IProjectCard> = [];
-  public ceoCardsInHand: Array<IProjectCard> = [];
-  public playedCards: Array<IProjectCard> = [];
-  public draftedCards: Array<IProjectCard> = [];
-  public draftedCorporations: Array<ICorporationCard> = [];
+  public dealtCorporationCards: CardMap<ICorporationCard> = newCardMap();
+  public dealtPreludeCards: CardMap<IPreludeCard> = newCardMap();
+  public dealtCeoCards: CardMap<ICeoCard> = newCardMap();
+  public dealtProjectCards: CardMap<IProjectCard> = newCardMap();
+  public cardsInHand: CardMap<IProjectCard> = newCardMap();
+  public preludeCardsInHand: CardMap<IProjectCard> = newCardMap();
+  public ceoCardsInHand: CardMap<ICeoCard> = newCardMap();
+  public playedCards: CardMap<IProjectCard> = newCardMap();
+  public draftedCards: CardMap<IProjectCard> = newCardMap();
+  public draftedCorporations: CardMap<ICorporationCard> = newCardMap();
   public cardCost: number = constants.CARD_COST;
   public needsToDraft?: boolean;
 
@@ -208,7 +210,7 @@ export class Player {
   }
 
   public getCeo(ceoName: CardName): ICeoCard | undefined {
-    const card = this.playedCards.find((c) => c.name === ceoName);
+    const card = this.playedCards.get(ceoName);
     return (card !== undefined && isCeoCard(card)) ? card : undefined;
   }
 
@@ -236,7 +238,7 @@ export class Player {
   }
 
   public getSelfReplicatingRobotsTargetCards(): Array<RobotCard> {
-    return (<SelfReplicatingRobots> this.playedCards.find((card) => card instanceof SelfReplicatingRobots))?.targetCards ?? [];
+    return (<SelfReplicatingRobots> this.playedCards.get(CardName.SELF_REPLICATING_ROBOTS))?.targetCards ?? [];
   }
 
   public getSteelValue(): number {
@@ -561,8 +563,7 @@ export class Player {
   }
 
   public cardIsInEffect(cardName: CardName): boolean {
-    return this.playedCards.some(
-      (playedCard) => playedCard.name === cardName);
+    return this.playedCards.has(cardName);
   }
 
   public hasProtectedHabitats(): boolean {
@@ -765,8 +766,11 @@ export class Player {
     return count;
   }
 
+  // This method doesn't really pull its weight.
   public getCardsByCardType(cardType: CardType) {
-    return this.playedCards.filter((card) => card.cardType === cardType);
+    return this.playedCards.filter((card) => {
+      return card.cardType === cardType;
+    });
   }
 
   public deferInputCb(result: PlayerInput | undefined): void {
@@ -817,11 +821,7 @@ export class Player {
 
     this.corporations.forEach((card) => card.onProductionPhase?.(this));
     // Turn off CEO OPG actions that were activated this generation
-    for (const card of this.playedCards) {
-      if (isCeoCard(card)) {
-        card.opgActionIsActive = false;
-      }
-    }
+    this.playedCards.filter((isCeoCard)).forEach((card) => card.opgActionIsActive = false);
   }
 
   private doneWorldGovernmentTerraforming(): void {
@@ -907,7 +907,7 @@ export class Player {
     });
   }
 
-  public dealForDraft(quantity: number, cards: Array<IProjectCard>): void {
+  public dealForDraft(quantity: number, cards: Arrayish<IProjectCard>): void {
     for (let i = 0; i < quantity; i++) {
       cards.push(this.game.projectDeck.draw(this.game, 'bottom'));
     }
@@ -921,10 +921,10 @@ export class Player {
    * @param passedCards The cards received from the draw, or from the prior player. If empty, it's the first
    *   step in the draft, and cards have to be dealt.
    */
-  public askPlayerToDraft(initialDraft: boolean, playerName: string, passedCards?: Array<IProjectCard>): void {
+  public askPlayerToDraft(initialDraft: boolean, playerName: string, passedCards?: CardMap<IProjectCard>): void {
     let cardsToKeep = 1;
 
-    let cards: Array<IProjectCard> = [];
+    let cards: CardMap<IProjectCard> = newCardMap();
     if (passedCards === undefined) {
       if (!initialDraft) {
         let cardsToDraw = 4;
@@ -1001,12 +1001,12 @@ export class Player {
   }
 
   public runResearchPhase(draftVariant: boolean): void {
-    let dealtCards: Array<IProjectCard> = [];
+    let dealtCards: CardMap<IProjectCard> = newCardMap();
     if (!draftVariant) {
       this.dealForDraft(LunaProjectOffice.isActive(this) ? 5 : 4, dealtCards);
     } else {
       dealtCards = this.draftedCards;
-      this.draftedCards = [];
+      this.draftedCards.clear();
     }
 
     const action = DrawCards.choose(this, dealtCards, {paying: true});
@@ -1091,18 +1091,15 @@ export class Player {
   }
 
   public getSpendableMicrobes(): number {
-    const psychrophiles = this.playedCards.find((card) => card.name === CardName.PSYCHROPHILES);
-    return psychrophiles?.resourceCount ?? 0;
+    return this.playedCards.get(CardName.PSYCHROPHILES)?.resourceCount ?? 0;
   }
 
   public getSpendableFloaters(): number {
-    const dirigibles = this.playedCards.find((card) => card.name === CardName.DIRIGIBLES);
-    return dirigibles?.resourceCount ?? 0;
+    return this.playedCards.get(CardName.DIRIGIBLES)?.resourceCount ?? 0;
   }
 
   public getSpendableScienceResources(): number {
-    const lunaArchives = this.playedCards.find((card) => card.name === CardName.LUNA_ARCHIVES);
-    return lunaArchives?.resourceCount ?? 0;
+    return this.playedCards.get(CardName.LUNA_ARCHIVES)?.resourceCount ?? 0;
   }
 
   public getSpendableSeedResources(): number {
@@ -1122,18 +1119,19 @@ export class Player {
       this.defer(this.spendHeat(payment.heat));
     }
 
-    for (const playedCard of this.playedCards) {
-      if (playedCard.name === CardName.PSYCHROPHILES) {
-        this.removeResourceFrom(playedCard, payment.microbes);
-      }
+    const psychrophiles = this.playedCards.get(CardName.PSYCHROPHILES);
+    if (psychrophiles) {
+      this.removeResourceFrom(psychrophiles, payment.microbes);
+    }
 
-      if (playedCard.name === CardName.DIRIGIBLES) {
-        this.removeResourceFrom(playedCard, payment.floaters);
-      }
+    const dirigibles = this.playedCards.get(CardName.DIRIGIBLES);
+    if (dirigibles) {
+      this.removeResourceFrom(dirigibles, payment.microbes);
+    }
 
-      if (playedCard.name === CardName.LUNA_ARCHIVES) {
-        this.removeResourceFrom(playedCard, payment.science);
-      }
+    const lunaArchives = this.playedCards.get(CardName.LUNA_ARCHIVES);
+    if (lunaArchives) {
+      this.removeResourceFrom(lunaArchives, payment.microbes);
     }
 
     if (payment.seeds > 0) {
@@ -1167,16 +1165,11 @@ export class Player {
     // This could probably include 'nothing' but for now this will work.
     if (cardAction !== 'discard') {
       // Remove card from hand
-      const projectCardIndex = this.cardsInHand.findIndex((card) => card.name === selectedCard.name);
-      const preludeCardIndex = this.preludeCardsInHand.findIndex((card) => card.name === selectedCard.name);
-      if (projectCardIndex !== -1) {
-        this.cardsInHand.splice(projectCardIndex, 1);
-      } else if (preludeCardIndex !== -1) {
-        this.preludeCardsInHand.splice(preludeCardIndex, 1);
-      }
+      this.cardsInHand.delete(selectedCard.name);
+      this.preludeCardsInHand.delete(selectedCard.name);
 
       // Remove card from Self Replicating Robots
-      const card = this.playedCards.find((card) => card.name === CardName.SELF_REPLICATING_ROBOTS);
+      const card = this.playedCards.get(CardName.SELF_REPLICATING_ROBOTS);
       if (card instanceof SelfReplicatingRobots) {
         for (const targetCard of card.targetCards) {
           if (targetCard.card.name === selectedCard.name) {
@@ -1228,7 +1221,7 @@ export class Player {
     if (card.cardType === CardType.PROXY) {
       return;
     }
-    for (const playedCard of this.playedCards) {
+    for (const playedCard of this.playedCards.values()) {
       const actionFromPlayedCard = playedCard.onCardPlayed?.(this, card);
       if (actionFromPlayedCard !== undefined) {
         this.game.defer(new SimpleDeferredAction(
@@ -1319,7 +1312,7 @@ export class Player {
     }
 
     if (additionalCorp === false && corporationCard.name !== CardName.BEGINNER_CORPORATION) {
-      const diff = this.cardsInHand.length * this.cardCost;
+      const diff = this.cardsInHand.size * this.cardCost;
       this.deductResource(Resources.MEGACREDITS, diff);
     }
     corporationCard.play(this);
@@ -1328,7 +1321,7 @@ export class Player {
     }
     this.game.log('${0} played ${1}', (b) => b.player(this).card(corporationCard));
     if (additionalCorp === false) {
-      this.game.log('${0} kept ${1} project cards', (b) => b.player(this).number(this.cardsInHand.length));
+      this.game.log('${0} kept ${1} project cards', (b) => b.player(this).number(this.cardsInHand.size));
     }
 
     this.triggerOtherCorpEffects(corporationCard);
@@ -1349,12 +1342,7 @@ export class Player {
   }
 
   public discardPlayedCard(card: IProjectCard) {
-    const cardIndex = this.playedCards.findIndex((c) => c.name === card.name);
-    if (cardIndex === -1) {
-      console.error(`Error: card ${card.name} not in ${this.id}'s hand`);
-      return;
-    }
-    this.playedCards.splice(cardIndex, 1);
+    this.playedCards.delete(card.name);
     this.game.projectDeck.discard(card);
     card.onDiscard?.(this);
     this.game.log('${0} discarded ${1}', (b) => b.player(this).card(card));
@@ -1529,9 +1517,9 @@ export class Player {
   }
 
   public getPlayableCards(): Array<IProjectCard> {
-    const candidateCards: Array<IProjectCard> = [...this.cardsInHand];
+    const candidateCards: Array<IProjectCard> = [...this.cardsInHand.values()];
     // Self Replicating robots check
-    const card = this.playedCards.find((card) => card.name === CardName.SELF_REPLICATING_ROBOTS);
+    const card = this.playedCards.get(CardName.SELF_REPLICATING_ROBOTS);
     if (card instanceof SelfReplicatingRobots) {
       for (const targetCard of card.targetCards) {
         candidateCards.push(targetCard.card);
@@ -1730,19 +1718,19 @@ export class Player {
     // if (saveBeforeTakingAction) game.save();
 
     // Prelude cards have to be played first
-    if (this.preludeCardsInHand.length > 0) {
+    if (this.preludeCardsInHand.size > 0) {
       game.phase = Phase.PRELUDES;
 
       // If no playable prelude card in hand, end player turn
       if (this.getPlayablePreludeCards().length === 0) {
         LogHelper.logDiscardedCards(game, this.preludeCardsInHand);
-        this.preludeCardsInHand = [];
+        this.preludeCardsInHand.clear();
         game.playerIsFinishedTakingActions();
         return;
       }
 
       this.setWaitingFor(this.playPreludeCard(), () => {
-        if (this.preludeCardsInHand.length === 1) {
+        if (this.preludeCardsInHand.size === 1) {
           this.takeAction();
         } else {
           game.playerIsFinishedTakingActions();
@@ -2030,7 +2018,7 @@ export class Player {
       dealtPreludeCards: this.dealtPreludeCards.map((c) => c.name),
       dealtCeoCards: this.dealtCeoCards.map((c) => c.name),
       dealtProjectCards: this.dealtProjectCards.map((c) => c.name),
-      cardsInHand: this.cardsInHand.map((c) => c.name),
+      cardsInHand: Array.from(this.cardsInHand.keys()),
       preludeCardsInHand: this.preludeCardsInHand.map((c) => c.name),
       ceoCardsInHand: this.ceoCardsInHand.map((c) => c.name),
       playedCards: this.playedCards.map(serializeProjectCard),
@@ -2155,7 +2143,7 @@ export class Player {
     player.dealtPreludeCards = cardFinder.cardsFromJSON(d.dealtPreludeCards);
     player.dealtCeoCards = cardFinder.ceosFromJSON(d.dealtCeoCards);
     player.dealtProjectCards = cardFinder.cardsFromJSON(d.dealtProjectCards);
-    player.cardsInHand = cardFinder.cardsFromJSON(d.cardsInHand);
+    player.cardsInHand = new Map(cardFinder.cardsFromJSON(d.cardsInHand).map((c) => [c.name, c]));
     player.preludeCardsInHand = cardFinder.cardsFromJSON(d.preludeCardsInHand);
     player.ceoCardsInHand = cardFinder.ceosFromJSON(d.ceoCardsInHand);
     player.playedCards = d.playedCards.map((element: SerializedCard) => deserializeProjectCard(element, cardFinder));

@@ -199,11 +199,11 @@ describe('Merger', function() {
 
   it('Works with Point Luna and second corp with Earth tag', function() {
     player.playCorporationCard(new PointLuna());
-    const handSize = player.cardsInHand.length;
+    const handSize = player.cardsInHand.size;
 
     player.playAdditionalCorporationCard(new Teractor());
     game.deferredActions.runAll(() => {});
-    expect(player.cardsInHand.length).to.eq(handSize + 1);
+    expect(player.cardsInHand.size).to.eq(handSize + 1);
   });
 
   it('Playing next corp card does not charge for cards', function() {

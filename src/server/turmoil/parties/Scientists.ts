@@ -38,7 +38,7 @@ class ScientistsBonus02 implements Bonus {
   readonly isDefault = false;
 
   getScore(player: Player) {
-    return Math.floor(player.cardsInHand.length / 3);
+    return Math.floor(player.cardsInHand.size / 3);
   }
 
   grant(game: Game) {

@@ -26,11 +26,11 @@ export class Ender extends CeoCard {
     if (!super.canAct(player)) {
       return false;
     }
-    return player.cardsInHand.length > 0;
+    return player.cardsInHand.size > 0;
   }
 
   public action(player: Player): PlayerInput | undefined {
-    const max = Math.min(player.cardsInHand.length, player.game.generation * 2);
+    const max = Math.min(player.cardsInHand.size, player.game.generation * 2);
     // TODO(d-little): Replace with SelectCard.
     return new SelectAmount(
       'Select number of cards to discard',

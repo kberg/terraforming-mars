@@ -24,9 +24,9 @@ export class ParadigmBreakdown extends GlobalEvent implements IGlobalEvent {
   }
   public resolve(game: Game, turmoil: Turmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
-      if (player.cardsInHand.length >= 2) {
+      if (player.cardsInHand.size >= 2) {
         game.defer(new DiscardCards(player, 2, 'Global Event - Select 2 cards to discard'));
-      } else if (player.cardsInHand.length === 1) {
+      } else if (player.cardsInHand.size === 1) {
         game.defer(new DiscardCards(player, 1, 'Global Event - Select a card to discard'));
       }
       player.addResource(Resources.MEGACREDITS, 2 * (turmoil.getPlayerInfluence(player)), {log: true, from: this.name});

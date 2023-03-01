@@ -29,7 +29,7 @@ export class Potatoes extends Card implements IProjectCard {
   }
 
   public override bespokeCanPlay(player: Player): boolean {
-    const viralEnhancers = player.playedCards.find((card) => card.name === CardName.VIRAL_ENHANCERS);
+    const viralEnhancers = player.cardIsInEffect(CardName.VIRAL_ENHANCERS);
     const hasEnoughPlants = player.plants >= 2 || player.plants >= 1 && viralEnhancers !== undefined;
 
     return hasEnoughPlants;

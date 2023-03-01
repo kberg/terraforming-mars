@@ -34,7 +34,7 @@ describe('BactoviralResearch', function() {
     const action = cast(player.popWaitingFor(), SelectCard<ICard>);
     action.cb([card3]);
     expect(card3.resourceCount).to.eq(4);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 
   it('Should play with single microbe card', function() {
@@ -45,14 +45,14 @@ describe('BactoviralResearch', function() {
     runAllActions(game);
 
     expect(microbeCard.resourceCount).to.eq(2);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 
   it('Should play with no microbe cards', function() {
     expect(card.play(player)).is.undefined;
     runAllActions(game);
 
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 
   it('Should ignore non-microbe cards', () => {
@@ -63,7 +63,7 @@ describe('BactoviralResearch', function() {
     runAllActions(game);
 
     expect(securityFleetCard.resourceCount).to.eq(0);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 
   it('Should ignore cards with microbe tags but does not collect microbe resources.', () => {
@@ -74,6 +74,6 @@ describe('BactoviralResearch', function() {
     runAllActions(game);
 
     expect(pharmacyUnion.resourceCount).to.eq(0);
-    expect(player.cardsInHand.length).to.eq(1);
+    expect(player.cardsInHand.size).to.eq(1);
   });
 });

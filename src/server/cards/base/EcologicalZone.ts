@@ -63,7 +63,7 @@ export class EcologicalZone extends Card implements IProjectCard {
   }
   public override bespokePlay(player: Player) {
     // Get one extra animal from EcoExperts if played during prelude while having just played EcoExperts
-    if (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[player.playedCards.length-1].name === CardName.ECOLOGY_EXPERTS) {
+    if (player.game.phase === Phase.PRELUDES && Array.from(player.playedCards.keys()).pop() === CardName.ECOLOGY_EXPERTS) {
       player.addResourceTo(this, {qty: 1, log: true});
     }
 

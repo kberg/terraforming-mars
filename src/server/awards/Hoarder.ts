@@ -6,6 +6,6 @@ export class Hoarder implements IAward {
   public readonly description = 'Most cards in hand';
 
   public getScore(player: Player): number {
-    return player.cardsInHand.length;
+    return player.cardsInHand.size;
   }
 }

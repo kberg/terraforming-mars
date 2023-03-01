@@ -25,7 +25,7 @@ export class Stefan extends CeoCard {
     if (!super.canAct(player)) {
       return false;
     }
-    return player.cardsInHand.length > 0;
+    return player.cardsInHand.size > 0;
   }
 
 
@@ -34,23 +34,18 @@ export class Stefan extends CeoCard {
       'Sell patents',
       'Sell',
       player.cardsInHand,
-      (foundCards: Array<IProjectCard>) => {
-        player.megaCredits += foundCards.length * 3;
+      (cards: Array<IProjectCard>) => {
+        player.megaCredits += cards.length * 3;
 
-        foundCards.forEach((card) => {
-          for (let i = 0; i < player.cardsInHand.length; i++) {
-            if (player.cardsInHand[i].name === card.name) {
-              player.cardsInHand.splice(i, 1);
-              break;
-            }
-          }
+        cards.forEach((card) => {
+          player.cardsInHand.delete(card.name);
           player.game.projectDeck.discard(card);
         });
 
-        player.game.log('${0} sold ${1} patents', (b) => b.player(player).number(foundCards.length));
+        player.game.log('${0} sold ${1} patents', (b) => b.player(player).number(cards.length));
         this.isDisabled = true;
         return undefined;
-      }, {min: 0, max: player.cardsInHand.length},
+      }, {min: 0, max: player.cardsInHand.size},
     );
   }
 }

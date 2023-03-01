@@ -23,7 +23,7 @@ export class SellPatentsStandardProject extends StandardProjectCard {
   }
 
   public override canAct(player: Player): boolean {
-    return player.cardsInHand.length > 0;
+    return player.cardsInHand.size > 0;
   }
 
   actionEssence(): void {
@@ -38,18 +38,13 @@ export class SellPatentsStandardProject extends StandardProjectCard {
       (cards) => {
         player.megaCredits += cards.length;
         cards.forEach((card) => {
-          for (let i = 0; i < player.cardsInHand.length; i++) {
-            if (player.cardsInHand[i].name === card.name) {
-              player.cardsInHand.splice(i, 1);
-              break;
-            }
-          }
+          player.playedCards.delete(card);
           player.game.projectDeck.discard(card);
         });
         this.projectPlayed(player);
         player.game.log('${0} sold ${1} patents', (b) => b.player(player).number(cards.length));
         return undefined;
-      }, {max: player.cardsInHand.length, played: false},
+      }, {max: player.cardsInHand.size, played: false},
     );
   }
 }

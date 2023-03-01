@@ -6,7 +6,7 @@ export class Minimalist implements IMilestone {
   public readonly description = 'Have 2 or less cards in hand';
 
   public getScore(player: Player): number {
-    return player.cardsInHand.length;
+    return player.cardsInHand.size;
   }
 
   public canClaim(player: Player): boolean {
