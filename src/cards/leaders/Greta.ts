@@ -20,7 +20,7 @@ export class Greta extends Card implements LeaderCard {
           b.tr(1).colon().megacredits(4);
           b.br;
         }),
-        description: 'When you take an action or gain a track bonus that raises your terraform rating THIS GENERATION, gain 4 M€.',
+        description: 'When you take an action that raises your terraform rating THIS GENERATION, gain 4 M€.',
       },
     });
   }
