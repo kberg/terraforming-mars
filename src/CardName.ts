@@ -476,6 +476,7 @@ export enum CardName {
     DOUBLE_DOWN = 'Double Down',
     HEAD_START = 'Head Start',
     SIXTEEN_PSYCHE = '16 Psyche',
+    ROBOT_POLLINATORS = 'Robot Pollinators',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',
