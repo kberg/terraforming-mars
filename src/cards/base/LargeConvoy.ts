@@ -14,8 +14,15 @@ import {Resources} from '../../Resources';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {HowToAffordRedsPolicy, RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class LargeConvoy extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.EVENT,
@@ -41,6 +48,18 @@ export class LargeConvoy extends Card implements IProjectCard {
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
 
     return true;
   }
@@ -89,5 +108,9 @@ export class LargeConvoy extends Card implements IProjectCard {
   }
   public getVictoryPoints() {
     return 2;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, oceansToPlace: 1});
   }
 }
