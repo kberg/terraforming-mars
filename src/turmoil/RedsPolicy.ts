@@ -299,9 +299,6 @@ export class RedsPolicy {
      * TODO: Improve calculation for placement on HELLAS special ocean tile
      */
 
-    // Let's compute bonus M€ from each board space
-    const spacesBonusMC = RedsPolicy.getBoardSpacesBonusMC(player, game, isHelion);
-
     /*
      * Edge case for ArtificialLake, which uses a {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} hack for its ActionDetails
      * Making oceansToPlace = 0 does two important things here
@@ -309,6 +306,9 @@ export class RedsPolicy {
      * Second on line 341 because we have TileType.OCEAN as our "nonOceanToPlace" we will get an array of land spaces instead of ocean spaces
      */
     const oceansToPlace = action.card?.name === CardName.ARTIFICIAL_LAKE ? 0 : action.oceansToPlace;
+
+    // Let's compute bonus M€ from each board space
+    const spacesBonusMC = RedsPolicy.getBoardSpacesBonusMC(player, game, action.nonOceanAvailableSpaces, oceansToPlace, isHelion);
 
     // And generate a tree of tile placements that provide at least |missingMC|
     const [spacesTree, max]: [ISpaceTree, number] = RedsPolicy.makeISpaceTree(
@@ -353,10 +353,24 @@ export class RedsPolicy {
     return {canAfford: false, oceansToPlace: action.oceansToPlace, redTaxes: redTaxes};
   }
 
-  public static getBoardSpacesBonusMC(player: Player, game: Game, isHelion: boolean = false): Array<number> {
-    return game.board.spaces.map((space) => {
-      let bonus = game.board.getAdjacentSpaces(space).filter(
-        (adjacentSpace) => Board.isOceanSpace(adjacentSpace)).length * player.oceanBonus;
+  public static getBoardSpacesBonusMC(player: Player, game: Game, nonOceanAvailableSpaces: ISpace[], oceansToPlace: number = 0, isHelion: boolean = false): Array<number> {
+    const board = game.board;
+
+    return board.spaces.map((space) => {
+      const adjacentSpaces = board.getAdjacentSpaces(space);
+
+      // This is the initial bonus, from placing next to EXISTING oceans
+      let bonus = adjacentSpaces.filter((s) => Board.isOceanSpace(s)).length * player.oceanBonus;
+
+      // If an action that places a non-ocean tile allows you to place oceans as well, you can get more bonus in addition to oceans already on the board
+      if (oceansToPlace > 0 && nonOceanAvailableSpaces.length > 0) {
+        const adjacentEmptyOceanSpacesCount = adjacentSpaces.filter((s) => s.tile === undefined && s.spaceType === SpaceType.OCEAN).length;
+        const oceanAdjacencyBonus = Math.min(adjacentEmptyOceanSpacesCount, oceansToPlace) * player.oceanBonus;
+
+        if (adjacentSpaces.some((space) => nonOceanAvailableSpaces.includes(space))) {
+          bonus += oceanAdjacencyBonus;
+        }
+      }
 
       if (space.id === SpaceName.HELLAS_OCEAN_TILE && game.gameOptions.boardName === BoardName.HELLAS) {
         bonus -= HELLAS_BONUS_OCEAN_COST;
@@ -383,15 +397,30 @@ export class RedsPolicy {
          * grant the ocean adjacency bonus for placing on that space
          */
         adjacentSpaces.forEach((s) => {
-          if (adjacentSpaces.some((adjSpace) => {
-            const hasEnoughPlacementBonus = spacesBonusMC[board.spaces.indexOf(adjSpace)] >= totalBonus;
-            const isOceanSpace = adjSpace.spaceType === SpaceType.OCEAN;
+          if (nonOceanSpaces.length === 0) {
+            // Here we have no restrictions on where to place our non-ocean tile (if any)
+            // So we just need to check if multiple oceans can be placed next to each other / next to existing oceans
+            if (adjacentSpaces.some((adjSpace) => {
+              const hasEnoughPlacementBonus = spacesBonusMC[board.spaces.indexOf(adjSpace)] >= totalBonus;
+              const isOceanSpace = adjSpace.spaceType === SpaceType.OCEAN;
 
-            return hasEnoughPlacementBonus && (adjSpace.tile !== undefined || oceans > 1) && isOceanSpace;
-          })) {
-            tempBonusMC[board.spaces.indexOf(s)] += player.oceanBonus;
+              return hasEnoughPlacementBonus && (adjSpace.tile !== undefined || oceans > 1) && isOceanSpace;
+            })) {
+              tempBonusMC[board.spaces.indexOf(s)] += player.oceanBonus;
+            } else {
+              tempBonusMC[board.spaces.indexOf(s)] = 0;
+            }
           } else {
-            tempBonusMC[board.spaces.indexOf(s)] = 0;
+            // Here our non-ocean tile placement spots are restricted
+            // So we can only add ocean adjacency bonus if the adjacent space is in the list of restricted non-ocean spaces
+            if (adjacentSpaces.some((adjSpace) => {
+              const hasEnoughPlacementBonus = spacesBonusMC[board.spaces.indexOf(adjSpace)] >= totalBonus;
+              return hasEnoughPlacementBonus && nonOceanSpaces.includes(adjSpace);
+            })) {
+              tempBonusMC[board.spaces.indexOf(s)] += player.oceanBonus;
+            } else {
+              tempBonusMC[board.spaces.indexOf(s)] = 0;
+            }
           }
         });
 
