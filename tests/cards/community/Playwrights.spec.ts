@@ -3,11 +3,14 @@ import {DeimosDown} from '../../../src/cards/base/DeimosDown';
 import {IndenturedWorkers} from '../../../src/cards/base/IndenturedWorkers';
 import {LocalHeatTrapping} from '../../../src/cards/base/LocalHeatTrapping';
 import {ReleaseOfInertGases} from '../../../src/cards/base/ReleaseOfInertGases';
+import {SpecialDesign} from '../../../src/cards/base/SpecialDesign';
+import {Worms} from '../../../src/cards/base/Worms';
 import {Playwrights} from '../../../src/cards/community/corporations/Playwrights';
 import {ICard} from '../../../src/cards/ICard';
 import {MartianSurvey} from '../../../src/cards/prelude/MartianSurvey';
 import {LawSuit} from '../../../src/cards/promo/LawSuit';
 import {Game} from '../../../src/Game';
+import {GlobalParameter} from '../../../src/GlobalParameter';
 import {SelectCard} from '../../../src/inputs/SelectCard';
 import {SelectPlayer} from '../../../src/inputs/SelectPlayer';
 import {Player} from '../../../src/Player';
@@ -122,5 +125,28 @@ describe('Playwrights', () => {
     expect(player.playedCards).has.lengthOf(0);
     expect(player2.playedCards).has.lengthOf(0); // Card is removed from play for sued player
     expect(player.removedFromPlayCards).has.lengthOf(1);
+  });
+
+  it('Works with Special Design', () => {
+    const event = new SpecialDesign();
+    player2.playedCards.push(event);
+
+    player.megaCredits = event.cost;
+    expect(card.canAct(player)).is.true;
+
+    const selectCard = card.action(player) as SelectCard<ICard>;
+    selectCard.cb([event]);
+
+    // SelectHowToPay
+    game.deferredActions.pop()!.execute();
+
+    expect(player.getRequirementsBonus(GlobalParameter.OXYGEN)).to.eq(2);
+    
+    const lastRemovedFromPlayCard = player.removedFromPlayCards[player.removedFromPlayCards.length - 1];
+    expect(lastRemovedFromPlayCard.name).to.eq(event.name);
+
+    player.playCard(new Worms());
+    expect(player.getRequirementsBonus(GlobalParameter.OXYGEN)).to.eq(0);
+    expect(player.removedFromPlayCards).has.length(0);
   });
 });

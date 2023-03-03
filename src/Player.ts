@@ -758,6 +758,12 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
+    // Playwrights + Special Design replay
+    const lastRemovedFromPlayCard = this.removedFromPlayCards[this.removedFromPlayCards.length - 1];
+    if (lastRemovedFromPlayCard !== undefined && lastRemovedFromPlayCard.name === CardName.SPECIAL_DESIGN) {
+      requirementsBonus += 2;
+    }
+
     // PoliticalAgendas Scientists P2 hook
     if (PartyHooks.shouldApplyPolicy(this, PartyName.SCIENTISTS, TurmoilPolicy.SCIENTISTS_POLICY_2)) {
       requirementsBonus += 2;
@@ -1722,6 +1728,12 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (addToPlayedCards && selectedCard.name !== CardName.LAW_SUIT) {
       this.playedCards.push(selectedCard);
+    }
+
+    // Playwrights + Special Design: Replay should only grant requirements bonus once
+    const lastRemovedFromPlayCard = this.removedFromPlayCards[this.removedFromPlayCards.length - 1];
+    if (lastRemovedFromPlayCard !== undefined && lastRemovedFromPlayCard.name === CardName.SPECIAL_DESIGN) {
+      this.removedFromPlayCards.pop();
     }
 
     for (const playedCard of this.playedCards) {
