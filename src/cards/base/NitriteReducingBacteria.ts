@@ -14,8 +14,12 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class NitriteReducingBacteria extends Card implements IActionCard, IProjectCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -53,7 +57,24 @@ export class NitriteReducingBacteria extends Card implements IActionCard, IProje
       ));
       return undefined;
     }
-    public canAct(): boolean {
+    public canAct(player: Player): boolean {
+      const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+      const trGain = 1;
+
+      Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise TR');
+
+      // The second clause here prevents this.reserveUnits.megacredits (which should be 3) from increasing to 12
+      // This behaviour is probably caused by this card being the only one that adds 3 microbes to itself when played
+      if (redsAreRuling && this.reserveUnits.megacredits < trGain * REDS_RULING_POLICY_COST) {
+        this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+        const actionDetails = this.getActionDetails();
+        this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+        if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+          this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+        }
+      }
+
       return true;
     }
     public action(player: Player) {
@@ -62,10 +83,12 @@ export class NitriteReducingBacteria extends Card implements IActionCard, IProje
         return undefined;
       }
 
+      if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
+
       const orOptions = new OrOptions();
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         orOptions.options.push(new SelectOption('Remove 3 microbes to increase your terraform rating 1 step', 'Remove microbes', () => {
           player.removeResourceFrom(this, 3);
           LogHelper.logRemoveResource(player, this, 3, 'gain 1 TR');
@@ -81,5 +104,9 @@ export class NitriteReducingBacteria extends Card implements IActionCard, IProje
 
       if (orOptions.options.length === 1) return orOptions.options[0].cb();
       return orOptions;
+    }
+
+    public getActionDetails() {
+      return new ActionDetails({TRIncrease: 1});
     }
 }
