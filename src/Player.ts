@@ -2586,14 +2586,29 @@ export class Player implements ISerializable<SerializedPlayer> {
     // If available spaces are restricted to be able to afford Reds policy
     if (input instanceof SelectSpace && this.howToAffordReds !== undefined && this.howToAffordReds.spaces !== undefined) {
       let availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
+      const spendableMegacredits = this.spendableMegacredits();
 
       /*
        * If we are placing an ocean, and we have enough M€ to pay off all Reds taxes, we can place the ocean anywhere
        * This can happen if we played a card that could use steel or titanium, and we spent all available metals so we have excess M€
        * This situation arises because we do not know in advance how much of their available metals a player will choose to spend
        */
-      if (this.spendableMegacredits() >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
+      if (spendableMegacredits >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
         availableSpaces = this.game.board.getAvailableSpacesForOcean(this);
+      } else if (spendableMegacredits < this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.LAND)) {
+        /*
+         * Here we are unable to afford Reds taxes when placing our non-ocean tile
+         * This means we have no choice but to place it next to adjacent oceans to make up the shortfall
+         * This computation is re-run after each new placement, so it takes the player's last placed tile into account
+         */
+        const oceanTileTypes = [TileType.OCEAN, TileType.OCEAN_CITY, TileType.OCEAN_FARM, TileType.OCEAN_SANCTUARY];
+
+        availableSpaces = availableSpaces.filter((space) => {
+          const adjacentOceans = this.game.board.getAdjacentSpaces(space).filter((s) => s.tile !== undefined && oceanTileTypes.includes(s.tile.tileType));
+          const finalPlacementBonus = adjacentOceans.length * this.oceanBonus;
+
+          return finalPlacementBonus + spendableMegacredits>= this.howToAffordReds!.redTaxes;
+        });
       }
 
       // Check that it's a subset of defaults spaces

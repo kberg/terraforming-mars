@@ -7,14 +7,18 @@ import {SelectSpace} from '../../inputs/SelectSpace';
 import {TileType} from '../../TileType';
 import {ISpace} from '../../boards/ISpace';
 import {CardName} from '../../CardName';
-import {MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 import {CardRenderer} from '../render/CardRenderer';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class NuclearZone extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor(
     name: CardName = CardName.NUCLEAR_ZONE,
     cost: number = 10,
@@ -40,17 +44,24 @@ export class NuclearZone extends Card implements IProjectCard {
   }
   public canPlay(player: Player): boolean {
     const canPlaceTile = player.game.board.getAvailableSpacesOnLand(player).length > 0;
-    const remainingTemperatureSteps = (MAX_TEMPERATURE - player.game.getTemperature()) / 2;
-    const stepsRaised = Math.min(remainingTemperatureSteps, 2);
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
+    if (!canPlaceTile) return false;
+
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * stepsRaised) && canPlaceTile;
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
     }
 
-    return canPlaceTile;
+    return true;
   }
 
   public play(player: Player) {
@@ -73,5 +84,9 @@ export class NuclearZone extends Card implements IProjectCard {
 
   public getVictoryPoints() {
     return -2;
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, temperatureIncrease: 2, nonOceanToPlace: TileType.NUCLEAR_ZONE, nonOceanAvailableSpaces: player.game.board.getAvailableSpacesOnLand(player)});
   }
 }
