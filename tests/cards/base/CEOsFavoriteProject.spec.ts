@@ -18,8 +18,9 @@ describe('CEOsFavoriteProject', function() {
     Game.newInstance('foobar', [player, redPlayer], player);
   });
 
-  it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+  it('Can play with no cards that have resources', function() {
+    expect(card.canPlay()).is.true;
+    expect(card.play(player)).is.undefined;
   });
 
   it('Should play', function() {
@@ -30,7 +31,7 @@ describe('CEOsFavoriteProject', function() {
 
     player.playedCards.push(searchForLife, securityFleet, decomposers, birds);
 
-    const action = card.play(player);
+    const action = card.play(player) as SelectCard<IProjectCard>;
     expect(action).instanceOf(SelectCard);
 
     action.cb([searchForLife]);
@@ -49,7 +50,7 @@ describe('CEOsFavoriteProject', function() {
     player.playedCards.push(srr);
     srr.targetCards.push({card: srrTarget, resourceCount: 0});
 
-    const action = card.play(player);
+    const action = card.play(player) as SelectCard<IProjectCard>;
     expect(action).instanceOf(SelectCard);
     action.cb([srrTarget]);
     expect(srr.targetCards[0].resourceCount).eq(1);
