@@ -11,6 +11,7 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {CardRenderer} from '../render/CardRenderer';
 import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
 import {Units} from '../../Units';
+import {Resources} from '../../Resources';
 
 export class Ironworks extends Card implements IActionCard, IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -42,7 +43,7 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
     const oxygenMaxed = player.game.getOxygenLevel() === MAX_OXYGEN_LEVEL;
 
     let trGain = oxygenMaxed ? 0 : 1;
-    if (player.game.getOxygenLevel() == 7) trGain += 1;
+    if (player.game.getOxygenLevel() === 7) trGain += 1;
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     Card.setRedsActionWarningText(trGain, this, redsAreRuling);
 
@@ -50,7 +51,7 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
     if (oxygenMaxed) return true;
 
     if (redsAreRuling) {
-      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails();
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
 
@@ -66,7 +67,7 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
 
   public action(player: Player) {
     player.energy -= 4;
-    player.steel++;
+    player.addResource(Resources.STEEL, 1);
     return player.game.increaseOxygenLevel(player, 1);
   }
 
