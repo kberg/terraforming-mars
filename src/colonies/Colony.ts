@@ -60,7 +60,7 @@ export abstract class Colony implements SerializedColony {
     public colonyBonusQuantity: number = 1;
     public colonyBonusResource?: Resources;
     public shouldIncreaseTrack: ShouldIncreaseTrack = ShouldIncreaseTrack.YES;
-
+    public priority: number = 1;
 
     public endGeneration(game: Game): void {
       if (this.isActive) {

@@ -14,4 +14,6 @@ export class Titania extends Colony {
     public colonyBonusQuantity = 3;
     public colonyBonusResource = Resources.MEGACREDITS;
     public shouldIncreaseTrack = ShouldIncreaseTrack.NO;
+    // For Productive Outpost, try to collect payment before other bonuses have been collected
+    public priority = 0;
 }

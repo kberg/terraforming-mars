@@ -9,4 +9,6 @@ export class Leavitt extends Colony {
     public tradeType = ColonyBenefit.DRAW_CARDS_AND_KEEP_ONE;
     public tradeQuantity = [1, 2, 3, 4, 5, 6, 7];
     public colonyBonusType = ColonyBenefit.DRAW_CARDS_AND_BUY_ONE;
+    // For Productive Outpost, collect payment only after other bonuses have been collected
+    public priority = 2;
 }

@@ -29,7 +29,7 @@ export class ProductiveOutpost extends Card implements IProjectCard {
   }
 
   public static giveAllColonyBonuses(player: Player) {
-    player.game.colonies.forEach((colony) => {
+    player.game.colonies.sort((a, b) => a.priority - b.priority).forEach((colony) => {
       colony.colonies.filter((owner) => owner === player.id).forEach((owner) => {
         // Not using GiveColonyBonus deferred action because it's only for the active player
         player.game.defer(new DeferredAction(player, () => colony.giveColonyBonus(player.game.getPlayerById(owner))));
