@@ -56,6 +56,8 @@ import {Ambassador} from './milestones/fanmade/Ambassador';
 import {Monument} from './milestones/fanmade/Monument';
 import {Wanderer} from './milestones/fanmade/Wanderer';
 import {Passer} from './milestones/fanmade/Passer';
+import {Dignitary} from './milestones/fanmade/Dignitary';
+import {Maverick} from './milestones/fanmade/Maverick';
 import {Gardener} from './milestones/Gardener';
 import {Generalist} from './milestones/Generalist';
 import {Hoverlord} from './milestones/Hoverlord';
@@ -433,6 +435,11 @@ export namespace MilestoneAwardSelector {
 
       bind(Rugged, Landlord, 6);
       bind(Rugged, DesertSettler, 5);
+
+      bind(Dignitary, Celebrity, 8);
+      bind(Dignitary, Minimalist, 4);
+
+      bind(Maverick, Tycoon, 2);
 
       return synergies;
     }

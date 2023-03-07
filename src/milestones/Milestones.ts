@@ -43,6 +43,8 @@ import {Wanderer} from './fanmade/Wanderer';
 import {Ambassador} from './fanmade/Ambassador';
 import {Passer} from './fanmade/Passer';
 import {Purifier} from './fanmade/Purifier';
+import {Dignitary} from './fanmade/Dignitary';
+import {Maverick} from './fanmade/Maverick';
 
 export const ORIGINAL_MILESTONES: Array<IMilestone> = [
   new Terraformer(),
@@ -110,6 +112,8 @@ export const NEW_OPS_MILESTONES: Array<IMilestone> = [
   new Ambassador(),
   new Passer(),
   new Purifier(),
+  new Dignitary(),
+  new Maverick(),
 ];
 
 export const ARES_MILESTONES: Array<IMilestone> = [
