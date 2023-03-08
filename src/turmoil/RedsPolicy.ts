@@ -273,7 +273,7 @@ export class RedsPolicy {
     }
 
     // If player uses steel/titanium/etc it can pay for everything but must not spend more than |mustSpendAtMost| M€ on the action/card itself
-    if (missingMC <= 0) {
+    if (missingMC <= 0 && mustSpendAtMost >= 0) {
       /*
        * {oceansToPlace: 1, nonOceanToPlace: TileType.OCEAN} is used for Artificial Lake edge case
        * We don't want to return here for Artificial Lake as we need to compute adjacency bonuses from placing its ocean on a land space
@@ -338,15 +338,18 @@ export class RedsPolicy {
        * There must be a better way to do this, but it's not immediately clear
        */
       const adjustment = oceansToPlace > 0 ? max : Math.max(...spacesBonusMC);
+      const adjustedMustSpendAtMost = Math.min(player.megaCredits, mustSpendAtMost + adjustment);
 
-      return {
-        canAfford: true,
-        mustSpendAtMost: Math.min(player.megaCredits, mustSpendAtMost + adjustment),
-        spaces: spacesTree,
-        oceansToPlace: action.oceansToPlace,
-        bonusMCFromPlay: bonusMCFromPlay + Math.max(...spacesBonusMC),
-        redTaxes: redTaxes
-      };
+      if (adjustedMustSpendAtMost >= 0) {
+        return {
+          canAfford: true,
+          mustSpendAtMost: adjustedMustSpendAtMost,
+          spaces: spacesTree,
+          oceansToPlace: action.oceansToPlace,
+          bonusMCFromPlay: bonusMCFromPlay + Math.max(...spacesBonusMC),
+          redTaxes: redTaxes
+        };
+      }
     }
 
     // We did all we could, still can't pay
