@@ -1,7 +1,7 @@
 {
   "8 Oceans":"8 海洋",
   "Requires 8 oceans. 1 VP for each animal on this card.":"需要海洋版块数达到8才能打出。本卡上每个动物资源为你提供1VP。",
-  "Self-replicating robots":"自克隆机器人",
+  "Self-replicating Robots":"自我复制机器人",
   "Action: Reveal and place a SPACE OR BUILDING card here from hand, and place 2 resources on it, OR double the resources on a card here.":"行动：从手牌展示一张带有空间标志或建筑标志的卡牌，将其横置在本卡上并在横置的牌上放置2个资源；或将横置的牌上资源数量翻倍",
   "Effect: Card here may be played as if from hand with its cost reduced by the number of resources on it.":"效果：在本卡上横置的牌可以当作手牌打出，牌上的每个资源减少1点金钱花费。",
   "Small Asteroid":"小行星",
@@ -30,7 +30,21 @@
   "STEAL":"偷取",
   "Steal 3 M€ from a player that REMOVED YOUR RESOURCES OR DECREASED YOUR PRODUCTION this generation. Place this card face down in THAT PLAYER'S EVENT PILE.":"偷取一位本时代移除过你资源或减少你产量的玩家3点金钱。将本卡背面向上放置在该玩家的事件牌堆。",
   "Stanford Torus":"斯坦福环面",
-  "Place a city tile IN SPACE, outside and separate from the planet.":"放置一片城市到保留区（天空城）。"
+  "Place a city tile IN SPACE, outside and separate from the planet.":"放置一片城市到保留区（天空城）。",
 
+  "Harvest": "收获",
+  "Requires that you have 3 greenery tiles in play. Gain 12 M€.": "你必须拥有3个植物板块,获得12M€",
 
+  "Outdoor Sports": "户外运动",
+  "Requires any city adjacent to an ocean. Increase your M€ production 2 steps.": "需要有相邻海洋的城市,增加你的M€产量2级",
+
+  "Double Down": "双倍下注",
+  "Copy your other prelude's direct effect.": "复制你另外一张前序卡的打出效果",
+
+  "Corporate Archives": "公司档案馆",
+  "Look at the top 7 cards from the deck. Take 2 of them into hand and discard the other 5.": "观看牌堆顶的7张牌。从中挑选2张，并弃置剩余的5张。",
+  "Gain 13 M€": "获得13M€",
+
+  "Merger": "企业合并",
+  "Draw 4 corporation cards. Play one of them and discard the other 3. Then pay 42 M€.": "抽4张公司牌，选择1张打出，然后支付42M€。"
 }
