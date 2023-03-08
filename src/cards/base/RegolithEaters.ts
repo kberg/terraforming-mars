@@ -11,10 +11,14 @@ import {CardName} from '../../CardName';
 import {LogHelper} from '../../LogHelper';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import {REDS_RULING_POLICY_COST} from '../../constants';
+import {MAX_OXYGEN_LEVEL, REDS_RULING_POLICY_COST} from '../../constants';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class RegolithEaters extends Card implements IActionCard, IProjectCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -43,19 +47,38 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
     public play(_player: Player) {
       return undefined;
     }
-    public canAct(): boolean {
+
+    public canAct(player: Player): boolean {
+      const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+      const trGain = this.getTotalTRGain(player);
+
+      Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise oxygen');
+
+      if (redsAreRuling) {
+        this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+        const actionDetails = this.getActionDetails(player);
+        this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+        if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+          this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+        }
+      }
+
       return true;
     }
+
     public action(player: Player) {
       if (this.resourceCount < 2) {
         player.addResourceTo(this, {log: true});
         return undefined;
       }
 
+      if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
+
       const orOptions = new OrOptions();
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         orOptions.options.push(new SelectOption('Remove 2 microbes to raise oxygen level 1 step', 'Remove microbes', () => {
           player.removeResourceFrom(this, 2);
           LogHelper.logRemoveResource(player, this, 2, 'raise oxygen 1 step');
@@ -70,5 +93,20 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
 
       if (orOptions.options.length === 1) return orOptions.options[0].cb();
       return orOptions;
+    }
+
+    public getActionDetails(player: Player) {
+      const trGain = this.getTotalTRGain(player);
+      const oxygenIncrease = trGain >= 1 ? 1 : 0;
+
+      return new ActionDetails({oxygenIncrease: oxygenIncrease});
+    }
+
+    private getTotalTRGain(player: Player): number {
+      const oxygenLevel = player.game.getOxygenLevel();
+      let trGain = oxygenLevel === MAX_OXYGEN_LEVEL ? 0 : 1;
+      if (oxygenLevel === 7) trGain += 1;
+
+      return trGain;
     }
 }
