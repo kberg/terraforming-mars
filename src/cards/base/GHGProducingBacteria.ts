@@ -59,7 +59,7 @@ export class GHGProducingBacteria extends Card implements IActionCard, IProjectC
 
       if (redsAreRuling) {
         this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
-        const actionDetails = this.getActionDetails(player);
+        const actionDetails = this.getActionDetails();
         this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
 
         if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
@@ -76,6 +76,7 @@ export class GHGProducingBacteria extends Card implements IActionCard, IProjectC
         return undefined;
       }
 
+      // This line is needed if the action places or could potentially place a tile
       if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
 
       const orOptions = new OrOptions();
@@ -98,11 +99,8 @@ export class GHGProducingBacteria extends Card implements IActionCard, IProjectC
       return orOptions;
     }
 
-    public getActionDetails(player: Player) {
-      const trGain = this.getTotalTRGain(player);
-      const temperatureIncrease = trGain >= 1 ? 1 : 0;
-
-      return new ActionDetails({temperatureIncrease: temperatureIncrease});
+    public getActionDetails() {
+      return new ActionDetails({temperatureIncrease: 1});
     }
 
     private getTotalTRGain(player: Player): number {

@@ -66,6 +66,9 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
   }
 
   public action(player: Player) {
+    // This line is needed if the action places or could potentially place a tile
+    if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
+
     player.energy -= 4;
     player.addResource(Resources.STEEL, 1);
     return player.game.increaseOxygenLevel(player, 1);

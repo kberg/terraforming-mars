@@ -64,6 +64,7 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
 
   public action(player: Player) {
     player.game.defer(new SelectHowToPayDeferred(player, 8, {canUseSteel: true, title: 'Select how to pay for action', afterPay: () => {
+      // This line is needed if the action places or could potentially place a tile
       if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
       player.game.defer(new PlaceOceanTile(player));
     }}));

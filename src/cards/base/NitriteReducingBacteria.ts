@@ -83,8 +83,6 @@ export class NitriteReducingBacteria extends Card implements IActionCard, IProje
         return undefined;
       }
 
-      if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
-
       const orOptions = new OrOptions();
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 

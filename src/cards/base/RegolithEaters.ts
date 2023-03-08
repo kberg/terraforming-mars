@@ -56,7 +56,7 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
 
       if (redsAreRuling) {
         this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
-        const actionDetails = this.getActionDetails(player);
+        const actionDetails = this.getActionDetails();
         this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
 
         if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
@@ -73,6 +73,7 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
         return undefined;
       }
 
+      // This line is needed if the action places or could potentially place a tile
       if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
 
       const orOptions = new OrOptions();
@@ -95,11 +96,8 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
       return orOptions;
     }
 
-    public getActionDetails(player: Player) {
-      const trGain = this.getTotalTRGain(player);
-      const oxygenIncrease = trGain >= 1 ? 1 : 0;
-
-      return new ActionDetails({oxygenIncrease: oxygenIncrease});
+    public getActionDetails() {
+      return new ActionDetails({oxygenIncrease: 1});
     }
 
     private getTotalTRGain(player: Player): number {
