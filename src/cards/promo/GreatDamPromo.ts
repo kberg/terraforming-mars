@@ -12,25 +12,29 @@ import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Units} from '../../Units';
+import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 
 export class GreatDamPromo extends Card implements IProjectCard {
-  constructor() {
+  constructor(
+    name: CardName = CardName.GREAT_DAM_PROMO,
+    adjacencyBonus: IAdjacencyBonus | undefined = undefined,
+    metadata = {
+      cardNumber: 'X32',
+      renderData: CardRenderer.builder((b) => {
+        b.production((pb) => pb.energy(2)).tile(TileType.GREAT_DAM, true, false).asterix();
+      }),
+      description: 'Requires 4 ocean tiles. Increase your Energy production 2 steps. Place this tile ADJACENT TO an ocean tile.',
+      victoryPoints: 1,
+    }) {
     super({
       cardType: CardType.AUTOMATED,
-      name: CardName.GREAT_DAM_PROMO,
-      cost: 15,
+      name,
       tags: [Tags.ENERGY, Tags.BUILDING],
       productionBox: Units.of({energy: 2}),
-
+      cost: 15,
       requirements: CardRequirements.builder((b) => b.oceans(4)),
-      metadata: {
-        cardNumber: 'X32',
-        renderData: CardRenderer.builder((b) => {
-          b.production((pb) => pb.energy(2)).tile(TileType.GREAT_DAM, true, false).asterix();
-        }),
-        description: 'Requires 4 ocean tiles. Increase your Energy production 2 steps. Place this tile ADJACENT TO an ocean tile.',
-        victoryPoints: 1,
-      },
+      adjacencyBonus,
+      metadata,
     });
   }
 
@@ -49,6 +53,7 @@ export class GreatDamPromo extends Card implements IProjectCard {
 
     return new SelectSpace('Select space for tile', availableSpaces, (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.GREAT_DAM});
+      foundSpace.adjacency = this.adjacencyBonus;
       return undefined;
     });
   }

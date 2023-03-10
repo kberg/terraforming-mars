@@ -12,6 +12,7 @@ import {EcologicalSurvey} from './EcologicalSurvey';
 import {EcologicalZoneAres} from './EcologicalZoneAres';
 import {Eris} from './Eris';
 import {GeologicalSurvey} from './GeologicalSurvey';
+import {GreatDamAres} from './GreatDamAres';
 import {IndustrialCenterAres} from './IndustrialCenterAres';
 import {LavaFlowsAres} from './LavaFlowsAres';
 import {MarketingExperts} from './MarketingExperts';
@@ -39,6 +40,7 @@ export const ARES_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ECOLOGICAL_SURVEY, Factory: EcologicalSurvey},
     {cardName: CardName.ECOLOGICAL_ZONE_ARES, Factory: EcologicalZoneAres},
     {cardName: CardName.GEOLOGICAL_SURVEY, Factory: GeologicalSurvey},
+    {cardName: CardName.GREAT_DAM_ARES, Factory: GreatDamAres},
     {cardName: CardName.INDUSTRIAL_CENTER_ARES, Factory: IndustrialCenterAres},
     {cardName: CardName.LAVA_FLOWS_ARES, Factory: LavaFlowsAres},
     {cardName: CardName.MARKETING_EXPERTS, Factory: MarketingExperts},
@@ -58,6 +60,7 @@ export const ARES_CARD_MANIFEST = new CardManifest({
     CardName.CAPITAL,
     CardName.COMMERCIAL_DISTRICT,
     CardName.ECOLOGICAL_ZONE,
+    CardName.GREAT_DAM_PROMO,
     CardName.INDUSTRIAL_CENTER,
     CardName.LAVA_FLOWS,
     CardName.MINING_AREA,
