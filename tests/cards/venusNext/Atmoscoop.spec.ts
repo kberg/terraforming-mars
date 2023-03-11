@@ -5,7 +5,7 @@ import {ICard} from '../../../src/cards/ICard';
 import {Atmoscoop} from '../../../src/cards/venusNext/Atmoscoop';
 import {Dirigibles} from '../../../src/cards/venusNext/Dirigibles';
 import {FloatingHabs} from '../../../src/cards/venusNext/FloatingHabs';
-import * as constants from '../../../src/constants';
+import {MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../../src/constants';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {SelectCard} from '../../../src/inputs/SelectCard';
@@ -81,18 +81,21 @@ describe('Atmoscoop', function() {
 
   it('Should play - single target, one global parameter maxed', function() {
     player.playedCards.push(dirigibles);
-    (game as any).temperature = constants.MAX_TEMPERATURE;
+    (game as any).temperature = MAX_TEMPERATURE;
 
-    const action = card.play(player);
-    expect(action).is.undefined;
+    const orOptions = card.play(player) as OrOptions;
+    orOptions.options[1].cb();
     expect(game.getVenusScaleLevel()).eq(4);
+
+    const action = orOptions.cb() as SelectCard<ICard>;
+    expect(action).is.undefined;    
     expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - single target, both global parameters maxed', function() {
     player.playedCards.push(dirigibles);
-    (game as any).venusScaleLevel = constants.MAX_VENUS_SCALE;
-    (game as any).temperature = constants.MAX_TEMPERATURE;
+    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    (game as any).temperature = MAX_TEMPERATURE;
 
     const action = card.play(player);
     expect(action).is.undefined;
@@ -101,20 +104,23 @@ describe('Atmoscoop', function() {
 
   it('Should play - multiple targets, one global parameter maxed', function() {
     player.playedCards.push(dirigibles, floatingHabs);
-    (game as any).temperature = constants.MAX_TEMPERATURE;
+    (game as any).temperature = MAX_TEMPERATURE;
 
-    const action = card.play(player) as SelectCard<ICard>;
-    expect(action).instanceOf(SelectCard);
+    // Even with a maxed global parameter, we can still choose to raise that parameter
+    // It's wasteful, but theoretically valid if we don't want to raise the other parameter
+    const orOptions = card.play(player) as OrOptions;
+    orOptions.options[0].cb();
+    expect(game.getTemperature()).eq(MAX_TEMPERATURE);
 
-    action.cb([dirigibles]);
-    expect(game.getVenusScaleLevel()).eq(4);
+    const selectCard = orOptions.cb() as SelectCard<ICard>;
+    selectCard.cb([dirigibles]);
     expect(dirigibles.resourceCount).eq(2);
   });
 
   it('Should play - multiple targets, both global parameters maxed', function() {
     player.playedCards.push(dirigibles, floatingHabs);
-    (game as any).venusScaleLevel = constants.MAX_VENUS_SCALE;
-    (game as any).temperature = constants.MAX_TEMPERATURE;
+    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    (game as any).temperature = MAX_TEMPERATURE;
 
     const action = card.play(player) as SelectCard<ICard>;
     expect(action).instanceOf(SelectCard);
@@ -135,7 +141,7 @@ describe('Atmoscoop', function() {
     player.megaCredits = card.cost;
     expect(player.canPlay(card)).is.false;
 
-    player.megaCredits = card.cost + constants.REDS_RULING_POLICY_COST * 2;
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 2;
     expect(player.canPlay(card)).is.true;
   });
 });
