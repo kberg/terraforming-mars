@@ -81,7 +81,7 @@ export namespace Units {
   }
 
   export function maybeAdjustReservedMegacredits(player: Player, purse: Units, howToAffordReds: HowToAffordRedsPolicy): Units {
-    let newReservedMegacredits = (purse.megacredits || 0) - Math.max(player.megaCredits - howToAffordReds.mustSpendAtMost!, 0);
+    let newReservedMegacredits = (purse.megacredits || 0) - Math.max(player.megaCredits - (howToAffordReds.mustSpendAtMost! || 0), 0);
 
     // Edge case handling for Lakefront, which receives additional ocean adjacency placement bonus
     if (player.oceanBonus > OCEAN_BONUS && howToAffordReds.oceansToPlace !== undefined) {

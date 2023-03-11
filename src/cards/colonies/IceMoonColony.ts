@@ -7,8 +7,15 @@ import {BuildColony} from '../../deferredActions/BuildColony';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Units} from '../../Units';
 
 export class IceMoonColony extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cost: 23,
@@ -26,15 +33,35 @@ export class IceMoonColony extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
+    // TODO: Could lose an additional 3 M€ if building on Europa / Iapetus
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    return player.hasAvailableColonyTileToBuildOn();
+    const canBuildColony = player.hasAvailableColonyTileToBuildOn();
+    if (!canBuildColony) return false;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
+    return true;
   }
 
   public play(player: Player) {
     player.game.defer(new BuildColony(player, false, 'Select colony for Ice Moon Colony'));
     player.game.defer(new PlaceOceanTile(player, 'Select ocean for Ice Moon Colony'));
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, oceansToPlace: 1});
   }
 }

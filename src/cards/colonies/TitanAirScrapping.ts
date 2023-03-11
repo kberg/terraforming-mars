@@ -12,8 +12,12 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class TitanAirScrapping extends Card implements IProjectCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cost: 21,
@@ -42,13 +46,24 @@ export class TitanAirScrapping extends Card implements IProjectCard, IResourceCa
 
   public canAct(player: Player): boolean {
     const hasTitanium = player.titanium > 0;
-    const hasResources = this.resourceCount >= 2;
+    const hasEnoughFloaters = this.resourceCount >= 2;
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return hasTitanium || (player.canAfford(REDS_RULING_POLICY_COST) && hasResources);
+    if (!hasTitanium && !hasEnoughFloaters) return false;
+
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    Card.setRedsActionWarningText(1, this, redsAreRuling);
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
     }
 
-    return hasTitanium || hasResources;
+    return true;
   }
 
   public action(player: Player) {
@@ -57,19 +72,20 @@ export class TitanAirScrapping extends Card implements IProjectCard, IResourceCa
     const addResource = new SelectOption('Spend 1 titanium to add 2 floaters on this card', 'Spend titanium', () => this.addResource(player));
     const spendResource = new SelectOption('Remove 2 floaters on this card to increase your TR 1 step', 'Remove floaters', () => this.spendResource(player));
 
-    if (this.resourceCount >= 2 && player.titanium > 0) {
+    if (this.resourceCount >= 2) {
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         opts.push(spendResource);
       }
-      opts.push(addResource);
-    } else if (player.titanium > 0) {
-      return this.addResource(player);
-    } else {
-      return this.spendResource(player);
     }
 
-    return new OrOptions(...opts);
+    if (player.titanium > 0) opts.push(addResource);
+
+    const orOptions = new OrOptions(...opts);
+    if (orOptions.options.length === 1) return orOptions.options[0].cb();
+
+    return orOptions;
   }
 
   private addResource(player: Player) {
@@ -90,5 +106,9 @@ export class TitanAirScrapping extends Card implements IProjectCard, IResourceCa
 
   public getVictoryPoints(): number {
     return 2;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({TRIncrease: 1});
   }
 }
