@@ -12,8 +12,12 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class JetStreamMicroscrappers extends Card implements IActionCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.JET_STREAM_MICROSCRAPPERS,
@@ -43,10 +47,25 @@ export class JetStreamMicroscrappers extends Card implements IActionCard, IResou
   }
 
   public canAct(player: Player): boolean {
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    const trGain = this.getTotalTRGain(player);
+
+    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+
     const venusMaxed = player.game.getVenusScaleLevel() === MAX_VENUS_SCALE;
     const canSpendResource = this.resourceCount > 1 && !venusMaxed;
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !venusMaxed) {
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+    }
+
+    if (redsAreRuling && !venusMaxed) {
       return player.titanium > 0 || (canSpendResource && player.canAfford(REDS_RULING_POLICY_COST));
     }
 
@@ -85,5 +104,17 @@ export class JetStreamMicroscrappers extends Card implements IActionCard, IResou
     player.game.increaseVenusScaleLevel(player, 1);
     LogHelper.logVenusIncrease( player, 1);
     return undefined;
+  }
+
+  private getTotalTRGain(player: Player): number {
+    const venusScale = player.game.getVenusScaleLevel();
+    let trGain = venusScale === MAX_VENUS_SCALE ? 0 : 1;
+    if (venusScale === 14) trGain += 1;
+
+    return trGain;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({venusIncrease: 1});
   }
 }
