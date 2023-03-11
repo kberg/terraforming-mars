@@ -103,7 +103,9 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
     private getTotalTRGain(player: Player): number {
       const oxygenLevel = player.game.getOxygenLevel();
       let trGain = oxygenLevel === MAX_OXYGEN_LEVEL ? 0 : 1;
+
       if (oxygenLevel === 7) trGain += 1;
+      if (player.game.getTemperature() === -2) trGain += 1;
 
       return trGain;
     }

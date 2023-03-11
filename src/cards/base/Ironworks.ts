@@ -44,6 +44,8 @@ export class Ironworks extends Card implements IActionCard, IProjectCard {
 
     let trGain = oxygenMaxed ? 0 : 1;
     if (player.game.getOxygenLevel() === 7) trGain += 1;
+    if (player.game.getTemperature() === -2) trGain += 1;
+
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     Card.setRedsActionWarningText(trGain, this, redsAreRuling);
 
