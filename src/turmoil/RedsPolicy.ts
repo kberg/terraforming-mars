@@ -114,7 +114,7 @@ export class RedsPolicy {
     action.venusIncrease = Math.min(action.venusIncrease, (MAX_VENUS_SCALE - game.getVenusScaleLevel()) / 2);
     action.oceansToPlace = Math.min(action.oceansToPlace, MAX_OCEAN_TILES - board.getOceansOnBoard());
 
-    const totalTRGain = action.TRIncrease + action.oxygenIncrease + action.temperatureIncrease + action.oceansToPlace;
+    const totalTRGain = action.TRIncrease + action.oxygenIncrease + action.temperatureIncrease + action.oceansToPlace + action.venusIncrease;
 
     // This is how much the player will have to pay Reds
     const redTaxes = player.cardIsInEffect(CardName.ZAN) ? 0 : totalTRGain * REDS_RULING_POLICY_COST;
