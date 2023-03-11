@@ -62,10 +62,10 @@ describe('RotatorImpacts', () => {
     expect(game.getVenusScaleLevel()).eq(2);
   });
 
-  it('Should not allow to raise Venus level if there no resources on card', () => {
+  it('Should not allow to raise Venus level if there are no resources on card', () => {
     player.playedCards.push(card);
     player.megaCredits = 5;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should allow to raise Venus level only', () => {
@@ -79,11 +79,12 @@ describe('RotatorImpacts', () => {
     expect(game.getVenusScaleLevel()).eq(2);
   });
 
-  it('Should not allow to raise Venus level if Venus level is maxed out', () => {
+  it('Should still allow to spend resource even if Venus level is maxed out', () => {
+    player.megaCredits = 0;
     player.playedCards.push(card);
     card.resourceCount = 1;
 
     (game as any).venusScaleLevel = MAX_VENUS_SCALE;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.true;
   });
 });
