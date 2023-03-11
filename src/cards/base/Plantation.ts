@@ -50,7 +50,7 @@ export class Plantation extends Card implements IProjectCard {
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);
-      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, false, false, true);
 
       if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
         this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
