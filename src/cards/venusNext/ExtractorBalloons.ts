@@ -13,8 +13,12 @@ import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Card} from '../Card';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class ExtractorBalloons extends Card implements IActionCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.EXTRACTOR_BALLOONS,
@@ -44,12 +48,29 @@ export class ExtractorBalloons extends Card implements IActionCard, IResourceCar
     player.addResourceTo(this, 3);
     return undefined;
   }
-  public canAct(): boolean {
+
+  public canAct(player: Player): boolean {
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    const trGain = this.getTotalTRGain(player);
+
+    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+    }
+
     return true;
   }
+
   public action(player: Player) {
     const venusMaxed = player.game.getVenusScaleLevel() === MAX_VENUS_SCALE;
-    const cannotAffordRed = PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !player.canAfford(REDS_RULING_POLICY_COST);
+    const cannotAffordRed = PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !player.canAfford(this.reserveUnits.megacredits);
     if (this.resourceCount < 2 || venusMaxed || cannotAffordRed) {
       player.addResourceTo(this, {log: true});
       return undefined;
@@ -67,5 +88,17 @@ export class ExtractorBalloons extends Card implements IActionCard, IResourceCar
         return undefined;
       }),
     );
+  }
+
+  private getTotalTRGain(player: Player): number {
+    const venusScale = player.game.getVenusScaleLevel();
+    let trGain = venusScale === MAX_VENUS_SCALE ? 0 : 1;
+    if (venusScale === 14) trGain += 1;
+
+    return trGain;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({venusIncrease: 1});
   }
 }
