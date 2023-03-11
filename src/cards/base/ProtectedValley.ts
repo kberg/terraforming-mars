@@ -75,6 +75,7 @@ export class ProtectedValley extends Card implements IProjectCard {
       oxygenIncrease: 1,
       nonOceanToPlace: TileType.GREENERY,
       nonOceanAvailableSpaces: player.game.board.getAvailableSpacesForOcean(player),
+      megaCreditsProduction: 2,
     });
   }
 }
