@@ -763,7 +763,8 @@ it('canPlay: reds tax applies by default when raising temperature', function() {
     // LavaFlows raises the temperature two steps.
     const card = new LavaFlows();
     const player = TestPlayers.BLUE.newPlayer();
-    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
+    const player2 = TestPlayers.RED.newPlayer();
+    const game = Game.newInstance('foobar', [player, player2], player, TestingUtils.setCustomGameOptions());
     const turmoil = game.turmoil!;
     game.phase = Phase.ACTION;
   
