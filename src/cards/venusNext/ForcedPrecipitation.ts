@@ -13,8 +13,12 @@ import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferr
 import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class ForcedPrecipitation extends Card implements IActionCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.FORCED_PRECIPITATION,
@@ -44,11 +48,26 @@ export class ForcedPrecipitation extends Card implements IActionCard, IResourceC
   }
 
   public canAct(player: Player): boolean {
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    const trGain = this.getTotalTRGain(player);
+
+    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+
     const venusMaxed = player.game.getVenusScaleLevel() === MAX_VENUS_SCALE;
     const canSpendResource = this.resourceCount > 1 && !venusMaxed;
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !venusMaxed) {
-      return player.canAfford(2) || (canSpendResource && player.canAfford(REDS_RULING_POLICY_COST));
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+    }
+
+    if (redsAreRuling && !venusMaxed) {
+      return player.canAfford(2) || (canSpendResource && player.canAfford(this.reserveUnits.megacredits));
     }
 
     return player.canAfford(2) || canSpendResource;
@@ -59,7 +78,8 @@ export class ForcedPrecipitation extends Card implements IActionCard, IResourceC
 
     const addResource = new SelectOption('Pay 2 to add 1 floater to this card', 'Pay', () => this.addResource(player));
     const spendResource = new SelectOption('Remove 2 floaters to raise Venus 1 step', 'Remove floaters', () => this.spendResource(player));
-    const canAffordRed = !PartyHooks.shouldApplyPolicy(player, PartyName.REDS) || player.canAfford(REDS_RULING_POLICY_COST);
+    const canAffordRed = !PartyHooks.shouldApplyPolicy(player, PartyName.REDS) || player.canAfford(this.reserveUnits.megacredits);
+
     if (this.resourceCount > 1 && player.game.getVenusScaleLevel() < MAX_VENUS_SCALE && canAffordRed) {
       opts.push(spendResource);
     } else {
@@ -86,5 +106,17 @@ export class ForcedPrecipitation extends Card implements IActionCard, IResourceC
     player.game.increaseVenusScaleLevel(player, 1);
     LogHelper.logVenusIncrease( player, 1);
     return undefined;
+  }
+
+  private getTotalTRGain(player: Player): number {
+    const venusScale = player.game.getVenusScaleLevel();
+    let trGain = venusScale === MAX_VENUS_SCALE ? 0 : 1;
+    if (venusScale === 14) trGain += 1;
+
+    return trGain;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({venusIncrease: 1});
   }
 }
