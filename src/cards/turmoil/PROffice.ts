@@ -11,8 +11,12 @@ import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../../const
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class PROffice extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.AUTOMATED,
@@ -39,18 +43,39 @@ export class PROffice extends Card implements IProjectCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    if (turmoil !== undefined) {
-      if (turmoil.parties.find((p) => p.name === PartyName.UNITY)) {
-        const meetsPartyRequirements = turmoil.canPlay(player, PartyName.UNITY);
-        if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-          return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST) && meetsPartyRequirements;
-        }
-  
-        return meetsPartyRequirements;
+    if (turmoil === undefined) return false;
+
+    let canAffordReds = true;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
       }
-      return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST); 
+
+      canAffordReds = this.howToAffordReds.canAfford;
     }
-    return false;
+
+    if (turmoil.parties.find((p) => p.name === PartyName.UNITY)) {
+      const meetsPartyRequirements = turmoil.canPlay(player, PartyName.UNITY);
+
+      if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+        return meetsPartyRequirements && canAffordReds;
+      }
+
+      return meetsPartyRequirements;
+    }
+
+    // There is no Unity party, but we still need to check for Reds
+    // If some M€ has to be reserved, it increases the total cost to play the card
+    // As the M€ gained from playing PR Office can only be used to pay Reds tax, but not SOCIETY_ADDITIONAL_CARD_COST
+    let societyCost = player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST;
+    if (this.reserveUnits.megacredits > 0) societyCost += this.reserveUnits.megacredits;
+
+    return player.canAfford(societyCost);
   }
 
   public play(player: Player) {
@@ -59,5 +84,9 @@ export class PROffice extends Card implements IProjectCard {
     player.addResource(Resources.MEGACREDITS, amount);
     TurmoilHandler.handleSocietyPayment(player, PartyName.UNITY);
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, TRIncrease: 1});
   }
 }

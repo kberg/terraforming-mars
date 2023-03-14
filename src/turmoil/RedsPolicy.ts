@@ -38,6 +38,7 @@ export class ActionDetails {
   public nonOceanAvailableSpaces: Array<ISpace> = []; // Default spaces where non ocean tile can be placed
   public animals: number = 0; // If action adds animals to a card
   public microbes: number = 0; // If action adds microbes to a card
+  public bonusMegaCredits: number = 0; // If action gives you M€ - for PR Office
   public megaCreditsProduction: number = 0; // If action increases M€ production - for Manutech
   public reservedHeat: number = 0; // If action requires heat - for Helion
 
@@ -151,7 +152,7 @@ export class RedsPolicy {
     const isVitor = player.isCorporation(CardName.VITOR);
     const isUNMO = player.isCorporation(CardName.UNITED_NATIONS_MISSION_ONE);
 
-    let bonusMCFromPlay: number = 0;
+    let bonusMCFromPlay: number = action.bonusMegaCredits;
 
     if (isUNMO) bonusMCFromPlay += totalTRGain;
 
