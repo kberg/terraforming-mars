@@ -54,7 +54,7 @@ export class RotatorImpacts extends Card implements IActionCard, IResourceCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     const trGain = this.getTotalTRGain(player);
-    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+    if (this.resourceCount >= 1) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
 
     if (player.canAfford(6, {titanium: true})) return true;
     if (!canSpendResource) return false;

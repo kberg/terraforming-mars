@@ -56,7 +56,7 @@ describe('CometAiming', function() {
     expect(player.titanium).eq(0);
   });
 
-  it('Cannot spend resource to place ocean if oceans are maxed', function() {
+  it('Can spend resource to place ocean if oceans are maxed', function() {
     player.playedCards.push(card);
     card.resourceCount = 1;
     TestingUtils.maxOutOceans(player);
@@ -65,9 +65,8 @@ describe('CometAiming', function() {
     player.titanium = 1;
     expect(card.canAct(player)).is.true;
 
+    const action = card.action(player) as OrOptions;
     card.action(player);
-    expect(player.game.deferredActions).has.lengthOf(0);
-    expect(player.titanium).eq(0);
-    expect(card.resourceCount).eq(2);
+    expect(action.options).has.lengthOf(2);
   });
 });

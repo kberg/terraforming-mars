@@ -15,8 +15,12 @@ import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class CometAiming extends Card implements IActionCard, IProjectCard, IResourceCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.ACTIVE,
@@ -47,10 +51,23 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
 
     public canAct(player: Player): boolean {
       const hasTitanium = player.titanium > 0;
-      const canPlaceOcean = this.resourceCount > 0 && player.game.board.getOceansOnBoard() < player.game.getMaxOceanTilesCount();
+      const oceansMaxed = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
+      const canPlaceOcean = this.resourceCount > 0 && !oceansMaxed;
+      const trGain = oceansMaxed ? 0 : 1;
+      const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-      if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-        return hasTitanium || (player.canAfford(REDS_RULING_POLICY_COST) && canPlaceOcean);
+      if (hasTitanium) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'place an ocean');
+
+      if (redsAreRuling) {
+        this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+        const actionDetails = this.getActionDetails();
+        this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+        if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+          this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+        }
+
+        return hasTitanium || (this.howToAffordReds.canAfford && canPlaceOcean);
       }
 
       return hasTitanium || canPlaceOcean;
@@ -88,13 +105,12 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
         return addAsteroidToCard;
       }
 
-      if (player.titanium === 0) return spendAsteroidResource();
+      if (player.titanium === 0 && player.canAfford(this.reserveUnits.megacredits)) return spendAsteroidResource();
 
       const availableActions: Array<SelectOption | SelectCard<ICard>> = [];
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-      const canPlaceOcean = player.game.board.getOceansOnBoard() < player.game.getMaxOceanTilesCount();
 
-      if (canPlaceOcean && !redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         availableActions.push(new SelectOption('Remove an asteroid resource to place an ocean', 'Remove asteroid', spendAsteroidResource));
       }
 
@@ -112,5 +128,9 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
       }
 
       return new OrOptions(...availableActions);
+    }
+
+    public getActionDetails() {
+      return new ActionDetails({oceansToPlace: 1});
     }
 }

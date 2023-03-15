@@ -51,7 +51,7 @@ export class ForcedPrecipitation extends Card implements IActionCard, IResourceC
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const trGain = this.getTotalTRGain(player);
 
-    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+    if (this.resourceCount >= 2) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
 
     const venusMaxed = player.game.getVenusScaleLevel() === MAX_VENUS_SCALE;
     const canSpendResource = this.resourceCount > 1 && !venusMaxed;

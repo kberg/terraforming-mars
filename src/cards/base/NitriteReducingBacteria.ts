@@ -61,7 +61,7 @@ export class NitriteReducingBacteria extends Card implements IActionCard, IProje
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
       const trGain = 1;
 
-      Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise TR');
+      if (this.resourceCount >= 3) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise TR');
 
       // The second clause here prevents this.reserveUnits.megacredits (which should be 3) from increasing to 12
       // This behaviour is probably caused by this card being the only one that adds 3 microbes to itself when played
