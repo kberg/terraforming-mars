@@ -9,8 +9,12 @@ import {Card} from '../Card';
 import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Turmoil} from '../../turmoil/Turmoil';
+import {HowToAffordRedsPolicy, RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class VoteOfNoConfidence extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.VOTE_OF_NO_CONFIDENCE,
@@ -44,7 +48,15 @@ export class VoteOfNoConfidence extends Card implements IProjectCard {
     if (chairmanIsNeutral === false) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST);
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
     }
 
     return true;
@@ -59,5 +71,9 @@ export class VoteOfNoConfidence extends Card implements IProjectCard {
     if (index > -1) turmoil.delegateReserve.splice(index, 1);
     player.increaseTerraformRatingSteps(1);
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, TRIncrease: 1});
   }
 }

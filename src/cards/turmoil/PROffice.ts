@@ -69,7 +69,7 @@ export class PROffice extends Card implements IProjectCard {
       return meetsPartyRequirements;
     }
 
-    // There is no Unity party, but we still need to check for Reds
+    // There is no Unity party in play, but we still need to check for Reds reserved M€
     // If some M€ has to be reserved, it increases the total cost to play the card
     // As the M€ gained from playing PR Office can only be used to pay Reds tax, but not SOCIETY_ADDITIONAL_CARD_COST
     let societyCost = player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST;
