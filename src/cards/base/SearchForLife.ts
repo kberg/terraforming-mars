@@ -46,6 +46,7 @@ export class SearchForLife extends Card implements IActionCard, IProjectCard, IR
       return undefined;
     }
     public canAct(player: Player): boolean {
+      if (this.resourceCount > 0) Card.setUselessActionWarningText(this, 'you have already found life');
       return player.canAfford(1);
     }
     public action(player: Player) {

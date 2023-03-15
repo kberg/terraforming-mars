@@ -128,4 +128,8 @@ export abstract class Card {
       card.warning = undefined;
     }
   }
+
+  public static setUselessActionWarningText(card: ICard, reason: string): void {
+    card.warning = `This action may have no benefit as ${reason}.`;
+  }
 }

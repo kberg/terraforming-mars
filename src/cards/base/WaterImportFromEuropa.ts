@@ -54,7 +54,10 @@ export class WaterImportFromEuropa extends Card implements IActionCard, IProject
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     Card.setRedsActionWarningText(trGain, this, redsAreRuling);
 
-    if (oceansMaxed) return false;
+    if (oceansMaxed) {
+      Card.setUselessActionWarningText(this, 'all oceans have already been placed');
+      return true;
+    }
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});

@@ -58,6 +58,10 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
 
       if (hasTitanium) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'place an ocean');
 
+      if (oceansMaxed) {
+        Card.setUselessActionWarningText(this, 'all oceans have already been placed');
+      }
+
       if (redsAreRuling) {
         this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
         const actionDetails = this.getActionDetails();
