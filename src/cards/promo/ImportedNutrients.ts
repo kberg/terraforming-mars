@@ -32,11 +32,11 @@ export class ImportedNutrients extends Card implements IProjectCard {
     const microbeCards = player.getResourceCards(ResourceType.MICROBE);
 
     if (microbeCards.length === 1) {
-      player.addResourceTo(microbeCards[0], 4);
+      player.addResourceTo(microbeCards[0], {qty: 4, log: true});
       return undefined;
     } else if (microbeCards.length > 1) {
       return new SelectCard('Select card to add 4 microbes', 'Add microbes', microbeCards, (foundCards: Array<ICard>) => {
-        player.addResourceTo(foundCards[0], 4);
+        player.addResourceTo(foundCards[0], {qty: 4, log: true});
         return undefined;
       });
     }
