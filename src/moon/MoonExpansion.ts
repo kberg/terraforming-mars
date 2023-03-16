@@ -296,6 +296,18 @@ export class MoonExpansion {
     });
   }
 
+  public static getMiningRate(player: Player): number | undefined {
+    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.miningRate);
+  }
+
+  public static getColonyRate(player: Player): number | undefined {
+    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.colonyRate);
+  }
+
+  public static getLogisticRate(player: Player): number | undefined {
+    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.logisticRate);
+  }
+
   // Use this to test whether a space has a given moon tile type rather than
   // testing tiletype directly. It takes into account Lunar Mine Urbanization.
   public static spaceHasType(space: ISpace, type: TileType): boolean {

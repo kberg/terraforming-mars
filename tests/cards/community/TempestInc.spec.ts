@@ -22,7 +22,7 @@ describe('TempestInc', function() {
   });
 
   it('Can act', function() {
-    expect(card.canAct()).to.be.true;
+    expect(card.canAct(player)).to.be.true;
   });
 
   it('Starts with correct resources', function() {
@@ -34,7 +34,7 @@ describe('TempestInc', function() {
   it('Can raise global parameter if have floaters', function() {
     card.resourceCount = 1;
     const action = card.action(player) as OrOptions;
-    const globalParameterChoices = action.options[1].cb() as OrOptions;
+    const globalParameterChoices = action.options[0].cb() as OrOptions;
 
     // Raise temperature
     globalParameterChoices.options[0].cb();
@@ -57,7 +57,7 @@ describe('TempestInc', function() {
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;
-    const globalParameterChoices = action.options[1].cb() as OrOptions;;
+    const globalParameterChoices = action.options[0].cb() as OrOptions;;
 
     expect(globalParameterChoices.options).has.length(4);
 
@@ -74,7 +74,7 @@ describe('TempestInc', function() {
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;
-    const globalParameterChoices = action.options[1].cb() as OrOptions;;
+    const globalParameterChoices = action.options[0].cb() as OrOptions;;
 
     expect(globalParameterChoices.options).has.length(3);
   });
@@ -86,7 +86,7 @@ describe('TempestInc', function() {
     card.initialAction(player);
 
     const action = card.action(player) as OrOptions;
-    const globalParameterChoices = action.options[1].cb() as OrOptions;;
+    const globalParameterChoices = action.options[0].cb() as OrOptions;;
 
     expect(globalParameterChoices.options).has.length(7);
 

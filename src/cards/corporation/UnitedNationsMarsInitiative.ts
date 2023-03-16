@@ -9,8 +9,12 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class UnitedNationsMarsInitiative extends Card implements IActionCard, CorporationCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.CORPORATION,
@@ -34,19 +38,34 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
       },
     });
   }
+
   public play() {
     return undefined;
   }
+
   public canAct(player: Player): boolean {
     const hasIncreasedTR = player.hasIncreasedTerraformRatingThisGeneration;
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const actionCost = 3;
 
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return hasIncreasedTR && player.canAfford(REDS_RULING_POLICY_COST + actionCost);
+    if (!hasIncreasedTR) return false;
+    Card.setRedsActionWarningText(1, this, redsAreRuling);
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
     }
 
-    return hasIncreasedTR && player.canAfford(actionCost);
+    return player.canAfford(actionCost);
   }
+
   public action(player: Player) {
     player.payMegacreditsDeferred(
       3,
@@ -54,5 +73,9 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
       () => player.increaseTerraformRatingSteps(1),
     );
     return undefined;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({cost: 3, TRIncrease: 1});
   }
 }
