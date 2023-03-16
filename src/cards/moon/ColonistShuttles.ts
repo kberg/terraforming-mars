@@ -10,8 +10,15 @@ import {MoonCard} from './MoonCard';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class ColonistShuttles extends MoonCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.COLONIST_SHUTTLES,
@@ -40,6 +47,18 @@ export class ColonistShuttles extends MoonCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
     return true;
   }
 
@@ -50,5 +69,10 @@ export class ColonistShuttles extends MoonCard {
     player.addResource(Resources.MEGACREDITS, surfaceColonies * 2, {log: true});
 
     return undefined;
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const surfaceColonies = MoonExpansion.tiles(player.game, TileType.MOON_COLONY, {surfaceOnly: true}).length;
+    return new ActionDetails({card: card, moonColonyRateIncrease: 1, bonusMegaCredits: surfaceColonies * 2});
   }
 }

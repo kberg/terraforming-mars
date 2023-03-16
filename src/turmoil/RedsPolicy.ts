@@ -38,7 +38,7 @@ export class ActionDetails {
   public nonOceanAvailableSpaces: Array<ISpace> = []; // Default spaces where non ocean tile can be placed
   public animals: number = 0; // If action adds animals to a card
   public microbes: number = 0; // If action adds microbes to a card
-  public bonusMegaCredits: number = 0; // If action gives you M€ - for PR Office
+  public bonusMegaCredits: number = 0; // If action gives you M€ - for PR Office, Colonist Shuttles, etc.
   public megaCreditsProduction: number = 0; // If action increases M€ production - for Manutech
   public reservedHeat: number = 0; // If action requires heat - for Helion
 

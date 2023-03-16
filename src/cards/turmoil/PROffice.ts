@@ -86,7 +86,11 @@ export class PROffice extends Card implements IProjectCard {
     return undefined;
   }
 
-  public getActionDetails(_player: Player, card: IProjectCard) {
-    return new ActionDetails({card: card, TRIncrease: 1});
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({
+      card: card,
+      TRIncrease: 1,
+      bonusMegaCredits: player.getTagCount(Tags.EARTH) + 1,
+    });
   }
 }
