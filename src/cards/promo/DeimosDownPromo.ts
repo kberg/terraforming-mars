@@ -9,9 +9,17 @@ import {TileType} from '../../TileType';
 import {ISpace} from '../../boards/ISpace';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {CardRenderer} from '../render/CardRenderer';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Units} from '../../Units';
+import {Resources} from '../../Resources';
 import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 
 export class DeimosDownPromo extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor(
     name: CardName = CardName.DEIMOS_DOWN_PROMO,
     adjacencyBonus: IAdjacencyBonus | undefined = undefined,
@@ -36,18 +44,31 @@ export class DeimosDownPromo extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
-    return player.game.board.getAvailableSpacesForCity(player).length > 0;
+    const canPlaceTile = player.game.board.getAvailableSpacesForCity(player).length > 0;
+    if (!canPlaceTile) return false;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    } 
+
+    return true;
   }
 
   public play(player: Player) {
     player.game.increaseTemperature(player, 3);
     player.game.defer(new RemoveAnyPlants(player, 6));
-    player.steel += 4;
+    player.addResource(Resources.STEEL, 4);
 
     const availableSpaces = player.game.board.getAvailableSpacesForCity(player);
 
@@ -55,6 +76,15 @@ export class DeimosDownPromo extends Card implements IProjectCard {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.DEIMOS_DOWN});
       foundSpace.adjacency = this.adjacencyBonus;
       return undefined;
+    });
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({
+      card: card,
+      temperatureIncrease: 3,
+      nonOceanToPlace: TileType.DEIMOS_DOWN,
+      nonOceanAvailableSpaces: player.game.board.getAvailableSpacesForCity(player),
     });
   }
 }
