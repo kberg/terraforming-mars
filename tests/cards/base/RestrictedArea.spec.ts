@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {RestrictedArea} from '../../../src/cards/base/RestrictedArea';
 import {Game} from '../../../src/Game';
+import {SelectSpace} from '../../../src/inputs/SelectSpace';
 import {Player} from '../../../src/Player';
 import {TileType} from '../../../src/TileType';
 import {TestPlayers} from '../../TestPlayers';
@@ -22,11 +23,12 @@ describe('RestrictedArea', function() {
 
   it('Should play', function() {
     const action = card.play(player);
-    expect(action).is.not.undefined;
+    expect(action).is.undefined;
 
-    const space = action.availableSpaces[0];
+    const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
+    const space = selectSpace.availableSpaces[0];
 
-    action.cb(space);
+    selectSpace.cb(space);
     expect(space.tile && space.tile.tileType).eq(TileType.RESTRICTED_AREA);
     expect(space.adjacency?.bonus).eq(undefined);
   });

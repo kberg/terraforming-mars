@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {Ants} from '../../../src/cards/base/Ants';
 import {Decomposers} from '../../../src/cards/base/Decomposers';
 import {ImportedNutrients} from '../../../src/cards/promo/ImportedNutrients';
+import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
 
@@ -11,6 +12,7 @@ describe('ImportedNutrients', function() {
   beforeEach(() => {
     card = new ImportedNutrients();
     player = TestPlayers.BLUE.newPlayer();
+    Game.newInstance('foobar', [player], player);
   });
 
   it('Can play without microbe cards', function() {
