@@ -56,6 +56,10 @@ export class RotatorImpacts extends Card implements IActionCard, IResourceCard {
     const trGain = this.getTotalTRGain(player);
     if (this.resourceCount >= 1) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
 
+    if (venusMaxed) {
+      Card.setUselessActionWarningText(this, 'Venus is already maxed');
+    }
+
     if (player.canAfford(6, {titanium: true})) return true;
     if (!canSpendResource) return false;
     if (canSpendResource && venusMaxed) return true;
