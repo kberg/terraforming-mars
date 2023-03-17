@@ -16,8 +16,12 @@ import {LogHelper} from '../../LogHelper';
 import {MAXIMUM_COLONY_RATE, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Card} from '../Card';
 
 export class DarksideIncubationPlant extends MoonCard implements IActionCard, IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.DARKSIDE_INCUBATION_PLANT,
@@ -55,7 +59,22 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
     return undefined;
   }
 
-  public canAct() {
+  public canAct(player: Player) {
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    const trGain = 1;
+
+    if (this.resourceCount >= 2) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Moon colony rate');
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+    }
+
     return true;
   }
 
@@ -69,7 +88,7 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST)) || moonData.colonyRate === MAXIMUM_COLONY_RATE) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits)) || moonData.colonyRate === MAXIMUM_COLONY_RATE) {
         orOptions.options.push(new SelectOption('Spend 2 microbes to raise the Colony Rate 1 step', 'Select', () => {
           player.removeResourceFrom(this, 2);
           LogHelper.logRemoveResource(player, this, 2, 'raise the Colony Rate');
@@ -90,5 +109,9 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
 
   public getVictoryPoints() {
     return Math.floor(this.resourceCount / 2);
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({moonColonyRateIncrease: 1});
   }
 }
