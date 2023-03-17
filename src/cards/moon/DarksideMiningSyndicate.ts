@@ -7,8 +7,15 @@ import {CardRenderer} from '../render/CardRenderer';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Resources} from '../../Resources';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Units} from '../../Units';
 
 export class DarksideMiningSyndicate extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.DARKSIDE_MINING_SYNDICATE,
@@ -19,7 +26,7 @@ export class DarksideMiningSyndicate extends Card implements IProjectCard {
 
       metadata: {
         description: 'Increase your Titanium production 2 steps, or ' +
-        '1 step if the Mining Rate is at least 2. And then raise the Mining Rate 1 step.',
+        '1 step if the Mining Rate is at least 2. Raise the Mining Rate 1 step.',
         cardNumber: 'M66',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.titanium(2)).or().br;
@@ -31,10 +38,20 @@ export class DarksideMiningSyndicate extends Card implements IProjectCard {
   };
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
 
     return true;
   }
@@ -44,5 +61,9 @@ export class DarksideMiningSyndicate extends Card implements IProjectCard {
     player.addProduction(Resources.TITANIUM, productionBonus, {log: true});
     MoonExpansion.raiseMiningRate(player);
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, moonMiningRateIncrease: 1});
   }
 }
