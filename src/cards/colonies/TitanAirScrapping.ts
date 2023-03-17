@@ -51,7 +51,7 @@ export class TitanAirScrapping extends Card implements IProjectCard, IResourceCa
     if (!hasTitanium && !hasEnoughFloaters) return false;
 
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    if (this.resourceCount >= 2) Card.setRedsActionWarningText(1, this, redsAreRuling);
+    if (this.resourceCount >= 2) Card.setRedsActionWarningText(1, this, redsAreRuling, 'raise TR');
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});

@@ -17,8 +17,12 @@ import {REDS_RULING_POLICY_COST} from '../../constants';
 import {MoonExpansion } from '../../moon/MoonExpansion';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {Units} from '../../Units';
 
 export class CopernicusTower extends Card implements IActionCard, IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.COPERNICUS_TOWER,
@@ -49,7 +53,20 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
   }
 
   public canAct(player: Player) {
-    return player.getProduction(Resources.TITANIUM) >= 2;
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    if (this.resourceCount > 0) Card.setRedsActionWarningText(1, this, redsAreRuling, 'raise TR');
+
+    if (redsAreRuling) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails();
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+    }
+
+    return true;
   }
 
   public action(player: Player) {
@@ -62,7 +79,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     MoonExpansion.ifMoon(player.game, () => {
-      if (!redsAreRuling || (redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST))) {
+      if (!redsAreRuling || (redsAreRuling && player.canAfford(this.reserveUnits.megacredits))) {
         orOptions.options.push(new SelectOption('Remove 1 science resource to increase TR 1 step', 'Remove resource', () => this.spendResource(player)));
       }
     });
@@ -87,5 +104,9 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
     player.increaseTerraformRatingSteps(1);
     player.addProduction(Resources.MEGACREDITS, 1, {log: true});
     return undefined;
+  }
+
+  public getActionDetails() {
+    return new ActionDetails({TRIncrease: 1});
   }
 }
