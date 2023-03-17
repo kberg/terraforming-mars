@@ -8,12 +8,13 @@ import {SpaceName} from "../SpaceName";
 import {StandardProjectType} from "../StandardProjectType";
 import {Tags} from "../cards/Tags";
 import {TileType} from "../TileType";
-import {HELLAS_BONUS_OCEAN_COST, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from "../constants";
+import {HELLAS_BONUS_OCEAN_COST, MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from "../constants";
 import {Board} from "../boards/Board";
 import {ISpace} from "../boards/ISpace";
 import {BoardName} from "../boards/BoardName";
 import {CardType} from "../cards/CardType";
 import {SpaceType} from "../SpaceType";
+import {MoonExpansion} from "../moon/MoonExpansion";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -115,7 +116,11 @@ export class RedsPolicy {
     action.venusIncrease = Math.min(action.venusIncrease, (MAX_VENUS_SCALE - game.getVenusScaleLevel()) / 2);
     action.oceansToPlace = Math.min(action.oceansToPlace, MAX_OCEAN_TILES - board.getOceansOnBoard());
 
-    const totalTRGain = action.TRIncrease + action.oxygenIncrease + action.temperatureIncrease + action.oceansToPlace + action.venusIncrease;
+    action.moonColonyRateIncrease = Math.min(action.moonColonyRateIncrease, MAXIMUM_COLONY_RATE - MoonExpansion.getColonyRate(player));
+    action.moonLogisticsRateIncrease = Math.min(action.moonLogisticsRateIncrease, MAXIMUM_LOGISTICS_RATE - MoonExpansion.getLogisticRate(player));
+    action.moonMiningRateIncrease = Math.min(action.moonMiningRateIncrease, MAXIMUM_MINING_RATE - MoonExpansion.getMiningRate(player));
+
+    const totalTRGain = action.TRIncrease + action.oxygenIncrease + action.temperatureIncrease + action.oceansToPlace + action.venusIncrease + action.moonColonyRateIncrease + action.moonLogisticsRateIncrease + action.moonMiningRateIncrease;
 
     // This is how much the player will have to pay Reds
     const redTaxes = player.cardIsInEffect(CardName.ZAN) ? 0 : totalTRGain * REDS_RULING_POLICY_COST;

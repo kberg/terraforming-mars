@@ -296,16 +296,16 @@ export class MoonExpansion {
     });
   }
 
-  public static getMiningRate(player: Player): number | undefined {
-    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.miningRate);
+  public static getMiningRate(player: Player): number {
+    return MoonExpansion.ifElseMoon(player.game, (moonData) => moonData.miningRate, () => 0);
   }
 
-  public static getColonyRate(player: Player): number | undefined {
-    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.colonyRate);
+  public static getColonyRate(player: Player): number {
+    return MoonExpansion.ifElseMoon(player.game, (moonData) => moonData.colonyRate, () => 0);
   }
 
-  public static getLogisticRate(player: Player): number | undefined {
-    return MoonExpansion.ifMoon(player.game, (moonData) => moonData.logisticRate);
+  public static getLogisticRate(player: Player): number {
+    return MoonExpansion.ifElseMoon(player.game, (moonData) => moonData.logisticRate, () => 0);
   }
 
   // Use this to test whether a space has a given moon tile type rather than
