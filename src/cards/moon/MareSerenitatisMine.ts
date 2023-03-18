@@ -12,8 +12,15 @@ import {TileType} from '../../TileType';
 import {MoonCard} from './MoonCard';
 import {AltSecondaryTag} from '../render/CardRenderItem';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
 
 export class MareSerenitatisMine extends MoonCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.MARE_SERENITATIS_MINE,
@@ -45,6 +52,18 @@ export class MareSerenitatisMine extends MoonCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, true, false, false, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
     return true;
   }
 
@@ -59,5 +78,9 @@ export class MareSerenitatisMine extends MoonCard {
     });
     player.game.defer(new PlaceMoonRoadTile(player, 'Select a space next to Mare Serintatis to play a road', availableRoadSpaces));
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, moonMiningRateIncrease: 1, moonLogisticsRateIncrease: 1});
   }
 }
