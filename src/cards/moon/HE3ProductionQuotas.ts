@@ -11,10 +11,15 @@ import {TileType} from '../../TileType';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
 import {Turmoil} from '../../turmoil/Turmoil';
-import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {Units} from '../../Units';
 
 export class HE3ProductionQuotas extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.HE3_PRODUCTION_QUOTAS,
@@ -46,13 +51,38 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
     const moonTiles = MoonExpansion.tiles(player.game, TileType.MOON_MINE, {surfaceOnly: true});
     const canAffordSteelCost = player.steel >= moonTiles.length;
 
-    if (turmoil.parties.find((p) => p.name === PartyName.KELVINISTS)) {
-      return turmoil.canPlay(player, PartyName.KELVINISTS) && hasMiningTileOnMoon && canAffordSteelCost;
+    if (!hasMiningTileOnMoon) return false;
+    if (!canAffordSteelCost) return false;
+
+    let canAffordReds = true;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      canAffordReds = this.howToAffordReds.canAfford;
     }
 
-    const canAffordCard = player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+    if (turmoil.parties.find((p) => p.name === PartyName.KELVINISTS)) {
+      const meetsPartyRequirements = turmoil.canPlay(player, PartyName.KELVINISTS);
 
-    return canAffordCard && hasMiningTileOnMoon && canAffordSteelCost;
+      if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+        return meetsPartyRequirements && canAffordReds;
+      }
+
+      return meetsPartyRequirements;
+    }
+
+    // Total cost = card cost + SOCIETY_ADDITIONAL_CARD_COST + potential 3 reserved M€ for Reds
+    let societyCost = player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST;
+    if (this.reserveUnits.megacredits > 0) societyCost += this.reserveUnits.megacredits;
+
+    return player.canAfford(societyCost);
   }
 
   public play(player: Player) {
@@ -62,5 +92,9 @@ export class HE3ProductionQuotas extends Card implements IProjectCard {
     MoonExpansion.raiseMiningRate(player);
     TurmoilHandler.handleSocietyPayment(player, PartyName.KELVINISTS);
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, moonMiningRateIncrease: 1});
   }
 }
