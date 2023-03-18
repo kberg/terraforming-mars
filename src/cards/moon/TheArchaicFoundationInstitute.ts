@@ -8,6 +8,9 @@ import {ResourceType} from '../../ResourceType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Size} from '../render/Size';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 
 export class TheArchaicFoundationInstitute extends Card implements CorporationCard {
   constructor() {
@@ -49,15 +52,24 @@ export class TheArchaicFoundationInstitute extends Card implements CorporationCa
     if (player.corporationCards.every((corp) => corp.name !== this.name)) {
       return undefined;
     }
+
     const moonTags = card.tags.filter((t) => t === Tags.MOON);
     const count = moonTags.length;
+
     if (count > 0) {
       player.addResourceTo(this, count);
+
       if (this.resourceCount >= 3) {
-        player.removeResourceFrom(this, 3, player.game, player, true);
-        player.increaseTerraformRatingSteps(1);
+        const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+        const canAffordToRaiseTR = redsAreRuling ? player.canAfford(REDS_RULING_POLICY_COST) : true;
+
+        if (canAffordToRaiseTR) {
+          player.removeResourceFrom(this, 3, player.game, player, true);
+          player.increaseTerraformRatingSteps(1);
+        }
       }
     };
+
     return undefined;
   }
 }
