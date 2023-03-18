@@ -11,12 +11,16 @@ import {MoonExpansion} from '../../moon/MoonExpansion';
 import {PlaceMoonColonyTile} from '../../moon/PlaceMoonColonyTile';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {ISpace} from '../../boards/ISpace';
-import {REDS_RULING_POLICY_COST} from '../../constants';
+import {MAXIMUM_COLONY_RATE, REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {Card} from '../Card';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
 
 export class LunaEcumenopolis extends MoonCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.LUNA_ECUMENOPOLIS,
@@ -45,22 +49,19 @@ export class LunaEcumenopolis extends MoonCard {
     if (!super.canPlay(player)) return false;
 
     const moonData = MoonExpansion.moonData(player.game);
-    const trStepsIncreased = Math.floor(moonData.colonyRate / 2);
+    const initialMoonColonyRate = MoonExpansion.getColonyRate(player);
 
-    // Do not use trStepsIncreased here as it does not consider whether Reds is ruling
-    const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
-
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      if (!player.canAfford(player.getCardCost(this) + REDS_RULING_POLICY_COST * trStepsIncreased)) {
-        return false;
-      }
-    }
+    // Initial TR gained from raising Colony rate 2 steps
+    let trStepsIncreased = Math.min(MAXIMUM_COLONY_RATE - initialMoonColonyRate, 2);
+    const newColonyRate = Math.min(initialMoonColonyRate + 2, MAXIMUM_COLONY_RATE);
+    // Additional TR gained from raising 1 TR per 2 steps of Colony rate
+    trStepsIncreased += Math.floor(newColonyRate / 2);
 
     const spaces = moonData.moon.getAvailableSpacesOnLand(player);
     const len = spaces.length;
 
     let firstSpaceId: string = '';
+    let canPlaceTiles: boolean = false;
 
     // This function returns true when this space is next to two colonies. Don't try to understand firstSpaceId yet.
     const nextToTwoColonies = function(space: ISpace): boolean {
@@ -83,13 +84,32 @@ export class LunaEcumenopolis extends MoonCard {
           if (second.id === firstSpaceId) continue;
           // Now if it's next to two colonies, it includes the first colony you placed. That's what firstSpaceId is for.
           if (nextToTwoColonies(second) === true) {
-            return true;
+            canPlaceTiles = true;
           }
         }
       }
     }
 
-    return false;
+    // We cannot place our 2 colony tiles
+    if (!canPlaceTiles) return false;
+
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+
+    if (redsAreRuling) {
+      Card.setRedsWarningText(trStepsIncreased, this);
+
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trStepsIncreased * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, false, false, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
+    return true;
   }
 
   public play(player: Player) {
@@ -97,11 +117,16 @@ export class LunaEcumenopolis extends MoonCard {
     player.game.defer(new CustomPlaceMoonTile(player));
     player.game.defer(new CustomPlaceMoonTile(player));
     player.game.defer(new DeferredAction(player, () => {
-      const colonyRate = MoonExpansion.moonData(player.game).colonyRate;
+      const colonyRate = MoonExpansion.getColonyRate(player);
       player.increaseTerraformRatingSteps(Math.floor(colonyRate / 2));
       return undefined;
     }));
     return undefined;
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const colonyRate = Math.min(MoonExpansion.getColonyRate(player) + 2, MAXIMUM_COLONY_RATE);
+    return new ActionDetails({card: card, moonColonyRateIncrease: 2, TRIncrease: Math.floor(colonyRate / 2)});
   }
 }
 

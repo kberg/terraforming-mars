@@ -89,6 +89,10 @@ describe('LunaEcumenopolis', () => {
     expect(player.canPlay(card)).is.false;
 
     player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 2;
+    expect(player.canPlay(card)).is.false;
+
+    // Can pay for raising 2 Colony rate and raising Math.floor((5 + 2) / 2) = 3 TR
+    player.megaCredits = card.cost + REDS_RULING_POLICY_COST * 5;
     expect(player.canPlay(card)).is.true;
   });
 
