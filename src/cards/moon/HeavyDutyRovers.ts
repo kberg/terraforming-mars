@@ -8,8 +8,16 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Card} from '../Card';
 import {Resources} from '../../Resources';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Units} from '../../Units';
+import {IMoonData} from '../../moon/IMoonData';
 
 export class HeavyDutyRovers extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.AUTOMATED,
@@ -35,21 +43,43 @@ export class HeavyDutyRovers extends Card implements IProjectCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
     return true;
   }
 
   public play(player: Player) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      const mines = MoonExpansion.tiles(player.game, TileType.MOON_MINE);
-      const minesNextToRoads = mines.filter((mine) => {
-        const spacesNextToMine = moonData.moon.getAdjacentSpaces(mine);
-        const firstRoad = spacesNextToMine.find((s) => MoonExpansion.spaceHasType(s, TileType.MOON_ROAD));
-        return firstRoad !== undefined;
-      });
-      const count = minesNextToRoads.length;
+      const count = this.getminesNextToRoadsCount(player, moonData);
       player.addResource(Resources.MEGACREDITS, count * 4, {log: true});
       MoonExpansion.raiseLogisticRate(player);
     });
     return undefined;
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    const count = this.getminesNextToRoadsCount(player, MoonExpansion.moonData(player.game));
+    return new ActionDetails({card: card, moonLogisticsRateIncrease: 1, bonusMegaCredits: count * 4});
+  }
+
+  private getminesNextToRoadsCount(player: Player, moonData: IMoonData): number {
+    const mines = MoonExpansion.tiles(player.game, TileType.MOON_MINE);
+    const minesNextToRoads = mines.filter((mine) => {
+      const spacesNextToMine = moonData.moon.getAdjacentSpaces(mine);
+      const firstRoad = spacesNextToMine.find((s) => MoonExpansion.spaceHasType(s, TileType.MOON_ROAD));
+      return firstRoad !== undefined;
+    });
+
+    return minesNextToRoads.length;
   }
 }
