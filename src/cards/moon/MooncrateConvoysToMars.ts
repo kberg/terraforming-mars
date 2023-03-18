@@ -7,11 +7,17 @@ import {PartyName} from '../../turmoil/parties/PartyName';
 import {MoonExpansion} from '../../moon/MoonExpansion';
 import {Player} from '../../Player';
 import {SellSteel} from '../../moon/SellSteel';
-import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 import {Turmoil} from '../../turmoil/Turmoil';
 import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {Units} from '../../Units';
 
 export class MooncrateConvoysToMars extends Card {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.MOONCRATE_CONVOYS_TO_MARS,
@@ -36,13 +42,37 @@ export class MooncrateConvoysToMars extends Card {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this);
 
+    let canAffordReds = true;
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, false, false, false, true);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      canAffordReds = this.howToAffordReds.canAfford;
+    }
+
     const turmoil = Turmoil.getTurmoil(player.game);
 
     if (turmoil.parties.find((p) => p.name === PartyName.MARS)) {
-      return turmoil.canPlay(player, PartyName.MARS);
+      const meetsPartyRequirements = turmoil.canPlay(player, PartyName.MARS);
+
+      if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+        return meetsPartyRequirements && canAffordReds;
+      }
+
+      return meetsPartyRequirements;
     }
 
-    return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
+    // Total cost = card cost + SOCIETY_ADDITIONAL_CARD_COST + potential 3 reserved M€ for Reds
+    let societyCost = player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST;
+    if (this.reserveUnits.megacredits > 0) societyCost += this.reserveUnits.megacredits;
+
+    return player.canAfford(societyCost);
   }
 
   public play(player: Player) {
@@ -53,5 +83,9 @@ export class MooncrateConvoysToMars extends Card {
       game.defer(new SellSteel(player));
     });
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, moonLogisticsRateIncrease: 1});
   }
 }
