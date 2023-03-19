@@ -12,6 +12,7 @@ export class MoonColonyStandardProjectVariant2 extends MoonColonyStandardProject
     super({
       name: CardName.MOON_COLONY_STANDARD_PROJECT_V2,
       cost: 26,
+      tr: {moonColony: 1},
       reserveUnits: Units.EMPTY,
 
       metadata: {
@@ -35,6 +36,7 @@ export class MoonMineStandardProjectVariant2 extends MoonMineStandardProject {
     super({
       name: CardName.MOON_MINE_STANDARD_PROJECT_V2,
       cost: 23,
+      tr: {moonMining: 1},
       reserveUnits: Units.EMPTY,
 
       metadata: {
@@ -58,6 +60,7 @@ export class MoonRoadStandardProjectVariant2 extends MoonRoadStandardProject {
     super({
       name: CardName.MOON_ROAD_STANDARD_PROJECT_V2,
       cost: 21,
+      tr: {moonLogistics: 1},
       reserveUnits: Units.EMPTY,
 
       metadata: {

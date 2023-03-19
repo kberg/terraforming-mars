@@ -9,12 +9,20 @@ import {Resources} from '../../Resources';
 import {IMoonCard} from './IMoonCard';
 import {TileType} from '../../TileType';
 import {AltSecondaryTag} from '../render/CardRenderItem';
-
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
+import {REDS_RULING_POLICY_COST } from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Card} from '../Card';
 
 export class MoonColonyStandardProject extends StandardProjectCard implements IMoonCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor(properties = {
     name: CardName.MOON_COLONY_STANDARD_PROJECT,
     cost: 22,
+    tr: {moonColony: 1},
     reserveUnits: Units.of({titanium: 1}),
 
     metadata: {
@@ -33,7 +41,7 @@ export class MoonColonyStandardProject extends StandardProjectCard implements IM
 
   protected discount(player: Player): number {
     if (player.playedCards.find((card) => card.name === CardName.MOONCRATE_BLOCK_FACTORY)) {
-      return 4;
+      return 4 + super.discount(player);
     }
     return super.discount(player);
   }
@@ -42,8 +50,22 @@ export class MoonColonyStandardProject extends StandardProjectCard implements IM
     const moonData = MoonExpansion.moonData(player.game);
     const spaces = moonData.moon.getAvailableSpacesOnLand(player);
 
-    if (spaces.length === 0) {
-      return false;
+    if (spaces.length === 0) return false;
+
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this, false, 'take this action');
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      const reserveUnits = MoonExpansion.adjustedReserveCosts(player, this);
+      return this.howToAffordReds.canAfford && player.titanium >= reserveUnits.titanium;
     }
 
     return super.canAct(player);
@@ -55,5 +77,9 @@ export class MoonColonyStandardProject extends StandardProjectCard implements IM
     player.deductUnits(adjustedReserveUnits);
     player.game.defer(new PlaceMoonColonyTile(player));
     player.addProduction(Resources.MEGACREDITS, 1, {log: true});
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, moonColonyRateIncrease: 1});
   }
 }
