@@ -1,11 +1,10 @@
 import {Player} from '../../../Player';
 import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
-import {REDS_RULING_POLICY_COST} from '../../../constants';
+import {MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../../constants';
 import {StandardProjectCard} from '../../StandardProjectCard';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
-import * as constants from '../../../constants';
 import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../../turmoil/RedsPolicy';
 import {IProjectCard} from '../../IProjectCard';
 import {Card} from '../../Card';
@@ -31,6 +30,8 @@ export class AsteroidStandardProject extends StandardProjectCard {
   }
 
   public canAct(player: Player): boolean {
+    if (player.game.getTemperature() === MAX_TEMPERATURE) return false;
+
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(trGain, this, false, 'take this action');
 
@@ -46,10 +47,7 @@ export class AsteroidStandardProject extends StandardProjectCard {
       return this.howToAffordReds.canAfford;
     }
 
-    let asteroidCost = this.cost - super.discount(player);
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) asteroidCost += REDS_RULING_POLICY_COST;
-
-    return player.canAfford(asteroidCost) && player.game.getTemperature() < constants.MAX_TEMPERATURE;
+    return player.canAfford(this.cost - super.discount(player));
   }
 
   actionEssence(player: Player): void {
