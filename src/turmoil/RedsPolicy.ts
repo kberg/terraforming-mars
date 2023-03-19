@@ -157,6 +157,7 @@ export class RedsPolicy {
     const isRecyclon = player.isCorporation(CardName.RECYCLON);
     const isVitor = player.isCorporation(CardName.VITOR);
     const isUNMO = player.isCorporation(CardName.UNITED_NATIONS_MISSION_ONE);
+    const isLabourUnion = player.isCorporation(CardName.LABOUR_UNION);
 
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
@@ -235,6 +236,11 @@ export class RedsPolicy {
 
       // Get how much the player will actually pay for the card after discounts
       action.cost = player.getCardCost(action.card);
+
+      // Labour Union discount on standard projects
+      if (isLabourUnion && action.card.name === CardName.ASTEROID_STANDARD_PROJECT) {
+        action.cost -= 4;
+      }
     }
 
     // Corporation specifics

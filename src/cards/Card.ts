@@ -106,14 +106,14 @@ export abstract class Card {
     return this.properties.requirements.satisfies(player);
   }
 
-  public static setRedsWarningText(trGain: number, card: ICard, upto: boolean = false): void {
+  public static setRedsWarningText(trGain: number, card: ICard, upto: boolean = false, actionText: string = 'play this card'): void {
     if (trGain > 0) {
       const redsCost = trGain * REDS_RULING_POLICY_COST;
 
       if (upto === true) {
-        card.warning = `You will lose up to an additional ${redsCost} M€ if you play this card this generation.`;
+        card.warning = `You will lose up to an additional ${redsCost} M€ if you ${actionText} this generation.`;
       } else {
-        card.warning = `You will lose an additional ${redsCost} M€ if you play this card this generation.`;
+        card.warning = `You will lose an additional ${redsCost} M€ if you ${actionText} this generation.`;
       }
     } else {
       card.warning = undefined;
