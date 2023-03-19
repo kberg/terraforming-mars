@@ -15,6 +15,7 @@ import {BoardName} from "../boards/BoardName";
 import {CardType} from "../cards/CardType";
 import {SpaceType} from "../SpaceType";
 import {MoonExpansion} from "../moon/MoonExpansion";
+import {AresHandler, HazardSeverity} from "../ares/AresHandler";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -329,7 +330,6 @@ export class RedsPolicy {
      * Ok so if we arrived here that means we have tiles to place
      * Let's see if we can manage to pay Reds using the bonus placement from those tiles
      *
-     * TODO: Include Ares hazards
      * TODO: Improve calculation for placement on HELLAS special ocean tile
      */
 
@@ -447,6 +447,19 @@ export class RedsPolicy {
           const hasBonusFromBiofertilizerFacility = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.BIOFERTILIZER_FACILITY);
           if (hasBonusFromBiofertilizerFacility) bonus += 1;
         }
+      }
+
+      // Check if the space contains a hazard tile; if so, deduct its costs from bonus accordingly
+      const hasZan = player.cardIsInEffect(CardName.ZAN);
+
+      if (AresHandler.hazardSeverity(space) === HazardSeverity.MILD) {
+        // Mild hazards cost 8 M€ to place on, plus an additional 3 M€ from the TR gained
+        bonus -= 8;
+        if (!hasZan) bonus -= REDS_RULING_POLICY_COST;
+      } else if (AresHandler.hazardSeverity(space) === HazardSeverity.SEVERE) {
+        // Mild hazards cost 16 M€ to place on, plus an additional 6 M€ from the TR gained
+        bonus -= 16;
+        if (!hasZan) bonus -= 2 * REDS_RULING_POLICY_COST;
       }
 
       if (space.id === SpaceName.HELLAS_OCEAN_TILE && game.gameOptions.boardName === BoardName.HELLAS) {
