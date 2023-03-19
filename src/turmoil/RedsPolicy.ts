@@ -158,6 +158,7 @@ export class RedsPolicy {
     const isVitor = player.isCorporation(CardName.VITOR);
     const isUNMO = player.isCorporation(CardName.UNITED_NATIONS_MISSION_ONE);
     const isLabourUnion = player.isCorporation(CardName.LABOUR_UNION);
+    const isSpaceways = player.isCorporation(CardName.SPACEWAYS);
 
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
@@ -222,6 +223,7 @@ export class RedsPolicy {
 
       if (action.card.cardType === CardType.EVENT) {
         if (isInterplanetary) bonusMCFromPlay += 2;
+        if (isSpaceways && action.card.tags.includes(Tags.SPACE)) bonusMCFromPlay += 2;
         if (hasMediaGroup) bonusMCFromPlay += 3;
 
         if (hasOptimalAerobraking && action.card.tags.some((tag) => tag === Tags.SPACE)) {
@@ -245,6 +247,12 @@ export class RedsPolicy {
         CardName.BUFFER_GAS_STANDARD_PROJECT,
         CardName.AIR_SCRAPPING_STANDARD_PROJECT,
         CardName.AIR_SCRAPPING_STANDARD_PROJECT_VARIANT,
+        CardName.MOON_COLONY_STANDARD_PROJECT,
+        CardName.MOON_COLONY_STANDARD_PROJECT_V2,
+        CardName.MOON_MINE_STANDARD_PROJECT,
+        CardName.MOON_MINE_STANDARD_PROJECT_V2,
+        CardName.MOON_ROAD_STANDARD_PROJECT,
+        CardName.MOON_ROAD_STANDARD_PROJECT_V2,
       ];
 
       if (isLabourUnion && standardProjects.includes(action.card.name)) {
