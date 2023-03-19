@@ -4,10 +4,12 @@ import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import * as constants from '../../constants';
 import {ColonyName} from '../../colonies/ColonyName';
 import {BuildColony} from '../../deferredActions/BuildColony';
 import {Colony} from '../../colonies/Colony';
+import {RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
+import {MAX_OCEAN_TILES, MAX_VENUS_SCALE} from '../../constants';
+import {Card} from '../Card';
 
 export class BuildColonyStandardProject extends StandardProjectCard {
   constructor() {
@@ -32,16 +34,36 @@ export class BuildColonyStandardProject extends StandardProjectCard {
       openColonies = openColonies.filter((colony) => colony.colonies.length < 3);
     }
 
-    // TODO: Europa sometimes costs additional 3.
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && !player.canAfford(this.cost + constants.REDS_RULING_POLICY_COST)) {
-      openColonies = openColonies.filter((colony) => [ColonyName.VENUS, ColonyName.IAPETUS].includes(colony.name) === false);
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+
+    if (redsAreRuling) {
+      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, oceansToPlace: 1}));
+      if (canAffordToBuildOnEuropaColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.EUROPA);
+
+      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, venusIncrease: 1}));
+      if (canAffordToBuildOnVenusColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.VENUS);
+
+      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, TRIncrease: 1}));
+      if (canAffordToBuildOnIapetusColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.IAPETUS);
     }
 
     return openColonies;
   }
 
   public canAct(player: Player): boolean {
-    return super.canAct(player) && this.getOpenColonies(player).length > 0;
+    const availableColonies = this.getOpenColonies(player);
+    const colonyNames = availableColonies.map((c) => c.name);
+
+    const hasEuropa = colonyNames.includes(ColonyName.EUROPA) && player.game.board.getOceansOnBoard() < MAX_OCEAN_TILES;
+    const hasVenus = colonyNames.includes(ColonyName.VENUS) && player.game.getVenusScaleLevel() < MAX_VENUS_SCALE;
+    const hasIapetus = colonyNames.includes(ColonyName.IAPETUS);
+
+    if (hasEuropa || hasVenus || hasIapetus) {
+      const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+      Card.setRedsActionWarningText(1, this, redsAreRuling, 'build a colony', true);
+    }
+
+    return super.canAct(player) && availableColonies.length > 0;
   }
 
   actionEssence(player: Player): void {

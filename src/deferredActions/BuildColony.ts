@@ -4,9 +4,9 @@ import {Colony} from '../colonies/Colony';
 import {ColonyName} from '../colonies/ColonyName';
 import {ColonyModel} from '../models/ColonyModel';
 import {DeferredAction, Priority} from './DeferredAction';
-import {REDS_RULING_POLICY_COST} from '../constants';
 import {PartyHooks} from '../turmoil/parties/PartyHooks';
 import {PartyName} from '../turmoil/parties/PartyName';
+import {RedsPolicy, ActionDetails} from '../turmoil/RedsPolicy';
 
 export class BuildColony implements DeferredAction {
   public priority = Priority.BUILD_COLONY;
@@ -30,14 +30,24 @@ export class BuildColony implements DeferredAction {
       }
     }
 
-    if (this.openColonies.length === 0) {
-      return undefined;
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(this.player, PartyName.REDS);
+
+    if (redsAreRuling) {
+      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({oceansToPlace: 1}));
+      if (canAffordToBuildOnEuropaColony.canAfford === false) {
+        this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.EUROPA);
+      } else {
+        this.player.howToAffordReds = canAffordToBuildOnEuropaColony;
+      }
+
+      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({venusIncrease: 1}));
+      if (canAffordToBuildOnVenusColony.canAfford === false) this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.VENUS);
+
+      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({TRIncrease: 1}));
+      if (canAffordToBuildOnIapetusColony.canAfford === false) this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.IAPETUS);
     }
 
-    // TODO: Europa sometimes costs additional 3.
-    if (PartyHooks.shouldApplyPolicy(this.player, PartyName.REDS) && !this.player.canAfford(REDS_RULING_POLICY_COST)) {
-      this.openColonies = this.openColonies.filter((colony) => [ColonyName.VENUS, ColonyName.IAPETUS].includes(colony.name) === false);
-    }
+    if (this.openColonies.length === 0) return undefined;
 
     const openColonies = this.openColonies;
     const coloniesModel: Array<ColonyModel> = this.player.game.getColoniesModel(openColonies);
