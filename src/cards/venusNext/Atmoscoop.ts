@@ -62,7 +62,6 @@ export class Atmoscoop extends Card implements IProjectCard {
     Card.setRedsWarningText(player, maxTRGain, this, minTRGain !== maxTRGain);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: minTRGain * REDS_RULING_POLICY_COST});
       const actionDetailsForRaisingTemperature = this.getActionDetailsForRaisingTemperature(player, this);
       const actionDetailsForRaisingVenus = this.getActionDetailsForRaisingVenus(player, this);

@@ -8,8 +8,15 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {AresHandler} from '../../ares/AresHandler';
 import {HAZARD_CONSTRAINTS} from '../../ares/IAresData';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {REDS_RULING_POLICY_COST} from '../../constants';
+import {PartyHooks} from '../../turmoil/parties/PartyHooks';
+import {PartyName} from '../../turmoil/parties/PartyName';
+import {Units} from '../../Units';
 
 export class ButterflyEffect extends Card implements IProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.EVENT,
@@ -19,7 +26,7 @@ export class ButterflyEffect extends Card implements IProjectCard {
 
       metadata: {
         cardNumber: 'A03',
-        description: 'Effect: Gain 1 TR. Move each individual hazard marker up to 1 step up or down.',
+        description: 'Gain 1 TR. Move each individual hazard marker up to 1 step up or down.',
         renderData: CardRenderer.builder((b) => {
           b.tr(1).br;
           b.plate('All hazard markers').colon().text('-1 / 0 / +1', Size.SMALL);
@@ -33,6 +40,18 @@ export class ButterflyEffect extends Card implements IProjectCard {
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(player, trGain, this);
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
 
     return true;
   }
@@ -51,5 +70,9 @@ export class ButterflyEffect extends Card implements IProjectCard {
     });
 
     return undefined;
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, TRIncrease: 1});
   }
 }
