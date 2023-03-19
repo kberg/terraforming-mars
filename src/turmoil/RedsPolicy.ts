@@ -133,20 +133,20 @@ export class RedsPolicy {
      */
 
     // Animals
-    const hasEcologicalZone = player.playedCards.some((c) => c.name === CardName.ECOLOGICAL_ZONE);
-    const hasHerbivores = player.playedCards.some((c) => c.name === CardName.HERBIVORES);
-    const hasMartianZoo = player.playedCards.some((c) => c.name === CardName.MARTIAN_ZOO);
-    const hasMeatIndustries = player.playedCards.some((c) => c.name === CardName.MEAT_INDUSTRY);
+    const hasEcologicalZone = player.cardIsInEffect(CardName.ECOLOGICAL_ZONE);
+    const hasHerbivores = player.cardIsInEffect(CardName.HERBIVORES);
+    const hasMartianZoo = player.cardIsInEffect(CardName.MARTIAN_ZOO);
+    const hasMeatIndustry = player.cardIsInEffect(CardName.MEAT_INDUSTRY);
     // Microbes
-    const hasDecomposers = player.playedCards.some((c) => c.name === CardName.DECOMPOSERS);
-    const hasTopsoilContract = player.playedCards.some((c) => c.name === CardName.TOPSOIL_CONTRACT);
+    const hasDecomposers = player.cardIsInEffect(CardName.DECOMPOSERS);
+    const hasTopsoilContract = player.cardIsInEffect(CardName.TOPSOIL_CONTRACT);
     // Events
-    const hasMediaGroup = player.playedCards.some((c) => c.name === CardName.MEDIA_GROUP);
-    const hasOptimalAerobraking = player.playedCards.some((c) => c.name === CardName.OPTIMAL_AEROBRAKING);
+    const hasMediaGroup = player.cardIsInEffect(CardName.MEDIA_GROUP);
+    const hasOptimalAerobraking = player.cardIsInEffect(CardName.OPTIMAL_AEROBRAKING);
     // Others
-    const hasAdvertising = player.playedCards.some((c) => c.name === CardName.ADVERTISING);
-    const hasGMOContracts = player.playedCards.some((c) => c.name === CardName.GMO_CONTRACT);
-    const hasStandardTechnology = player.playedCards.some((c) => c.name === CardName.STANDARD_TECHNOLOGY);
+    const hasAdvertising = player.cardIsInEffect(CardName.ADVERTISING);
+    const hasGMOContracts = player.cardIsInEffect(CardName.GMO_CONTRACT);
+    const hasStandardTechnology = player.cardIsInEffect(CardName.STANDARD_TECHNOLOGY);
     // Corporations
     const isAphrodite = player.isCorporation(CardName.APHRODITE);
     const isArklight = player.isCorporation(CardName.ARKLIGHT);
@@ -166,7 +166,7 @@ export class RedsPolicy {
 
     // Plants conversion
     if (action.isPlantsConversion === true) {
-      if (hasHerbivores && hasMeatIndustries) bonusMCFromPlay += 2;
+      if (hasHerbivores && hasMeatIndustry) bonusMCFromPlay += 2;
     }
 
     // Standard projects
@@ -176,7 +176,7 @@ export class RedsPolicy {
       }
       if (action.standardProject === StandardProjectType.GREENERY) {
         if (isCredicor) bonusMCFromPlay += 4;
-        if (hasHerbivores && hasMeatIndustries) bonusMCFromPlay += 2;
+        if (hasHerbivores && hasMeatIndustry) bonusMCFromPlay += 2;
       }
     }
 
@@ -198,7 +198,7 @@ export class RedsPolicy {
         }
       }
 
-      if (hasMeatIndustries) {
+      if (hasMeatIndustry) {
         if (action.card.resourceType === ResourceType.ANIMAL || player.getResourceCards(ResourceType.ANIMAL).length > 0) {
           bonusMCFromPlay += action.animals;
         }
@@ -329,7 +329,7 @@ export class RedsPolicy {
      * Ok so if we arrived here that means we have tiles to place
      * Let's see if we can manage to pay Reds using the bonus placement from those tiles
      *
-     * TODO: Include Ares adjacency bonus/malus/hazards
+     * TODO: Include Ares hazards
      * TODO: Improve calculation for placement on HELLAS special ocean tile
      */
 
@@ -406,6 +406,46 @@ export class RedsPolicy {
 
         if (adjacentSpaces.some((space) => nonOceanAvailableSpaces.includes(space))) {
           bonus += oceanAdjacencyBonus;
+        }
+      }
+
+      // Now we need to handle placing adjacent to Ares tiles that give relevant placement bonuses
+      if (game.gameOptions.aresExtension) {
+        // These cards grant M€ adjacency bonuses / penalties
+        const hasBonusFromCapitalAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.CAPITAL);
+        const hasBonusFromCommercialDistrictAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.COMMERCIAL_DISTRICT);
+        const hasBonusFromNaturalPreserveAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.NATURAL_PRESERVE);
+        const hasPenaltyFromNuclearZoneAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.NUCLEAR_ZONE);
+
+        if (hasBonusFromCapitalAres) bonus += 2;
+        if (hasBonusFromCommercialDistrictAres) bonus += 2;
+        if (hasBonusFromNaturalPreserveAres) bonus += 1;
+        if (hasPenaltyFromNuclearZoneAres) bonus -= 2;
+
+        // These cards grant heat adjacency bonuses, and are only relevant if the player is Helion
+        if (isHelion) {
+          const hasBonusFromLavaFlowsAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.LAVA_FLOWS);
+          const hasBonusFromMoholeAreaAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.MOHOLE_AREA);
+
+          if (hasBonusFromLavaFlowsAres) bonus += 2;
+          if (hasBonusFromMoholeAreaAres) bonus += 2;
+        }
+
+        // These cards grant other adjacency bonuses that could potentially translate into extra M€
+        const hasMeatIndustry = player.cardIsInEffect(CardName.MEAT_INDUSTRY);
+        const hasTopsoilContract = player.cardIsInEffect(CardName.TOPSOIL_CONTRACT);
+
+        if (hasMeatIndustry) {
+          const hasBonusFromEcologicalZoneAres = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.ECOLOGICAL_ZONE);
+          const hasBonusFromOceanSanctuary = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.OCEAN_SANCTUARY);
+
+          if (hasBonusFromEcologicalZoneAres) bonus += 2;
+          if (hasBonusFromOceanSanctuary) bonus += 2;
+        }
+
+        if (hasTopsoilContract) {
+          const hasBonusFromBiofertilizerFacility = adjacentSpaces.some((space) => space.tile !== undefined && space.tile.tileType === TileType.BIOFERTILIZER_FACILITY);
+          if (hasBonusFromBiofertilizerFacility) bonus += 1;
         }
       }
 
