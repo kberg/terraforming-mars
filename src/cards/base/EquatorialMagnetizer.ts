@@ -39,7 +39,7 @@ export class EquatorialMagnetizer extends Card implements IActionCard, IProjectC
   public canAct(player: Player): boolean {
     const hasEnergyProduction = player.getProduction(Resources.ENERGY) >= 1;
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(1, this, redsAreRuling);
+    Card.setRedsActionWarningText(player, 1, this, redsAreRuling);
 
     if (!hasEnergyProduction) return false;
 

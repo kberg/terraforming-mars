@@ -76,7 +76,7 @@ export class ProjectWorkshop extends Card implements CorporationCard {
 
   public canAct(player: Player): boolean {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(1, this, redsAreRuling, 'flip and discard a blue card', true);
+    Card.setRedsActionWarningText(player, 1, this, redsAreRuling, 'flip and discard a blue card', true);
 
     if (player.canAfford(5)) return true;
     return this.getEligibleCards(player).length > 0;

@@ -41,7 +41,7 @@ export class PROffice extends Card implements IProjectCard {
   public canPlay(player: Player): boolean {
     const turmoil = player.game.turmoil;
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     if (turmoil === undefined) return false;
 

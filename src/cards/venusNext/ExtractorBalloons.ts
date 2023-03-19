@@ -53,7 +53,7 @@ export class ExtractorBalloons extends Card implements IActionCard, IResourceCar
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const trGain = this.getTotalTRGain(player);
 
-    if (this.resourceCount >= 2) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+    if (this.resourceCount >= 2) Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'raise Venus');
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

@@ -96,7 +96,7 @@ export class LunaEcumenopolis extends MoonCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     if (redsAreRuling) {
-      Card.setRedsWarningText(trStepsIncreased, this);
+      Card.setRedsWarningText(player, trStepsIncreased, this);
 
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trStepsIncreased * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);

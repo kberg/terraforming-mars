@@ -35,7 +35,7 @@ export class IceMoonColony extends Card implements IProjectCard {
   public canPlay(player: Player): boolean {
     // TODO: Could lose an additional 3 M€ if building on Europa / Iapetus
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     const canBuildColony = player.hasAvailableColonyTileToBuildOn();
     if (!canBuildColony) return false;

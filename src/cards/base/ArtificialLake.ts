@@ -41,7 +41,7 @@ export class ArtificialLake extends Card implements IProjectCard {
     if (!super.canPlay(player)) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     const game = player.game;
     const board = game.board;

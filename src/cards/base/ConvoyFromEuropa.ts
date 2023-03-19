@@ -34,7 +34,7 @@ export class ConvoyFromEuropa extends Card implements IProjectCard {
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     if (trGain === 0) return true;
 

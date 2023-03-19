@@ -52,7 +52,7 @@ export class RegolithEaters extends Card implements IActionCard, IProjectCard, I
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
       const trGain = this.getTotalTRGain(player);
 
-      if (this.resourceCount >= 2) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise oxygen');
+      if (this.resourceCount >= 2) Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'raise oxygen');
 
       if (redsAreRuling) {
         this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

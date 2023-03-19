@@ -63,7 +63,7 @@ export class DarksideIncubationPlant extends MoonCard implements IActionCard, IP
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const trGain = 1;
 
-    if (this.resourceCount >= 2) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Moon colony rate');
+    if (this.resourceCount >= 2) Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'raise Moon colony rate');
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

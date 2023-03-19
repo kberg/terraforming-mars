@@ -59,7 +59,7 @@ export class TempestInc extends Card implements CorporationCard {
 
   public canAct(player: Player): boolean {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(1, this, redsAreRuling, 'raise a global parameter', true);
+    Card.setRedsActionWarningText(player, 1, this, redsAreRuling, 'raise a global parameter', true);
 
     return true;
   }

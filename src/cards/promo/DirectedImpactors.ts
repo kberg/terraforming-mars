@@ -57,7 +57,7 @@ export class DirectedImpactors extends Card implements IActionCard, IProjectCard
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     const trGain = this.getTotalTRGain(player);
-    if (this.resourceCount >= 1) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise temperature');
+    if (this.resourceCount >= 1) Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'raise temperature');
 
     if (temperatureMaxed) {
       Card.setUselessActionWarningText(this, 'temperature is already maxed');

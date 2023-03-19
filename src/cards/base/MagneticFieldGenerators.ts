@@ -40,7 +40,7 @@ export class MagneticFieldGenerators extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     if (player.getProduction(Resources.ENERGY) < 4) return false;
 

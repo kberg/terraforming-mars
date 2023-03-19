@@ -56,7 +56,7 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
       const trGain = oceansMaxed ? 0 : 1;
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
-      if (hasTitanium) Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'place an ocean');
+      if (hasTitanium) Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'place an ocean');
 
       if (oceansMaxed) {
         Card.setUselessActionWarningText(this, 'all oceans have already been placed');

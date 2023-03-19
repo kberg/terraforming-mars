@@ -37,7 +37,7 @@ export class DesperateMeasures extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     // You can't play desperate measures if there isn't a hazard marker in play.
     return this.getHazardTiles(player.game).length > 0;

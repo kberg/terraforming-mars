@@ -47,7 +47,7 @@ export class OreProcessor extends Card implements IActionCard, IProjectCard {
     if (player.game.getTemperature() === -2) trGain += 1;
 
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(trGain, this, redsAreRuling);
+    Card.setRedsActionWarningText(player, trGain, this, redsAreRuling);
 
     if (!hasEnoughEnergy) return false;
     if (oxygenMaxed) return true;

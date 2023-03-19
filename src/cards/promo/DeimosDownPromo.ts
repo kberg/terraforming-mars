@@ -45,7 +45,7 @@ export class DeimosDownPromo extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     const canPlaceTile = player.game.board.getAvailableSpacesForCity(player).length > 0;
     if (!canPlaceTile) return false;

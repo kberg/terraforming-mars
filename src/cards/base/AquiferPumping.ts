@@ -43,7 +43,7 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
 
     const trGain = oceansMaxed ? 0 : 1;
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(trGain, this, redsAreRuling);
+    Card.setRedsActionWarningText(player, trGain, this, redsAreRuling);
 
     if (oceansMaxed) {
       Card.setUselessActionWarningText(this, 'all oceans have already been placed');

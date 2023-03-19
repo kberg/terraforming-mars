@@ -40,7 +40,7 @@ export class Flooding extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
     if (trGain === 0) return true;
 
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);

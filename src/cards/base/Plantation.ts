@@ -41,7 +41,7 @@ export class Plantation extends Card implements IProjectCard {
     if (!super.canPlay(player)) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);    
+    Card.setRedsWarningText(player, trGain, this);    
 
     if (player.game.board.getAvailableSpacesOnLand(player).length === 0) {
       return false;

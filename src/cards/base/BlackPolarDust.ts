@@ -36,7 +36,7 @@ export class BlackPolarDust extends Card implements IProjectCard {
   }
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     const game = player.game;
     const hasEnoughMegacreditProduction = player.getProduction(Resources.MEGACREDITS) >= -3;

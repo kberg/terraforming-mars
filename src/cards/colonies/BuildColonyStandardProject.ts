@@ -60,7 +60,7 @@ export class BuildColonyStandardProject extends StandardProjectCard {
 
     if (hasEuropa || hasVenus || hasIapetus) {
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-      Card.setRedsActionWarningText(1, this, redsAreRuling, 'build a colony', true);
+      Card.setRedsActionWarningText(player, 1, this, redsAreRuling, 'build a colony', true);
     }
 
     return super.canAct(player) && availableColonies.length > 0;

@@ -54,7 +54,7 @@ export class CopernicusTower extends Card implements IActionCard, IProjectCard {
 
   public canAct(player: Player) {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    if (this.resourceCount > 0) Card.setRedsActionWarningText(1, this, redsAreRuling, 'raise TR');
+    if (this.resourceCount > 0) Card.setRedsActionWarningText(player, 1, this, redsAreRuling, 'raise TR');
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});

@@ -45,7 +45,7 @@ export class NuclearZone extends Card implements IProjectCard {
   public canPlay(player: Player): boolean {
     const canPlaceTile = player.game.board.getAvailableSpacesOnLand(player).length > 0;
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     if (!canPlaceTile) return false;
 

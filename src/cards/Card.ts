@@ -106,8 +106,8 @@ export abstract class Card {
     return this.properties.requirements.satisfies(player);
   }
 
-  public static setRedsWarningText(trGain: number, card: ICard, upto: boolean = false, actionText: string = 'play this card'): void {
-    if (trGain > 0) {
+  public static setRedsWarningText(player: Player, trGain: number, card: ICard, upto: boolean = false, actionText: string = 'play this card'): void {
+    if (trGain > 0 && player.cardIsInEffect(CardName.ZAN) === false) {
       const redsCost = trGain * REDS_RULING_POLICY_COST;
 
       if (upto === true) {
@@ -120,8 +120,8 @@ export abstract class Card {
     }
   }
 
-  public static setRedsActionWarningText(trGain: number, card: ICard, redsAreRuling: boolean, actionText: string = 'take this action', uncertain: boolean = false): void {
-    if (trGain > 0 && redsAreRuling) {
+  public static setRedsActionWarningText(player: Player, trGain: number, card: ICard, redsAreRuling: boolean, actionText: string = 'take this action', uncertain: boolean = false): void {
+    if (trGain > 0 && redsAreRuling && player.cardIsInEffect(CardName.ZAN) === false) {
       const redsCost = trGain * REDS_RULING_POLICY_COST;
       const modifier = uncertain ? 'may lose some extra' : `will lose an additional ${redsCost}`;
       card.warning = `You ${modifier} M€ if you ${actionText} this generation.`;

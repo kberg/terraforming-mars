@@ -35,7 +35,7 @@ export class AquiferStandardProject extends StandardProjectCard {
     }
 
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this, false, 'take this action');
+    Card.setRedsWarningText(player, trGain, this, false, 'take this action');
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

@@ -45,7 +45,7 @@ export class WildlifeDome extends Card implements IProjectCard {
     const turmoil = Turmoil.getTurmoil(player.game);
     const canPlaceTile = player.game.board.getAvailableSpacesForGreenery(player).length > 0;
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     if (turmoil === undefined) return false;
     if (!canPlaceTile) return false;

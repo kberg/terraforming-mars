@@ -40,7 +40,7 @@ export class MooncrateConvoysToMars extends Card {
 
   public canPlay(player: Player): boolean {
     const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(trGain, this);
+    Card.setRedsWarningText(player, trGain, this);
 
     let canAffordReds = true;
 

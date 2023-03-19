@@ -37,7 +37,7 @@ export class TerraformingGanymede extends Card implements IProjectCard {
     const trGain = this.getTRIncrease(player);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      Card.setRedsWarningText(trGain, this);
+      Card.setRedsWarningText(player, trGain, this);
 
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);

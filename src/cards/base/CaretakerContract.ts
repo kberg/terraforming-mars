@@ -38,7 +38,7 @@ export class CaretakerContract extends Card implements IActionCard, IProjectCard
   public canAct(player: Player): boolean {
     const hasEnoughHeat = player.availableHeat >= 8;
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    Card.setRedsActionWarningText(1, this, redsAreRuling);
+    Card.setRedsActionWarningText(player, 1, this, redsAreRuling);
 
     if (!hasEnoughHeat) return false;
 

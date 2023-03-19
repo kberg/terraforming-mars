@@ -59,7 +59,7 @@ export class Atmoscoop extends Card implements IProjectCard {
 
     const minTRGain = Math.min(trGainFromTemperatureRaise, trGainFromVenusRaise);
     const maxTRGain = Math.max(trGainFromTemperatureRaise, trGainFromVenusRaise);
-    Card.setRedsWarningText(maxTRGain, this, minTRGain !== maxTRGain);
+    Card.setRedsWarningText(player, maxTRGain, this, minTRGain !== maxTRGain);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       

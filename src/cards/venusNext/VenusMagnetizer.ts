@@ -46,7 +46,7 @@ export class VenusMagnetizer extends Card implements IActionCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     const trGain = this.getTotalTRGain(player);
-    Card.setRedsActionWarningText(trGain, this, redsAreRuling, 'raise Venus');
+    Card.setRedsActionWarningText(player, trGain, this, redsAreRuling, 'raise Venus');
 
     if (!hasEnergyProduction) return false;
     if (venusMaxed) return true;

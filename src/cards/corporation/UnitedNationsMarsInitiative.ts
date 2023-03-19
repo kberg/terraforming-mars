@@ -49,7 +49,7 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, Co
     const actionCost = 3;
 
     if (!hasIncreasedTR) return false;
-    Card.setRedsActionWarningText(1, this, redsAreRuling);
+    Card.setRedsActionWarningText(player, 1, this, redsAreRuling);
 
     if (redsAreRuling) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: REDS_RULING_POLICY_COST});
