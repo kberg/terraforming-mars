@@ -1,16 +1,22 @@
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {REDS_RULING_POLICY_COST} from '../../constants';
+import {MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../constants';
 import {StandardProjectCard} from '../StandardProjectCard';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
-import * as constants from '../../constants';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
+import {Units} from '../../Units';
+import {Card} from '../Card';
 
 export class AirScrappingStandardProject extends StandardProjectCard {
-constructor(properties = {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
+  constructor(properties = {
     name: CardName.AIR_SCRAPPING_STANDARD_PROJECT,
     cost: 15,
+    tr: {venus: 1},
     metadata: {
       cardNumber: 'SP1',
       renderData: CardRenderer.builder((b) =>
@@ -24,14 +30,31 @@ constructor(properties = {
   }
 
   public canAct(player: Player): boolean {
-    if (player.game.getVenusScaleLevel() >= constants.MAX_VENUS_SCALE) return false;
+    if (player.game.getVenusScaleLevel() >= MAX_VENUS_SCALE) return false;
 
-    let cost = this.cost - this.discount(player);
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) cost += REDS_RULING_POLICY_COST;
-    return player.canAfford(cost);
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this, false, 'take this action');
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
+    return player.canAfford(this.cost - this.discount(player));
   }
 
   actionEssence(player: Player): void {
     player.game.increaseVenusScaleLevel(player, 1);
+  }
+
+  public getActionDetails(_player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, venusIncrease: 1});
   }
 }

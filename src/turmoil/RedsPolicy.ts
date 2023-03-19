@@ -242,6 +242,9 @@ export class RedsPolicy {
         CardName.ASTEROID_STANDARD_PROJECT,
         CardName.AQUIFER_STANDARD_PROJECT,
         CardName.GREENERY_STANDARD_PROJECT,
+        CardName.BUFFER_GAS_STANDARD_PROJECT,
+        CardName.AIR_SCRAPPING_STANDARD_PROJECT,
+        CardName.AIR_SCRAPPING_STANDARD_PROJECT_VARIANT,
       ];
 
       if (isLabourUnion && standardProjects.includes(action.card.name)) {

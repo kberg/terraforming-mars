@@ -4,12 +4,17 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Tags} from '../Tags';
 import {AirScrappingStandardProject} from './AirScrappingStandardProject';
 import {Size} from '../render/Size';
+import {HowToAffordRedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
+import {IProjectCard} from '../IProjectCard';
 
 export class AirScrappingStandardProjectVariant extends AirScrappingStandardProject {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.AIR_SCRAPPING_STANDARD_PROJECT_VARIANT,
       cost: 15,
+      tr: {venus: 1},
       metadata: {
         cardNumber: 'SP1a',
         renderData: CardRenderer.builder((b) => {
@@ -26,5 +31,9 @@ export class AirScrappingStandardProjectVariant extends AirScrappingStandardProj
     const tagCount = player.getTagCount(Tags.VENUS);
     const discount = Math.min(tagCount, 5);
     return discount + super.discount(player);
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({card: card, venusIncrease: 1, bonusMegaCredits: this.discount(player)});
   }
 }
