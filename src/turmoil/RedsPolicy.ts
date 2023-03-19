@@ -238,7 +238,13 @@ export class RedsPolicy {
       action.cost = player.getCardCost(action.card);
 
       // Labour Union discount on standard projects
-      if (isLabourUnion && action.card.name === CardName.ASTEROID_STANDARD_PROJECT) {
+      const standardProjects = [
+        CardName.ASTEROID_STANDARD_PROJECT,
+        CardName.AQUIFER_STANDARD_PROJECT,
+        CardName.GREENERY_STANDARD_PROJECT,
+      ];
+
+      if (isLabourUnion && standardProjects.includes(action.card.name)) {
         action.cost -= 4;
       }
     }

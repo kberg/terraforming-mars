@@ -5,14 +5,21 @@ import {REDS_RULING_POLICY_COST} from '../../../constants';
 import {StandardProjectCard} from '../../StandardProjectCard';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
-import * as constants from '../../../constants';
 import {PlaceGreeneryTile} from '../../../deferredActions/PlaceGreeneryTile';
+import {TileType} from '../../../TileType';
+import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../../turmoil/RedsPolicy';
+import {IProjectCard} from '../../IProjectCard';
+import {Units} from '../../../Units';
+import {Card} from '../../Card';
 
 export class GreeneryStandardProject extends StandardProjectCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       name: CardName.GREENERY_STANDARD_PROJECT,
       cost: 23,
+      tr: {oxygen: 1},
       metadata: {
         cardNumber: 'SP6',
         renderData: CardRenderer.builder((b) =>
@@ -25,14 +32,36 @@ export class GreeneryStandardProject extends StandardProjectCard {
   }
 
   public canAct(player: Player): boolean {
-    let greeneryCost = this.cost - super.discount(player);
-    const oxygenNotMaxed = player.game.getOxygenLevel() < constants.MAX_OXYGEN_LEVEL;
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS) && oxygenNotMaxed) greeneryCost += REDS_RULING_POLICY_COST;
+    if (player.game.board.getAvailableSpacesForGreenery(player).length === 0) return false;
 
-    return player.canAfford(greeneryCost) && player.game.board.getAvailableSpacesForGreenery(player).length > 0;
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(trGain, this, false, 'take this action');
+
+    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
+      this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
+      const actionDetails = this.getActionDetails(player, this);
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+
+      if (this.howToAffordReds.mustSpendAtMost !== undefined || this.howToAffordReds.bonusMCFromPlay !== undefined) {
+        this.reserveUnits = Units.maybeAdjustReservedMegacredits(player, this.reserveUnits, this.howToAffordReds);
+      }
+
+      return this.howToAffordReds.canAfford;
+    }
+
+    return player.canAfford(this.cost - super.discount(player));
   }
 
   actionEssence(player: Player): void {
     player.game.defer(new PlaceGreeneryTile(player, 'Select space for greenery'));
+  }
+
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({
+      card: card,
+      oxygenIncrease: 1,
+      nonOceanToPlace: TileType.GREENERY,
+      nonOceanAvailableSpaces: player.game.board.getAvailableSpacesForGreenery(player),
+    });
   }
 }
