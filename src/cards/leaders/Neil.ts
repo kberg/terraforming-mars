@@ -37,10 +37,10 @@ export class Neil extends Card implements LeaderCard {
   }
 
   public onCardPlayed(player: Player, card: IProjectCard) {
-    for (const tag of card.tags) {
-      if (tag === Tags.MOON) {
-        player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, 1, {log: true});
-      }
+    const moonTagCount = card.tags.filter((tag) => tag === Tags.MOON).length;
+
+    if (moonTagCount > 0) {
+      player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, moonTagCount, {log: true});
     }
   }
 
