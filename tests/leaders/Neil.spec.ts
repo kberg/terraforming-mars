@@ -21,6 +21,11 @@ describe('Neil', function() {
     game = Game.newInstance('foobar', [player, player2], player, gameOptions);
   });
 
+  it('Play', function() {
+    card.play(player);
+    expect(player.megaCredits).to.eq(1);
+  });
+
   it('Can act', function() {
     expect(card.canAct()).is.true;
   });

@@ -16,6 +16,7 @@ export class Neil extends Card implements LeaderCard {
     super({
       name: CardName.NEIL,
       cardType: CardType.LEADER,
+      tags: [Tags.MOON],
       metadata: {
         cardNumber: 'L34',
         renderData: CardRenderer.builder((b) => {
@@ -23,14 +24,15 @@ export class Neil extends Card implements LeaderCard {
           b.br.br;
           b.opgArrow().production((pb) => pb.megacredits(1000)).nbsp(Size.SMALL).asterix();
         }),
-        description: 'Gain 1 M€ when any player plays a Moon tag. Once per game, increase your M€ production by the value of the LOWEST Moon rate.',
+        description: 'Gain 1 M€ when any player plays a Moon tag, including this. Once per game, increase your M€ production by the value of the LOWEST Moon rate.',
       },
     });
   }
 
   public isDisabled = false;
 
-  public play() {
+  public play(player: Player) {
+    player.megaCredits += 1;
     return undefined;
   }
 
