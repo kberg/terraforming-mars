@@ -6,6 +6,7 @@ import {GalileanMining} from "../../src/cards/prelude/GalileanMining";
 import {Game} from "../../src/Game";
 import {SelectCard} from "../../src/inputs/SelectCard";
 import {Player} from "../../src/Player";
+import {Resources} from "../../src/Resources";
 import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
 
@@ -47,13 +48,17 @@ describe('Karen', function() {
     expect(player.playedCards.filter((card) => card.cardType === CardType.PRELUDE)).has.length(1);
   });
 
-  it('Discards unplayable prelude cards', function() {
+  it('Discards unplayable prelude cards for 15 M€', function() {
     player.megaCredits = 0;
     game.dealer.preludeDeck.push(new GalileanMining());
 
-    const action = card.action(player);
-    expect(action).is.undefined;
+    const selectCard = card.action(player) as SelectCard<IProjectCard>;
+    expect(selectCard.cards).has.length(1);
+
+    selectCard.cb([selectCard.cards[0]]);
     expect(player.playedCards.filter((card) => card.cardType === CardType.PRELUDE)).has.length(0);
+    expect(player.megaCredits).to.eq(15);
+    expect(player.getProduction(Resources.TITANIUM)).to.eq(0);
   });
 
   it('Can only act once per game', function() {

@@ -1551,13 +1551,23 @@ export class Player implements ISerializable<SerializedPlayer> {
     return cost;
   }
 
-  private playPreludeCard(): PlayerInput {
+  private playPreludeCard(): PlayerInput | undefined {
     return new SelectCard(
       'Select prelude card to play',
       'Play',
-      this.getPlayablePreludeCards(),
+      this.preludeCardsInHand,
       (foundCards: Array<IProjectCard>) => {
-        return this.playCard(foundCards[0]);
+        if (foundCards[0].canPlay === undefined || foundCards[0].canPlay(this)) {
+          return this.playCard(foundCards[0]);
+        } else {
+          // Source: https://boardgamegeek.com/thread/2993276/article/41533232#41533232
+          this.preludeCardsInHand.splice(this.preludeCardsInHand.indexOf(foundCards[0]), 1);
+          this.game.log('${0} was discarded for 15 M€ as ${1} could not afford to play it', (b) => b.card(foundCards[0]).player(this));
+          this.addResource(Resources.MEGACREDITS, 15, {log: true});
+
+          foundCards[0].warning = undefined;
+          return undefined;
+        }
       },
     );
   }
@@ -2041,10 +2051,6 @@ export class Player implements ISerializable<SerializedPlayer> {
     this.game.deferredActions.runAll(() => this.takeActionForFinalGreenery());
   }
 
-  private getPlayablePreludeCards(): Array<IProjectCard> {
-    return this.preludeCardsInHand.filter((card) => card.canPlay === undefined || card.canPlay(this));
-  }
-
   public getPlayableCards(): Array<IProjectCard> {
     const candidateCards: Array<IProjectCard> = [...this.cardsInHand];
     // Self Replicating robots check
@@ -2247,20 +2253,32 @@ export class Player implements ISerializable<SerializedPlayer> {
     if (this.preludeCardsInHand.length > 0) {
       game.phase = Phase.PRELUDES;
 
-      // If no playable prelude card in hand, end player turn
-      if (this.getPlayablePreludeCards().length === 0) {
-        this.preludeCardsInHand = [];
-        game.playerIsFinishedTakingActions();
-        return;
-      }
+      this.preludeCardsInHand.forEach((card) => {
+        if ((card.canPlay === undefined || card.canPlay(this)) === false) {
+          card.warning = "This prelude will be discarded for 15 M€ if you play it now as you cannot afford to pay for it.";
+        } else {
+          card.warning = undefined;
+        }
+      });
 
-      this.setWaitingFor(this.playPreludeCard(), () => {
+      const playPrelude = this.playPreludeCard();
+
+      if (playPrelude !== undefined) {
+        this.setWaitingFor(playPrelude, () => {
+          if (this.preludeCardsInHand.length === 1) {
+            this.takeAction();
+          } else {
+            game.playerIsFinishedTakingActions();
+          }
+        });
+      } else {
         if (this.preludeCardsInHand.length === 1) {
           this.takeAction();
         } else {
           game.playerIsFinishedTakingActions();
         }
-      });
+      }
+
       return;
     } else if (game.gameOptions.leadersExpansion === false) {
       game.phase = Phase.ACTION;

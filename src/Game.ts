@@ -1144,7 +1144,7 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     // Head Start: Allow current player to take 2 more actions before moving on to next player
-    const shouldGiveHeadStart = player.lastCardPlayed?.name === CardName.HEAD_START || player.game.phase === Phase.PRELUDES && player.playedCards[0].name === CardName.HEAD_START;
+    const shouldGiveHeadStart = player.lastCardPlayed?.name === CardName.HEAD_START || (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[0].name === CardName.HEAD_START);
 
     if (shouldGiveHeadStart && player.hasUsedHeadStart === false) {
       player.hasUsedHeadStart = true;
