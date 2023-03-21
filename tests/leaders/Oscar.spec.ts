@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {Oscar} from "../../src/cards/leaders/Oscar";
+import {PLAYER_DELEGATES_COUNT} from "../../src/constants";
 import {Game} from "../../src/Game";
 import {Player} from "../../src/Player";
 import {Turmoil} from "../../src/turmoil/Turmoil";
@@ -26,6 +27,10 @@ describe('Oscar', function() {
     card.action(player);
     const turmoil = Turmoil.getTurmoil(player.game);
     expect(turmoil.chairman).eq(player.id);
+
+    // 6 delegates remaining: 1 in lobby, 5 in delegate reserve
+    expect(turmoil.lobby.has(player.id)).is.true;
+    expect(turmoil.getDelegatesInReserve(player.id)).eq(PLAYER_DELEGATES_COUNT - 2);
   });
 
   it('Can only act once per game', function() {

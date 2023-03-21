@@ -19,7 +19,7 @@ export class Oscar extends Card implements LeaderCard {
           b.br.br;
           b.opgArrow().chairman();
         }),
-        description: 'You have +1 influence. Once per game, replace the Chairman with one of your delegates.',
+        description: 'You have +1 influence. Once per game, replace the Chairman with one of your delegates from the reserve.',
       },
     });
   }
