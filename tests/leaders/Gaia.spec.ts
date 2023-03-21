@@ -2,6 +2,7 @@ import {expect} from "chai";
 import {NaturalPreserveAres} from "../../src/cards/ares/NaturalPreserveAres";
 import {Gaia} from "../../src/cards/leaders/Gaia";
 import {Game} from "../../src/Game";
+import {SelectSpace} from "../../src/inputs/SelectSpace";
 import {Player} from "../../src/Player";
 import {TileType} from "../../src/TileType";
 import {ARES_OPTIONS_NO_HAZARDS} from "../ares/AresTestHelper";
@@ -24,9 +25,13 @@ describe('Gaia', function() {
     // Place a tile that grants adjacency bonuses
     const naturalPreserveAres = new NaturalPreserveAres();
     const action = naturalPreserveAres.play(player);
+    expect(action).is.undefined;
+
+    const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
     game.deferredActions.runNext();
+
     const targetSpace = game.board.getAvailableSpacesOnLand(player)[0];
-    action.cb(targetSpace);
+    selectSpace.cb(targetSpace);
 
     // Place tiles from different players next to tile that grants adjacency bonuses
     const firstAdjacentSpace = game.board.getAdjacentSpaces(targetSpace)[0];

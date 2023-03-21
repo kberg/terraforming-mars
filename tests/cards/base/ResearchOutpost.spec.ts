@@ -16,10 +16,11 @@ describe('ResearchOutpost', function() {
   });
 
   it('Should play', function() {
-    const action = card.play(player) as SelectSpace;
-    expect(action).is.not.undefined;
+    const action = card.play(player);
+    expect(action).is.undefined;
 
-    action.cb(action.availableSpaces[0]);
+    const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
+    selectSpace.cb(selectSpace.availableSpaces[0]);
     expect(game.getCitiesInPlay()).eq(1);
     expect(card.getCardDiscount()).eq(1);
   });

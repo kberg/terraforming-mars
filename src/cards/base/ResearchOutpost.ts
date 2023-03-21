@@ -5,9 +5,9 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {PlayerInput} from '../../PlayerInput';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Priority} from '../../deferredActions/DeferredAction';
 
 export class ResearchOutpost extends Card implements IProjectCard {
   constructor() {
@@ -48,10 +48,12 @@ export class ResearchOutpost extends Card implements IProjectCard {
   public getCardDiscount() {
     return 1;
   }
-  public play(player: Player): PlayerInput {
-    return new SelectSpace('Select place next to no other tile for city', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
+  public play(player: Player) {
+    player.defer(new SelectSpace('Select place next to no other tile for city', this.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addCityTile(player, foundSpace.id);
       return undefined;
-    });
+    }), Priority.PLACE_LAND_TILE);
+
+    return undefined;
   }
 }

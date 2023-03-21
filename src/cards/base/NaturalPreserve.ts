@@ -13,6 +13,7 @@ import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {Units} from '../../Units';
 import {AresHandler} from '../../ares/AresHandler';
+import {Priority} from '../../deferredActions/DeferredAction';
 
 export class NaturalPreserve extends Card implements IProjectCard {
   constructor(
@@ -55,12 +56,14 @@ export class NaturalPreserve extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    return new SelectSpace('Select space for special tile next to no other tile', NaturalPreserve.getAvailableSpaces(player), (foundSpace: ISpace) => {
+    player.defer(new SelectSpace('Select space for special tile next to no other tile', NaturalPreserve.getAvailableSpaces(player), (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.NATURAL_PRESERVE});
       foundSpace.adjacency = this.adjacencyBonus;
       player.addProduction(Resources.MEGACREDITS, 1);
       return undefined;
-    });
+    }), Priority.PLACE_LAND_TILE);
+
+    return undefined;
   }
 
   public getVictoryPoints() {
