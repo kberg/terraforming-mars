@@ -11,6 +11,7 @@ import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Resources} from '../../Resources';
+import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 
 export class Splice extends Card implements CorporationCard {
   constructor() {
@@ -60,28 +61,46 @@ export class Splice extends Card implements CorporationCard {
     if (card.tags.includes(Tags.MICROBE) === false) {
       return undefined;
     }
+
+    const game = player.game;
     const gainPerMicrobe = 2;
     const microbeTagsCount = card.tags.filter((tag) => tag === Tags.MICROBE).length;
     const megacreditsGain = microbeTagsCount * gainPerMicrobe;
 
     const addResource = new SelectOption('Add a microbe resource to this card', 'Add microbe', () => {
-      player.addResourceTo(card, {log: true});
+      game.defer(new DeferredAction(player, () => {
+        player.addResourceTo(card, {log: true});
+        return undefined;
+      }), Priority.GAIN_RESOURCE_OR_PRODUCTION);
+
       return undefined;
     });
 
     const getMegacredits = new SelectOption(`Gain ${megacreditsGain} M€`, 'Gain M€', () => {
-      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+      game.defer(new DeferredAction(player, () => {
+        player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+        return undefined;
+      }), Priority.GAIN_RESOURCE_OR_PRODUCTION);
+
       return undefined;
     });
 
     // Splice owner get 2M€ per microbe tag
-    player.game.getCardPlayer(this.name).addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+    game.defer(new DeferredAction(player, () => {
+      const spliceOwner = game.getCardPlayer(this.name);
+      spliceOwner.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+      return undefined;
+    }), Priority.GAIN_RESOURCE_OR_PRODUCTION);
 
     // Card player choose between 2 M€ and a microbe on card, if possible
     if (card.resourceType !== undefined && card.resourceType === ResourceType.MICROBE) {
       return new OrOptions(addResource, getMegacredits);
     } else {
-      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+      game.defer(new DeferredAction(player, () => {
+        player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+        return undefined;
+      }), Priority.GAIN_RESOURCE_OR_PRODUCTION);
+
       return undefined;
     }
   }

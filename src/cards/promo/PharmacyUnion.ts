@@ -149,7 +149,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
               }),
             );
           },
-        ), -1); // Make it a priority
+        ), Priority.SUPERPOWER);
       }
     }
 
@@ -165,7 +165,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
           game.log('${0} added a disease to ${1} and lost ${2} M€', (b) => b.player(player).card(this).number(megaCreditsLost));
           return undefined;
         },
-      ), -1); // Make it a priority
+      ), Priority.SUPERPOWER);
     }
 
     return undefined;

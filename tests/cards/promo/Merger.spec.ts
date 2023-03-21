@@ -33,6 +33,7 @@ import {AndOptions} from '../../../src/inputs/AndOptions';
 import {SelectAmount} from '../../../src/inputs/SelectAmount';
 import {Aridor} from '../../../src/cards/colonies/Aridor';
 import {PharmacyUnion} from '../../../src/cards/promo/PharmacyUnion';
+import {IndustrialMicrobes} from '../../../src/cards/base/IndustrialMicrobes';
 
 describe('Merger', function() {
   let card : Merger; let player : Player; let player2: Player; let game : Game;
@@ -99,6 +100,10 @@ describe('Merger', function() {
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1); // Saturn Sys
 
     player2.playCard(new Ants());
+    // Play the card
+    game.deferredActions.runNext();
+    // Give Splice its 2 M€
+    game.deferredActions.runNext();
     expect(player.megaCredits).to.eq(2); // Splice
   });
 
@@ -320,6 +325,25 @@ describe('Merger', function() {
 
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(1);
+  });
+
+  it('Works with Splice + Pharmacy Union', () => {
+    const splice = new Splice();
+    player.corporationCards.push(splice);
+    const pharmacyUnion = new PharmacyUnion();
+    player.corporationCards.push(pharmacyUnion);
+
+    player.megaCredits = 1;
+
+    const industrialMicrobes = new IndustrialMicrobes();
+    player.playCard(industrialMicrobes);
+    // PU first causes player to lose 4 M€ or as much as possible
+    game.deferredActions.runNext();
+    expect(player.megaCredits).to.eq(0);
+
+    // Splice then gives the player 2 M€
+    game.deferredActions.runNext();
+    expect(player.megaCredits).to.eq(2);
   });
 
   function setupHelionForPlayer(player: Player) {

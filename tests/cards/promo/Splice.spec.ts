@@ -10,13 +10,13 @@ import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
 
 describe('Splice', function() {
-  let card : Splice; let player : Player; let player2 : Player;
+  let card : Splice; let player : Player; let player2 : Player; let game: Game;
 
   beforeEach(() => {
     card = new Splice();
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
-    Game.newInstance('foobar', [player, player2], player);
+    game = Game.newInstance('foobar', [player, player2], player);
   });
 
   it('Should play', function() {
@@ -34,22 +34,35 @@ describe('Splice', function() {
     const orOptions = action.options[0] as OrOptions;
 
     orOptions.cb();
-    expect(player2.getResourcesOnCard(card2)).eq(1);
+
+    // Give Splice their 2 M€
+    game.deferredActions.runNext();
     expect(player.megaCredits).eq(2);
+
+    // Give Tardigrades owner a microbe resource
+    game.deferredActions.runNext();
+    expect(player2.getResourcesOnCard(card2)).eq(1);
   });
 
   it('Should play with multiple microbe tags', function() {
-    const card2 = new PharmacyUnion();
-    const play = card.play();
+    const pharmacyUnion = new PharmacyUnion();
     player.corporationCards = [card];
-    const play2 = card2.play(player);
-    player2.corporationCards = [card2];
+    player2.corporationCards = [pharmacyUnion];
+
+    const play = card.play();
+    const play2 = pharmacyUnion.play(player);
     expect(play).is.undefined;
     expect(play2).is.undefined;
 
-    const action = card.onCardPlayed(player2, card2);
+    const action = card.onCardPlayed(player2, pharmacyUnion);
     expect(action).is.undefined;
+
+    // Give Splice their 4 M€ from PU's 2 microbe tags
+    game.deferredActions.runNext();
     expect(player.megaCredits).eq(4);
+
+    // Give PU their 4 M€ from PU's 2 microbe tags
+    game.deferredActions.runNext();    
     expect(player2.megaCredits).eq(4);
   });
 
@@ -76,12 +89,18 @@ describe('Splice', function() {
     expect(pi3.options[0].title).eq('Add a microbe resource to this card');
     expect(pi3.options[1].title).eq('Gain 2 M€');
 
+    // Give Splice their 2 M€
+    game.deferredActions.runNext();
+    expect(player.megaCredits).eq(50); // 48 + 2
+
     // Pick the microbe
     pi3.options[0].cb();
+    game.deferredActions.runNext();
     expect(card2.resourceCount).eq(2);
 
     // Pick 2 M€
     pi3.options[1].cb();
+    game.deferredActions.runNext();
     expect(player2.megaCredits).eq(40);
   });
 });
