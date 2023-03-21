@@ -6,6 +6,7 @@ import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 
 export class InventionContest extends Card implements IProjectCard {
   constructor() {
@@ -25,6 +26,7 @@ export class InventionContest extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    return player.drawCardKeepSome(3, {keepMax: 1});
+    player.game.defer(new DeferredAction(player, () => player.drawCardKeepSome(3, {keepMax: 1})), Priority.DRAW_CARDS_SCIENCE);
+    return undefined;
   }
 }

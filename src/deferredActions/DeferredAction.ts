@@ -7,6 +7,7 @@ export enum Priority {
   OPPONENT_TRIGGER, // Any effect from one of your opponent's card that triggers during your turn.
   SPONSORED_ACADEMIES, // Same as DISCARD_BEFORE_DRAW, but Sponsored Academies must proc before Mars University
   PLACE_LAND_TILE, // For tile placement cards like Restricted Area, in case they can place on spaces that give cards
+  DRAW_CARDS_SCIENCE, // For cards like Invention Contest which should draw before Mars U discard
   DISCARD_BEFORE_DRAW, // When you must discard before you can draw (e.g. Mars University)
   DRAW_CARDS,
   BUILD_COLONY,
