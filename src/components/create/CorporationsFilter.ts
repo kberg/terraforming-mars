@@ -151,6 +151,9 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
       case CardName.INTRAGEN_SANCTUARY_HEADQUARTERS:
       case CardName.THE_ARCHAIC_FOUNDATION_INSTITUTE:
         return `<span class='create-game-expansion-icon expansion-icon-themoon expansion-icon-small'></span>`;
+      case CardName.ATHENA:
+      case CardName.ERIS:
+        return `<span class='create-game-expansion-icon expansion-icon-ares expansion-icon-small'></span>`;
       default:
         return '';
       }
@@ -200,6 +203,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
         </div>
         <br/>
         <div class="corporations-filter-group" v-for="entry in corpsByModule" v-if="entry[1].length > 0">
+            <h3 v-i18n>{{ entry[0] }}</h3>
             <div class="corporations-filter-toolbox-cont">
                 <div class="corporations-filter-toolbox">
                     <a href="#" v-i18n v-on:click.prevent="selectAll(entry[0])">All</a> |
