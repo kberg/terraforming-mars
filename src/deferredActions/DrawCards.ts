@@ -7,6 +7,7 @@ import {ResourceType} from '../ResourceType';
 import {CardType} from '../cards/CardType';
 import {SelectHowToPayDeferred} from './SelectHowToPayDeferred';
 import {LogHelper} from '../LogHelper';
+import {Aerotech} from '../cards/community/corporations/Aerotech';
 
 export enum LogType {
   DREW = 'drew',
@@ -96,6 +97,7 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
             afterPay: () => {
               this.keep(player, selected, options.logDrawnCard ? LogType.DREW_VERBOSE : LogType.BOUGHT);
               this.discard(player, selected, cards, options);
+              Aerotech.onDrawCards(player, cards, selected);
             },
           }));
       } else if (selected.length === 0 && cards.length === 1 && options.logDrawnCard === true) {
@@ -105,6 +107,7 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
       } else {
         this.keep(player, selected, options.paying ? LogType.BOUGHT : LogType.DREW);
         this.discard(player, selected, cards);
+        Aerotech.onDrawCards(player, cards, selected);
       }
       return undefined;
     };

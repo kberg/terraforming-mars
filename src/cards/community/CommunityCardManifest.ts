@@ -56,6 +56,7 @@ import {CommitteeRepresentative} from './preludes/CommitteeRepresentative';
 import {SecretSantaSociety} from './corporations/SecretSantaSociety';
 import {CoLeadership} from './preludes/CoLeadership';
 import {Bentenmaru} from './corporations/Bentenmaru';
+import {Aerotech} from './corporations/Aerotech';
 
 export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
@@ -81,6 +82,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.MARABOUT_SHIRITORI, Factory: MaraboutShiritori},
     {cardName: CardName.SECRET_SANTA_SOCIETY, Factory: SecretSantaSociety},
     {cardName: CardName.BENTENMARU, Factory: Bentenmaru},
+    {cardName: CardName.AEROTECH, Factory: Aerotech},
   ],
   preludeCards: [
     {cardName: CardName.RESEARCH_GRANT, Factory: ResearchGrant},
