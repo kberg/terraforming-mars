@@ -59,7 +59,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
   },
   data: function() {
     const cardsByModuleMap: Map<GameModule, Array<CardName>> =
-            new Map(ALL_CARD_MANIFESTS.filter((m) => m.module !== GameModule.Automa).map((m) => [m.module, corpCardNames(m.module)]));
+            new Map(ALL_CARD_MANIFESTS.filter((m) => m.module !== GameModule.Automa).map((m) => [m.module, corpCardNames(m.module).sort()]));
     return {
       cardsByModuleMap: cardsByModuleMap,
       customCorporationsList: false,
