@@ -8,7 +8,7 @@ import {Player} from '../Player';
 import {Units} from '../Units';
 import {CardRequirements} from './CardRequirements';
 import {CardDiscount, ICard, TRSource} from './ICard';
-import {REDS_RULING_POLICY_COST} from '../constants';
+import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../constants';
 
 export interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -132,5 +132,9 @@ export abstract class Card {
 
   public static setUselessActionWarningText(card: ICard, reason: string): void {
     card.warning = `This action may have no benefit as ${reason}.`;
+  }
+
+  public static setSocietyWarningText(card: ICard, partyName: string): void {
+    card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
   }
 }

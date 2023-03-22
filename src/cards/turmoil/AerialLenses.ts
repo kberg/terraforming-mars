@@ -34,6 +34,8 @@ export class AerialLenses extends Card implements IProjectCard {
       if (game.turmoil.parties.find((p) => p.name === PartyName.KELVINISTS)) {
         return game.turmoil.canPlay(player, PartyName.KELVINISTS);
       }
+
+      Card.setSocietyWarningText(this, PartyName.KELVINISTS);
       return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
     }
     return false;

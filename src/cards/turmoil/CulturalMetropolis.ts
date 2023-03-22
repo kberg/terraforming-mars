@@ -49,6 +49,7 @@ export class CulturalMetropolis extends Card implements IProjectCard {
       return turmoil.canPlay(player, PartyName.UNITY) && hasEnoughDelegates;
     }
 
+    Card.setSocietyWarningText(this, PartyName.UNITY);
     return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST, {steel: true}) && hasEnoughDelegates;
   }
 

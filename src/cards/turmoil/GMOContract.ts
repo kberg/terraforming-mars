@@ -40,6 +40,8 @@ export class GMOContract extends Card implements IProjectCard {
       if (turmoil.parties.find((p) => p.name === PartyName.GREENS)) {
         return turmoil.canPlay(player, PartyName.GREENS);
       }
+
+      Card.setSocietyWarningText(this, PartyName.GREENS);
       return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
     }
     return false;

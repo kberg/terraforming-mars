@@ -37,6 +37,8 @@ export class EventAnalysts extends Card implements IProjectCard {
       if (turmoil.parties.find((p) => p.name === PartyName.SCIENTISTS)) {
         return turmoil.canPlay(player, PartyName.SCIENTISTS);
       }
+
+      Card.setSocietyWarningText(this, PartyName.SCIENTISTS);
       return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
     }
     return false;

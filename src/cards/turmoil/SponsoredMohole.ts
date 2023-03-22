@@ -38,6 +38,8 @@ export class SponsoredMohole extends Card implements IProjectCard {
       if (turmoil.parties.find((p) => p.name === PartyName.KELVINISTS)) {
         return turmoil.canPlay(player, PartyName.KELVINISTS);
       }
+
+      Card.setSocietyWarningText(this, PartyName.KELVINISTS);
       return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
     }
     return false;

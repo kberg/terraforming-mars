@@ -38,6 +38,8 @@ export class DiasporaMovement extends Card implements IProjectCard {
       if (turmoil.parties.find((p) => p.name === PartyName.REDS)) {
         return turmoil.canPlay(player, PartyName.REDS);
       }
+
+      Card.setSocietyWarningText(this, PartyName.REDS);
       return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
     }
     return false;

@@ -45,6 +45,8 @@ export class MartianMediaCenter extends Card implements IProjectCard {
     if (turmoil.parties.find((p) => p.name === PartyName.MARS)) {
       return turmoil.canPlay(player, PartyName.MARS);
     }
+
+    Card.setSocietyWarningText(this, PartyName.MARS);
     return player.canAfford(player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST);
   }
 

@@ -74,6 +74,7 @@ export class PROffice extends Card implements IProjectCard {
     // As the M€ gained from playing PR Office can only be used to pay Reds tax, but not SOCIETY_ADDITIONAL_CARD_COST
     let societyCost = player.getCardCost(this) + SOCIETY_ADDITIONAL_CARD_COST;
     if (this.reserveUnits.megacredits > 0) societyCost += this.reserveUnits.megacredits;
+    Card.setSocietyWarningText(this, PartyName.UNITY);
 
     return player.canAfford(societyCost);
   }
