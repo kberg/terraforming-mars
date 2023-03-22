@@ -8,7 +8,6 @@ import {Milestone} from './Milestone';
 import {Award} from './Award';
 import {Sidebar} from './Sidebar';
 import {PlayerModel} from '../models/PlayerModel';
-import {PreferencesManager} from './PreferencesManager';
 import {Board} from './Board';
 import {Colony} from './Colony';
 import {ScoreChart} from '../components/ScoreChart';
@@ -16,21 +15,8 @@ import {mainAppSettings} from './App';
 
 let ui_update_timeout_id: number | undefined;
 
-export interface SpectatorHomeModel {
-  spectator_tab: string;
-}
-
 export const SpectatorHome = Vue.component('spectator-home', {
-  data: function(): SpectatorHomeModel {
-    return {
-      spectator_tab: PreferencesManager.load('spectator_tab'),
-    };
-  },
-  watch: {
-    spectator_tab: function() {
-      PreferencesManager.save('spectator_tab', this.spectator_tab);
-    },
-  },
+  data: {},
   props: {
     spectator: {
       type: Object as () => SpectatorModel,
@@ -56,12 +42,6 @@ export const SpectatorHome = Vue.component('spectator-home', {
         fleetsRange.push(i);
       }
       return fleetsRange;
-    },
-    toggleSpectatorTab(newtab: string) {
-      this.spectator_tab = newtab;
-    },
-    getCurrentSpectatorTab(): string {
-      return this.spectator_tab === '' ? 'board' : this.spectator_tab;
     },
     getSpectatorHomeClass(spectator: SpectatorModel): string {
       if (spectator.turmoil) return 'spectator-container with-turmoil';
@@ -112,49 +92,6 @@ export const SpectatorHome = Vue.component('spectator-home', {
         </div>
       </div>
       <div class="column_main">
-        <div class="help-container">
-          <div class="help-tabs">
-            <input type="radio" name="spectator-tab" id="radio-board">
-            <label for="radio-board" v-on:click="toggleSpectatorTab('board')">
-                <span v-i18n>Board</span>
-            </label>
-
-            <template v-if="spectator.players.length > 1">
-              <input type="radio" name="spectator-tab" id="radio-milestones-awards">
-              <label for="radio-milestones-awards" v-on:click="toggleSpectatorTab('milestonesawards')">
-                  <span v-i18n>Milestones & Awards</span>
-              </label>
-            </template>
-
-            <template v-if="spectator.colonies.length > 0">
-              <input type="radio" name="spectator-tab" id="radio-colonies">
-              <label for="radio-colonies" v-on:click="toggleSpectatorTab('colonies')">
-                  <span v-i18n>Colonies</span>
-              </label>
-            </template>
-
-            <template v-if="spectator.turmoil">
-              <input type="radio" name="spectator-tab" id="radio-turmoil">
-              <label for="radio-turmoil" v-on:click="toggleSpectatorTab('turmoil')">
-                  <span v-i18n>Turmoil</span>
-              </label>
-            </template>
-
-            <template v-if="spectator.moon">
-              <input type="radio" name="spectator-tab" id="radio-moon">
-              <label for="radio-moon" v-on:click="toggleSpectatorTab('moon')">
-                <span v-i18n>Moon</span>
-              </label>
-            </template>
-
-            <template v-if="spectator.players.length > 1">
-              <input type="radio" name="spectator-tab" id="radio-scorechart">
-              <label for="radio-scorechart" v-on:click="toggleSpectatorTab('scorechart')">
-                  <span v-i18n>Scores</span>
-              </label>
-            </template>
-          </div>
-        </div>
         <div class="other_player" v-if="spectator.players.length > 1">
           <div v-for="(otherPlayer, index) in spectator.players" :key="otherPlayer.id">
             <other-player v-if="otherPlayer.id !== spectator.id" :player="otherPlayer" :playerIndex="index"/>
@@ -162,7 +99,7 @@ export const SpectatorHome = Vue.component('spectator-home', {
         </div>
         <div class="player_home_block">
           <a name="board" class="player_home_anchor"></a>
-          <div v-if="getCurrentSpectatorTab() === 'board' || getCurrentSpectatorTab() === ''">
+          <div style="margin-top:30px;">
             <board
             :spaces="spectator.spaces"
             :venusNextExtension="spectator.gameOptions.venusNextExtension"
@@ -177,20 +114,15 @@ export const SpectatorHome = Vue.component('spectator-home', {
             :aresData="spectator.aresData"
             id="shortkey-board""></board>
           </div>
-          
-          <turmoil v-if="spectator.turmoil && getCurrentSpectatorTab() === 'turmoil'" :turmoil="spectator.turmoil"></turmoil>
 
-          <moonboard v-if="spectator.moon && getCurrentSpectatorTab() === 'moon'" :model="spectator.moon"></moonboard>
+          <moonboard v-if="spectator.moon" :model="spectator.moon"></moonboard>
 
-          <div v-if="spectator.players.length > 1 && getCurrentSpectatorTab() === 'scorechart'">
-            <score-chart :players="spectator.players" :generation="spectator.generation" :animation="false"></score-chart>
+          <div v-if="spectator.players.length > 1" class="player_home_block--milestones-and-awards">
+            <milestone :milestones_list="spectator.milestones" />
+            <award :awards_list="spectator.awards" />
           </div>
-          
-          <div v-if="spectator.players.length > 1 && getCurrentSpectatorTab() === 'milestonesawards'" class="player_home_block--milestones-and-awards">
-              <milestone :milestones_list="spectator.milestones" />
-              <award :awards_list="spectator.awards" />
-          </div>
-          <div v-if="spectator.colonies.length > 0 && getCurrentSpectatorTab() === 'colonies'" class="player_home_block" ref="colonies" id="shortkey-colonies">
+
+          <div v-if="spectator.colonies.length > 0" class="player_home_block" ref="colonies" id="shortkey-colonies">
             <a name="colonies" class="player_home_anchor"></a>
             <dynamic-title title="Colonies" :color="spectator.color"/>
             <div class="colonies-fleets-cont">
@@ -203,6 +135,12 @@ export const SpectatorHome = Vue.component('spectator-home', {
                     <colony :colony="colony"></colony>
                 </div>
             </div>
+          </div>
+
+          <turmoil v-if="spectator.turmoil" :turmoil="spectator.turmoil"></turmoil>
+
+          <div v-if="spectator.players.length > 1">
+            <score-chart :players="spectator.players" :generation="spectator.generation" :animation="false"></score-chart>
           </div>
         </div>
       
