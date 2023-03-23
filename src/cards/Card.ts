@@ -11,6 +11,7 @@ import {CardDiscount, ICard, TRSource} from './ICard';
 import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../constants';
 import {Resources} from '../Resources';
 import {IProjectCard} from './IProjectCard';
+import {PartyName} from '../turmoil/parties/PartyName';
 
 export interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -136,7 +137,7 @@ export abstract class Card {
     card.warning = `This action may have no benefit as ${reason}.`;
   }
 
-  public static setSocietyWarningText(card: ICard, partyName: string): void {
+  public static setSocietyWarningText(card: ICard, partyName: PartyName): void {
     if (card.warning === undefined) {
       card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
     } else {

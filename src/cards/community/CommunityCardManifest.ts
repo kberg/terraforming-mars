@@ -118,6 +118,12 @@ import {Misinformation57} from './misinformation/Misinformation57';
 import {Misinformation58} from './misinformation/Misinformation58';
 import {Misinformation59} from './misinformation/Misinformation59';
 import {Misinformation60} from './misinformation/Misinformation60';
+import {HeatFirstInitiative} from './preludes/HeatFirstInitiative';
+import {MartianRepublic} from './preludes/MartianRepublic';
+import {PreservationistCampaign} from './preludes/PreservationistCampaign';
+import {CorporateAlliance} from './preludes/CorporateAlliance';
+import {GreenMarsInitiative} from './preludes/GreenMarsInitiative';
+import {IntellectualistMovement} from './preludes/IntellectualistMovement';
 
 export const MISINFORMATION_CARDS = [
   CardName.MISINFORMATION_1,
@@ -354,6 +360,12 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ENERGY_BEAM, Factory: EnergyBeam},
     {cardName: CardName.COMMITTEE_REPRESENTATIVE, Factory: CommitteeRepresentative, compatibility: GameModule.Turmoil},
     {cardName: CardName.CO_LEADERSHIP, Factory: CoLeadership, compatibility: GameModule.Leader},
+    {cardName: CardName.HEAT_FIRST_INITIATIVE, Factory: HeatFirstInitiative, compatibility: GameModule.Turmoil},
+    {cardName: CardName.MARTIAN_REPUBLIC, Factory: MartianRepublic, compatibility: GameModule.Turmoil},
+    {cardName: CardName.PRESERVATIONIST_CAMPAIGN, Factory: PreservationistCampaign, compatibility: GameModule.Turmoil},
+    {cardName: CardName.CORPORATE_ALLIANCE, Factory: CorporateAlliance, compatibility: GameModule.Turmoil},
+    {cardName: CardName.GREEN_MARS_INITIATIVE, Factory: GreenMarsInitiative, compatibility: GameModule.Turmoil},
+    {cardName: CardName.INTELLECTUALIST_MOVEMENT, Factory: IntellectualistMovement, compatibility: GameModule.Turmoil},
   ],
   cardsToRemove: [
     ...MISINFORMATION_CARDS,

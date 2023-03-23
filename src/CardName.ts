@@ -623,6 +623,12 @@ export enum CardName {
     ENERGY_BEAM = 'Energy Beam',
     COMMITTEE_REPRESENTATIVE = 'Committee Representative',
     CO_LEADERSHIP = 'Co-Leadership',
+    HEAT_FIRST_INITIATIVE = 'Heat First Initiative',
+    MARTIAN_REPUBLIC = 'Martian Republic',
+    PRESERVATIONIST_CAMPAIGN = 'Preservationist Campaign',
+    CORPORATE_ALLIANCE = 'Corporate Alliance',
+    GREEN_MARS_INITIATIVE = 'Green Mars Initiative',
+    INTELLECTUALIST_MOVEMENT = 'Intellectualist Movement',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

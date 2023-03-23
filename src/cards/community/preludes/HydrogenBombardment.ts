@@ -15,7 +15,7 @@ export class HydrogenBombardment extends PreludeCard implements IProjectCard {
         metadata: {
           cardNumber: 'Y13',
           renderData: CardRenderer.builder((b) => {
-            b.production((pb) => pb.titanium(1)).br;
+            b.production((pb) => pb.titanium(1)).nbsp();
             b.venus(1);
           }),
           description: 'Increase your titanium production 1 step. Raise Venus 1 step.',
