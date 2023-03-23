@@ -194,8 +194,22 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         }
       } else if (type === CardRenderItemType.ARROW_OPG) {
         classes.push('card-arrow-opg');
+      } else if (type === CardRenderItemType.MARS_FIRST) {
+        classes.push('turmoil-party-mars-first');
+      } else if (type === CardRenderItemType.SCIENTISTS) {
+        classes.push('turmoil-party-scientists');
+      } else if (type === CardRenderItemType.UNITY) {
+        classes.push('turmoil-party-unity');
+      } else if (type === CardRenderItemType.GREENS) {
+        classes.push('turmoil-party-greens');
       } else if (type === CardRenderItemType.REDS) {
-        classes.push('turmoil-party-reds');
+        if (this.item.size === Size.LARGE) {
+          classes.push('turmoil-party-reds--large');
+        } else {
+          classes.push('turmoil-party-reds');
+        }
+      } else if (type === CardRenderItemType.KELVINISTS) {
+        classes.push('turmoil-party-kelvinists');
       } else if (type === CardRenderItemType.REDS_DEACTIVATED) {
         classes.push('turmoil-party-reds-deactivated');
       } else if (type === CardRenderItemType.GLOBAL_EVENT) {

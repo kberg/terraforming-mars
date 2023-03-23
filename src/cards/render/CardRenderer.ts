@@ -654,8 +654,35 @@ class Builder {
     return this;
   }
 
-  public reds(): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.REDS));
+  public marsFirst(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.MARS_FIRST));
+    return this;
+  }
+
+  public scientists(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.SCIENTISTS));
+    return this;
+  }
+
+  public unity(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.UNITY));
+    return this;
+  }
+
+  public greens(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.GREENS));
+    return this;
+  }
+
+  public reds(size: Size = Size.MEDIUM): Builder {
+    const item = new CardRenderItem(CardRenderItemType.REDS);
+    item.size = size;
+    this._addRowItem(item);
+    return this;
+  }
+
+  public kelvinists(): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.KELVINISTS));
     return this;
   }
 
