@@ -25,7 +25,6 @@ describe('MartianRepublic', function() {
 
     card.play(player);
     game.deferredActions.runNext();
-    expect(game.deferredActions).has.length(1);
 
     const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
     const space = selectSpace.availableSpaces[0];

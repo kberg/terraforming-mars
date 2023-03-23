@@ -24,6 +24,7 @@ describe('GreenMarsInitiative', function() {
     const greens = turmoil.getPartyByName(PartyName.GREENS)!;
 
     card.play(player);
+    game.deferredActions.runNext();
 
     const selectSpace = game.deferredActions.pop()!.execute() as SelectSpace;
     const space = selectSpace.availableSpaces[0];

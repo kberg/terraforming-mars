@@ -629,6 +629,7 @@ export enum CardName {
     CORPORATE_ALLIANCE = 'Corporate Alliance',
     GREEN_MARS_INITIATIVE = 'Green Mars Initiative',
     INTELLECTUALIST_MOVEMENT = 'Intellectualist Movement',
+    CYANOBACTERIA_PODS = 'Cyanobacteria Pods',
 
     // Community colonies
     SCIENCE_TAG_BLANK_CARD = '',

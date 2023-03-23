@@ -18,7 +18,7 @@ export class IntellectualistMovement extends PreludeCard implements IProjectCard
       metadata: {
         cardNumber: 'Y42',
         renderData: CardRenderer.builder((b) => {
-          b.delegates(2).scientists();
+          b.delegates(2).scientists().br;
           b.cards(3);
         }),
         description: 'Place 2 delegates into Scientists and draw 3 cards.',
