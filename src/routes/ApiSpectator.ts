@@ -17,7 +17,16 @@ export class ApiSpectator extends Handler {
         ctx.route.notFound(req, res);
         return;
       }
-      ctx.route.writeJson(res, Server.getSpectatorModel(game));
+
+      // We need to mask the player's password from spectators
+      const spectatorModel = Server.getSpectatorModel(game);
+      if (spectatorModel !== undefined) {
+        spectatorModel.players.forEach((player) => {
+          player.password = '[REDACTED]';
+        });
+      }
+
+      ctx.route.writeJson(res, spectatorModel);
     });
   }
 }
