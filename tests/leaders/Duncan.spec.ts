@@ -16,14 +16,14 @@ describe('Duncan', function() {
     player.playedCards.push(card);
   });
 
-  it('Has 5 VP and 4 MC in gen 1', function() {
+  it('Has 6 VP and 4 MC in gen 1', function() {
     card.action(player);
     game.deferredActions.runAll(() => {});
-    expect(player.getVictoryPoints().total).eq(25);
+    expect(player.getVictoryPoints().total).eq(26);
     expect(player.megaCredits).eq(4);
   });
 
-  it('Has -2 VP and 32 MC in gen 8', function() {
+  it('Has -1 VP and 32 MC in gen 8', function() {
     for (let i = 0; i < 7; i++) {
       TestingUtils.forceGenerationEnd(player.game);
     }
@@ -31,13 +31,13 @@ describe('Duncan', function() {
     player.megaCredits = 0;
     card.action(player);
     game.deferredActions.runAll(() => {});
-    expect(player.getVictoryPoints().total).eq(18);
+    expect(player.getVictoryPoints().total).eq(19);
     expect(player.megaCredits).eq(32);
 
     // Run for a few more generations, leader VP should not change
     TestingUtils.forceGenerationEnd(player.game);
     TestingUtils.forceGenerationEnd(player.game);
-    expect(player.getVictoryPoints().total).eq(18);
+    expect(player.getVictoryPoints().total).eq(19);
   });
 
   it('Does not affect VP if OPG action not used yet', function() {

@@ -20,7 +20,7 @@ export class Duncan extends Card implements LeaderCard {
           b.opgArrow().megacredits(4).multiplier.vpIcon().asterix();
           b.br;
         }),
-        description: 'Once per game, gain 6-X VP and 4X M€, where X is the current generation number.',
+        description: 'Once per game, gain 7-X VP and 4X M€, where X is the current generation number.',
         victoryPoints: CardRenderDynamicVictoryPoints.questionmark(),
       },
     });
@@ -51,7 +51,7 @@ export class Duncan extends Card implements LeaderCard {
 
   public getVictoryPoints(): number {
     if (this.isDisabled === true && this.generationUsed !== undefined) {
-      return 6 - this.generationUsed;
+      return 7 - this.generationUsed;
     }
 
     return 0;
