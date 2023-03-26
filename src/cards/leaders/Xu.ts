@@ -17,10 +17,10 @@ export class Xu extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L37',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().venus(1).played.any.colon().megacredits(2).megacredits(6).asterix();
+          b.opgArrow().venus(1).played.any.colon().megacredits(2).megacredits(8).asterix();
           b.br.br;
         }),
-        description: 'Once per game, gain 2 M€ for each Venus tag all players have in play. Gain 6 M€ if you have the most Venus tags in play.',
+        description: 'Once per game, gain 2 M€ for each Venus tag all players have in play. Gain 8 M€ if you have the most Venus tags in play.',
       },
     });
   }
@@ -46,7 +46,7 @@ export class Xu extends Card implements LeaderCard {
     const allPlayerVenusTagCounts = players.map((p) => p.getTagCount(Tags.VENUS));
 
     if (Math.max(...allPlayerVenusTagCounts) === player.getTagCount(Tags.VENUS)) {
-      player.addResource(Resources.MEGACREDITS, 6, {log: true});
+      player.addResource(Resources.MEGACREDITS, 8, {log: true});
     }
 
     this.isDisabled = true;

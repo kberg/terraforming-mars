@@ -33,8 +33,8 @@ describe('Xu', function() {
     const action = card.action(player);
     expect(action).is.undefined;
 
-    // Gains correct M€ amount: 8 from own cards + CEO, 4 from opponent cards, 6 from having most Venus tags
-    expect(player.megaCredits).to.eq(18);
+    // Gains correct M€ amount: 8 from own cards + CEO, 4 from opponent cards, 8 from having most Venus tags
+    expect(player.megaCredits).to.eq(20);
   });
 
   it('Can only act once per game', function() {
