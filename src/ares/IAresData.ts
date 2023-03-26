@@ -23,3 +23,10 @@ export interface IMilestoneCount {
     id: PlayerId;
     count: number;
 }
+
+export const HAZARD_CONSTRAINTS = [
+  'erosionOceanCount',
+  'removeDustStormsOceanCount',
+  'severeErosionTemperature',
+  'severeDustStormOxygen',
+] as const;

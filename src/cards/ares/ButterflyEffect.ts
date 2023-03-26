@@ -6,6 +6,8 @@ import {CardType} from '../CardType';
 import {IProjectCard} from '../IProjectCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {AresHandler} from '../../ares/AresHandler';
+import {HAZARD_CONSTRAINTS} from '../../ares/IAresData';
 
 export class ButterflyEffect extends Card implements IProjectCard {
   constructor() {
@@ -37,7 +39,17 @@ export class ButterflyEffect extends Card implements IProjectCard {
 
   public play(player: Player) {
     player.increaseTerraformRatingSteps(1);
-    player.game.defer(new ShiftAresGlobalParametersDeferred(player));
+
+    AresHandler.ifAres(player.game, (aresData) => {
+      const hazardData = aresData.hazardData;
+
+      if (HAZARD_CONSTRAINTS.some((constraint) => hazardData[constraint].available === true)) {
+        player.game.defer(new ShiftAresGlobalParametersDeferred(player));
+      } else {
+        player.game.log('All hazard markers have already been reached.');
+      }
+    });
+
     return undefined;
   }
 }

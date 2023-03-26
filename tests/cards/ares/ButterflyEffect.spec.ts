@@ -10,6 +10,8 @@ import {Reds} from '../../../src/turmoil/parties/Reds';
 import {PoliticalAgendas} from '../../../src/turmoil/PoliticalAgendas';
 import {TestingUtils} from '../../TestingUtils';
 import {REDS_RULING_POLICY_COST} from '../../../src/constants';
+import {AresHandler} from '../../../src/ares/AresHandler';
+import {HAZARD_CONSTRAINTS} from '../../../src/ares/IAresData';
 
 describe('ButterflyEffect', function() {
   let card: ButterflyEffect; let player: Player; let player2: Player; let game: Game;
@@ -47,6 +49,19 @@ describe('ButterflyEffect', function() {
     expect(revisedHazardData.removeDustStormsOceanCount.threshold).eq(7);
     expect(revisedHazardData.severeErosionTemperature.threshold).eq(-6);
     expect(revisedHazardData.severeDustStormOxygen.threshold).eq(6);
+  });
+
+  it('play', function() {
+    AresHandler.ifAres(game, (aresData) => {
+      for (const constraint of HAZARD_CONSTRAINTS) {
+        aresData.hazardData[constraint].available = false;
+      }
+    });
+
+    const priorTerraformingRating = player.getTerraformRating();
+    card.play(player);
+    expect(player.getTerraformRating()).eq(priorTerraformingRating + 1);
+    expect(game.deferredActions).has.length(0);
   });
 
   it('Respects Reds', function() {
