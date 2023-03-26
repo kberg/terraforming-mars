@@ -2,6 +2,7 @@ import {expect} from "chai";
 import {Clarke} from "../../src/cards/leaders/Clarke";
 import {Game} from "../../src/Game";
 import {Player} from "../../src/Player";
+import {Resources} from "../../src/Resources";
 import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
 
@@ -28,7 +29,9 @@ describe('Clarke', function() {
 
   it('Takes action', function() {
     expect(card.action(player)).is.undefined;
-    expect(player.plants).eq(4);
-    expect(player.heat).eq(4);
+    expect(player.getProduction(Resources.PLANTS)).to.eq(1);
+    expect(player.getProduction(Resources.HEAT)).to.eq(1);
+    expect(player.plants).eq(5);
+    expect(player.heat).eq(5);
   });
 });
