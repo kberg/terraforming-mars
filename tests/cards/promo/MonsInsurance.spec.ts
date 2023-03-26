@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {Ants} from '../../../src/cards/base/Ants';
+import {Comet} from '../../../src/cards/base/Comet';
 import {Sabotage} from '../../../src/cards/base/Sabotage';
 import {Tardigrades} from '../../../src/cards/base/Tardigrades';
 import {MonsInsurance} from '../../../src/cards/promo/MonsInsurance';
@@ -43,6 +44,22 @@ describe('MonsInsurance', () => {
     expect(player2.titanium).eq(0);
     expect(player2.megaCredits).eq(2);
     expect(player.megaCredits).eq(0);
+  });
+
+  it('Does not trigger in solo mode', () => {
+    const game = Game.newInstance('foobar', [player], player);
+    card.play(player);
+    player.corporationCards = [card];
+    player.megaCredits = 3;
+
+    const card2 = new Sabotage();
+    card2.play(player);
+    expect(player.megaCredits).eq(3);
+
+    const card3 = new Comet();
+    card3.play(player);
+    game.deferredActions.runAll(() => {});
+    expect(player.megaCredits).eq(3);
   });
 
   it('Does not trigger effect when player removes resources from self', () => {

@@ -44,6 +44,7 @@ export class MonsInsurance extends Card implements CorporationCard {
 
   public static resolveMonsInsurance(victim: Player) {
     const game = victim.game;
+    if (game.isSoloMode()) return;
 
     if (game.monsInsuranceOwner !== undefined && game.monsInsuranceOwner !== victim.id) {
       if (game.gameOptions.colosseumVariant === true) {
