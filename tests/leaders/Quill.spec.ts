@@ -32,11 +32,14 @@ describe('Quill', function() {
     card.action(player);
     expect(dirigibles.resourceCount).eq(2);
     expect(localShading.resourceCount).eq(2);
-    expect(game.deferredActions).has.length(1);
+    expect(game.deferredActions).has.length(2);
 
     const addFloaters = game.deferredActions.pop()!.execute() as SelectCard<ICard>;
     addFloaters.cb([dirigibles]);
     expect(dirigibles.resourceCount).eq(4);
+
+    game.deferredActions.runAll(() => {});
+    expect(player.megaCredits).to.eq(3);
   });
 
   it('Can only act once per game', function() {
