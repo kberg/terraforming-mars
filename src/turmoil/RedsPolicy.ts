@@ -16,6 +16,7 @@ import {CardType} from "../cards/CardType";
 import {SpaceType} from "../SpaceType";
 import {MoonExpansion} from "../moon/MoonExpansion";
 import {AresHandler, HazardSeverity} from "../ares/AresHandler";
+import { LeaderCard } from "../cards/LeaderCard";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -168,7 +169,13 @@ export class RedsPolicy {
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
     if (isUNMO) bonusMCFromPlay += totalTRGain;
-    if (hasGreta && totalTRGain > 0) bonusMCFromPlay += 4;
+
+    if (hasGreta && totalTRGain > 0) {
+      const greta = player.playedCards.find((c) => c.name === CardName.GRETA)!;
+      if ((greta as LeaderCard).opgActionIsActive === true) {
+        bonusMCFromPlay += 4;
+      }
+    }
 
     // Plants conversion
     if (action.isPlantsConversion === true) {
