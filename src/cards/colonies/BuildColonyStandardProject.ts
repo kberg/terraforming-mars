@@ -37,13 +37,15 @@ export class BuildColonyStandardProject extends StandardProjectCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     if (redsAreRuling) {
-      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, oceansToPlace: 1}));
+      const bonusMegaCredits = player.cardIsInEffect(CardName.NAOMI) ? 3 : 0;
+
+      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, oceansToPlace: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnEuropaColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.EUROPA);
 
-      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, venusIncrease: 1}));
+      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, venusIncrease: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnVenusColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.VENUS);
 
-      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, TRIncrease: 1}));
+      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({card: this, TRIncrease: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnIapetusColony.canAfford === false) openColonies = openColonies.filter((c) => c.name !== ColonyName.IAPETUS);
     }
 

@@ -7,6 +7,7 @@ import {DeferredAction, Priority} from './DeferredAction';
 import {PartyHooks} from '../turmoil/parties/PartyHooks';
 import {PartyName} from '../turmoil/parties/PartyName';
 import {RedsPolicy, ActionDetails} from '../turmoil/RedsPolicy';
+import {CardName} from '../CardName';
 
 export class BuildColony implements DeferredAction {
   public priority = Priority.BUILD_COLONY;
@@ -33,17 +34,19 @@ export class BuildColony implements DeferredAction {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(this.player, PartyName.REDS);
 
     if (redsAreRuling) {
-      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({oceansToPlace: 1}));
+      const bonusMegaCredits = this.player.cardIsInEffect(CardName.NAOMI) ? 3 : 0;
+
+      const canAffordToBuildOnEuropaColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({oceansToPlace: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnEuropaColony.canAfford === false) {
         this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.EUROPA);
       } else {
         this.player.howToAffordReds = canAffordToBuildOnEuropaColony;
       }
 
-      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({venusIncrease: 1}));
+      const canAffordToBuildOnVenusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({venusIncrease: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnVenusColony.canAfford === false) this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.VENUS);
 
-      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({TRIncrease: 1}));
+      const canAffordToBuildOnIapetusColony = RedsPolicy.canAffordRedsPolicy(this.player, this.player.game, new ActionDetails({TRIncrease: 1, bonusMegaCredits: bonusMegaCredits}));
       if (canAffordToBuildOnIapetusColony.canAfford === false) this.openColonies = this.openColonies.filter((c) => c.name !== ColonyName.IAPETUS);
     }
 
