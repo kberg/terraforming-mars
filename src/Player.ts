@@ -88,6 +88,7 @@ import {_AresHazardPlacement} from './ares/AresHazards';
 import {ISpace} from './boards/ISpace';
 import {Eris} from './cards/ares/Eris';
 import {HowToAffordRedsPolicy, RedsPolicy} from './turmoil/RedsPolicy';
+import {StandardActionCard} from './cards/StandardActionCard';
 
 export type PlayerId = string;
 export type Password = string;
@@ -2261,6 +2262,36 @@ export class Player implements ISerializable<SerializedPlayer> {
     );
   }
 
+  protected getStandardActionOption(): SelectCard<StandardActionCard> {
+    const standardActions: Array<StandardActionCard> = this.getStandardActions();
+
+    return new SelectCard(
+      'Standard actions',
+      'Confirm',
+      standardActions,
+      (card) => card[0].action(this),
+      {enabled: standardActions.map((card) => card.canAct(this))},
+    );
+  }
+
+  private getStandardActions(): Array<StandardActionCard> {
+    const standardActions: Array<StandardActionCard> = [];
+
+    // Convert Plants
+    const convertPlants = this.isCorporation(CardName.ECOLINE) ? new ConvertPlantsEcoline() : new ConvertPlants();
+    if (convertPlants.canAct(this)) {
+      standardActions.push(convertPlants);
+    }
+
+    // Convert Heat
+    const convertHeat = new ConvertHeat();
+    if (convertHeat.canAct(this)) {
+      standardActions.push(convertHeat);
+    }
+
+    return standardActions;
+  }
+
   public takeAction(): void {
     const game = this.game;
 
@@ -2407,19 +2438,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       if (remainingMilestones.options.length >= 1) action.options.push(remainingMilestones);
     }
 
-    // Convert Plants
-    const convertPlants = this.isCorporation(CardName.ECOLINE) ? new ConvertPlantsEcoline() : new ConvertPlants();
-    if (convertPlants.canAct(this)) {
-      action.options.push(convertPlants.action(this));
-    }
-
-    // Convert Heat
-    const convertHeat = new ConvertHeat();
-    if (convertHeat.canAct(this)) {
-      action.options.push(new SelectOption(`Convert ${constants.HEAT_FOR_TEMPERATURE} heat into temperature`, 'Convert heat', () => {
-        return convertHeat.action(this);
-      }));
-    }
+    if (this.getStandardActions().length > 0) action.options.push(this.getStandardActionOption());
 
     TurmoilHandler.addPlayerAction(this, action.options);
 

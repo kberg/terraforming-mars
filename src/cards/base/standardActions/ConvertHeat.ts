@@ -4,13 +4,15 @@ import {CardRenderer} from '../../render/CardRenderer';
 import {Player} from '../../../Player';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
-import {HEAT_FOR_TEMPERATURE, MAX_TEMPERATURE, REDS_RULING_POLICY_COST} from '../../../constants';
-
+import {HEAT_FOR_TEMPERATURE, MAX_TEMPERATURE} from '../../../constants';
+import {Card} from '../../Card';
+import {ActionDetails, RedsPolicy} from '../../../turmoil/RedsPolicy';
 
 export class ConvertHeat extends StandardActionCard {
   constructor() {
     super({
       name: CardName.CONVERT_HEAT,
+      tr: {temperature: 1},
       metadata: {
         cardNumber: 'SA2',
         renderData: CardRenderer.builder((b) =>
@@ -23,6 +25,9 @@ export class ConvertHeat extends StandardActionCard {
   }
 
   public canAct(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(player, trGain, this, false, 'take this action');
+
     if (player.game.getTemperature() === MAX_TEMPERATURE) {
       return false;
     }
@@ -31,9 +36,11 @@ export class ConvertHeat extends StandardActionCard {
     }
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      return (!player.isCorporation(CardName.HELION) && player.canAfford(REDS_RULING_POLICY_COST)) ||
-        player.canAfford(REDS_RULING_POLICY_COST + 8);
+      const actionDetails = new ActionDetails({temperatureIncrease: 1, reservedHeat: HEAT_FOR_TEMPERATURE});
+      const howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
+      return howToAffordReds.canAfford;
     }
+
     return true;
   }
 

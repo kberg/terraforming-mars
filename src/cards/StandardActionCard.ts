@@ -3,12 +3,13 @@ import {Player} from '../Player';
 import {ICardMetadata} from './ICardMetadata';
 import {CardName} from '../CardName';
 import {Card} from './Card';
-import {IActionCard, ICard} from './ICard';
+import {IActionCard, ICard, TRSource} from './ICard';
 import {PlayerInput} from '../PlayerInput';
 
 interface StaticStandardActionCardProperties {
   name: CardName,
   metadata: ICardMetadata,
+  tr?: TRSource,
 }
 
 export abstract class StandardActionCard extends Card implements IActionCard, ICard {
