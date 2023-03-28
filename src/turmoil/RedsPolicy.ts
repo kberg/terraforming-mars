@@ -150,6 +150,7 @@ export class RedsPolicy {
     const hasStandardTechnology = player.cardIsInEffect(CardName.STANDARD_TECHNOLOGY);
     // CEOs
     const hasGordon = player.cardIsInEffect(CardName.GORDON);
+    const hasGreta = player.cardIsInEffect(CardName.GRETA);
     // Corporations
     const isAphrodite = player.isCorporation(CardName.APHRODITE);
     const isArklight = player.isCorporation(CardName.ARKLIGHT);
@@ -166,6 +167,7 @@ export class RedsPolicy {
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
     if (isUNMO) bonusMCFromPlay += totalTRGain;
+    if (hasGreta && totalTRGain > 0) bonusMCFromPlay += 4;
 
     // Plants conversion
     if (action.isPlantsConversion === true) {
