@@ -23,10 +23,10 @@ export class Faraday extends Card implements LeaderCard {
         cardNumber: 'L27',
         renderData: CardRenderer.builder((b) => {
           b.br;
-          b.text('5', Size.LARGE).diverseTag(1, Size.MEDIUM).played.colon().megacredits(-2).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
+          b.text('5', Size.LARGE).diverseTag(1, Size.MEDIUM).played.colon().megacredits(-3).cards(1).secondaryTag(AltSecondaryTag.DIVERSE).asterix();
           b.br.br;
         }),
-        description: 'When you gain a multiple of 5 for any tag type IN PLAY, you may pay 2 M€ to draw a card with that tag. Wild tags do not count for this effect.',
+        description: 'When you gain a multiple of 5 for any tag type IN PLAY, you may pay 3 M€ to draw a card with that tag. Wild tags do not count for this effect.',
       },
     });
   }
@@ -45,7 +45,7 @@ export class Faraday extends Card implements LeaderCard {
 
   public onCardPlayed(player: Player, card: IProjectCard) {
     if (card.cardType === CardType.EVENT) return;
-    if (!player.canAfford(2)) return;
+    if (!player.canAfford(3)) return;
 
     const validTags =
       player.getAllTags()
@@ -66,8 +66,8 @@ export class Faraday extends Card implements LeaderCard {
 
   public effectOptions(player: Player, tag: Tags) {
     return new OrOptions(
-      new SelectOption(`Pay 2 M€ to draw a ${tag} card`, 'Confirm', () => {
-        player.game.defer(new SelectHowToPayDeferred(player, 2, {title: 'Select how to pay for card'}));
+      new SelectOption(`Pay 3 M€ to draw a ${tag} card`, 'Confirm', () => {
+        player.game.defer(new SelectHowToPayDeferred(player, 3, {title: 'Select how to pay for card'}));
         player.drawCard(1, {tag: tag})
         return undefined;
       }),

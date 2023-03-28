@@ -39,7 +39,7 @@ describe('Faraday', function() {
 
     expect(player.cardsInHand).has.length(1);
     expect(player.cardsInHand[0].tags.includes(Tags.SCIENCE)).is.true;
-    expect(player.megaCredits).to.eq(8);
+    expect(player.megaCredits).to.eq(7);
   });
 
   it('Can choose to do nothing when reaching a multiple of 5 for a tag', function() {
@@ -56,14 +56,14 @@ describe('Faraday', function() {
   });
 
   it('Auto resolves if player cannot afford to pay for card', function() {
-    player.megaCredits = 1;
+    player.megaCredits = 2;
     player.playedCards.push(new Research());
     player.playedCards.push(new Research());
     player.playCard(new TransNeptuneProbe());
 
     expect(game.deferredActions).has.length(0);
     expect(player.cardsInHand).has.length(0);
-    expect(player.megaCredits).to.eq(1);
+    expect(player.megaCredits).to.eq(2);
   });
 
   it('Edge case: Play a card with two of the same tag', function() {
@@ -80,7 +80,7 @@ describe('Faraday', function() {
 
     expect(player.cardsInHand).has.length(1);
     expect(player.cardsInHand[0].tags.includes(Tags.EARTH)).is.true;
-    expect(player.megaCredits).to.eq(8);
+    expect(player.megaCredits).to.eq(7);
   });
 
   it('Does not trigger on event cards', function() {

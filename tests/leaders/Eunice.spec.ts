@@ -28,10 +28,10 @@ describe('Eunice', function() {
   });
 
   it('Can act', function() {
-    player.megaCredits = 5;
+    player.megaCredits = 11;
     expect(card.canAct(player)).is.false;
 
-    player.megaCredits = 6;
+    player.megaCredits = 12;
     expect(card.canAct(player)).is.true;
   });
 
@@ -39,9 +39,9 @@ describe('Eunice', function() {
     const action = card.action(player);
     expect(action).is.undefined;
 
-    // Pay 6 M€
+    // Pay 12 M€
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(14);
+    expect(player.megaCredits).to.eq(8);
 
     // Copy a prelude
     const selectCard = game.deferredActions.pop()!.execute() as SelectCard<IProjectCard>;
@@ -49,9 +49,9 @@ describe('Eunice', function() {
     selectCard.cb([selectCard.cards[0]]);
     game.deferredActions.runNext();
 
-    // Gain 2 M€
+    // Gain 3X M€
     game.deferredActions.runNext();
-    expect(player.megaCredits).to.eq(16);
+    expect(player.megaCredits).to.eq(11);
   });
 
   it('Can only act once per game', function() {

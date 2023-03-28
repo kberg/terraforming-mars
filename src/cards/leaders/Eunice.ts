@@ -21,10 +21,10 @@ export class Eunice extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br.br;
-          b.megacredits(-6).colon().text('COPY').prelude().any.megacredits(2).multiplier.asterix();
+          b.megacredits(-12).colon().text('COPY').prelude().any.megacredits(3).multiplier.asterix();
           b.br.br;
         }),
-        description: 'Once per game, pay 6 M€ to copy the direct effect of any prelude in play. Then gain 2X M€, where X is the current generation number.',
+        description: 'Once per game, pay 12 M€ to copy the direct effect of any prelude in play. Then gain 3X M€, where X is the current generation number.',
       },
     });
   }
@@ -36,12 +36,12 @@ export class Eunice extends Card implements LeaderCard {
   }
 
   public canAct(player: Player): boolean {
-    return player.canAfford(6) && this.isDisabled === false;
+    return player.canAfford(12) && this.isDisabled === false;
   }
 
   public action(player: Player): PlayerInput | undefined {
     const game = player.game;
-    game.defer(new SelectHowToPayDeferred(player, 6));
+    game.defer(new SelectHowToPayDeferred(player, 12));
 
     const allPlayedPreludes = game.getPlayers().map((player) => player.playedCards.filter((c) => c.cardType === CardType.PRELUDE)).reduce((a, b) => a.concat(b));
     const eligiblePreludes = allPlayedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
@@ -55,7 +55,7 @@ export class Eunice extends Card implements LeaderCard {
     }));
 
     game.defer(new DeferredAction(player, () => {
-      player.addResource(Resources.MEGACREDITS, game.generation * 2);
+      player.addResource(Resources.MEGACREDITS, game.generation * 3);
       return undefined;
     }));
 
