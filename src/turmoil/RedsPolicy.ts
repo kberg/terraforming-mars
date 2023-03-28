@@ -151,6 +151,7 @@ export class RedsPolicy {
     // CEOs
     const hasGordon = player.cardIsInEffect(CardName.GORDON);
     const hasGreta = player.cardIsInEffect(CardName.GRETA);
+    const hasNeil = player.cardIsInEffect(CardName.NEIL);
     // Corporations
     const isAphrodite = player.isCorporation(CardName.APHRODITE);
     const isArklight = player.isCorporation(CardName.ARKLIGHT);
@@ -241,6 +242,11 @@ export class RedsPolicy {
           bonusMCFromPlay += 3;
           if (isHelion) bonusMCFromPlay += 3;
         }
+      }
+
+      if (hasNeil && action.card.tags.some((tag) => tag === Tags.MOON)) {
+        const moonTagsCount = action.card.tags.filter((tag) => tag === Tags.MOON).length;
+        bonusMCFromPlay += moonTagsCount;
       }
 
       if (isVitor && action.card.getVictoryPoints !== undefined && action.card.getVictoryPoints(player) >= 0) {
