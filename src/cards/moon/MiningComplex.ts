@@ -35,7 +35,7 @@ export class MiningComplex extends PreludeCard {
     const mineSpaces = moonData.moon.getAvailableSpacesForMine(player);
     if (mineSpaces.length === 0) return false;
 
-    if (mineSpaces.some((space) => player.game.board.getAdjacentSpaces(space).some((adjacentSpace) => adjacentSpace.tile === undefined )) === false) {
+    if (mineSpaces.some((space) => moonData.moon.getAdjacentSpaces(space).some((adjacentSpace) => adjacentSpace.tile === undefined )) === false) {
       return false;
     }
 

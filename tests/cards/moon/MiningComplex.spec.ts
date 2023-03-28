@@ -25,6 +25,10 @@ describe('MiningComplex', () => {
     card = new MiningComplex();
   });
 
+  it('canPlay', () => {
+    expect(card.canPlay(player)).is.true;
+  })
+
   it('play', () => {
     expect(player.getTerraformRating()).eq(14);
     expect(moonData.miningRate).eq(0);
