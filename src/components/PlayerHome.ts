@@ -209,7 +209,7 @@ export const PlayerHome = Vue.component('player-home', {
             <template v-if="isPasswordNeeded()">
                 <a :href="getPasswordLink()">
                 <span class="btn unlock-account">
-                &#x1f510 Collect your password and unlock your account. (Password: {{player.password}} )
+                &#x1f510 Collect your password and unlock your account.
                 </span>
                 </a>
                 <div class="password-warning">
