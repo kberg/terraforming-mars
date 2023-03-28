@@ -18,10 +18,10 @@ export class Will extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('GAIN BELOW RESOURCES').br;
           b.animals(1).animals(1).microbes(1).microbes(1).br;
-          b.science().floaters(1).asteroids(1).wild(1);
+          b.floaters(1).floaters(1).wild(1).wild(1);
           b.br;
         }),
-        description: 'Once per game, add the following resources to your cards: 2 animals, 2 microbes, 1 science, 1 floater, 1 asteroid, 1 wild.',
+        description: 'Once per game, add the following resources to your cards: 2 animals, 2 microbes, 2 floaters, 2 wild.',
       },
     });
   }
@@ -39,10 +39,8 @@ export class Will extends Card implements LeaderCard {
   public action(player: Player): PlayerInput | undefined {
     player.game.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: 2}));
     player.game.defer(new AddResourcesToCard(player, ResourceType.MICROBE, {count: 2}));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.SCIENCE, {count: 1}));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {count: 1}));
-    player.game.defer(new AddResourcesToCard(player, ResourceType.ASTEROID, {count: 1}));
-    player.game.defer(new AddResourcesToCard(player, undefined, {count: 1}));
+    player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {count: 2}));
+    player.game.defer(new AddResourcesToCard(player, undefined, {count: 2}));
 
     this.isDisabled = true;
     return undefined;

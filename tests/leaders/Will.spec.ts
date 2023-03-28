@@ -3,7 +3,6 @@ import {Ants} from "../../src/cards/base/Ants";
 import {Birds} from "../../src/cards/base/Birds";
 import {ICard} from "../../src/cards/ICard";
 import {Will} from "../../src/cards/leaders/Will";
-import {AsteroidRights} from "../../src/cards/promo/AsteroidRights";
 import {Game} from "../../src/Game";
 import {SelectCard} from "../../src/inputs/SelectCard";
 import {Player} from "../../src/Player";
@@ -25,11 +24,10 @@ describe('Will', function() {
   it('Takes OPG action', function() {
     const birds = new Birds();
     const ants = new Ants();
-    const asteroidRights = new AsteroidRights();
-    player.playedCards.push(birds, ants, asteroidRights);
+    player.playedCards.push(birds, ants);
 
     card.action(player);
-    expect(game.deferredActions).has.length(6);
+    expect(game.deferredActions).has.length(4);
 
     // Add animals
     game.deferredActions.runNext();
@@ -39,17 +37,12 @@ describe('Will', function() {
     game.deferredActions.runNext();
     expect(ants.resourceCount).eq(2);
 
-    game.deferredActions.runNext(); // No Science resource cards, skip
     game.deferredActions.runNext(); // No Floater resource cards, skip
 
-    // Add asteroid
-    game.deferredActions.runNext();
-    expect(asteroidRights.resourceCount).eq(1);
-
-    // Add resource to any card
+    // Add 2 resources to any card
     const selectCard = game.deferredActions.pop()!.execute() as SelectCard<ICard>;;
     selectCard.cb([selectCard.cards[1]]);
-    expect(ants.resourceCount).eq(3);
+    expect(ants.resourceCount).eq(4);
   });
 
   it('Can only act once per game', function() {
