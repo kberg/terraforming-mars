@@ -148,6 +148,8 @@ export class RedsPolicy {
     const hasAdvertising = player.cardIsInEffect(CardName.ADVERTISING);
     const hasGMOContracts = player.cardIsInEffect(CardName.GMO_CONTRACT);
     const hasStandardTechnology = player.cardIsInEffect(CardName.STANDARD_TECHNOLOGY);
+    // CEOs
+    const hasGordon = player.cardIsInEffect(CardName.GORDON);
     // Corporations
     const isAphrodite = player.isCorporation(CardName.APHRODITE);
     const isArklight = player.isCorporation(CardName.ARKLIGHT);
@@ -168,6 +170,7 @@ export class RedsPolicy {
     // Plants conversion
     if (action.isPlantsConversion === true) {
       if (hasHerbivores && hasMeatIndustry) bonusMCFromPlay += 2;
+      if (hasGordon) bonusMCFromPlay += 2;
     }
 
     // Standard projects
@@ -178,6 +181,7 @@ export class RedsPolicy {
       if (action.standardProject === StandardProjectType.GREENERY) {
         if (isCredicor) bonusMCFromPlay += 4;
         if (hasHerbivores && hasMeatIndustry) bonusMCFromPlay += 2;
+        if (hasGordon) bonusMCFromPlay += 2;
       }
     }
 
@@ -215,6 +219,10 @@ export class RedsPolicy {
         if (hasHerbivores && action.nonOceanToPlace === TileType.GREENERY) {
           bonusMCFromPlay += 2;
         }
+      }
+
+      if (hasGordon && action.nonOceanToPlace === TileType.GREENERY) {
+        bonusMCFromPlay += 2;
       }
 
       if (action.card.cost >= 20) {
