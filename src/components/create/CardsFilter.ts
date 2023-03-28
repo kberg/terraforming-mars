@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import {CardName} from '../../CardName';
-import {ALL_PRELUDE_CARD_NAMES, ALL_PROJECT_CARD_NAMES} from '../../cards/AllCards';
+import {ALL_LEADER_CARD_NAMES, ALL_PRELUDE_CARD_NAMES, ALL_PROJECT_CARD_NAMES} from '../../cards/AllCards';
 import {TranslateMixin} from '../TranslateMixin';
 
-const allItems: Array<CardName> = ALL_PROJECT_CARD_NAMES.concat(ALL_PRELUDE_CARD_NAMES).sort();
+const allItems: Array<CardName> = ALL_PROJECT_CARD_NAMES.concat(ALL_PRELUDE_CARD_NAMES).concat(ALL_LEADER_CARD_NAMES).sort();
 
 interface CardsFilterModel {
     selectedCardNames: Array<CardName>;
@@ -24,6 +24,9 @@ export const CardsFilter = Vue.component('cards-filter', {
   methods: {
     isPrelude: function(cardName: CardName) {
       return ALL_PRELUDE_CARD_NAMES.includes(cardName);
+    },
+    isLeader: function(cardName: CardName) {
+      return ALL_LEADER_CARD_NAMES.includes(cardName);
     },
     removeCard: function(cardNameToRemove: CardName) {
       this.selectedCardNames = this.selectedCardNames.filter((curCardName) => curCardName !== cardNameToRemove).sort();
@@ -64,7 +67,11 @@ export const CardsFilter = Vue.component('cards-filter', {
         <h2 v-i18n>Cards to exclude from the game</h2>
         <div class="cards-filter-results-cont" v-if="selectedCardNames.length">
             <div class="cards-filter-result" v-for="cardName in selectedCardNames">
-                <label>{{ cardName }}<i class="create-game-expansion-icon expansion-icon-prelude" title="This card is prelude" v-if="isPrelude(cardName)"></i></label>
+                <label>
+                  {{ cardName }}
+                  <i class="create-game-expansion-icon expansion-icon-prelude" title="This card is prelude" v-if="isPrelude(cardName)"></i>
+                  <i class="create-game-expansion-icon expansion-icon-leaders" title="This card is CEO" v-if="isLeader(cardName)"></i>
+                </label>
                 <Button size="small" type="close" :onClick="_=>removeCard(cardName)" /> 
             </div>
         </div>
@@ -77,6 +84,7 @@ export const CardsFilter = Vue.component('cards-filter', {
                     <a href="#" v-on:click.prevent="addCard(cardName)">
                       {{ cardName }}
                       <i class="create-game-expansion-icon expansion-icon-prelude" title="This card is prelude" v-if="isPrelude(cardName)"></i>
+                      <i class="create-game-expansion-icon expansion-icon-leaders" title="This card is CEO" v-if="isLeader(cardName)"></i>
                     </a> 
                 </div>
             </div>
