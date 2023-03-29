@@ -11,6 +11,7 @@ import {SelectPartyToSendDelegate} from '../../inputs/SelectPartyToSendDelegate'
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {Resources} from '../../Resources';
 import {Size} from '../render/Size';
+import {Darwin} from './Darwin';
 
 export class Petra extends Card implements LeaderCard {
   constructor() {
@@ -51,14 +52,15 @@ export class Petra extends Card implements LeaderCard {
   }
 
   public action(player: Player): PlayerInput | undefined {
-    const turmoil = player.game.turmoil as Turmoil;
+    const game = player.game;
+    const turmoil = game.turmoil as Turmoil;
     let count = 0;
 
     // Replace all neutral delegates in parties
     turmoil.parties.forEach((party) => {
       while (party.delegates.includes("NEUTRAL")) {
         const source = turmoil.hasAvailableDelegates(player.id) ? 'reserve' : 'lobby';
-        turmoil.replaceDelegateFromParty("NEUTRAL", player.id, source, party.name, player.game);
+        turmoil.replaceDelegateFromParty("NEUTRAL", player.id, source, party.name, game);
         count++;
       }
       turmoil.checkDominantParty(party);
@@ -86,18 +88,19 @@ export class Petra extends Card implements LeaderCard {
     const previousDominantParty = turmoil.dominantParty.name;
 
     for (let i = 0; i < 3; i++) {
-      player.game.defer(new DeferredAction(player, () => {
+        game.defer(new DeferredAction(player, () => {
         return new SelectPartyToSendDelegate(title, 'Send delegate', availableParties, (partyName: PartyName) => {
-          turmoil.sendDelegateToParty('NEUTRAL', partyName, player.game);
-          player.game.log('${0} sent ${1} Neutral delegate in ${2} area', (b) => b.player(player).number(1).party(turmoil.getPartyByName(partyName)));
+          turmoil.sendDelegateToParty('NEUTRAL', partyName, game);
+          game.log('${0} sent ${1} Neutral delegate in ${2} area', (b) => b.player(player).number(1).party(turmoil.getPartyByName(partyName)));
           return undefined;
         });
       }));
     }
 
-    player.game.defer(new DeferredAction(player, () => {
+    game.defer(new DeferredAction(player, () => {
       if (turmoil.dominantParty.name !== previousDominantParty) {
-        player.game.log('${0} is the new dominant party', (b) => b.string(turmoil.dominantParty.name));
+        Darwin.onDominantPartyChange(game);
+        game.log('${0} is the new dominant party', (b) => b.string(turmoil.dominantParty.name));
       }
       return undefined;
     }));

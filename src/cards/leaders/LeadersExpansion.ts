@@ -13,6 +13,15 @@ export class LeadersExpansion {
     return 0;
   }
 
+  public static getBonusInfluence(player: Player) {
+    const darwin = player.playedCards.find((card) => card.name === CardName.DARWIN);
+    if (darwin !== undefined && (darwin as LeaderCard).opgActionIsActive === true) {
+      return 2;
+    }
+
+    return 0;
+  }
+
   public static leaderActionIsUsable(player: Player): boolean {
     if (player.game.gameOptions.leadersExpansion === false) return false;
 

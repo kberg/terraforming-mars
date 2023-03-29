@@ -26,6 +26,8 @@ import {SerializedGlobalEvent} from './globalEvents/SerializedGlobalEventDealer'
 import {DeferredAction} from '../deferredActions/DeferredAction';
 import {MarsCoalition} from '../cards/community/corporations/MarsCoalition';
 import {Random} from '../Random';
+import {Darwin} from '../cards/leaders/Darwin';
+import {LeadersExpansion} from '../cards/leaders/LeadersExpansion';
 
 export type NeutralPlayer = 'NEUTRAL';
 
@@ -212,6 +214,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       const dominantPartyChanged = this.checkDominantParty(party);
 
       if (dominantPartyChanged && game.turmoil?.dominantParty !== undefined && playerId !== 'NEUTRAL') {
+        Darwin.onDominantPartyChange(game);
         this.logDominantPartyChange(playerId, game);
       }
 
@@ -228,6 +231,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       const dominantPartyChanged = this.checkDominantParty(party);
 
       if (dominantPartyChanged && game.turmoil?.dominantParty !== undefined && playerId !== 'NEUTRAL') {
+        Darwin.onDominantPartyChange(game);
         this.logDominantPartyChange(playerId, game);
       }
 
@@ -461,9 +465,12 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       if (this.playersInfluenceBonus.has(player.id)) {
         const bonus = this.playersInfluenceBonus.get(player.id);
         if (bonus) {
-          influence+= bonus;
+          influence += bonus;
         }
       }
+
+      influence += LeadersExpansion.getBonusInfluence(player);
+
       return influence;
     }
 

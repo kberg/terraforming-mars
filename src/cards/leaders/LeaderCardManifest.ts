@@ -7,6 +7,7 @@ import {Bjorn} from './Bjorn';
 import {Buck} from './Buck';
 import {Caesar} from './Caesar';
 import {Clarke} from './Clarke';
+import {Darwin} from './Darwin';
 import {Duncan} from './Duncan';
 import {Ender} from './Ender';
 import {Eunice} from './Eunice';
@@ -49,6 +50,7 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.BUCK, Factory: Buck},
     {cardName: CardName.CAESAR, Factory: Caesar, compatibility: GameModule.Ares},
     {cardName: CardName.CLARKE, Factory: Clarke},
+    {cardName: CardName.DARWIN, Factory: Darwin, compatibility: GameModule.Turmoil},
     {cardName: CardName.DUNCAN, Factory: Duncan},
     {cardName: CardName.ENDER, Factory: Ender},
     {cardName: CardName.EUNICE, Factory: Eunice, compatibility: GameModule.Prelude},
