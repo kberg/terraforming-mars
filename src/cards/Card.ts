@@ -9,6 +9,7 @@ import {Units} from '../Units';
 import {CardRequirements} from './CardRequirements';
 import {CardDiscount, ICard, TRSource} from './ICard';
 import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../constants';
+import {Resources} from '../Resources';
 
 export interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -136,5 +137,13 @@ export abstract class Card {
 
   public static setSocietyWarningText(card: ICard, partyName: string): void {
     card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
+  }
+
+  public static setProductionDecreaseWarningText(card: ICard, resource: Resources, mustTargetSelf: boolean): void {
+    if (mustTargetSelf) {
+      card.warning = `You will have to decrease your own ${resource} production if you play this card now.`;
+    } else {
+      card.warning = undefined;
+    }
   }
 }

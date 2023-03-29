@@ -29,6 +29,13 @@ export class GreatEscarpmentConsortium extends Card implements IProjectCard {
     });
   }
 
+  public canPlay(player: Player): boolean {
+    const otherPlayersHaveSteelProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.STEEL) > 0 && p.id !== player.id).length === 0;
+    Card.setProductionDecreaseWarningText(this, Resources.STEEL, otherPlayersHaveSteelProduction);
+
+    return super.canPlay(player);
+  }
+
   public play(player: Player) {
     player.game.defer(new DecreaseAnyProduction(player, Resources.STEEL, 1));
     player.addProduction(Resources.STEEL, 1);

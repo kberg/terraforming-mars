@@ -31,6 +31,9 @@ export class HeatTrappers extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
+    const otherPlayersHaveHeatProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.HEAT) > 1 && p.id !== player.id).length === 0;
+    Card.setProductionDecreaseWarningText(this, Resources.HEAT, otherPlayersHaveHeatProduction);
+
     return player.game.someoneHasResourceProduction(Resources.HEAT, 2);
   }
 

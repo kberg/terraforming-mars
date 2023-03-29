@@ -31,6 +31,13 @@ export class PowerSupplyConsortium extends Card implements IProjectCard {
     });
   }
 
+  public canPlay(player: Player): boolean {
+    const otherPlayersHaveEnergyProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.ENERGY) > 0 && p.id !== player.id).length === 0;
+    Card.setProductionDecreaseWarningText(this, Resources.ENERGY, otherPlayersHaveEnergyProduction);
+
+    return super.canPlay(player);
+  }
+
   public play(player: Player) {
     player.addProduction(Resources.ENERGY, 1);
     player.game.defer(new DecreaseAnyProduction(player, Resources.ENERGY, 1));
