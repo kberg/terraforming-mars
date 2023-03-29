@@ -6,4 +6,6 @@ export interface LeaderCard extends IProjectCard {
   opgActionIsActive?: boolean;
   generationUsed?: number;
   onTRIncrease?: (player: Player) => undefined;
+  // Used for CEOs whose effect triggers need to be restricted to n times
+  effectTriggerCount?: number;
 }

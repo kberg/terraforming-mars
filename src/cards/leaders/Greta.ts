@@ -17,16 +17,17 @@ export class Greta extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br.br;
-          b.tr(1).colon().megacredits(4);
+          b.tr(1).colon().megacredits(4).asterix();
           b.br;
         }),
-        description: 'When you take an action that raises your terraform rating THIS GENERATION, gain 4 M€.',
+        description: 'When you take an action that raises your terraform rating THIS GENERATION (max 10 times), gain 4 M€.',
       },
     });
   }
 
   public isDisabled = false;
   public opgActionIsActive = false;
+  public effectTriggerCount = 0;
 
   public play() {
     return undefined;
@@ -44,7 +45,10 @@ export class Greta extends Card implements LeaderCard {
 
   public onTRIncrease(player: Player) {
     if (this.opgActionIsActive === false) return;
+    if (this.effectTriggerCount === 10) return;
+
     player.addResource(Resources.MEGACREDITS, 4, {log: true});
+    this.effectTriggerCount++;
     return undefined;
   }
 }

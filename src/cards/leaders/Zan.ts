@@ -8,6 +8,8 @@ import {Player} from '../../Player';
 import {Turmoil} from '../../turmoil/Turmoil';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {Resources} from '../../Resources';
+import {Size} from '../render/Size';
 
 export class Zan extends Card implements LeaderCard {
   constructor() {
@@ -20,9 +22,9 @@ export class Zan extends Card implements LeaderCard {
           b.br.br;
           b.redsInactive().asterix();
           b.br.br;
-          b.opgArrow().text('ALL').delegates(1).colon().nbsp().nbsp().reds();
+          b.opgArrow().text('ALL', Size.SMALL).delegates(1).colon().reds().megacredits(1);
         }),
-        description: 'You are immune to Reds\' ruling policy. Once per game, place all your delegates in Reds.',
+        description: 'You are immune to Reds\' ruling policy. Once per game, place all your delegates in Reds. Gain 1 M€ for each delegate placed this way.',
       },
     });
   }
@@ -41,6 +43,7 @@ export class Zan extends Card implements LeaderCard {
     const game = player.game;
     const turmoil = Turmoil.getTurmoil(game);
     const reserveDelegates = turmoil.delegateReserve.filter((d) => d === player.id).length;
+    const totalMegacreditsGained = turmoil.lobby.has(player.id) ? reserveDelegates + 1 : reserveDelegates;
 
     for (let i = 0; i < reserveDelegates; i++) {
       game.defer(new DeferredAction(player, () => {
@@ -55,7 +58,8 @@ export class Zan extends Card implements LeaderCard {
         return undefined;
       }));
     }
-    
+
+    player.addResource(Resources.MEGACREDITS, totalMegacreditsGained, {log: true});
     this.isDisabled = true;
     return undefined;
   }

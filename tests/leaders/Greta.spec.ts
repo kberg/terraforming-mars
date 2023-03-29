@@ -33,6 +33,12 @@ describe('Greta', function() {
 
     player.game.increaseVenusScaleLevel(player, 1);
     expect(player.megaCredits).to.eq(16);
+
+    // No further increase after 10 triggers
+    card.effectTriggerCount = 10;
+
+    player.game.increaseTemperature(player, 1);
+    expect(player.megaCredits).to.eq(16);
   });
 
   it('Can only act once per game', function() {

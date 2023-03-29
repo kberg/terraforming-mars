@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {ReleaseOfInertGases} from "../../src/cards/base/ReleaseOfInertGases";
 import {Zan} from "../../src/cards/leaders/Zan";
+import {PLAYER_DELEGATES_COUNT} from "../../src/constants";
 import {Game} from "../../src/Game";
 import {Player} from "../../src/Player";
 import {PartyName} from "../../src/turmoil/parties/PartyName";
@@ -50,6 +51,7 @@ describe('Zan', function() {
     expect(turmoil.delegateReserve.includes(player.id)).is.false;
     expect(turmoil.dominantParty.name).eq(PartyName.REDS);
     expect(turmoil.dominantParty.partyLeader).eq(player.id);
+    expect(player.megaCredits).to.eq(PLAYER_DELEGATES_COUNT);
     expect(card.isDisabled).is.true;
   });
 
