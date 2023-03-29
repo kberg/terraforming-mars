@@ -69,7 +69,7 @@ export class Atmoscoop extends Card implements IProjectCard {
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetailsForRaisingTemperature, false, true);
 
       // If we hit the temperature track's bonus ocean, check if we can reduce the cost by raising Venus instead
-      if (this.howToAffordReds.redTaxes === 3 * REDS_RULING_POLICY_COST) {
+      if (this.howToAffordReds.redTaxes === 3 * REDS_RULING_POLICY_COST && this.howToAffordReds.canAfford === false) {
         this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetailsForRaisingVenus, false, true);
       }
 

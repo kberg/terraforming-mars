@@ -14,8 +14,11 @@ import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
 import {Size} from '../../render/Size';
 import {MoonExpansion} from '../../../moon/MoonExpansion';
+import {ActionDetails, HowToAffordRedsPolicy, RedsPolicy} from '../../../turmoil/RedsPolicy';
 
 export class TempestInc extends Card implements CorporationCard {
+  public howToAffordReds: HowToAffordRedsPolicy | undefined;
+
   constructor() {
     super({
       cardType: CardType.CORPORATION,
@@ -68,7 +71,10 @@ export class TempestInc extends Card implements CorporationCard {
     if (this.resourceCount === 0) return this.addResource(player);
 
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-    const playerCanAffordReds = redsAreRuling && player.canAfford(REDS_RULING_POLICY_COST);
+    // We only need to check oceans here as this is the cheapest possible TR raise when Reds are ruling
+    this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oceansToPlace: 1}));
+
+    const playerCanAffordReds = redsAreRuling && this.howToAffordReds.canAfford;
     if (redsAreRuling && !playerCanAffordReds) return this.addResource(player);
 
     const opts: Array<SelectOption> = [];
@@ -95,11 +101,10 @@ export class TempestInc extends Card implements CorporationCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     // TEMPERATURE
-    let redsTaxFromRaisingTemperature = REDS_RULING_POLICY_COST;
     const temperature = game.getTemperature();
-    if (temperature === -2) redsTaxFromRaisingTemperature += REDS_RULING_POLICY_COST;
+    const howToAffordRedsForRaisingTemperature = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({temperatureIncrease: 1}));
 
-    if (!redsAreRuling || temperature === MAX_TEMPERATURE || (redsAreRuling && player.canAfford(redsTaxFromRaisingTemperature))) {
+    if (!redsAreRuling || temperature === MAX_TEMPERATURE || (redsAreRuling && howToAffordRedsForRaisingTemperature.canAfford)) {
       orOptions.options.push(new SelectOption('Increase temperature', 'Select', () => {
         const game = player.game;
         player.removeResourceFrom(this, 1);
@@ -114,12 +119,10 @@ export class TempestInc extends Card implements CorporationCard {
     }
 
     // OCEANS
-    const redsTaxFromPlacingOcean = REDS_RULING_POLICY_COST;
     const oceans = game.board.getOceansOnBoard();
+    const howToAffordRedsForPlacingOcean = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oceansToPlace: 1}));
 
-    // TODO: This does not account for ocean adjacency bonuses
-    // Computation should be moved into RedsPolicy with flexible ActionDetails like {anyGlobalParameter: 1}
-    if (!redsAreRuling || oceans === MAX_OCEAN_TILES || (redsAreRuling && player.canAfford(redsTaxFromPlacingOcean))) {
+    if (!redsAreRuling || oceans === MAX_OCEAN_TILES || (redsAreRuling && howToAffordRedsForPlacingOcean.canAfford)) {
       orOptions.options.push(new SelectOption('Place an ocean', 'Select', () => {
         player.removeResourceFrom(this, 1);
         player.game.defer(new PlaceOceanTile(player, 'Select space for ocean'));
@@ -127,13 +130,13 @@ export class TempestInc extends Card implements CorporationCard {
       }));
     }
 
-    // OXYGEN
-    let redsTaxFromRaisingOxygen = REDS_RULING_POLICY_COST;
-    const oxygenLevel = game.getOxygenLevel();
-    if (oxygenLevel === 7) redsTaxFromRaisingOxygen += REDS_RULING_POLICY_COST;
-    if (temperature === -2) redsTaxFromRaisingOxygen += REDS_RULING_POLICY_COST;
+    if (this.howToAffordReds !== undefined) player.howToAffordReds = this.howToAffordReds;
 
-    if (!redsAreRuling || oxygenLevel === MAX_OXYGEN_LEVEL || (redsAreRuling && player.canAfford(redsTaxFromRaisingOxygen))) {
+    // OXYGEN
+    const oxygenLevel = game.getOxygenLevel();
+    const howToAffordRedsForRaisingOxygen = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oxygenIncrease: 1}));
+
+    if (!redsAreRuling || oxygenLevel === MAX_OXYGEN_LEVEL || (redsAreRuling && howToAffordRedsForRaisingOxygen.canAfford)) {
       orOptions.options.push(new SelectOption('Increase oxygen level', 'Select', () => {
         const game = player.game;
         player.removeResourceFrom(this, 1);
@@ -147,11 +150,10 @@ export class TempestInc extends Card implements CorporationCard {
     }
 
     // VENUS
-    let redsTaxFromRaisingVenus = REDS_RULING_POLICY_COST;
     const venusLevel = game.getVenusScaleLevel();
-    if (venusLevel === 14) redsTaxFromRaisingVenus += REDS_RULING_POLICY_COST;
+    const howToAffordRedsForRaisingVenus = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oxygenIncrease: 1}));
 
-    if (!redsAreRuling || venusLevel === MAX_VENUS_SCALE || (redsAreRuling && player.canAfford(redsTaxFromRaisingVenus))) {
+    if (!redsAreRuling || venusLevel === MAX_VENUS_SCALE || (redsAreRuling && howToAffordRedsForRaisingVenus.canAfford)) {
       if (player.game.gameOptions.venusNextExtension === true) {
         orOptions.options.push(new SelectOption('Increase Venus scale', 'Select', () => {
           const game = player.game;
