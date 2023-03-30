@@ -60,7 +60,7 @@ class TranshumansPolicy01 implements Policy {
 
 class TranshumansPolicy02 implements Policy {
   id = TurmoilPolicy.TRANSHUMANS_POLICY_2;
-  description: string = 'Spend 10 M€ to gain 1 influence (Turmoil Transhumans)';
+  description: string = 'Spend 10 M€ to gain 1 influence';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
@@ -82,7 +82,7 @@ class TranshumansPolicy02 implements Policy {
 
 class TranshumansPolicy03 implements Policy {
   id = TurmoilPolicy.TRANSHUMANS_POLICY_3;
-  description: string = 'Spend 10 M€ to play a card from hand, ignoring global requirements (Turmoil Transhumans)';
+  description: string = 'Spend 10 M€ to play a card from hand, ignoring global requirements';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

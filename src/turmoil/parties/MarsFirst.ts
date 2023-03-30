@@ -86,7 +86,7 @@ class MarsFirstPolicy03 implements Policy {
 
 class MarsFirstPolicy04 implements Policy {
   id = TurmoilPolicy.MARS_FIRST_POLICY_4;
-  description: string = 'Spend 4 M€ to draw a Building card (Turmoil Mars First)';
+  description: string = 'Spend 4 M€ to draw a Building card';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

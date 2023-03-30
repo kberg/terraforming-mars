@@ -56,6 +56,7 @@ export const Card = Vue.component('card', {
         manifest.preludeCards,
         manifest.standardProjects,
         manifest.standardActions,
+        manifest.turmoilActions,
         manifest.leaderCards,
       ];
       for (const deck of decks) {

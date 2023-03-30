@@ -54,7 +54,7 @@ class EmpowerBonus02 implements Bonus {
 class EmpowerPolicy01 implements Policy {
   isDefault = true;
   id = TurmoilPolicy.EMPOWER_DEFAULT_POLICY;
-  description: string = 'Spend X M€ to gain X energy (Turmoil Empower)';
+  description: string = 'Spend X M€ to gain X energy';
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
     return player.canAfford(1) && player.canUseSingleTurmoilAction(isDominantPartyAction);

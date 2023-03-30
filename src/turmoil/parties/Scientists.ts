@@ -53,7 +53,7 @@ class ScientistsBonus02 implements Bonus {
 class ScientistsPolicy01 implements Policy {
   isDefault = true;
   id = TurmoilPolicy.SCIENTISTS_DEFAULT_POLICY;
-  description: string = 'Pay 10 M€ to draw 3 cards (Turmoil Scientists)';
+  description: string = 'Pay 10 M€ to draw 3 cards';
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
     return player.canAfford(10) && player.canUseSingleTurmoilAction(isDominantPartyAction);

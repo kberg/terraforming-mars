@@ -7,6 +7,7 @@ import {
   ALL_PRELUDE_CARD_NAMES,
   ALL_PROJECT_CARD_NAMES,
   ALL_STANDARD_PROJECT_CARD_NAMES,
+  ALL_TURMOIL_ACTION_CARD_NAMES,
 } from '../cards/AllCards';
 import {GameModule} from '../GameModule';
 import {ICard} from '../cards/ICard';
@@ -131,6 +132,9 @@ export const DebugUI = Vue.component('debug-ui', {
     getAllLeaderCards: function() {
       return this.sort(ALL_LEADER_CARD_NAMES);
     },
+    getAllTurmoilActionCards: function() {
+      return this.sort(ALL_TURMOIL_ACTION_CARD_NAMES);
+    },
     filtered: function(cardName: CardName): boolean {
       const card = cards.get(cardName);
       const filterText = this.$data.filterText.toUpperCase();
@@ -172,6 +176,8 @@ export const DebugUI = Vue.component('debug-ui', {
         return this.ares === true;
       case GameModule.Moon:
         return this.moon === true;
+      case GameModule.Leader:
+        return this.leaders === true;
       default:
         return true;
       }
@@ -310,6 +316,15 @@ export const DebugUI = Vue.component('debug-ui', {
                   <Card v-show="filtered(card)" :card="{'name': card}" />
               </div>
             </section>
+            <br>
+            <section class="debug-ui-cards-list">
+              <h2>Turmoil Actions</h2>
+              <div class="cardbox" v-for="card in getAllTurmoilActionCards()">
+                  <Card v-show="filtered(card)" :card="{'name': card}" />
+              </div>
+            </section>
+            <br>
+            <br>
         </div>
     `,
 });

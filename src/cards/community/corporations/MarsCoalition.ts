@@ -10,21 +10,14 @@ import {Phase} from '../../../Phase';
 import {Player} from '../../../Player';
 import {ISpace} from '../../../boards/ISpace';
 import {Turmoil} from '../../../turmoil/Turmoil';
-import {MARS_FIRST_DEFAULT_POLICY, MARS_FIRST_POLICY_2, MARS_FIRST_POLICY_4} from '../../../turmoil/parties/MarsFirst';
-import {GREENS_POLICY_2, GREENS_POLICY_3, GREENS_POLICY_4} from '../../../turmoil/parties/Greens';
-import {KELVINISTS_DEFAULT_POLICY, KELVINISTS_POLICY_3, KELVINISTS_POLICY_4} from '../../../turmoil/parties/Kelvinists';
-import {EMPOWER_DEFAULT_POLICY, EMPOWER_POLICY_2} from '../../../turmoil/parties/Empower';
-import {POPULISTS_POLICY_3, POPULISTS_POLICY_4} from '../../../turmoil/parties/Populists';
+import {MARS_FIRST_DEFAULT_POLICY, MARS_FIRST_POLICY_2} from '../../../turmoil/parties/MarsFirst';
+import {GREENS_POLICY_2, GREENS_POLICY_3} from '../../../turmoil/parties/Greens';
+import {KELVINISTS_POLICY_4} from '../../../turmoil/parties/Kelvinists';
+import {EMPOWER_POLICY_2} from '../../../turmoil/parties/Empower';
+import {POPULISTS_POLICY_4} from '../../../turmoil/parties/Populists';
 import {IProjectCard} from '../../IProjectCard';
 import {SelectOption} from '../../../inputs/SelectOption';
 import {PlayerInput} from '../../../PlayerInput';
-import {BUREAUCRATS_DEFAULT_POLICY} from '../../../turmoil/parties/Bureaucrats';
-import {CENTRISTS_DEFAULT_POLICY, CENTRISTS_POLICY_3} from '../../../turmoil/parties/Centrists';
-import {REDS_POLICY_3} from '../../../turmoil/parties/Reds';
-import {SCIENTISTS_DEFAULT_POLICY} from '../../../turmoil/parties/Scientists';
-import {SPOME_POLICY_2, SPOME_POLICY_4} from '../../../turmoil/parties/Spome';
-import {TRANSHUMANS_POLICY_2, TRANSHUMANS_POLICY_3} from '../../../turmoil/parties/Transhumans';
-import {UNITY_POLICY_2, UNITY_POLICY_3} from '../../../turmoil/parties/Unity';
 import {DiscardCards} from '../../../deferredActions/DiscardCards';
 import {GlobalParameter} from '../../../GlobalParameter';
 import {Resources} from '../../../Resources';
@@ -34,6 +27,25 @@ import {Game} from '../../../Game';
 import {IParty} from '../../../turmoil/parties/IParty';
 import {PolicyId} from '../../../turmoil/Policy';
 import {Tags} from '../../Tags';
+import {TurmoilActionCard} from '../../TurmoilActionCard';
+import {KelvinistsDefaultAction} from '../../turmoil/standardActions/KelvinistsDefaultAction';
+import {ScientistsDefaultAction} from '../../turmoil/standardActions/ScientistsDefaultAction';
+import {KelvinistsPolicy3Action} from '../../turmoil/standardActions/KelvinistsPolicy3Action';
+import {GreensPolicy4Action} from '../../turmoil/standardActions/GreensPolicy4Action';
+import {MarsFirstPolicy4Action} from '../../turmoil/standardActions/MarsFirstPolicy4Action';
+import {UnityPolicy2Action} from '../../turmoil/standardActions/UnityPolicy2Action';
+import {UnityPolicy3Action} from '../../turmoil/standardActions/UnityPolicy3Action';
+import {RedsPolicy3Action} from '../../turmoil/standardActions/RedsPolicy3Action';
+import {SpomePolicy2Action} from '../../turmoil/standardActions/SpomePolicy2Action';
+import {SpomePolicy4Action} from '../../turmoil/standardActions/SpomePolicy4Action';
+import {EmpowerDefaultAction} from '../../turmoil/standardActions/EmpowerDefaultAction';
+import {BureaucratsDefaultAction} from '../../turmoil/standardActions/BureaucratsDefaultAction';
+import {BureaucratsPolicy3Action} from '../../turmoil/standardActions/BureaucratsPolicy3Action';
+import {PopulistsPolicy3Action} from '../../turmoil/standardActions/PopulistsPolicy3Action';
+import {TranshumansPolicy2Action} from '../../turmoil/standardActions/TranshumansPolicy2Action';
+import {TranshumansPolicy3Action} from '../../turmoil/standardActions/TranshumansPolicy3Action';
+import {CentristsDefaultAction} from '../../turmoil/standardActions/CentristsDefaultAction';
+import {CentristsPolicy3Action} from '../../turmoil/standardActions/CentristsPolicy3Action';
 
 export class MarsCoalition extends Card implements CorporationCard {
   constructor() {
@@ -130,62 +142,65 @@ export class MarsCoalition extends Card implements CorporationCard {
     return staticAgendas.get(dominantParty.name)!.policyId;
   }
 
-  public static addPlayerAction(player: Player, options: PlayerInput[]): void {
+  public static addPlayerAction(player: Player, turmoilActions: TurmoilActionCard[]): void {
     if (!player.isCorporation(CardName.MARS_COALITION)) return;
     const dominantPartyPolicy = this.getDominantPartyPolicyId(player);
 
     switch (dominantPartyPolicy) {
       case TurmoilPolicy.SCIENTISTS_DEFAULT_POLICY:
-        this.addPartyActionToActionsList(player, SCIENTISTS_DEFAULT_POLICY, options);
+        turmoilActions.push(new ScientistsDefaultAction());
         break;
       case TurmoilPolicy.KELVINISTS_DEFAULT_POLICY:
-        this.addPartyActionToActionsList(player, KELVINISTS_DEFAULT_POLICY, options);
+        turmoilActions.push(new KelvinistsDefaultAction());
         break;
       case TurmoilPolicy.KELVINISTS_POLICY_3:
-        this.addPartyActionToActionsList(player, KELVINISTS_POLICY_3, options);
+        turmoilActions.push(new KelvinistsPolicy3Action());
         break;
       case TurmoilPolicy.GREENS_POLICY_4:
-        this.addPartyActionToActionsList(player, GREENS_POLICY_4, options);
+        turmoilActions.push(new GreensPolicy4Action());
         break;
       case TurmoilPolicy.MARS_FIRST_POLICY_4:
-        this.addPartyActionToActionsList(player, MARS_FIRST_POLICY_4, options);
+        turmoilActions.push(new MarsFirstPolicy4Action());
         break;
       case TurmoilPolicy.UNITY_POLICY_2:
-        this.addPartyActionToActionsList(player, UNITY_POLICY_2, options);
+        turmoilActions.push(new UnityPolicy2Action());
         break;
       case TurmoilPolicy.UNITY_POLICY_3:
-        this.addPartyActionToActionsList(player, UNITY_POLICY_3, options);
+        turmoilActions.push(new UnityPolicy3Action());
         break;
       case TurmoilPolicy.REDS_POLICY_3:
-        this.addPartyActionToActionsList(player, REDS_POLICY_3, options);
+        turmoilActions.push(new RedsPolicy3Action());
         break;
       case TurmoilPolicy.SPOME_POLICY_2:
-        this.addPartyActionToActionsList(player, SPOME_POLICY_2, options);
+        turmoilActions.push(new SpomePolicy2Action());
         break;
       case TurmoilPolicy.SPOME_POLICY_4:
-        this.addPartyActionToActionsList(player, SPOME_POLICY_4, options);
+        turmoilActions.push(new SpomePolicy4Action());
         break;
       case TurmoilPolicy.EMPOWER_DEFAULT_POLICY:
-        this.addPartyActionToActionsList(player, EMPOWER_DEFAULT_POLICY, options);
+        turmoilActions.push(new EmpowerDefaultAction());
         break;
       case TurmoilPolicy.BUREAUCRATS_DEFAULT_POLICY:
-        this.addPartyActionToActionsList(player, BUREAUCRATS_DEFAULT_POLICY, options);
+        turmoilActions.push(new BureaucratsDefaultAction());
+        break;
+      case TurmoilPolicy.BUREAUCRATS_POLICY_3:
+        turmoilActions.push(new BureaucratsPolicy3Action());
         break;
       case TurmoilPolicy.POPULISTS_POLICY_3:
-        this.addPartyActionToActionsList(player, POPULISTS_POLICY_3, options);
+        turmoilActions.push(new PopulistsPolicy3Action());
         break;
       case TurmoilPolicy.TRANSHUMANS_POLICY_2:
-        this.addPartyActionToActionsList(player, TRANSHUMANS_POLICY_2, options);
+        turmoilActions.push(new TranshumansPolicy2Action());
         break;
       case TurmoilPolicy.TRANSHUMANS_POLICY_3:
-        this.addPartyActionToActionsList(player, TRANSHUMANS_POLICY_3, options);
+        turmoilActions.push(new TranshumansPolicy3Action());
         break;
       case TurmoilPolicy.CENTRISTS_DEFAULT_POLICY:
-        this.addPartyActionToActionsList(player, CENTRISTS_DEFAULT_POLICY, options);
+        turmoilActions.push(new CentristsDefaultAction());
         break;
       case TurmoilPolicy.CENTRISTS_POLICY_3:
-        this.addPartyActionToActionsList(player, CENTRISTS_POLICY_3, options);
-        break;  
+        turmoilActions.push(new CentristsPolicy3Action());
+        break;
       default:
         break;
     }

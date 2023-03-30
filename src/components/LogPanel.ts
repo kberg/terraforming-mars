@@ -122,6 +122,7 @@ export const LogPanel = Vue.component('log-panel', {
           manifest.preludeCards,
           manifest.standardProjects,
           manifest.standardActions,
+          manifest.turmoilActions,
           manifest.leaderCards,
         ]);
 

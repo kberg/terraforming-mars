@@ -69,7 +69,7 @@ class PopulistsPolicy02 implements Policy {
 
 class PopulistsPolicy03 implements Policy {
   id = TurmoilPolicy.POPULISTS_POLICY_3;
-  description: string = 'Draw 2 cards if your Terraform Rating was raised this generation (Turmoil Populists)';
+  description: string = 'Draw 2 cards if your Terraform Rating was raised this generation';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

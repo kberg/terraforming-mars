@@ -78,7 +78,7 @@ describe('Reds', function() {
     expect(player.megaCredits).eq(0);
   });
 
-  it('Ruling policy 3: Pay 4 M€ to reduce a non-maxed global parameter 1 step', function() {
+  it('Ruling policy 3: Pay 4 M€ to reduce a NON-MAXED global parameter 1 step', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, reds, reds.policies[2].id);
 
     const redsPolicy = REDS_POLICY_3;
@@ -95,7 +95,7 @@ describe('Reds', function() {
     expect(redsPolicy.canAct(player)).to.be.false;
   });
 
-  it('Ruling policy 3: Pay 4 M€ to reduce a non-maxed global parameter 1 step: Moon', function() {
+  it('Ruling policy 3: Pay 4 M€ to reduce a NON-MAXED global parameter 1 step: Moon', function() {
     // Reset the whole game infrastructure to include the Moon
     const gameOptions = TestingUtils.setCustomGameOptions({moonExpansion: true});
     game = Game.newInstance('foobar', [player, secondPlayer], player, gameOptions);

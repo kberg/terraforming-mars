@@ -89,6 +89,25 @@ import {ISpace} from './boards/ISpace';
 import {Eris} from './cards/ares/Eris';
 import {HowToAffordRedsPolicy, RedsPolicy} from './turmoil/RedsPolicy';
 import {StandardActionCard} from './cards/StandardActionCard';
+import {TurmoilActionCard} from './cards/TurmoilActionCard';
+import {KelvinistsDefaultAction} from './cards/turmoil/standardActions/KelvinistsDefaultAction';
+import {KelvinistsPolicy3Action} from './cards/turmoil/standardActions/KelvinistsPolicy3Action';
+import {ScientistsDefaultAction} from './cards/turmoil/standardActions/ScientistsDefaultAction';
+import {GreensPolicy4Action} from './cards/turmoil/standardActions/GreensPolicy4Action';
+import {MarsFirstPolicy4Action} from './cards/turmoil/standardActions/MarsFirstPolicy4Action';
+import {UnityPolicy2Action} from './cards/turmoil/standardActions/UnityPolicy2Action';
+import {UnityPolicy3Action} from './cards/turmoil/standardActions/UnityPolicy3Action';
+import {RedsPolicy3Action} from './cards/turmoil/standardActions/RedsPolicy3Action';
+import {SpomePolicy2Action} from './cards/turmoil/standardActions/SpomePolicy2Action';
+import {SpomePolicy4Action} from './cards/turmoil/standardActions/SpomePolicy4Action';
+import {EmpowerDefaultAction} from './cards/turmoil/standardActions/EmpowerDefaultAction';
+import {BureaucratsDefaultAction} from './cards/turmoil/standardActions/BureaucratsDefaultAction';
+import {BureaucratsPolicy3Action} from './cards/turmoil/standardActions/BureaucratsPolicy3Action';
+import {PopulistsPolicy3Action} from './cards/turmoil/standardActions/PopulistsPolicy3Action';
+import {TranshumansPolicy2Action} from './cards/turmoil/standardActions/TranshumansPolicy2Action';
+import {TranshumansPolicy3Action} from './cards/turmoil/standardActions/TranshumansPolicy3Action';
+import {CentristsDefaultAction} from './cards/turmoil/standardActions/CentristsDefaultAction';
+import {CentristsPolicy3Action} from './cards/turmoil/standardActions/CentristsPolicy3Action';
 
 export type PlayerId = string;
 export type Password = string;
@@ -2292,6 +2311,113 @@ export class Player implements ISerializable<SerializedPlayer> {
     return standardActions;
   }
 
+  protected getTurmoilActionOption(): SelectCard<TurmoilActionCard> {
+    const turmoilActions: Array<TurmoilActionCard> = this.getTurmoilActions();
+
+    return new SelectCard(
+      'Turmoil actions',
+      'Confirm',
+      turmoilActions,
+      (card) => card[0].action(this),
+      {enabled: turmoilActions.map((card) => card.canAct(this))},
+    );
+  }
+
+  public getTurmoilActions(): Array<TurmoilActionCard> {
+    const turmoilActions: Array<TurmoilActionCard> = [];
+
+    // Turmoil Scientists action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.SCIENTISTS)) turmoilActions.push(new ScientistsDefaultAction());
+
+    // Turmoil Kelvinists action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.KELVINISTS)) turmoilActions.push(new KelvinistsDefaultAction());
+
+    // Agendas: Kelvinists P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.KELVINISTS, TurmoilPolicy.KELVINISTS_POLICY_3)) {
+      turmoilActions.push(new KelvinistsPolicy3Action());
+    }
+
+    // Agendas: Greens P4 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.GREENS, TurmoilPolicy.GREENS_POLICY_4)) {
+      turmoilActions.push(new GreensPolicy4Action());
+    }
+
+    // Agendas: Mars First P4 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.MARS, TurmoilPolicy.MARS_FIRST_POLICY_4)) {
+      turmoilActions.push(new MarsFirstPolicy4Action());
+    }
+
+    // Agendas: Unity P2 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_2)) {
+      turmoilActions.push(new UnityPolicy2Action());
+    }
+
+    // Agendas: Unity P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_3)) {
+      turmoilActions.push(new UnityPolicy3Action());
+    }
+
+    // Agendas: Reds P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.REDS, TurmoilPolicy.REDS_POLICY_3)) {
+      turmoilActions.push(new RedsPolicy3Action());
+    }
+
+    // Agendas: Spome P2 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.SPOME, TurmoilPolicy.SPOME_POLICY_2)) {
+      turmoilActions.push(new SpomePolicy2Action());
+    }
+
+    // Agendas: Spome P4 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.SPOME, TurmoilPolicy.SPOME_POLICY_4)) {
+      turmoilActions.push(new SpomePolicy4Action());
+    }
+
+    // Agendas: Empower default action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_DEFAULT_POLICY)) {
+      turmoilActions.push(new EmpowerDefaultAction());
+    }
+
+    // Agendas: Bureaucrats default action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.BUREAUCRATS, TurmoilPolicy.BUREAUCRATS_DEFAULT_POLICY)) {
+      turmoilActions.push(new BureaucratsDefaultAction());
+    }
+
+    // Agendas: Bureaucrats P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.BUREAUCRATS, TurmoilPolicy.BUREAUCRATS_POLICY_3)) {
+      turmoilActions.push(new BureaucratsPolicy3Action());
+    }
+
+    // Agendas: Populists P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.POPULISTS, TurmoilPolicy.POPULISTS_POLICY_3)) {
+      turmoilActions.push(new PopulistsPolicy3Action());
+    }
+
+    // Agendas: Transhumans P2 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_2)) {
+      turmoilActions.push(new TranshumansPolicy2Action());
+    }
+
+    // Agendas: Transhumans P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_3)) {
+      turmoilActions.push(new TranshumansPolicy3Action());
+    }
+
+    // Agendas: Centrists default action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_DEFAULT_POLICY)) {
+      turmoilActions.push(new CentristsDefaultAction());
+    }
+
+    // Agendas: Centrists P3 action
+    if (PartyHooks.shouldApplyPolicy(this, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_3)) {
+      turmoilActions.push(new CentristsPolicy3Action());
+    }
+
+    // Mars Coalition
+    MarsCoalition.addPlayerAction(this, turmoilActions);
+
+    return turmoilActions;
+  }
+
   public takeAction(): void {
     const game = this.game;
 
@@ -2440,7 +2566,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (this.getStandardActions().length > 0) action.options.push(this.getStandardActionOption());
 
-    TurmoilHandler.addPlayerAction(this, action.options);
+    if (this.getTurmoilActions().length > 0) action.options.push(this.getTurmoilActionOption());
 
     if (this.getPlayableActionCards().length > 0) {
       action.options.push(

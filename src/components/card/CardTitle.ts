@@ -59,7 +59,7 @@ export const CardTitle = Vue.component('CardTitle', {
     },
     getMainClasses() {
       const classes: Array<String> = ['card-title'];
-      if (this.type === CardType.STANDARD_PROJECT || this.type === CardType.STANDARD_ACTION) {
+      if (this.type === CardType.STANDARD_PROJECT || this.type === CardType.STANDARD_ACTION || this.type === CardType.TURMOIL_ACTION) {
         classes.push('card-title-standard-project');
       }
       return classes.join(' ');

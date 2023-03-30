@@ -104,7 +104,7 @@ class RedsPolicy02 implements Policy {
 
 class RedsPolicy03 implements Policy {
   id = TurmoilPolicy.REDS_POLICY_3;
-  description: string = 'Pay 4 M€ to reduce a non-maxed global parameter 1 step (do not gain any track bonuses)';
+  description: string = 'Pay 4 M€ to reduce a NON-MAXED global parameter 1 step (do not gain any track bonuses)';
   isDefault = false;
 
   private canDecrease(game: Game, parameter: GlobalParameter) {

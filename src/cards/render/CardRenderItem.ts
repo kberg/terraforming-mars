@@ -25,6 +25,7 @@ export enum AltSecondaryTag {
   ANIMAL_RESOURCE = 'animal-resource',
   STEEL_RESOURCE = 'steel-resource',
   ARES = 'ares',
+  PLANETARY = 'planetary',
 
   MOON_MINING_RATE = 'moon-mine',
   MOON_COLONY_RATE = 'moon-colony',

@@ -65,7 +65,7 @@ class UnityPolicy01 implements Policy {
 
 class UnityPolicy02 implements Policy {
   id = TurmoilPolicy.UNITY_POLICY_2;
-  description: string = 'Spend 4 M€ to gain 2 titanium or add 2 floaters to ANY card (Turmoil Unity)';
+  description: string = 'Spend 4 M€ to gain 2 titanium or add 2 floaters to ANY card';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
@@ -125,7 +125,7 @@ class UnityPolicy02 implements Policy {
 
 class UnityPolicy03 implements Policy {
   id = TurmoilPolicy.UNITY_POLICY_3;
-  description: string = 'Spend 4 M€ to draw a Space card (Turmoil Unity)';
+  description: string = 'Spend 4 M€ to draw a Space card';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

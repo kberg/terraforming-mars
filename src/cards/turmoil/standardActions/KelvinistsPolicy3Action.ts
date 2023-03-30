@@ -1,23 +1,24 @@
-import {StandardActionCard} from '../../StandardActionCard';
+import {TurmoilActionCard} from '../../TurmoilActionCard';
 import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {Player} from '../../../Player';
+import {KELVINISTS_POLICY_3} from '../../../turmoil/parties/Kelvinists';
+import {Card} from '../../Card';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../../turmoil/parties/PartyName';
-import {HEAT_FOR_TEMPERATURE, MAX_TEMPERATURE} from '../../../constants';
-import {Card} from '../../Card';
 import {ActionDetails, RedsPolicy} from '../../../turmoil/RedsPolicy';
+import {MAX_TEMPERATURE} from '../../../constants';
 
-export class ConvertHeat extends StandardActionCard {
+export class KelvinistsPolicy3Action extends TurmoilActionCard {
   constructor() {
     super({
-      name: CardName.CONVERT_HEAT,
+      name: CardName.KELVINISTS_POLICY_3_ACTION,
       tr: {temperature: 1},
       metadata: {
-        cardNumber: 'SA2',
+        cardNumber: 'TA3',
         renderData: CardRenderer.builder((b) =>
-          b.standardProject('Spend 8 Heat to raise temperature 1 step.', (eb) => {
-            eb.heat(8).startAction.temperature(1);
+          b.standardProject(KELVINISTS_POLICY_3.description, (eb) => {
+            eb.heat(6).startAction.temperature(1);
           }),
         ),
       },
@@ -29,22 +30,18 @@ export class ConvertHeat extends StandardActionCard {
     Card.setRedsWarningText(player, trGain, this, false, 'take this action');
 
     if (player.game.getTemperature() === MAX_TEMPERATURE) return false;
-    if (player.availableHeat < HEAT_FOR_TEMPERATURE) return false;
+    if (player.availableHeat < 6) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      const actionDetails = new ActionDetails({temperatureIncrease: 1, reservedHeat: HEAT_FOR_TEMPERATURE});
+      const actionDetails = new ActionDetails({temperatureIncrease: 1, reservedHeat: 6});
       const howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails);
       return howToAffordReds.canAfford;
     }
 
-    return true;
+    return KELVINISTS_POLICY_3.canAct(player);
   }
 
   public action(player: Player) {
-    return player.spendHeat(HEAT_FOR_TEMPERATURE, () => {
-      this.actionUsed(player);
-      player.game.increaseTemperature(player, 1);
-      return undefined;
-    });
+    return KELVINISTS_POLICY_3.action(player);
   }
 }

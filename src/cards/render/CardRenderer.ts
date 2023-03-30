@@ -177,8 +177,10 @@ class Builder {
     return this;
   }
 
-  public venus(amount: number): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.VENUS, amount));
+  public venus(amount: number, size: Size = Size.MEDIUM): Builder {
+    const item = new CardRenderItem(CardRenderItemType.VENUS, amount);
+    item.size = size;
+    this._addRowItem(item);
     return this;
   }
 

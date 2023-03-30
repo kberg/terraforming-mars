@@ -1,4 +1,5 @@
 import {expect} from 'chai';
+import {CardName} from '../../../src/CardName';
 import {MarsCoalition} from '../../../src/cards/community/corporations/MarsCoalition';
 import {SendDelegateToArea} from '../../../src/deferredActions/SendDelegateToArea';
 import {Game} from '../../../src/Game';
@@ -50,8 +51,7 @@ describe('MarsCoalition', function() {
     turmoil.sendDelegateToParty(player.id, scientists.name, game);
     turmoil.sendDelegateToParty(player.id, scientists.name, game);
 
-    const scientistsActionTitle = 'Pay 10 M€ to draw 3 cards (Turmoil Scientists)';
-    const availableActions = player.getActions();
-    expect(availableActions.options.find((action) => action.title === scientistsActionTitle)).is.not.undefined;
+    const availableTurmoilActions = player.getTurmoilActions();
+    expect(availableTurmoilActions.find((card) => card.name === CardName.SCIENTISTS_DEFAULT_ACTION)).is.not.undefined;
   });
 });

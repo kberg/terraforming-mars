@@ -55,7 +55,7 @@ class CentristsBonus02 implements Bonus {
 class CentristsPolicy01 implements Policy {
   isDefault = true;
   id = TurmoilPolicy.CENTRISTS_DEFAULT_POLICY;
-  description: string = 'Gain 6 M€ (Turmoil Centrists)';
+  description: string = 'Gain 6 M€';
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
     return player.canUseSingleTurmoilAction(isDominantPartyAction);
@@ -78,7 +78,7 @@ class CentristsPolicy02 implements Policy {
 
 class CentristsPolicy03 implements Policy {
   id = TurmoilPolicy.CENTRISTS_POLICY_3;
-  description: string = 'Trade with any colony for free (Turmoil Centrists)';
+  description: string = 'Trade with any colony tile for free';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

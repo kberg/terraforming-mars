@@ -63,7 +63,7 @@ class SpomePolicy01 implements Policy {
 
 class SpomePolicy02 implements Policy {
   id = TurmoilPolicy.SPOME_POLICY_2;
-  description: string = 'Pay 10 M€ to gain a trade fleet (Turmoil Spome)';
+  description: string = 'Pay 10 M€ to gain a trade fleet';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {
@@ -95,7 +95,7 @@ class SpomePolicy03 implements Policy {
 
 class SpomePolicy04 implements Policy {
   id = TurmoilPolicy.SPOME_POLICY_4;
-  description: string = 'Pay 10 M€ to draw 2 planetary cards (Turmoil Spome)';
+  description: string = 'Pay 10 M€ to draw 2 planetary cards';
   isDefault = false;
 
   canAct(player: Player, isDominantPartyAction: boolean = false) {

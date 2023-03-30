@@ -52,7 +52,7 @@ class KelvinistsBonus02 implements Bonus {
 class KelvinistsPolicy01 implements Policy {
   isDefault = true;
   id = TurmoilPolicy.KELVINISTS_DEFAULT_POLICY;
-  description: string = 'Pay 10 M€ to increase your Energy and Heat production 1 step (Turmoil Kelvinists)';
+  description: string = 'Pay 10 M€ to increase your Energy and Heat production 1 step';
 
   canAct(player: Player) {
     return player.canAfford(10);
@@ -86,7 +86,7 @@ class KelvinistsPolicy02 implements Policy {
 
 class KelvinistsPolicy03 implements Policy {
   id = TurmoilPolicy.KELVINISTS_POLICY_3;
-  description: string = 'Convert 6 heat into temperature (Turmoil Kelvinists)';
+  description: string = 'Convert 6 heat into temperature';
   isDefault = false;
 
   canAct(player: Player) {

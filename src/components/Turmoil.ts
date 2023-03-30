@@ -168,7 +168,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <div class="tile oxygen-tile req-tile-small red-outline" style="margin: 10px -5px;"></div> /
     <div class="tile ocean-tile req-tile-small red-outline"></div> /
     <div class="tile temperature-tile req-tile-small red-outline"></div>
-    <div class="bonus-text">Pay 4 M€ to reduce a non-maxed global parameter 1 step (do not gain any track bonuses)</div>`);
+    <div class="bonus-text">Pay 4 M€ to reduce a NON-MAXED global parameter 1 step (do not gain any track bonuses)</div>`);
   AGENDA_HTML.set('rp04',
     `<div class="tile oxygen-tile req-tile-small" style="margin: 10px -5px;"></div>
     <div class="tile ocean-tile req-tile-small"></div>
@@ -378,7 +378,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <span class="red-arrow"></span>
     <div class="trade"></div>
     </div>
-    <div class="bonus-text" style="margin-top:10px">Trade with any colony for free</div>`);
+    <div class="bonus-text" style="margin-top:10px">Trade with any colony tile for free</div>`);
   AGENDA_HTML.set('cp04',
     `<div class="policy-top-margin"><div class="resource-tag tag-event"></div> : <div class="money resource">-2</div></div>
     <div class="bonus-text">When you play an Event card, you pay 2 M€ less for it</div>`);

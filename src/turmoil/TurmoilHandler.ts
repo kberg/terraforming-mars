@@ -10,115 +10,20 @@ import {Player} from '../Player';
 import {PlayerInput} from '../PlayerInput';
 import {Resources} from '../Resources';
 import {GlobalEventDealer} from './globalEvents/GlobalEventDealer';
-import {BUREAUCRATS_DEFAULT_POLICY} from './parties/Bureaucrats';
-import {CENTRISTS_DEFAULT_POLICY, CENTRISTS_POLICY_3} from './parties/Centrists';
-import {EMPOWER_DEFAULT_POLICY, EMPOWER_POLICY_2} from './parties/Empower';
-import {GREENS_POLICY_2, GREENS_POLICY_3, GREENS_POLICY_4} from './parties/Greens';
-import {KELVINISTS_DEFAULT_POLICY, KELVINISTS_POLICY_3, KELVINISTS_POLICY_4} from './parties/Kelvinists';
-import {MARS_FIRST_POLICY_2, MARS_FIRST_POLICY_4} from './parties/MarsFirst';
+import {EMPOWER_POLICY_2} from './parties/Empower';
+import {GREENS_POLICY_2, GREENS_POLICY_3} from './parties/Greens';
+import {KELVINISTS_POLICY_4} from './parties/Kelvinists';
+import {MARS_FIRST_POLICY_2} from './parties/MarsFirst';
 import {PartyHooks} from './parties/PartyHooks';
 import {PartyName} from './parties/PartyName';
-import {POPULISTS_POLICY_2, POPULISTS_POLICY_3, POPULISTS_POLICY_4} from './parties/Populists';
-import {REDS_POLICY_2, REDS_POLICY_3} from './parties/Reds';
-import {SCIENTISTS_DEFAULT_POLICY} from './parties/Scientists';
-import {SPOME_POLICY_2, SPOME_POLICY_3, SPOME_POLICY_4} from './parties/Spome';
-import {TRANSHUMANS_POLICY_2, TRANSHUMANS_POLICY_3} from './parties/Transhumans';
-import {UNITY_POLICY_2, UNITY_POLICY_3} from './parties/Unity';
+import {POPULISTS_POLICY_2, POPULISTS_POLICY_4} from './parties/Populists';
+import {REDS_POLICY_2} from './parties/Reds';
+import {SPOME_POLICY_3} from './parties/Spome';
 import {Turmoil} from './Turmoil';
 import {TurmoilPolicy} from './TurmoilPolicy';
 
 export class TurmoilHandler {
   private constructor() {}
-
-  public static addPlayerAction(player: Player, options: PlayerInput[]): void {
-    // Turmoil Scientists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.SCIENTISTS)) {
-      this.addPartyActionToActionsList(player, SCIENTISTS_DEFAULT_POLICY, options);
-    }
-
-    // Turmoil Kelvinists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.KELVINISTS)) {
-      this.addPartyActionToActionsList(player, KELVINISTS_DEFAULT_POLICY, options);
-    }
-
-    // Turmoil Kelvinists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.KELVINISTS, TurmoilPolicy.KELVINISTS_POLICY_3)) {
-      this.addPartyActionToActionsList(player, KELVINISTS_POLICY_3, options);
-    }
-
-    // Turmoil Greens action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.GREENS, TurmoilPolicy.GREENS_POLICY_4)) {
-      this.addPartyActionToActionsList(player, GREENS_POLICY_4, options);
-    }
-
-    // Turmoil Mars First action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.MARS, TurmoilPolicy.MARS_FIRST_POLICY_4)) {
-      this.addPartyActionToActionsList(player, MARS_FIRST_POLICY_4, options);
-    }
-
-    // Turmoil Unity action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_2)) {
-      this.addPartyActionToActionsList(player, UNITY_POLICY_2, options);
-    }
-
-    // Turmoil Unity action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.UNITY, TurmoilPolicy.UNITY_POLICY_3)) {
-      this.addPartyActionToActionsList(player, UNITY_POLICY_3, options);
-    }
-
-    // Turmoil Reds action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS, TurmoilPolicy.REDS_POLICY_3)) {
-      this.addPartyActionToActionsList(player, REDS_POLICY_3, options);
-    }
-
-    // Turmoil Spome action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.SPOME, TurmoilPolicy.SPOME_POLICY_2)) {
-        this.addPartyActionToActionsList(player, SPOME_POLICY_2, options);
-      }
-
-    // Turmoil Spome action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.SPOME, TurmoilPolicy.SPOME_POLICY_4)) {
-      this.addPartyActionToActionsList(player, SPOME_POLICY_4, options);
-    }
-
-    // Turmoil Empower action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.EMPOWER, TurmoilPolicy.EMPOWER_DEFAULT_POLICY)) {
-      this.addPartyActionToActionsList(player, EMPOWER_DEFAULT_POLICY, options);
-    }
-
-    // Turmoil Bureaucrats action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.BUREAUCRATS, TurmoilPolicy.BUREAUCRATS_DEFAULT_POLICY)) {
-      this.addPartyActionToActionsList(player, BUREAUCRATS_DEFAULT_POLICY, options, 'Send delegate');
-    }
-
-    // Turmoil Populists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.POPULISTS, TurmoilPolicy.POPULISTS_POLICY_3)) {
-      this.addPartyActionToActionsList(player, POPULISTS_POLICY_3, options, 'Select');
-    }
-
-    // Turmoil Transhumans action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_2)) {
-      this.addPartyActionToActionsList(player, TRANSHUMANS_POLICY_2, options);
-    }
-
-    // Turmoil Transhumans action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.TRANSHUMANS, TurmoilPolicy.TRANSHUMANS_POLICY_3)) {
-      this.addPartyActionToActionsList(player, TRANSHUMANS_POLICY_3, options);
-    }
-
-    // Turmoil Centrists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_DEFAULT_POLICY)) {
-      this.addPartyActionToActionsList(player, CENTRISTS_DEFAULT_POLICY, options, 'Select');
-    }
-
-    // Turmoil Centrists action
-    if (PartyHooks.shouldApplyPolicy(player, PartyName.CENTRISTS, TurmoilPolicy.CENTRISTS_POLICY_3)) {
-      this.addPartyActionToActionsList(player, CENTRISTS_POLICY_3, options, 'Select');
-    }
-
-    // Mars Coalition
-    MarsCoalition.addPlayerAction(player, options);
-  }
 
   public static addPartyActionToActionsList(player: Player, policy: any, options: PlayerInput[], title: string = 'Pay'): void {
     if (policy.canAct(player)) {
