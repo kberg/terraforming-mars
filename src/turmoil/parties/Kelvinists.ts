@@ -9,6 +9,8 @@ import {Player} from '../../Player';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 import {MAX_TEMPERATURE} from '../../constants';
+import {KelvinistsDefaultAction} from '../../cards/turmoil/standardActions/KelvinistsDefaultAction';
+import {KelvinistsPolicy3Action} from '../../cards/turmoil/standardActions/KelvinistsPolicy3Action';
 
 export class Kelvinists extends Party implements IParty {
   name = PartyName.KELVINISTS;
@@ -60,7 +62,7 @@ class KelvinistsPolicy01 implements Policy {
 
   action(player: Player) {
     const game = player.game;
-    game.log('${0} used Turmoil Kelvinists action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new KelvinistsDefaultAction()));
     game.defer(new SelectHowToPayDeferred(
       player,
       10,
@@ -95,7 +97,7 @@ class KelvinistsPolicy03 implements Policy {
 
   action(player: Player) {
     const game = player.game;
-    game.log('${0} used Turmoil Kelvinists action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new KelvinistsPolicy3Action()));
     game.log('${0} spent 6 heat to raise temperature 1 step', (b) => b.player(player));
 
     return player.spendHeat(6, () => {

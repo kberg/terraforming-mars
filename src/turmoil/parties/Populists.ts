@@ -9,6 +9,7 @@ import {Player} from '../../Player';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 import {IProjectCard} from '../../cards/IProjectCard';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {PopulistsPolicy3Action} from '../../cards/turmoil/standardActions/PopulistsPolicy3Action';
 
 export class Populists extends Party implements IParty {
   name = PartyName.POPULISTS;
@@ -78,7 +79,7 @@ class PopulistsPolicy03 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Populists action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new PopulistsPolicy3Action()));
     player.drawCard(2);
 
     MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);

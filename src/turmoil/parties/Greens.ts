@@ -20,6 +20,7 @@ import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferr
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {GreensPolicy4Action} from '../../cards/turmoil/standardActions/GreensPolicy4Action';
 
 export class Greens extends Party implements IParty {
   name = PartyName.GREENS;
@@ -108,7 +109,7 @@ class GreensPolicy04 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Greens action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new GreensPolicy4Action()));
     MarsCoalition.handleTripleUsePolicyLogic(player, isDominantPartyAction);
 
     game.defer(new SelectHowToPayDeferred(

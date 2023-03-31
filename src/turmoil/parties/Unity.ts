@@ -16,6 +16,8 @@ import {SelectOption} from '../../inputs/SelectOption';
 import {ResourceType} from '../../ResourceType';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {UnityPolicy3Action} from '../../cards/turmoil/standardActions/UnityPolicy3Action';
+import {UnityPolicy2Action} from '../../cards/turmoil/standardActions/UnityPolicy2Action';
 
 export class Unity extends Party implements IParty {
   name = PartyName.UNITY;
@@ -74,7 +76,7 @@ class UnityPolicy02 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Unity action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new UnityPolicy2Action()));
     MarsCoalition.handleTripleUsePolicyLogic(player, isDominantPartyAction);
 
     game.defer(new SelectHowToPayDeferred(
@@ -134,7 +136,7 @@ class UnityPolicy03 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Unity action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new UnityPolicy3Action()));
     MarsCoalition.handleTripleUsePolicyLogic(player, isDominantPartyAction);
 
     game.defer(new SelectHowToPayDeferred(

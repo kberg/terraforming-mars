@@ -11,6 +11,7 @@ import {Tags} from '../../cards/Tags';
 import {SelectAmount} from '../../inputs/SelectAmount';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {EmpowerDefaultAction} from '../../cards/turmoil/standardActions/EmpowerDefaultAction';
 
 export class Empower extends Party implements IParty {
   name = PartyName.EMPOWER;
@@ -71,7 +72,7 @@ class EmpowerPolicy01 implements Policy {
           (amount: number) => {
             player.deductResource(Resources.MEGACREDITS, amount);
             player.addResource(Resources.ENERGY, amount);
-            player.game.log('${0} used Turmoil Empower action', (b) => b.player(player));
+            player.game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new EmpowerDefaultAction()));
             player.game.log('${0} spent ${1} M€ to gain ${2} energy', (b) => b.player(player).number(amount).number(amount));
             return undefined;
           },

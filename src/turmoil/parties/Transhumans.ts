@@ -12,6 +12,8 @@ import {Turmoil} from '../Turmoil';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {TranshumansPolicy2Action} from '../../cards/turmoil/standardActions/TranshumansPolicy2Action';
+import {TranshumansPolicy3Action} from '../../cards/turmoil/standardActions/TranshumansPolicy3Action';
 
 export class Transhumans extends Party implements IParty {
   name = PartyName.TRANSHUMANS;
@@ -71,7 +73,7 @@ class TranshumansPolicy02 implements Policy {
     const game = player.game;
     const turmoil: Turmoil = player.game.turmoil as Turmoil;
 
-    game.log('${0} used Turmoil Transhumans action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new TranshumansPolicy2Action()));
     game.defer(new SelectHowToPayDeferred(player, 10, {title: 'Select how to pay for action'}));
     turmoil.addInfluenceBonus(player);
     MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);
@@ -92,7 +94,7 @@ class TranshumansPolicy03 implements Policy {
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
 
-    game.log('${0} used Turmoil Transhumans action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new TranshumansPolicy3Action()));
     game.defer(new SelectHowToPayDeferred(player, 10, {title: 'Select how to pay for action'}));
     game.defer(new DeferredAction(player, () => {
       MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);

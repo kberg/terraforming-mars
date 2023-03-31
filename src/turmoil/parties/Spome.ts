@@ -11,6 +11,8 @@ import {TurmoilPolicy} from '../TurmoilPolicy';
 import {DiscardCards} from '../../deferredActions/DiscardCards';
 import {Tags} from '../../cards/Tags';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {SpomePolicy2Action} from '../../cards/turmoil/standardActions/SpomePolicy2Action';
+import {SpomePolicy4Action} from '../../cards/turmoil/standardActions/SpomePolicy4Action';
 
 export class Spome extends Party implements IParty {
   name = PartyName.SPOME;
@@ -76,7 +78,7 @@ class SpomePolicy02 implements Policy {
 
     MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);
 
-    player.game.log('${0} used Turmoil Spome action', (b) => b.player(player));
+    player.game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new SpomePolicy2Action()));
     return undefined;
   }
 }
@@ -104,7 +106,7 @@ class SpomePolicy04 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Spome action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new SpomePolicy4Action()));
 
     MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);
 

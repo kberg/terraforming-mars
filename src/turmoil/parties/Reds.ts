@@ -16,6 +16,7 @@ import {TurmoilPolicy} from '../TurmoilPolicy';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
 import {GlobalParameter} from '../../GlobalParameter';
 import {MoonExpansion} from '../../moon/MoonExpansion';
+import {RedsPolicy3Action} from '../../cards/turmoil/standardActions/RedsPolicy3Action';
 
 export class Reds extends Party implements IParty {
   name = PartyName.REDS;
@@ -170,7 +171,7 @@ class RedsPolicy03 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Reds action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new RedsPolicy3Action()));
     MarsCoalition.handleTripleUsePolicyLogic(player, isDominantPartyAction);
 
     game.defer(new SelectHowToPayDeferred(

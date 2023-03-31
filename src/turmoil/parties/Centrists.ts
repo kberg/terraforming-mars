@@ -12,6 +12,8 @@ import {ColonyName} from '../../colonies/ColonyName';
 import {SelectColony} from '../../inputs/SelectColony';
 import {ColonyModel} from '../../models/ColonyModel';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {CentristsDefaultAction} from '../../cards/turmoil/standardActions/CentristsDefaultAction';
+import {CentristsPolicy3Action} from '../../cards/turmoil/standardActions/CentristsPolicy3Action';
 
 export class Centrists extends Party implements IParty {
   name = PartyName.CENTRISTS;
@@ -62,7 +64,7 @@ class CentristsPolicy01 implements Policy {
   }
 
   action(player: Player, isDominantPartyAction: boolean = false) {
-    player.game.log('${0} used Turmoil Centrists action', (b) => b.player(player));
+    player.game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new CentristsDefaultAction()));
     player.addResource(Resources.MEGACREDITS, 6, {log: true});
     MarsCoalition.handleSingleUsePolicyLogic(player, isDominantPartyAction);
 
@@ -91,7 +93,7 @@ class CentristsPolicy03 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Centrists action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new CentristsPolicy3Action()));
 
     const openColonies = player.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
     const coloniesModel: Array<ColonyModel> = player.game.getColoniesModel(openColonies);

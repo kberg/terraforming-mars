@@ -13,6 +13,8 @@ import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferr
 import {LandClaim} from '../../cards/base/LandClaim';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {BureaucratsDefaultAction} from '../../cards/turmoil/standardActions/BureaucratsDefaultAction';
+import {BureaucratsPolicy3Action} from '../../cards/turmoil/standardActions/BureaucratsPolicy3Action';
 
 export class Bureaucrats extends Party implements IParty {
   name = PartyName.BUREAUCRATS;
@@ -66,7 +68,7 @@ class BureaucratsPolicy01 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Bureaucrats action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new BureaucratsDefaultAction()));
     game.defer(new SendDelegateToArea(player, 'Select where to send delegate', {source: 'reserve'}));
     game.defer(new SelectHowToPayDeferred(player, 3, {title: 'Select how to pay for action'}));
 
@@ -100,7 +102,7 @@ class BureaucratsPolicy03 implements Policy {
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
 
-    game.log('${0} used Turmoil Bureaucrats action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new BureaucratsPolicy3Action()));
     game.defer(new SelectHowToPayDeferred(player, 3, {title: 'Select how to pay for action'}));
     game.defer(new DeferredAction(player, () => LandClaim.selectSpaceForClaim(player)));
     MarsCoalition.handleTripleUsePolicyLogic(player, isDominantPartyAction);

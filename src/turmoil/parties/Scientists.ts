@@ -10,6 +10,7 @@ import {Player} from '../../Player';
 import {Policy} from '../Policy';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 import {MarsCoalition} from '../../cards/community/corporations/MarsCoalition';
+import {ScientistsDefaultAction} from '../../cards/turmoil/standardActions/ScientistsDefaultAction';
 
 export class Scientists extends Party implements IParty {
   name = PartyName.SCIENTISTS;
@@ -61,7 +62,7 @@ class ScientistsPolicy01 implements Policy {
 
   action(player: Player, isDominantPartyAction: boolean = false) {
     const game = player.game;
-    game.log('${0} used Turmoil Scientists action', (b) => b.player(player));
+    game.log('${0} used Turmoil ${1} action', (b) => b.player(player).card(new ScientistsDefaultAction()));
     game.defer(new SelectHowToPayDeferred(
       player,
       10,
