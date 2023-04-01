@@ -9,6 +9,7 @@ import {ARES_OPTIONS_NO_HAZARDS} from "../ares/AresTestHelper";
 import {EmptyBoard} from "../ares/EmptyBoard";
 import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
+import {SpaceType} from "../../src/SpaceType";
 
 describe('Gaia', function() {
   let card: Gaia; let player: Player; let player2: Player; let game: Game;
@@ -40,6 +41,17 @@ describe('Gaia', function() {
     game.addTile(player2, secondAdjacentSpace.spaceType, secondAdjacentSpace, {tileType: TileType.GREENERY});
 
     // Gain adjacency bonuses of all players' tiles
+    player.megaCredits = 0;
+    card.action(player);
+    expect(player.megaCredits).to.eq(2);
+
+    // Does not grant bonus from oceans placed next to tile that grants adjacency bonuses
+    const thirdAdjacentSpace = game.board.getAdjacentSpaces(targetSpace)[2];
+    // Set this space to SpaceType.OCEAN for ease of testing
+    thirdAdjacentSpace.spaceType = SpaceType.OCEAN;
+    game.addOceanTile(player, thirdAdjacentSpace.id);
+    game.deferredActions.runAll(() => {});
+
     player.megaCredits = 0;
     card.action(player);
     expect(player.megaCredits).to.eq(2);
