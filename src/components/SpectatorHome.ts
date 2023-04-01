@@ -16,7 +16,9 @@ import {mainAppSettings} from './App';
 let ui_update_timeout_id: number | undefined;
 
 export const SpectatorHome = Vue.component('spectator-home', {
-  data: {},
+  data: function() {
+    return {};
+  },
   props: {
     spectator: {
       type: Object as () => SpectatorModel,
