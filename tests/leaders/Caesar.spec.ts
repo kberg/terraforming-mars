@@ -56,6 +56,8 @@ describe('Caesar', function() {
     // Place 3 hazard tiles
     for (let i = 0; i < 3; i++) {
       const placeHazard = game.deferredActions.pop()!.execute() as SelectSpace;
+      // Remove spaces that already have a hazard placed during game setup
+      placeHazard.availableSpaces = placeHazard.availableSpaces.filter((s) => s.tile === undefined);
       placeHazard.cb(placeHazard.availableSpaces[i]);
     }
 
