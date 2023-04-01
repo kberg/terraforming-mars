@@ -20,6 +20,7 @@ export enum SpaceBonus {
     RESTRICTED, // 10, Tiles cannot be placed on these spaces
     COVE, // 11, Spaces that allow both ocean and land tiles to be placed
     TEMPERATURE, // 12, Gives a bonus temperature raise
+    ASTEROID, // 13, Used by Deimos Down Ares
 }
 
 const TO_STRING_MAP: Map<SpaceBonus, string> = new Map([
@@ -35,6 +36,8 @@ const TO_STRING_MAP: Map<SpaceBonus, string> = new Map([
   [SpaceBonus.POWER, 'Power'],
   [SpaceBonus.RESTRICTED, 'Restricted'],
   [SpaceBonus.COVE, 'Cove'],
+  [SpaceBonus.TEMPERATURE, 'Temperature'],
+  [SpaceBonus.ASTEROID, 'Asteroid'],
 ]);
 
 export namespace SpaceBonus {

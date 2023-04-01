@@ -54,7 +54,7 @@ export class LogHelper {
   }
 
   static logTRChange(player: Player, steps: number) {
-    const verb = steps > 0 ? 'gained' : 'lost';
+    const verb = steps >= 0 ? 'gained' : 'lost';
     player.game.log('${0} ${1} ${2} TR', (b) => b.player(player).string(verb).number(steps));
   }
 

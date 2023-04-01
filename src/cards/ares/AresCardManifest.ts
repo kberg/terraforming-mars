@@ -7,6 +7,7 @@ import {BiofertilizerFacility} from './BiofertilizerFacility';
 import {ButterflyEffect} from './ButterflyEffect';
 import {CapitalAres} from './CapitalAres';
 import {CommercialDistrictAres} from './CommercialDistrictAres';
+import {DeimosDownAres} from './DeimosDownAres';
 import {DesperateMeasures} from './DesperateMeasures';
 import {EcologicalSurvey} from './EcologicalSurvey';
 import {EcologicalZoneAres} from './EcologicalZoneAres';
@@ -36,6 +37,7 @@ export const ARES_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.BUTTERFLY_EFFECT, Factory: ButterflyEffect},
     {cardName: CardName.CAPITAL_ARES, Factory: CapitalAres},
     {cardName: CardName.COMMERCIAL_DISTRICT_ARES, Factory: CommercialDistrictAres},
+    {cardName: CardName.DEIMOS_DOWN_ARES, Factory: DeimosDownAres},
     {cardName: CardName.DESPERATE_MEASURES, Factory: DesperateMeasures},
     {cardName: CardName.ECOLOGICAL_SURVEY, Factory: EcologicalSurvey},
     {cardName: CardName.ECOLOGICAL_ZONE_ARES, Factory: EcologicalZoneAres},
@@ -59,7 +61,10 @@ export const ARES_CARD_MANIFEST = new CardManifest({
   cardsToRemove: [
     CardName.CAPITAL,
     CardName.COMMERCIAL_DISTRICT,
+    CardName.DEIMOS_DOWN,
+    CardName.DEIMOS_DOWN_PROMO,
     CardName.ECOLOGICAL_ZONE,
+    CardName.GREAT_DAM,
     CardName.GREAT_DAM_PROMO,
     CardName.INDUSTRIAL_CENTER,
     CardName.LAVA_FLOWS,

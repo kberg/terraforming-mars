@@ -9,25 +9,29 @@ import {TileType} from '../../TileType';
 import {ISpace} from '../../boards/ISpace';
 import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {CardRenderer} from '../render/CardRenderer';
+import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 
 export class DeimosDownPromo extends Card implements IProjectCard {
-  constructor() {
+  constructor(
+    name: CardName = CardName.DEIMOS_DOWN_PROMO,
+    adjacencyBonus: IAdjacencyBonus | undefined = undefined,
+    metadata = {
+      cardNumber: 'X31',
+      renderData: CardRenderer.builder((b) => {
+        b.temperature(3).br;
+        b.tile(TileType.DEIMOS_DOWN, true).asterix().br;
+        b.steel(4).digit.nbsp().minus().plants(-6).any;
+      }),
+      description: 'Raise temperature 3 steps and gain 4 steel. Place this tile ADJACENT TO no other city tile. Remove up to 6 Plants from any player.',
+    }) {
     super({
       cardType: CardType.EVENT,
-      name: CardName.DEIMOS_DOWN_PROMO,
+      name,
       tags: [Tags.SPACE],
       cost: 31,
       tr: {temperature: 3},
-
-      metadata: {
-        cardNumber: 'X31',
-        description: 'Raise temperature 3 steps and gain 4 steel. Place this tile ADJACENT TO no other city tile. Remove up to 6 Plants from any player.',
-        renderData: CardRenderer.builder((b) => {
-          b.temperature(3).br;
-          b.tile(TileType.DEIMOS_DOWN, true).asterix().br;
-          b.steel(4).digit.nbsp().minus().plants(-6).any;
-        }),
-      },
+      adjacencyBonus,
+      metadata,
     });
   }
 
@@ -49,6 +53,7 @@ export class DeimosDownPromo extends Card implements IProjectCard {
 
     return new SelectSpace('Select space for tile', availableSpaces, (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.DEIMOS_DOWN});
+      foundSpace.adjacency = this.adjacencyBonus;
       return undefined;
     });
   }

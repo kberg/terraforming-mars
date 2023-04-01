@@ -1582,6 +1582,17 @@ export class Game implements ISerializable<SerializedGame> {
       player.addResource(Resources.TITANIUM, count, {log: true});
     } else if (spaceBonus === SpaceBonus.POWER) {
       player.addResource(Resources.ENERGY, count, {log: true});
+    } else if (spaceBonus === SpaceBonus.ASTEROID) {
+      const asteroidCards = player.getResourceCards(ResourceType.ASTEROID);
+
+      if (asteroidCards.length === 1) {
+        player.addResourceTo(asteroidCards[0], count);
+        LogHelper.logAddResource(player, asteroidCards[0], count);
+      } else if (asteroidCards.length > 1) {
+        this.defer(new AddResourcesToCard(player, ResourceType.ANIMAL, {count: count}));
+      } else {
+        this.log("${0} has no asteroid cards", b => b.player(player));
+      }
     } else if (spaceBonus === SpaceBonus.HEAT) {
       player.addResource(Resources.HEAT, count, {log: true});
     } else if (spaceBonus === SpaceBonus.ANIMAL) {

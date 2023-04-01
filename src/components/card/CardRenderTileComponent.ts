@@ -26,6 +26,7 @@ const TILE_CLASSES: Map<TileType, Classes> = new Map([
     symbol: 'card-tile-symbol-commercial-district',
   }],
   [TileType.DEIMOS_DOWN, {
+    aresTile: 'card-tile-deimos-down-ares',
     symbol: 'card-tile-symbol-deimos-down',
   }],
   [TileType.GREAT_DAM, {

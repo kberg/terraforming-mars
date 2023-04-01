@@ -36,6 +36,8 @@ export const Bonus = Vue.component('bonus', {
         ret += 'bonustemperature';
       } else if (bonus === SpaceBonus.POWER) {
         ret += 'energy';
+      } else if (bonus === SpaceBonus.ASTEROID) {
+        ret += 'asteroid';
       }
 
       ret += ' board-space-bonus-pos--' + idx.toString();
