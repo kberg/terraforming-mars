@@ -6,9 +6,9 @@ import {PlayerInputTypes} from '../PlayerInputTypes';
 export type Options = {
   max: number,
   min: number,
-  selectBlueCardAction: boolean, // Default is false. When true, ???
+  selectBlueCardAction: boolean, // Default is false. When true, cards will be sorted according to the priority specified in ActiveCardsSortingOrder.ts
   enabled: Array<boolean> | undefined, // When provided, then the cards with false in `enabled` are not selectable and grayed out
-  played: boolean | CardName.SELF_REPLICATING_ROBOTS // Default is true. If true, then shows resources on those cards. If false than shows discounted price.
+  played: boolean | CardName.SELF_REPLICATING_ROBOTS // Default is true. If true, then shows resources on those cards. If false then shows discounted price.
   showOwner: boolean, // Default is false. If true then show the name of the card owner below.
 }
 export class SelectCard<T> implements PlayerInput {
