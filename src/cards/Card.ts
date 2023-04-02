@@ -139,8 +139,8 @@ export abstract class Card {
     card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
   }
 
-  public static setProductionDecreaseWarningText(card: ICard, resource: Resources, mustTargetSelf: boolean): void {
-    if (mustTargetSelf) {
+  public static setProductionDecreaseWarningText(card: ICard, resource: Resources, canTargetOthers: boolean): void {
+    if (canTargetOthers === false) {
       card.warning = `You will have to decrease your own ${resource} production if you play this card now.`;
     } else {
       card.warning = undefined;

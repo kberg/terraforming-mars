@@ -118,6 +118,11 @@ export const Card = Vue.component('card', {
     },
     getCardClasses: function(card: CardModel): string {
       const classes = ['card-container', 'filterDiv', 'filterDiv-card', 'hover-hide-res'];
+
+      if (card.warning !== undefined) {
+        classes.push('filterDiv-card-with-warning');
+      }
+
       classes.push('card-' + card.name.toLowerCase().replace(/ /g, '-'));
 
       if (this.actionUsed || card.isDisabled) {

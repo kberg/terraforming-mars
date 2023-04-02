@@ -40,7 +40,7 @@ export class Birds extends Card implements IActionCard, IProjectCard, IResourceC
     public resourceCount = 0;
 
     public canPlay(player: Player): boolean {
-      const otherPlayersHavePlantProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.PLANTS) > 1 && p.id !== player.id).length === 0;
+      const otherPlayersHavePlantProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.PLANTS) > 1 && p.id !== player.id).length > 0;
       Card.setProductionDecreaseWarningText(this, Resources.PLANTS, otherPlayersHavePlantProduction);
 
       return super.canPlay(player) && player.game.someoneHasResourceProduction(Resources.PLANTS, 2);

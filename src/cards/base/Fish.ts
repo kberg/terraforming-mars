@@ -42,7 +42,7 @@ export class Fish extends Card implements IActionCard, IProjectCard, IResourceCa
     public resourceCount: number = 0;
 
     public canPlay(player: Player): boolean {
-      const otherPlayersHavePlantProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.PLANTS) > 0 && p.id !== player.id).length === 0;
+      const otherPlayersHavePlantProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.PLANTS) > 0 && p.id !== player.id).length > 0;
       Card.setProductionDecreaseWarningText(this, Resources.PLANTS, otherPlayersHavePlantProduction);
 
       return super.canPlay(player) && player.game.someoneHasResourceProduction(Resources.PLANTS, 1);

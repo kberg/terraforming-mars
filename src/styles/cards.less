@@ -101,6 +101,11 @@ input[type="radio"]:checked + .filterDiv {
     box-shadow: 0 0 0 2px #303030, 0 0 0px 8px #c97e23;
 }
 
+input[type="checkbox"]:checked + .filterDiv-card-with-warning,
+input[type="radio"]:checked + .filterDiv-card-with-warning {
+    box-shadow: 0 0 0 2px #303030, 0 0 0px 8px #c94423 !important;
+}
+
 input[type="checkbox"]:checked + .filterDiv::after,
 input[type="radio"]:checked + .filterDiv::after {
     content: "✓";
@@ -131,6 +136,22 @@ input[type="radio"]:checked + .filterDiv-card::after {
     font-weight: bold;
     font-size: 36px;
     background: linear-gradient(to right, #c97e23, #e28c22, #c97e23);
+    color: black;
+    border-bottom: 1px solid #222;
+}
+
+input[type="checkbox"]:checked + .filterDiv-card-with-warning::after,
+input[type="radio"]:checked + .filterDiv-card-with-warning::after {
+    position: absolute;
+    width: calc(100% + 12px);
+    height: 50px;
+    line-height: 50px;
+    top: 50%;
+    left: -6px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 36px;
+    background: linear-gradient(to right, #c94423, #e25222, #c93c23);
     color: black;
     border-bottom: 1px solid #222;
 }

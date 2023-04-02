@@ -30,7 +30,7 @@ export class GreatEscarpmentConsortium extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    const otherPlayersHaveSteelProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.STEEL) > 0 && p.id !== player.id).length === 0;
+    const otherPlayersHaveSteelProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.STEEL) > 0 && p.id !== player.id).length > 0;
     Card.setProductionDecreaseWarningText(this, Resources.STEEL, otherPlayersHaveSteelProduction);
 
     return super.canPlay(player);
