@@ -229,6 +229,8 @@ export namespace MilestoneAwardSelector {
       bind(Smith, Miner, 8);
       bind(Smith, Industrialist, 5);
 
+      bind(Electrician, Energizer, 8);
+
       bind(Tradesman, Ecologist, 6);
       bind(Tradesman, Diversifier, 3);
       bind(Tradesman, Hoverlord, 6);
@@ -300,6 +302,7 @@ export namespace MilestoneAwardSelector {
       bind(Generator, Thermalist, 6);
       bind(Generator, Industrialist, 7);
       bind(Generator, Contractor, 4);
+      bind(Generator, Electrician, 9);
 
       bind(Protagonist, Terraformer, 9);
       bind(Protagonist, Benefactor, 9);
