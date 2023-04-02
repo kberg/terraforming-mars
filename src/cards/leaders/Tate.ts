@@ -33,7 +33,8 @@ export class Tate extends Card implements LeaderCard {
     return undefined;
   }
 
-  public canAct(): boolean {
+  public canAct(player: Player): boolean {
+   Card.setCannotAffordWarningText(this, player, 2);
    return this.isDisabled === false;
   }
 
