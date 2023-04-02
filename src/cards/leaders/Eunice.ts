@@ -45,7 +45,9 @@ export class Eunice extends Card implements LeaderCard {
     game.defer(new SelectHowToPayDeferred(player, 12));
 
     const allPlayedPreludes = game.getPlayers().map((player) => player.playedCards.filter((c) => c.cardType === CardType.PRELUDE)).reduce((a, b) => a.concat(b));
-    const eligiblePreludes = allPlayedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
+    let eligiblePreludes = allPlayedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
+    // Remove duplicate Merger preludes, which can happen if Merger mode is enabled
+    eligiblePreludes = eligiblePreludes.filter((value,index,arr) => arr.findIndex(v2 => (v2.name === value.name)) === index)
 
     game.defer(new DeferredAction(player, () => {
       this.opgActionIsActive = true;
