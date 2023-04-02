@@ -41,7 +41,7 @@ export class DoubleDown extends PreludeCard {
   public play(player: Player) {
     const game = player.game;
     const playedPreludes = player.playedCards.filter((c) => c.cardType === CardType.PRELUDE);
-    const eligiblePreludes = playedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
+    const eligiblePreludes = playedPreludes.filter((c) => c.name !== this.name).filter((c) => c.canPlay === undefined || c.canPlay(player));
 
     if (eligiblePreludes.length === 0) return undefined;
 
