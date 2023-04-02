@@ -23,7 +23,16 @@ export class DoubleDown extends PreludeCard {
   }
 
   public canPlay(player: Player) {
-    const playedPreludes = player.playedCards.filter((c) => c.cardType === CardType.PRELUDE);
+    let playedPreludes = player.playedCards.filter((c) => c.cardType === CardType.PRELUDE);
+
+    /*
+     When playing Double Down during the prelude phase, it is not yet in player.playedCards and will only check other played preludes
+     Eunice action however checks canPlay for all players' preludes
+     If Double Down is in play, it recursively checks itself, which causes a RangeError: Maximum call stack size exceeded
+     To avoid this error we need to filter out Double Down when it's checking for other copyable preludes
+    */
+    playedPreludes = playedPreludes.filter((p) => p.name !== this.name);
+
     const eligiblePreludes = playedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
 
     return eligiblePreludes.length > 0;
