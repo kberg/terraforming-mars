@@ -1446,7 +1446,15 @@ export class Player implements ISerializable<SerializedPlayer> {
    * plus any units of heat available thanks to Helion (and Stormcraft, by proxy).
    */
   public spendableMegacredits(): number {
-    return this.megaCredits + (this.canUseHeatAsMegaCredits ? this.availableHeat : 0);
+    let spendableMegacredits = this.megaCredits;
+
+    // This should never happen, but let's add a failsafe for debugging purposes and allow the game to continue
+    if (spendableMegacredits < 0) {
+      console.warn(`player.spendableMegacredits (${spendableMegacredits}) is less than 0`);
+      spendableMegacredits = 0;
+    }
+
+    return spendableMegacredits + (this.canUseHeatAsMegaCredits ? this.availableHeat : 0);
   }
 
   public runResearchPhase(draftVariant: boolean): void {
