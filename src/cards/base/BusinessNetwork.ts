@@ -35,7 +35,8 @@ export class BusinessNetwork extends Card implements IActionCard, IProjectCard {
     player.addProduction(Resources.MEGACREDITS, -1);
     return undefined;
   }
-  public canAct(): boolean {
+  public canAct(player: Player): boolean {
+    Card.setCannotAffordWarningText(this, player);
     return true;
   }
   public action(player: Player) {

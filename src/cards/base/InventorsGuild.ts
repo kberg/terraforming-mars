@@ -28,7 +28,8 @@ export class InventorsGuild extends Card implements IActionCard, IProjectCard {
   public play(_player: Player) {
     return undefined;
   }
-  public canAct(): boolean {
+  public canAct(player: Player): boolean {
+    Card.setCannotAffordWarningText(this, player);
     return true;
   }
   public action(player: Player) {

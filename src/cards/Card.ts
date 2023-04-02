@@ -146,4 +146,12 @@ export abstract class Card {
       card.warning = undefined;
     }
   }
+
+  public static setCannotAffordWarningText(card: ICard, player: Player): void {
+    if (!player.canAfford(player.cardCost)) {
+      card.warning = `You will not be able to buy the card if you take this action now.`;
+    } else {
+      card.warning = undefined;
+    }
+  }
 }
