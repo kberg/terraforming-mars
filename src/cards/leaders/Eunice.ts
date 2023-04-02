@@ -30,6 +30,7 @@ export class Eunice extends Card implements LeaderCard {
   }
 
   public isDisabled = false;
+  public opgActionIsActive = false;
 
   public play() {
     return undefined;
@@ -45,6 +46,11 @@ export class Eunice extends Card implements LeaderCard {
 
     const allPlayedPreludes = game.getPlayers().map((player) => player.playedCards.filter((c) => c.cardType === CardType.PRELUDE)).reduce((a, b) => a.concat(b));
     const eligiblePreludes = allPlayedPreludes.filter((c) => c.canPlay === undefined || c.canPlay(player));
+
+    game.defer(new DeferredAction(player, () => {
+      this.opgActionIsActive = true;
+      return undefined;
+    }));
 
     game.defer(new DeferredAction(player, () => {
       return new SelectCard('Choose prelude card to copy', 'Select', eligiblePreludes, (foundCards: Array<IProjectCard>) => {

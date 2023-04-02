@@ -6,6 +6,7 @@ import {Resources} from '../../Resources';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {LeaderCard} from '../LeaderCard';
 
 export class EcologyExperts extends PreludeCard {
   constructor() {
@@ -36,6 +37,7 @@ export class EcologyExperts extends PreludeCard {
 
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
+
     let copiedByDoubleDown: boolean = false;
 
     player.game.defer(new DeferredAction(player, () => {
@@ -46,10 +48,28 @@ export class EcologyExperts extends PreludeCard {
       return undefined;
     }));
 
-    player.game.defer(new PlayProjectCard(player));
+    let copiedByEunice: boolean = false;
 
     player.game.defer(new DeferredAction(player, () => {
+      const eunice = player.playedCards.find((card) => card.name === CardName.EUNICE);
+      if (eunice !== undefined && (eunice as LeaderCard).opgActionIsActive === true) {
+        copiedByEunice = true;
+        player.requirementsBonus += this.requirementsBonus;
+      }
+
+      return undefined;
+    }));
+
+    player.game.defer(new PlayProjectCard(player));
+
+    // Remove the temporary discounts after playing the card
+    player.game.defer(new DeferredAction(player, () => {
       if (copiedByDoubleDown) player.requirementsBonus -= this.requirementsBonus;
+      return undefined;
+    }));
+
+    player.game.defer(new DeferredAction(player, () => {
+      if (copiedByEunice) player.requirementsBonus -= this.requirementsBonus;
       return undefined;
     }));
 
