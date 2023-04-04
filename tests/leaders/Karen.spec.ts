@@ -37,9 +37,10 @@ describe('Karen', function() {
 
   it('Takes action in Generation 4', function() {
     for (let i = 0; i < 3; i++) {
-      game.deferredActions.runAll(() => {});
       TestingUtils.forceGenerationEnd(game);
     }
+
+    expect(game.generation).to.eq(4);
 
     const selectCard = card.action(player) as SelectCard<IProjectCard>;
     expect(selectCard.cards).has.length(4);
