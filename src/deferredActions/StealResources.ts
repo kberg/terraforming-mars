@@ -1,3 +1,4 @@
+import {CardName} from '../CardName';
 import {Player} from '../Player';
 import {Resources} from '../Resources';
 import {OrOptions} from '../inputs/OrOptions';
@@ -18,6 +19,11 @@ export class StealResources implements DeferredAction {
 
   public execute() {
     if (this.player.game.isSoloMode()) {
+      this.player.addResource(this.resource, this.count);
+      return undefined;
+    }
+
+    if (this.player.isCorporation(CardName.BENTENMARU)) {
       this.player.addResource(this.resource, this.count);
       return undefined;
     }
