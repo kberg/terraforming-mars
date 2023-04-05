@@ -8,6 +8,7 @@ import {ICard} from '../ICard';
 import {SelectCard} from '../../inputs/SelectCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {Viron} from '../venusNext/Viron';
 
 export class ProjectInspection extends Card implements IProjectCard {
   constructor() {
@@ -29,7 +30,7 @@ export class ProjectInspection extends Card implements IProjectCard {
 
     player.corporationCards.forEach((corp) => {
       if (player.getActionsThisGeneration().has(corp.name)) {
-        if (corp.name !== CardName.PLAYWRIGHTS || (corp as Playwrights).getCheckLoops() < 2) {
+        if ((corp.name !== CardName.PLAYWRIGHTS || (corp as Playwrights).getCheckLoops() < 2) && (corp.name !== CardName.VIRON || (corp as Viron).getCheckLoops() < 2)) {
           if (corp.action !== undefined && corp.canAct !== undefined && corp.canAct(player)) {
             result.push(corp);
           }

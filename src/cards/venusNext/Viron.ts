@@ -32,8 +32,16 @@ export class Viron extends Card implements ICard, CorporationCard {
     });
   }
 
+  private checkLoops: number = 0;
+
+  public getCheckLoops(): number {
+    return this.checkLoops;
+  }
+
   private getActionCards(player: Player):Array<ICard> {
     const result: Array<ICard> = [];
+    this.checkLoops++;
+
     for (const playedCard of player.playedCards) {
       if (
         playedCard.action !== undefined &&
@@ -57,6 +65,7 @@ export class Viron extends Card implements ICard, CorporationCard {
       }
     }
 
+    this.checkLoops--;
     return result;
   }
 
