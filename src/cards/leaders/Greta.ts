@@ -47,8 +47,12 @@ export class Greta extends Card implements LeaderCard {
     if (this.opgActionIsActive === false) return;
     if (this.effectTriggerCount === 10) return;
 
-    player.addResource(Resources.MEGACREDITS, 4, {log: true});
     this.effectTriggerCount++;
+    const remainingUses = 10 - this.effectTriggerCount;
+
+    player.game.log('${0} triggered ${1} effect (${2}/10 remaining)', (b) => b.player(player).card(this).number(remainingUses));
+    player.addResource(Resources.MEGACREDITS, 4, {log: true});
+
     return undefined;
   }
 }
