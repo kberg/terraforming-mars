@@ -48,6 +48,7 @@ export interface DebugUIModel {
   moon: boolean,
   leaders: boolean,
   promo: boolean,
+  automaSoloVariant: boolean,
 }
 
 export const DebugUI = Vue.component('debug-ui', {
@@ -70,6 +71,7 @@ export const DebugUI = Vue.component('debug-ui', {
       moon: true,
       leaders: true,
       promo: true,
+      automaSoloVariant: true,
     } as DebugUIModel;
   },
   mounted() {
@@ -101,6 +103,7 @@ export const DebugUI = Vue.component('debug-ui', {
       data.ares = !data.ares;
       data.moon = !data.moon;
       data.leaders = !data.leaders;
+      data.automaSoloVariant = !data.automaSoloVariant;
     },
     sort: function(names: Array<CardName>): Array<CardName> {
       if (this.$data.sortById) {
@@ -237,6 +240,12 @@ export const DebugUI = Vue.component('debug-ui', {
               <label for="promo-checkbox" class="expansion-button">
                   <div class="create-game-expansion-icon expansion-icon-promo"></div>
                   <span v-i18n>Promos</span>
+              </label>
+
+              <input type="checkbox" name="automaSoloVariant" id="automaSoloVariant-checkbox" v-model="automaSoloVariant"></input>
+              <label for="automaSoloVariant-checkbox" class="expansion-button">
+                  <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                  <span v-i18n>Automa</span>
               </label>
 
               <input type="checkbox" name="ares" id="ares-checkbox" v-model="ares"></input>

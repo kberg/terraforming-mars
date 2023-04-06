@@ -88,6 +88,7 @@ export class GameHandler extends Handler {
           twoCorpsVariant: gameReq.twoCorpsVariant,
           newOpsExpansion: gameReq.newOpsExpansion,
           archaeologyExtension: gameReq.archaeologyExtension,
+          automaSoloVariant: gameReq.automaSoloVariant,
           solarPhaseOption: gameReq.solarPhaseOption,
           silverCubeVariant: gameReq.silverCubeVariant,
           singleTradeVariant: gameReq.singleTradeVariant,

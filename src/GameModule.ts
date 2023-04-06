@@ -11,4 +11,5 @@ export enum GameModule {
     Ares = 'ares',
     Moon = 'moon',
     Leader = 'leader',
+    Automa = 'automa',
 }

@@ -63,6 +63,7 @@ export class TestingUtils {
       twoCorpsVariant: false,
       newOpsExpansion: false,
       archaeologyExtension: false,
+      automaSoloVariant: false,
       leadersExpansion: false,
       undoOption: false,
       showTimers: false,

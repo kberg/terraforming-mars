@@ -513,6 +513,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
         colosseumVariant: game.gameOptions.colosseumVariant,
         newOpsExpansion: game.gameOptions.newOpsExpansion,
         archaeologyExtension: game.gameOptions.archaeologyExtension,
+        automaSoloVariant: game.gameOptions.automaSoloVariant,
         leadersExpansion: game.gameOptions.leadersExpansion,
         timer: player.timer.serialize(),
         totalSpend: player.totalSpend,
@@ -642,5 +643,6 @@ function getGameOptionsAsModel(options: GameOptions): GameOptionsModel {
     venusNextExtension: options.venusNextExtension,
     requiresPassword: options.requiresPassword,
     requiresVenusTrackCompletion: options.requiresVenusTrackCompletion,
+    automaSoloVariant: options.automaSoloVariant,
   };
 }

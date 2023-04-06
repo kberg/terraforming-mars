@@ -78,6 +78,7 @@ export interface CreateGameModel {
     escapeVelocityPeriod: number;
     escapeVelocityPenalty: number;
     requiresPassword: boolean;
+    automaSoloVariant: boolean;
 }
 
 export interface NewPlayerModel {
@@ -170,6 +171,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       escapeVelocityThreshold: 30,
       escapeVelocityPeriod: 2,
       escapeVelocityPenalty: 1,
+      automaSoloVariant: false,
     };
   },
   components: {
@@ -489,6 +491,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const venusNext = component.venusNext;
       const colonies = component.colonies;
       const turmoil = component.turmoil;
+      const automaSoloVariant = component.automaSoloVariant;
       const solarPhaseOption = this.solarPhaseOption;
       const silverCubeVariant = this.silverCubeVariant;
       const singleTradeVariant = this.singleTradeVariant;
@@ -592,6 +595,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         twoCorpsVariant: twoCorpsVariant,
         newOpsExpansion: newOpsExpansion,
         archaeologyExtension: archaeologyExtension,
+        automaSoloVariant: automaSoloVariant,
         leadersExpansion: leadersExpansion,
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,
@@ -980,6 +984,14 @@ export const CreateGameForm = Vue.component('create-game-form', {
 
                         <div v-if="!isSoloGame() || venusNext || moonExpansion || aresExtension" class="create-game-page-column">
                             <h4 v-i18n>Variants</h4>
+
+                            <template v-if="isSoloGame()">
+                                <input type="checkbox" name="automaSoloVariant" id="automaSoloVariant-checkbox" v-model="automaSoloVariant">
+                                <label for="automaSoloVariant-checkbox" class="expansion-button">
+                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                                    <span v-i18n>Automa</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
 
                             <template v-if="!isSoloGame()">
                                 <input type="checkbox" name="draftVariant" v-model="draftVariant" id="draft-checkbox">

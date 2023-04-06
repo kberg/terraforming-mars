@@ -137,6 +137,7 @@ function simpleGameOptions(): GameOptions {
     twoCorpsVariant: false,
     newOpsExpansion: false,
     archaeologyExtension: false,
+    automaSoloVariant: false,
     leadersExpansion: false,
     randomMA: RandomMAOptionType.NONE,
   };

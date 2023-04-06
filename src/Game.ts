@@ -134,6 +134,7 @@ export interface GameOptions {
   escapeVelocityPeriod?: number;
   escapeVelocityPenalty?: number;
   requiresPassword: boolean;
+  automaSoloVariant: boolean;
 }
 
 const DEFAULT_GAME_OPTIONS: GameOptions = {
@@ -184,6 +185,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   twoCorpsVariant: false,
   undoOption: false,
   venusNextExtension: false,
+  automaSoloVariant: false,
 };
 
 export class Game implements ISerializable<SerializedGame> {
@@ -311,6 +313,10 @@ export class Game implements ISerializable<SerializedGame> {
 
       players[0].setTerraformRating(14);
       players[0].terraformRatingAtGenerationStart = 14;
+
+      if (gameOptions.automaSoloVariant) {
+        // TODO: Add a "bot" player
+      }
     }
 
     const game = new Game(id, players, firstPlayer, activePlayer, gameOptions, seed, board, dealer);
@@ -596,7 +602,7 @@ export class Game implements ISerializable<SerializedGame> {
     });
 
     // Solo games with Venus needs Venus maxed to end the game.
-    if (this.players.length === 1 && this.gameOptions.venusNextExtension) {
+    if (this.isSoloMode() && this.gameOptions.venusNextExtension) {
       return globalParametersMaxed && venusMaxed;
     }
     // new option "requiresVenusTrackCompletion" also makes maximizing Venus a game-end requirement
@@ -672,14 +678,14 @@ export class Game implements ISerializable<SerializedGame> {
 
   public allAwardsFunded(): boolean {
     // Awards are disabled for 1 player games
-    if (this.players.length === 1) return true;
+    if (this.isSoloMode()) return true;
 
     return this.fundedAwards.length >= constants.MAX_AWARDS;
   }
 
   public allMilestonesClaimed(): boolean {
     // Milestones are disabled for 1 player games
-    if (this.players.length === 1) return true;
+    if (this.isSoloMode()) return true;
 
     return this.claimedMilestones.length >= constants.MAX_MILESTONES;
   }
@@ -831,7 +837,7 @@ export class Game implements ISerializable<SerializedGame> {
         player.setWaitingFor(this.pickCorporationCard(player));
       }
     }
-    if (this.players.length === 1 && this.gameOptions.coloniesExtension) {
+    if (this.isSoloMode() && this.gameOptions.coloniesExtension) {
       this.players[0].addProduction(Resources.MEGACREDITS, -2);
       this.defer(new RemoveColonyFromGame(this.players[0]));
     }

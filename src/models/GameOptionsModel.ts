@@ -43,4 +43,5 @@ export interface GameOptionsModel {
   requiresPassword: boolean,
   requiresVenusTrackCompletion: boolean,
   altVenusBoard: boolean,
+  automaSoloVariant: boolean,
 }
