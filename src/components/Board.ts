@@ -47,6 +47,9 @@ export const Board = Vue.component('board', {
     promoCardsOption: {
       type: Boolean,
     },
+    automaSoloVariant: {
+      type: Boolean,
+    },
   },
   components: {
     'board-space': BoardSpace,
@@ -115,6 +118,36 @@ export const Board = Vue.component('board', {
           new GlobalParamLevel(value, value === curValue, strValue),
         );
       }
+
+      if (this.automaSoloVariant === true) {
+        switch (targetParameter) {
+        case 'oxygen':
+          for (let i = values.length - 2; i > 0; i -= 2) {
+            values[i] = new GlobalParamLevel(values[i].value, false, '■');
+          }
+          break;
+        case 'temperature':
+          // Block -26 degrees and -24 degrees
+          values[values.length - 3] = new GlobalParamLevel(values[values.length - 3].value, false, '■');
+          values[values.length - 4] = new GlobalParamLevel(values[values.length - 4].value, false, '■');
+
+          // Block -18 degrees and every 2 spots after that (-14, -10, ..., up to +6)
+          for (let i = values.length - 7; i > 0; i -= 2) {
+            values[i] = new GlobalParamLevel(values[i].value, false, '■');
+          }
+          break;
+        case 'venus':
+          // Block 28%
+          values[1] = new GlobalParamLevel(values[1].value, false, '■');
+
+          // Block 2% and every 2 spots after that (6, 10, ..., up to 26)
+          for (let i = 2; i < values.length; i += 2) {
+            values[i] = new GlobalParamLevel(values[i].value, false, '■');
+          }
+          break;
+        }
+      }
+
       return values;
     },
     getScaleCSS: function(paramLevel: GlobalParamLevel): string {
