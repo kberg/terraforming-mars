@@ -64,5 +64,8 @@ export interface SerializedGame {
     oceansSilverCubeBonusMC: number;
     oxygenSilverCubeBonusMC: number;
     venusSilverCubeBonusMC: number;
+    hasAutomaBot: boolean;
+    automaBotScore: number;
+    automaBotCorporation: CardName | undefined;
 }
 

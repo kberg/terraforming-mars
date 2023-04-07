@@ -982,7 +982,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             </template>
                         </div>
 
-                        <div v-if="!isSoloGame() || venusNext || moonExpansion || aresExtension" class="create-game-page-column">
+                        <div v-if="isSoloGame() || venusNext || moonExpansion || aresExtension" class="create-game-page-column">
                             <h4 v-i18n>Variants</h4>
 
                             <template v-if="isSoloGame()">

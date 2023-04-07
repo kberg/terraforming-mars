@@ -68,6 +68,11 @@ export class Server {
       actionsTakenThisGame: player.actionsTakenThisGame,
       actionsThisGeneration: Array.from(player.getActionsThisGeneration()),
       aresData: game.aresData,
+      automaBotScore: game.automaBotScore,
+      automaBotCorporation: {
+        name: game.automaBotCorporation?.name,
+        cardType: CardType.CORPORATION,
+      } as CardModel,
       availableBlueCardActionCount: player.getAvailableBlueActionCount(),
       awards: getAwards(game),
       cardCost: player.cardCost,

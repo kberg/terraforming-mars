@@ -4,6 +4,7 @@ import {OverviewSettings} from './OverviewSettings';
 import {OtherPlayer} from '../OtherPlayer';
 import {PlayerModel} from '../../models/PlayerModel';
 import {ActionLabel} from './ActionLabel';
+import {AutomaBotInfo} from './AutomaBotInfo';
 import {Phase} from '../../Phase';
 
 export const getCurrentPlayerIndex = (
@@ -29,6 +30,7 @@ export const PlayersOverview = Vue.component('players-overview', {
     'player-info': PlayerInfo,
     'overview-settings': OverviewSettings,
     'other-player': OtherPlayer,
+    'automa-bot-info': AutomaBotInfo,
   },
   data: function() {
     return {
@@ -94,8 +96,13 @@ export const PlayersOverview = Vue.component('players-overview', {
                     <other-player v-if="otherPlayer.id !== player.id" :player="otherPlayer" :playerIndex="index"/>
                 </div>
             </div>
+
             <player-info v-for="(p, index) in getPlayersInOrder()" :activePlayer="player" :player="p"  :key="p.id" :firstForGen="getIsFirstForGen(p)" :actionLabel="getActionLabel(p)" :playerIndex="index"/>
             <player-info :player="getPlayerOnFocus()" :activePlayer="player" :key="player.players.length - 1" :firstForGen="getIsFirstForGen(player)" :actionLabel="getActionLabel(player)" :playerIndex="-1"/>
+
+            <div v-if="player.players.length === 1">
+                <automa-bot-info :player="player"/>
+            </div>
         </div>
     `,
 });

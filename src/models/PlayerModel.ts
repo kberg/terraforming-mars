@@ -20,6 +20,8 @@ export interface PlayerModel {
     actionsThisGeneration: Array<string>;
     actionsTakenThisGame: number;
     aresData: IAresData | undefined;
+    automaBotScore: number;
+    automaBotCorporation: CardModel;
     availableBlueCardActionCount: number;
     awards: Array<FundedAwardModel>;
     cardCost: number;

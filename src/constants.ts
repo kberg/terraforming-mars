@@ -10,6 +10,8 @@ export const DEFAULT_TITANIUM_VALUE: number = 3;
 export const DEFAULT_FLOATERS_VALUE: number = 3;
 export const DEFAULT_MICROBES_VALUE: number = 2;
 export const OCEAN_BONUS: number = 2;
+export const SOLO_START_TR: number = 14;
+
 // Global parameters
 export const HEAT_FOR_TEMPERATURE: number = 8;
 export const MAX_OCEAN_TILES: number = 9;

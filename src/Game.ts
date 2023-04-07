@@ -71,6 +71,7 @@ import {LogType} from './deferredActions/DrawCards';
 import {ArchaeologyHandler} from './community/ArchaeologyHandler';
 import {_AresHazardPlacement} from './ares/AresHazards';
 import {Eris} from './cards/ares/Eris';
+import {AutomaHandler} from './automa/AutomaHandler';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -239,6 +240,9 @@ export class Game implements ISerializable<SerializedGame> {
   public oceansSilverCubeBonusMC: number = 0;
   public oxygenSilverCubeBonusMC: number = 0;
   public venusSilverCubeBonusMC: number = 0;
+  public hasAutomaBot: boolean = false;
+  public automaBotCorporation: CorporationCard | undefined = undefined;
+  public automaBotScore: number = 0;
 
   // Card-specific data
   // Mons Insurance promo corp
@@ -311,12 +315,8 @@ export class Game implements ISerializable<SerializedGame> {
       gameOptions.initialDraftVariant = false;
       gameOptions.randomMA = RandomMAOptionType.NONE;
 
-      players[0].setTerraformRating(14);
-      players[0].terraformRatingAtGenerationStart = 14;
-
-      if (gameOptions.automaSoloVariant) {
-        // TODO: Add a "bot" player
-      }
+      players[0].setTerraformRating(constants.SOLO_START_TR);
+      players[0].terraformRatingAtGenerationStart = constants.SOLO_START_TR;
     }
 
     const game = new Game(id, players, firstPlayer, activePlayer, gameOptions, seed, board, dealer);
@@ -324,6 +324,11 @@ export class Game implements ISerializable<SerializedGame> {
     // Initialize Ares data
     if (gameOptions.aresExtension) {
       game.aresData = AresSetup.initialData(gameOptions.aresExtension, gameOptions.aresHazards, players);
+    }
+
+    // Initialize Automa bot
+    if (game.isSoloMode() && gameOptions.automaSoloVariant) {
+      AutomaHandler.initialize(game);
     }
 
     const milestonesAwards = MilestoneAwardSelector.chooseMilestonesAndAwards(gameOptions);
@@ -519,6 +524,9 @@ export class Game implements ISerializable<SerializedGame> {
       oceansSilverCubeBonusMC: this.oceansSilverCubeBonusMC,
       oxygenSilverCubeBonusMC: this.oxygenSilverCubeBonusMC,
       venusSilverCubeBonusMC: this.venusSilverCubeBonusMC,
+      hasAutomaBot: this.hasAutomaBot,
+      automaBotScore: this.automaBotScore,
+      automaBotCorporation: this.automaBotCorporation?.name,
     };
     if (this.aresData !== undefined) {
       result.aresData = this.aresData;
@@ -1877,6 +1885,13 @@ export class Game implements ISerializable<SerializedGame> {
     game.oxygenSilverCubeBonusMC = d.oxygenSilverCubeBonusMC;
     game.venusSilverCubeBonusMC = d.venusSilverCubeBonusMC;
     game.syndicatePirateRaider = d.syndicatePirateRaider;
+    game.hasAutomaBot = d.hasAutomaBot;
+    game.automaBotScore = d.automaBotScore;
+
+    if (d.automaBotCorporation !== undefined) {
+      const automaBotCorporation = cardFinder.getCorporationCardByName(d.automaBotCorporation);
+      game.automaBotCorporation = automaBotCorporation;
+    }
 
     // Still in Draft or Research of generation 1
     if (game.generation === 1 && players.some((p) => p.corporationCards.length === 0)) {
