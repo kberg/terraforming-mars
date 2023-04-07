@@ -43,7 +43,7 @@ export class Xu extends Card implements LeaderCard {
 
     player.addResource(Resources.MEGACREDITS, amount * 2, {log: true});
 
-    const allPlayerVenusTagCounts = players.map((p) => p.getTagCount(Tags.VENUS));
+    const allPlayerVenusTagCounts = players.map((p) => p.getTagCount(Tags.VENUS, player.id === p.id ? 'default' : 'raw'));
 
     if (Math.max(...allPlayerVenusTagCounts) === player.getTagCount(Tags.VENUS)) {
       player.addResource(Resources.MEGACREDITS, 8, {log: true});
