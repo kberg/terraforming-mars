@@ -240,7 +240,6 @@ export class Game implements ISerializable<SerializedGame> {
   public oceansSilverCubeBonusMC: number = 0;
   public oxygenSilverCubeBonusMC: number = 0;
   public venusSilverCubeBonusMC: number = 0;
-  public hasAutomaBot: boolean = false;
   public automaBotCorporation: CorporationCard | undefined = undefined;
   public automaBotScore: number = 0;
 
@@ -524,7 +523,6 @@ export class Game implements ISerializable<SerializedGame> {
       oceansSilverCubeBonusMC: this.oceansSilverCubeBonusMC,
       oxygenSilverCubeBonusMC: this.oxygenSilverCubeBonusMC,
       venusSilverCubeBonusMC: this.venusSilverCubeBonusMC,
-      hasAutomaBot: this.hasAutomaBot,
       automaBotScore: this.automaBotScore,
       automaBotCorporation: this.automaBotCorporation?.name,
     };
@@ -1362,9 +1360,17 @@ export class Game implements ISerializable<SerializedGame> {
     return this.venusScaleLevel;
   }
 
+  public setTemperature(value: number) {
+    if (value > constants.MAX_TEMPERATURE) value = constants.MAX_TEMPERATURE;
+    if (value < constants.MIN_TEMPERATURE) value = constants.MIN_TEMPERATURE;
+
+    this.temperature = value;
+  }
+
   public increaseTemperature(player: Player, increments: -2 | -1 | 1 | 2 | 3): undefined {
     if (increments === -2 || increments === -1) {
-      this.temperature = Math.max(constants.MIN_TEMPERATURE, this.temperature + increments * 2);
+      // Setting the actual new temperature is delegated to AutomaHandler
+      AutomaHandler.decreaseTemperature(this, increments);
       return undefined;
     }
 
@@ -1375,12 +1381,17 @@ export class Game implements ISerializable<SerializedGame> {
     // Literal typing makes |increments| a const
     const steps = Math.min(increments, (constants.MAX_TEMPERATURE - this.temperature) / 2);
 
+    // Setting the actual new temperature is delegated to AutomaHandler
+    const originalTemperatureBeforeIncrease = this.getTemperature();
+    AutomaHandler.increaseTemperature(this, steps);
+    const newTemperature = this.getTemperature();
+
     if (this.phase !== Phase.SOLAR) {
       // BONUS FOR HEAT PRODUCTION AT -20 and -24
-      if (this.temperature < -24 && this.temperature + steps * 2 >= -24) {
+      if (originalTemperatureBeforeIncrease < -24 && newTemperature >= -24 && this.gameOptions.automaSoloVariant === false) {
         player.addProduction(Resources.HEAT, 1, {log: true});
       }
-      if (this.temperature < -20 && this.temperature + steps * 2 >= -20) {
+      if (originalTemperatureBeforeIncrease < -20 && newTemperature >= -20) {
         player.addProduction(Resources.HEAT, 1, {log: true});
       }
 
@@ -1389,11 +1400,9 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     // BONUS FOR OCEAN TILE AT 0
-    if (this.temperature < 0 && this.temperature + steps * 2 >= 0) {
+    if (originalTemperatureBeforeIncrease < 0 && newTemperature >= 0) {
       this.defer(new PlaceOceanTile(player, 'Select space for ocean from temperature increase'));
     }
-
-    this.temperature += steps * 2;
 
     AresHandler.ifAres(this, (aresData) => {
       AresHandler.onTemperatureChange(this, aresData);
@@ -1885,7 +1894,6 @@ export class Game implements ISerializable<SerializedGame> {
     game.oxygenSilverCubeBonusMC = d.oxygenSilverCubeBonusMC;
     game.venusSilverCubeBonusMC = d.venusSilverCubeBonusMC;
     game.syndicatePirateRaider = d.syndicatePirateRaider;
-    game.hasAutomaBot = d.hasAutomaBot;
     game.automaBotScore = d.automaBotScore;
 
     if (d.automaBotCorporation !== undefined) {

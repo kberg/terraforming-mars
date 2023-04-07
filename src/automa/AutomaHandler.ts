@@ -1,17 +1,46 @@
 import {Game} from "../Game";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
-import {SOLO_START_TR} from "../constants";
+import {MAX_TEMPERATURE, MIN_TEMPERATURE, SOLO_START_TR} from "../constants";
+
+const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
 
 export class AutomaHandler {
     private constructor() {}
 
     public static initialize(game: Game): void {
-      game.hasAutomaBot = true;
       game.automaBotScore = SOLO_START_TR;
 
       // This is just a placeholder for now, we'll add the real bot corporations later
       const automaBotCorporation = new TerralabsResearch();
       game.automaBotCorporation = automaBotCorporation;
       game.log('Bot played ${0}', (b) => b.card(automaBotCorporation));
+    }
+
+    public static decreaseTemperature(game: Game, steps: number): void {
+      if (game.gameOptions.automaSoloVariant) {
+        for (let i = 0; i < Math.abs(steps); i++) {
+          game.setTemperature(game.getTemperature() - 2);
+
+          while (blockedTemperatureSpots.includes(game.getTemperature()) && game.getTemperature() > MIN_TEMPERATURE) {
+            game.setTemperature(game.getTemperature() - 2);
+          }
+        }
+      } else {
+        game.setTemperature(Math.max(MIN_TEMPERATURE, game.getTemperature() + steps * 2));
+      }
+    }
+
+    public static increaseTemperature(game: Game, steps: number): void {
+      if (game.gameOptions.automaSoloVariant) {
+        for (let i = 0; i < steps; i++) {
+          game.setTemperature(game.getTemperature() + 2);
+
+          while (blockedTemperatureSpots.includes(game.getTemperature()) && game.getTemperature() < MAX_TEMPERATURE) {
+            game.setTemperature(game.getTemperature() + 2);
+          }
+        }
+      } else {
+        game.setTemperature(game.getTemperature() + steps * 2);
+      }
     }
 }
