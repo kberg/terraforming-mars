@@ -1308,7 +1308,7 @@ export class Player implements ISerializable<SerializedPlayer> {
           }),
         );
       }
-      if (game.board.getOceansOnBoard() < constants.MAX_OCEAN_TILES) {
+      if (game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant) < constants.MAX_OCEAN_TILES) {
         action.options.push(
           new SelectSpace(
             'Add an ocean',
@@ -2162,7 +2162,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     if (tr.oceans !== undefined) {
-      const availableSteps = constants.MAX_OCEAN_TILES - this.game.board.getOceansOnBoard();
+      const availableSteps = constants.MAX_OCEAN_TILES - this.game.board.getOceansOnBoard(this.game.gameOptions.automaSoloVariant);
       const steps = Math.min(availableSteps, tr.oceans);
       total = total + steps;
     }

@@ -37,12 +37,12 @@ export class ArtificialLake extends Card implements IProjectCard {
     Card.setRedsWarningText(trGain, this);
 
     const board = player.game.board;
-    if (board.getOceansOnBoard() === MAX_OCEAN_TILES) return true;
+    if (board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) return true;
     return board.getAvailableSpacesOnLand(player).length > 0;
   }
 
   public play(player: Player) {
-    if (player.game.board.getOceansOnBoard() >= MAX_OCEAN_TILES) return undefined;
+    if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) >= MAX_OCEAN_TILES) return undefined;
 
     return new SelectSpace('Select a land space to place an ocean', player.game.board.getAvailableSpacesOnLand(player), (foundSpace: ISpace) => {
       player.game.addOceanTile(player, foundSpace.id, SpaceType.LAND);

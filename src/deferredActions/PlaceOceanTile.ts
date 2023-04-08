@@ -13,7 +13,7 @@ export class PlaceOceanTile implements DeferredAction {
   ) {}
 
   public execute() {
-    if (this.player.game.board.getOceansOnBoard() >= constants.MAX_OCEAN_TILES) {
+    if (this.player.game.board.getOceansOnBoard(this.player.game.gameOptions.automaSoloVariant) >= constants.MAX_OCEAN_TILES) {
       return undefined;
     }
 

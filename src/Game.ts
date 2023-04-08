@@ -587,13 +587,13 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public noOceansAvailable(): boolean {
-    return this.board.getOceansOnBoard() >= constants.MAX_OCEAN_TILES;
+    return this.board.getOceansOnBoard(this.gameOptions.automaSoloVariant) >= constants.MAX_OCEAN_TILES;
   }
 
   public marsIsTerraformed(): boolean {
     const oxygenMaxed = this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL;
     const temperatureMaxed = this.temperature >= constants.MAX_TEMPERATURE;
-    const oceansMaxed = this.board.getOceansOnBoard() === constants.MAX_OCEAN_TILES;
+    const oceansMaxed = this.board.getOceansOnBoard(this.gameOptions.automaSoloVariant) === constants.MAX_OCEAN_TILES;
     let globalParametersMaxed = oxygenMaxed && temperatureMaxed && oceansMaxed;
     const venusMaxed = this.getVenusScaleLevel() === constants.MAX_VENUS_SCALE;
 
@@ -909,7 +909,7 @@ export class Game implements ISerializable<SerializedGame> {
     // Maybe spawn a new hazard on Mars every 3 generations
     if (gameOptions.aresExtension && gameOptions.aresExtremeVariant && generation % 3 === 0) {
       const direction = Math.floor(Math.random() * 2) === 0 ? 1 : -1;
-      const tileType = this.board.getOceansOnBoard() >= 3 ? TileType.EROSION_MILD : TileType.DUST_STORM_MILD;
+      const tileType = this.board.getOceansOnBoard(gameOptions.automaSoloVariant) >= 3 ? TileType.EROSION_MILD : TileType.DUST_STORM_MILD;
 
       _AresHazardPlacement.randomlyPlaceHazard(this, tileType, direction, false);
     }
@@ -1690,18 +1690,18 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public canAddOcean(): boolean {
-    return this.board.getOceansOnBoard() < constants.MAX_OCEAN_TILES;
+    return this.board.getOceansOnBoard(this.gameOptions.automaSoloVariant) < constants.MAX_OCEAN_TILES;
   }
 
   public canRemoveOcean(): boolean {
-    const count = this.board.getOceansOnBoard();
+    const count = this.board.getOceansOnBoard(this.gameOptions.automaSoloVariant);
     return count > 0 && count < constants.MAX_OCEAN_TILES;
   }
 
   public addOceanTile(
     player: Player, spaceId: SpaceId,
     spaceType: SpaceType = SpaceType.OCEAN): void {
-    if (this.board.getOceansOnBoard() === constants.MAX_OCEAN_TILES) {
+    if (this.board.getOceansOnBoard(this.gameOptions.automaSoloVariant) === constants.MAX_OCEAN_TILES) {
       return;
     }
     this.addTile(player, spaceType, this.board.getSpace(spaceId), {

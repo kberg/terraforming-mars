@@ -3,6 +3,7 @@ import {SelectSpace} from '../inputs/SelectSpace';
 import {ISpace} from '../boards/ISpace';
 import {DeferredAction, Priority} from './DeferredAction';
 import {LogHelper} from '../LogHelper';
+import {AUTOMA_REMOVED_OCEANS_COUNT} from '../constants';
 
 export class RemoveOceanTile implements DeferredAction {
   public priority = Priority.DEFAULT;
@@ -12,7 +13,9 @@ export class RemoveOceanTile implements DeferredAction {
   ) {}
 
   public execute() {
-    if (this.player.game.board.getOceansOnBoard() === 0) {
+    const automaSoloVariant = this.player.game.gameOptions.automaSoloVariant;
+    const floor = automaSoloVariant ? AUTOMA_REMOVED_OCEANS_COUNT : 0;
+    if (this.player.game.board.getOceansOnBoard(automaSoloVariant) === floor) {
       return undefined;
     }
     return new SelectSpace(

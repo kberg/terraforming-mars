@@ -38,7 +38,7 @@ export class PermafrostExtraction extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    if (player.game.board.getOceansOnBoard() === MAX_OCEAN_TILES) {
+    if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) {
       return undefined;
     }
 

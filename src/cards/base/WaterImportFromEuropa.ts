@@ -40,7 +40,7 @@ export class WaterImportFromEuropa extends Card implements IActionCard, IProject
     return undefined;
   }
   public canAct(player: Player): boolean {
-    const oceansMaxed = player.game.board.getOceansOnBoard() === MAX_OCEAN_TILES;
+    const oceansMaxed = player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES;
     const oceanCost = 12;
 
     if (oceansMaxed) return false;

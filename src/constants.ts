@@ -43,6 +43,8 @@ export const MAXIMUM_LOGISTICS_RATE = 8;
 export const BONUS_SECONDS_PER_ACTION = 2;
 // Leaders
 export const ASIMOV_AWARD_BONUS = 2;
+// Automa
+export const AUTOMA_REMOVED_OCEANS_COUNT = 3;
 
 export const LANGUAGES = [
   {'id': 'en', 'title': 'English'},

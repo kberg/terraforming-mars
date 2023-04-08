@@ -6,6 +6,7 @@ import {AresHandler} from '../ares/AresHandler';
 import {SerializedBoard, SerializedSpace} from './SerializedBoard';
 import {SpaceBonus} from '../SpaceBonus';
 import {CardName} from '../CardName';
+import {AUTOMA_REMOVED_OCEANS_COUNT} from '../constants';
 
 /**
  * A representation of any hex board. This is normally Mars (Tharsis, Hellas, Elysium) but can also be The Moon.
@@ -108,8 +109,15 @@ export abstract class Board {
     );
   }
 
-  public getOceansOnBoard(countUpgradedOceans: boolean = true): number {
-    return this.getOceansTiles(countUpgradedOceans).length;
+  // 3 oceans are removed in Automa solo variant, but we still count them as having been placed
+  // This ensures that cards with high ocean requirements like Penguins can still be playable
+  public getOceansOnBoard(automaSoloVariant: boolean = false): number {
+    const countUpgradedOceans: boolean = true;
+
+    let oceansOnBoard = this.getOceansTiles(countUpgradedOceans).length;
+    if (automaSoloVariant) oceansOnBoard += AUTOMA_REMOVED_OCEANS_COUNT;
+
+    return oceansOnBoard;
   }
 
   public getOceansTiles(countUpgradedOceans: boolean): Array<ISpace> {

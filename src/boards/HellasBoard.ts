@@ -86,7 +86,7 @@ export class HellasBoard extends Board {
 
   public static handleBonusOceanFromTilePlacement(game: Game, player: Player, space: ISpace) {
     if (space.id === SpaceName.HELLAS_OCEAN_TILE &&
-        game.board.getOceansOnBoard() < MAX_OCEAN_TILES &&
+        game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant) < MAX_OCEAN_TILES &&
         game.gameOptions.boardName === BoardName.HELLAS) {
       if (player.color !== Color.NEUTRAL) {
         game.defer(new PlaceOceanTile(player, 'Select space for ocean from placement bonus'));

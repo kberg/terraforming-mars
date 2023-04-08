@@ -23,7 +23,7 @@ export class TestingUtils {
 
     for (const space of player.game.board.getSpaces(SpaceType.OCEAN, player)) {
       if (space.tile !== undefined) continue;
-      if (player.game.board.getOceansOnBoard() >= toValue) break;
+      if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) >= toValue) break;
       player.game.addOceanTile(player, space.id);
       oceans.push(space);
     }
