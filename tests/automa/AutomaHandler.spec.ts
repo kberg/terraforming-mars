@@ -4,6 +4,7 @@ import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 import {AutomaHandler} from '../../src/automa/AutomaHandler';
+import {MAX_VENUS_SCALE} from '../../src/constants';
 
 describe('AutomaHandler', function() {
   let player : Player; let game : Game;
@@ -49,5 +50,38 @@ describe('AutomaHandler', function() {
     game.setTemperature(-16);
     AutomaHandler.increaseTemperature(game, 2);
     expect(game.getTemperature()).to.eq(-8);
+  });
+
+  it('Sets Venus scale correctly after decrease', function() {
+    game.setVenusScaleLevel(24);
+    AutomaHandler.decreaseVenusScale(game, -1);
+    expect(game.getVenusScaleLevel()).to.eq(20);
+
+    game.setVenusScaleLevel(24);
+    AutomaHandler.decreaseVenusScale(game, -2);
+    expect(game.getVenusScaleLevel()).to.eq(16);
+
+    // Cannot decrease parameter if Venus is maxed
+    game.setVenusScaleLevel(30);
+    game.increaseVenusScaleLevel(player, -1);
+    expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
+
+    game.setTemperature(30);
+    game.increaseVenusScaleLevel(player, -2);
+    expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
+  });
+
+  it('Sets Venus scale correctly after increase', function() {
+    game.setVenusScaleLevel(24);
+    AutomaHandler.increaseVenusScale(game, 1);
+    expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
+
+    game.setVenusScaleLevel(20);
+    AutomaHandler.increaseVenusScale(game, 2);
+    expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
+
+    game.setVenusScaleLevel(4);
+    AutomaHandler.increaseVenusScale(game, 3);
+    expect(game.getVenusScaleLevel()).to.eq(16);
   });
 });

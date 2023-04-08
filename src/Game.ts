@@ -1305,6 +1305,13 @@ export class Game implements ISerializable<SerializedGame> {
     return this.oxygenLevel;
   }
 
+  public setVenusScaleLevel(value: number) {
+    if (value > constants.MAX_VENUS_SCALE) value = constants.MAX_VENUS_SCALE;
+    if (value < constants.MIN_VENUS_SCALE) value = constants.MIN_VENUS_SCALE;
+
+    this.venusScaleLevel = value;
+  }
+
   public increaseVenusScaleLevel(player: Player, increments: -2 | -1 | 1 | 2 | 3): SelectSpace | undefined {
     if (this.venusScaleLevel >= constants.MAX_VENUS_SCALE) {
       return undefined;
@@ -1312,29 +1319,34 @@ export class Game implements ISerializable<SerializedGame> {
 
     // PoliticalAgendas Reds P3 hook
     if (increments === -1 || increments === -2) {
-      this.venusScaleLevel = Math.max(constants.MIN_VENUS_SCALE, this.venusScaleLevel + increments * 2);
+      // Setting the actual new Venus scale level is delegated to AutomaHandler
+      AutomaHandler.decreaseVenusScale(this, increments);
       return undefined;
     }
 
     // Literal typing makes |increments| a const
     const steps = Math.min(increments, (constants.MAX_VENUS_SCALE - this.venusScaleLevel) / 2);
 
+    // Setting the actual new Venus scale level is delegated to AutomaHandler
+    const originalVenusScaleLevelBeforeIncrease = this.getVenusScaleLevel();
+    AutomaHandler.increaseVenusScale(this, steps);
+    const newVenusScaleLevel = this.getVenusScaleLevel();
+
     if (this.phase !== Phase.SOLAR) {
-      if (this.venusScaleLevel < 8 && this.venusScaleLevel + steps * 2 >= 8) {
+      if (originalVenusScaleLevelBeforeIncrease < 8 && newVenusScaleLevel >= 8) {
         player.drawCard();
       }
-      if (this.venusScaleLevel < 16 && this.venusScaleLevel + steps * 2 >= 16) {
+      if (originalVenusScaleLevelBeforeIncrease < 16 && newVenusScaleLevel >= 16) {
         player.increaseTerraformRating();
       }
 
       if (this.gameOptions.altVenusBoard) {
         // The second half of this equation removes any increases earler than 16-to-18.
-        const newValue = this.venusScaleLevel + steps * 2;
-        const minimalBaseline = Math.max(this.venusScaleLevel, 16);
-        const maximumBaseline = Math.min(newValue, 30);
+        const minimalBaseline = Math.max(originalVenusScaleLevelBeforeIncrease, 16);
+        const maximumBaseline = Math.min(newVenusScaleLevel, 30);
         const standardResourcesGranted = Math.max((maximumBaseline - minimalBaseline) / 2, 0);
 
-        const grantWildResource = this.venusScaleLevel + (steps * 2) >= 30;
+        const grantWildResource = newVenusScaleLevel >= 30;
         if (grantWildResource || standardResourcesGranted > 0) {
           this.defer(new GrantVenusAltTrackBonusDeferred(player, standardResourcesGranted, grantWildResource));
         }
@@ -1350,7 +1362,6 @@ export class Game implements ISerializable<SerializedGame> {
       aphrodite.megaCredits += steps * 2;
     }
 
-    this.venusScaleLevel += steps * 2;
     SilverCubeHandler.onVenusIncrease(player, this);
 
     return undefined;
