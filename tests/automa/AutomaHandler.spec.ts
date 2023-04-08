@@ -4,7 +4,7 @@ import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 import {AutomaHandler} from '../../src/automa/AutomaHandler';
-import {MAX_VENUS_SCALE} from '../../src/constants';
+import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../src/constants';
 
 describe('AutomaHandler', function() {
   let player : Player; let game : Game;
@@ -62,11 +62,9 @@ describe('AutomaHandler', function() {
     expect(game.getVenusScaleLevel()).to.eq(16);
 
     // Cannot decrease parameter if Venus is maxed
-    game.setVenusScaleLevel(30);
+    game.setVenusScaleLevel(MAX_VENUS_SCALE);
     game.increaseVenusScaleLevel(player, -1);
     expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
-
-    game.setTemperature(30);
     game.increaseVenusScaleLevel(player, -2);
     expect(game.getVenusScaleLevel()).to.eq(MAX_VENUS_SCALE);
   });
@@ -83,5 +81,29 @@ describe('AutomaHandler', function() {
     game.setVenusScaleLevel(4);
     AutomaHandler.increaseVenusScale(game, 3);
     expect(game.getVenusScaleLevel()).to.eq(16);
+  });
+
+  it('Sets oxygen level correctly after decrease', function() {
+    game.setOxygenLevel(6);
+    AutomaHandler.decreaseOxygenLevel(game, -1);
+    expect(game.getOxygenLevel()).to.eq(4);
+
+    game.setOxygenLevel(6);
+    AutomaHandler.decreaseOxygenLevel(game, -2);
+    expect(game.getOxygenLevel()).to.eq(2);
+
+    // Cannot decrease parameter if oxygen is maxed
+    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
+    game.increaseOxygenLevel(player, -1);
+    expect(game.getOxygenLevel()).to.eq(MAX_OXYGEN_LEVEL);
+  });
+
+  it('Sets oxygen level correctly after increase', function() {
+    game.setOxygenLevel(6);
+    AutomaHandler.increaseOxygenLevel(game, 1);
+    expect(game.getOxygenLevel()).to.eq(8);
+
+    AutomaHandler.increaseOxygenLevel(game, 2);
+    expect(game.getOxygenLevel()).to.eq(12);
   });
 });

@@ -1268,6 +1268,13 @@ export class Game implements ISerializable<SerializedGame> {
     player.takeAction();
   }
 
+  public setOxygenLevel(value: number) {
+    if (value > constants.MAX_OXYGEN_LEVEL) value = constants.MAX_OXYGEN_LEVEL;
+    if (value < constants.MIN_OXYGEN_LEVEL) value = constants.MIN_OXYGEN_LEVEL;
+
+    this.oxygenLevel = value;
+  }
+
   public increaseOxygenLevel(player: Player, increments: -1 | 1 | 2): undefined {
     if (this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL) {
       return undefined;
@@ -1275,22 +1282,26 @@ export class Game implements ISerializable<SerializedGame> {
 
     // PoliticalAgendas Reds P3 hook
     if (increments === -1) {
-      this.oxygenLevel = Math.max(constants.MIN_OXYGEN_LEVEL, this.oxygenLevel + increments);
+      // Setting the actual new oxygen level is delegated to AutomaHandler
+      AutomaHandler.decreaseOxygenLevel(this, increments);
       return undefined;
     }
 
     // Literal typing makes |increments| a const
     const steps = Math.min(increments, constants.MAX_OXYGEN_LEVEL - this.oxygenLevel);
 
+    // Setting the actual new oxygen level is delegated to AutomaHandler
+    const originalOxygenLevelBeforeIncrease = this.getOxygenLevel();
+    AutomaHandler.increaseOxygenLevel(this, steps);
+    const newOxygenLevel = this.getOxygenLevel();
+
     if (this.phase !== Phase.SOLAR) {
       TurmoilHandler.onGlobalParameterIncrease(player, GlobalParameter.OXYGEN, steps);
       player.increaseTerraformRatingSteps(steps);
     }
-    if (this.oxygenLevel < 8 && this.oxygenLevel + steps >= 8) {
+    if (originalOxygenLevelBeforeIncrease < 8 && newOxygenLevel >= 8) {
       this.increaseTemperature(player, 1);
     }
-
-    this.oxygenLevel += steps;
 
     AresHandler.ifAres(this, (aresData) => {
       AresHandler.onOxygenChange(this, aresData);

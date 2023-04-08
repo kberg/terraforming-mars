@@ -1,7 +1,8 @@
 import {Game} from "../Game";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
-import {MAX_TEMPERATURE, MAX_VENUS_SCALE, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
+import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
+const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
 const blockedVenusSpots = [2, 6, 10, 14, 18, 22, 26, 28];
 
@@ -70,6 +71,34 @@ export class AutomaHandler {
         }
       } else {
         game.setVenusScaleLevel(game.getVenusScaleLevel() + steps * 2);
+      }
+    }
+
+    public static decreaseOxygenLevel(game: Game, steps: number): void {
+      if (game.gameOptions.automaSoloVariant) {
+        for (let i = 0; i < Math.abs(steps); i++) {
+          game.setOxygenLevel(game.getOxygenLevel() - 1);
+
+          while (blockedOxygenSpots.includes(game.getOxygenLevel()) && game.getOxygenLevel() > MIN_OXYGEN_LEVEL) {
+            game.setOxygenLevel(game.getOxygenLevel() - 1);
+          }
+        }
+      } else {
+        game.setOxygenLevel(Math.max(MIN_OXYGEN_LEVEL, game.getOxygenLevel() + steps));
+      }
+    }
+
+    public static increaseOxygenLevel(game: Game, steps: number): void {
+      if (game.gameOptions.automaSoloVariant) {
+        for (let i = 0; i < steps; i++) {
+          game.setOxygenLevel(game.getOxygenLevel() + 1);
+
+          while (blockedOxygenSpots.includes(game.getOxygenLevel()) && game.getOxygenLevel() < MAX_OXYGEN_LEVEL) {
+            game.setOxygenLevel(game.getOxygenLevel() + 1);
+          }
+        }
+      } else {
+        game.setOxygenLevel(game.getOxygenLevel() + steps);
       }
     }
 }
