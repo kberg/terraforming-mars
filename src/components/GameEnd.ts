@@ -204,6 +204,28 @@ export const GameEnd = Vue.component('game-end', {
                                 <td v-if="player.gameOptions.showTimers">{{ getTimer(p) }}</td>
                                 <td><div class="game-end-timer">{{ p.actionsTakenThisGame }}</div></td>
                             </tr>
+
+                            <tr v-if="player.gameOptions.automaSoloVariant" class="bot_translucent_bg_color">
+                                <td>
+                                    <span><u>Bot</u></span>
+                                    <div class="column-corporation">{{ player.automaBotCorporation.name }}</div>
+                                </td>
+
+                                <td>{{ player.automaBotVictoryPointsBreakdown.terraformRating }}</td>
+                                <td>{{ player.automaBotVictoryPointsBreakdown.milestones }}</td>
+                                <td>{{ player.automaBotVictoryPointsBreakdown.awards }}</td>
+                                <td>{{ player.automaBotVictoryPointsBreakdown.greenery }}</td>
+                                <td>{{ player.automaBotVictoryPointsBreakdown.city }}</td>
+                                <td v-if="player.moon !== undefined">{{ player.automaBotVictoryPointsBreakdown.moonRoads }}</td>
+                                <td v-if="player.moon !== undefined">{{ player.automaBotVictoryPointsBreakdown.moonColonies }}</td>
+                                <td v-if="player.moon !== undefined">{{ player.automaBotVictoryPointsBreakdown.moonMines }}</td>
+                                <td>{{ player.automaBotVictoryPointsBreakdown.victoryPoints }}</td>
+                                <td v-if="player.gameOptions.escapeVelocityMode">{{ player.automaBotVictoryPointsBreakdown.escapeVelocity }}</td>
+                                <td class="game-end-total">{{ player.automaBotVictoryPointsBreakdown.total }}</td>
+                                <td>-</td>
+                                <td v-if="player.gameOptions.showTimers">-</td>
+                                <td><div class="game-end-timer">-</div></td>
+                            </tr>
                         </tbody>
                     </table>
                     <br/>

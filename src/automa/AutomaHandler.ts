@@ -10,7 +10,8 @@ export class AutomaHandler {
     private constructor() {}
 
     public static initialize(game: Game): void {
-      game.automaBotScore = SOLO_START_TR;
+      game.automaBotVictoryPointsBreakdown.terraformRating = SOLO_START_TR;
+      game.automaBotVictoryPointsBreakdown.victoryPoints = SOLO_START_TR;
 
       // This is just a placeholder for now, we'll add the real bot corporations later
       const automaBotCorporation = new TerralabsResearch();
