@@ -327,7 +327,7 @@ export class Game implements ISerializable<SerializedGame> {
 
     // Initialize Automa bot
     if (game.isSoloMode() && gameOptions.automaSoloVariant) {
-      AutomaHandler.initialize(game);
+      AutomaHandler.initialize(players[0], game);
     }
 
     const milestonesAwards = MilestoneAwardSelector.chooseMilestonesAndAwards(gameOptions);

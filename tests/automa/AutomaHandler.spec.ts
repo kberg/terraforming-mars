@@ -5,6 +5,9 @@ import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 import {AutomaHandler} from '../../src/automa/AutomaHandler';
 import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../../src/constants';
+import {TileType} from '../../src/TileType';
+import {EmptyBoard} from '../ares/EmptyBoard';
+import {BoardName} from '../../src/boards/BoardName';
 
 describe('AutomaHandler', function() {
   let player : Player; let game : Game;
@@ -105,5 +108,47 @@ describe('AutomaHandler', function() {
 
     AutomaHandler.increaseOxygenLevel(game, 2);
     expect(game.getOxygenLevel()).to.eq(12);
+  });
+
+  it('Places initial ocean', function() {
+    // Tharsis map
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('13').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Hellas map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.HELLAS}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('03').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Elysium map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.ELYSIUM}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('32').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Amazonis Planitia map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.AMAZONIS}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('12').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Arabia Terra map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.ARABIA_TERRA}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('07').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Terra Cimmeria map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.TERRA_CIMMERIA}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('61').tile!.tileType).to.eq(TileType.OCEAN);
+
+    // Vastitas Borealis map
+    game.board = EmptyBoard.newInstance();
+    game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.VASTITAS_BOREALIS}));
+    AutomaHandler.placeInitialOcean(player, game);
+    expect(game.board.getSpace('19').tile!.tileType).to.eq(TileType.OCEAN);
   });
 });
