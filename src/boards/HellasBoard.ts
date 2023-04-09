@@ -57,6 +57,7 @@ export class HellasBoard extends Board {
   }
 
   private filterHellas(player: Player, spaces: Array<ISpace>) {
+    if (player.name === 'neutral') return spaces;
     return player.canAfford(HELLAS_BONUS_OCEAN_COST) ? spaces : spaces.filter((space) => space.id !== SpaceName.HELLAS_OCEAN_TILE);
   }
 
