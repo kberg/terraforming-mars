@@ -38,7 +38,7 @@ export class AutomaHandler {
 
       // Set up the board
       this.placeInitialOcean(player, game);
-      this.placeInitialGreenery(player, game);
+      this.placeInitialGreenery(game);
 
       // This is just a placeholder for now, we'll add the real bot corporations later
       const automaBotCorporation = new TerralabsResearch();
@@ -90,23 +90,23 @@ export class AutomaHandler {
       }
     }
 
-    public static placeInitialGreenery(player: Player, game: Game): void {
+    public static placeInitialGreenery(game: Game): void {
       const neutral = GameSetup.neutralPlayerFor(game.id);
 
       if (game.gameOptions.shuffleMapOption) {
-        this.placeGreeneryOnHighestLandPlacementValueSpot(player, game, neutral);
+        this.placeGreeneryOnHighestLandPlacementValueSpot(game, neutral);
       } else {
-        const targetSpace = this.getTargetGreenerySpace(game);
+        const targetSpace = this.getTargetInitialGreenerySpace(game);
 
         if (targetSpace !== undefined && targetSpace.tile === undefined) {
           game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.GREENERY});
         } else {
-          this.placeGreeneryOnHighestLandPlacementValueSpot(player, game, neutral);
+          this.placeGreeneryOnHighestLandPlacementValueSpot(game, neutral);
         }
       }
     }
 
-    private static getTargetGreenerySpace(game: Game): ISpace | undefined {
+    private static getTargetInitialGreenerySpace(game: Game): ISpace | undefined {
       switch (game.gameOptions.boardName) {
       case BoardName.ORIGINAL:
         return undefined;
@@ -131,8 +131,8 @@ export class AutomaHandler {
       }
     }
 
-    private static placeGreeneryOnHighestLandPlacementValueSpot(player: Player, game: Game, neutral: Player): void {
-      const availableLandSpaces = game.board.getAvailableSpacesOnLand(player);
+    private static placeGreeneryOnHighestLandPlacementValueSpot(game: Game, neutral: Player): void {
+      const availableLandSpaces = game.board.getAvailableSpacesOnLand(neutral);
       const landPlacementValues = availableLandSpaces.map((s) => this.computePlacementValue(s));
       const highestLandPlacementValue = Math.max(...landPlacementValues);
 
@@ -157,7 +157,7 @@ export class AutomaHandler {
       case SpaceBonus.DRAW_CARD:
         return 4;
       case SpaceBonus.HEAT:
-        return 1;
+        return 1.2;
       case SpaceBonus.TEMPERATURE:
         return 7.5;
       case SpaceBonus.OCEAN:
@@ -316,9 +316,41 @@ export class AutomaHandler {
       case Tags.ANIMAL:
       case Tags.PLANT:
       case Tags.MICROBE:
-        // TODO: Place a greenery tile and maybe raise oxygen
-        // game.automaBotVictoryPointsBreakdown.greenery++;
-        // Also add 1 city point for each bot city adjacent to the newly placed greenery
+        const landSpacesCount = game.board.getAvailableSpacesOnLand(neutral).length;
+        if (landSpacesCount === 0) {
+          game.automaBotVictoryPointsBreakdown.terraformRating++;
+          game.log('Bot action from ${0} tag: Gain 1 TR as there are no greenery spots left', (b) => b.string(tag));
+          break;
+        }
+
+        game.automaBotVictoryPointsBreakdown.greenery++;
+
+        if (game.getOxygenLevel() !== MAX_OXYGEN_LEVEL) {
+          AutomaHandler.increaseOxygenLevel(game, 1);
+          game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+          if (game.getOxygenLevel() === 8 && game.getTemperature() !== MAX_TEMPERATURE) {
+            AutomaHandler.increaseTemperature(game, 1);
+            game.temperatureSilverCubeBonusMC = 0;
+            game.automaBotVictoryPointsBreakdown.terraformRating++;
+            this.checkForTemperatureBonusOcean(game, neutral);
+
+            AresHandler.ifAres(game, (aresData) => {
+              AresHandler.onTemperatureChange(game, aresData);
+            });
+          }
+        }
+
+        const targetGreenerySpace = AutomaHandler.getTargetGreenerySpace(game, neutral);
+        game.simpleAddTile(neutral, game.board.getSpace(targetGreenerySpace.id), {tileType: TileType.GREENERY});
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetGreenerySpace, neutral);
+        game.oxygenSilverCubeBonusMC = 0;
+        game.log('Bot action from ${0} tag: Place a greenery on row ${1} position ${2}', (b) => b.string(tag).number(targetGreenerySpace.y + 1).number(targetGreenerySpace.x - Math.abs(targetGreenerySpace.y - 4) + 1));
+
+        // Each adjacent bot city scores 1 VP for the newly placed greenery
+        const adjacentCities = game.board.getAdjacentSpaces(targetGreenerySpace).filter((space) => space.spaceType === SpaceType.LAND && space.tile?.tileType === TileType.CITY && space.player?.name === neutral.name);
+        game.automaBotVictoryPointsBreakdown.city += adjacentCities.length;
+
         break;
       case Tags.EARTH:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
@@ -445,6 +477,36 @@ export class AutomaHandler {
       }
     }
 
+    // Rule 1: Adjacent to most own cities
+    // Rule 2: Adjacent to fewest opponent cities
+    // Rule 3: Highest placement bonus
+    private static getTargetGreenerySpace(game: Game, neutral: Player): ISpace {
+      let availableGreenerySpaces: ISpace[] = game.board.getAvailableSpacesOnLand(neutral).filter((space) => game.board.getAdjacentSpaces(space).some((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name));
+
+      const adjacentCitiesCounts: number[] = availableGreenerySpaces.map((s) => game.board.getAdjacentSpaces(s).filter((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name && adjSpace.spaceType === SpaceType.LAND).length);
+      const highestAdjacentCitiesCounts: number = Math.max(...adjacentCitiesCounts);
+      availableGreenerySpaces = availableGreenerySpaces.filter((s) => game.board.getAdjacentSpaces(s).filter((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name).length === highestAdjacentCitiesCounts);
+
+      if (availableGreenerySpaces.length === 1) {
+        return availableGreenerySpaces[0];
+      } else {
+        const adjacentToOpponentCitiesCounts: number[] = availableGreenerySpaces.map((space) => game.board.getAdjacentSpaces(space).filter((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player !== undefined && adjSpace.player?.name !== neutral.name).length);
+        const lowestAdjacentToOpponentCitiesCount: number = Math.min(...adjacentToOpponentCitiesCounts);
+
+        availableGreenerySpaces = availableGreenerySpaces.filter((space) => game.board.getAdjacentSpaces(space).filter((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player !== undefined && adjSpace.player.name !== neutral.name).length === lowestAdjacentToOpponentCitiesCount);
+
+        if (availableGreenerySpaces.length === 1) {
+          return availableGreenerySpaces[0];
+        } else {
+          const greeneryPlacementValues = availableGreenerySpaces.map((s) => this.computePlacementValue(s));
+          const highestGreeneryPlacementValue = Math.max(...greeneryPlacementValues);
+          const index = greeneryPlacementValues.indexOf(highestGreeneryPlacementValue);
+
+          return availableGreenerySpaces[index];
+        }
+      }
+    }
+
     private static checkForTemperatureBonusOcean(game: Game, neutral: Player): void {
       if (game.getTemperature() === 0) {
         const targetSpace: ISpace = this.getTargetOceanSpace(game);
@@ -452,6 +514,7 @@ export class AutomaHandler {
 
         game.oceansSilverCubeBonusMC = 0;
         game.automaBotVictoryPointsBreakdown.terraformRating++;
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetSpace, neutral);
       }
     }
 

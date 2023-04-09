@@ -66,37 +66,37 @@ describe('AutomaHandler: Initial setup', function() {
     // Hellas map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.HELLAS}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('61').tile!.tileType).to.eq(TileType.GREENERY);
 
     // Elysium map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.ELYSIUM}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('20').tile!.tileType).to.eq(TileType.GREENERY);
 
     // Amazonis Planitia map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.AMAZONIS}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('05').tile!.tileType).to.eq(TileType.GREENERY);
 
     // Arabia Terra map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.ARABIA_TERRA}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('48').tile!.tileType).to.eq(TileType.GREENERY);
 
     // Terra Cimmeria map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.TERRA_CIMMERIA}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('38').tile!.tileType).to.eq(TileType.GREENERY);
 
     // Vastitas Borealis map
     game.board = EmptyBoard.newInstance();
     game = Game.newInstance('x', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, boardName: BoardName.VASTITAS_BOREALIS}));
-    AutomaHandler.placeInitialGreenery(player, game);
+    AutomaHandler.placeInitialGreenery(game);
     expect(game.board.getSpace('33').tile!.tileType).to.eq(TileType.GREENERY);
   });
 });
