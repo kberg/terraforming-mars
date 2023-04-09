@@ -642,6 +642,13 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public isSoloModeWin(): boolean {
+    // Automa solo variant: Player must score strictly more VP than the bot
+    if (this.gameOptions.automaSoloVariant) {
+      const playerScore = this.players[0].victoryPointsBreakdown.total;
+      const botScore = this.automaBotVictoryPointsBreakdown.total;
+      if (botScore >= playerScore) return false;
+    }
+
     // Solo TR victory condition
     if (this.gameOptions.soloTR) {
       return this.players[0].getTerraformRating() >= 63;

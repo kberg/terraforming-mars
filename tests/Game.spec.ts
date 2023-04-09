@@ -288,6 +288,30 @@ describe('Game', () => {
     expect(game.phase).eq(Phase.RESEARCH);
   });
 
+  it('Automa variant: Player can only win by scoring more VP than the bot', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('solo1', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+
+    // Terraform
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
+    game.setVenusScaleLevel(constants.MAX_VENUS_SCALE);
+    TestingUtils.maxOutOceans(player);
+
+    game.playerIsDoneWithGame(player);
+    expect(game.phase).eq(Phase.END);
+
+    game.automaBotVictoryPointsBreakdown.total = 14;
+    player.victoryPointsBreakdown.total = 13;
+    expect(game.isSoloModeWin()).is.false;
+
+    player.victoryPointsBreakdown.total = 14;
+    expect(game.isSoloModeWin()).is.false;
+
+    player.victoryPointsBreakdown.total = 15;
+    expect(game.isSoloModeWin()).is.true;
+  });
+
   it('Should not give TR or raise oxygen for final greenery placements', () => {
     const player = TestPlayers.BLUE.newPlayer();
     const otherPlayer = TestPlayers.RED.newPlayer();
