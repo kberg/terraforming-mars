@@ -272,8 +272,11 @@ export const PlayerHome = Vue.component('player-home', {
 
                         <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon"></moonboard>
 
-                        <div v-if="player.players.length > 1" class="player_home_block--milestones-and-awards">
+                        <div v-if="player.players.length > 1 || (player.players.length === 1 && player.gameOptions.automaSoloVariant)" class="player_home_block--milestones-and-awards">
                             <milestone :milestones_list="player.milestones" />
+                        </div>
+
+                        <div v-if="player.players.length > 1" class="player_home_block--milestones-and-awards">
                             <award :awards_list="player.awards" />
                         </div>
                     </div>

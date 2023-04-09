@@ -1954,7 +1954,8 @@ export class Player implements ISerializable<SerializedPlayer> {
         player: this,
         milestone: milestone,
       });
-      const cost = this.cardIsInEffect(CardName.VAN_ALLEN) ? 0 : MILESTONE_COST;
+      let cost = MILESTONE_COST;
+      if (this.cardIsInEffect(CardName.VAN_ALLEN) || this.game.gameOptions.automaSoloVariant) cost = 0;
       this.game.defer(new SelectHowToPayDeferred(this, cost, {title: 'Select how to pay for milestone'}));
 
       if (milestone.name === 'Monument') Monument.discardCards(this);
@@ -2372,7 +2373,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       'Take your first action' : 'Take your next action';
     action.buttonLabel = 'Take action';
 
-    const canAffordMilestone = this.canAfford(MILESTONE_COST) || this.cardIsInEffect(CardName.VAN_ALLEN);
+    const canAffordMilestone = this.canAfford(MILESTONE_COST) || this.cardIsInEffect(CardName.VAN_ALLEN) || this.game.gameOptions.automaSoloVariant;
 
     if (canAffordMilestone && !this.game.allMilestonesClaimed()) {
       const remainingMilestones = new OrOptions();

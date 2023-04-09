@@ -189,4 +189,18 @@ describe('AutomaHandler', function() {
     AutomaHandler.placeInitialGreenery(player, game);
     expect(game.board.getSpace('33').tile!.tileType).to.eq(TileType.GREENERY);
   });
+
+  it('Player can claim milestones for free', function() {
+    player.megaCredits = 7;
+    player.setTerraformRating(35); // Can claim Terraformer milestone
+
+    const claimMilestoneAction = player.getActions().options.find((option) => option.title == "Claim a milestone");
+    expect(claimMilestoneAction).is.not.undefined;
+
+    claimMilestoneAction!.options![0].cb();
+    game.deferredActions.runAll(() => {});
+    const claimedMilestone = player.game.claimedMilestones;
+    expect(player.megaCredits).eq(7); // No M€ cost incurred
+    expect(claimedMilestone.find((cm) => cm.milestone.name === 'Terraformer' && cm.player === player)).is.not.undefined;
+  });
 });

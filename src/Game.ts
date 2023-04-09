@@ -690,8 +690,15 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public allMilestonesClaimed(): boolean {
-    // Milestones are disabled for 1 player games
-    if (this.isSoloMode()) return true;
+    // Milestones are disabled for solo games, except in Automa variant
+    if (this.isSoloMode()) {
+      if (this.gameOptions.automaSoloVariant === false) {
+        return true;
+      } else {
+        // In Automa, all milestones are claimable
+        return this.claimedMilestones.length === this.milestones.length;
+      }
+    }
 
     return this.claimedMilestones.length >= constants.MAX_MILESTONES;
   }
