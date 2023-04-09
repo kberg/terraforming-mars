@@ -100,7 +100,7 @@ export const PlayersOverview = Vue.component('players-overview', {
             <player-info v-for="(p, index) in getPlayersInOrder()" :activePlayer="player" :player="p"  :key="p.id" :firstForGen="getIsFirstForGen(p)" :actionLabel="getActionLabel(p)" :playerIndex="index"/>
             <player-info :player="getPlayerOnFocus()" :activePlayer="player" :key="player.players.length - 1" :firstForGen="getIsFirstForGen(player)" :actionLabel="getActionLabel(player)" :playerIndex="-1"/>
 
-            <div v-if="player.players.length === 1">
+            <div v-if="player.players.length === 1 && player.gameOptions.automaSoloVariant">
                 <automa-bot-info :player="player"/>
             </div>
         </div>
