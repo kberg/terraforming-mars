@@ -7,6 +7,7 @@ import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('Vitor', function() {
   let card : Vitor; let player : Player; let game : Game;
@@ -35,6 +36,18 @@ describe('Vitor', function() {
     Game.newInstance('foobar', [player], player);
     const action = card.initialAction(player);
     expect(action).is.undefined;
+  });
+
+  it('Has initial action for solo games with Automa variant', function() {
+    game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+    player.megaCredits = 10;
+
+    const action = card.initialAction(player);
+    expect(action).instanceOf(OrOptions);
+
+    (action as OrOptions).options[0].cb();
+    expect(game.milestoneClaimed(game.milestones[0])).is.true;
+    expect(player.megaCredits).to.eq(10);
   });
 
   it('Give mega credits when card played', function() {

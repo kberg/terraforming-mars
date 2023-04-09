@@ -9,6 +9,7 @@ import {IAward} from '../../awards/IAward';
 import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
+import {IMilestone} from '../../milestones/IMilestone';
 
 export class Vitor extends Card implements CorporationCard {
   constructor() {
@@ -44,6 +45,14 @@ export class Vitor extends Card implements CorporationCard {
   }
 
   public initialAction(player: Player) {
+    if (player.game.isSoloMode() && player.game.gameOptions.automaSoloVariant) {
+      const orOptions = new OrOptions();
+      orOptions.title = 'Claim a milestone';
+      orOptions.options = player.game.milestones.map((ms: IMilestone) => player.claimMilestone(ms));
+
+      return orOptions;
+    }
+
     return Vitor.fundAwardForFree(player);
   }
 
