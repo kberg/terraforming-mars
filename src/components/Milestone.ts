@@ -5,6 +5,9 @@ import {PreferencesManager} from './PreferencesManager';
 
 export const Milestone = Vue.component('milestone', {
   props: {
+    automaSoloVariant: {
+      type: Boolean,
+    },
     milestones_list: {
       type: Array as () => Array<ClaimedMilestoneModel>,
     },
@@ -16,8 +19,11 @@ export const Milestone = Vue.component('milestone', {
   data: function() {
     const collapse_milestones: boolean = PreferencesManager.loadBoolean('collapse_milestones');
 
+    let showList = this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : !collapse_milestones;
+    if (this.automaSoloVariant) showList = true;
+
     return {
-      showList: this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : !collapse_milestones,
+      showList: showList,
       showDescription: false,
     };
   },
