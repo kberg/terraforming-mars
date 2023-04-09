@@ -16,7 +16,7 @@ import {IAresData} from './ares/IAresData';
 import {LogMessage} from './LogMessage';
 import {SerializedBoard} from './boards/SerializedBoard';
 import {SerializedMoonData} from './moon/SerializedMoonData';
-import {VictoryPointsBreakdown} from './VictoryPointsBreakdown';
+import {SerializedVictoryPointsBreakdown} from './SerializedVictoryPointsBreakdown';
 
 export interface SerializedGame {
     activePlayer: PlayerId;
@@ -65,7 +65,7 @@ export interface SerializedGame {
     oceansSilverCubeBonusMC: number;
     oxygenSilverCubeBonusMC: number;
     venusSilverCubeBonusMC: number;
-    automaBotVictoryPointsBreakdown: VictoryPointsBreakdown;
+    automaBotVictoryPointsBreakdown: SerializedVictoryPointsBreakdown;
     automaBotCorporation: CardName | undefined;
 }
 

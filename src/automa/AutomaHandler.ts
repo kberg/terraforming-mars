@@ -3,8 +3,11 @@ import {Game} from "../Game";
 import {GameSetup} from "../GameSetup";
 import {LogHelper} from "../LogHelper";
 import {Player} from "../Player";
+import {SerializedVictoryPointsBreakdown} from "../SerializedVictoryPointsBreakdown";
 import {SpaceBonus} from "../SpaceBonus";
+import {SpaceType} from "../SpaceType";
 import {TileType} from "../TileType";
+import {VictoryPointsBreakdown} from "../VictoryPointsBreakdown";
 import {AresHandler} from "../ares/AresHandler";
 import {_AresHazardPlacement} from "../ares/AresHazards";
 import {Board} from "../boards/Board";
@@ -309,6 +312,8 @@ export class AutomaHandler {
       case Tags.PLANT:
       case Tags.MICROBE:
         // TODO: Place a greenery tile and maybe raise oxygen
+        // game.automaBotVictoryPointsBreakdown.greenery++;
+        // Also add 1 city point for each bot city adjacent to the newly placed greenery
         break;
       case Tags.EARTH:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
@@ -318,21 +323,30 @@ export class AutomaHandler {
           break;
         }
 
-        const targetSpace: ISpace = this.getTargetOceanSpace(game);
-        game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.OCEAN});
+        const targetOceanSpace: ISpace = this.getTargetOceanSpace(game);
+        game.simpleAddTile(neutral, game.board.getSpace(targetOceanSpace.id), {tileType: TileType.OCEAN});
         game.oceansSilverCubeBonusMC = 0;
-
-        const offset: number = Math.abs(targetSpace.y - 4);
-        const row: number = targetSpace.y + 1;
-        const position: number = targetSpace.x - offset + 1;
-        game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(row).number(position));
+        game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(targetOceanSpace.y + 1).number(targetOceanSpace.x - Math.abs(targetOceanSpace.y - 4) + 1));
 
         this.maybeRemoveAresDustStorms(game);
         this.maybePlaceErosions(game);
         break;
       case Tags.SPACE:
       case Tags.CITY:
-        // TODO: Place a City tile on Mars
+        const availableCitySpaces = game.board.getAvailableSpacesForCity(game.getPlayers()[0]);
+
+        if (availableCitySpaces.length === 0) {
+          game.automaBotVictoryPointsBreakdown.terraformRating++;
+          game.log('Bot action from ${0} tag: Gain 1 TR as there are no city spots left', (b) => b.string(tag));
+          break;
+        }
+
+        const targetCitySpace: ISpace = this.getTargetCitySpace(game);
+        game.simpleAddTile(neutral, game.board.getSpace(targetCitySpace.id), {tileType: TileType.CITY});
+
+        const adjacentGreeneries = game.board.getAdjacentSpaces(targetCitySpace).filter((s) => s.tile?.tileType === TileType.GREENERY).length;
+        game.automaBotVictoryPointsBreakdown.city += adjacentGreeneries;
+        game.log('Bot action from ${0} tag: Place a city on row ${1} position ${2}', (b) => b.string(tag).number(targetCitySpace.y + 1).number(targetCitySpace.x - Math.abs(targetCitySpace.y - 4) + 1));
         break;
       case Tags.BUILDING:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
@@ -392,6 +406,38 @@ export class AutomaHandler {
       }
     }
 
+    // Rule 1: Adjacent to most greeneries
+    // Rule 2: Most spots for future greeneries
+    // Rule 3: Most spots for future greeneries adjacent to oceans or reserved areas for oceans
+    private static getTargetCitySpace(game: Game): ISpace {
+      const soloPlayer = game.getPlayers()[0];
+      let availableCitySpaces: ISpace[] = game.board.getAvailableSpacesForCity(soloPlayer);
+
+      const adjacentGreeneriesCounts: number[] = availableCitySpaces.map((s) => game.board.getAdjacentSpaces(s).filter((s) => s.tile?.tileType === TileType.GREENERY).length);
+      const highestAdjacentGreeneriesCount: number = Math.max(...adjacentGreeneriesCounts);
+
+      availableCitySpaces = availableCitySpaces.filter((s) => game.board.getAdjacentSpaces(s).filter((s) => s.tile?.tileType === TileType.GREENERY).length === highestAdjacentGreeneriesCount);
+
+      if (availableCitySpaces.length === 1) {
+        return availableCitySpaces[0];
+      } else {
+        const futureGreenerySpotsCounts: number[] = availableCitySpaces.map((space) => game.board.getAdjacentSpaces(space).filter((s) => s.tile === undefined && s.player === undefined && s.spaceType === SpaceType.LAND).length);
+        const highestFutureGreenerySpotsCount: number = Math.max(...futureGreenerySpotsCounts);
+
+        availableCitySpaces = availableCitySpaces.filter((space) => game.board.getAdjacentSpaces(space).filter((s) => s.tile === undefined && s.player === undefined && s.spaceType === SpaceType.LAND).length === highestFutureGreenerySpotsCount);
+
+        if (availableCitySpaces.length === 1) {
+          return availableCitySpaces[0];
+        } else {
+          const futureGreenerySpotsAdjacentToOceansCounts: number[] = availableCitySpaces.map((space) => game.board.getAdjacentSpaces(space).filter((s) => game.board.getAdjacentSpaces(s).some((adjSpace) => adjSpace.spaceType === SpaceType.OCEAN)).length);
+          const highestFutureGreenerySpotsAdjacentToOceansCount: number = Math.max(...futureGreenerySpotsAdjacentToOceansCounts);
+
+          availableCitySpaces = availableCitySpaces.filter((space) => game.board.getAdjacentSpaces(space).filter((s) => game.board.getAdjacentSpaces(s).some((adjSpace) => adjSpace.spaceType === SpaceType.OCEAN)).length === highestFutureGreenerySpotsAdjacentToOceansCount);
+          return availableCitySpaces[0];
+        }
+      }
+    }
+
     private static checkForTemperatureBonusOcean(game: Game, neutral: Player): void {
       if (game.getTemperature() === 0) {
         const targetSpace: ISpace = this.getTargetOceanSpace(game);
@@ -442,5 +488,36 @@ export class AutomaHandler {
           },
         );
       });
+    }
+
+    public static deserializeBotVictoryPoints(d: SerializedVictoryPointsBreakdown): VictoryPointsBreakdown {
+      const vpb = new VictoryPointsBreakdown();
+      vpb.terraformRating = d.terraformRating;
+      vpb.milestones = d.milestones;
+      vpb.awards = d.awards;
+      vpb.greenery = d.greenery;
+      vpb.city = d.city;
+      vpb.moonColonies = d.moonColonies;
+      vpb.moonMines = d.moonMines;
+      vpb.moonRoads = d.moonRoads;
+      vpb.victoryPoints = d.victoryPoints;
+      vpb.total = d.total;
+
+      return vpb;
+    }
+
+    public static serializeBotVictoryPoints(vpb: VictoryPointsBreakdown): SerializedVictoryPointsBreakdown {
+      return {
+        total: vpb.total,
+        terraformRating: vpb.terraformRating,
+        milestones: vpb.milestones,
+        awards: vpb.awards,
+        greenery: vpb.greenery,
+        city: vpb.city,
+        moonColonies: vpb.moonColonies,
+        moonMines: vpb.moonMines,
+        moonRoads: vpb.moonRoads,
+        victoryPoints: vpb.victoryPoints,
+      };
     }
 }

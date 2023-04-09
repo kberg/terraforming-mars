@@ -523,7 +523,7 @@ export class Game implements ISerializable<SerializedGame> {
       oceansSilverCubeBonusMC: this.oceansSilverCubeBonusMC,
       oxygenSilverCubeBonusMC: this.oxygenSilverCubeBonusMC,
       venusSilverCubeBonusMC: this.venusSilverCubeBonusMC,
-      automaBotVictoryPointsBreakdown: this.automaBotVictoryPointsBreakdown,
+      automaBotVictoryPointsBreakdown: AutomaHandler.serializeBotVictoryPoints(this.automaBotVictoryPointsBreakdown),
       automaBotCorporation: this.automaBotCorporation?.name,
     };
     if (this.aresData !== undefined) {
@@ -1942,7 +1942,7 @@ export class Game implements ISerializable<SerializedGame> {
     game.oxygenSilverCubeBonusMC = d.oxygenSilverCubeBonusMC;
     game.venusSilverCubeBonusMC = d.venusSilverCubeBonusMC;
     game.syndicatePirateRaider = d.syndicatePirateRaider;
-    game.automaBotVictoryPointsBreakdown = d.automaBotVictoryPointsBreakdown;
+    game.automaBotVictoryPointsBreakdown = AutomaHandler.deserializeBotVictoryPoints(d.automaBotVictoryPointsBreakdown);
 
     if (d.automaBotCorporation !== undefined) {
       const automaBotCorporation = cardFinder.getCorporationCardByName(d.automaBotCorporation);

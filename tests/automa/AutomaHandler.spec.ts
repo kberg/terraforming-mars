@@ -310,4 +310,24 @@ describe('AutomaHandler: performActionForTag', function() {
     expect(game.automaBotVictoryPointsBreakdown.total).to.eq(initialTotal + 1);
     expect(game.board.getOceansOnBoard()).to.eq(2); // including the initial ocean
   });
+
+  it('Space tag: Places city', function() {
+    const initialCityVP = game.automaBotVictoryPointsBreakdown.city;
+    const initialTotal = game.automaBotVictoryPointsBreakdown.total;
+    AutomaHandler.performActionForTag(game, Tags.SPACE);
+
+    expect(game.automaBotVictoryPointsBreakdown.city).greaterThan(initialCityVP);
+    expect(game.automaBotVictoryPointsBreakdown.total).greaterThan(initialTotal);
+    expect(game.getCitiesInPlayOnMars()).to.eq(3); // including the initial 2 cities
+  });
+
+  it('City tag: Places city', function() {
+    const initialCityVP = game.automaBotVictoryPointsBreakdown.city;
+    const initialTotal = game.automaBotVictoryPointsBreakdown.total;
+    AutomaHandler.performActionForTag(game, Tags.CITY);
+
+    expect(game.automaBotVictoryPointsBreakdown.city).greaterThan(initialCityVP);
+    expect(game.automaBotVictoryPointsBreakdown.total).greaterThan(initialTotal);
+    expect(game.getCitiesInPlayOnMars()).to.eq(3); // including the initial 2 cities
+  });
 });
