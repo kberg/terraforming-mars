@@ -1695,11 +1695,14 @@ export class Game implements ISerializable<SerializedGame> {
     player: Player, spaceId: SpaceId,
     spaceType: SpaceType = SpaceType.LAND,
     shouldRaiseOxygen: boolean = true): undefined {
-    this.addTile(player, spaceType, this.board.getSpace(spaceId), {
-      tileType: TileType.GREENERY,
-    });
+    const space = this.board.getSpace(spaceId);
+    this.addTile(player, spaceType, space, {tileType: TileType.GREENERY});
+
     // Turmoil Greens ruling policy
-    PartyHooks.applyGreensRulingPolicy(player, this.board.getSpace(spaceId));
+    PartyHooks.applyGreensRulingPolicy(player, space);
+
+    // Automa bot scoring
+    AutomaHandler.scoreCityVPForPlayerGreeneryPlacements(this, space);
 
     if (shouldRaiseOxygen) return this.increaseOxygenLevel(player, 1);
     return undefined;

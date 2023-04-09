@@ -477,6 +477,11 @@ export class AutomaHandler {
       }
     }
 
+    public static scoreCityVPForPlayerGreeneryPlacements(game: Game, space: ISpace): void {
+      const neutral = GameSetup.neutralPlayerFor(game.id);
+      game.automaBotVictoryPointsBreakdown.city += game.board.getAdjacentSpaces(space).filter((s) => s.tile?.tileType === TileType.CITY && s.player?.name === neutral.name).length;
+    }
+
     // Rule 1: Adjacent to most own cities
     // Rule 2: Adjacent to fewest opponent cities
     // Rule 3: Highest placement bonus
