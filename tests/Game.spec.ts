@@ -705,3 +705,41 @@ describe('Game', () => {
     expect(deserialized.milestones).deep.eq(game.milestones);
   });
 });
+
+describe('lastSoloGeneration', () => {
+  it('no preludes', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player);
+    expect(game.lastSoloGeneration()).to.eq(14);
+  });
+
+  it('no preludes, with automa variant', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+    expect(game.lastSoloGeneration()).to.eq(9);
+  });
+
+  it('with preludes', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({preludeExtension: true}));
+    expect(game.lastSoloGeneration()).to.eq(12);
+  });
+
+  it('with preludes and automa variant', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({preludeExtension: true, automaSoloVariant: true}));
+    expect(game.lastSoloGeneration()).to.eq(8);
+  });
+
+  it('with mandatory moon track completion', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({moonExpansion: true, requiresMoonTrackCompletion: true}));
+    expect(game.lastSoloGeneration()).to.eq(16);
+  });
+
+  it('with preludes and mandatory moon track completion', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({preludeExtension: true, moonExpansion: true, requiresMoonTrackCompletion: true}));
+    expect(game.lastSoloGeneration()).to.eq(14);
+  });
+})

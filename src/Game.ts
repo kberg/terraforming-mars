@@ -621,8 +621,12 @@ export class Game implements ISerializable<SerializedGame> {
   public lastSoloGeneration(): number {
     let lastGeneration = 14;
     const options = this.gameOptions;
+
+    if (options.automaSoloVariant) lastGeneration = 9;
+
     if (options.preludeExtension) {
       lastGeneration -= 2;
+      if (options.automaSoloVariant) lastGeneration += 1;
     }
 
     // Only add 2 more generations when using the track completion option
