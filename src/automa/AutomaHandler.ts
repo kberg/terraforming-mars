@@ -1,10 +1,13 @@
+import {CardName} from "../CardName";
 import {Game} from "../Game";
 import {GameSetup} from "../GameSetup";
 import {Player} from "../Player";
 import {SpaceBonus} from "../SpaceBonus";
 import {TileType} from "../TileType";
+import {AresHandler} from "../ares/AresHandler";
 import {BoardName} from "../boards/BoardName";
 import {ISpace} from "../boards/ISpace";
+import {Tags} from "../cards/Tags";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
 import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
@@ -258,5 +261,98 @@ export class AutomaHandler {
       });
 
       game.automaBotVictoryPointsBreakdown.updateTotal();
+    }
+
+    public static takeBotTurn(game: Game): void {
+      const botActionsCount = Math.ceil(game.generation / 2);
+      let actionsTaken = 0;
+
+      while (actionsTaken < botActionsCount) {
+        const topCard = game.dealer.dealCard(game);
+        game.log('Bot revealed and discarded ${0}', (b) => b.card(topCard));
+        game.dealer.discard(topCard);
+
+        for (let i = 0; i < topCard.tags.length; i++) {
+          this.performActionForTag(game, topCard.tags[i]);
+          actionsTaken++;
+        }
+      }
+    }
+
+    public static performActionForTag(game: Game, tag: Tags): void {
+      switch (tag) {
+      case Tags.SCIENCE:
+      case Tags.ENERGY:
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+        if (game.getTemperature() === MAX_TEMPERATURE) {
+          game.log('Bot revealed a ${0} tag and gained 1 TR as temperature is already maxed', (b) => b.string(tag));
+          break;
+        }
+
+        AutomaHandler.increaseTemperature(game, 1);
+        game.temperatureSilverCubeBonusMC = 0;
+        this.checkForTemperatureBonusOcean(game);
+
+        AresHandler.ifAres(game, (aresData) => {
+          AresHandler.onTemperatureChange(game, aresData);
+        });
+
+        game.log('Bot revealed a ${0} tag and increased temperature 1 step', (b) => b.string(tag));
+        break;
+      case Tags.ANIMAL:
+      case Tags.PLANT:
+      case Tags.MICROBE:
+        // TODO: Place a greenery tile and maybe raise oxygen
+        break;
+      case Tags.EARTH:
+        // TODO: Place an ocean tile
+        break;
+      case Tags.SPACE:
+      case Tags.CITY:
+        // TODO: Place a City tile on Mars
+        break;
+      case Tags.BUILDING:
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+        game.log('Bot revealed a ${0} tag and gained 1 TR', (b) => b.string(tag));
+        break;
+      case Tags.EVENT:
+      case Tags.JOVIAN:
+      case Tags.WILDCARD:
+        // TODO: Perform corporation action
+        break;
+      case Tags.VENUS:
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+        if (game.getVenusScaleLevel() === MAX_VENUS_SCALE) {
+          game.log('Bot revealed a ${0} tag and gained 1 TR as Venus is already maxed', (b) => b.string(tag));
+          break;
+        }
+
+        AutomaHandler.increaseVenusScale(game, 1);
+        game.venusSilverCubeBonusMC = 0;
+        const gotBonusTRFromVenusTrack = game.getVenusScaleLevel() === 16;
+        if (gotBonusTRFromVenusTrack) game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+        // Check for Aphrodite corporation
+        const aphrodite = game.getPlayers().find((player) => player.isCorporation(CardName.APHRODITE));
+        if (aphrodite !== undefined) aphrodite.megaCredits += gotBonusTRFromVenusTrack ? 4 : 2;
+
+        game.log('Bot revealed a ${0} tag and increased Venus scale 1 step', (b) => b.string(tag));
+        break;
+      case Tags.MOON:
+        // TODO: Raise lowest Moon parameter? (TBC)
+        break;
+      default:
+        break;
+      }
+    }
+
+    private static checkForTemperatureBonusOcean(game: Game): void {
+      if (game.getTemperature() === 0) {
+        // TODO: Bot places an ocean tile
+        game.oceansSilverCubeBonusMC = 0;
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+      }
     }
 }

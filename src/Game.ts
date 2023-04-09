@@ -1198,6 +1198,10 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     if (this.allPlayersHavePassed()) {
+      if (this.gameOptions.automaSoloVariant) {
+        AutomaHandler.takeBotTurn(this);
+      }
+
       this.gotoProductionPhase();
       return;
     }
