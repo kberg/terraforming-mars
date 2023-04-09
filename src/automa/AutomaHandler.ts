@@ -355,7 +355,7 @@ export class AutomaHandler {
       case Tags.EARTH:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
-        if (game.board.getOceansOnBoard() === MAX_OCEAN_TILES) {
+        if (game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) {
           game.log('Bot action from ${0} tag: Gain 1 TR as oceans are already maxed', (b) => b.string(tag));
           break;
         }
