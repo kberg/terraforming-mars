@@ -12,6 +12,7 @@ import {AresHandler} from "../ares/AresHandler";
 import {_AresHazardPlacement} from "../ares/AresHazards";
 import {Board} from "../boards/Board";
 import {BoardName} from "../boards/BoardName";
+import {BoardType} from "../boards/BoardType";
 import {ISpace} from "../boards/ISpace";
 import {Tags} from "../cards/Tags";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
@@ -325,6 +326,7 @@ export class AutomaHandler {
 
         const targetOceanSpace: ISpace = this.getTargetOceanSpace(game);
         game.simpleAddTile(neutral, game.board.getSpace(targetOceanSpace.id), {tileType: TileType.OCEAN});
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetOceanSpace, neutral);
         game.oceansSilverCubeBonusMC = 0;
         game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(targetOceanSpace.y + 1).number(targetOceanSpace.x - Math.abs(targetOceanSpace.y - 4) + 1));
 
@@ -343,6 +345,7 @@ export class AutomaHandler {
 
         const targetCitySpace: ISpace = this.getTargetCitySpace(game);
         game.simpleAddTile(neutral, game.board.getSpace(targetCitySpace.id), {tileType: TileType.CITY});
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetCitySpace, neutral);
 
         const adjacentGreeneries = game.board.getAdjacentSpaces(targetCitySpace).filter((s) => s.tile?.tileType === TileType.GREENERY).length;
         game.automaBotVictoryPointsBreakdown.city += adjacentGreeneries;
@@ -446,6 +449,18 @@ export class AutomaHandler {
         game.oceansSilverCubeBonusMC = 0;
         game.automaBotVictoryPointsBreakdown.terraformRating++;
       }
+    }
+
+    private static grantBonusesForBotTilePlacement(game: Game, space: ISpace, neutral: Player) : void {
+      game.getPlayers().forEach((p) => {
+        p.corporationCards.forEach((corp) => {
+          corp.onTilePlaced?.(p, neutral, space, BoardType.MARS);
+        });
+
+        p.playedCards.forEach((playedCard) => {
+          playedCard.onTilePlaced?.(p, neutral, space, BoardType.MARS);
+        });
+      });
     }
 
     private static maybeRemoveAresDustStorms(game: Game): void {
