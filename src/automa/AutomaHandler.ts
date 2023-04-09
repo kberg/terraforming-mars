@@ -76,7 +76,52 @@ export class AutomaHandler {
 
     public static placeInitialGreenery(player: Player, game: Game): void {
       const neutral = GameSetup.neutralPlayerFor(game.id);
-      // TODO
+
+      if (game.gameOptions.shuffleMapOption) {
+        this.placeGreeneryOnHighestLandPlacementValueSpot(player, game, neutral);
+      } else {
+        const targetSpace = this.getTargetGreenerySpace(game);
+
+        if (targetSpace !== undefined && targetSpace.tile === undefined) {
+          game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.GREENERY});
+        } else {
+          this.placeGreeneryOnHighestLandPlacementValueSpot(player, game, neutral);
+        }
+      }
+    }
+
+    private static getTargetGreenerySpace(game: Game): ISpace | undefined {
+      switch (game.gameOptions.boardName) {
+      case BoardName.ORIGINAL:
+        return undefined;
+      case BoardName.HELLAS:
+        // South pole spot
+        return game.board.getSpace('61');
+      case BoardName.ELYSIUM:
+        // 3 card spot
+        return game.board.getSpace('20');
+      case BoardName.AMAZONIS:
+        // 3 plant spot
+        return game.board.getSpace('05');
+      case BoardName.ARABIA_TERRA:
+        // Lower 2 plant spot
+        return game.board.getSpace('48');
+      case BoardName.TERRA_CIMMERIA:
+        // 2 card spot
+        return game.board.getSpace('38');
+      case BoardName.VASTITAS_BOREALIS:
+        // Temperature spot
+        return game.board.getSpace('33');
+      }
+    }
+
+    private static placeGreeneryOnHighestLandPlacementValueSpot(player: Player, game: Game, neutral: Player): void {
+      const availableLandSpaces = game.board.getAvailableSpacesOnLand(player);
+      const landPlacementValues = availableLandSpaces.map((s) => this.computePlacementValue(s));
+      const highestLandPlacementValue = Math.max(...landPlacementValues);
+
+      const index = landPlacementValues.indexOf(highestLandPlacementValue);
+      game.simpleAddTile(neutral, availableLandSpaces[index], {tileType: TileType.GREENERY});
     }
 
     private static computePlacementValue(space: ISpace): number {
