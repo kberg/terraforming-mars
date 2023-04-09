@@ -910,6 +910,10 @@ export class Game implements ISerializable<SerializedGame> {
         });
       }
 
+      if (this.gameOptions.automaSoloVariant) {
+        AutomaHandler.scoreUnclaimedMilestones(this);
+      }
+
       this.log('Final greenery placement', (b) => b.forNewGeneration());
       this.gotoFinalGreeneryPlacement();
       return;

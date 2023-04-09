@@ -6,7 +6,7 @@ import {TileType} from "../TileType";
 import {BoardName} from "../boards/BoardName";
 import {ISpace} from "../boards/ISpace";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
-import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
+import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -18,7 +18,7 @@ export class AutomaHandler {
     public static initialize(player: Player, game: Game): void {
       // Set the bot's starting TR and VP
       game.automaBotVictoryPointsBreakdown.terraformRating = SOLO_START_TR;
-      game.automaBotVictoryPointsBreakdown.victoryPoints = SOLO_START_TR;
+      game.automaBotVictoryPointsBreakdown.updateTotal();
 
       // Set up the board
       this.placeInitialOcean(player, game);
@@ -243,5 +243,18 @@ export class AutomaHandler {
       } else {
         game.setOxygenLevel(game.getOxygenLevel() + steps);
       }
+    }
+
+    public static scoreUnclaimedMilestones(game: Game): void {
+      const allMilestones = game.milestones;
+      const allClaimedMilestones = game.claimedMilestones.map((cm) => cm.milestone);
+      const unclaimedMilestones = allMilestones.filter((m) => allClaimedMilestones.map((cm) => cm.name).includes(m.name) === false);
+
+      unclaimedMilestones.forEach((milestone) => {
+        game.log('Bot claimed ${0} milestone', (b) => b.milestone(milestone));
+        game.automaBotVictoryPointsBreakdown.milestones += MILESTONE_VP;
+      });
+
+      game.automaBotVictoryPointsBreakdown.updateTotal();
     }
 }

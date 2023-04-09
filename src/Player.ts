@@ -600,7 +600,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     // Victory points from milestones
     for (const milestone of this.game.claimedMilestones) {
       if (milestone.player !== undefined && milestone.player.id === this.id) {
-        victoryPointsBreakdown.setVictoryPoints('milestones', 5, 'Claimed '+milestone.milestone.name+' milestone');
+        victoryPointsBreakdown.setVictoryPoints('milestones', constants.MILESTONE_VP, 'Claimed '+milestone.milestone.name+' milestone');
       }
     }
 

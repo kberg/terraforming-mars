@@ -1,6 +1,7 @@
 // Base constants
 export const CARD_COST: number = 3;
 export const MILESTONE_COST: number = 8;
+export const MILESTONE_VP: number = 5;
 export const MAX_MILESTONES = 3;
 export const AWARD_COSTS: Array<number> = [8, 14, 20];
 export const MAX_AWARDS = 3;

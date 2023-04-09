@@ -23,7 +23,7 @@ export const AutomaBotInfo = Vue.component('AutomaBotInfo', {
         <div class="player-info-bottom bot_translucent_bg_color">
             <div class="player-tags">
                 <div class="player-tags-main">
-                    <tag-count :tag="'vp'" :count="this.player.automaBotVictoryPointsBreakdown.victoryPoints" :size="'big'" :type="'main'" />
+                    <tag-count :tag="'vp'" :count="this.player.automaBotVictoryPointsBreakdown.total" :size="'big'" :type="'main'" />
                     <tag-count :tag="'tr'" :count="this.player.automaBotVictoryPointsBreakdown.terraformRating" :size="'big'" :type="'main'"/>
                 </div>
             </div>
