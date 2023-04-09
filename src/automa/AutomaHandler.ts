@@ -1,15 +1,18 @@
 import {CardName} from "../CardName";
 import {Game} from "../Game";
 import {GameSetup} from "../GameSetup";
+import {LogHelper} from "../LogHelper";
 import {Player} from "../Player";
 import {SpaceBonus} from "../SpaceBonus";
 import {TileType} from "../TileType";
 import {AresHandler} from "../ares/AresHandler";
+import {_AresHazardPlacement} from "../ares/AresHazards";
+import {Board} from "../boards/Board";
 import {BoardName} from "../boards/BoardName";
 import {ISpace} from "../boards/ISpace";
 import {Tags} from "../cards/Tags";
 import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
-import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
+import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -280,25 +283,27 @@ export class AutomaHandler {
     }
 
     public static performActionForTag(game: Game, tag: Tags): void {
+      const neutral = GameSetup.neutralPlayerFor(game.id);
+
       switch (tag) {
       case Tags.SCIENCE:
       case Tags.ENERGY:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
         if (game.getTemperature() === MAX_TEMPERATURE) {
-          game.log('Bot revealed a ${0} tag and gained 1 TR as temperature is already maxed', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as temperature is already maxed', (b) => b.string(tag));
           break;
         }
 
         AutomaHandler.increaseTemperature(game, 1);
         game.temperatureSilverCubeBonusMC = 0;
-        this.checkForTemperatureBonusOcean(game);
+        this.checkForTemperatureBonusOcean(game, neutral);
 
         AresHandler.ifAres(game, (aresData) => {
           AresHandler.onTemperatureChange(game, aresData);
         });
 
-        game.log('Bot revealed a ${0} tag and increased temperature 1 step', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Increase temperature 1 step', (b) => b.string(tag));
         break;
       case Tags.ANIMAL:
       case Tags.PLANT:
@@ -306,7 +311,24 @@ export class AutomaHandler {
         // TODO: Place a greenery tile and maybe raise oxygen
         break;
       case Tags.EARTH:
-        // TODO: Place an ocean tile
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+        if (game.board.getOceansOnBoard() === MAX_OCEAN_TILES) {
+          game.log('Bot action from ${0} tag: Gain 1 TR as oceans are already maxed', (b) => b.string(tag));
+          break;
+        }
+
+        const targetSpace: ISpace = this.getTargetOceanSpace(game);
+        game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.OCEAN});
+        game.oceansSilverCubeBonusMC = 0;
+
+        const offset: number = Math.abs(targetSpace.y - 4);
+        const row: number = targetSpace.y + 1;
+        const position: number = targetSpace.x - offset + 1;
+        game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(row).number(position));
+
+        this.maybeRemoveAresDustStorms(game);
+        this.maybePlaceErosions(game);
         break;
       case Tags.SPACE:
       case Tags.CITY:
@@ -314,7 +336,7 @@ export class AutomaHandler {
         break;
       case Tags.BUILDING:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
-        game.log('Bot revealed a ${0} tag and gained 1 TR', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Gain 1 TR', (b) => b.string(tag));
         break;
       case Tags.EVENT:
       case Tags.JOVIAN:
@@ -325,7 +347,7 @@ export class AutomaHandler {
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
         if (game.getVenusScaleLevel() === MAX_VENUS_SCALE) {
-          game.log('Bot revealed a ${0} tag and gained 1 TR as Venus is already maxed', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as Venus is already maxed', (b) => b.string(tag));
           break;
         }
 
@@ -338,7 +360,7 @@ export class AutomaHandler {
         const aphrodite = game.getPlayers().find((player) => player.isCorporation(CardName.APHRODITE));
         if (aphrodite !== undefined) aphrodite.megaCredits += gotBonusTRFromVenusTrack ? 4 : 2;
 
-        game.log('Bot revealed a ${0} tag and increased Venus scale 1 step', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Increase Venus scale 1 step', (b) => b.string(tag));
         break;
       case Tags.MOON:
         // TODO: Raise lowest Moon parameter? (TBC)
@@ -348,11 +370,75 @@ export class AutomaHandler {
       }
     }
 
-    private static checkForTemperatureBonusOcean(game: Game): void {
+    // Rule 1: Highest placement value
+    // Rule 2: Adjacent to most other oceans
+    private static getTargetOceanSpace(game: Game): ISpace {
+      const soloPlayer = game.getPlayers()[0];
+      const availableOceanSpaces = game.board.getAvailableSpacesForOcean(soloPlayer);
+      const oceanPlacementValues = availableOceanSpaces.map((s) => this.computePlacementValue(s));
+      const highestOceanPlacementValue = Math.max(...oceanPlacementValues);
+      const highestValueSpaces = oceanPlacementValues.filter((v) => v === highestOceanPlacementValue);
+
+      if (highestValueSpaces.length === 1) {
+        const index = oceanPlacementValues.indexOf(highestOceanPlacementValue);
+        return availableOceanSpaces[index];
+      } else {
+        const tiedSpaces = availableOceanSpaces.filter((space) => this.computePlacementValue(space) === highestOceanPlacementValue);
+        const adjacentOceansCount = tiedSpaces.map((space) => game.board.getAdjacentSpaces(space).filter((s) => Board.isOceanSpace(s)).length);
+
+        return tiedSpaces.find((space) => game.board.getAdjacentSpaces(space).filter((s) => Board.isOceanSpace(s)).length === Math.max(...adjacentOceansCount))!;
+      }
+    }
+
+    private static checkForTemperatureBonusOcean(game: Game, neutral: Player): void {
       if (game.getTemperature() === 0) {
-        // TODO: Bot places an ocean tile
+        const targetSpace: ISpace = this.getTargetOceanSpace(game);
+        game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.OCEAN});
+
         game.oceansSilverCubeBonusMC = 0;
         game.automaBotVictoryPointsBreakdown.terraformRating++;
       }
+    }
+
+    private static maybeRemoveAresDustStorms(game: Game): void {
+      AresHandler.ifAres(game, (aresData) => {
+        _AresHazardPlacement.testConstraint(
+          aresData.hazardData.removeDustStormsOceanCount,
+          game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant),
+          () => {
+            game.board.spaces.forEach((space) => {
+              if (space.tile?.tileType === TileType.DUST_STORM_MILD || space.tile?.tileType === TileType.DUST_STORM_SEVERE) {
+                if (space.tile.protectedHazard !== true) space.tile = undefined;
+              }
+            });
+
+            game.log('Bot eliminated dust storms.');
+          },
+        );
+      });
+    }
+
+    private static maybePlaceErosions(game: Game): void {
+      const neutral = GameSetup.neutralPlayerFor(game.id);
+
+      AresHandler.ifAres(game, (aresData) => {
+        _AresHazardPlacement.testConstraint(
+          aresData.hazardData.erosionOceanCount,
+          game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant),
+          () => {
+            let type = TileType.EROSION_MILD;
+            if (aresData.hazardData.severeErosionTemperature.available !== true) {
+              type = TileType.EROSION_SEVERE;
+            }
+
+            const space1 = _AresHazardPlacement.randomlyPlaceHazard(game, type, 1);
+            const space2 = _AresHazardPlacement.randomlyPlaceHazard(game, type, -1);
+
+            [space1, space2].forEach((space) => {
+              LogHelper.logTilePlacement(neutral, space, type);
+            });
+          },
+        );
+      });
     }
 }

@@ -110,7 +110,7 @@ export class _AresHazardPlacement {
     );
   }
 
-  private static testConstraint(constraint: IHazardConstraint, testValue: number, cb: () => void) {
+  public static testConstraint(constraint: IHazardConstraint, testValue: number, cb: () => void) {
     if (!constraint.available) {
       return;
     }
