@@ -368,6 +368,8 @@ export class AutomaHandler {
       default:
         break;
       }
+
+      game.automaBotVictoryPointsBreakdown.updateTotal();
     }
 
     // Rule 1: Highest placement value
