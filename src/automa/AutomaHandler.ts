@@ -28,6 +28,10 @@ export class AutomaHandler {
     public static initialize(player: Player, game: Game): void {
       // Set the bot's starting TR and VP
       game.automaBotVictoryPointsBreakdown.terraformRating = SOLO_START_TR;
+      // Starting neutral greeneries and cities
+      game.automaBotVictoryPointsBreakdown.greenery = 2;
+      game.automaBotVictoryPointsBreakdown.city = 2;
+      // Expansion modifiers
       if (game.gameOptions.preludeExtension) game.automaBotVictoryPointsBreakdown.terraformRating += 5;
       if (game.gameOptions.coloniesExtension) game.automaBotVictoryPointsBreakdown.terraformRating += 3;
       game.automaBotVictoryPointsBreakdown.updateTotal();
