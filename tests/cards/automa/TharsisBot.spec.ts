@@ -33,9 +33,9 @@ describe('TharsisBot', function() {
     expect(game.getCitiesInPlayOnMars()).eq(6);
     expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(2);
 
-    // game.addGreenery(player, game.board.getAvailableSpacesForGreenery(player)[0].id);
-    // game.addOceanTile(player, game.board.getAvailableSpacesForOcean(player)[0].id);
-    // game.deferredActions.runAll(() => {});
-    // expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(2);
+    game.addGreenery(player, game.board.getAvailableSpacesForGreenery(player)[0].id);
+    game.addOceanTile(player, game.board.getAvailableSpacesForOcean(player)[0].id);
+    game.deferredActions.runAll(() => {});
+    expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(2);
   });
 });

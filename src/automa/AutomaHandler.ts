@@ -1,4 +1,5 @@
 import {CardName} from "../CardName";
+import {Dealer} from "../Dealer";
 import {Game} from "../Game";
 import {GameSetup} from "../GameSetup";
 import {LogHelper} from "../LogHelper";
@@ -15,7 +16,9 @@ import {BoardName} from "../boards/BoardName";
 import {BoardType} from "../boards/BoardType";
 import {ISpace} from "../boards/ISpace";
 import {Tags} from "../cards/Tags";
+import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
+import {CorporationCard} from "../cards/corporation/CorporationCard";
 import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
@@ -38,15 +41,23 @@ export class AutomaHandler {
       this.placeInitialOcean(player, game);
       this.placeInitialGreenery(game);
 
-      // This is just a placeholder for now, we'll add the real bot corporations later
-      const automaBotCorporation = new TharsisBot();
+      // Deal a random bot corporation
+      const automaBotCorporation = this.dealAutomaBotCorporation();
       game.automaBotCorporation = automaBotCorporation;
       game.log('Bot played ${0}', (b) => b.card(automaBotCorporation));
 
-      if (automaBotCorporation.name === CardName.THARSIS_BOT) {
+      if (automaBotCorporation.initialAction !== undefined) {
         automaBotCorporation.initialAction(player);
         game.automaBotVictoryPointsBreakdown.updateTotal();
       }
+    }
+
+    private static dealAutomaBotCorporation(): CorporationCard {
+      let deck: CorporationCard[] = [];
+      AUTOMA_CARD_MANIFEST.corporationCards.factories.forEach((f) => deck.push(new f.Factory()));
+
+      deck = Dealer.shuffle(deck);
+      return deck[0];
     }
 
     public static placeInitialOcean(player: Player, game: Game): void {
