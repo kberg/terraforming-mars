@@ -724,4 +724,7 @@ export enum CardName {
     XU = 'Xu',
     YVONNE = 'Yvonne',
     ZAN = 'Zan',
+
+    // Automa
+    THARSIS_BOT = 'Tharsis Bot',
 }
