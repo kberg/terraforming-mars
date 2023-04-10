@@ -350,7 +350,7 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     // and 2 neutral cities and forests on board
-    if (players.length === 1) {
+    if (game.isSoloMode() && gameOptions.automaSoloVariant === false) {
       //  Setup solo player's starting tiles
       GameSetup.setupNeutralPlayer(game);
     }

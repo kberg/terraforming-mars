@@ -16,15 +16,17 @@ describe('TharsisBot', function() {
   });
 
   it('Should take initial action', function() {
-    expect(game.getCitiesInPlayOnMars()).eq(3);
-    expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(1);
+    expect(game.getCitiesInPlayOnMars()).eq(1);
+    expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(0);
   });
 
   it('Takes action', function() {
     card.action(player);
-    expect(game.getCitiesInPlayOnMars()).eq(4);
+    card.action(player);
+    expect(game.getCitiesInPlayOnMars()).eq(3);
     expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(1);
     
+    card.action(player);
     card.action(player);
     expect(game.getCitiesInPlayOnMars()).eq(5);
     expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(1);

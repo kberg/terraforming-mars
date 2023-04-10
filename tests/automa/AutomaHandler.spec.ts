@@ -318,8 +318,8 @@ describe('AutomaHandler: performActionForTag', function() {
 
     expect(game.automaBotVictoryPointsBreakdown.city).greaterThan(initialCityVP);
     expect(game.automaBotVictoryPointsBreakdown.total).greaterThan(initialTotal);
-    // including the initial 2 cities and 1 more from Tharsis bot initial action
-    expect(game.getCitiesInPlayOnMars()).greaterThanOrEqual(3);
+    // Possibly a 2nd city from Tharsis bot initial action
+    expect(game.getCitiesInPlayOnMars()).greaterThanOrEqual(1);
   });
 
   it('City tag: Places city', function() {
@@ -329,7 +329,7 @@ describe('AutomaHandler: performActionForTag', function() {
 
     expect(game.automaBotVictoryPointsBreakdown.city).greaterThan(initialCityVP);
     expect(game.automaBotVictoryPointsBreakdown.total).greaterThan(initialTotal);
-    // including the initial 2 cities and 1 more from Tharsis bot initial action
-    expect(game.getCitiesInPlayOnMars()).greaterThanOrEqual(3);
+    // Possibly a 2nd city from Tharsis bot initial action
+    expect(game.getCitiesInPlayOnMars()).greaterThanOrEqual(1);
   });
 });
