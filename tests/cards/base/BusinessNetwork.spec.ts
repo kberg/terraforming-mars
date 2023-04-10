@@ -29,7 +29,7 @@ describe('BusinessNetwork', function() {
   });
 
   it('Can act', function() {
-    expect(card.canAct()).is.true;
+    expect(card.canAct(player)).is.true;
   });
 
   it('Cannot buy card if cannot pay', function() {

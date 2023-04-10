@@ -27,12 +27,10 @@ export class CloudSeeding extends Card implements IProjectCard {
     });
   }
   public canPlay(player: Player): boolean {
-    const otherPlayersHaveHeatProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.HEAT) > 0 && p.id !== player.id).length > 0;
+    const otherPlayersHaveHeatProduction = player.game.someoneHasResourceProduction(Resources.HEAT, 1);
     Card.setProductionDecreaseWarningText(this, Resources.HEAT, otherPlayersHaveHeatProduction);
 
-    return player.getProduction(Resources.MEGACREDITS) > -5 &&
-        super.canPlay(player) &&
-        player.game.someoneHasResourceProduction(Resources.HEAT, 1);
+    return player.getProduction(Resources.MEGACREDITS) > -5 && super.canPlay(player) && otherPlayersHaveHeatProduction;
   }
 
   public play(player: Player) {

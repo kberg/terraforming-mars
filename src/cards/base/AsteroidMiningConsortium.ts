@@ -33,9 +33,7 @@ export class AsteroidMiningConsortium extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    const otherPlayersHaveTitaniumProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.TITANIUM) > 0 && p.id !== player.id).length > 0;
-    Card.setProductionDecreaseWarningText(this, Resources.TITANIUM, otherPlayersHaveTitaniumProduction);
-
+    Card.setProductionDecreaseWarningText(this, Resources.TITANIUM, player.game.someoneHasResourceProduction(Resources.TITANIUM, 1));
     return super.canPlay(player);
   }
 

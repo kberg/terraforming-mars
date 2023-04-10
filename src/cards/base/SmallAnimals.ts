@@ -41,10 +41,10 @@ export class SmallAnimals extends Card implements IActionCard, IProjectCard, IRe
   }
     public resourceCount = 0;
     public canPlay(player: Player): boolean {
-      const otherPlayersHavePlantProduction = player.game.isSoloMode() || player.game.getPlayers().filter((p) => p.getProduction(Resources.PLANTS) > 0 && p.id !== player.id).length > 0;
+      const otherPlayersHavePlantProduction = player.game.someoneHasResourceProduction(Resources.PLANTS, 1);
       Card.setProductionDecreaseWarningText(this, Resources.PLANTS, otherPlayersHavePlantProduction);
 
-      return super.canPlay(player) && player.game.someoneHasResourceProduction(Resources.PLANTS, 1);
+      return super.canPlay(player) && otherPlayersHavePlantProduction;
     }
     public getVictoryPoints(): number {
       return Math.floor(this.resourceCount / 2);
