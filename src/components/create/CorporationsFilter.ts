@@ -21,7 +21,7 @@ function corpCardNames(module: GameModule): Array<CardName> {
 }
 
 const allItems: Array<CardName> = [];
-ALL_CARD_MANIFESTS.forEach((manifest) => {
+ALL_CARD_MANIFESTS.filter((m) => m.module !== GameModule.Automa).forEach((manifest) => {
   manifest.corporationCards.factories.forEach((cf) => {
     allItems.push(cf.cardName);
   });
@@ -59,7 +59,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
   },
   data: function() {
     const cardsByModuleMap: Map<GameModule, Array<CardName>> =
-            new Map(ALL_CARD_MANIFESTS.map((m) => [m.module, corpCardNames(m.module)]));
+            new Map(ALL_CARD_MANIFESTS.filter((m) => m.module !== GameModule.Automa).map((m) => [m.module, corpCardNames(m.module)]));
     return {
       cardsByModuleMap: cardsByModuleMap,
       customCorporationsList: false,
