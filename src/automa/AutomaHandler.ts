@@ -15,11 +15,14 @@ import {Board} from "../boards/Board";
 import {BoardName} from "../boards/BoardName";
 import {BoardType} from "../boards/BoardType";
 import {ISpace} from "../boards/ISpace";
+import {IProjectCard} from "../cards/IProjectCard";
 import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
 import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
+import {DeferredAction} from "../deferredActions/DeferredAction";
+import {OrOptions} from "../inputs/OrOptions";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -309,6 +312,9 @@ export class AutomaHandler {
       const neutral = GameSetup.neutralPlayerFor(game.id);
       const soloPlayer = game.getPlayers()[0];
 
+      // Give player any corp benefits as though the bot played a card with this tag
+      this.grantTagPlayedBonus(soloPlayer, game, tag);
+
       switch (tag) {
       case Tags.SCIENCE:
       case Tags.ENERGY:
@@ -439,6 +445,20 @@ export class AutomaHandler {
       }
 
       game.automaBotVictoryPointsBreakdown.updateTotal();
+    }
+
+    private static grantTagPlayedBonus(player: Player, game: Game, tag: Tags): void {
+      player.corporationCards.forEach((corp) => {
+        if (corp.onCardPlayed !== undefined) {
+          const actionFromPlayedCard: OrOptions | void = corp.onCardPlayed(player, {tags: [tag]} as IProjectCard);
+          if (actionFromPlayedCard !== undefined) {
+            game.defer(new DeferredAction(
+              player,
+              () => actionFromPlayedCard,
+            ));
+          }
+        }
+      });
     }
 
     // Rule 1: Highest placement value

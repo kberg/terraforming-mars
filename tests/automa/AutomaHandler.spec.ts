@@ -9,6 +9,9 @@ import {TileType} from '../../src/TileType';
 import {EmptyBoard} from '../ares/EmptyBoard';
 import {BoardName} from '../../src/boards/BoardName';
 import {Tags} from '../../src/cards/Tags';
+import {SaturnSystems} from '../../src/cards/corporation/SaturnSystems';
+import {Resources} from '../../src/Resources';
+import {TharsisBot} from '../../src/cards/automa/TharsisBot';
 
 describe('AutomaHandler: Initial setup', function() {
   let player : Player; let game : Game;
@@ -336,5 +339,39 @@ describe('AutomaHandler: performActionForTag', function() {
     expect(game.automaBotVictoryPointsBreakdown.total).greaterThan(initialTotal);
     // Possibly a 2nd city from Tharsis bot initial action
     expect(game.getCitiesInPlayOnMars()).greaterThanOrEqual(1);
+  });
+
+  it('Event tag: Takes corp action', function() {
+    game.automaBotCorporation = new TharsisBot();
+    const initialCitiesCount = game.getCitiesInPlayOnMars();
+
+    AutomaHandler.performActionForTag(game, Tags.EVENT);
+    expect(game.getCitiesInPlayOnMars()).to.eq(initialCitiesCount + 1);
+  });
+
+  it('Jovian tag: Takes corp action', function() {
+    game.automaBotCorporation = new TharsisBot();
+    const initialCitiesCount = game.getCitiesInPlayOnMars();
+
+    AutomaHandler.performActionForTag(game, Tags.JOVIAN);
+    expect(game.getCitiesInPlayOnMars()).to.eq(initialCitiesCount + 1);
+  });
+
+  it('Wild tag: Takes corp action', function() {
+    game.automaBotCorporation = new TharsisBot();
+    const initialCitiesCount = game.getCitiesInPlayOnMars();
+
+    AutomaHandler.performActionForTag(game, Tags.WILDCARD);
+    expect(game.getCitiesInPlayOnMars()).to.eq(initialCitiesCount + 1);
+  });
+
+  it('Jovian tag: If player is Saturn Systems, gain 1 M€ production', function() {
+    const saturn = new SaturnSystems();
+    player.corporationCards.push(saturn);
+
+    const initialMegacreditProduction = player.getProduction(Resources.MEGACREDITS);
+    AutomaHandler.performActionForTag(game, Tags.JOVIAN);
+    game.deferredActions.runAll(() => {});
+    expect(player.getProduction(Resources.MEGACREDITS)).to.eq(initialMegacreditProduction + 1);
   });
 });
