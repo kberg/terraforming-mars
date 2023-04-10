@@ -4,7 +4,7 @@ import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 import {AutomaHandler} from '../../src/automa/AutomaHandler';
-import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE, MILESTONE_VP} from '../../src/constants';
+import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE, MILESTONE_VP, SOLO_START_TR_AUTOMA} from '../../src/constants';
 import {TileType} from '../../src/TileType';
 import {EmptyBoard} from '../ares/EmptyBoard';
 import {BoardName} from '../../src/boards/BoardName';
@@ -18,6 +18,11 @@ describe('AutomaHandler: Initial setup', function() {
 
     const gameOptions = TestingUtils.setCustomGameOptions({automaSoloVariant: true});
     game = Game.newInstance('foobar', [player], player, gameOptions);
+  });
+
+  it('Correct starting TR', function() {
+    expect(player.getTerraformRating()).eq(SOLO_START_TR_AUTOMA);
+    expect(game.automaBotVictoryPointsBreakdown.terraformRating).greaterThanOrEqual(SOLO_START_TR_AUTOMA);
   });
 
   it('Places initial ocean', function() {

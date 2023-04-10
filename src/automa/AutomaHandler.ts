@@ -19,7 +19,7 @@ import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
-import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
+import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -30,7 +30,7 @@ export class AutomaHandler {
 
     public static initialize(player: Player, game: Game): void {
       // Set the bot's starting TR and VP
-      game.automaBotVictoryPointsBreakdown.terraformRating = SOLO_START_TR;
+      game.automaBotVictoryPointsBreakdown.terraformRating = SOLO_START_TR_AUTOMA;
 
       // Expansion modifiers
       if (game.gameOptions.preludeExtension) game.automaBotVictoryPointsBreakdown.terraformRating += 5;
