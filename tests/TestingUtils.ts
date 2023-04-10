@@ -1,6 +1,5 @@
 import {Player} from '../src/Player';
 import {Game, GameOptions} from '../src/Game';
-import * as constants from '../src/constants';
 import {SpaceType} from '../src/SpaceType';
 import {BoardName} from '../src/boards/BoardName';
 import {RandomMAOptionType} from '../src/RandomMAOptionType';
@@ -18,12 +17,12 @@ export class TestingUtils {
   public static maxOutOceans(player: Player, toValue: number = 0): Array<ISpace> {
     const oceans = [];
     if (toValue < 1) {
-      toValue = constants.MAX_OCEAN_TILES;
+      toValue = player.game.getMaxOceanTilesCount();
     }
 
     for (const space of player.game.board.getSpaces(SpaceType.OCEAN, player)) {
       if (space.tile !== undefined) continue;
-      if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) >= toValue) break;
+      if (player.game.board.getOceansOnBoard() >= toValue) break;
       player.game.addOceanTile(player, space.id);
       oceans.push(space);
     }

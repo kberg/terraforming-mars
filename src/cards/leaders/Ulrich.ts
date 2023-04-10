@@ -38,7 +38,7 @@ export class Ulrich extends Card implements LeaderCard {
     if (game.noOceansAvailable()) {
       player.addResource(Resources.MEGACREDITS, 15, {log: true});
     } else {
-      const oceansPlaced = game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant);
+      const oceansPlaced = game.board.getOceansOnBoard();
       player.addResource(Resources.MEGACREDITS, oceansPlaced * 4, {log: true});
     }
 

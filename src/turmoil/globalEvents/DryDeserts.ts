@@ -5,7 +5,6 @@ import {Game} from '../../Game';
 import {Turmoil} from '../Turmoil';
 import {RemoveOceanTile} from '../../deferredActions/RemoveOceanTile';
 import {SelectResourcesDeferred} from '../../deferredActions/SelectResourcesDeferred';
-import {AUTOMA_REMOVED_OCEANS_COUNT, MAX_OCEAN_TILES} from '../../constants';
 
 export class DryDeserts implements IGlobalEvent {
     public name = GlobalEventName.DRY_DESERTS;
@@ -13,10 +12,8 @@ export class DryDeserts implements IGlobalEvent {
     public revealedDelegate = PartyName.REDS;
     public currentDelegate = PartyName.UNITY;
     public resolve(game: Game, turmoil: Turmoil) {
-      const automaSoloVariant = game.gameOptions.automaSoloVariant;
-      const oceansPlaced = game.board.getOceansOnBoard(automaSoloVariant);
-      const floor = automaSoloVariant ? AUTOMA_REMOVED_OCEANS_COUNT : 0;
-      const canRemoveOcean = oceansPlaced > floor && oceansPlaced !== MAX_OCEAN_TILES;
+      const oceansPlaced = game.board.getOceansOnBoard();
+      const canRemoveOcean = oceansPlaced > 0 && oceansPlaced !== game.getMaxOceanTilesCount();
 
       if (canRemoveOcean) {
         game.defer(new RemoveOceanTile(game.getPlayers()[0], 'Dry Deserts Global Event - Remove an Ocean tile from the board'));

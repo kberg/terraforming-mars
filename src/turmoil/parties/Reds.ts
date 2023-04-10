@@ -7,7 +7,7 @@ import {Policy} from '../Policy';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
-import {AUTOMA_REMOVED_OCEANS_COUNT, MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE} from '../../constants';
+import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE} from '../../constants';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {RemoveOceanTile} from '../../deferredActions/RemoveOceanTile';
 import {OrOptions} from '../../inputs/OrOptions';
@@ -145,18 +145,14 @@ class RedsPolicy03 implements Policy {
     const game = player.game;
     if (game.marsIsTerraformed()) return false;
 
-    const automaSoloVariant = game.gameOptions.automaSoloVariant;
-
     const temperature = game.getTemperature();
-    const oceansPlaced = game.board.getOceansOnBoard(automaSoloVariant);
+    const oceansPlaced = game.board.getOceansOnBoard();
     const oxygenLevel = game.getOxygenLevel();
     const venusScaleLevel = game.getVenusScaleLevel();
 
-    const floor = automaSoloVariant ? AUTOMA_REMOVED_OCEANS_COUNT : 0;
-
     const basicParametersAtMinimum =
       temperature === MIN_TEMPERATURE &&
-      oceansPlaced === floor &&
+      oceansPlaced === 0 &&
       oxygenLevel === MIN_OXYGEN_LEVEL &&
       venusScaleLevel === MIN_VENUS_SCALE;
 

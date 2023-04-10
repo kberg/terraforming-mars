@@ -1,4 +1,3 @@
-import * as constants from '../constants';
 import {Player} from '../Player';
 import {SelectSpace} from '../inputs/SelectSpace';
 import {ISpace} from '../boards/ISpace';
@@ -13,7 +12,7 @@ export class PlaceOceanTile implements DeferredAction {
   ) {}
 
   public execute() {
-    if (this.player.game.board.getOceansOnBoard(this.player.game.gameOptions.automaSoloVariant) >= constants.MAX_OCEAN_TILES) {
+    if (this.player.game.board.getOceansOnBoard() >= this.player.game.getMaxOceanTilesCount()) {
       return undefined;
     }
 

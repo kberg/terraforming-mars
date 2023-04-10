@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {Player} from '../../Player';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
-import {MAX_OCEAN_TILES} from '../../constants';
 import {Card} from '../Card';
 import {CardName} from '../../CardName';
 import {CardRequirements} from '../CardRequirements';
@@ -38,7 +37,7 @@ export class PermafrostExtraction extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) {
+    if (player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) {
       return undefined;
     }
 

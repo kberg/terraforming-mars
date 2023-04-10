@@ -220,13 +220,13 @@ export const Sidebar = Vue.component('sidebar', {
                 <div :class="'party-name party-name-indicator party-name--'+rulingPartyToCss()" v-html="getRulingParty()"></div>
                 </div>
                 <div class="preferences_global_params">
-                  <global-parameter-value :param="this.globalParameter.TEMPERATURE" :value="this.temperature"></global-parameter-value>
+                  <global-parameter-value :param="this.globalParameter.TEMPERATURE" :value="this.temperature" :automa="this.gameOptions.automaSoloVariant"></global-parameter-value>
                   <div v-if="silverCubeVariant" class="resource money silver_cube_mc" v-html="getSilverCubeDiscountForTemperature()"></div>
-                  <global-parameter-value :param="this.globalParameter.OXYGEN" :value="this.oxygen"></global-parameter-value>
+                  <global-parameter-value :param="this.globalParameter.OXYGEN" :value="this.oxygen" :automa="this.gameOptions.automaSoloVariant"></global-parameter-value>
                   <div v-if="silverCubeVariant" class="resource money silver_cube_mc" v-html="getSilverCubeDiscountForOxygen()"></div>
-                  <global-parameter-value :param="this.globalParameter.OCEANS" :value="this.oceans"></global-parameter-value>
+                  <global-parameter-value :param="this.globalParameter.OCEANS" :value="this.oceans" :automa="this.gameOptions.automaSoloVariant"></global-parameter-value>
                   <div v-if="silverCubeVariant" class="resource money silver_cube_mc" v-html="getSilverCubeDiscountForOceans()"></div>
-                  <global-parameter-value v-if="gameOptions.venusNextExtension" :param="this.globalParameter.VENUS" :value="this.venus"></global-parameter-value>
+                  <global-parameter-value v-if="gameOptions.venusNextExtension" :param="this.globalParameter.VENUS" :value="this.venus" :automa="this.gameOptions.automaSoloVariant"></global-parameter-value>
                   <div v-if="gameOptions.venusNextExtension && silverCubeVariant" class="resource money silver_cube_mc" v-html="getSilverCubeDiscountForVenus()"></div>
                   <moon-global-parameter-value v-if="gameOptions.moonExpansion" :moonData="this.moonData"></moon-global-parameter-value>
                 </div>

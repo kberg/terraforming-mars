@@ -3,7 +3,7 @@ import {SpaceName} from '../SpaceName';
 import {Board} from './Board';
 import {Player} from '../Player';
 import {ISpace} from './ISpace';
-import {HELLAS_BONUS_OCEAN_COST, MAX_OCEAN_TILES} from '../constants';
+import {HELLAS_BONUS_OCEAN_COST} from '../constants';
 import {SpaceType} from '../SpaceType';
 import {BoardBuilder} from './BoardBuilder';
 import {SerializedBoard} from './SerializedBoard';
@@ -87,7 +87,7 @@ export class HellasBoard extends Board {
 
   public static handleBonusOceanFromTilePlacement(game: Game, player: Player, space: ISpace) {
     if (space.id === SpaceName.HELLAS_OCEAN_TILE &&
-        game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant) < MAX_OCEAN_TILES &&
+        game.board.getOceansOnBoard() < game.getMaxOceanTilesCount() &&
         game.gameOptions.boardName === BoardName.HELLAS) {
       if (player.color !== Color.NEUTRAL) {
         game.defer(new PlaceOceanTile(player, 'Select space for ocean from placement bonus'));

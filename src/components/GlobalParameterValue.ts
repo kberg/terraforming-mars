@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {TranslateMixin} from './TranslateMixin';
-import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE} from '../constants';
+import {MAX_OCEAN_TILES, MAX_OCEAN_TILES_AUTOMA, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE} from '../constants';
 import {GlobalParameter} from '../GlobalParameter';
 
 export const GlobalParameterValue = Vue.component('global-parameter-value', {
@@ -10,6 +10,9 @@ export const GlobalParameterValue = Vue.component('global-parameter-value', {
     },
     value: {
       type: Number,
+    },
+    automa: {
+      type: Boolean,
     },
   },
   mixins: [TranslateMixin],
@@ -21,6 +24,7 @@ export const GlobalParameterValue = Vue.component('global-parameter-value', {
       case GlobalParameter.OXYGEN:
         return this.value === MAX_OXYGEN_LEVEL;
       case GlobalParameter.OCEANS:
+        if (this.automa) return this.value === MAX_OCEAN_TILES_AUTOMA;
         return this.value === MAX_OCEAN_TILES;
       case GlobalParameter.VENUS:
         return this.value === MAX_VENUS_SCALE;

@@ -9,7 +9,6 @@ import {SelectSpace} from '../../inputs/SelectSpace';
 import {ISpace} from '../../boards/ISpace';
 import {CardName} from '../../CardName';
 import {Resources} from '../../Resources';
-import {MAX_OCEAN_TILES} from '../../constants';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
 
@@ -47,7 +46,7 @@ export class Flooding extends Card implements IProjectCard {
       return undefined;
     }
 
-    const oceansMaxedBeforePlacement = player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES;
+    const oceansMaxedBeforePlacement = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
     if (oceansMaxedBeforePlacement === true) return undefined;
 
     return new SelectSpace(

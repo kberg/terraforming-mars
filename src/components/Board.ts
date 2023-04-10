@@ -73,6 +73,10 @@ export const Board = Vue.component('board', {
         return s.spaceType !== SpaceType.COLONY;
       });
     },
+    getMaxOceansCount: function(): number {
+      if (this.automaSoloVariant) return constants.MAX_OCEAN_TILES_AUTOMA;
+      return constants.MAX_OCEAN_TILES;
+    },
     getSpaceById: function(spaceId: SpaceId) {
       for (const space of this.spaces) {
         if (space.id === spaceId) {
@@ -199,11 +203,11 @@ export const Board = Vue.component('board', {
             </div>
 
             <div class="global-numbers-oceans">
-              <span v-if="this.oceans_count === this.constants.MAX_OCEAN_TILES">
+              <span v-if="this.oceans_count === getMaxOceansCount()">
                 <img width="26" src="/assets/misc/circle-checkmark.png" class="board-ocean-checkmark" :alt="$t('Completed!')">
               </span>
               <span v-else>
-                {{this.oceans_count}}/{{this.constants.MAX_OCEAN_TILES}}
+                {{this.oceans_count}}/{{this.automaSoloVariant ? this.constants.MAX_OCEAN_TILES_AUTOMA : this.constants.MAX_OCEAN_TILES}}
               </span>
             </div>
 

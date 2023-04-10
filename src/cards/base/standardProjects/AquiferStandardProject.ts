@@ -1,7 +1,7 @@
 import {Player} from '../../../Player';
 import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
-import {MAX_OCEAN_TILES, REDS_RULING_POLICY_COST} from '../../../constants';
+import {REDS_RULING_POLICY_COST} from '../../../constants';
 import {PlaceOceanTile} from '../../../deferredActions/PlaceOceanTile';
 import {StandardProjectCard} from '../../StandardProjectCard';
 import {PartyHooks} from '../../../turmoil/parties/PartyHooks';
@@ -23,7 +23,7 @@ export class AquiferStandardProject extends StandardProjectCard {
   }
 
   public canAct(player: Player): boolean {
-    if (player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) {
+    if (player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) {
       return false;
     }
 

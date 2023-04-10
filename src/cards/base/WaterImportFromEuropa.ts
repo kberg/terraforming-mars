@@ -4,7 +4,7 @@ import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-import {MAX_OCEAN_TILES, REDS_RULING_POLICY_COST} from '../../constants';
+import {REDS_RULING_POLICY_COST} from '../../constants';
 import {CardName} from '../../CardName';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
@@ -40,7 +40,7 @@ export class WaterImportFromEuropa extends Card implements IActionCard, IProject
     return undefined;
   }
   public canAct(player: Player): boolean {
-    const oceansMaxed = player.game.board.getOceansOnBoard(player.game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES;
+    const oceansMaxed = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
     const oceanCost = 12;
 
     if (oceansMaxed) return false;

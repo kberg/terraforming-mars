@@ -19,7 +19,7 @@ import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
-import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
+import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
 const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -371,7 +371,7 @@ export class AutomaHandler {
       case Tags.EARTH:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
-        if (game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant) === MAX_OCEAN_TILES) {
+        if (game.board.getOceansOnBoard() === game.getMaxOceanTilesCount()) {
           game.log('Bot action from ${0} tag: Gain 1 TR as oceans are already maxed', (b) => b.string(tag));
           break;
         }
@@ -557,7 +557,7 @@ export class AutomaHandler {
       AresHandler.ifAres(game, (aresData) => {
         _AresHazardPlacement.testConstraint(
           aresData.hazardData.removeDustStormsOceanCount,
-          game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant),
+          game.board.getOceansOnBoard(),
           () => {
             game.board.spaces.forEach((space) => {
               if (space.tile?.tileType === TileType.DUST_STORM_MILD || space.tile?.tileType === TileType.DUST_STORM_SEVERE) {
@@ -577,7 +577,7 @@ export class AutomaHandler {
       AresHandler.ifAres(game, (aresData) => {
         _AresHazardPlacement.testConstraint(
           aresData.hazardData.erosionOceanCount,
-          game.board.getOceansOnBoard(game.gameOptions.automaSoloVariant),
+          game.board.getOceansOnBoard(),
           () => {
             let type = TileType.EROSION_MILD;
             if (aresData.hazardData.severeErosionTemperature.available !== true) {
