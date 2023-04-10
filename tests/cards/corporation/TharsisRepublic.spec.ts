@@ -58,8 +58,18 @@ describe('TharsisRepublic', function() {
   it('Gives 2 M€ production in solo mode', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player);
+
     card.play(player);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+  });
+
+  it('Gives 3 M€ production in solo mode with Automa', function() {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+
+    card.play(player);
+    TestingUtils.runAllActions(game);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3);
   });
 });

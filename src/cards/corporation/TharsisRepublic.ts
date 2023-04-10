@@ -65,9 +65,13 @@ export class TharsisRepublic extends Card implements CorporationCard {
   }
 
   public play(player: Player) {
-    if (player.game.getPlayers().length === 1) {
+    if (player.game.isSoloMode()) {
       // Get bonus for 2 neutral cities
       player.addProduction(Resources.MEGACREDITS, 2);
+
+      if (player.game.gameOptions.automaSoloVariant && player.game.automaBotCorporation?.name === CardName.THARSIS_BOT) {
+        player.addProduction(Resources.MEGACREDITS, 1);
+      }
     }
     return undefined;
   }

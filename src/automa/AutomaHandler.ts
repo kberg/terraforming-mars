@@ -15,7 +15,7 @@ import {BoardName} from "../boards/BoardName";
 import {BoardType} from "../boards/BoardType";
 import {ISpace} from "../boards/ISpace";
 import {Tags} from "../cards/Tags";
-import {TerralabsResearch} from "../cards/turmoil/TerralabsResearch";
+import {TharsisBot} from "../cards/automa/TharsisBot";
 import {MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR} from "../constants";
 
 const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
@@ -36,14 +36,19 @@ export class AutomaHandler {
       if (game.gameOptions.coloniesExtension) game.automaBotVictoryPointsBreakdown.terraformRating += 3;
       game.automaBotVictoryPointsBreakdown.updateTotal();
 
-      // Set up the board
+      // Set up the board. The bot does not score for this initial ocean and greenery.
       this.placeInitialOcean(player, game);
       this.placeInitialGreenery(game);
 
       // This is just a placeholder for now, we'll add the real bot corporations later
-      const automaBotCorporation = new TerralabsResearch();
+      const automaBotCorporation = new TharsisBot();
       game.automaBotCorporation = automaBotCorporation;
       game.log('Bot played ${0}', (b) => b.card(automaBotCorporation));
+
+      if (automaBotCorporation.name === CardName.THARSIS_BOT) {
+        automaBotCorporation.initialAction(player);
+        game.automaBotVictoryPointsBreakdown.updateTotal();
+      }
     }
 
     public static placeInitialOcean(player: Player, game: Game): void {
@@ -293,6 +298,7 @@ export class AutomaHandler {
 
     public static performActionForTag(game: Game, tag: Tags): void {
       const neutral = GameSetup.neutralPlayerFor(game.id);
+      const soloPlayer = game.getPlayers()[0];
 
       switch (tag) {
       case Tags.SCIENCE:
@@ -344,7 +350,7 @@ export class AutomaHandler {
 
         const targetGreenerySpace = AutomaHandler.getTargetGreenerySpace(game, neutral);
         game.simpleAddTile(neutral, game.board.getSpace(targetGreenerySpace.id), {tileType: TileType.GREENERY});
-        AutomaHandler.grantBonusesForBotTilePlacement(game, targetGreenerySpace, neutral);
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetGreenerySpace, neutral, TileType.GREENERY);
         game.oxygenSilverCubeBonusMC = 0;
         game.log('Bot action from ${0} tag: Place a greenery on row ${1} position ${2}', (b) => b.string(tag).number(targetGreenerySpace.y + 1).number(targetGreenerySpace.x - Math.abs(targetGreenerySpace.y - 4) + 1));
 
@@ -363,7 +369,7 @@ export class AutomaHandler {
 
         const targetOceanSpace: ISpace = this.getTargetOceanSpace(game);
         game.simpleAddTile(neutral, game.board.getSpace(targetOceanSpace.id), {tileType: TileType.OCEAN});
-        AutomaHandler.grantBonusesForBotTilePlacement(game, targetOceanSpace, neutral);
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetOceanSpace, neutral, TileType.OCEAN);
         game.oceansSilverCubeBonusMC = 0;
         game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(targetOceanSpace.y + 1).number(targetOceanSpace.x - Math.abs(targetOceanSpace.y - 4) + 1));
 
@@ -382,7 +388,7 @@ export class AutomaHandler {
 
         const targetCitySpace: ISpace = this.getTargetCitySpace(game);
         game.simpleAddTile(neutral, game.board.getSpace(targetCitySpace.id), {tileType: TileType.CITY});
-        AutomaHandler.grantBonusesForBotTilePlacement(game, targetCitySpace, neutral);
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetCitySpace, neutral, TileType.CITY);
 
         const adjacentGreeneries = game.board.getAdjacentSpaces(targetCitySpace).filter((s) => s.tile?.tileType === TileType.GREENERY).length;
         game.automaBotVictoryPointsBreakdown.city += adjacentGreeneries;
@@ -395,7 +401,7 @@ export class AutomaHandler {
       case Tags.EVENT:
       case Tags.JOVIAN:
       case Tags.WILDCARD:
-        // TODO: Perform corporation action
+        game.automaBotCorporation!.action!(soloPlayer);
         break;
       case Tags.VENUS:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
@@ -449,7 +455,7 @@ export class AutomaHandler {
     // Rule 1: Adjacent to most greeneries
     // Rule 2: Most spots for future greeneries
     // Rule 3: Most spots for future greeneries adjacent to oceans or reserved areas for oceans
-    private static getTargetCitySpace(game: Game): ISpace {
+    public static getTargetCitySpace(game: Game): ISpace {
       const soloPlayer = game.getPlayers()[0];
       let availableCitySpaces: ISpace[] = game.board.getAvailableSpacesForCity(soloPlayer);
 
@@ -520,11 +526,11 @@ export class AutomaHandler {
 
         game.oceansSilverCubeBonusMC = 0;
         game.automaBotVictoryPointsBreakdown.terraformRating++;
-        AutomaHandler.grantBonusesForBotTilePlacement(game, targetSpace, neutral);
+        AutomaHandler.grantBonusesForBotTilePlacement(game, targetSpace, neutral, TileType.OCEAN);
       }
     }
 
-    private static grantBonusesForBotTilePlacement(game: Game, space: ISpace, neutral: Player) : void {
+    public static grantBonusesForBotTilePlacement(game: Game, space: ISpace, neutral: Player, tileType: TileType) : void {
       game.getPlayers().forEach((p) => {
         p.corporationCards.forEach((corp) => {
           corp.onTilePlaced?.(p, neutral, space, BoardType.MARS);
@@ -534,6 +540,8 @@ export class AutomaHandler {
           playedCard.onTilePlaced?.(p, neutral, space, BoardType.MARS);
         });
       });
+
+      if (tileType === TileType.CITY) TharsisBot.scoreVictoryPoints(game);
     }
 
     private static maybeRemoveAresDustStorms(game: Game): void {

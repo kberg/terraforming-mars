@@ -72,6 +72,7 @@ import {ArchaeologyHandler} from './community/ArchaeologyHandler';
 import {_AresHazardPlacement} from './ares/AresHazards';
 import {Eris} from './cards/ares/Eris';
 import {AutomaHandler} from './automa/AutomaHandler';
+import {TharsisBot} from './cards/automa/TharsisBot';
 
 export type GameId = string;
 export type SpectatorId = string;
@@ -1632,6 +1633,10 @@ export class Game implements ISerializable<SerializedGame> {
     AresHandler.ifAres(this, () => {
       AresHandler.grantBonusForRemovingHazard(player, initialTileTypeForAres);
     });
+
+    if (this.gameOptions.automaSoloVariant && tile.tileType === TileType.CITY) {
+      TharsisBot.scoreVictoryPoints(this);
+    }
   }
 
   public simpleAddTile(player: Player, space: ISpace, tile: ITile) {

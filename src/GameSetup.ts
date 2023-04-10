@@ -16,6 +16,7 @@ import {VastitasBorealisBoard} from './boards/VastitasBorealisBoard';
 import {TerraCimmeriaBoard} from './boards/TerraCimmeriaBoard';
 import {SerializedBoard} from './boards/SerializedBoard';
 import {SerializedGame} from './SerializedGame';
+import {TharsisBot} from './cards/automa/TharsisBot';
 
 type BoardFactory = {
   newInstance: (shuffle: boolean, rng: Random, includeVenus: boolean, includePromo: boolean, erodedSpaces: Array<string>) => Board;
@@ -81,6 +82,9 @@ export class GameSetup {
       const board = game.board;
       const citySpace = game.getSpaceByOffset(direction, TileType.CITY);
       game.simpleAddTile(neutral, citySpace, {tileType: TileType.CITY});
+      // This is required as the 2 neutral cities are placed after Tharsis Bot's initial city
+      TharsisBot.scoreVictoryPoints(game);
+
       const adjacentSpaces = board.getAdjacentSpaces(citySpace).filter((s) => game.board.canPlaceTile(s));
       if (adjacentSpaces.length === 0) {
         throw new Error('No space for forest');
