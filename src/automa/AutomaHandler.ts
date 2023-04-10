@@ -284,6 +284,7 @@ export class AutomaHandler {
         game.dealer.discard(topCard);
 
         for (let i = 0; i < topCard.tags.length; i++) {
+          if (actionsTaken === botActionsCount) break;
           this.performActionForTag(game, topCard.tags[i]);
           actionsTaken++;
         }
