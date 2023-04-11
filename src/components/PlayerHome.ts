@@ -43,13 +43,13 @@ export const PlayerHome = Vue.component('player-home', {
     };
   },
   watch: {
-    hide_active_cards: function() {
+    showActiveCards: function hide_active_cards() {
       PreferencesManager.save('hide_active_cards', !this.showActiveCards);
     },
-    hide_automated_cards: function() {
+    showAutomatedCards: function hide_automated_cards() {
       PreferencesManager.save('hide_automated_cards', !this.showAutomatedCards);
     },
-    hide_event_cards: function() {
+    showEventCards: function hide_event_cards() {
       PreferencesManager.save('hide_event_cards', !this.showEventCards);
     },
   },
