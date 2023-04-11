@@ -766,4 +766,16 @@ describe('lastSoloGeneration', () => {
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({preludeExtension: true, moonExpansion: true, requiresMoonTrackCompletion: true}));
     expect(game.lastSoloGeneration()).to.eq(14);
   });
+
+  it('no preludes, with automa variant, with Ares Extreme', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true, aresExtension: true, aresExtremeVariant: true}));
+    expect(game.lastSoloGeneration()).to.eq(10);
+  });
+
+  it('with preludes and automa variant and Ares Extreme', () => {
+    const player = TestPlayers.BLUE.newPlayer();
+    const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({preludeExtension: true, automaSoloVariant: true, aresExtension: true, aresExtremeVariant: true}));
+    expect(game.lastSoloGeneration()).to.eq(9);
+  });
 })

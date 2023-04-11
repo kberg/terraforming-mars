@@ -630,7 +630,10 @@ export class Game implements ISerializable<SerializedGame> {
     let lastGeneration = 14;
     const options = this.gameOptions;
 
-    if (options.automaSoloVariant) lastGeneration = 9;
+    if (options.automaSoloVariant) {
+      lastGeneration = 9;
+      if (options.aresExtension && options.aresExtremeVariant) lastGeneration += 1;
+    }
 
     if (options.preludeExtension) {
       lastGeneration -= 2;
@@ -657,6 +660,12 @@ export class Game implements ISerializable<SerializedGame> {
       if (botScore >= playerScore) return false;
     }
 
+    // Ares Extreme: Solo player must remove all unprotected hazards to win
+    if (this.gameOptions.aresExtension && this.gameOptions.aresExtremeVariant) {
+      const unprotectedHazardsRemaining = Eris.getAllUnprotectedHazardSpaces(this);
+      if (unprotectedHazardsRemaining.length > 0) return false;
+    }
+
     // Solo TR victory condition
     if (this.gameOptions.soloTR) {
       return this.players[0].getTerraformRating() >= 63;
@@ -664,12 +673,6 @@ export class Game implements ISerializable<SerializedGame> {
 
     // Complete terraforing victory condition.
     if (!this.marsIsTerraformed()) return false;
-
-    // Ares Extreme: Solo player must remove all unprotected hazards to win
-    if (this.gameOptions.aresExtension && this.gameOptions.aresExtremeVariant) {
-      const unprotectedHazardsRemaining = Eris.getAllUnprotectedHazardSpaces(this);
-      if (unprotectedHazardsRemaining.length > 0) return false;
-    }
 
     // This last conditional doesn't make much sense to me. It's only ever really used
     // on the client at components/GameEnd.ts. Which is probably why it doesn't make
