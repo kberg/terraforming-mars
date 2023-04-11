@@ -10,6 +10,7 @@ import {CardRequirements} from '../CardRequirements';
 import {CardRenderer} from '../render/CardRenderer';
 import {SOCIETY_ADDITIONAL_CARD_COST} from '../../constants';
 import {TurmoilHandler} from '../../turmoil/TurmoilHandler';
+import {AutomaHandler} from '../../automa/AutomaHandler';
 
 export class DiasporaMovement extends Card implements IProjectCard {
   constructor() {
@@ -43,9 +44,15 @@ export class DiasporaMovement extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const amount = player.game.getPlayers()
+    const game = player.game;
+    let amount = game.getPlayers()
       .map((p) => p.getTagCount(Tags.JOVIAN, p.id === player.id ? 'default' : 'raw'))
       .reduce((a, c) => a + c);
+
+    if (game.isSoloMode() && game.gameOptions.automaSoloVariant) {
+      amount += AutomaHandler.getBotTagCount(game);
+    }
+
     player.addResource(Resources.MEGACREDITS, amount + 1, {log: true});
     TurmoilHandler.handleSocietyPayment(player, PartyName.REDS);
     return undefined;

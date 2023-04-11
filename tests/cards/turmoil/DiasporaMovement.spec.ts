@@ -40,4 +40,12 @@ describe('DiasporaMovement', function() {
     card.play(player);
     expect(player.getResource(Resources.MEGACREDITS)).eq(3);
   });
+
+  it('Works with Automa solo variant', function() {
+    game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+    player.playedCards.push(new ColonizerTrainingCamp(), new MethaneFromTitan());
+
+    card.play(player);
+    expect(player.getResource(Resources.MEGACREDITS)).eq(5);
+  });
 });

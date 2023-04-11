@@ -6,6 +6,7 @@ import {CardName} from '../../CardName';
 import {Resources} from '../../Resources';
 import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
+import {AutomaHandler} from '../../automa/AutomaHandler';
 
 export class GalileanWaystation extends Card implements IProjectCard {
   constructor() {
@@ -27,9 +28,15 @@ export class GalileanWaystation extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const amount = player.game.getPlayers()
+    const game = player.game;
+    let amount = game.getPlayers()
       .map((aplayer) => aplayer.getTagCount(Tags.JOVIAN, player.id === aplayer.id ? 'default' : 'raw'))
       .reduce((a, c) => a + c, 0);
+    
+    if (game.isSoloMode() && game.gameOptions.automaSoloVariant) {
+      amount += AutomaHandler.getBotTagCount(game);
+    }
+
     player.addProduction(Resources.MEGACREDITS, amount, {log: true});
     return undefined;
   }

@@ -6,6 +6,7 @@ import {Player} from '../../Player';
 import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {AutomaHandler} from '../../automa/AutomaHandler';
 
 export class TollStation extends Card implements IProjectCard {
   constructor() {
@@ -27,10 +28,18 @@ export class TollStation extends Card implements IProjectCard {
     });
   }
   public play(player: Player) {
-    const amount = player.game.getPlayers()
+    const game = player.game;
+
+    if (game.isSoloMode() && game.gameOptions.automaSoloVariant) {
+      player.addProduction(Resources.MEGACREDITS, AutomaHandler.getBotTagCount(game), {log: true});
+      return undefined;
+    }
+
+    const amount = game.getPlayers()
       .filter((aPlayer) => aPlayer !== player)
       .map((opponent) => opponent.getTagCount(Tags.SPACE, 'raw'))
       .reduce((a, c) => a + c, 0);
+
     player.addProduction(Resources.MEGACREDITS, amount, {log: true});
     return undefined;
   }

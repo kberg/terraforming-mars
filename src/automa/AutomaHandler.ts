@@ -278,6 +278,10 @@ export class AutomaHandler {
       }
     }
 
+    public static getBotTagCount(game: Game): number {
+      return Math.ceil(game.generation / 2) + 1;
+    }
+
     public static scoreUnclaimedMilestones(game: Game): void {
       const allMilestones = game.milestones;
       const allClaimedMilestones = game.claimedMilestones.map((cm) => cm.milestone);

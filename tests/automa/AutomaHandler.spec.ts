@@ -375,3 +375,25 @@ describe('AutomaHandler: performActionForTag', function() {
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(initialMegacreditProduction + 1);
   });
 });
+
+describe('AutomaHandler: getBotTagCount', function() {
+  let player : Player; let game : Game;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+
+    const gameOptions = TestingUtils.setCustomGameOptions({automaSoloVariant: true});
+    game = Game.newInstance('foobar', [player], player, gameOptions);
+  });
+
+  it('Counts bot tags correctly', function() {
+    game.generation = 1;
+    expect(AutomaHandler.getBotTagCount(game)).to.eq(2);
+
+    game.generation = 3;
+    expect(AutomaHandler.getBotTagCount(game)).to.eq(3);
+
+    game.generation = 4;
+    expect(AutomaHandler.getBotTagCount(game)).to.eq(3);
+  });
+});

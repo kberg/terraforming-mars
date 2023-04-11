@@ -6,6 +6,7 @@ import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {Resources} from '../../Resources';
 import {CardRenderer} from '../render/CardRenderer';
+import {AutomaHandler} from '../../automa/AutomaHandler';
 
 export class MediaArchives extends Card implements IProjectCard {
   constructor() {
@@ -26,7 +27,13 @@ export class MediaArchives extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    const allPlayedEvents: number = player.game.getPlayers().map((player) => player.getPlayedEventsCount()).reduce((a, c) => a + c, 0);
+    const game = player.game;
+    let allPlayedEvents: number = game.getPlayers().map((player) => player.getPlayedEventsCount()).reduce((a, c) => a + c, 0);
+
+    if (game.isSoloMode() && game.gameOptions.automaSoloVariant) {
+      allPlayedEvents += AutomaHandler.getBotTagCount(game);
+    }
+
     player.addResource(Resources.MEGACREDITS, allPlayedEvents, {log: true});
     return undefined;
   }

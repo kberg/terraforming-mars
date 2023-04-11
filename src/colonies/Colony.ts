@@ -30,6 +30,7 @@ import {SpaceBonus} from '../SpaceBonus';
 import {Phase} from '../Phase';
 import {Game} from '../Game';
 import {Turmoil} from '../turmoil/Turmoil';
+import {AutomaHandler} from '../automa/AutomaHandler';
 
 export enum ShouldIncreaseTrack { YES, NO, ASK }
 
@@ -428,9 +429,13 @@ export abstract class Colony implements SerializedColony {
         break;
 
       case ColonyBenefit.GAIN_MC_FOR_EARTH_TAGS:
-        const amount = game.getPlayers()
+        let amount = game.getPlayers()
         .map((p) => p.getTagCount(Tags.EARTH, p.id === player.id ? 'default' : 'raw'))
         .reduce((a, c) => a + c, 0);
+
+        if (game.isSoloMode() && game.gameOptions.automaSoloVariant) {
+          amount += AutomaHandler.getBotTagCount(game);
+        }
 
         player.megaCredits += Math.floor(amount / 3);
         break;

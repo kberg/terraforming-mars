@@ -6,6 +6,7 @@ import {Game} from '../../../src/Game';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('GalileanWaystation', function() {
   let card : GalileanWaystation; let player : Player; let player2: Player;
@@ -23,6 +24,14 @@ describe('GalileanWaystation', function() {
 
     card.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+  });
+
+  it('Counts bot tags in Automa variant', function() {
+    player.playedCards.push({tags: [Tags.JOVIAN]} as IProjectCard);
+    Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+
+    card.play(player);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(3); // Bot contributes 2 tags in generation 1
   });
 
   it('Corectly counts wildtags', function() {
