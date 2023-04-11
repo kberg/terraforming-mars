@@ -80,7 +80,8 @@ export const Sidebar = Vue.component('sidebar', {
         'preferences_panel_open': false,
         'gamesetup_detail_open': false,
       },
-      'hide_awards_and_milestones': false,
+      'collapse_awards': false,
+      'collapse_milestones': false,
       'hide_top_bar': false,
       'small_cards': true,
       'magnify_cards': true,
@@ -279,12 +280,6 @@ export const Sidebar = Vue.component('sidebar', {
             <div class="preferences_item preferences_item--settings">
                 <i class="preferences_icon preferences_icon--settings" :class="{'preferences_item--is-active': ui.preferences_panel_open}" v-on:click="ui.preferences_panel_open = !ui.preferences_panel_open"></i>
                 <div class="preferences_panel" v-if="ui.preferences_panel_open">
-                    <div class="preferences_panel_item">
-                        <label class="form-switch">
-                            <input type="checkbox" v-on:change="updatePreferences" v-model="hide_awards_and_milestones" />
-                            <i class="form-icon"></i> <span v-i18n>Hide awards and milestones</span>
-                        </label>
-                    </div>
                     <div class="preferences_panel_item">
                         <label class="form-switch">
                             <input type="checkbox" v-on:change="updatePreferences" v-model="magnify_cards" />

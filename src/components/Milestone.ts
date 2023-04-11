@@ -14,8 +14,10 @@ export const Milestone = Vue.component('milestone', {
     },
   },
   data: function() {
+    const collapse_milestones: boolean = PreferencesManager.loadBoolean('collapse_milestones');
+
     return {
-      showList: this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : true,
+      showList: this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : !collapse_milestones,
       showDescription: false,
     };
   },
@@ -36,6 +38,7 @@ export const Milestone = Vue.component('milestone', {
     },
     toggleList: function() {
       this.showList = !this.showList;
+      PreferencesManager.save('collapse_milestones', !this.showList);
     },
     getClassForMilestoneTile: function(milestone: ClaimedMilestoneModel) {
       if (milestone.player_name) return 'ma-block ma-block-grayscale pwned-item';

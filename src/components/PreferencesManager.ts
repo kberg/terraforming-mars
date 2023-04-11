@@ -1,5 +1,6 @@
 export const preferences = [
-  'hide_awards_and_milestones',
+  'collapse_awards',
+  'collapse_milestones',
   'hide_top_bar',
   'small_cards',
   'magnify_cards',

@@ -14,9 +14,11 @@ export const Award = Vue.component('award', {
     },
   },
   data: function() {
+    const collapse_awards: boolean = PreferencesManager.loadBoolean('collapse_awards');
+
     return {
       showDescription: false,
-      showList: true,
+      showList: !collapse_awards,
     };
   },
   methods: {
@@ -36,6 +38,7 @@ export const Award = Vue.component('award', {
     },
     toggleList: function() {
       this.showList = !this.showList;
+      PreferencesManager.save('collapse_awards', !this.showList);
     },
     getClassForAwardTile: function(award: FundedAwardModel) {
       if (award.scores.length > 0) return 'ma-block';
