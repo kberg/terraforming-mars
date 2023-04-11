@@ -160,6 +160,7 @@ describe('Philares', function() {
 
   it('Can place final greenery if gains enough plants from earlier players placing adjacent greeneries', function() {
     // Setup Philares with an existing greenery tile which otherPlayer will place its greenery adjacent to later
+    otherPlayer.popWaitingFor(); // To clear out the SelectInitialCards input.
     game.addGreenery(philaresPlayer, space.id);
 
     // Max out all global parameters
@@ -184,16 +185,14 @@ describe('Philares', function() {
 
     // Philares player gains plant and can subsequently place a greenery
     philaresPlayer.takeActionForFinalGreenery();
-    const philaresPlayerResourceSelection = philaresPlayer.getWaitingFor() as AndOptions;
+    const philaresPlayerResourceSelection = philaresPlayer.popWaitingFor() as AndOptions;
 
     // Option 3 is plants.
     philaresPlayerResourceSelection.options[3].cb(1);
     philaresPlayerResourceSelection.cb();
     expect(philaresPlayer.plants).eq(8);
+    expect(philaresPlayer.getWaitingFor()).is.undefined;
 
-    // Clear any existing waitingFor
-    (philaresPlayer as any).waitingFor = undefined;
-    (philaresPlayer as any).waitingForCb = undefined;
     game.gotoFinalGreeneryPlacement();
 
     // Philares player places final greenery, after which the game ends
