@@ -18,7 +18,7 @@ export class AerosportTournament extends Card {
       requirements: CardRequirements.builder((b) => b.floaters(5)),
       metadata: {
         cardNumber: '214',
-        description: 'Requires that you have 5 Floaters. Gain 1 M€ per each City tile in play.',
+        description: 'Requires that you have 5 Floaters. Gain 1 M€ for each City tile in play.',
         renderData: CardRenderer.builder((b) => {
           b.megacredits(1).slash().city(Size.SMALL).any;
         }),
