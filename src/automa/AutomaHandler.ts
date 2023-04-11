@@ -649,4 +649,14 @@ export class AutomaHandler {
         victoryPoints: vpb.victoryPoints,
       };
     }
+
+    public static logBotFinalScore(game: Game):void {
+      const vpb = game.automaBotVictoryPointsBreakdown;
+      let data = `Player: Bot, Total: ${vpb.total}, TR: ${vpb.terraformRating}, `;
+
+      data += `Milestones: ${vpb.milestones}, Awards: ${vpb.awards}, `;
+      data += `Greenery: ${vpb.greenery}, City: ${vpb.city}, VP: ${vpb.victoryPoints}`;
+
+      game.log(data);
+    }
 }

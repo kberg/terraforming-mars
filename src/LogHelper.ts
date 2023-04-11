@@ -188,7 +188,7 @@ export class LogHelper {
     const vpb = player.getVictoryPoints();
     let data = `Player: ${player.name}, Total: ${vpb.total}, TR: ${vpb.terraformRating}, `;
 
-    if (game.isSoloMode() === false) {
+    if (game.isSoloMode() === false || game.gameOptions.automaSoloVariant) {
       data += `Milestones: ${vpb.milestones}, Awards: ${vpb.awards}, `;
     }
 

@@ -1253,6 +1253,8 @@ export class Game implements ISerializable<SerializedGame> {
     this.log('Final scores:');
     this.players.forEach((player) => LogHelper.logFinalScore(this, player));
 
+    if (this.isSoloMode() && this.gameOptions.automaSoloVariant) AutomaHandler.logBotFinalScore(this);
+
     Database.getInstance().saveGameResults(this.id, this.players.length, this.generation, this.gameOptions, scores);
     this.phase = Phase.END;
   }
