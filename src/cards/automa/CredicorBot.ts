@@ -23,6 +23,7 @@ export class CredicorBot extends Card implements CorporationCard {
             ce.action('Gain 1 TR. Each opponent removes 3 plants.', (eb) => {
               eb.empty().startAction.tr(1).nbsp().minus().plants(-3).digit.any;
             });
+            ce.vSpace(Size.SMALL);
             ce.vSpace(Size.LARGE);
           });
         }),

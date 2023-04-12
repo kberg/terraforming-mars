@@ -26,6 +26,7 @@ export class HelionBot extends Card implements CorporationCard {
             ce.action('Increase temperature 1 step. Gain 1 TR.', (eb) => {
               eb.empty().startAction.temperature(1).nbsp().tr(1);
             });
+            ce.vSpace(Size.SMALL);
             ce.vSpace(Size.LARGE);
           });
         }),

@@ -17,7 +17,6 @@ export class TharsisBot extends Card implements CorporationCard {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.THARSIS_BOT,
-      initialActionText: 'Place a city tile',
       startingMegaCredits: 0,
 
       metadata: {

@@ -25,9 +25,9 @@ import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OX
 import {DeferredAction} from "../deferredActions/DeferredAction";
 import {OrOptions} from "../inputs/OrOptions";
 
-const blockedOxygenSpots = [1, 3, 5, 7, 9, 11, 13];
-const blockedTemperatureSpots = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
-const blockedVenusSpots = [2, 6, 10, 14, 18, 22, 26, 28];
+export const BLOCKED_OXYGEN_SPOTS = [1, 3, 5, 7, 9, 11, 13];
+export const BLOCKED_TEMPERATURE_SPOTS = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
+export const BLOCKED_VENUS_SPOTS = [2, 6, 10, 14, 18, 22, 26, 28];
 
 export class AutomaHandler {
     private constructor() {}
@@ -200,7 +200,7 @@ export class AutomaHandler {
         for (let i = 0; i < Math.abs(steps); i++) {
           game.setTemperature(game.getTemperature() - 2);
 
-          while (blockedTemperatureSpots.includes(game.getTemperature()) && game.getTemperature() > MIN_TEMPERATURE) {
+          while (BLOCKED_TEMPERATURE_SPOTS.includes(game.getTemperature()) && game.getTemperature() > MIN_TEMPERATURE) {
             game.setTemperature(game.getTemperature() - 2);
           }
         }
@@ -214,7 +214,7 @@ export class AutomaHandler {
         for (let i = 0; i < steps; i++) {
           game.setTemperature(game.getTemperature() + 2);
 
-          while (blockedTemperatureSpots.includes(game.getTemperature()) && game.getTemperature() < MAX_TEMPERATURE) {
+          while (BLOCKED_TEMPERATURE_SPOTS.includes(game.getTemperature()) && game.getTemperature() < MAX_TEMPERATURE) {
             game.setTemperature(game.getTemperature() + 2);
           }
         }
@@ -228,7 +228,7 @@ export class AutomaHandler {
         for (let i = 0; i < Math.abs(steps); i++) {
           game.setVenusScaleLevel(game.getVenusScaleLevel() - 2);
 
-          while (blockedVenusSpots.includes(game.getVenusScaleLevel()) && game.getVenusScaleLevel() > MIN_VENUS_SCALE) {
+          while (BLOCKED_VENUS_SPOTS.includes(game.getVenusScaleLevel()) && game.getVenusScaleLevel() > MIN_VENUS_SCALE) {
             game.setVenusScaleLevel(game.getVenusScaleLevel() - 2);
           }
         }
@@ -242,7 +242,7 @@ export class AutomaHandler {
         for (let i = 0; i < steps; i++) {
           game.setVenusScaleLevel(game.getVenusScaleLevel() + 2);
 
-          while (blockedVenusSpots.includes(game.getVenusScaleLevel()) && game.getVenusScaleLevel() < MAX_VENUS_SCALE) {
+          while (BLOCKED_VENUS_SPOTS.includes(game.getVenusScaleLevel()) && game.getVenusScaleLevel() < MAX_VENUS_SCALE) {
             game.setVenusScaleLevel(game.getVenusScaleLevel() + 2);
           }
         }
@@ -256,7 +256,7 @@ export class AutomaHandler {
         for (let i = 0; i < Math.abs(steps); i++) {
           game.setOxygenLevel(game.getOxygenLevel() - 1);
 
-          while (blockedOxygenSpots.includes(game.getOxygenLevel()) && game.getOxygenLevel() > MIN_OXYGEN_LEVEL) {
+          while (BLOCKED_OXYGEN_SPOTS.includes(game.getOxygenLevel()) && game.getOxygenLevel() > MIN_OXYGEN_LEVEL) {
             game.setOxygenLevel(game.getOxygenLevel() - 1);
           }
         }
@@ -270,7 +270,7 @@ export class AutomaHandler {
         for (let i = 0; i < steps; i++) {
           game.setOxygenLevel(game.getOxygenLevel() + 1);
 
-          while (blockedOxygenSpots.includes(game.getOxygenLevel()) && game.getOxygenLevel() < MAX_OXYGEN_LEVEL) {
+          while (BLOCKED_OXYGEN_SPOTS.includes(game.getOxygenLevel()) && game.getOxygenLevel() < MAX_OXYGEN_LEVEL) {
             game.setOxygenLevel(game.getOxygenLevel() + 1);
           }
         }
@@ -472,7 +472,7 @@ export class AutomaHandler {
 
     // Rule 1: Highest placement value
     // Rule 2: Adjacent to most other oceans
-    private static getTargetOceanSpace(game: Game): ISpace {
+    public static getTargetOceanSpace(game: Game): ISpace {
       const soloPlayer = game.getPlayers()[0];
       const availableOceanSpaces = game.board.getAvailableSpacesForOcean(soloPlayer);
       const oceanPlacementValues = availableOceanSpaces.map((s) => this.computePlacementValue(s));
@@ -530,7 +530,7 @@ export class AutomaHandler {
     // Rule 1: Adjacent to most own cities
     // Rule 2: Adjacent to fewest opponent cities
     // Rule 3: Highest placement bonus
-    private static getTargetGreenerySpace(game: Game, neutral: Player): ISpace {
+    public static getTargetGreenerySpace(game: Game, neutral: Player): ISpace {
       // First find a space adjacent to the bot's own cities
       let availableGreenerySpaces: ISpace[] = game.board.getAvailableSpacesOnLand(neutral).filter((space) => game.board.getAdjacentSpaces(space).some((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name));
       // If there are none (e.g. the bot has no cities placed), all land spaces are eligible for greenery placement
