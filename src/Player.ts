@@ -2795,8 +2795,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       player.pickedCorporationCard = cardFinder.getCorporationCardByName(d.pickedCorporationCard);
     }
 
-    // Rebuild corporation card
-    if (d.corporationCards !== []) {
+    // Rebuild corporation cards
+    if (d.corporationCards.length > 0) {
       const playerCorps: Array<CorporationCard> = [];
 
       d.corporationCards.forEach((corp) => {

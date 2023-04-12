@@ -324,13 +324,25 @@ export class AutomaHandler {
       // Give player any corp benefits as though the bot played a card with this tag
       this.grantTagPlayedBonus(soloPlayer, game, tag);
 
-      switch (tag) {
+      const originalTag = tag;
+      let appliedTag = tag;
+
+      if (game.overwriteNextBotAction) {
+        // Ecoline Bot effect: Next action is to place a city regardless of the tag
+        if (game.automaBotCorporation?.name === CardName.ECOLINE_BOT) {
+          appliedTag = Tags.CITY;
+        }
+
+        game.overwriteNextBotAction = false;
+      }
+
+      switch (appliedTag) {
       case Tags.SCIENCE:
       case Tags.ENERGY:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
         if (game.getTemperature() === MAX_TEMPERATURE) {
-          game.log('Bot action from ${0} tag: Gain 1 TR as temperature is already maxed', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as temperature is already maxed', (b) => b.string(originalTag));
           break;
         }
 
@@ -342,7 +354,7 @@ export class AutomaHandler {
           AresHandler.onTemperatureChange(game, aresData);
         });
 
-        game.log('Bot action from ${0} tag: Increase temperature 1 step', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Increase temperature 1 step', (b) => b.string(originalTag));
         break;
       case Tags.ANIMAL:
       case Tags.PLANT:
@@ -350,7 +362,7 @@ export class AutomaHandler {
         const landSpacesCount = game.board.getAvailableSpacesOnLand(neutral).length;
         if (landSpacesCount === 0) {
           game.automaBotVictoryPointsBreakdown.terraformRating++;
-          game.log('Bot action from ${0} tag: Gain 1 TR as there are no greenery spots left', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as there are no greenery spots left', (b) => b.string(originalTag));
           break;
         }
 
@@ -376,18 +388,23 @@ export class AutomaHandler {
         game.simpleAddTile(neutral, game.board.getSpace(targetGreenerySpace.id), {tileType: TileType.GREENERY});
         AutomaHandler.grantBonusesForBotTilePlacement(game, targetGreenerySpace, neutral, TileType.GREENERY);
         game.oxygenSilverCubeBonusMC = 0;
-        game.log('Bot action from ${0} tag: Place a greenery on row ${1} position ${2}', (b) => b.string(tag).number(targetGreenerySpace.y + 1).number(targetGreenerySpace.x - Math.abs(targetGreenerySpace.y - 4) + 1));
+        game.log('Bot action from ${0} tag: Place a greenery on row ${1} position ${2}', (b) => b.string(originalTag).number(targetGreenerySpace.y + 1).number(targetGreenerySpace.x - Math.abs(targetGreenerySpace.y - 4) + 1));
 
         // Each adjacent bot city scores 1 VP for the newly placed greenery
         const adjacentCities = game.board.getAdjacentSpaces(targetGreenerySpace).filter((space) => space.spaceType === SpaceType.LAND && space.tile?.tileType === TileType.CITY && space.player?.name === neutral.name);
         game.automaBotVictoryPointsBreakdown.city += adjacentCities.length;
+
+        // If we are placing a greenery that is not adjacent to any of our own cities
+        if (adjacentCities.length === 0 && game.automaBotCorporation?.name === CardName.ECOLINE_BOT) {
+          game.overwriteNextBotAction = true;
+        }
 
         break;
       case Tags.EARTH:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
         if (game.board.getOceansOnBoard() === game.getMaxOceanTilesCount()) {
-          game.log('Bot action from ${0} tag: Gain 1 TR as oceans are already maxed', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as oceans are already maxed', (b) => b.string(originalTag));
           break;
         }
 
@@ -395,7 +412,7 @@ export class AutomaHandler {
         game.simpleAddTile(neutral, game.board.getSpace(targetOceanSpace.id), {tileType: TileType.OCEAN});
         AutomaHandler.grantBonusesForBotTilePlacement(game, targetOceanSpace, neutral, TileType.OCEAN);
         game.oceansSilverCubeBonusMC = 0;
-        game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(tag).number(targetOceanSpace.y + 1).number(targetOceanSpace.x - Math.abs(targetOceanSpace.y - 4) + 1));
+        game.log('Bot action from ${0} tag: Place an ocean on row ${1} position ${2}', (b) => b.string(originalTag).number(targetOceanSpace.y + 1).number(targetOceanSpace.x - Math.abs(targetOceanSpace.y - 4) + 1));
 
         this.maybeRemoveAresDustStorms(game);
         this.maybePlaceErosions(game);
@@ -406,7 +423,7 @@ export class AutomaHandler {
 
         if (availableCitySpaces.length === 0) {
           game.automaBotVictoryPointsBreakdown.terraformRating++;
-          game.log('Bot action from ${0} tag: Gain 1 TR as there are no city spots left', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as there are no city spots left', (b) => b.string(originalTag));
           break;
         }
 
@@ -416,11 +433,11 @@ export class AutomaHandler {
 
         const adjacentGreeneries = game.board.getAdjacentSpaces(targetCitySpace).filter((s) => s.tile?.tileType === TileType.GREENERY).length;
         game.automaBotVictoryPointsBreakdown.city += adjacentGreeneries;
-        game.log('Bot action from ${0} tag: Place a city on row ${1} position ${2}', (b) => b.string(tag).number(targetCitySpace.y + 1).number(targetCitySpace.x - Math.abs(targetCitySpace.y - 4) + 1));
+        game.log('Bot action from ${0} tag: Place a city on row ${1} position ${2}', (b) => b.string(originalTag).number(targetCitySpace.y + 1).number(targetCitySpace.x - Math.abs(targetCitySpace.y - 4) + 1));
         break;
       case Tags.BUILDING:
         game.automaBotVictoryPointsBreakdown.terraformRating++;
-        game.log('Bot action from ${0} tag: Gain 1 TR', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Gain 1 TR', (b) => b.string(originalTag));
         break;
       case Tags.EVENT:
       case Tags.JOVIAN:
@@ -431,7 +448,7 @@ export class AutomaHandler {
         game.automaBotVictoryPointsBreakdown.terraformRating++;
 
         if (game.getVenusScaleLevel() === MAX_VENUS_SCALE) {
-          game.log('Bot action from ${0} tag: Gain 1 TR as Venus is already maxed', (b) => b.string(tag));
+          game.log('Bot action from ${0} tag: Gain 1 TR as Venus is already maxed', (b) => b.string(originalTag));
           break;
         }
 
@@ -444,7 +461,7 @@ export class AutomaHandler {
         const aphrodite = game.getPlayers().find((player) => player.isCorporation(CardName.APHRODITE));
         if (aphrodite !== undefined) aphrodite.megaCredits += gotBonusTRFromVenusTrack ? 4 : 2;
 
-        game.log('Bot action from ${0} tag: Increase Venus scale 1 step', (b) => b.string(tag));
+        game.log('Bot action from ${0} tag: Increase Venus scale 1 step', (b) => b.string(originalTag));
         break;
       case Tags.MOON:
         // TODO: Raise lowest Moon parameter? (TBC)

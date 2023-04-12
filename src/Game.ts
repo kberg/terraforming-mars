@@ -243,6 +243,7 @@ export class Game implements ISerializable<SerializedGame> {
   public venusSilverCubeBonusMC: number = 0;
   public automaBotCorporation: CorporationCard | undefined = undefined;
   public automaBotVictoryPointsBreakdown = new VictoryPointsBreakdown();
+  public overwriteNextBotAction: boolean = false;
 
   // Card-specific data
   // Mons Insurance promo corp
@@ -528,6 +529,7 @@ export class Game implements ISerializable<SerializedGame> {
       venusSilverCubeBonusMC: this.venusSilverCubeBonusMC,
       automaBotVictoryPointsBreakdown: AutomaHandler.serializeBotVictoryPoints(this.automaBotVictoryPointsBreakdown),
       automaBotCorporation: this.automaBotCorporation?.name,
+      overwriteNextBotAction: this.overwriteNextBotAction,
     };
     if (this.aresData !== undefined) {
       result.aresData = this.aresData;
@@ -1963,6 +1965,7 @@ export class Game implements ISerializable<SerializedGame> {
     game.venusSilverCubeBonusMC = d.venusSilverCubeBonusMC;
     game.syndicatePirateRaider = d.syndicatePirateRaider;
     game.automaBotVictoryPointsBreakdown = AutomaHandler.deserializeBotVictoryPoints(d.automaBotVictoryPointsBreakdown);
+    game.overwriteNextBotAction = d.overwriteNextBotAction;
 
     if (d.automaBotCorporation !== undefined) {
       const automaBotCorporation = cardFinder.getCorporationCardByName(d.automaBotCorporation);

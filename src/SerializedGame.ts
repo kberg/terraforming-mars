@@ -67,5 +67,6 @@ export interface SerializedGame {
     venusSilverCubeBonusMC: number;
     automaBotVictoryPointsBreakdown: SerializedVictoryPointsBreakdown;
     automaBotCorporation: CardName | undefined;
+    overwriteNextBotAction: boolean;
 }
 

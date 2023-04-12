@@ -726,6 +726,7 @@ export enum CardName {
     ZAN = 'Zan',
 
     // Automa
+    ECOLINE_BOT = 'Ecoline Bot',
     THARSIS_BOT = 'Tharsis Bot',
     CREDICOR_BOT = 'Credicor Bot',
     HELION_BOT = 'Helion Bot',
