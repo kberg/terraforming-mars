@@ -7,6 +7,8 @@ import {SpaceType} from '../../../src/SpaceType';
 import {TileType} from '../../../src/TileType';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
+import {TharsisBot} from '../../../src/cards/automa/TharsisBot';
+import {CardName} from '../../../src/CardName';
 
 describe('TharsisRepublic', function() {
   let card : TharsisRepublic; let player : Player; let player2 : Player; let game : Game;
@@ -64,9 +66,15 @@ describe('TharsisRepublic', function() {
     expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
-  it('Gives 3 M€ production in solo mode with Automa', function() {
+  it('Gives 3 M€ production in solo mode with Automa if Tharsis Bot is in play', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+
+    if (game.automaBotCorporation?.name !== CardName.THARSIS_BOT) {
+      const tharsisBot = new TharsisBot();
+      game.automaBotCorporation = tharsisBot;
+      tharsisBot.initialAction(player);
+    }
 
     card.play(player);
     TestingUtils.runAllActions(game);
