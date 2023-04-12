@@ -49,11 +49,19 @@ export const Milestone = Vue.component('milestone', {
     getClassForMilestoneTile: function(milestone: ClaimedMilestoneModel) {
       if (milestone.player_name) return 'ma-block ma-block-grayscale pwned-item';
       if (milestone.scores.length > 0) return 'ma-block';
+      if (this.automaSoloVariant) return 'ma-block';
       return 'ma-block ma-block-grayscale';
     },
     getAvailableMilestoneSpots: function(): Array<number> {
       const count = this.milestones_list.filter((milestone) => milestone.player_name).length;
-      return Array(MAX_MILESTONES - count).fill(MILESTONE_COST);
+
+      let maxMilestones = MAX_MILESTONES;
+      if (this.automaSoloVariant) maxMilestones =  this.milestones_list.length;
+
+      let milestoneCost = MILESTONE_COST;
+      if (this.automaSoloVariant) milestoneCost = 0;
+
+      return Array(maxMilestones - count).fill(milestoneCost);
     },
     isLearnerModeOn: function(): boolean {
       return PreferencesManager.load('learner_mode') === '1';

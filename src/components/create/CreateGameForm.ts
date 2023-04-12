@@ -982,12 +982,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             </template>
                         </div>
 
-                        <div v-if="isSoloGame() || venusNext || moonExpansion || aresExtension" class="create-game-page-column">
+                        <div class="create-game-page-column">
                             <h4 v-i18n>Variants</h4>
 
                             <template v-if="isSoloGame()">
                                 <input type="checkbox" name="automaSoloVariant" id="automaSoloVariant-checkbox" v-model="automaSoloVariant">
-                                <label for="automaSoloVariant-checkbox" class="expansion-button">
+                                <label for="automaSoloVariant-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Automa</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
                                 </label>

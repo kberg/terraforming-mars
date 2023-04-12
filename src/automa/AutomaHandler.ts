@@ -15,6 +15,7 @@ import {Board} from "../boards/Board";
 import {BoardName} from "../boards/BoardName";
 import {BoardType} from "../boards/BoardType";
 import {ISpace} from "../boards/ISpace";
+import {CardType} from "../cards/CardType";
 import {IProjectCard} from "../cards/IProjectCard";
 import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
@@ -304,9 +305,13 @@ export class AutomaHandler {
         game.log('Bot revealed and discarded ${0}', (b) => b.card(topCard));
         game.dealer.discard(topCard);
 
-        for (let i = 0; i < topCard.tags.length; i++) {
+        // If it's an event card, we need to add an event tag as the rightmost tag
+        let tagsToResolve = topCard.tags;
+        if (topCard.cardType === CardType.EVENT) tagsToResolve.push(Tags.EVENT);
+
+        for (let i = 0; i < tagsToResolve.length; i++) {
           if (actionsTaken === botActionsCount) break;
-          this.performActionForTag(game, topCard.tags[i]);
+          this.performActionForTag(game, tagsToResolve[i]);
           actionsTaken++;
         }
       }
@@ -526,7 +531,10 @@ export class AutomaHandler {
     // Rule 2: Adjacent to fewest opponent cities
     // Rule 3: Highest placement bonus
     private static getTargetGreenerySpace(game: Game, neutral: Player): ISpace {
+      // First find a space adjacent to the bot's own cities
       let availableGreenerySpaces: ISpace[] = game.board.getAvailableSpacesOnLand(neutral).filter((space) => game.board.getAdjacentSpaces(space).some((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name));
+      // If there are none (e.g. the bot has no cities placed), all land spaces are eligible for greenery placement
+      if (availableGreenerySpaces.length === 0) availableGreenerySpaces = game.board.getAvailableSpacesOnLand(neutral);
 
       const adjacentCitiesCounts: number[] = availableGreenerySpaces.map((s) => game.board.getAdjacentSpaces(s).filter((adjSpace) => adjSpace.tile?.tileType === TileType.CITY && adjSpace.player?.name === neutral.name && adjSpace.spaceType === SpaceType.LAND).length);
       const highestAdjacentCitiesCounts: number = Math.max(...adjacentCitiesCounts);

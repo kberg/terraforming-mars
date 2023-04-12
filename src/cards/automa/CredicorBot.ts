@@ -44,9 +44,10 @@ export class CredicorBot extends Card implements CorporationCard {
 
   public action(player: Player) {
     const game = player.game;
-
     game.automaBotVictoryPointsBreakdown.terraformRating++;
-    player.deductResource(Resources.PLANTS, 3, {log: true});
+
+    const plantsToRemove = Math.min(player.plants, 3);
+    player.deductResource(Resources.PLANTS, plantsToRemove, {log: true});
     game.log('${0} action: Gain 1 TR and remove up to 3 plants from each opponent', (b) => b.card(this));
 
     return undefined;
