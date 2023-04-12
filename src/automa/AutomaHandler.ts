@@ -560,7 +560,7 @@ export class AutomaHandler {
       }
     }
 
-    private static checkForTemperatureBonusOcean(game: Game, neutral: Player): void {
+    public static checkForTemperatureBonusOcean(game: Game, neutral: Player): void {
       if (game.getTemperature() === 0) {
         const targetSpace: ISpace = this.getTargetOceanSpace(game);
         game.simpleAddTile(neutral, game.board.getSpace(targetSpace.id), {tileType: TileType.OCEAN});

@@ -302,13 +302,16 @@ describe('Game', () => {
     expect(game.phase).eq(Phase.END);
 
     game.automaBotVictoryPointsBreakdown.total = 14;
-    player.victoryPointsBreakdown.total = 13;
+
+    // Set player's TR for ease of testing
+    player.setTerraformRating(13);    
     expect(game.isSoloModeWin()).is.false;
 
-    player.victoryPointsBreakdown.total = 14;
+    // If the player and bot have the same final score, the bot wins
+    player.setTerraformRating(14);
     expect(game.isSoloModeWin()).is.false;
 
-    player.victoryPointsBreakdown.total = 15;
+    player.setTerraformRating(15);
     expect(game.isSoloModeWin()).is.true;
   });
 

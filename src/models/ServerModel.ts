@@ -41,6 +41,7 @@ import {SelectPartyToSendDelegate} from '../inputs/SelectPartyToSendDelegate';
 import {Turmoil} from '../turmoil/Turmoil';
 import {LeaderCard} from '../cards/LeaderCard';
 import {CardName} from '../CardName';
+import {MAX_MILESTONES} from '../constants';
 
 export class Server {
   public static getGameModel(game: Game): GameHomeModel {
@@ -216,7 +217,9 @@ function getMilestones(game: Game): Array<ClaimedMilestoneModel> {
       (m) => m.milestone.name === milestone.name,
     );
     const scores: Array<IMilestoneScore> = [];
-    if (claimed === undefined && claimedMilestones.length < 3) {
+    const canClaimMoreMilestones = claimedMilestones.length < MAX_MILESTONES || game.gameOptions.automaSoloVariant;
+
+    if (claimed === undefined && canClaimMoreMilestones) {
       game.getPlayers().forEach((player) => {
         scores.push({
           playerColor: player.color,
