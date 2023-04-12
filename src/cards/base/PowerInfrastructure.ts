@@ -35,6 +35,13 @@ export class PowerInfrastructure extends Card implements IActionCard, IProjectCa
     return player.energy > 0;
   }
   public action(player: Player) {
+    // Minor optimization: If player has only 1 energy, we don't need the SelectAmount
+    if (player.energy === 1) {
+      player.deductResource(Resources.ENERGY, 1);
+      player.addResource(Resources.MEGACREDITS, 1, {log: true});
+      return undefined;
+    }
+
     return new SelectAmount(
       'Select amount of energy to spend',
       'Spend energy',
