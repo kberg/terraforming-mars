@@ -54,6 +54,12 @@ describe('AnOfferYouCantRefuse', () => {
     expect(card.canPlay(player)).is.true;
   });
 
+  it('can play succeeds when only one player has delegates in a party', () => {
+    populateParty(parties.greens, greenPlayer.id, greenPlayer.id);
+    expect(parties.greens.partyLeader).eq(greenPlayer.id);
+    expect(card.canPlay(player)).is.true;
+  });
+
   it('play', () => {
     populateParty(parties.greens, player.id, redPlayer.id, greenPlayer.id);
     expect(parties.greens.partyLeader).eq(player.id);
@@ -100,6 +106,52 @@ describe('AnOfferYouCantRefuse', () => {
     switchParties.options[1].cb();
 
     expect(parties.reds.delegates).to.have.members(['NEUTRAL', 'NEUTRAL', redPlayer.id]);
+    expect(parties.scientists.delegates).to.have.members([player.id]);
+    expect(parties.scientists.partyLeader).eq(player.id);
+  });
+
+  it('play when only one player has eligible delegates in a party', () => {
+    turmoil.sendDelegateToParty(player.id, parties.greens.name, game);
+    turmoil.sendDelegateToParty(greenPlayer.id, parties.greens.name, game);
+    turmoil.sendDelegateToParty(greenPlayer.id, parties.greens.name, game);
+    expect(parties.greens.partyLeader).eq(greenPlayer.id);
+
+    populateParty(parties.reds, 'NEUTRAL', player.id, 'NEUTRAL');
+    expect(parties.reds.partyLeader).eq('NEUTRAL');
+
+    const options = card.play(player);
+    expect(options.options.map((option) => option.title)).deep.eq(
+      [
+        'Greens / player-green', // Option 0
+      ]);
+
+    // Now do a delegate exchange
+    // Swap with Greens / green
+    expect(turmoil.getDelegatesInReserve(player.id)).eq(6);
+    expect(turmoil.getDelegatesInReserve(greenPlayer.id)).eq(5);
+    expect(parties.greens.delegates).to.have.members([player.id, greenPlayer.id, greenPlayer.id]);
+
+    const switchParties = options.options[0].cb() as OrOptions;
+
+    expect(turmoil.getDelegatesInReserve(player.id)).eq(5);
+    expect(turmoil.getDelegatesInReserve(greenPlayer.id)).eq(6);
+    expect(parties.greens.delegates).to.have.members([player.id, player.id, greenPlayer.id]);
+
+    // Now player may switch parties.
+    expect(switchParties.options.map((option) => option.title)).deep.eq(
+      [
+        'Mars First',
+        'Scientists',
+        'Unity',
+        'Do not move',
+        'Reds',
+        'Kelvinists',
+      ]);
+
+    // Choose scientists
+    switchParties.options[1].cb();
+
+    expect(parties.greens.delegates).to.have.members([player.id, greenPlayer.id]);
     expect(parties.scientists.delegates).to.have.members([player.id]);
     expect(parties.scientists.partyLeader).eq(player.id);
   });

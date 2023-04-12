@@ -3,7 +3,7 @@ import {Player, PlayerId} from '../../Player';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {ProjectCard} from '../ProjectCard';
-import {NeutralPlayer, Turmoil} from '../../turmoil/Turmoil';
+import {Turmoil} from '../../turmoil/Turmoil';
 import {PartyName} from '../../turmoil/parties/PartyName';
 import {SelectOption} from '../../inputs/SelectOption';
 import {OrOptions} from '../../inputs/OrOptions';
@@ -27,8 +27,8 @@ export class AnOfferYouCantRefuse extends ProjectCard {
     });
   };
 
-  private isReplaceableDelegate(delegate: PlayerId | NeutralPlayer, player: Player, party: IParty) {
-    return delegate !== player.id && delegate !== 'NEUTRAL' && delegate !== party.partyLeader;
+  private hasReplacebleDelegate(player: Player, party: IParty) {
+    return player.game.getPlayers().filter((p) => p.id !== player.id).some((player) => party.getDelegates(player.id) > 1 || (party.getDelegates(player.id) === 1 && party.partyLeader !== player.id));
   }
 
   // You can play this if you have an available delegate, and if there are non-neutral non-leader delegates available to swap with.
@@ -37,8 +37,7 @@ export class AnOfferYouCantRefuse extends ProjectCard {
     const hasDelegate = turmoil.hasAvailableDelegates(player.id) || turmoil.lobby.has(player.id);
     if (!hasDelegate) return false;
 
-    return turmoil.parties.some((party) =>
-      party.delegates.some((delegate) => this.isReplaceableDelegate(delegate, player, party)));
+    return turmoil.parties.some((party) => this.hasReplacebleDelegate(player, party));
   }
 
   private moveToAnotherParty(game: Game, from: PartyName, delegate: PlayerId): OrOptions {
@@ -68,19 +67,20 @@ export class AnOfferYouCantRefuse extends ProjectCard {
     const orOptions = new OrOptions();
 
     turmoil.parties.forEach((party) => {
-      party.getPresentPlayers() // getPresentPlayers removes duplicates.
-        .forEach((delegate) => {
-          if (!this.isReplaceableDelegate(delegate, player, party)) return;
+      if (!this.hasReplacebleDelegate(player, party)) return;
 
-          const playerName = game.getPlayerById(delegate).name;
-          const option = new SelectOption(`${party.name} / ${playerName}`, 'Select', () => {
+      game.getPlayers().filter((p) => p.id !== player.id).forEach((opponent) => {
+        if (party.getDelegates(opponent.id) > 1 || (party.getDelegates(opponent.id) === 1 && party.partyLeader !== opponent.id)) {
+          const option = new SelectOption(`${party.name} / ${opponent.name}`, 'Select', () => {
             const source = turmoil.hasAvailableDelegates(player.id) ? 'reserve' : 'lobby';
-            turmoil.replaceDelegateFromParty(delegate, player.id, source, party.name, game);
+            turmoil.replaceDelegateFromParty(opponent.id, player.id, source, party.name, game);
             turmoil.checkDominantParty(party); // Check dominance right after replacement (replace doesn't check dominance.)
             return this.moveToAnotherParty(game, party.name, player.id);
           });
+
           orOptions.options.push(option);
-        });
+        }
+      });
     });
 
     return orOptions;
