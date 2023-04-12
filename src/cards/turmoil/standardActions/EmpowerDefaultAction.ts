@@ -3,6 +3,7 @@ import {CardName} from '../../../CardName';
 import {CardRenderer} from '../../render/CardRenderer';
 import {Player} from '../../../Player';
 import {EMPOWER_DEFAULT_POLICY} from '../../../turmoil/parties/Empower';
+import {Size} from '../../render/Size';
 
 export class EmpowerDefaultAction extends TurmoilActionCard {
   constructor() {
@@ -12,7 +13,7 @@ export class EmpowerDefaultAction extends TurmoilActionCard {
         cardNumber: 'TA11',
         renderData: CardRenderer.builder((b) =>
           b.br.standardProject(EMPOWER_DEFAULT_POLICY.description, (eb) => {
-            eb.text('X').energy(1).startAction.megacredits(0).multiplier;
+            eb.megacredits(0).multiplier.startAction.text('X').nbsp(Size.TINY).energy(1);
           }),
         ),
       },
