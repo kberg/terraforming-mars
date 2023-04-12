@@ -30,15 +30,26 @@ describe('HiTechLab', function() {
     expect(player.getResource(Resources.ENERGY)).eq(2);
   });
 
-  it('If only 1 energy is spent, draw the card directly', function() {
+  it('If only 1 energy is available, draw the card directly', function() {
     player.addResource(Resources.ENERGY, 1);
+    expect(card.canAct(player)).is.true;
+
+    const action = card.action(player);
+    expect(action).is.undefined;
+
+    expect(player.getResource(Resources.ENERGY)).eq(0);
+    expect(player.cardsInHand).has.length(1);
+  });
+
+  it('If only 1 energy is spent, draw the card directly', function() {
+    player.addResource(Resources.ENERGY, 5);
     expect(card.canAct(player)).is.true;
 
     const amount = card.action(player) as SelectAmount;
     expect(amount).instanceOf(SelectAmount);
 
     amount.cb(1);
-    expect(player.getResource(Resources.ENERGY)).eq(0);
+    expect(player.getResource(Resources.ENERGY)).eq(4);
     expect(player.cardsInHand).has.length(1);
   });
 

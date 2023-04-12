@@ -37,6 +37,14 @@ export class HiTechLab extends Card implements IProjectCard {
   }
 
   public action(player: Player) {
+    // Minor optimization: If player has only 1 energy, we don't need the SelectAmount
+    if (player.energy === 1) {
+      player.deductResource(Resources.ENERGY, 1);
+      player.game.log('${0} spent ${1} energy', (b) => b.player(player).number(1));
+      player.drawCard();
+      return undefined;
+    }
+
     return new SelectAmount(
       'Select amount of energy to spend',
       'Spend energy',
