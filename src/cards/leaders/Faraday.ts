@@ -12,7 +12,7 @@ import {AltSecondaryTag} from '../render/CardRenderItem';
 import {SelectOption} from '../../inputs/SelectOption';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
-import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 
 export class Faraday extends Card implements LeaderCard {
   constructor() {
@@ -57,14 +57,37 @@ export class Faraday extends Card implements LeaderCard {
       const tagsAdded = card.tags.filter((tag) => tag === item.tag).length;
 
       if (count % 5 === 0) {
-        player.game.defer(new DeferredAction(player, () => this.effectOptions(player, item.tag)));
+        player.game.defer(new DeferredAction(player, () => this.effectOptions(player, item.tag)), Priority.PAY_TO_DRAW_CARDS);
       } else if (tagsAdded > 1 && (count - 1) % 5 === 0) {
-        player.game.defer(new DeferredAction(player, () => this.effectOptions(player, item.tag)));
+        player.game.defer(new DeferredAction(player, () => this.effectOptions(player, item.tag)), Priority.PAY_TO_DRAW_CARDS);
       }
     })
   }
 
   public effectOptions(player: Player, tag: Tags) {
+    const orOptions = new OrOptions();
+
+    if (player.canAfford(3)) {
+      orOptions.options.push(
+        new SelectOption(`Pay 3 M€ to draw a ${tag} card`, 'Confirm', () => {
+          player.game.defer(new SelectHowToPayDeferred(player, 3, {title: 'Select how to pay for card'}), Priority.COST);
+          player.drawCard(1, {tag: tag});
+          return undefined;
+        }),
+      );
+    }
+
+    orOptions.options.push(
+      new SelectOption('Do nothing', 'Confirm', () => {
+        return undefined;
+      }),
+    );
+
+    if (orOptions.options.length === 1) {
+      player.game.log('${0} cannot afford to pay 3 M€ to draw a ${1} card', (b) => b.player(player).string(tag));
+      return orOptions.options[0].cb();
+    }
+
     return new OrOptions(
       new SelectOption(`Pay 3 M€ to draw a ${tag} card`, 'Confirm', () => {
         player.game.defer(new SelectHowToPayDeferred(player, 3, {title: 'Select how to pay for card'}));

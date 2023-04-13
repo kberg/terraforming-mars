@@ -9,6 +9,7 @@ import {Game} from "../../src/Game";
 import {OrOptions} from "../../src/inputs/OrOptions";
 import {Player} from "../../src/Player";
 import {TestPlayers} from "../TestPlayers";
+import {SubCrustMeasurements} from "../../src/cards/promo/SubCrustMeasurements";
 
 describe('Faraday', function() {
   let card: Faraday; let player: Player; let player2: Player; let game: Game;
@@ -55,7 +56,7 @@ describe('Faraday', function() {
     expect(player.megaCredits).to.eq(10);
   });
 
-  it('Auto resolves if player cannot afford to pay for card', function() {
+  it('Single tag proc: Auto resolves if player cannot afford to pay for card', function() {
     player.megaCredits = 2;
     player.playedCards.push(new Research());
     player.playedCards.push(new Research());
@@ -63,6 +64,27 @@ describe('Faraday', function() {
 
     expect(game.deferredActions).has.length(0);
     expect(player.cardsInHand).has.length(0);
+    expect(player.megaCredits).to.eq(2);
+  });
+
+  it('Multiple tags proc: Auto resolves if player cannot afford to pay for card', function() {
+    player.megaCredits = 5;
+    player.playedCards.push(new Research(), new Research(), new LunaGovernor(), new LunaGovernor());
+    player.playCard(new SubCrustMeasurements());
+
+    expect(game.deferredActions).has.length(2);
+
+    // Choose to pay 3 M€ to draw a card
+    const firstTagOrOptions = game.deferredActions.pop()!.execute() as OrOptions;
+    firstTagOrOptions.options[0].cb();
+    // Clear the SelectHowToPayDeferred
+    game.deferredActions.runNext();
+    expect(player.cardsInHand).has.length(1);
+    expect(player.megaCredits).to.eq(2);
+
+    const secondTagOrOptions = game.deferredActions.pop()!.execute();
+    expect(secondTagOrOptions).is.undefined;
+    expect(player.cardsInHand).has.length(1);
     expect(player.megaCredits).to.eq(2);
   });
 
