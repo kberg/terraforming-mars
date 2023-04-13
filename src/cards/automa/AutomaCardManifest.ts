@@ -7,6 +7,7 @@ import {HelionBot} from './HelionBot';
 import {MonsInsuranceBot} from './MonsInsuranceBot';
 import {TharsisBot} from './TharsisBot';
 import {UNMIBot} from './UNMIBot';
+import {VitorBot} from './VitorBot';
 
 export const AUTOMA_CARD_MANIFEST = new CardManifest({
   module: GameModule.Automa,
@@ -17,6 +18,7 @@ export const AUTOMA_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.UNMI_BOT, Factory: UNMIBot},
     {cardName: CardName.ECOLINE_BOT, Factory: EcolineBot},
     {cardName: CardName.MONS_INSURANCE_BOT, Factory: MonsInsuranceBot},
+    {cardName: CardName.VITOR_BOT, Factory: VitorBot},
   ],
 });
 

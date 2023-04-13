@@ -201,6 +201,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-unmi-bot-logo">UNITED NATIONS<br/>BOT</div>';
       case CardName.MONS_INSURANCE_BOT:
         return '<div class="card-mons-bot-logo">MONS INSURANCE BOT</div>';
+      case CardName.VITOR_BOT:
+        return '<div class="card-vitor-bot-logo">VITOR BOT</div>';
       }
       return '';
     },
