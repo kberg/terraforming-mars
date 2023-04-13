@@ -12,6 +12,9 @@ import {Tags} from '../../src/cards/Tags';
 import {SaturnSystems} from '../../src/cards/corporation/SaturnSystems';
 import {Resources} from '../../src/Resources';
 import {TharsisBot} from '../../src/cards/automa/TharsisBot';
+import {Callisto} from '../../src/colonies/Callisto';
+import {Ceres} from '../../src/colonies/Ceres';
+import {Miranda} from '../../src/colonies/Miranda';
 
 describe('AutomaHandler: Initial setup', function() {
   let player : Player; let game : Game;
@@ -395,5 +398,26 @@ describe('AutomaHandler: getBotTagCount', function() {
 
     game.generation = 4;
     expect(AutomaHandler.getBotTagCount(game)).to.eq(3);
+  });
+});
+
+describe('AutomaHandler: performBotTrade', function() {
+  let player : Player; let game : Game;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+
+    const gameOptions = TestingUtils.setCustomGameOptions({automaSoloVariant: true, coloniesExtension: true});
+    game = Game.newInstance('foobar', [player], player, gameOptions);
+    game.colonies = [new Callisto(), new Ceres(), new Miranda()];
+  });
+
+  it('Bot trades with colony at generation end', function() {
+    // Build a colony on Callisto
+    game.colonies[0].colonies.push(player.id);
+
+    TestingUtils.forceGenerationEnd(game);
+    expect(player.energy).to.eq(3);
+    expect(game.colonies[0].visitor).is.not.undefined;
   });
 });

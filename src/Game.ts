@@ -547,8 +547,10 @@ export class Game implements ISerializable<SerializedGame> {
     return this.players.length === 1;
   }
 
-  // Function to retrieve a player by it's id
+  // Function to retrieve a player by its id
   public getPlayerById(id: string): Player {
+    if (id.includes('-neutral')) return GameSetup.neutralPlayerFor(this.id);
+
     const player = this.players.find((p) => p.id === id);
     if (player === undefined) {
       throw new Error(`player ${id} does not exist on game ${this.id}`);
@@ -963,6 +965,11 @@ export class Game implements ISerializable<SerializedGame> {
       });
       // Syndicate Pirate Raids hook. Also see Colony.ts and Player.ts
       this.syndicatePirateRaider = undefined;
+
+      // Automa bot trades with the colony tile with the highest track position
+      if (this.gameOptions.automaSoloVariant) {
+        AutomaHandler.performBotTrade(this);
+      }
     }
   }
 

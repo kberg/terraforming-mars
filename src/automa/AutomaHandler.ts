@@ -21,8 +21,10 @@ import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
+import {Colony} from "../colonies/Colony";
 import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
-import {DeferredAction} from "../deferredActions/DeferredAction";
+import {DeferredAction, Priority} from "../deferredActions/DeferredAction";
+import {GiveColonyBonus} from "../deferredActions/GiveColonyBonus";
 import {OrOptions} from "../inputs/OrOptions";
 
 export const BLOCKED_OXYGEN_SPOTS = [1, 3, 5, 7, 9, 11, 13];
@@ -277,6 +279,24 @@ export class AutomaHandler {
       } else {
         game.setOxygenLevel(game.getOxygenLevel() + steps);
       }
+    }
+
+    public static performBotTrade(game: Game): void {
+      const neutral = GameSetup.neutralPlayerFor(game.id);
+      const colonyTrackPositions = game.colonies.map((c) => c.trackPosition);
+      const highestTrackPosition = Math.max(...colonyTrackPositions);
+
+      const soloPlayer = game.getPlayers()[0];
+      const targetColony = game.colonies.find((c) => c.trackPosition === highestTrackPosition) as Colony;
+      targetColony.visitor = neutral.id;
+
+      game.log('Bot traded with ${0}', (b) => b.colony(targetColony));
+      game.defer(new GiveColonyBonus(soloPlayer, targetColony));
+
+      game.defer(new DeferredAction(soloPlayer, () => {
+        targetColony.trackPosition = targetColony.colonies.length;
+        return undefined;
+      }), Priority.DECREASE_COLONY_TRACK_AFTER_TRADE);
     }
 
     public static getBotTagCount(game: Game): number {
