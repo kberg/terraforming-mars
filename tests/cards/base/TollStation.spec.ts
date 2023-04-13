@@ -22,9 +22,11 @@ describe('TollStation', function() {
     const card = new TollStation();
     const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
-
     game.generation = 1;
+
+    const initialMegacreditsProduction = player.getProduction(Resources.MEGACREDITS);
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
+    // In case Mons Insurance bot was played
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(initialMegacreditsProduction + 2);
   });
 });

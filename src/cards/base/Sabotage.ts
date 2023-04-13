@@ -8,6 +8,7 @@ import {CardName} from '../../CardName';
 import {SelectOption} from '../../inputs/SelectOption';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {MonsInsuranceBot} from '../automa/MonsInsuranceBot';
 
 export class Sabotage extends Card implements IProjectCard {
   constructor() {
@@ -29,6 +30,10 @@ export class Sabotage extends Card implements IProjectCard {
   }
   public play(player: Player) {
     if (player.game.isSoloMode()) {
+      if (player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(player);
+      }
+
       if (player.isCorporation(CardName.BENTENMARU)) {
         return new OrOptions(
           new SelectOption('Gain 7 M€', 'Select', () => {

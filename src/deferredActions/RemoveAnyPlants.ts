@@ -4,6 +4,7 @@ import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction, Priority} from './DeferredAction';
 import {CardName} from '../CardName';
+import {MonsInsuranceBot} from '../cards/automa/MonsInsuranceBot';
 
 export class RemoveAnyPlants implements DeferredAction {
   public priority = Priority.ATTACK_OPPONENT;
@@ -21,6 +22,11 @@ export class RemoveAnyPlants implements DeferredAction {
       if (this.player.isCorporation(CardName.BENTENMARU)) {
         this.player.addResource(Resources.PLANTS, this.count);
       }
+      // Mons Insurance Bot hook
+      if (this.player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(this.player);
+      }
+
       return undefined;
     }
 

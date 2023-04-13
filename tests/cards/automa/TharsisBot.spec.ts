@@ -26,6 +26,9 @@ describe('TharsisBot', function() {
 
     expect(game.getCitiesInPlayOnMars()).eq(1);
     expect(game.automaBotVictoryPointsBreakdown.victoryPoints).eq(0);
+
+    // This city goes next to the initial neutral greenery, so it's guaranteed at least 1 city VP
+    expect(game.automaBotVictoryPointsBreakdown.city).greaterThanOrEqual(1);
   });
 
   it('Takes action', function() {

@@ -1,5 +1,7 @@
+import {CardName} from '../CardName';
 import {Player} from '../Player';
 import {Resources} from '../Resources';
+import {MonsInsuranceBot} from '../cards/automa/MonsInsuranceBot';
 import {SelectPlayer} from '../inputs/SelectPlayer';
 import {DeferredAction, Priority} from './DeferredAction';
 
@@ -13,7 +15,12 @@ export class DecreaseAnyProduction implements DeferredAction {
   ) {}
 
   public execute() {
-    if (this.player.game.isSoloMode()) return undefined;
+    if (this.player.game.isSoloMode()) {
+      if (this.player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(this.player);
+      }
+      return undefined;
+    }
 
     let candidates: Array<Player> = [];
     if (this.resource === Resources.MEGACREDITS) {

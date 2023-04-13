@@ -69,6 +69,7 @@ describe('TharsisRepublic', function() {
   it('Gives 3 M€ production in solo mode with Automa if Tharsis Bot is in play', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
+    player.setProductionForTest({megacredits: 0});
 
     if (game.automaBotCorporation?.name !== CardName.THARSIS_BOT) {
       const tharsisBot = new TharsisBot();

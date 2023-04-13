@@ -1,6 +1,7 @@
 import {CardName} from '../CardName';
 import {Player} from '../Player';
 import {Resources} from '../Resources';
+import {MonsInsuranceBot} from '../cards/automa/MonsInsuranceBot';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {DeferredAction, Priority} from './DeferredAction';
@@ -20,6 +21,11 @@ export class StealResources implements DeferredAction {
   public execute() {
     if (this.player.game.isSoloMode()) {
       this.player.addResource(this.resource, this.count);
+
+      if (this.player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(this.player);
+      }
+
       return undefined;
     }
 

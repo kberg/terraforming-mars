@@ -17,6 +17,7 @@ describe('EcolineBot', function() {
     player = TestPlayers.BLUE.newPlayer();
     game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
     game.automaBotCorporation = card;
+    game.automaBotVictoryPointsBreakdown.terraformRating = 20;
   });
 
   it('Takes action', function() {

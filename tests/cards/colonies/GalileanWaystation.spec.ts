@@ -30,8 +30,10 @@ describe('GalileanWaystation', function() {
     player.playedCards.push({tags: [Tags.JOVIAN]} as IProjectCard);
     Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
 
+    const initialMegacreditsProduction = player.getProduction(Resources.MEGACREDITS);
     card.play(player);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(3); // Bot contributes 2 tags in generation 1
+    // In case Mons Insurance bot was played
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(initialMegacreditsProduction + 3); // Bot contributes 2 tags in generation 1
   });
 
   it('Corectly counts wildtags', function() {

@@ -12,6 +12,7 @@ import {RemoveAnyPlants} from '../../deferredActions/RemoveAnyPlants';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Resources} from '../../Resources';
+import {MonsInsuranceBot} from '../automa/MonsInsuranceBot';
 
 export class Virus extends Card implements IProjectCard {
   constructor() {
@@ -32,11 +33,14 @@ export class Virus extends Card implements IProjectCard {
     });
   }
   public play(player: Player): PlayerInput | undefined {
-    if (player.game.getPlayers().length === 1) {
+    if (player.game.isSoloMode()) {
       player.game.someoneHasRemovedOtherPlayersPlants = true;
-      if (player.isCorporation(CardName.BENTENMARU)) {
-        player.addResource(Resources.PLANTS, 5);
+      if (player.isCorporation(CardName.BENTENMARU)) player.addResource(Resources.PLANTS, 5);
+
+      if (player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(player);
       }
+
       return undefined;
     }
 

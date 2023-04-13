@@ -8,6 +8,7 @@ import {Resources} from '../../Resources';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {MonsInsuranceBot} from '../automa/MonsInsuranceBot';
 
 export class HiredRaiders extends Card implements IProjectCard {
   constructor() {
@@ -30,6 +31,10 @@ export class HiredRaiders extends Card implements IProjectCard {
 
   public play(player: Player) {
     if (player.game.isSoloMode()) {
+      if (player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
+        MonsInsuranceBot.resolveMonsInsuranceBot(player);
+      }
+
       return new OrOptions(
         new SelectOption('Steal 2 steel', 'Steal steel', () => {
           player.steel += 2;
