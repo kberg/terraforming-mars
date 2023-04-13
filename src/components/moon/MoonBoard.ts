@@ -15,6 +15,9 @@ export const MoonBoard = Vue.component('moonboard', {
     model: {
       type: Object as () => MoonModel,
     },
+    automaSoloVariant: {
+      type: Boolean,
+    },
   },
   components: {
     'moon-space': MoonSpace,
@@ -67,17 +70,31 @@ export const MoonBoard = Vue.component('moonboard', {
           new MoonParamLevel(value, value === curValue, strValue),
         );
       }
+
+      if (this.automaSoloVariant === true) {
+        for (let i = values.length - 2; i > 0; i -= 2) {
+          values[i] = new MoonParamLevel(values[i].value, false, '■');
+        }
+      }
+
       return values;
     },
-    getScaleCSS: function(paramLevel: MoonParamLevel): string {
-      let css = 'global-numbers-value val-' + paramLevel.value + ' ';
+    getScaleCSS: function(paramLevel: MoonParamLevel, offset: boolean = false): string {
+      let css = offset ? 'global-numbers-value-offset' : 'global-numbers-value';
+      css += ' val-' + paramLevel.value + ' ';
+
+      if (offset && paramLevel.value === 0) {
+        css += ' global-numbers-zero ';
+      } else if (paramLevel.value === 0) {
+        css += ' global-numbers-zero-with-margin ';
+      }
+
       if (paramLevel.isActive) {
         css += 'val-is-active';
       }
       return css;
     },
   },
-  // Do I need board-cont?
   template: `
     <div class="board-cont moon-board" id="moon_board">
       <svg id="moon_board_legend" height="550" width="630" class="board-legend">
@@ -130,11 +147,11 @@ export const MoonBoard = Vue.component('moonboard', {
         </div>
 
         <div class="global-numbers-logistics">
-          <div :class="getScaleCSS(lvl)" v-for="lvl in getValuesForParameter('logistics')">{{ lvl.strValue }}</div>
+          <div :class="getScaleCSS(lvl, true)" v-for="lvl in getValuesForParameter('logistics')">{{ lvl.strValue }}</div>
         </div>
 
         <div class="global-numbers-mining">
-          <div :class="getScaleCSS(lvl)" v-for="lvl in getValuesForParameter('mining')">{{ lvl.strValue }}</div>
+          <div :class="getScaleCSS(lvl, true)" v-for="lvl in getValuesForParameter('mining')">{{ lvl.strValue }}</div>
         </div>
 
       </div>

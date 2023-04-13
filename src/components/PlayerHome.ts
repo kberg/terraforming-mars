@@ -270,7 +270,7 @@ export const PlayerHome = Vue.component('player-home', {
 
                         <turmoil v-if="player.turmoil" :turmoil="player.turmoil"></turmoil>
 
-                        <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon"></moonboard>
+                        <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon" :automaSoloVariant="player.gameOptions.automaSoloVariant"></moonboard>
 
                         <div v-if="player.players.length > 1 || (player.players.length === 1 && player.gameOptions.automaSoloVariant)" class="player_home_block--milestones-and-awards">
                             <milestone :milestones_list="player.milestones" :automaSoloVariant="player.gameOptions.automaSoloVariant" />
@@ -435,7 +435,7 @@ export const PlayerHome = Vue.component('player-home', {
 
                             <turmoil v-if="player.turmoil" :turmoil="player.turmoil"></turmoil>
 
-                            <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon"></moonboard>
+                            <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon" :automaSoloVariant="player.gameOptions.automaSoloVariant"></moonboard>
                         </div>
                     </details>
                 </div>

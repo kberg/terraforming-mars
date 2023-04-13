@@ -118,7 +118,7 @@ export const SpectatorHome = Vue.component('spectator-home', {
             id="shortkey-board""></board>
           </div>
 
-          <moonboard v-if="spectator.moon" :model="spectator.moon"></moonboard>
+          <moonboard v-if="spectator.moon" :model="spectator.moon" :automaSoloVariant="spectator.gameOptions.automaSoloVariant"></moonboard>
 
           <div v-if="spectator.players.length > 1 || (spectator.players.length === 1 && spectator.gameOptions.automaSoloVariant)" class="player_home_block--milestones-and-awards">
             <milestone :milestones_list="spectator.milestones" :automaSoloVariant="spectator.gameOptions.automaSoloVariant" />
