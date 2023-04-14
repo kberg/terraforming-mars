@@ -346,6 +346,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
     },
     soloToggle: function() {
       if (this.isSoloGame()) this.twoCorpsVariant = false;
+      if (!this.isSoloGame()) this.automaSoloVariant = false;
     },
     isBeginnerToggleEnabled: function(): Boolean {
       return !(this.initialDraft || this.prelude || this.venusNext || this.colonies || this.turmoil);

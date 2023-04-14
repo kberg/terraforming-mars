@@ -91,6 +91,9 @@ export const MoonBoard = Vue.component('moonboard', {
 
       if (paramLevel.isActive) {
         css += 'val-is-active';
+        if (offset && paramLevel.value > 0) {
+          css += ' val-adjusted-line-height ';
+        }
       }
       return css;
     },
