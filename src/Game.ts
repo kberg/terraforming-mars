@@ -886,9 +886,14 @@ export class Game implements ISerializable<SerializedGame> {
     this.phase = Phase.RESEARCH;
     this.researchedPlayers.clear();
     this.save();
-    this.players.forEach((player) => {
-      player.runResearchPhase(this.gameOptions.draftVariant);
-    });
+
+    if (this.isSoloMode() && this.gameOptions.automaSoloVariant) {
+      AutomaHandler.conductDraftPhase(this);
+    } else {
+      this.players.forEach((player) => {
+        player.runResearchPhase(this.gameOptions.draftVariant);
+      });
+    }
   }
 
   private gotoDraftingPhase(): void {

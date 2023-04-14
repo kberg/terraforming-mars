@@ -23,6 +23,7 @@ import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {ThorgateBot} from "../cards/automa/ThorgateBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
+import {LunaProjectOffice} from "../cards/moon/LunaProjectOffice";
 import {Colony} from "../colonies/Colony";
 import {MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
 import {DeferredAction, Priority} from "../deferredActions/DeferredAction";
@@ -723,6 +724,28 @@ export class AutomaHandler {
           },
         );
       });
+    }
+
+    // Deals 4 packs of 3 cards to the player, 1 at a time
+    // The player can buy 0 or 1 cards from each pack
+    public static conductDraftPhase(game: Game) {
+      const player = game.getPlayers()[0];
+
+      for (let i = 0; i < 4; i++) {
+        let dealtCards: Array<IProjectCard> = [];
+        player.dealCards(LunaProjectOffice.isActive(player) ? 5 : 3, dealtCards);
+
+        // When i === 3 below we call setWaitingFor with the 4th and last pack, and it will proc first before the other 3 packs
+        // draftRound value is being modified here to display the right number to the player, since the order of the 4 packs does not actually matter
+        const draftRound = (i + 1) % 4 + 1;
+        const action = player.drawCardKeepSome(dealtCards.length, {keepMax: 1, paying: true, logDrawnCard: true, title: `Draft ${draftRound} of 4: Buy up to 1 card`});
+
+        if (i === 3) {
+          player.setWaitingFor(action, () => game.playerIsFinishedWithResearchPhase(player));
+        } else {
+          game.defer(new DeferredAction(player, () => action));
+        }
+      }
     }
 
     public static deserializeBotVictoryPoints(d: SerializedVictoryPointsBreakdown): VictoryPointsBreakdown {

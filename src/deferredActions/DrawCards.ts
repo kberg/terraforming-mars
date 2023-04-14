@@ -84,8 +84,7 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
       max = Math.min(max, Math.floor(player.spendableMegacredits() / player.cardCost));
     }
     const min = options.paying ? 0 : options.keepMax;
-    const msg = options.paying ? (max === 0 ? 'You cannot afford any cards' : 'Select card(s) to buy') :
-      `Select ${max} card(s) to keep`;
+    const msg = DrawCards.getSelectCardTitle(options, max);
     const button = max === 0 ? 'Ok' : (options.paying ? 'Buy' : 'Select');
     const cb = (selected: Array<IProjectCard>) => {
       if (options.paying && selected.length > 0) {
@@ -117,6 +116,17 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
       {max, min},
     );
   }
+
+  public static getSelectCardTitle(options: DrawCards.ChooseOptions, max: number): string {
+    if (options.paying) {
+      if (max === 0) return 'You cannot afford any cards';
+      if (options.title !== undefined) return options.title;
+
+      return 'Select card(s) to buy';
+    } else {
+      return `Select ${max} card(s) to keep`;
+    }
+  }
 }
 
 export namespace DrawCards {
@@ -132,6 +142,7 @@ export namespace DrawCards {
     logDrawnCard?: boolean,
     paying?: boolean,
     logDiscardedCards?: boolean,
+    title?: string,
   }
 
   export interface AllOptions extends DrawOptions, ChooseOptions { }

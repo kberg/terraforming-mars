@@ -15,6 +15,9 @@ import {TharsisBot} from '../../src/cards/automa/TharsisBot';
 import {Callisto} from '../../src/colonies/Callisto';
 import {Ceres} from '../../src/colonies/Ceres';
 import {Miranda} from '../../src/colonies/Miranda';
+import {SelectCard} from '../../src/inputs/SelectCard';
+import {IProjectCard} from '../../src/cards/IProjectCard';
+import {TestPlayer} from '../TestPlayer';
 
 describe('AutomaHandler: Initial setup', function() {
   let player : Player; let game : Game;
@@ -435,5 +438,31 @@ describe('AutomaHandler: performBotTrade', function() {
     TestingUtils.forceGenerationEnd(game);
     expect(player.energy).to.eq(3);
     expect(game.colonies[0].visitor).is.not.undefined;
+  });
+});
+
+describe('AutomaHandler: conductDraftPhase', function() {
+  let player : TestPlayer; let game : Game;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+
+    const gameOptions = TestingUtils.setCustomGameOptions({automaSoloVariant: true});
+    game = Game.newInstance('foobar', [player], player, gameOptions);
+  });
+
+  it('Drafts 4 packs of 3 cards each', function() {
+    AutomaHandler.conductDraftPhase(game);
+    // We should have 3 more draft rounds in addition to our waitingFor
+    expect(game.deferredActions).has.length(3);
+
+    for (let i = 0; i < 3; i++) {
+      game.deferredActions.runNext();
+    }
+
+    const selectCard = player.popWaitingFor() as SelectCard<IProjectCard>;
+    selectCard.cb([selectCard.cards[0]]);
+    game.deferredActions.runNext(); // SelectHowToPay
+    expect(player.cardsInHand).has.length(1);
   });
 });
