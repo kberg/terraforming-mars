@@ -22,6 +22,8 @@ import {VictoryPointsBreakdown} from '../VictoryPointsBreakdown';
 //   coOwner: PlayerId;
 // }
 
+const BLOCKED_MOON_SPOTS = [1, 3, 5, 7];
+
 export class MoonExpansion {
   public static readonly MOON_TILES: Set<TileType> = new Set([
     TileType.MOON_MINE,
@@ -159,8 +161,10 @@ export class MoonExpansion {
 
   public static raiseMiningRate(player: Player, count: number = 1) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      const available = MAXIMUM_MINING_RATE - moonData.miningRate;
+      const automaSoloVariant = player.game.gameOptions.automaSoloVariant;
+      const available = automaSoloVariant ? (MAXIMUM_MINING_RATE - moonData.miningRate) / 2 : MAXIMUM_MINING_RATE - moonData.miningRate;
       const increment = Math.min(count, available);
+
       if (increment > 0) {
         if (player.game.phase === Phase.SOLAR) {
           player.game.log('${0} acted as World Government and raised the mining rate ${1} step(s)', (b) => b.player(player).number(increment));
@@ -168,22 +172,27 @@ export class MoonExpansion {
         } else {
           player.game.log('${0} raised the mining rate ${1} step(s)', (b) => b.player(player).number(increment));
           player.increaseTerraformRatingSteps(increment);
-          this.bonus(moonData.miningRate, increment, 3, () => {
+          this.bonus(moonData.miningRate, automaSoloVariant ? increment * 2 : increment, 3, () => {
             player.drawCard();
           });
-          this.bonus(moonData.miningRate, increment, 6, () => {
+          this.bonus(moonData.miningRate, automaSoloVariant ? increment * 2 : increment, 6, () => {
             player.addProduction(Resources.TITANIUM, 1, {log: true});
           });
           this.activateLunaFirst(player, player.game, increment);
         }
-        moonData.miningRate += increment;
+
+        for (let i = 0; i < increment; i++) {
+          moonData.miningRate++;
+          if (automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.miningRate)) moonData.miningRate++;
+        }
       }
     });
   }
 
   public static raiseColonyRate(player: Player, count: number = 1) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      const available = MAXIMUM_COLONY_RATE - moonData.colonyRate;
+      const automaSoloVariant = player.game.gameOptions.automaSoloVariant;
+      const available = automaSoloVariant ? (MAXIMUM_COLONY_RATE - moonData.colonyRate) / 2 : MAXIMUM_COLONY_RATE - moonData.colonyRate;
       const increment = Math.min(count, available);
       if (increment > 0) {
         if (player.game.phase === Phase.SOLAR) {
@@ -192,22 +201,27 @@ export class MoonExpansion {
         } else {
           player.game.log('${0} raised the moon colony rate ${1} step(s)', (b) => b.player(player).number(increment));
           player.increaseTerraformRatingSteps(count);
-          this.bonus(moonData.colonyRate, increment, 3, () => {
+          this.bonus(moonData.colonyRate, automaSoloVariant ? increment * 2 : increment, 3, () => {
             player.drawCard();
           });
-          this.bonus(moonData.colonyRate, increment, 6, () => {
+          this.bonus(moonData.colonyRate, automaSoloVariant ? increment * 2 : increment, 6, () => {
             player.addProduction(Resources.ENERGY, 1, {log: true});
           });
           this.activateLunaFirst(player, player.game, count);
         }
-        moonData.colonyRate += increment;
+
+        for (let i = 0; i < increment; i++) {
+          moonData.colonyRate++;
+          if (automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.colonyRate)) moonData.colonyRate++;
+        }
       }
     });
   }
 
   public static raiseLogisticRate(player: Player, count: number = 1) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
-      const available = MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
+      const automaSoloVariant = player.game.gameOptions.automaSoloVariant;
+      const available = automaSoloVariant ? (MAXIMUM_LOGISTICS_RATE - moonData.logisticRate) / 2 : MAXIMUM_LOGISTICS_RATE - moonData.logisticRate;
       const increment = Math.min(count, available);
       if (increment > 0) {
         if (player.game.phase === Phase.SOLAR) {
@@ -216,15 +230,19 @@ export class MoonExpansion {
         } else {
           player.game.log('${0} raised the logistic rate ${1} step(s)', (b) => b.player(player).number(increment));
           player.increaseTerraformRatingSteps(count);
-          this.bonus(moonData.logisticRate, increment, 3, () => {
+          this.bonus(moonData.logisticRate, automaSoloVariant ? increment * 2 : increment, 3, () => {
             player.drawCard();
           });
-          this.bonus(moonData.logisticRate, increment, 6, () => {
+          this.bonus(moonData.logisticRate, automaSoloVariant ? increment * 2 : increment, 6, () => {
             player.addProduction(Resources.STEEL, 1, {log: true});
           });
           this.activateLunaFirst(player, player.game, increment);
         }
-        moonData.logisticRate += increment;
+
+        for (let i = 0; i < increment; i++) {
+          moonData.logisticRate++;
+          if (automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.logisticRate)) moonData.logisticRate++;
+        }
       }
     });
   }
@@ -242,7 +260,12 @@ export class MoonExpansion {
   public static lowerMiningRate(player: Player, count: number) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
       const increment = Math.min(moonData.miningRate, count);
-      moonData.miningRate -= increment;
+
+      for (let i = 0; i < increment; i++) {
+        moonData.miningRate--;
+        if (player.game.gameOptions.automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.miningRate)) moonData.miningRate--;
+      }
+
       player.game.log('${0} lowered the mining rate ${1} step(s)', (b) => b.player(player).number(increment));
     });
   }
@@ -250,7 +273,12 @@ export class MoonExpansion {
   public static lowerColonyRate(player: Player, count: number) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
       const increment = Math.min(moonData.colonyRate, count);
-      moonData.colonyRate -= increment;
+
+      for (let i = 0; i < increment; i++) {
+        moonData.colonyRate--;
+        if (player.game.gameOptions.automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.colonyRate)) moonData.colonyRate--;
+      }
+
       player.game.log('${0} lowered the colony rate ${1} step(s)', (b) => b.player(player).number(increment));
     });
   }
@@ -258,7 +286,12 @@ export class MoonExpansion {
   public static lowerLogisticRate(player: Player, count: number) {
     MoonExpansion.ifMoon(player.game, (moonData) => {
       const increment = Math.min(moonData.logisticRate, count);
-      moonData.logisticRate -= increment;
+
+      for (let i = 0; i < increment; i++) {
+        moonData.logisticRate--;
+        if (player.game.gameOptions.automaSoloVariant && BLOCKED_MOON_SPOTS.includes(moonData.logisticRate)) moonData.logisticRate--;
+      }
+
       player.game.log('${0} lowered the logistic rate ${1} step(s)', (b) => b.player(player).number(increment));
     });
   }

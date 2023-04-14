@@ -377,6 +377,19 @@ describe('AutomaHandler: performActionForTag', function() {
     game.deferredActions.runAll(() => {});
     expect(player.getProduction(Resources.MEGACREDITS)).to.eq(initialMegacreditProduction + 1);
   });
+
+  it('Moon tag: Raises lowest Moon rate', function() {
+    const gameOptions = TestingUtils.setCustomGameOptions({automaSoloVariant: true, moonExpansion: true});
+    game = Game.newInstance('foobar', [player], player, gameOptions);
+
+    const initialTR = game.automaBotVictoryPointsBreakdown.terraformRating;
+    const initialTotal = game.automaBotVictoryPointsBreakdown.total;
+    AutomaHandler.performActionForTag(game, Tags.MOON);
+
+    expect(game.automaBotVictoryPointsBreakdown.terraformRating).to.eq(initialTR + 1);
+    expect(game.automaBotVictoryPointsBreakdown.total).to.eq(initialTotal + 1);
+    expect(game.moonData?.colonyRate).to.eq(2);
+  });
 });
 
 describe('AutomaHandler: getBotTagCount', function() {

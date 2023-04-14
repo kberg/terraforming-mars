@@ -95,6 +95,33 @@ describe('MoonExpansion', () => {
     expect(player.getTerraformRating()).eq(21);
   });
 
+  it('raiseMiningRate with Automa', () => {
+    game = Game.newInstance('id', [player, player2], player, TestingUtils.setCustomGameOptions({moonExpansion: true, automaSoloVariant: true}));
+    moonData = MoonExpansion.moonData(game);
+
+    MoonExpansion.raiseMiningRate(player);
+    expect(moonData.miningRate).eq(2);
+    expect(player.getTerraformRating()).eq(21);
+  });
+
+  it('raiseColonyRate with Automa', () => {
+    game = Game.newInstance('id', [player, player2], player, TestingUtils.setCustomGameOptions({moonExpansion: true, automaSoloVariant: true}));
+    moonData = MoonExpansion.moonData(game);
+
+    MoonExpansion.raiseColonyRate(player);
+    expect(moonData.colonyRate).eq(2);
+    expect(player.getTerraformRating()).eq(21);
+  });
+
+  it('raiseLogisticsRate with Automa', () => {
+    game = Game.newInstance('id', [player, player2], player, TestingUtils.setCustomGameOptions({moonExpansion: true, automaSoloVariant: true}));
+    moonData = MoonExpansion.moonData(game);
+
+    MoonExpansion.raiseLogisticRate(player);
+    expect(moonData.logisticRate).eq(2);
+    expect(player.getTerraformRating()).eq(21);
+  });
+
   it('computeVictoryPoints', () => {
     const vps = player.victoryPointsBreakdown;
     function computeVps() {

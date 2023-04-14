@@ -4,6 +4,7 @@ import {Game} from "../Game";
 import {GameSetup} from "../GameSetup";
 import {LogHelper} from "../LogHelper";
 import {Player} from "../Player";
+import {Resources} from "../Resources";
 import {SerializedVictoryPointsBreakdown} from "../SerializedVictoryPointsBreakdown";
 import {SpaceBonus} from "../SpaceBonus";
 import {SpaceType} from "../SpaceType";
@@ -22,10 +23,12 @@ import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
 import {Colony} from "../colonies/Colony";
-import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
+import {MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
 import {DeferredAction, Priority} from "../deferredActions/DeferredAction";
 import {GiveColonyBonus} from "../deferredActions/GiveColonyBonus";
 import {OrOptions} from "../inputs/OrOptions";
+import {IMoonData} from "../moon/IMoonData";
+import {MoonExpansion} from "../moon/MoonExpansion";
 
 export const BLOCKED_OXYGEN_SPOTS = [1, 3, 5, 7, 9, 11, 13];
 export const BLOCKED_TEMPERATURE_SPOTS = [-26, -24, -18, -14, -10, -6, -2, 2, 6];
@@ -484,13 +487,55 @@ export class AutomaHandler {
         game.log('Bot action from ${0} tag: Increase Venus scale 1 step', (b) => b.string(originalTag));
         break;
       case Tags.MOON:
-        // TODO: Raise lowest Moon parameter? (TBC)
+        game.automaBotVictoryPointsBreakdown.terraformRating++;
+
+        MoonExpansion.ifMoon(game, (moonData) => {
+          const lowestRate = Math.min(moonData.colonyRate, moonData.logisticRate, moonData.miningRate);
+
+          if (lowestRate === MAXIMUM_MINING_RATE) {
+            game.log('Bot action from ${0} tag: Gain 1 TR as all Moon tracks are already maxed', (b) => b.string(originalTag));
+          } else if (lowestRate === moonData.colonyRate) {
+            moonData.colonyRate += 2;
+
+            // Grant track bonuses. We cannot call MoonExpansion.raiseColonyRate here as it causes circular dependency error
+            if (moonData.colonyRate === 4) soloPlayer.drawCard();
+            if (moonData.colonyRate === 6) soloPlayer.addProduction(Resources.ENERGY, 1, {log: true});
+            AutomaHandler.grantLunaFirstPlayerBonus(moonData);
+
+            game.log('Bot action from ${0} tag: Increase Moon colonyRate rate 1 step', (b) => b.string(originalTag));
+          } else if (lowestRate === moonData.logisticRate) {
+            moonData.logisticRate += 2;
+
+            // Grant track bonuses. We cannot call MoonExpansion.raiseLogisticRate here as it causes circular dependency error
+            if (moonData.logisticRate === 4) soloPlayer.drawCard();
+            if (moonData.logisticRate === 6) soloPlayer.addProduction(Resources.STEEL, 1, {log: true});
+            AutomaHandler.grantLunaFirstPlayerBonus(moonData);
+
+            game.log('Bot action from ${0} tag: Increase Moon logistic rate 1 step', (b) => b.string(originalTag));
+          } else {
+            // lowestRate === moonData.miningRate
+            moonData.miningRate += 2;
+
+            // Grant track bonuses. We cannot call MoonExpansion.raiseMiningRate here as it causes circular dependency error
+            if (moonData.miningRate === 4) soloPlayer.drawCard();
+            if (moonData.miningRate === 6) soloPlayer.addProduction(Resources.TITANIUM, 1, {log: true});
+            AutomaHandler.grantLunaFirstPlayerBonus(moonData);
+
+            game.log('Bot action from ${0} tag: Increase Moon mining rate 1 step', (b) => b.string(originalTag));
+          }
+        });
+
         break;
       default:
         break;
       }
 
       game.automaBotVictoryPointsBreakdown.updateTotal();
+    }
+
+    private static grantLunaFirstPlayerBonus(moonData: IMoonData): void {
+      const lunaFirstPlayer = moonData.lunaFirstPlayer;
+      if (lunaFirstPlayer !== undefined) lunaFirstPlayer.addResource(Resources.MEGACREDITS, 1, {log: true});
     }
 
     private static grantTagPlayedBonus(player: Player, game: Game, tag: Tags): void {
