@@ -1,6 +1,7 @@
 import {CardName} from '../../CardName';
 import {GameModule} from '../../GameModule';
 import {CardManifest} from '../CardManifest';
+import {AphroditeBot} from './AphroditeBot';
 import {CredicorBot} from './CredicorBot';
 import {EcolineBot} from './EcolineBot';
 import {HelionBot} from './HelionBot';
@@ -21,6 +22,7 @@ export const AUTOMA_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.MONS_INSURANCE_BOT, Factory: MonsInsuranceBot},
     {cardName: CardName.VITOR_BOT, Factory: VitorBot},
     {cardName: CardName.THORGATE_BOT, Factory: ThorgateBot},
+    {cardName: CardName.APHRODITE_BOT, Factory: AphroditeBot},
   ],
 });
 
