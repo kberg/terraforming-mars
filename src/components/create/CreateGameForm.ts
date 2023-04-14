@@ -988,7 +988,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <template v-if="isSoloGame()">
                                 <input type="checkbox" name="automaSoloVariant" id="automaSoloVariant-checkbox" v-model="automaSoloVariant">
                                 <label for="automaSoloVariant-checkbox">
-                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                                    <div class="create-game-expansion-icon expansion-icon-automa"></div>
                                     <span v-i18n>Automa</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Automa-67ea16ee4595476a836fe2a257d6f7a6" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>

@@ -244,7 +244,7 @@ export const DebugUI = Vue.component('debug-ui', {
 
               <input type="checkbox" name="automaSoloVariant" id="automaSoloVariant-checkbox" v-model="automaSoloVariant"></input>
               <label for="automaSoloVariant-checkbox" class="expansion-button">
-                  <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                  <div class="create-game-expansion-icon expansion-icon-automa"></div>
                   <span v-i18n>Automa</span>
               </label>
 
