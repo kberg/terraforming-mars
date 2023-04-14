@@ -733,4 +733,5 @@ export enum CardName {
     UNMI_BOT = 'United Nations Bot',
     MONS_INSURANCE_BOT = 'Mons Insurance Bot',
     VITOR_BOT = 'Vitor Bot',
+    THORGATE_BOT = 'Thorgate Bot',
 }

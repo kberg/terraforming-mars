@@ -21,6 +21,7 @@ import {IProjectCard} from "../cards/IProjectCard";
 import {Tags} from "../cards/Tags";
 import {AUTOMA_CARD_MANIFEST} from "../cards/automa/AutomaCardManifest";
 import {TharsisBot} from "../cards/automa/TharsisBot";
+import {ThorgateBot} from "../cards/automa/ThorgateBot";
 import {CorporationCard} from "../cards/corporation/CorporationCard";
 import {Colony} from "../colonies/Colony";
 import {MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, MILESTONE_VP, MIN_OXYGEN_LEVEL, MIN_TEMPERATURE, MIN_VENUS_SCALE, SOLO_START_TR_AUTOMA} from "../constants";
@@ -356,6 +357,11 @@ export class AutomaHandler {
           appliedTag = Tags.CITY;
         }
 
+        // Thorgate Bot effect: Next tag is treated as a power tag
+        if (game.automaBotCorporation?.name === CardName.THORGATE_BOT) {
+          appliedTag = Tags.ENERGY;
+        }
+
         game.overwriteNextBotAction = false;
       }
 
@@ -366,6 +372,11 @@ export class AutomaHandler {
 
         if (game.getTemperature() === MAX_TEMPERATURE) {
           game.log('Bot action from ${0} tag: Gain 1 TR as temperature is already maxed', (b) => b.string(originalTag));
+
+          if (appliedTag === Tags.ENERGY && game.automaBotCorporation?.name === CardName.THORGATE_BOT) {
+            ThorgateBot.handleOxygenIncreaseFromPowerTag(game, neutral);
+          }
+
           break;
         }
 
@@ -378,6 +389,11 @@ export class AutomaHandler {
         });
 
         game.log('Bot action from ${0} tag: Increase temperature 1 step', (b) => b.string(originalTag));
+
+        if (appliedTag === Tags.ENERGY && game.automaBotCorporation?.name === CardName.THORGATE_BOT) {
+          ThorgateBot.handleOxygenIncreaseFromPowerTag(game, neutral);
+        }
+
         break;
       case Tags.ANIMAL:
       case Tags.PLANT:

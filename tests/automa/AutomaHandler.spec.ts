@@ -273,6 +273,9 @@ describe('AutomaHandler: performActionForTag', function() {
   });
 
   it('Power tag: Raises temperature', function() {
+    // Any corp will do here for testing purposes, as long as it's not Thorgate Bot
+    game.automaBotCorporation = new TharsisBot();
+
     const initialTR = game.automaBotVictoryPointsBreakdown.terraformRating;
     const initialTotal = game.automaBotVictoryPointsBreakdown.total;
     AutomaHandler.performActionForTag(game, Tags.ENERGY);
