@@ -56,7 +56,7 @@ export class WaterImportFromEuropa extends Card implements IActionCard, IProject
 
     if (oceansMaxed) {
       Card.setUselessActionWarningText(this, 'all oceans have already been placed');
-      return true;
+      return player.canAfford(oceanCost, {titanium: true});
     }
 
     if (redsAreRuling) {

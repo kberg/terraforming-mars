@@ -47,7 +47,7 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
 
     if (oceansMaxed) {
       Card.setUselessActionWarningText(this, 'all oceans have already been placed');
-      return true;
+      return player.canAfford(oceanCost, {steel: true});
     }
 
     if (redsAreRuling) {
