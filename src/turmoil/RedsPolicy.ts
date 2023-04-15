@@ -16,7 +16,7 @@ import {CardType} from "../cards/CardType";
 import {SpaceType} from "../SpaceType";
 import {MoonExpansion} from "../moon/MoonExpansion";
 import {AresHandler, HazardSeverity} from "../ares/AresHandler";
-import { LeaderCard } from "../cards/LeaderCard";
+import {LeaderCard} from "../cards/LeaderCard";
 
 /*
  * TODO: Most of the members of that class could be inferred from card metadata once it's usable
@@ -381,12 +381,13 @@ export class RedsPolicy {
     );
 
     // If our tree has at least one branch, we can afford to pay Reds
+    const tilePlacementWarningMessage = 'Tile placement will be limited due to Reds policy.';
     if (spacesTree.size > 0) {
       if (action.card !== undefined) {
-        if (action.card.warning !== undefined) {
-          action.card.warning += ' Tile placement will be limited due to Reds policy.';
+        if (action.card.warning !== undefined && (action.card.warning as string).includes(tilePlacementWarningMessage) === false) {
+          action.card.warning += ` ${tilePlacementWarningMessage}`;
         } else {
-          action.card.warning = 'Tile placement will be limited due to Reds policy.';
+          action.card.warning = tilePlacementWarningMessage;
         }
       }
 
