@@ -2740,9 +2740,9 @@ export class Player implements ISerializable<SerializedPlayer> {
        */
       if (spendableMegacredits >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
         availableSpaces = this.game.board.getAvailableSpacesForOcean(this);
-      } else if (spendableMegacredits < this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.LAND)) {
+      } else if (spendableMegacredits < this.howToAffordReds.redTaxes) {
         /*
-         * Here we are unable to afford Reds taxes when placing our non-ocean tile
+         * Here we are unable to afford Reds taxes when placing our ocean or land tile
          * This means we have no choice but to place it next to adjacent oceans to make up the shortfall
          * This computation is re-run after each new placement, so it takes the player's last placed tile into account
          */

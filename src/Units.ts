@@ -1,7 +1,6 @@
 // A representation of a value associated with each standard resource type.
 // Could be a player's inventory, or their production, or just a way to pass several resource-related values
 
-import {OCEAN_BONUS} from "./constants";
 import {Player} from "./Player";
 import {HowToAffordRedsPolicy} from "./turmoil/RedsPolicy";
 
@@ -82,11 +81,6 @@ export namespace Units {
 
   export function maybeAdjustReservedMegacredits(player: Player, purse: Units, howToAffordReds: HowToAffordRedsPolicy): Units {
     let newReservedMegacredits = (purse.megacredits || 0) - Math.max(player.megaCredits - (howToAffordReds.mustSpendAtMost! || 0), 0);
-
-    // Edge case handling for Lakefront, which receives additional ocean adjacency placement bonus
-    if (player.oceanBonus > OCEAN_BONUS && howToAffordReds.oceansToPlace !== undefined) {
-      newReservedMegacredits -= (player.oceanBonus - OCEAN_BONUS) * howToAffordReds.oceansToPlace;
-    }
 
     if (howToAffordReds.bonusMCFromPlay !== undefined) {
       newReservedMegacredits -= howToAffordReds.bonusMCFromPlay;
