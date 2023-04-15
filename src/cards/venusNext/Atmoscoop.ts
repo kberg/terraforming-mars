@@ -45,8 +45,6 @@ export class Atmoscoop extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const venusScale = player.game.getVenusScaleLevel();
     const temperature = player.game.getTemperature();
@@ -60,6 +58,8 @@ export class Atmoscoop extends Card implements IProjectCard {
     const minTRGain = Math.min(trGainFromTemperatureRaise, trGainFromVenusRaise);
     const maxTRGain = Math.max(trGainFromTemperatureRaise, trGainFromVenusRaise);
     Card.setRedsWarningText(player, maxTRGain, this, minTRGain !== maxTRGain);
+
+    if (!super.canPlay(player)) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: minTRGain * REDS_RULING_POLICY_COST});

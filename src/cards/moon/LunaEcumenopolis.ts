@@ -46,8 +46,6 @@ export class LunaEcumenopolis extends MoonCard {
   };
 
   public canPlay(player: Player) {
-    if (!super.canPlay(player)) return false;
-
     const moonData = MoonExpansion.moonData(player.game);
     const initialMoonColonyRate = MoonExpansion.getColonyRate(player);
 
@@ -90,14 +88,15 @@ export class LunaEcumenopolis extends MoonCard {
       }
     }
 
+    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    Card.setRedsWarningText(player, redsAreRuling ? trStepsIncreased : 0, this);
+
+    if (!super.canPlay(player)) return false;
+
     // We cannot place our 2 colony tiles
     if (!canPlaceTiles) return false;
 
-    const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
-
     if (redsAreRuling) {
-      Card.setRedsWarningText(player, trStepsIncreased, this);
-
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trStepsIncreased * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, false, false, false, true);

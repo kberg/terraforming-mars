@@ -50,10 +50,10 @@ export class JovianLanterns extends Card implements IProjectCard, IResourceCard 
   public resourceCount: number = 0;
 
   public canPlay(player: Player): boolean {
-    if (!super.canPlay(player)) return false;
-
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(player, trGain, this);
+
+    if (!super.canPlay(player)) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

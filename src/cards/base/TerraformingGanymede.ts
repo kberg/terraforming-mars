@@ -35,10 +35,10 @@ export class TerraformingGanymede extends Card implements IProjectCard {
 
   public canPlay(player: Player): boolean {
     const trGain = this.getTRIncrease(player);
+    // Set card warning if Reds are ruling, otherwise remove it
+    Card.setRedsWarningText(player, PartyHooks.shouldApplyPolicy(player, PartyName.REDS) ? trGain : 0, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
-      Card.setRedsWarningText(player, trGain, this);
-
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
       const actionDetails = this.getActionDetails(player, this);
       this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, actionDetails, false, true);

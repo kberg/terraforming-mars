@@ -41,6 +41,9 @@ export class ThoriumRush extends Card implements IProjectCard {
   };
 
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(player, trGain, this);
+
     if (!super.canPlay(player)) return false;
 
     const moonData = MoonExpansion.moonData(player.game);
@@ -50,9 +53,6 @@ export class ThoriumRush extends Card implements IProjectCard {
 
     const mineSpaces = moonData.moon.getAvailableSpacesForMine(player);
     if (mineSpaces.length === 0) return false;
-
-    const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(player, trGain, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});

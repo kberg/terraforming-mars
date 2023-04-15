@@ -43,10 +43,6 @@ export class DesperateMeasures extends Card implements IProjectCard {
   }
 
   public canPlay(player: Player): boolean {
-    const hasHazardTileInPlay = this.getHazardTiles(player.game).length > 0;
-    // You can't play desperate measures if there isn't a hazard marker in play.
-    if (!hasHazardTileInPlay) return false;
-
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     const oxygenLevel = player.game.getOxygenLevel();
     const temperature = player.game.getTemperature();
@@ -60,6 +56,10 @@ export class DesperateMeasures extends Card implements IProjectCard {
     const minTRGain = Math.min(trGainFromTemperatureRaise, trGainFromOxygenRaise);
     const maxTRGain = Math.max(trGainFromTemperatureRaise, trGainFromOxygenRaise);
     Card.setRedsWarningText(player, maxTRGain, this, minTRGain !== maxTRGain);
+
+    const hasHazardTileInPlay = this.getHazardTiles(player.game).length > 0;
+    // You can't play desperate measures if there isn't a hazard marker in play.
+    if (!hasHazardTileInPlay) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: minTRGain * REDS_RULING_POLICY_COST});

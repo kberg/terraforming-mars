@@ -45,14 +45,14 @@ export class Habitat14 extends MoonCard {
   }
 
   public canPlay(player: Player): boolean {
+    const trGain = player.computeTerraformRatingBump(this);
+    Card.setRedsWarningText(player, trGain, this);
+
     if (!super.canPlay(player)) return false;
 
     const moonData = MoonExpansion.moonData(player.game);
     const spaces = moonData.moon.getAvailableSpacesOnLand(player);
     if (spaces.length === 0) return false;
-
-    const trGain = player.computeTerraformRatingBump(this);
-    Card.setRedsWarningText(player, trGain, this);
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
