@@ -63,6 +63,9 @@ export abstract class Card {
   public get initialActionText() {
     return this.properties.initialActionText;
   }
+  public set initialActionText(value: string | undefined) {
+    this.properties.initialActionText = value;
+  }
   public get metadata() {
     return this.properties.metadata;
   }

@@ -80,7 +80,11 @@ export class Vitor extends Card implements CorporationCard {
     }
   }
 
-  public play(_player: Player) {
+  public play(player: Player) {
+    if (player.game.isSoloMode() && player.game.gameOptions.automaSoloVariant) {
+      this.initialActionText = 'Claim a milestone for free';
+    }
+
     return undefined;
   }
 }

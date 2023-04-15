@@ -2309,7 +2309,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     //   all 3 Awards are claimed before starting your turn as Vitor), you can skip this and
     //   proceed with other actions instead.
     // This code just uses "must skip" instead of "can skip".
-    if (this.isCorporation(CardName.VITOR) && this.game.allAwardsFunded()) {
+    if (this.isCorporation(CardName.VITOR) && this.game.allAwardsFunded() && this.game.gameOptions.automaSoloVariant === false) {
       this.pendingInitialActions = this.pendingInitialActions.filter((card) => card.name !== CardName.VITOR);
     }
 
