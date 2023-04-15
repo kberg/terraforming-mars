@@ -735,4 +735,5 @@ export enum CardName {
     VITOR_BOT = 'Vitor Bot',
     THORGATE_BOT = 'Thorgate Bot',
     APHRODITE_BOT = 'Aphrodite Bot',
+    POLYPHEMOS_BOT = 'Polyphemos Bot',
 }

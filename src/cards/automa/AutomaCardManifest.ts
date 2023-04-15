@@ -6,6 +6,7 @@ import {CredicorBot} from './CredicorBot';
 import {EcolineBot} from './EcolineBot';
 import {HelionBot} from './HelionBot';
 import {MonsInsuranceBot} from './MonsInsuranceBot';
+import {PolyphemosBot} from './PolyphemosBot';
 import {TharsisBot} from './TharsisBot';
 import {ThorgateBot} from './ThorgateBot';
 import {UNMIBot} from './UNMIBot';
@@ -23,6 +24,7 @@ export const AUTOMA_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.VITOR_BOT, Factory: VitorBot},
     {cardName: CardName.THORGATE_BOT, Factory: ThorgateBot},
     {cardName: CardName.APHRODITE_BOT, Factory: AphroditeBot},
+    {cardName: CardName.POLYPHEMOS_BOT, Factory: PolyphemosBot},
   ],
 });
 
