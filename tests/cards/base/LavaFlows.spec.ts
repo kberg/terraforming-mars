@@ -44,7 +44,7 @@ describe('LavaFlows', function() {
   });
 
   it('Plays correctly with bonus ocean at 0 degrees', function() {
-    (game as any).temperature = -4;
+    game.setTemperature(-4);
     const action = card.play(player);
     game.deferredActions.runNext();
 

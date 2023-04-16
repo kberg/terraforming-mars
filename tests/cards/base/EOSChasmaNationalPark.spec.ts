@@ -16,17 +16,17 @@ describe('EosChasmaNationalPark', () => {
     player = TestPlayers.BLUE.newPlayer();
     const redPlayer = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, redPlayer], player);
+    game.setTemperature(-12);
   });
 
   it('Can play', () => {
-    (game as any).temperature = -14;
-    expect(card.canPlay(player)).is.not.true;
-    (game as any).temperature = -12;
+    game.setTemperature(-14);
+    expect(card.canPlay(player)).is.false;
+    game.setTemperature(-12);
     expect(card.canPlay(player)).is.true;
   });
 
   it('Should play', () => {
-    (game as any).temperature = -12;
     const birds = new Birds();
     const fish = new Fish();
     player.playedCards.push(birds, fish);
@@ -46,7 +46,6 @@ describe('EosChasmaNationalPark', () => {
   });
 
   it('Should play - single target', () => {
-    (game as any).temperature = -12;
     const birds = new Birds();
     player.playedCards.push(birds);
 

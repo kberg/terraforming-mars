@@ -24,7 +24,7 @@ describe('PermafrostExtraction', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = -8;
+    game.setTemperature(-8);
     expect(card.canPlay(player)).is.true;
 
     const action = card.play(player);
@@ -36,7 +36,7 @@ describe('PermafrostExtraction', function() {
     const gameOptions = TestingUtils.setCustomGameOptions();
     game = Game.newInstance('foobar', [player, player2], player, gameOptions);
 
-    (game as any).temperature = -8;
+    game.setTemperature(-8);
     game.phase = Phase.ACTION;
     game.turmoil!.rulingParty = new Reds();
     PoliticalAgendas.setNextAgenda(game.turmoil!, game);

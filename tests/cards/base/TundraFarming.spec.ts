@@ -20,7 +20,7 @@ describe('TundraFarming', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = -6;
+    game.setTemperature(-6);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

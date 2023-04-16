@@ -20,7 +20,7 @@ describe('Grass', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = -16;
+    game.setTemperature(-16);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

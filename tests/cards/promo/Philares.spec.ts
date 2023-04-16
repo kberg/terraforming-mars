@@ -164,7 +164,7 @@ describe('Philares', function() {
     game.addGreenery(philaresPlayer, space.id);
 
     // Max out all global parameters
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
     (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
     TestingUtils.maxOutOceans(philaresPlayer);
 

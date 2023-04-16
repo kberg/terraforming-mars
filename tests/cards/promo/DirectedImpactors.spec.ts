@@ -79,7 +79,7 @@ describe('DirectedImpactors', function() {
   it('Can still spend resource even if temperature is max', function() {
     player.playedCards.push(card);
     card.resourceCount = 1;
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
 
     expect(card.canAct(player)).is.true;
   });

@@ -20,7 +20,7 @@ describe('Farming', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = 4;
+    game.setTemperature(4);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

@@ -40,7 +40,7 @@ describe('ArtificialLake', function() {
 
   it('Cannot place ocean if all oceans are already placed', function() {
     // Set temperature level to fit requirements
-    (game as any).temperature = -6;
+    game.setTemperature(-6);
 
     // Set oceans count to the max value
     for (const space of game.board.getSpaces(SpaceType.OCEAN, player)) {
@@ -58,7 +58,7 @@ describe('ArtificialLake', function() {
   });
 
   it('Can still play if oceans are maxed but no land spaces are available', function() {
-    (game as any).temperature = -6;
+    game.setTemperature(-6);
     TestingUtils.maxOutOceans(player);
 
     // Take all land spaces

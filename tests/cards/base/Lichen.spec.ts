@@ -20,7 +20,7 @@ describe('Lichen', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = -24;
+    game.setTemperature(-24);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

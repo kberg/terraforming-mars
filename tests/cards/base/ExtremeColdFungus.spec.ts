@@ -18,12 +18,12 @@ describe('ExtremeColdFungus', () => {
   });
 
   it('Cannot play', () => {
-    (game as any).temperature = -8;
+    game.setTemperature(-8);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can play', () => {
-    (game as any).temperature = -12;
+    game.setTemperature(-12);
     expect(card.canPlay(player)).is.true;
   });
 

@@ -77,7 +77,7 @@ describe("RedsPolicy", function () {
     expect(RedsPolicy.canAffordRedsPolicy(player, game, lavaFlows).canAfford).is.true;
 
     player.megaCredits = 25;
-    (game as any).temperature = -2;
+    game.setTemperature(-2);
     const test3 = RedsPolicy.canAffordRedsPolicy(player, game, lavaFlows); // 18 + 3*3
     // We only have 25 M€ but can place on Tharsis Tholus to get 2 M€ from ocean adjacency
     expect(test3.canAfford).is.true;

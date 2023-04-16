@@ -14,12 +14,12 @@ describe('Psychrophiles', () => {
   });
 
   it('Cannot play', () => {
-    (game as any).temperature = -18;
+    game.setTemperature(-18);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can play', () => {
-    (game as any).temperature = -20;
+    game.setTemperature(-20);
     expect(card.canPlay(player)).is.true;
   });
 

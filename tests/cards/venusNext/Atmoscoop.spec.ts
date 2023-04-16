@@ -81,7 +81,7 @@ describe('Atmoscoop', function() {
 
   it('Should play - single target, one global parameter maxed', function() {
     player.playedCards.push(dirigibles);
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
 
     const orOptions = card.play(player) as OrOptions;
     orOptions.options[1].cb();
@@ -95,7 +95,7 @@ describe('Atmoscoop', function() {
   it('Should play - single target, both global parameters maxed', function() {
     player.playedCards.push(dirigibles);
     (game as any).venusScaleLevel = MAX_VENUS_SCALE;
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
 
     const action = card.play(player);
     expect(action).is.undefined;
@@ -104,7 +104,7 @@ describe('Atmoscoop', function() {
 
   it('Should play - multiple targets, one global parameter maxed', function() {
     player.playedCards.push(dirigibles, floatingHabs);
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
 
     // Even with a maxed global parameter, we can still choose to raise that parameter
     // It's wasteful, but theoretically valid if we don't want to raise the other parameter
@@ -120,7 +120,7 @@ describe('Atmoscoop', function() {
   it('Should play - multiple targets, both global parameters maxed', function() {
     player.playedCards.push(dirigibles, floatingHabs);
     (game as any).venusScaleLevel = MAX_VENUS_SCALE;
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
 
     const action = card.play(player) as SelectCard<ICard>;
     expect(action).instanceOf(SelectCard);

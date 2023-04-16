@@ -134,7 +134,7 @@ describe('Reds', function() {
     player.megaCredits = 7;
 
     // Terraform
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
     (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
     TestingUtils.maxOutOceans(player);
 

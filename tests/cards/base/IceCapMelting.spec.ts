@@ -19,7 +19,7 @@ describe('IceCapMelting', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = 2;
+    game.setTemperature(2);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

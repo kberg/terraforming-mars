@@ -20,7 +20,7 @@ describe('NoctisFarming', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = -20;
+    game.setTemperature(-20);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

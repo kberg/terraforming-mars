@@ -45,9 +45,9 @@ describe('CardRequirements', function() {
   it('satisfies properly for temperature max', function() {
     const requirements = CardRequirements.builder((b) => b.temperature(-10).max());
     expect(requirements.satisfies(player)).eq(true);
-    (player.game as any).temperature = -10;
+    player.game.setTemperature(-10);
     expect(requirements.satisfies(player)).eq(true);
-    (player.game as any).temperature = -8;
+    player.game.setTemperature(-8);
     expect(requirements.satisfies(player)).eq(false);
     player.playCard(adaptationTechnology);
     expect(requirements.satisfies(player)).eq(true);

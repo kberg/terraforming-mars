@@ -20,7 +20,7 @@ describe('CaretakerContract', function() {
   });
 
   it('Should play', function() {
-    (game as any).temperature = 0;
+    game.setTemperature(0);
     expect(card.canPlay(player)).is.true;
   });
 

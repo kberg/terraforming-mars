@@ -43,7 +43,7 @@ describe('SnowCover', function() {
   });
 
   it('cannot reduce temperature if maxed out', function() {
-    (game as any).temperature = MAX_TEMPERATURE;
+    game.setTemperature(MAX_TEMPERATURE);
     card.resolve(game, turmoil);
     expect(game.getTemperature()).eq(MAX_TEMPERATURE);
   });
