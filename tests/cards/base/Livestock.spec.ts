@@ -17,13 +17,13 @@ describe('Livestock', function() {
   });
 
   it('Can\'t play without plant production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if oxygen level too low', function() {
     game.setOxygenLevel(8);
     player.addProduction(Resources.PLANTS, 1);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

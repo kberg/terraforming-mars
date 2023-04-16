@@ -27,6 +27,6 @@ describe('AquiferPumping', function() {
   });
 
   it('Cannot act if not enough to pay', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 });

@@ -16,12 +16,12 @@ describe('AICentral', function() {
   });
 
   it('Can\'t play if not enough science tags to play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if no energy production', function() {
     player.playedCards.push(card, card, card);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

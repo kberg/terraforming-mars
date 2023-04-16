@@ -23,13 +23,13 @@ describe('Capital', () => {
   it('Cannot play without 2 energy production', () => {
     TestingUtils.maxOutOceans(player, 4);
     player.addProduction(Resources.ENERGY, 1);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play if oceans requirement not met', () => {
     TestingUtils.maxOutOceans(player, 3);
     player.addProduction(Resources.ENERGY, 2);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', () => {

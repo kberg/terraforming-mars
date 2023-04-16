@@ -17,7 +17,7 @@ describe('NuclearPower', function() {
 
   it('Can\'t play', function() {
     player.addProduction(Resources.MEGACREDITS, -4);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

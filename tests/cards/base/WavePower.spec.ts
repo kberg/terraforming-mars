@@ -18,7 +18,7 @@ describe('WavePower', function() {
 
   it('Can\'t play', function() {
     TestingUtils.maxOutOceans(player, 2);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

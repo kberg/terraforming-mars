@@ -14,7 +14,7 @@ describe('PhysicsComplex', function() {
   it('Can\'t act', function() {
     card.play();
     player.energy = 5;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

@@ -18,7 +18,7 @@ describe('EnergyMarket', function() {
 
   it('Can\'t act', function() {
     player.addResource(Resources.MEGACREDITS, 1);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Can act when sufficient MC resources available', function() {

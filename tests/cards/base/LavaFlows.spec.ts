@@ -27,7 +27,7 @@ describe('LavaFlows', function() {
 
     const anotherPlayer = TestPlayers.RED.newPlayer();
     game.board.getSpace(SpaceName.ASCRAEUS_MONS).player = anotherPlayer; // land claim
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

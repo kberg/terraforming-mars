@@ -16,7 +16,7 @@ describe('AerosportTournament', function() {
     corp.action(player);
     corp.action(player);
     corp.action(player);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
     corp.action(player);
     expect(card.canPlay(player)).is.true;
 

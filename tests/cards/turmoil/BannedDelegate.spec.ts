@@ -24,7 +24,7 @@ describe('Banned Delegate', function() {
 
   it('Can\'t play', function() {
     turmoil.chairman = player2.id;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

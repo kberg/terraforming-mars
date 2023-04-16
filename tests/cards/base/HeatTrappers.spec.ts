@@ -54,7 +54,7 @@ describe('HeatTrappers', function() {
   });
 
   it('Can\'t play if nobody has heat production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Gives victory points', function() {

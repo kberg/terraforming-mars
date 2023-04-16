@@ -31,7 +31,7 @@ describe('Atmoscoop', function() {
 
   it('Can\'t play', function() {
     player.playedCards.push(new Research());
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play - no targets', function() {

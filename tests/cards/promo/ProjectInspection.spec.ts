@@ -22,7 +22,7 @@ describe('ProjectInspection', function() {
 
   it('Can\'t play if no actions played this turn', function() {
     player.playedCards.push(restrictedArea);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if available actions can\'t act', function() {
@@ -30,7 +30,7 @@ describe('ProjectInspection', function() {
     player.setActionsThisGeneration(restrictedArea.name);
     player.megaCredits = 1;
 
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

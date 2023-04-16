@@ -18,7 +18,7 @@ describe('PowerSupplyConsortium', function() {
 
   it('Can\'t play without power tags', function() {
     player.addProduction(Resources.ENERGY, 3);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play - single target', function() {

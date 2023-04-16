@@ -11,7 +11,7 @@ describe('IshtarMining', function() {
     const redPlayer = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, redPlayer], player);
     game.increaseVenusScaleLevel(player, 3);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
     game.increaseVenusScaleLevel(player, 3);
     expect(game.getVenusScaleLevel()).eq(12);
     expect(card.canPlay(player)).is.true;

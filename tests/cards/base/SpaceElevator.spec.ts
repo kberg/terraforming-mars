@@ -16,7 +16,7 @@ describe('SpaceElevator', function() {
   });
 
   it('Can\'t act if no steel', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should play', function() {

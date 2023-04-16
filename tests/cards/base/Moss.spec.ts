@@ -20,13 +20,13 @@ describe('Moss', function() {
   it('Can\'t play without enough oceans', function() {
     TestingUtils.maxOutOceans(player, 2);
     player.plants = 1;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if have no plants', function() {
     TestingUtils.maxOutOceans(player, 3);
     player.plants = 0;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

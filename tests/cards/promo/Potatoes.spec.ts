@@ -15,7 +15,7 @@ describe('Potatoes', function() {
 
   it('Can\'t play', function() {
     player.plants = 1;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play with 1 plant if have Viral Enhancers', function() {

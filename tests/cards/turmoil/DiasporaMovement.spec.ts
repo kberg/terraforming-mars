@@ -27,7 +27,7 @@ describe('DiasporaMovement', function() {
 
   it('Can\'t play', function() {
     reds.sendDelegate(player.id, game);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

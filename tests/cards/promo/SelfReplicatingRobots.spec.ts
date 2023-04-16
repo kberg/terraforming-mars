@@ -19,7 +19,7 @@ describe('SelfReplicatingRobots', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {
@@ -29,7 +29,7 @@ describe('SelfReplicatingRobots', function() {
 
   it('Should act', function() {
     player.playedCards.push(card);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
 
     player.cardsInHand.push(new HousePrinting());
     expect(card.canAct(player)).is.true;

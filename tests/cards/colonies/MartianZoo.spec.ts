@@ -17,7 +17,7 @@ describe('MartianZoo', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {
@@ -32,7 +32,7 @@ describe('MartianZoo', function() {
 
   it('Can\'t act', function() {
     player.playedCards.push(card);
-    expect(card.canAct()).is.not.true;
+    expect(card.canAct()).is.false;
   });
 
   it('Should act', function() {

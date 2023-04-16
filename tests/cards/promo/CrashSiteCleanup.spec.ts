@@ -17,7 +17,7 @@ describe('CrashSiteCleanup', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play if removed plants from another player this generation', function() {

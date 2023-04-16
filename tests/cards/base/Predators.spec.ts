@@ -23,7 +23,7 @@ describe('Predators', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should play', function() {
@@ -100,6 +100,6 @@ describe('Predators', function() {
     player2.addResourceTo(animals);
     player2.addResourceTo(fish);
 
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 });

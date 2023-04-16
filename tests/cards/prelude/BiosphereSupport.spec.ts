@@ -14,7 +14,7 @@ describe('BiosphereSupport', function() {
 
   it('Can\'t play', function() {
     player.addProduction(Resources.MEGACREDITS, -5);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

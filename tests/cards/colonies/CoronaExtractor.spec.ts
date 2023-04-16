@@ -9,7 +9,7 @@ describe('CoronaExtractor', function() {
     const card = new CoronaExtractor();
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     const action = card.play(player);
     expect(action).is.undefined;

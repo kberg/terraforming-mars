@@ -21,7 +21,7 @@ describe('AerialLenses', function() {
   });
 
   it('Can play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     const kelvinists = game.turmoil!.getPartyByName(PartyName.KELVINISTS)!;
     kelvinists.delegates.push(player.id, player.id);

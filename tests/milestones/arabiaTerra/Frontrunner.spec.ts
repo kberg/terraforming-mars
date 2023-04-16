@@ -25,7 +25,7 @@ describe('Frontrunner', () => {
 
   it('Can claim with net 6 VP on played cards', () => {
     player.playedCards.push(new BribedCommittee());
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
 
     player.playedCards.push(new SpaceElevator());
     expect(milestone.canClaim(player)).is.true;

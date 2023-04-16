@@ -23,12 +23,12 @@ describe('NaturalPreserve', () => {
       game.addTile(player, land.spaceType, land, {tileType: TileType.NATURAL_PRESERVE});
     }
 
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play if oxygen level too high', () => {
     game.setOxygenLevel(5);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', () => {

@@ -16,7 +16,7 @@ describe('HiTechLab', function() {
   });
 
   it('Can\'t act if no energy resources available', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

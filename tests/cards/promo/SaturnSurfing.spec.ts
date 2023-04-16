@@ -28,7 +28,7 @@ describe('SaturnSurfing', function() {
     expect(card.resourceCount).eq(1);
 
     card.resourceCount = 0;
-    expect(card.canAct()).is.not.true;
+    expect(card.canAct()).is.false;
   });
 
   it('Can act', function() {

@@ -29,7 +29,7 @@ describe('Generalist', function() {
     Game.newInstance('foobar', [player, player2], player, gameOptions);
 
     resources.forEach((resource) => expect(player.getProduction(resource)).eq(1));
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
   });
 
   it('Can claim with +2 of each production in game without corp era', function() {

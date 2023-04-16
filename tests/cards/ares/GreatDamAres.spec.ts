@@ -21,7 +21,7 @@ describe('GreatDamAres', function() {
 
   it('Can play', function() {
     TestingUtils.maxOutOceans(player, 3);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     TestingUtils.maxOutOceans(player, 4);
     expect(card.canPlay(player)).is.true;

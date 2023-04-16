@@ -48,7 +48,7 @@ describe('Tactician', function() {
       player.playedCards.push(new LawSuit());
     }
 
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
   });
 
   it('Excludes event cards with requirements', function() {
@@ -60,7 +60,7 @@ describe('Tactician', function() {
     player.playedCards.push(new BannedDelegate());
     player.playedCards.push(new CrashSiteCleanup());
 
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
   });
 
   it('Can claim with 5 cards with requirements', function() {

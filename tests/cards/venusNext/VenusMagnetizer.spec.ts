@@ -17,7 +17,7 @@ describe('VenusMagnetizer', function() {
 
   it('Can\'t play', function() {
     game.setVenusScaleLevel(8);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

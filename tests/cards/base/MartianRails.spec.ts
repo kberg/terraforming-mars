@@ -18,7 +18,7 @@ describe('MartianRails', () => {
 
   it('Can not act without energy', () => {
     expect(card.play(player)).is.undefined;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', () => {

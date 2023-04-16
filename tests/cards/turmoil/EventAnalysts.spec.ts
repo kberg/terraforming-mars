@@ -12,7 +12,7 @@ describe('EventAnalysts', function() {
 
     const gameOptions = TestingUtils.setCustomGameOptions();
     const game = Game.newInstance('foobar', [player], player, gameOptions);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     game.turmoil!.sendDelegateToParty(player.id, PartyName.SCIENTISTS, game);
     game.turmoil!.sendDelegateToParty(player.id, PartyName.SCIENTISTS, game);

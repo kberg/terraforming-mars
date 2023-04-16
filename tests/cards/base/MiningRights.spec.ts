@@ -24,7 +24,7 @@ describe('MiningRights', () => {
         game.addTile(player, land.spaceType, land, {tileType: TileType.MINING_RIGHTS});
       }
     }
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', () => {

@@ -21,7 +21,7 @@ describe('JovianLanterns', function() {
 
   it('Can\'t act', function() {
     player.playedCards.push(card);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

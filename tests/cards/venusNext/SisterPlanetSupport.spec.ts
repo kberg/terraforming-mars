@@ -10,13 +10,13 @@ describe('SisterPlanetSupport', function() {
     const player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
 
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {earth: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1, earth: 1};
     expect(card.canPlay(player)).is.true;

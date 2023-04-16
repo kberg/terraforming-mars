@@ -19,10 +19,10 @@ describe('VoteOfNoConfidence', function() {
   });
 
   it('Should play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     turmoil.chairman = 'NEUTRAL';
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     const greens = turmoil.getPartyByName(PartyName.GREENS)!;
     greens.partyLeader = player.id;

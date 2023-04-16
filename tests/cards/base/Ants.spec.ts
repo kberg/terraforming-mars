@@ -21,7 +21,7 @@ describe('Ants', function() {
 
   it('Can\'t play without oxygen', function() {
     game.setOxygenLevel(3);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {
@@ -38,7 +38,7 @@ describe('Ants', function() {
     const nitriteReducingBacteria = {resourceType: ResourceType.MICROBE, resourceCount: 0} as IProjectCard;
 
     player.playedCards.push(card);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
 
     player2.playedCards.push(tardigrades, nitriteReducingBacteria);
     tardigrades.resourceCount!++;
@@ -66,7 +66,7 @@ describe('Ants', function() {
     expect(card.canAct(player)).is.true;
 
     player2.playedCards.push(protectedHabitats);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Only microbes are available to steal', function() {

@@ -18,7 +18,7 @@ describe('DiversitySupport', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', function() {
@@ -30,7 +30,7 @@ describe('DiversitySupport', function() {
     dirigibles.resourceCount = 4;
     fish.resourceCount = 3;
     ants.resourceCount = 2;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     // 6 standard resources
     player.megaCredits = 10;

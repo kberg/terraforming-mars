@@ -16,7 +16,7 @@ describe('VenusianInsects', () => {
 
   it('Cannot play', () => {
     game.setVenusScaleLevel(10);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', () => {

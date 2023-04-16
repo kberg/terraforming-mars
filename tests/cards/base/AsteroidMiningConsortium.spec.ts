@@ -17,7 +17,7 @@ describe('AsteroidMiningConsortium', function() {
   });
 
   it('Can\'t play if no titanium production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play if player has titanium production', function() {

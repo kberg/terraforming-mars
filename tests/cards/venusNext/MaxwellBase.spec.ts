@@ -29,13 +29,13 @@ describe('MaxwellBase', function() {
 
   it('Can\'t play without energy production', function() {
     game.setVenusScaleLevel(12);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if Venus requirement not met', function() {
     player.addProduction(Resources.ENERGY, 1);
     game.setVenusScaleLevel(10);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {
@@ -53,7 +53,7 @@ describe('MaxwellBase', function() {
     const card3 = new AerialMappers();
 
     player.playedCards.push(card, card2);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
 
     player.playedCards.push(card3);
     expect(card.canAct(player)).is.true;

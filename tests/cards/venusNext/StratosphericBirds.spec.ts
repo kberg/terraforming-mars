@@ -25,12 +25,12 @@ describe('StratosphericBirds', () => {
     player.playedCards.push(deuteriumExport);
     player.addResourceTo(deuteriumExport, 1);
     game.setVenusScaleLevel(10);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play if no floater', () => {
     game.setVenusScaleLevel(12);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', () => {
@@ -88,7 +88,7 @@ describe('StratosphericBirds', () => {
     player.megaCredits = 9;
 
     // 9 M€ + 1 Dirigibles floater: Cannot play
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     // 12 M€ + 1 Dirigibles floater: Card is playable
     player.megaCredits = 12;

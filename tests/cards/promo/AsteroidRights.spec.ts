@@ -30,7 +30,7 @@ describe('AsteroidRights', function() {
   it('Can\'t act', function() {
     player.megaCredits = 0;
     card.resourceCount = 0;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act - can auto spend asteroid resource', function() {

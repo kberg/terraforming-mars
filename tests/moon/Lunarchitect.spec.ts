@@ -21,17 +21,17 @@ describe('Lunarchitect', function() {
 
   it('Basic test', function() {
     const milestone = new Lunarchitect();
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm01', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm02', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm03', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm04', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm05', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm06', {tileType: TileType.MOON_MINE});
     expect(milestone.canClaim(player)).is.true;
   });
@@ -39,16 +39,16 @@ describe('Lunarchitect', function() {
 
   it('Other player tokens do not count', function() {
     const milestone = new Lunarchitect();
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     MoonExpansion.addTile(player, 'm01', {tileType: TileType.MOON_MINE});
     MoonExpansion.addTile(player, 'm02', {tileType: TileType.MOON_MINE});
     MoonExpansion.addTile(player, 'm03', {tileType: TileType.MOON_MINE});
     MoonExpansion.addTile(player, 'm04', {tileType: TileType.MOON_MINE});
     MoonExpansion.addTile(player, 'm05', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
 
     MoonExpansion.addTile(otherPlayer, 'm06', {tileType: TileType.MOON_MINE});
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
 
     MoonExpansion.addTile(player, 'm07', {tileType: TileType.MOON_MINE});
     expect(milestone.canClaim(player)).is.true;

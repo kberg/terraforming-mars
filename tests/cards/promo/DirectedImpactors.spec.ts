@@ -25,7 +25,7 @@ describe('DirectedImpactors', function() {
 
   it('Should act - single action choice, single target', function() {
     player.playedCards.push(card);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
 
     player.megaCredits = 3;
     player.titanium = 1;

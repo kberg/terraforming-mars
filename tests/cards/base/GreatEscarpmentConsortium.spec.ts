@@ -17,7 +17,7 @@ describe('GreatEscarpmentConsortium', function() {
   });
 
   it('Cannot play without steel production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play if player has steel production', function() {

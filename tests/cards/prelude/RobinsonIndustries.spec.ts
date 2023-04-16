@@ -19,7 +19,7 @@ describe('RobinsonIndustries', function() {
 
   it('Can\'t act', function() {
     player.megaCredits = 3;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Can act', function() {

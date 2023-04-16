@@ -9,25 +9,25 @@ describe('Omnicourt', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const redPlayer = TestPlayers.RED.newPlayer();
     Game.newInstance('foobar', [player, redPlayer], player);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {earth: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {jovian: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1, earth: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {jovian: 1, earth: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1, jovian: 1};
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.tagsForTest = {venus: 1, jovian: 1, earth: 1};
     expect(card.canPlay(player)).is.true;

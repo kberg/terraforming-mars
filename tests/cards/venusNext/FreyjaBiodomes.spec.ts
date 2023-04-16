@@ -21,13 +21,13 @@ describe('FreyjaBiodomes', function() {
 
   it('Can\'t play without energy production', function() {
     game.setVenusScaleLevel(10);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if Venus requirement not met', function() {
     player.addProduction(Resources.ENERGY, 1);
     game.setVenusScaleLevel(8);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play - single target', function() {

@@ -35,7 +35,7 @@ describe('GiantSolarShade', function() {
     player.game.turmoil!.rulingParty = new Reds();
     PoliticalAgendas.setNextAgenda(game.turmoil!, game);
     player.megaCredits = 27;
-    expect(player.canPlay(card)).is.not.true;
+    expect(player.canPlay(card)).is.false;
     player.playedCards.push(new Dirigibles());
     player.addResourceTo(player.playedCards[0], 3);
     expect(player.canPlay(card)).is.true;

@@ -33,7 +33,7 @@ describe('SponsoredAcademies', function() {
   });
 
   it('Should play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
     player.cardsInHand.push(tardigrades, housePrinting);
     expect(card.canPlay(player)).is.true;
 

@@ -18,13 +18,13 @@ describe('DomedCrater', function() {
   });
 
   it('Can\'t play without energy production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play if oxygen level too high', function() {
     player.addProduction(Resources.ENERGY, 1);
     game.setOxygenLevel(8);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

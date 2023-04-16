@@ -218,7 +218,7 @@ describe('Turmoil', function() {
     const nitrogenFromTitan = new NitrogenFromTitan();
 
     player.megaCredits = 29;
-    expect(nitrogenFromTitan.canPlay(player)).is.not.true; // needs 31 MC
+    expect(nitrogenFromTitan.canPlay(player)).is.false; // needs 31 MC
 
     player.playedCards.push(new SpaceStation());
     expect(nitrogenFromTitan.canPlay(player)).is.true; // 25 + 6 - 2

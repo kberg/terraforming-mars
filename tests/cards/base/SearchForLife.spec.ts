@@ -16,12 +16,12 @@ describe('SearchForLife', function() {
   });
 
   it('Can\'t act if no MC', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Can\'t play if oxygen level too high', function() {
     game.setOxygenLevel(7);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

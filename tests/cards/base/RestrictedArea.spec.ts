@@ -18,7 +18,7 @@ describe('RestrictedArea', function() {
 
   it('Can\'t act if not enough MC', function() {
     player.megaCredits = 1;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should play', function() {

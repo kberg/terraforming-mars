@@ -17,7 +17,7 @@ describe('UndergroundDetonations', function() {
 
   it('Can\'t act', function() {
     player.megaCredits = 9;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

@@ -17,7 +17,7 @@ describe('WaterImportFromEuropa', function() {
   });
 
   it('Can\'t act', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should play - correct victory points', function() {

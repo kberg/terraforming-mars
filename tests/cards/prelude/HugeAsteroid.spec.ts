@@ -16,7 +16,7 @@ describe('HugeAsteroid', function() {
 
   it('Can\'t play', function() {
     player.megaCredits = 4;
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

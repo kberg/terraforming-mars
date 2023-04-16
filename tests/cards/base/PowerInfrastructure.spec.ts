@@ -17,7 +17,7 @@ describe('PowerInfrastructure', function() {
 
   it('Can\'t act', function() {
     card.play(player);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act automatically with only 1 energy', function() {

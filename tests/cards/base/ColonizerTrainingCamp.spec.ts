@@ -16,7 +16,7 @@ describe('ColonizerTrainingCamp', function() {
 
   it('Can\'t play', function() {
     game.setOxygenLevel(6);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
   it('Should play', function() {
     game.setOxygenLevel(5);

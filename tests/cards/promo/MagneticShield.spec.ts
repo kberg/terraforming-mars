@@ -16,7 +16,7 @@ describe('MagneticShield', function() {
   });
 
   it('Can\'t play if not enough power tags available', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

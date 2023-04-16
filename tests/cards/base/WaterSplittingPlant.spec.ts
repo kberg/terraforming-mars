@@ -16,7 +16,7 @@ describe('WaterSplittingPlant', function() {
   });
 
   it('Can\'t play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', function() {
@@ -26,7 +26,7 @@ describe('WaterSplittingPlant', function() {
 
   it('Can\'t act', function() {
     player.energy = 2;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

@@ -20,7 +20,7 @@ describe('Diversifier', function() {
   });
 
   it('Counts wildcard tags as unique tags', function() {
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
 
     for (let i = 0; i < 8; i++) {
       player.playedCards.push(new ResearchNetwork());

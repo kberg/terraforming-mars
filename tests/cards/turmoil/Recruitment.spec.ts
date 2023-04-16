@@ -16,10 +16,10 @@ describe('Recruitment', function() {
     game.turmoil!.parties.forEach((party) => {
       party.delegates = [];
     });
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     game.turmoil!.sendDelegateToParty('NEUTRAL', PartyName.GREENS, game);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
     game.turmoil!.sendDelegateToParty('NEUTRAL', PartyName.GREENS, game);
     expect(card.canPlay(player)).is.true;
 

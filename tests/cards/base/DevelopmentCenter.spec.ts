@@ -15,7 +15,7 @@ describe('DevelopmentCenter', function() {
   });
 
   it('Can\'t act', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

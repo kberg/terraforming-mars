@@ -12,7 +12,7 @@ describe('SecurityFleet', function() {
   });
 
   it('Can\'t act if no titanium', function() {
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

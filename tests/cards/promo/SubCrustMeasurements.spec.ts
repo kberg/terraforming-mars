@@ -16,7 +16,7 @@ describe('SubCrustMeasurements', function() {
   });
 
   it('Can\'t play if not enough science tags', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

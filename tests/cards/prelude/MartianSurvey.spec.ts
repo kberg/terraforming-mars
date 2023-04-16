@@ -15,7 +15,7 @@ describe('MartianSurvey', function() {
 
   it('Cannot play', () => {
     game.setOxygenLevel(5);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
   it('Can play', () => {
     game.setOxygenLevel(4);

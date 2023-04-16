@@ -13,7 +13,7 @@ describe('Meltworks', function() {
 
   it('Can\'t act', function() {
     player.heat = 4;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

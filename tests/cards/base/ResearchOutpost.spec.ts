@@ -31,6 +31,6 @@ describe('ResearchOutpost', function() {
       game.addGreenery(player, lands[i].id);
     }
 
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 });

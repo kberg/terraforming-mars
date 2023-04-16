@@ -20,18 +20,18 @@ describe('CloudSeeding', () => {
   it('Cannot play if cannot reduce M€ production', () => {
     TestingUtils.maxOutOceans(player, 3);
     player.addProduction(Resources.MEGACREDITS, -5);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play if ocean requirements not met', () => {
     TestingUtils.maxOutOceans(player, 2);
     player.addProduction(Resources.HEAT, 1);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play if no one has heat production', () => {
     TestingUtils.maxOutOceans(player, 3);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play', () => {

@@ -40,13 +40,13 @@ describe('RoboticWorkforce', () => {
   });
 
   it('Cannot play if no building cards to copy', () => {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Cannot play when production must go down', () => {
     // Food factory needs one unit of plant production
     player.playedCards.push(new FoodFactory());
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.setProductionForTest({plants: 1});
     expect(card.canPlay(player)).is.true;
@@ -55,7 +55,7 @@ describe('RoboticWorkforce', () => {
   it('Cannot play when any production must go down', () => {
     // Biomass Combustors needs any player to have plant production
     player.playedCards.push(new BiomassCombustors());
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     redPlayer.setProductionForTest({plants: 1});
     expect(card.canPlay(player)).is.true;

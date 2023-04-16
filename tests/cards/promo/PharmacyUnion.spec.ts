@@ -140,7 +140,7 @@ describe('PharmacyUnion', function() {
     orOptions.options[0].cb();
     expect(card.isDisabled).is.true;
     expect(player.getTagCount(Tags.MICROBE)).eq(0);
-    expect(advancedEcosystems.canPlay(player)).is.not.true;
+    expect(advancedEcosystems.canPlay(player)).is.false;
   });
 
   it('Edge Case - Let player pick the tag resolution order', function() {

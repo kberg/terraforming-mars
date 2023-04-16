@@ -18,11 +18,11 @@ describe('AdvancedEcosystems', function() {
   });
 
   it('Can\'t play if tag requirements is unmet', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.playedCards.push({tags: [Tags.MICROBE]} as IProjectCard);
     expect(card.canPlay(player)).is.true;

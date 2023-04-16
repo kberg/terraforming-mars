@@ -17,7 +17,7 @@ describe('LawSuit', () => {
   });
 
   it('Cannot play if no resources or production reduced this turn', () => {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can play if resources removed this turn by other player', () => {

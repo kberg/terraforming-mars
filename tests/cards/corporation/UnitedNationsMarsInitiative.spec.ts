@@ -17,13 +17,13 @@ describe('UnitedNationsMarsInitiative', function() {
 
   it('Can\'t act if TR was not raised', function() {
     player.megaCredits = 10;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Can\'t act if not enough MC', function() {
     player.setTerraformRating(21);
     player.megaCredits = 2;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Should act', function() {

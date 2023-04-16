@@ -23,7 +23,7 @@ describe('Cultural Metropolis', function() {
   });
 
   it('Can\'t play without energy production', function() {
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Can\'t play without 2 delegates available', function() {
@@ -33,7 +33,7 @@ describe('Cultural Metropolis', function() {
       reds.sendDelegate(player.id, game);
     }
 
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

@@ -32,7 +32,7 @@ describe('Playwrights', () => {
 
   it('Cannot act without any played events', () => {
     expect(player.getProduction(Resources.ENERGY)).eq(1);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Can replay own event', () => {
@@ -42,7 +42,7 @@ describe('Playwrights', () => {
     player.playedCards.push(event);
 
     expect(player.getTerraformRating()).eq(tr + 2);
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
 
     player.megaCredits = event.cost;
     expect(card.canAct(player)).is.true;
@@ -85,7 +85,7 @@ describe('Playwrights', () => {
     game.setOxygenLevel(5);
     player.heat = 4;
     player.megaCredits = 30;
-    expect(card.canAct(player)).is.not.true;
+    expect(card.canAct(player)).is.false;
   });
 
   it('Acts correctly for event cards that give one time discount', () => {

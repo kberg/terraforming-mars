@@ -18,7 +18,7 @@ describe('OneGiantStep', () => {
   });
 
   it('Standard test', () => {
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     player.playedCards = [
       new CoreMine(),
       new CoreMine(),
@@ -26,7 +26,7 @@ describe('OneGiantStep', () => {
       new CoreMine(),
       new CoreMine(),
     ];
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     player.playedCards = [
       new CoreMine(),
       new CoreMine(),
@@ -46,7 +46,7 @@ describe('OneGiantStep', () => {
       new CoreMine(),
       new CoreMine(),
     ];
-    expect(milestone.canClaim(player)).is.not.true;
+    expect(milestone.canClaim(player)).is.false;
     player.playedCards.push(new ResearchNetwork());
     expect(milestone.canClaim(player)).is.true;
   });

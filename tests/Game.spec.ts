@@ -268,7 +268,7 @@ describe('Game', () => {
     // Now game should be in finished state
     expect(game.phase).eq(Phase.END);
 
-    expect(game.isSoloModeWin()).is.not.true;
+    expect(game.isSoloModeWin()).is.false;
   });
 
   it('Should not finish solo game before last generation if Mars is already terraformed', () => {
@@ -355,7 +355,7 @@ describe('Game', () => {
     game.playerHasPassed(player);
     game.playerIsDoneWithGame(player);
     expect(game.phase).eq(Phase.END);
-    expect(game.isSoloModeWin()).is.not.true;
+    expect(game.isSoloModeWin()).is.false;
 
     // Don't give TR or raise oxygen for final greenery placements
     expect(player.getTerraformRating()).eq(20);
@@ -554,7 +554,7 @@ describe('Game', () => {
     const ecologist = new Ecologist();
 
     player.playedCards.push(card1, card2);
-    expect(ecologist.canClaim(player)).is.not.true;
+    expect(ecologist.canClaim(player)).is.false;
     player.playedCards.push(card1, card2);
     expect(ecologist.canClaim(player)).is.true;
   });

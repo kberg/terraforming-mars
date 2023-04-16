@@ -17,7 +17,7 @@ describe('Zeppelins', function() {
 
   it('Can\'t play', function() {
     game.setOxygenLevel(4);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
   it('Should play', function() {
     game.setOxygenLevel(5);

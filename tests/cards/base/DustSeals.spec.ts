@@ -17,7 +17,7 @@ describe('DustSeals', function() {
 
   it('Can\'t play', function() {
     TestingUtils.maxOutOceans(player, 4);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play', function() {

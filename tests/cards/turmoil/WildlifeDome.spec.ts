@@ -26,7 +26,7 @@ describe('WildlifeDome', function() {
   it('Should play: reds', function() {
     game.turmoil!.rulingParty = game.turmoil!.getPartyByName(PartyName.REDS)!;
     PoliticalAgendas.setNextAgenda(game.turmoil!, game);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
   });
 
   it('Should play: greens', function() {
@@ -36,7 +36,7 @@ describe('WildlifeDome', function() {
 
     const greens = game.turmoil!.getPartyByName(PartyName.GREENS)!;
     greens.delegates.push(player.id, player.id);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     player.megaCredits = 18;
     expect(card.canPlay(player)).is.true;

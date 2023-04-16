@@ -15,7 +15,7 @@ describe('RedTourismWave', function() {
     const redPlayer = TestPlayers.RED.newPlayer();
     const gameOptions = TestingUtils.setCustomGameOptions();
     const game = Game.newInstance('foobar', [player, redPlayer], player, gameOptions);
-    expect(card.canPlay(player)).is.not.true;
+    expect(card.canPlay(player)).is.false;
 
     const reds = game.turmoil!.getPartyByName(PartyName.REDS)!;
     reds.delegates.push(player.id, player.id);
