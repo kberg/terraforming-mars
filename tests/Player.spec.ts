@@ -27,7 +27,7 @@ import {Reds} from '../src/turmoil/parties/Reds';
 import {PoliticalAgendas} from '../src/turmoil/PoliticalAgendas';
 import {LavaFlows} from '../src/cards/base/LavaFlows';
 import {StripMine} from '../src/cards/base/StripMine';
-import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../src/constants';
+import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE} from '../src/constants';
 import {GiantSolarShade} from '../src/cards/venusNext/GiantSolarShade';
 import {Luna} from '../src/colonies/Luna';
 import {Callisto} from '../src/colonies/Callisto';
@@ -65,12 +65,11 @@ describe('Player', function() {
   it('Should error with input for run select player for PowerSupplyConsortium', function() {
     const card = new PowerSupplyConsortium();
     const player = TestPlayers.BLUE.newPlayer();
-    // const redPlayer = TestPlayers.RED.newPlayer();
 
     Game.newInstance('foobar', [player], player);
     player.playedCards.push(new LunarBeam());
     player.playedCards.push(new LunarBeam());
-    const action = card.play(player); // , Game.newInstance('foobar', [player, redPlayer], player));
+    const action = card.play(player);
     if (action !== undefined) {
       player.setWaitingFor(action);
       expect(player.getWaitingFor()).is.not.undefined;
@@ -92,7 +91,7 @@ describe('Player', function() {
 
     player.addProduction(Resources.HEAT, 2);
     Game.newInstance('foobar', [player, redPlayer], player);
-    const action = card.play(player); // Game.newInstance('foobar', [player, redPlayer], player));
+    const action = card.play(player);
     expect(action).is.not.undefined;
     if (action === undefined) return;
     player.setWaitingFor(action);
@@ -660,7 +659,7 @@ it('canPlay: reds tax applies by default when raising oxygen', function() {
   player.megaCredits = card.cost + 6;
   expect(player.canPlay(card)).is.true;
 
-  (game as any).oxygenLevel = MAX_OXYGEN_LEVEL - 1;
+  game.setOxygenLevel(MAX_OXYGEN_LEVEL - 1);
   expect(player.computeTerraformRatingBump(card)).to.eq(1);
 
   player.megaCredits = card.cost + 2;
@@ -670,7 +669,7 @@ it('canPlay: reds tax applies by default when raising oxygen', function() {
   player.megaCredits = card.cost + 3;
   expect(player.canPlay(card)).is.true;
 
-  (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+  game.setOxygenLevel(MAX_OXYGEN_LEVEL);
   expect(player.computeTerraformRatingBump(card)).to.eq(0);
 
   player.megaCredits = card.cost;
@@ -691,7 +690,7 @@ it('canPlay: when paying reds tax for oxygen, include the cost for the 8% temper
   PoliticalAgendas.setNextAgenda(turmoil, game);
 
   // Raising to 8%
-  (game as any).oxygenLevel = 7;
+  game.setOxygenLevel(7);
 
   player.megaCredits = card.cost + 8;
   expect(player.canPlay(card)).is.false;
@@ -712,9 +711,9 @@ it('canPlay: when paying reds tax for oxygen, include the cost for the 8% temper
   PoliticalAgendas.setNextAgenda(turmoil, game);
 
   // Raising to 8%
-  (game as any).oxygenLevel = 7;
+  game.setOxygenLevel(7);
   // Raising to 0
-  (game as any).temperature = -2;
+  game.setTemperature(-2);
 
   player.megaCredits = card.cost + 11;
   expect(player.canPlay(card)).is.false;
@@ -746,14 +745,14 @@ it('canPlay: reds tax applies by default when raising temperature', function() {
     expect(player.canPlay(card)).is.true;
   
     // Set temperature so it only raises one step.
-    (game as any).temperature = 6;
+    game.setTemperature(6);
   
     player.megaCredits = card.cost;
     expect(player.canPlay(card)).is.false;
     player.megaCredits = card.cost + 3;
     expect(player.canPlay(card)).is.true;
   
-    (game as any).temperature = 8;
+    game.setTemperature(MAX_TEMPERATURE);
   
     player.megaCredits = card.cost;
     expect(player.canPlay(card)).is.true;
@@ -772,7 +771,7 @@ it('canPlay: reds tax applies by default when raising temperature', function() {
     PoliticalAgendas.setNextAgenda(turmoil, game);
   
     // Raising to 0
-    (game as any).temperature = -2;
+    game.setTemperature(-2);
   
     player.megaCredits = card.cost + 6;
     expect(player.canPlay(card)).is.false;
@@ -789,7 +788,7 @@ it('canPlay: reds tax applies by default when placing oceans', function() {
   const player = TestPlayers.BLUE.newPlayer();
   const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions());
   const turmoil = game.turmoil!;
-  (game as any).temperature = -6; // minimum requirement for the card.
+  game.setTemperature(-6);
   game.phase = Phase.ACTION;
 
   turmoil.rulingParty = new Greens();
@@ -834,15 +833,14 @@ it('canPlay: reds tax applies by default when raising the venus scale.', functio
   expect(player.canPlay(card)).is.true;
 
   // Set Venus so it only raises one step.
-  (game as any).venusScaleLevel = MAX_VENUS_SCALE - 2;
+  game.setVenusScaleLevel(MAX_VENUS_SCALE - 2);
 
   player.megaCredits = card.cost;
   expect(player.canPlay(card)).is.false;
   player.megaCredits = card.cost + 3;
   expect(player.canPlay(card)).is.true;
 
-  (game as any).venusScaleLevel = MAX_VENUS_SCALE;
-
+  game.setVenusScaleLevel(MAX_VENUS_SCALE);
   player.megaCredits = card.cost;
   expect(player.canPlay(card)).is.true;
 });
@@ -859,7 +857,7 @@ it('canPlay: when paying reds tax for venus, include the cost for the 16% TR', f
   PoliticalAgendas.setNextAgenda(turmoil, game);
 
   // Raising to or above 16%
-  (game as any).venusScaleLevel = 14;
+  game.setVenusScaleLevel(14);
 
   player.megaCredits = card.cost + 11;
   expect(player.canPlay(card)).is.false;

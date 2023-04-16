@@ -27,6 +27,7 @@ import {RandomMAOptionType} from '../src/RandomMAOptionType';
 import {SpaceBonus} from '../src/SpaceBonus';
 import {TileType} from '../src/TileType';
 import {ALL_MILESTONES} from '../src/milestones/Milestones';
+import { TestPlayer } from './TestPlayer';
 
 describe('Game', () => {
   it('should initialize with right defaults', () => {
@@ -39,16 +40,13 @@ describe('Game', () => {
 
   it('sets starting production if corporate era not selected', () => {
     const player = TestPlayers.BLUE.newPlayer();
-
     const gameOptions = TestingUtils.setCustomGameOptions({corporateEra: false});
 
     Game.newInstance('foobar', [player], player, gameOptions);
-    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
-    expect(player.getProduction(Resources.STEEL)).eq(1);
-    expect(player.getProduction(Resources.TITANIUM)).eq(1);
-    expect(player.getProduction(Resources.PLANTS)).eq(1);
-    expect(player.getProduction(Resources.ENERGY)).eq(1);
-    expect(player.getProduction(Resources.HEAT)).eq(1);
+
+    [Resources.MEGACREDITS, Resources.STEEL, Resources.TITANIUM, Resources.PLANTS, Resources.ENERGY, Resources.HEAT].forEach((prod) => {
+      expect(player.getProduction(prod)).eq(1);
+    });
   });
 
   it('correctly calculates victory points', () => {
@@ -118,7 +116,7 @@ describe('Game', () => {
     const player2 = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('game-id', [player, player2], player);
 
-    (game as any).temperature = 6;
+    game.setTemperature(6);
     let initialTR = player.getTerraformRating();
     game.increaseTemperature(player, 2);
 
@@ -126,7 +124,7 @@ describe('Game', () => {
     expect(player.getTerraformRating()).eq(initialTR + 1);
 
     initialTR = player.getTerraformRating();
-    (game as any).temperature = 6;
+    game.setTemperature(6);
 
     // Try 3 steps increase
     game.increaseTemperature(player, 3);
@@ -139,7 +137,7 @@ describe('Game', () => {
     const player2 = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('game-id', [player, player2], player);
 
-    (game as any).oxygenLevel = 13;
+    game.setOxygenLevel(13);
     const initialTR = player.getTerraformRating();
     game.increaseOxygenLevel(player, 2);
 
@@ -188,11 +186,12 @@ describe('Game', () => {
     const game = Game.newInstance('venusterraform', [player, player2], player);
     game.gameOptions.venusNextExtension = true;
     game.gameOptions.requiresVenusTrackCompletion = true;
-    (game as any).temperature = constants.MAX_TEMPERATURE;
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
-    // (game as any).venusScaleLevel = constants.MAX_VENUS_SCALE;
-    (game as any).venusScaleLevel = 6;
+
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
+    game.setVenusScaleLevel(6);
     TestingUtils.maxOutOceans(player);
+
     // Skip final greenery Phase
     player.plants = 0;
     player2.plants = 0;
@@ -215,10 +214,12 @@ describe('Game', () => {
     const game = Game.newInstance('venusterraform', [player, player2], player);
     game.gameOptions.venusNextExtension = true;
     game.gameOptions.requiresVenusTrackCompletion = true;
-    (game as any).temperature = constants.MAX_TEMPERATURE;
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
-    (game as any).venusScaleLevel = constants.MAX_VENUS_SCALE;
+
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
+    game.setVenusScaleLevel(constants.MAX_VENUS_SCALE);
     TestingUtils.maxOutOceans(player);
+
     // Skip final greenery Phase
     player.plants = 0;
     player2.plants = 0;
@@ -242,10 +243,12 @@ describe('Game', () => {
     const game = Game.newInstance('venusterraform', [player, player2], player);
     game.gameOptions.venusNextExtension = true;
     game.gameOptions.requiresVenusTrackCompletion = true;
-    (game as any).temperature = 2;
-    (game as any).oxygenLevel = 2;
-    (game as any).venusScaleLevel = constants.MAX_VENUS_SCALE;
+
+    game.setTemperature(2);
+    game.setOxygenLevel(2);
+    game.setVenusScaleLevel(constants.MAX_VENUS_SCALE);
     TestingUtils.maxOutOceans(player);
+
     // Skip final greenery Phase
     player.plants = 0;
     player2.plants = 0;
@@ -275,8 +278,8 @@ describe('Game', () => {
     game.generation = 10;
 
     // Terraform
-    (game as any).temperature = constants.MAX_TEMPERATURE;
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
     TestingUtils.maxOutOceans(player);
 
     player.plants = 0; // Skip final greenery Phase
@@ -323,8 +326,8 @@ describe('Game', () => {
     game.generation = 14;
 
     // Terraform
-    (game as any).temperature = constants.MAX_TEMPERATURE;
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL - 2;
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL - 2);
     TestingUtils.maxOutOceans(player);
 
     // Must remove waitingFor or playerIsFinishedTakingActions
@@ -369,8 +372,8 @@ describe('Game', () => {
     TestingUtils.resetBoard(game);
 
     // Terraform
-    (game as any).temperature = constants.MAX_TEMPERATURE;
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL - 2;
+    game.setTemperature(constants.MAX_TEMPERATURE);
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL - 2);
     TestingUtils.maxOutOceans(player);
 
     // Must remove waitingFor or playerIsFinishedTakingActions
@@ -688,14 +691,22 @@ describe('Game', () => {
     expect(player.plants).eq(1);
     expect(player.titanium).eq(1);
   });
+});
 
-  /**
+describe('serialization and deserialization', () => {
+    /**
    * ensure as we modify properties we consider
    * serialization. if this fails update SerializedGame
    * to match
    */
-  it('serializes properties', () => {
-    const player = TestPlayers.BLUE.newPlayer();
+  let player: TestPlayer; let player2: TestPlayer;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+    player2 = TestPlayers.RED.newPlayer();
+  });
+
+  it('serializes default properties', () => {
     const game = Game.newInstance('foobar', [player], player);
     const serialized = game.serialize();
     const serializedKeys = Object.keys(serialized);
@@ -705,7 +716,6 @@ describe('Game', () => {
   });
 
   it('serializes every property', () => {
-    const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({moonExpansion: true}));
     const serialized = game.serialize();
     const serializedKeys = Object.keys(serialized);
@@ -714,7 +724,6 @@ describe('Game', () => {
   });
 
   it('deserializing a game without moon data still loads', () => {
-    const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player, TestingUtils.setCustomGameOptions({moonExpansion: false}));
     const serialized = game.serialize();
     delete serialized['moonData'];
@@ -723,8 +732,6 @@ describe('Game', () => {
   });
 
   it('deserializing a game with milestone as an object', () => {
-    const player = TestPlayers.BLUE.newPlayer();
-    const player2 = TestPlayers.RED.newPlayer();
     const game = Game.newInstance('foobar', [player, player2], player);
     const serialized = game.serialize();
     serialized.milestones = serialized.milestones.map((a: any) => ALL_MILESTONES.find((b) => b.name === a)!);

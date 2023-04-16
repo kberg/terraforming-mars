@@ -7,7 +7,7 @@ import {CardName} from '../src/CardName';
 
 describe('CardLoader', function() {
   it('correctly removes projectCardsToRemove', function() {
-    // include corporate era
+    // exclude corporate era
     const gameOptions = TestingUtils.setCustomGameOptions({
       corporateEra: false,
       preludeExtension: false,
@@ -35,13 +35,11 @@ describe('CardLoader', function() {
       communityCardsOption: false,
       aresExtension: false,
     });
-    expect(new CardLoader(gameOptions).getProjectCards().length)
-      .eq(208);
+    expect(new CardLoader(gameOptions).getProjectCards().length).eq(208);
 
     // exclude corporate era
     gameOptions.corporateEra = false;
-    expect(new CardLoader(gameOptions).getProjectCards().length)
-      .eq(137);
+    expect(new CardLoader(gameOptions).getProjectCards().length).eq(137);
   });
 
   it('excludes expansion-specific preludes if those expansions are not selected ', function() {
