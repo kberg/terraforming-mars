@@ -27,7 +27,7 @@ describe('Predators', function() {
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 11;
+    game.setOxygenLevel(11);
     expect(card.canPlay(player)).is.true;
     player.playedCards.push(card);
     card.play();

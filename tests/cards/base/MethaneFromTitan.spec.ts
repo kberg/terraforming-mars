@@ -20,7 +20,7 @@ describe('MethaneFromTitan', function() {
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 2;
+    game.setOxygenLevel(2);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

@@ -16,11 +16,11 @@ describe('Zeppelins', function() {
   });
 
   it('Can\'t play', function() {
-    (game as any).oxygenLevel = 4;
+    game.setOxygenLevel(4);
     expect(card.canPlay(player)).is.not.true;
   });
   it('Should play', function() {
-    (game as any).oxygenLevel = 5;
+    game.setOxygenLevel(5);
     expect(card.canPlay(player)).is.true;
 
     const lands = game.board.getAvailableSpacesOnLand(player);

@@ -27,12 +27,12 @@ describe('NaturalPreserve', () => {
   });
 
   it('Cannot play if oxygen level too high', () => {
-    (game as any).oxygenLevel = 5;
+    game.setOxygenLevel(5);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can play', () => {
-    (game as any).oxygenLevel = 4;
+    game.setOxygenLevel(4);
     expect(card.canPlay(player)).is.true;
   });
 

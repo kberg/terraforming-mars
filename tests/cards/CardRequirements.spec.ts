@@ -56,9 +56,9 @@ describe('CardRequirements', function() {
   it('satisfies properly for oxygen', function() {
     const requirements = CardRequirements.builder((b) => b.oxygen(4));
     expect(requirements.satisfies(player)).eq(false);
-    (player.game as any).oxygenLevel = 4;
+    player.game.setOxygenLevel(4);
     expect(requirements.satisfies(player)).eq(true);
-    (player.game as any).oxygenLevel = 3;
+    player.game.setOxygenLevel(3);
     expect(requirements.satisfies(player)).eq(false);
     player.playCard(adaptationTechnology);
     expect(requirements.satisfies(player)).eq(true);

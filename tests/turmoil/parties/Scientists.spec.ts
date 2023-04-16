@@ -59,7 +59,7 @@ describe('Scientists', function() {
     TestingUtils.setRulingPartyAndRulingPolicy(game, turmoil, scientists, SCIENTISTS_POLICY_2.id);
 
     const card = new SearchForLife();
-    (game as any).oxygenLevel = 8;
+    game.setOxygenLevel(8);
     expect(card.canPlay(player)).to.be.true;
   });
 

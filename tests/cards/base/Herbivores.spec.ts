@@ -15,21 +15,20 @@ describe('Herbivores', () => {
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, player2], player);
+    game.setOxygenLevel(8);
   });
 
   it('Can\'t play if nobody has plant production', () => {
-    (game as any).oxygenLevel = 8;
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can\'t play if oxygen level too low', () => {
-    (game as any).oxygenLevel = 7;
+    game.setOxygenLevel(7);
     player2.addProduction(Resources.PLANTS, 1);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play - auto select if single target', () => {
-    (game as any).oxygenLevel = 8;
     player2.addProduction(Resources.PLANTS, 1);
     expect(card.canPlay(player)).is.true;
 
@@ -72,7 +71,7 @@ describe('Herbivores', () => {
 
   it('Should be playable in solo mode', () => {
     const game = Game.newInstance('foobar_solo', [player], player);
-    (game as any).oxygenLevel = 8;
+    game.setOxygenLevel(8);
     player.addProduction(Resources.PLANTS, 1);
 
     expect(card.canPlay(player)).is.true;

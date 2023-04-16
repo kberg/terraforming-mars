@@ -19,7 +19,7 @@ describe('BreathingFilters', function() {
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 7;
+    game.setOxygenLevel(7);
     expect(card.canPlay(player)).is.true;
 
     card.play();

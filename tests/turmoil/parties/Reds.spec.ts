@@ -135,7 +135,7 @@ describe('Reds', function() {
 
     // Terraform
     game.setTemperature(MAX_TEMPERATURE);
-    (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
     TestingUtils.maxOutOceans(player);
 
     const moonData = MoonExpansion.moonData(game);

@@ -165,7 +165,7 @@ describe('Turmoil', function() {
     player.megaCredits = 23;
     expect(new GreeneryStandardProject().canAct(player)).equal(false);
 
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
     expect(new GreeneryStandardProject().canAct(player)).equal(true);
   });
 
@@ -209,7 +209,7 @@ describe('Turmoil', function() {
     TestingUtils.maxOutOceans(player);
     expect(iceAsteroid.canPlay(player)).is.true;
 
-    (game as any).oxygenLevel = constants.MAX_OXYGEN_LEVEL;
+    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
     expect(protectedValley.canPlay(player)).is.true;
   });
 

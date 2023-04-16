@@ -13,22 +13,21 @@ describe('Livestock', function() {
     player = TestPlayers.BLUE.newPlayer();
     const redPlayer = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, redPlayer], player);
+    game.setOxygenLevel(9);
   });
 
   it('Can\'t play without plant production', function() {
-    (game as any).oxygenLevel = 9;
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can\'t play if oxygen level too low', function() {
-    (game as any).oxygenLevel = 8;
+    game.setOxygenLevel(8);
     player.addProduction(Resources.PLANTS, 1);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play', function() {
     player.addProduction(Resources.PLANTS, 1);
-    (game as any).oxygenLevel = 9;
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

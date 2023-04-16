@@ -7,6 +7,7 @@ import {TestPlayers} from '../../TestPlayers';
 import {MareNectarisMine} from '../../../src/cards/moon/MareNectarisMine';
 import {Predators} from '../../../src/cards/base/Predators';
 import {RevoltingColonists} from '../../../src/cards/moon/RevoltingColonists';
+import {MAX_OXYGEN_LEVEL} from '../../../src/constants';
 
 const MOON_OPTIONS = TestingUtils.setCustomGameOptions({moonExpansion: true});
 
@@ -29,7 +30,7 @@ describe('CrescentResearchAssociation', () => {
 
     // Additional card requirements.
     player.titanium = 1;
-    (game as any).oxygenLevel = 14;
+    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
 
     player.cardsInHand = [mareNectarisMine, predators];
     player.corporationCards = [card];

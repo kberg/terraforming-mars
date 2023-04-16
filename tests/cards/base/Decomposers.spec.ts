@@ -23,7 +23,7 @@ describe('Decomposers', function() {
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 3;
+    game.setOxygenLevel(3);
     expect(card.canPlay(player)).is.true;
     card.play(player);
 

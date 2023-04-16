@@ -26,7 +26,7 @@ describe('Birds', function() {
 
     player2.addProduction(Resources.PLANTS, 2);
     player3.addProduction(Resources.PLANTS, 7);
-    (game as any).oxygenLevel = 13;
+    game.setOxygenLevel(13);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

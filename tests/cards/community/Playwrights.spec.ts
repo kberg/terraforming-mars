@@ -82,7 +82,7 @@ describe('Playwrights', () => {
   it('Cannot act without any playable events', () => {
     player2.playedCards.push(new MartianSurvey(), new LocalHeatTrapping(), new DeimosDown());
 
-    (game as any).oxygenLevel = 5;
+    game.setOxygenLevel(5);
     player.heat = 4;
     player.megaCredits = 30;
     expect(card.canAct(player)).is.not.true;

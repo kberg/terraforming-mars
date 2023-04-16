@@ -16,14 +16,14 @@ describe('GHGProducingBacteria', () => {
   });
 
   it('Can play', () => {
-    (game as any).oxygenLevel = 3;
+    game.setOxygenLevel(3);
     expect(card.canPlay(player)).is.not.true;
-    (game as any).oxygenLevel = 4;
+    game.setOxygenLevel(4);
     expect(card.canPlay(player)).is.true;
   });
 
   it('Should play', () => {
-    (game as any).oxygenLevel = 4;
+    game.setOxygenLevel(4);
     const action = card.play();
     expect(action).is.undefined;
   });

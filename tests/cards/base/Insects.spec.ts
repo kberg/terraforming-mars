@@ -22,7 +22,7 @@ describe('Insects', function() {
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 6;
+    game.setOxygenLevel(6);
     expect(card.canPlay(player)).is.true;
 
     card.play(player);

@@ -23,7 +23,7 @@ describe('CupolaCity', function() {
 
   it('Can\'t play if oxygen level too high', function() {
     player.addProduction(Resources.ENERGY, 1);
-    (game as any).oxygenLevel = 10;
+    game.setOxygenLevel(10);
     expect(card.canPlay(player)).is.not.true;
   });
 

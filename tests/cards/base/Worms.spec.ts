@@ -16,12 +16,12 @@ describe('Worms', function() {
   });
 
   it('Can\'t play', function() {
-    (game as any).oxygenLevel = 3;
+    game.setOxygenLevel(3);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play', function() {
-    (game as any).oxygenLevel = 4;
+    game.setOxygenLevel(4);
     expect(card.canPlay(player)).is.true;
     player.playedCards.push(card);
 

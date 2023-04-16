@@ -165,7 +165,7 @@ describe('Philares', function() {
 
     // Max out all global parameters
     game.setTemperature(MAX_TEMPERATURE);
-    (game as any).oxygenLevel = MAX_OXYGEN_LEVEL;
+    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
     TestingUtils.maxOutOceans(philaresPlayer);
 
     // Setup plants for endgame
