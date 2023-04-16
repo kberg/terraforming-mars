@@ -1893,8 +1893,8 @@ export class Game implements ISerializable<SerializedGame> {
     game.spectatorId = d.spectatorId;
 
     const milestones: Array<IMilestone> = [];
-    d.milestones.forEach((element: IMilestone | string) => {
-      const milestoneName = typeof element === 'string' ? element : element.name;
+    d.milestones.forEach((element: string) => {
+      const milestoneName = element;
       const foundMilestone = ALL_MILESTONES.find((milestone) => milestone.name === milestoneName);
       if (foundMilestone !== undefined) {
         milestones.push(foundMilestone);

@@ -722,7 +722,7 @@ describe('serialization and deserialization', () => {
   it('deserializing a game with milestone as an object', () => {
     const game = Game.newInstance('foobar', [player, player2], player);
     const serialized = game.serialize();
-    serialized.milestones = serialized.milestones.map((a: any) => ALL_MILESTONES.find((b) => b.name === a)!);
+    expect(game.milestones).deep.eq(serialized.milestones.map((a: any) => ALL_MILESTONES.find((b) => b.name === a)!));
     const deserialized = Game.deserialize(serialized);
     expect(deserialized.milestones).deep.eq(game.milestones);
   });

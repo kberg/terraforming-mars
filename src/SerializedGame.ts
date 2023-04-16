@@ -2,7 +2,6 @@ import {Phase} from './Phase';
 import {CardName} from './CardName';
 import {SerializedClaimedMilestone} from './milestones/ClaimedMilestone';
 import {SerializedFundedAward} from './awards/FundedAward';
-import {IMilestone} from './milestones/IMilestone';
 import {IAward} from './awards/IAward';
 import {ColonyDealer} from './colonies/ColonyDealer';
 import {DeferredAction} from './deferredActions/DeferredAction';
@@ -42,7 +41,7 @@ export interface SerializedGame {
     id: GameId;
     initialDraftIteration: number;
     lastSaveId: number;
-    milestones: Array<IMilestone> | Array<string>; // TODO: remove Array<IMilestone> by 2021-12-01
+    milestones: Array<string>;
     erodedSpaces: Array<string>;
     monsInsuranceOwner: PlayerId | undefined;
     moonData: SerializedMoonData | undefined;
