@@ -199,7 +199,12 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
         return NaN;
       }
       let starting = this.selectedCorporation.startingMegaCredits;
-      const cardCost = this.selectedCorporation.cardCost === undefined ? constants.CARD_COST : this.selectedCorporation.cardCost;
+      let cardCost = this.selectedCorporation.cardCost === undefined ? constants.CARD_COST : this.selectedCorporation.cardCost;
+
+      if (this.player.automaBotCorporation.name === CardName.POLYPHEMOS_BOT) {
+        cardCost += 2;
+      }
+
       starting -= this.selectedCards.length * cardCost;
       return starting;
     },

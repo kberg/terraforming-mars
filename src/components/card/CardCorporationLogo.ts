@@ -209,6 +209,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-aphrodite-bot-logo">APHRODITE BOT</div>';
       case CardName.POLYPHEMOS_BOT:
         return '<div class="card-polyphemos-bot-logo">POLYPHEMOS BOT</div>';
+      case CardName.INTERPLANETARY_CINEMATICS_BOT:
+        return '<div class="card-interplanetary-bot-logo">INTERPLANETARY<br/>CINEMATICS BOT</div>';
       }
       return '';
     },

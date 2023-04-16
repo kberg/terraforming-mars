@@ -1,6 +1,7 @@
 import {CardName} from "../CardName";
 import {Dealer} from "../Dealer";
 import {Game} from "../Game";
+import {GameModule} from "../GameModule";
 import {GameSetup} from "../GameSetup";
 import {LogHelper} from "../LogHelper";
 import {Player} from "../Player";
@@ -53,7 +54,7 @@ export class AutomaHandler {
       this.placeInitialGreenery(game);
 
       // Deal a random bot corporation
-      const automaBotCorporation = this.dealAutomaBotCorporation();
+      const automaBotCorporation = this.dealAutomaBotCorporation(game);
       game.automaBotCorporation = automaBotCorporation;
       game.log('Bot played ${0}', (b) => b.card(automaBotCorporation));
 
@@ -63,9 +64,14 @@ export class AutomaHandler {
       }
     }
 
-    private static dealAutomaBotCorporation(): CorporationCard {
+    private static dealAutomaBotCorporation(game: Game): CorporationCard {
       let deck: CorporationCard[] = [];
-      AUTOMA_CARD_MANIFEST.corporationCards.factories.forEach((f) => deck.push(new f.Factory()));
+
+      AUTOMA_CARD_MANIFEST.corporationCards.factories.forEach((f) => {
+        if (f.compatibility === undefined || (f.compatibility === GameModule.Venus && game.gameOptions.venusNextExtension)) {
+          deck.push(new f.Factory());
+        }
+      });
 
       deck = Dealer.shuffle(deck);
       return deck[0];
@@ -336,8 +342,14 @@ export class AutomaHandler {
 
         for (let i = 0; i < tagsToResolve.length; i++) {
           if (actionsTaken === botActionsCount) break;
+
           this.performActionForTag(game, tagsToResolve[i]);
           actionsTaken++;
+
+          // Interplanetary Cinematics Bot effect: Event tags grant 1 extra action
+          if (tagsToResolve[i] === Tags.EVENT && game.automaBotCorporation?.name === CardName.INTERPLANETARY_CINEMATICS_BOT) {
+            actionsTaken--;
+          }
         }
       }
     }
