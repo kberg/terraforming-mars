@@ -2,6 +2,7 @@ import Vue from 'vue';
 
 import {ColonyModel} from '../models/ColonyModel';
 import {ColonyName} from '../colonies/ColonyName';
+import {MAX_COLONY_TRACK_POSITION} from '../constants';
 
 export const Colony = Vue.component('colony', {
   props: {
@@ -16,6 +17,9 @@ export const Colony = Vue.component('colony', {
     };
   },
   methods: {
+    hideColonyCube(): boolean {
+      return this.colony.trackPosition < MAX_COLONY_TRACK_POSITION;
+    },
     getCubeXPosition: (colony: ColonyModel): number => {
       return colony.trackPosition * 56 + 27;
     },
@@ -186,7 +190,7 @@ export const Colony = Vue.component('colony', {
     <div v-if="colony.visitor !== undefined" class="colony-spaceship">
       <div :class="'colonies-fleet colonies-fleet-'+ colony.visitor"></div>
     </div>
-    <div v-if="colony.isActive" :style="'margin-left:' + getCubeXPosition(colony) + 'px; margin-top:' + getCubeYPosition(colony, true) + 'px;'" class="colony_cube"></div>
+    <div v-if="colony.isActive" :style="'margin-left:' + getCubeXPosition(colony) + 'px; margin-top:' + getCubeYPosition(colony, true) + 'px;'" class="colony_cube" :class="{'translucent' : hideColonyCube}"></div>
     <div v-if="colony.colonies.length > 0" :style="'margin-left: ' + getColonyXPosition(0) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[0]"></div>
     <div v-if="colony.colonies.length > 1" :style="'margin-left: ' + getColonyXPosition(1) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[1]"></div>
     <div v-if="colony.colonies.length > 2" :style="'margin-left: ' + getColonyXPosition(2) + 'px;  margin-top:' + getCubeYPosition(colony) + 'px;'" :class="'board-cube colony-cube board-cube--' + colony.colonies[2]"></div>
