@@ -3,6 +3,7 @@ import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class AcquiredSpaceAgency extends PreludeCard {
   constructor() {
@@ -20,7 +21,7 @@ export class AcquiredSpaceAgency extends PreludeCard {
     });
   }
   public play(player: Player) {
-    player.titanium += 6;
+    player.addResource(Resources.TITANIUM, 6);
     player.drawCard(2, {tag: Tags.SPACE});
     return undefined;
   };

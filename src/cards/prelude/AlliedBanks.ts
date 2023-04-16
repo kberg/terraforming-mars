@@ -23,7 +23,7 @@ export class AlliedBanks extends PreludeCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, 4);
-    player.megaCredits += 3;
+    player.addResource(Resources.MEGACREDITS, 3);
     return undefined;
   }
 }

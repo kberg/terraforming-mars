@@ -3,6 +3,7 @@ import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class SmeltingPlant extends PreludeCard {
   constructor() {
@@ -21,7 +22,7 @@ export class SmeltingPlant extends PreludeCard {
     });
   }
   public play(player: Player) {
-    player.steel += 5;
+    player.addResource(Resources.STEEL, 5);
     return player.game.increaseOxygenLevel(player, 2);
   }
 }

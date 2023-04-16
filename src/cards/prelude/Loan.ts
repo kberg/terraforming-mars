@@ -25,7 +25,7 @@ export class Loan extends PreludeCard implements IProjectCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.MEGACREDITS, -2);
-    player.megaCredits += 30;
+    player.addResource(Resources.MEGACREDITS, 30);
     return undefined;
   }
 }

@@ -3,6 +3,7 @@ import {PreludeCard} from './PreludeCard';
 import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class MetalRichAsteroid extends PreludeCard implements IProjectCard {
   constructor() {
@@ -19,8 +20,8 @@ export class MetalRichAsteroid extends PreludeCard implements IProjectCard {
     });
   }
   public play(player: Player) {
-    player.titanium += 4;
-    player.steel += 4;
+    player.addResource(Resources.TITANIUM, 4);
+    player.addResource(Resources.STEEL, 4);
     return player.game.increaseTemperature(player, 1);
   }
 }

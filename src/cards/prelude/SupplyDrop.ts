@@ -2,6 +2,7 @@ import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class SupplyDrop extends PreludeCard {
   constructor() {
@@ -19,9 +20,9 @@ export class SupplyDrop extends PreludeCard {
   }
 
   public play(player: Player) {
-    player.titanium +=3;
-    player.steel +=8;
-    player.plants +=3;
+    player.addResource(Resources.TITANIUM, 3);
+    player.addResource(Resources.STEEL, 8);
+    player.addResource(Resources.PLANTS, 3);
     return undefined;
   }
 }

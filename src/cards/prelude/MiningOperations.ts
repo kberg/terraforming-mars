@@ -26,7 +26,7 @@ export class MiningOperations extends PreludeCard implements IProjectCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.STEEL, 2);
-    player.steel += 4;
+    player.addResource(Resources.STEEL, 4);
     return undefined;
   }
 }

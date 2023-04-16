@@ -2,6 +2,7 @@ import {Player} from '../../Player';
 import {PreludeCard} from './PreludeCard';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class Donation extends PreludeCard {
   constructor() {
@@ -18,7 +19,7 @@ export class Donation extends PreludeCard {
     });
   }
   public play(player: Player) {
-    player.megaCredits += 21;
+    player.addResource(Resources.MEGACREDITS, 21);
     return undefined;
   }
 }

@@ -26,7 +26,7 @@ export class Mohole extends PreludeCard implements IProjectCard {
   }
   public play(player: Player) {
     player.addProduction(Resources.HEAT, 3);
-    player.heat += 3;
+    player.addResource(Resources.HEAT, 3);
     return undefined;
   }
 }
