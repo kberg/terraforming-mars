@@ -16,12 +16,12 @@ describe('VenusianAnimals', function() {
   });
 
   it('Can\'t play', function() {
-    (game as any).venusScaleLevel = 16;
+    game.setVenusScaleLevel(16);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play', function() {
-    (game as any).venusScaleLevel = 18;
+    game.setVenusScaleLevel(18);
     expect(card.canPlay(player)).is.true;
     player.playedCards.push(card);
     card.play();

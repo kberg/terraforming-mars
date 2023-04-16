@@ -27,7 +27,7 @@ describe('SulphurExports', function() {
   it('Can play if Venus is maxed, even if Reds are ruling', function() {
     const turmoil = Turmoil.getTurmoil(game);
     turmoil.rulingParty = new Reds();
-    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    game.setVenusScaleLevel(MAX_VENUS_SCALE);
 
     player.megaCredits = 21;
     expect(card.canPlay(player)).is.true;

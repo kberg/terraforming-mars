@@ -18,12 +18,12 @@ describe('VenusianPlants', function() {
   });
 
   it('Can\'t play', function() {
-    (game as any).venusScaleLevel = 14;
+    game.setVenusScaleLevel(14);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Should play - multiple targets', function() {
-    (game as any).venusScaleLevel = 16;
+    game.setVenusScaleLevel(16);
     expect(card.canPlay(player)).is.true;
 
     const card2 = new Thermophiles();
@@ -41,7 +41,7 @@ describe('VenusianPlants', function() {
   it('Should play - single target', function() {
     const card2 = new Thermophiles();
     player.playedCards.push(card2);
-    (game as any).venusScaleLevel = 16;
+    game.setVenusScaleLevel(16);
 
     card.play(player);
     expect(player.getResourcesOnCard(card2)).eq(1);

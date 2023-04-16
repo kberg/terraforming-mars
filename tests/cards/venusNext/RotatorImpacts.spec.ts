@@ -18,12 +18,12 @@ describe('RotatorImpacts', () => {
   });
 
   it('Cannot play', () => {
-    (game as any).venusScaleLevel = 16;
+    game.setVenusScaleLevel(16);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can play', () => {
-    (game as any).venusScaleLevel = 14;
+    game.setVenusScaleLevel(14);
     expect(card.canPlay(player)).is.true;
   });
 
@@ -38,7 +38,7 @@ describe('RotatorImpacts', () => {
     corp.play();
     player.corporationCards = [corp];
 
-    (game as any).venusScaleLevel = 18;
+    game.setVenusScaleLevel(18);
     expect(card.canPlay(player)).is.true;
   });
 
@@ -84,7 +84,7 @@ describe('RotatorImpacts', () => {
     player.playedCards.push(card);
     card.resourceCount = 1;
 
-    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    game.setVenusScaleLevel(MAX_VENUS_SCALE);
     expect(card.canAct(player)).is.true;
   });
 });

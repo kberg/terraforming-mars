@@ -24,26 +24,26 @@ describe('StratosphericBirds', () => {
   it('Cannot play if Venus requirement not met', () => {
     player.playedCards.push(deuteriumExport);
     player.addResourceTo(deuteriumExport, 1);
-    (game as any).venusScaleLevel = 10;
+    game.setVenusScaleLevel(10);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Cannot play if no floater', () => {
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
     expect(card.canPlay(player)).is.not.true;
   });
 
   it('Can play', () => {
     player.playedCards.push(deuteriumExport);
     player.addResourceTo(deuteriumExport, 1);
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
     expect(card.canPlay(player)).is.true;
   });
 
   it('Should play', () => {
     player.playedCards.push(deuteriumExport);
     player.addResourceTo(deuteriumExport, 1);
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
     expect(card.canPlay(player)).is.true;
     player.playedCards.push(card);
 
@@ -84,7 +84,7 @@ describe('StratosphericBirds', () => {
     player.playedCards.push(dirigibles);
     player.addResourceTo(dirigibles, 1);
 
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
     player.megaCredits = 9;
 
     // 9 M€ + 1 Dirigibles floater: Cannot play
@@ -112,7 +112,7 @@ describe('StratosphericBirds', () => {
     player.addResourceTo(deuteriumExport, 1);
     player.addResourceTo(dirigibles, 3);
 
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
     player.megaCredits = 3;
 
     const selectHowToPayForCard = player.playProjectCard();
@@ -131,7 +131,7 @@ describe('StratosphericBirds', () => {
     player.playedCards.push(dirigibles);
     player.addResourceTo(dirigibles, 1);
     player.megaCredits = 4;
-    (game as any).venusScaleLevel = 12;
+    game.setVenusScaleLevel(12);
 
     const indentured = new IndenturedWorkers();
     player.playCard(indentured);

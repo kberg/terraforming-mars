@@ -67,9 +67,9 @@ describe('CardRequirements', function() {
   it('satisfies properly for venus', function() {
     const requirements = CardRequirements.builder((b) => b.venus(8));
     expect(requirements.satisfies(player)).eq(false);
-    (player.game as any).venusScaleLevel = 8;
+    player.game.setVenusScaleLevel(8);
     expect(requirements.satisfies(player)).eq(true);
-    (player.game as any).venusScaleLevel = 7;
+    player.game.setVenusScaleLevel(7);
     expect(requirements.satisfies(player)).eq(false);
     player.playCard(adaptationTechnology);
     expect(requirements.satisfies(player)).eq(true);

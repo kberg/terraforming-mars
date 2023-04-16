@@ -94,7 +94,7 @@ describe('Atmoscoop', function() {
 
   it('Should play - single target, both global parameters maxed', function() {
     player.playedCards.push(dirigibles);
-    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    game.setVenusScaleLevel(MAX_VENUS_SCALE);
     game.setTemperature(MAX_TEMPERATURE);
 
     const action = card.play(player);
@@ -119,7 +119,7 @@ describe('Atmoscoop', function() {
 
   it('Should play - multiple targets, both global parameters maxed', function() {
     player.playedCards.push(dirigibles, floatingHabs);
-    (game as any).venusScaleLevel = MAX_VENUS_SCALE;
+    game.setVenusScaleLevel(MAX_VENUS_SCALE);
     game.setTemperature(MAX_TEMPERATURE);
 
     const action = card.play(player) as SelectCard<ICard>;
