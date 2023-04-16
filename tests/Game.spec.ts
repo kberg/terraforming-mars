@@ -187,10 +187,8 @@ describe('Game', () => {
     game.gameOptions.venusNextExtension = true;
     game.gameOptions.requiresVenusTrackCompletion = true;
 
-    game.setTemperature(constants.MAX_TEMPERATURE);
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
+    TestingUtils.terraform(player, game);
     game.setVenusScaleLevel(6);
-    TestingUtils.maxOutOceans(player);
 
     // Skip final greenery Phase
     player.plants = 0;
@@ -215,10 +213,7 @@ describe('Game', () => {
     game.gameOptions.venusNextExtension = true;
     game.gameOptions.requiresVenusTrackCompletion = true;
 
-    game.setTemperature(constants.MAX_TEMPERATURE);
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
-    game.setVenusScaleLevel(constants.MAX_VENUS_SCALE);
-    TestingUtils.maxOutOceans(player);
+    TestingUtils.terraform(player, game);
 
     // Skip final greenery Phase
     player.plants = 0;
@@ -278,9 +273,7 @@ describe('Game', () => {
     game.generation = 10;
 
     // Terraform
-    game.setTemperature(constants.MAX_TEMPERATURE);
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
-    TestingUtils.maxOutOceans(player);
+    TestingUtils.terraform(player, game);
 
     player.plants = 0; // Skip final greenery Phase
 
@@ -296,10 +289,7 @@ describe('Game', () => {
     const game = Game.newInstance('solo1', [player], player, TestingUtils.setCustomGameOptions({automaSoloVariant: true}));
 
     // Terraform
-    game.setTemperature(constants.MAX_TEMPERATURE);
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
-    game.setVenusScaleLevel(constants.MAX_VENUS_SCALE);
-    TestingUtils.maxOutOceans(player);
+    TestingUtils.terraform(player, game);
 
     game.playerIsDoneWithGame(player);
     expect(game.phase).eq(Phase.END);
@@ -326,9 +316,8 @@ describe('Game', () => {
     game.generation = 14;
 
     // Terraform
-    game.setTemperature(constants.MAX_TEMPERATURE);
+    TestingUtils.terraform(player, game);
     game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL - 2);
-    TestingUtils.maxOutOceans(player);
 
     // Must remove waitingFor or playerIsFinishedTakingActions
     // Will pre-emptively exit - you can't end the game if it is waiting for a player to do something!
@@ -372,9 +361,8 @@ describe('Game', () => {
     TestingUtils.resetBoard(game);
 
     // Terraform
-    game.setTemperature(constants.MAX_TEMPERATURE);
+    TestingUtils.terraform(player, game);
     game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL - 2);
-    TestingUtils.maxOutOceans(player);
 
     // Must remove waitingFor or playerIsFinishedTakingActions
     // Will pre-emptively exit - you can't end the game if it is waiting for a player to do something!

@@ -22,7 +22,6 @@ import {NitrogenFromTitan} from '../../src/cards/colonies/NitrogenFromTitan';
 import {SpaceStation} from '../../src/cards/base/SpaceStation';
 import {EarthCatapult} from '../../src/cards/base/EarthCatapult';
 import {QuantumExtractor} from '../../src/cards/base/QuantumExtractor';
-import * as constants from '../../src/constants';
 import {SerializedTurmoil} from '../../src/turmoil/SerializedTurmoil';
 import {PoliticalAgendas} from '../../src/turmoil/PoliticalAgendas';
 import {IParty} from '../../src/turmoil/parties/IParty';
@@ -165,7 +164,7 @@ describe('Turmoil', function() {
     player.megaCredits = 23;
     expect(new GreeneryStandardProject().canAct(player)).equal(false);
 
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
+    TestingUtils.terraform(player, game);
     expect(new GreeneryStandardProject().canAct(player)).equal(true);
   });
 
@@ -206,10 +205,8 @@ describe('Turmoil', function() {
     expect(player.canPlay(protectedValley)).is.false; // needs 26 MC
 
     // can play if won't gain TR from raising global parameter
-    TestingUtils.maxOutOceans(player);
+    TestingUtils.terraform(player, game);
     expect(iceAsteroid.canPlay(player)).is.true;
-
-    game.setOxygenLevel(constants.MAX_OXYGEN_LEVEL);
     expect(protectedValley.canPlay(player)).is.true;
   });
 

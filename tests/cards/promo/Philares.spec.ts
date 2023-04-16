@@ -1,7 +1,6 @@
 import {expect} from 'chai';
 import {ISpace} from '../../../src/boards/ISpace';
 import {Philares} from '../../../src/cards/promo/Philares';
-import {MAX_TEMPERATURE, MAX_OXYGEN_LEVEL} from '../../../src/constants';
 import {Game} from '../../../src/Game';
 import {AndOptions} from '../../../src/inputs/AndOptions';
 import {OrOptions} from '../../../src/inputs/OrOptions';
@@ -164,9 +163,7 @@ describe('Philares', function() {
     game.addGreenery(philaresPlayer, space.id);
 
     // Max out all global parameters
-    game.setTemperature(MAX_TEMPERATURE);
-    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
-    TestingUtils.maxOutOceans(philaresPlayer);
+    TestingUtils.terraform(philaresPlayer, game);
 
     // Setup plants for endgame
     philaresPlayer.plants = 7;

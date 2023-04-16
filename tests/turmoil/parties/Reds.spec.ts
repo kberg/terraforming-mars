@@ -8,7 +8,7 @@ import {Reds, REDS_BONUS_1, REDS_BONUS_2, REDS_POLICY_3} from '../../../src/turm
 import {Resources} from '../../../src/Resources';
 import {MoonExpansion} from '../../../src/moon/MoonExpansion';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE} from '../../../src/constants';
+import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE} from '../../../src/constants';
 
 describe('Reds', function() {
   let player : TestPlayer; let secondPlayer : TestPlayer; let game : Game; let turmoil: Turmoil; let reds: Reds;
@@ -132,11 +132,7 @@ describe('Reds', function() {
 
     const redsPolicy = REDS_POLICY_3;
     player.megaCredits = 7;
-
-    // Terraform
-    game.setTemperature(MAX_TEMPERATURE);
-    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
-    TestingUtils.maxOutOceans(player);
+    TestingUtils.terraform(player, game);
 
     const moonData = MoonExpansion.moonData(game);
     moonData.colonyRate = MAXIMUM_COLONY_RATE;

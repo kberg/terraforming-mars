@@ -11,6 +11,7 @@ import {Turmoil} from '../src/turmoil/Turmoil';
 import {TurmoilPolicy} from '../src/turmoil/TurmoilPolicy';
 import {LogMessage} from '../src/LogMessage';
 import {Log} from '../src/Log';
+import {MAX_TEMPERATURE, MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../src/constants';
 
 export class TestingUtils {
   // Returns the oceans created during this operation which may not reflect all oceans.
@@ -34,6 +35,16 @@ export class TestingUtils {
       space.player = undefined;
       space.tile = undefined;
     });
+  };
+
+  public static terraform(player: Player, game: Game): void {
+    game.setTemperature(MAX_TEMPERATURE);
+    game.setOxygenLevel(MAX_OXYGEN_LEVEL);
+    TestingUtils.maxOutOceans(player);
+
+    if (game.gameOptions.venusNextExtension) {
+      game.setVenusScaleLevel(MAX_VENUS_SCALE);
+    }
   };
 
   public static setCustomGameOptions(options: Partial<GameOptions> = {}): GameOptions {
