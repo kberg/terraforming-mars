@@ -1472,13 +1472,13 @@ export class Player implements ISerializable<SerializedPlayer> {
    * plus any units of heat available thanks to Helion (and Stormcraft, by proxy).
    */
   public spendableMegacredits(): number {
-    let spendableMegacredits = this.megaCredits;
+    const spendableMegacredits = this.megaCredits;
 
     // This should never happen, but let's add a failsafe for debugging purposes and allow the game to continue
-    if (spendableMegacredits < 0) {
-      console.warn(`player.spendableMegacredits (${spendableMegacredits}) is less than 0`);
-      spendableMegacredits = 0;
-    }
+    // if (spendableMegacredits < 0) {
+    //   console.warn(`player.spendableMegacredits (${spendableMegacredits}) is less than 0`);
+    //   spendableMegacredits = 0;
+    // }
 
     return spendableMegacredits + (this.canUseHeatAsMegaCredits ? this.availableHeat : 0);
   }
@@ -2733,27 +2733,36 @@ export class Player implements ISerializable<SerializedPlayer> {
       let availableSpaces = Array.from(this.howToAffordReds.spaces.keys());
       const spendableMegacredits = this.spendableMegacredits();
 
-      /*
-       * If we are placing an ocean, and we have enough M€ to pay off all Reds taxes, we can place the ocean anywhere
-       * This can happen if we played a card that could use steel or titanium, and we spent all available metals so we have excess M€
-       * This situation arises because we do not know in advance how much of their available metals a player will choose to spend
-       */
-      if (spendableMegacredits >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
-        availableSpaces = this.game.board.getAvailableSpacesForOcean(this);
-      } else if (spendableMegacredits < this.howToAffordReds.redTaxes) {
+      // If spendableMegacredits < 0, do not filter the precomputed available placement spaces
+      if (spendableMegacredits >= 0) {
         /*
-         * Here we are unable to afford Reds taxes when placing our ocean or land tile
-         * This means we have no choice but to place it next to adjacent oceans to make up the shortfall
-         * This computation is re-run after each new placement, so it takes the player's last placed tile into account
-         */
-        const oceanTileTypes = [TileType.OCEAN, TileType.OCEAN_CITY, TileType.OCEAN_FARM, TileType.OCEAN_SANCTUARY];
+        * If we are placing an ocean, and we have enough M€ to pay off all Reds taxes, we can place the ocean anywhere
+        * This can happen if we played a card that could use steel or titanium, and we spent all available metals so we have excess M€
+        * This situation arises because we do not know in advance how much of their available metals a player will choose to spend
+        */
+        if (spendableMegacredits >= this.howToAffordReds.redTaxes && availableSpaces.every((space) => space.spaceType === SpaceType.OCEAN)) {
+          availableSpaces = this.game.board.getAvailableSpacesForOcean(this);
+        } else if (spendableMegacredits < this.howToAffordReds.redTaxes) {
+          /*
+          * Here we are unable to afford Reds taxes when placing our ocean or land tile
+          * This means we have no choice but to place it next to adjacent oceans to make up the shortfall
+          * This computation is re-run after each new placement, so it takes the player's last placed tile into account
+          */
+          const oceanTileTypes = [TileType.OCEAN, TileType.OCEAN_CITY, TileType.OCEAN_FARM, TileType.OCEAN_SANCTUARY];
 
-        availableSpaces = availableSpaces.filter((space) => {
-          const adjacentOceans = this.game.board.getAdjacentSpaces(space).filter((s) => s.tile !== undefined && oceanTileTypes.includes(s.tile.tileType));
-          const finalPlacementBonus = adjacentOceans.length * this.oceanBonus;
+          availableSpaces = availableSpaces.filter((space) => {
+            const adjacentOceans = this.game.board.getAdjacentSpaces(space).filter((s) => s.tile !== undefined && oceanTileTypes.includes(s.tile.tileType));
+            let finalPlacementBonus = adjacentOceans.length * this.oceanBonus;
 
-          return finalPlacementBonus + spendableMegacredits>= this.howToAffordReds!.redTaxes;
-        });
+            if (this.isCorporation(CardName.ARCADIAN_COMMUNITIES) && space.player === this) {
+              finalPlacementBonus += 3;
+            }
+
+            // TODO: This probably needs to consider Ares adjacency bonuses and other card effects too
+
+            return finalPlacementBonus + spendableMegacredits >= this.howToAffordReds!.redTaxes;
+          });
+        }
       }
 
       // Check that it's a subset of defaults spaces

@@ -165,6 +165,7 @@ export class RedsPolicy {
     const isUNMO = player.isCorporation(CardName.UNITED_NATIONS_MISSION_ONE);
     const isLabourUnion = player.isCorporation(CardName.LABOUR_UNION);
     const isSpaceways = player.isCorporation(CardName.SPACEWAYS);
+    const isArcadian = player.isCorporation(CardName.ARCADIAN_COMMUNITIES);
 
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
@@ -365,7 +366,7 @@ export class RedsPolicy {
     const oceansToPlace = action.card?.name === CardName.ARTIFICIAL_LAKE ? 0 : action.oceansToPlace;
 
     // Let's compute bonus M€ from each board space
-    const spacesBonusMC = RedsPolicy.getBoardSpacesBonusMC(player, game, action.nonOceanAvailableSpaces, oceansToPlace, isHelion);
+    const spacesBonusMC = RedsPolicy.getBoardSpacesBonusMC(player, game, action.nonOceanAvailableSpaces, oceansToPlace, isHelion, isArcadian);
 
     // And generate a tree of tile placements that provide at least |missingMC|
     const [spacesTree, max]: [ISpaceTree, number] = RedsPolicy.makeISpaceTree(
@@ -414,7 +415,7 @@ export class RedsPolicy {
     return {canAfford: false, oceansToPlace: action.oceansToPlace, redTaxes: redTaxes};
   }
 
-  public static getBoardSpacesBonusMC(player: Player, game: Game, nonOceanAvailableSpaces: ISpace[], oceansToPlace: number = 0, isHelion: boolean = false): Array<number> {
+  public static getBoardSpacesBonusMC(player: Player, game: Game, nonOceanAvailableSpaces: ISpace[], oceansToPlace: number, isHelion: boolean, isArcadian: boolean): Array<number> {
     const board = game.board;
 
     return board.spaces.map((space) => {
@@ -422,6 +423,9 @@ export class RedsPolicy {
 
       // This is the initial bonus, from placing next to EXISTING oceans
       let bonus = adjacentSpaces.filter((s) => Board.isOceanSpace(s)).length * player.oceanBonus;
+
+      // Arcadian placement bonus for reserved spaces
+      if (space.player === player && isArcadian) bonus += 3;
 
       // If an action that places a non-ocean tile allows you to place oceans as well, you can get more bonus in addition to oceans already on the board
       if (oceansToPlace > 0 && nonOceanAvailableSpaces.length > 0) {

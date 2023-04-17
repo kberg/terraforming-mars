@@ -80,7 +80,12 @@ export class MagneticFieldGeneratorsPromo extends Card implements IProjectCard {
     });
   }
 
-  public getActionDetails(_player: Player, card: IProjectCard) {
-    return new ActionDetails({card: card, TRIncrease: 3});
+  public getActionDetails(player: Player, card: IProjectCard) {
+    return new ActionDetails({
+      card: card,
+      TRIncrease: 3,
+      nonOceanToPlace: TileType.MAGNETIC_FIELD_GENERATORS,
+      nonOceanAvailableSpaces: player.game.board.getAvailableSpacesOnLand(player),
+    });
   }
 }
