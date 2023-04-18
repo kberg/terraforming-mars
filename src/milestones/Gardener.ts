@@ -7,7 +7,7 @@ export class Gardener implements IMilestone {
     public description: string = 'Have 3 greenery tiles';
 
     public getScore(player: Player): number {
-      return player.game.getSpaceCount(TileType.GREENERY, player);
+      return player.game.board.getSpaceCount(TileType.GREENERY, player);
     }
     public canClaim(player: Player): boolean {
       return this.getScore(player) >= 3;

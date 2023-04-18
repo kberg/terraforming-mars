@@ -284,10 +284,9 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       const sortParties = [...this.parties].sort(
         (p1, p2) => p2.delegates.length - p1.delegates.length,
       );
+
       const max = sortParties[0].delegates.length;
-
       const currentIndex = this.parties.indexOf(currentDominantParty);
-
       let partiesToCheck = [];
 
       // Manage if it's the first party or the last
@@ -487,14 +486,10 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
     }
 
     public canPlay(player: Player, partyName : PartyName): boolean {
-      if (this.rulingParty.name === partyName) {
-        return true;
-      }
+      if (this.rulingParty.name === partyName) return true;
 
       const party = this.getPartyByName(partyName);
-      if (party.getDelegates(player.id) >= 2) {
-        return true;
-      }
+      if (party.getDelegates(player.id) >= 2) return true;
 
       return false;
     }
@@ -515,16 +510,15 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       return this.getDelegatesInReserve(playerId) > 0;
     }
 
-    // Get Victory Points
     public getPlayerVictoryPoints(player: Player): number {
-      let victory: number = 0;
-      if (this.chairman !== undefined && this.chairman === player.id) victory++;
+      let victoryPoints: number = 0;
+      if (this.chairman !== undefined && this.chairman === player.id) victoryPoints++;
+
       this.parties.forEach(function(party) {
-        if (party.partyLeader === player.id) {
-          victory++;
-        }
+        if (party.partyLeader === player.id) victoryPoints++;
       });
-      return victory;
+
+      return victoryPoints;
     }
 
     public serialize(): SerializedTurmoil {
@@ -559,9 +553,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       const turmoil = new Turmoil(d.rulingParty, d.chairman || 'NEUTRAL', d.dominantParty, dealer, d.parties.map((p) => p.name));
 
       turmoil.lobby = new Set(d.lobby);
-
       turmoil.delegateReserve = d.delegateReserve;
-
       turmoil.politicalAgendasData = PoliticalAgendas.deserialize(d.politicalAgendasData, turmoil);
 
       d.parties.forEach((sp) => {

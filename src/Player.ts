@@ -698,13 +698,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     return this.cardIsInEffect(CardName.LUNAR_SECURITY_STATIONS);
   }
 
-  // TODO(kberg): counting cities on the board is done in 3 different places, consolidate.
-  // Search for uses of TileType.OCEAN_CITY for reference.
   public getCitiesCount() {
-    const game = this.game;
-    return game.getSpaceCount(TileType.CITY, this) +
-        game.getSpaceCount(TileType.CAPITAL, this) +
-        game.getSpaceCount(TileType.OCEAN_CITY, this);
+    const board = this.game.board;
+    return board.getSpaceCount(TileType.CITY, this) +
+        board.getSpaceCount(TileType.CAPITAL, this) +
+        board.getSpaceCount(TileType.OCEAN_CITY, this);
   }
 
   // Return the number of cards in the player's hand without tags.
@@ -943,20 +941,6 @@ export class Player implements ISerializable<SerializedPlayer> {
     return tagCount;
   }
 
-  public cardHasTag(card: ICard, target: Tags): boolean {
-    for (const tag of card.tags) {
-      if (tag === target) return true;
-    }
-    return false;
-  }
-  public cardTagCount(card: ICard, target: Tags): number {
-    let count = 0;
-    for (const tag of card.tags) {
-      if (tag === target) count++;
-    }
-    return count;
-  }
-
   // Counts the tags in the player's play area only.
   public getRawTagCount(tag: Tags, includeEventsTags: boolean) {
     let tagCount = 0;
@@ -1004,9 +988,9 @@ export class Player implements ISerializable<SerializedPlayer> {
         uniqueTags.add(tag);
       }
     };
-    if (extraTag !== undefined) {
-      uniqueTags.add(extraTag);
-    }
+
+    if (extraTag !== undefined) uniqueTags.add(extraTag);
+
     for (const corp of this.corporationCards) {
       if (!corp.isDisabled) {
         corp.tags.forEach(addTag);
@@ -1649,16 +1633,10 @@ export class Player implements ISerializable<SerializedPlayer> {
       totalToPay += howToPay.floaters * DEFAULT_FLOATERS_VALUE;
     }
 
-    if (howToPay.science ?? 0 > 0) {
-      totalToPay += howToPay.science;
-    }
+    if (howToPay.science !== undefined) totalToPay += howToPay.science;
 
     if (howToPay.megaCredits > this.megaCredits) {
       throw new Error('Do not have enough M€');
-    }
-
-    if (howToPay.science !== undefined) {
-      totalToPay += howToPay.science;
     }
 
     totalToPay += howToPay.megaCredits;
@@ -2150,9 +2128,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     reserveUnits?: Units,
   }) {
     const reserveUnits = options?.reserveUnits ?? Units.EMPTY;
-    if (!this.hasUnits(reserveUnits)) {
-      return false;
-    }
+    if (!this.hasUnits(reserveUnits)) return false;
 
     const canUseSteel: boolean = options?.steel ?? false;
     const canUseTitanium: boolean = options?.titanium ?? false;

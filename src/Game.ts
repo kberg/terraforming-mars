@@ -388,8 +388,7 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     // Initialize each player:
-    // Give them their corporation cards, other cards, starting production,
-    // handicaps.
+    // Give them their corporation cards, other cards, starting production, handicaps
     for (const player of game.getPlayers()) {
       player.setTerraformRating(player.getTerraformRating() + player.handicap);
       if (!gameOptions.corporateEra) {
@@ -399,10 +398,7 @@ export class Game implements ISerializable<SerializedGame> {
       if (gameOptions.colosseumVariant) {
         const corpCard = corporationCards[0];
         player.dealtCorporationCards.push(corpCard);
-
-        if (gameOptions.initialDraftVariant === false) this.dealProjectCards(player, dealer, game);
-        if (gameOptions.preludeExtension) this.dealPreludeCards(player, dealer);
-        if (gameOptions.leadersExpansion) this.dealLeaderCards(player, dealer);
+        Game.dealCardsToPlayer(game, gameOptions, player, dealer);
       } else if (!player.beginner ||
         // Bypass beginner choice if any extension is choosen
         gameOptions.preludeExtension ||
@@ -419,10 +415,7 @@ export class Game implements ISerializable<SerializedGame> {
           }
         }
         LogHelper.logDrawnCards(player, player.dealtCorporationCards, true, LogType.DREW);
-
-        if (gameOptions.initialDraftVariant === false) this.dealProjectCards(player, dealer, game);
-        if (gameOptions.preludeExtension) this.dealPreludeCards(player, dealer);
-        if (gameOptions.leadersExpansion) this.dealLeaderCards(player, dealer);
+        Game.dealCardsToPlayer(game, gameOptions, player, dealer);
       } else {
         game.playerHasPickedCorporationCard(player, new BeginnerCorporation());
       }
@@ -448,6 +441,12 @@ export class Game implements ISerializable<SerializedGame> {
     }
 
     return game;
+  }
+
+  private static dealCardsToPlayer(game: Game, gameOptions: GameOptions, player: Player, dealer: Dealer): void {
+    if (gameOptions.initialDraftVariant === false) Game.dealProjectCards(player, dealer, game);
+    if (gameOptions.preludeExtension) Game.dealPreludeCards(player, dealer);
+    if (gameOptions.leadersExpansion) Game.dealLeaderCards(player, dealer);
   }
 
   private static dealProjectCards(player: Player, dealer: Dealer, game: Game): void {
@@ -644,9 +643,7 @@ export class Game implements ISerializable<SerializedGame> {
       if (options.automaSoloVariant) lastGeneration += 1;
     }
 
-    // Only add 2 more generations when using the track completion option
-    // and not the solo TR option.
-    //
+    // Only add 2 more generations when using the track completion option and not the solo TR option.
     // isSoloModeWin backs this up.
     if (options.moonExpansion) {
       if (!options.soloTR && options.requiresMoonTrackCompletion) {
@@ -829,11 +826,10 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private incrementFirstPlayer(): void {
-    let firstIndex: number = this.players.map(function(x) {
-      return x.id;
-    }).indexOf(this.first.id);
+    let firstIndex: number = this.players.map((x) => x.id).indexOf(this.first.id);
+
     if (firstIndex === -1) {
-      throw new Error('Didn\'t even find player');
+      throw new Error('Didn\'t find player');
     }
     if (firstIndex === this.players.length - 1) {
       firstIndex = 0;
@@ -1168,7 +1164,7 @@ export class Game implements ISerializable<SerializedGame> {
 
   private getNextDraft(player: Player): Player {
     let nextPlayer = this.getPlayerAfter(player);
-    if (this.generation%2 === 1) {
+    if (this.generation % 2 === 1) {
       nextPlayer = this.getPlayerBefore(player);
     }
     // Change initial draft direction on second iteration
@@ -1186,9 +1182,7 @@ export class Game implements ISerializable<SerializedGame> {
     const playerIndex: number = this.players.indexOf(player);
 
     // The player was not found
-    if (playerIndex === -1) {
-      return undefined;
-    }
+    if (playerIndex === -1) return undefined;
 
     // Go to the end of the array if stand at the start
     return this.players[(playerIndex === 0) ? this.players.length - 1 : playerIndex - 1];
@@ -1198,9 +1192,7 @@ export class Game implements ISerializable<SerializedGame> {
     const playerIndex: number = this.players.indexOf(player);
 
     // The player was not found
-    if (playerIndex === -1) {
-      return undefined;
-    }
+    if (playerIndex === -1) return undefined;
 
     // Head Start: Allow current player to take 2 more actions before moving on to next player
     const shouldGiveHeadStart = player.lastCardPlayed?.name === CardName.HEAD_START || (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[0].name === CardName.HEAD_START);
@@ -1235,9 +1227,7 @@ export class Game implements ISerializable<SerializedGame> {
 
     // Defensive coding to fail fast, if we don't find the next
     // player we are in an unexpected game state
-    if (nextPlayer === undefined) {
-      throw new Error('Did not find player');
-    }
+    if (nextPlayer === undefined) throw new Error('Did not find player');
 
     if (!this.hasPassedThisActionPhase(nextPlayer)) {
       this.startActionsForPlayer(nextPlayer);
@@ -1249,7 +1239,6 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private gotoEndGame(): void {
-    // Log id or cloned game id
     if (this.clonedGamedId !== undefined && this.clonedGamedId.startsWith('#')) {
       this.log('This game was a clone from game ' + this.clonedGamedId);
     } else {
@@ -1317,7 +1306,6 @@ export class Game implements ISerializable<SerializedGame> {
   private startActionsForPlayer(player: Player) {
     this.activePlayer = player.id;
     player.actionsTakenThisRound = 0;
-
     player.takeAction();
   }
 
@@ -1329,9 +1317,7 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public increaseOxygenLevel(player: Player, increments: -1 | 1 | 2): undefined {
-    if (this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL) {
-      return undefined;
-    }
+    if (this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL) return undefined;
 
     // PoliticalAgendas Reds P3 hook
     if (increments === -1) {
@@ -1377,9 +1363,7 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public increaseVenusScaleLevel(player: Player, increments: -2 | -1 | 1 | 2 | 3): SelectSpace | undefined {
-    if (this.venusScaleLevel >= constants.MAX_VENUS_SCALE) {
-      return undefined;
-    }
+    if (this.venusScaleLevel >= constants.MAX_VENUS_SCALE) return undefined;
 
     // PoliticalAgendas Reds P3 hook
     if (increments === -1 || increments === -2) {
@@ -1449,9 +1433,7 @@ export class Game implements ISerializable<SerializedGame> {
       return undefined;
     }
 
-    if (this.temperature >= constants.MAX_TEMPERATURE) {
-      return undefined;
-    }
+    if (this.temperature >= constants.MAX_TEMPERATURE) return undefined;
 
     // Literal typing makes |increments| a const
     const steps = Math.min(increments, (constants.MAX_TEMPERATURE - this.temperature) / 2);
@@ -1522,9 +1504,8 @@ export class Game implements ISerializable<SerializedGame> {
 
   public getPlayer(name: string): Player {
     const player = this.players.find((player) => player.name === name);
-    if (player === undefined) {
-      throw new Error('Player not found');
-    }
+    if (player === undefined) throw new Error('Player not found');
+
     return player;
   }
 
@@ -1546,14 +1527,6 @@ export class Game implements ISerializable<SerializedGame> {
   }
   public getCitiesInPlay(): number {
     return this.board.spaces.filter((space) => Board.isCitySpace(space)).length;
-  }
-  public getSpaceCount(tileType: TileType, player: Player): number {
-    return this.board.spaces.filter(
-      (space) => space.tile !== undefined &&
-                  space.tile.tileType === tileType &&
-                  space.player !== undefined &&
-                  space.player === player,
-    ).length;
   }
 
   // addTile applies to the Mars board, but not the Moon board

@@ -130,6 +130,12 @@ export abstract class Board {
     return this.spaces.filter((space) => space.tile === undefined);
   }
 
+  public getSpaceCount(tileType: TileType, player: Player): number {
+    return this.spaces.filter(
+      (space) => space.tile?.tileType === tileType && space.player === player
+    ).length;
+  }
+
   public getAvailableSpacesForCity(player: Player): Array<ISpace> {
     if (player.cardIsInEffect(CardName.GORDON)) return this.getAvailableSpacesOnLand(player);
 

@@ -6,7 +6,7 @@ export class Cultivator implements IAward {
     public name: string = 'Cultivator';
     public description: string = 'Most greenery tiles'
     public getScore(player: Player): number {
-      let score = player.game.getSpaceCount(TileType.GREENERY, player);
+      let score = player.game.board.getSpaceCount(TileType.GREENERY, player);
       return score + getAdditionalScore(player);
     }
 }
