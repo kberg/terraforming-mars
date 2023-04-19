@@ -211,6 +211,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-polyphemos-bot-logo">POLYPHEMOS BOT</div>';
       case CardName.INTERPLANETARY_CINEMATICS_BOT:
         return '<div class="card-interplanetary-bot-logo">INTERPLANETARY<br/>CINEMATICS BOT</div>';
+      case CardName.PHOBOLOG_BOT:
+        return '<div class="card-phobolog-bot-logo">PHOBOLOG BOT</div>';
       }
       return '';
     },

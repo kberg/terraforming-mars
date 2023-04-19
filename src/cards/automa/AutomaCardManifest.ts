@@ -7,6 +7,7 @@ import {EcolineBot} from './EcolineBot';
 import {HelionBot} from './HelionBot';
 import {InterplanetaryCinematicsBot} from './InterplanetaryCinematicsBot';
 import {MonsInsuranceBot} from './MonsInsuranceBot';
+import {PhobologBot} from './PhobologBot';
 import {PolyphemosBot} from './PolyphemosBot';
 import {TharsisBot} from './TharsisBot';
 import {ThorgateBot} from './ThorgateBot';
@@ -27,6 +28,7 @@ export const AUTOMA_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.APHRODITE_BOT, Factory: AphroditeBot, compatibility: GameModule.Venus},
     {cardName: CardName.POLYPHEMOS_BOT, Factory: PolyphemosBot},
     {cardName: CardName.INTERPLANETARY_CINEMATICS_BOT, Factory: InterplanetaryCinematicsBot},
+    {cardName: CardName.PHOBOLOG_BOT, Factory: PhobologBot},
   ],
 });
 

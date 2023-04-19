@@ -16,7 +16,7 @@ export class PolyphemosBot extends Card implements CorporationCard {
       metadata: {
         cardNumber: 'AU10',
         renderData: CardRenderer.builder((b) => {
-          b.corpBox('effect', (ce) => {
+          b.corpBox('action', (ce) => {
             ce.vSpace(Size.SMALL);
             ce.vSpace(Size.LARGE);
             ce.effect('Buying cards to hand costs 2 M€ more.', (eb) => {
