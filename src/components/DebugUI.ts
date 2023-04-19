@@ -178,6 +178,8 @@ export const DebugUI = Vue.component('debug-ui', {
         return this.moon === true;
       case GameModule.Leader:
         return this.leaders === true;
+      case GameModule.Automa:
+        return this.automaSoloVariant === true;
       default:
         return true;
       }
