@@ -46,7 +46,7 @@ describe('Buck', function() {
 
   it('Can only act once per game', function() {
     const playedCard = new TerraformingGanymede();
-    player.cardsInHand.push(playedCard);
+    player.playedCards.push(playedCard);
 
     (card.action(player) as SelectCard<IProjectCard>).cb([playedCard]);
     TestingUtils.forceGenerationEnd(game);

@@ -46,6 +46,7 @@ export class Buck extends Card implements LeaderCard {
       (foundCards: Array<IProjectCard>) => {
         const selectedCard = player.playedCards.splice(player.playedCards.indexOf(foundCards[0]), 1)[0];
         player.cardsInHand.push(selectedCard);
+        player.game.log('${0} took ${1} back into hand', (b) => b.player(player).card(selectedCard));
         this.isDisabled = true;
         return undefined;
       },
