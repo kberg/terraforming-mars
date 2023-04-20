@@ -136,7 +136,12 @@ export abstract class Card {
   }
 
   public static setSocietyWarningText(card: ICard, partyName: string): void {
-    card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
+    if (card.warning === undefined) {
+      card.warning = `This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
+    } else {
+      // The starting space is intentional, in case this warning comes with Reds warning (for Wildlife Dome and PR Office)
+      card.warning += ` This card will cost an extra ${SOCIETY_ADDITIONAL_CARD_COST} M€ as ${partyName} party is not in play.`;
+    }
   }
 
   public static setProductionDecreaseWarningText(card: ICard, resource: Resources, canTargetOthers: boolean): void {
