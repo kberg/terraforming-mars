@@ -44,9 +44,13 @@ export const SelectCard = Vue.component('select-card', {
   data: function() {
     let cards: CardModel[] = [];
 
-    // This preselects the first standard action, so that the player can click Confirm to immediately do the action
+    // This preselects the first standard action / CEO action, so that the player can click Confirm to immediately do the action
     // However it does not apply the input[type="radio"]:checked + .filterDiv class, so a workaround was done using isChecked property
-    if (this.playerinput.cards !== undefined && this.playerinput.cards[0].cardType === CardType.STANDARD_ACTION) {
+    // isCEOActionsList checks for length <= 2 as a player can have at most 2 CEOs in play, via Co-Leadership
+    const isStandardActionsList = this.playerinput.cards !== undefined && this.playerinput.cards.every((c) => c.cardType === CardType.STANDARD_ACTION);
+    const isCEOActionsList = this.playerinput.cards !== undefined && this.playerinput.cards.every((c) => c.cardType === CardType.LEADER) && this.playerinput.cards.length <= 2;
+
+    if (this.playerinput.cards !== undefined && (isStandardActionsList || isCEOActionsList)) {
       cards = [this.playerinput.cards[0]];
     }
 
@@ -125,8 +129,8 @@ export const SelectCard = Vue.component('select-card', {
       return this.player.selfReplicatingRobotsCards?.find((r) => r.name === card.name);
     },
     isChecked: function(index: number, card: CardModel): boolean {
-      const isPreselectedStandardAction = index === 0 && card.cardType === CardType.STANDARD_ACTION;
-      if (!isPreselectedStandardAction) return false;
+      const isPreselectedCard = index === 0 && (card.cardType === CardType.STANDARD_ACTION || card.cardType === CardType.LEADER);
+      if (!isPreselectedCard) return false;
 
       if (this.$data.cards[0] === undefined) {
         return card.name === this.$data.cards.name;
