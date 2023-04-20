@@ -11,6 +11,7 @@ import {PlayerInputModel} from '../models/PlayerInputModel';
 import {sortActiveCards} from '../components/ActiveCardsSortingOrder';
 import {TranslateMixin} from './TranslateMixin';
 import {Color} from '../Color';
+import {CardType} from '../cards/CardType';
 
 interface SelectCardModel {
   cards: VueModelRadio<CardModel> | VueModelCheckbox<Array<CardModel>>;
@@ -41,8 +42,16 @@ export const SelectCard = Vue.component('select-card', {
     },
   },
   data: function() {
+    let cards: CardModel[] = [];
+
+    // This preselects the first standard action, so that the player can click Confirm to immediately do the action
+    // However it does not apply the input[type="radio"]:checked + .filterDiv class, so a workaround was done using isChecked property
+    if (this.playerinput.cards !== undefined && this.playerinput.cards[0].cardType === CardType.STANDARD_ACTION) {
+      cards = [this.playerinput.cards[0]];
+    }
+
     return {
-      cards: [],
+      cards: cards,
       warning: undefined,
     } as SelectCardModel;
   },
@@ -115,16 +124,26 @@ export const SelectCard = Vue.component('select-card', {
     robotCard(card: CardModel): CardModel | undefined {
       return this.player.selfReplicatingRobotsCards?.find((r) => r.name === card.name);
     },
+    isChecked: function(index: number, card: CardModel): boolean {
+      const isPreselectedStandardAction = index === 0 && card.cardType === CardType.STANDARD_ACTION;
+      if (!isPreselectedStandardAction) return false;
+
+      if (this.$data.cards[0] === undefined) {
+        return card.name === this.$data.cards.name;
+      } else {
+        return card.name === this.$data.cards[0].name;
+      }
+    },
   },
   template: `<div class="wf-component wf-component--select-card">
         <div v-if="showtitle === true" class="nofloat wf-component-title">{{ $t(playerinput.title) }}</div>
-        <label v-for="card in getOrderedCards()" :key="card.name" :class="getCardBoxClass(card)">
+        <label v-for="(card, index) in getOrderedCards()" :key="card.name" :class="getCardBoxClass(card)">
             <template v-if="!card.isDisabled">
               <input v-if="playerinput.maxCardsToSelect === 1 && playerinput.minCardsToSelect === 1" type="radio" v-model="cards" :value="card" />
               <input v-else type="checkbox" v-model="cards" :value="card" :disabled="playerinput.maxCardsToSelect !== undefined && Array.isArray(cards) && cards.length >= playerinput.maxCardsToSelect && cards.includes(card) === false" />
             </template>
-            <Card v-if="playerinput.showOwner && getOwner(card) !== undefined" :card="card" :owner="getOwner(card)" :robotCard="robotCard(card)"/>
-            <Card v-else :card="card" :robotCard="robotCard(card)"/>
+            <Card v-if="playerinput.showOwner && getOwner(card) !== undefined" :card="card" :owner="getOwner(card)" :robotCard="robotCard(card)" :isChecked="isChecked(index, card)" />
+            <Card v-else :card="card" :robotCard="robotCard(card)" :isChecked="isChecked(index, card)"/>
         </label>
         <div v-if="hasCardWarning()" class="card-warning">{{ $t(warning) }}</div>
         <div v-if="showsave === true" class="nofloat">
