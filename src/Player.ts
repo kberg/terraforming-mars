@@ -1724,6 +1724,15 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.game.log('${0} played ${1}', (b) => b.player(this).card(selectedCard));
     }
 
+    // Edge case: Valuable Gases needs to be added to playedCards first
+    // So that its tags count for Jovian Lanterns as a possible target
+    if (addToPlayedCards && selectedCard.name === CardName.VALUABLE_GASES) {
+      this.game.defer(new DeferredAction(this, () => {
+        this.playedCards.push(selectedCard);
+        return undefined;
+      }), Priority.SUPERPOWER);
+    }
+
     // Play the card
     const action = selectedCard.play(this);
     this.defer(action, Priority.DEFAULT);
@@ -1752,7 +1761,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
-    if (addToPlayedCards && selectedCard.name !== CardName.LAW_SUIT) {
+    // See above edge case for why Valuable Gases is excluded here
+    if (addToPlayedCards && [CardName.LAW_SUIT, CardName.VALUABLE_GASES].includes(selectedCard.name) === false) {
       this.playedCards.push(selectedCard);
     }
 
