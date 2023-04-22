@@ -99,14 +99,15 @@ export class Atmoscoop extends Card implements IProjectCard {
       return undefined;
     });
 
-    let raiseVenusCost = 2 * REDS_RULING_POLICY_COST;
-    if (venusScale === 12 || venusScale === 14) {
-      raiseVenusCost += REDS_RULING_POLICY_COST;
-    } else if (this.venusIsMaxed(game) || !redsAreRuling) {
-      raiseVenusCost = 0;
-    } else {
-      const venusStepsRaised = Math.min((MAX_VENUS_SCALE - venusScale) / 2, 2);
-      raiseVenusCost = venusStepsRaised * REDS_RULING_POLICY_COST;
+    let raiseVenusCost = 0;
+
+    if (redsAreRuling) {
+      if (venusScale === 12 || venusScale === 14) {
+        raiseVenusCost = 3 * REDS_RULING_POLICY_COST;
+      } else {
+        const venusStepsRaised = Math.min((MAX_VENUS_SCALE - venusScale) / 2, 2);
+        raiseVenusCost = venusStepsRaised * REDS_RULING_POLICY_COST;
+      }
     }
 
     const temperature = game.getTemperature();
@@ -115,14 +116,15 @@ export class Atmoscoop extends Card implements IProjectCard {
       return undefined;
     });
 
-    let raiseTemperatureCost = 2 * REDS_RULING_POLICY_COST;
-    if (temperature === -4 || temperature === -2) {
-      raiseTemperatureCost += REDS_RULING_POLICY_COST;
-    } else if (this.temperatureIsMaxed(game) || !redsAreRuling) {
-      raiseTemperatureCost = 0;
-    } else {
-      const temperatureStepsRaised = Math.min((MAX_TEMPERATURE - temperature) / 2, 2);
-      raiseTemperatureCost = temperatureStepsRaised * REDS_RULING_POLICY_COST;
+    let raiseTemperatureCost = 0;
+
+    if (redsAreRuling) {
+      if (temperature === -4 || temperature === -2) {
+        raiseTemperatureCost = 3 * REDS_RULING_POLICY_COST;
+      } else {
+        const temperatureStepsRaised = Math.min((MAX_TEMPERATURE - temperature) / 2, 2);
+        raiseTemperatureCost = temperatureStepsRaised * REDS_RULING_POLICY_COST;
+      }
     }
 
     const increaseTempOrVenus = new OrOptions();
