@@ -314,6 +314,7 @@ export class Game implements ISerializable<SerializedGame> {
     if (players.length === 1) {
       gameOptions.draftVariant = false;
       gameOptions.initialDraftVariant = false;
+      gameOptions.leadersExpansion = false;
       if (gameOptions.automaSoloVariant === false) gameOptions.randomMA = RandomMAOptionType.NONE;
 
       const startTR = gameOptions.automaSoloVariant ? constants.SOLO_START_TR_AUTOMA : constants.SOLO_START_TR;
