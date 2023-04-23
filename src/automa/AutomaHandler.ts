@@ -471,7 +471,7 @@ export class AutomaHandler {
         break;
       case Tags.SPACE:
       case Tags.CITY:
-        const availableCitySpaces = game.board.getAvailableSpacesForCity(game.getPlayers()[0]);
+        const availableCitySpaces = game.board.getAvailableSpacesForCity(neutral);
 
         if (availableCitySpaces.length === 0) {
           game.automaBotVictoryPointsBreakdown.terraformRating++;
