@@ -12,7 +12,7 @@ export class PlaceOceanTile implements DeferredAction {
   ) {}
 
   public execute() {
-    if (this.player.game.board.getOceansOnBoard() >= this.player.game.getMaxOceanTilesCount()) {
+    if (this.player.game.noOceansAvailable()) {
       return undefined;
     }
 

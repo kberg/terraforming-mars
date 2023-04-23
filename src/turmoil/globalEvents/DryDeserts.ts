@@ -12,8 +12,7 @@ export class DryDeserts implements IGlobalEvent {
     public revealedDelegate = PartyName.REDS;
     public currentDelegate = PartyName.UNITY;
     public resolve(game: Game, turmoil: Turmoil) {
-      const oceansPlaced = game.board.getOceansOnBoard();
-      const canRemoveOcean = oceansPlaced > 0 && oceansPlaced !== game.getMaxOceanTilesCount();
+      const canRemoveOcean = game.canRemoveOcean();
 
       if (canRemoveOcean) {
         game.defer(new RemoveOceanTile(game.getPlayers()[0], 'Dry Deserts Global Event - Remove an Ocean tile from the board'));

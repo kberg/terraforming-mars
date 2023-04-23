@@ -46,7 +46,7 @@ export class ArtificialLake extends Card implements IProjectCard {
     const game = player.game;
     const board = game.board;
     const canPlaceTile = board.getAvailableSpacesOnLand(player).length > 0;
-    if (board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) return true;
+    if (game.noOceansAvailable()) return true;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
       this.reserveUnits = Units.adjustUnits(this.reserveUnits, {megacredits: trGain * REDS_RULING_POLICY_COST});
@@ -64,7 +64,7 @@ export class ArtificialLake extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    if (player.game.board.getOceansOnBoard() >= player.game.getMaxOceanTilesCount()) return undefined;
+    if (player.game.noOceansAvailable()) return undefined;
 
     return new SelectSpace('Select a land space to place an ocean', player.game.board.getAvailableSpacesOnLand(player), (foundSpace: ISpace) => {
       player.game.addOceanTile(player, foundSpace.id, SpaceType.LAND);

@@ -6,7 +6,7 @@ import {CardType} from '../../CardType';
 import {CardRenderer} from '../../render/CardRenderer';
 import {Card} from '../../Card';
 import {ResourceType} from '../../../ResourceType';
-import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OCEAN_TILES, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../../constants';
+import {MAXIMUM_COLONY_RATE, MAXIMUM_LOGISTICS_RATE, MAXIMUM_MINING_RATE, MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE, REDS_RULING_POLICY_COST} from '../../../constants';
 import {PlaceOceanTile} from '../../../deferredActions/PlaceOceanTile';
 import {OrOptions} from '../../../inputs/OrOptions';
 import {SelectOption} from '../../../inputs/SelectOption';
@@ -119,10 +119,9 @@ export class TempestInc extends Card implements CorporationCard {
     }
 
     // OCEANS
-    const oceans = game.board.getOceansOnBoard();
     const howToAffordRedsForPlacingOcean = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oceansToPlace: 1}));
 
-    if (!redsAreRuling || oceans === MAX_OCEAN_TILES || (redsAreRuling && howToAffordRedsForPlacingOcean.canAfford)) {
+    if (!redsAreRuling || game.noOceansAvailable() || (redsAreRuling && howToAffordRedsForPlacingOcean.canAfford)) {
       orOptions.options.push(new SelectOption('Place an ocean', 'Select', () => {
         player.removeResourceFrom(this, 1);
         player.game.defer(new PlaceOceanTile(player, 'Select space for ocean'));

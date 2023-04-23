@@ -604,7 +604,7 @@ export class Game implements ISerializable<SerializedGame> {
   public marsIsTerraformed(): boolean {
     const oxygenMaxed = this.oxygenLevel >= constants.MAX_OXYGEN_LEVEL;
     const temperatureMaxed = this.temperature >= constants.MAX_TEMPERATURE;
-    const oceansMaxed = this.board.getOceansOnBoard() === this.getMaxOceanTilesCount();
+    const oceansMaxed = this.noOceansAvailable();
     let globalParametersMaxed = oxygenMaxed && temperatureMaxed && oceansMaxed;
     const venusMaxed = this.getVenusScaleLevel() === constants.MAX_VENUS_SCALE;
 
@@ -1728,15 +1728,14 @@ export class Game implements ISerializable<SerializedGame> {
 
   public canRemoveOcean(): boolean {
     const count = this.board.getOceansOnBoard();
-    return count > 0 && count < this.getMaxOceanTilesCount();
+    return count > 0 && this.canAddOcean();
   }
 
   public addOceanTile(
     player: Player, spaceId: SpaceId,
     spaceType: SpaceType = SpaceType.OCEAN): void {
-    if (this.board.getOceansOnBoard() === this.getMaxOceanTilesCount()) {
-      return;
-    }
+    if (this.noOceansAvailable()) return;
+
     this.addTile(player, spaceType, this.board.getSpace(spaceId), {
       tileType: TileType.OCEAN,
     });

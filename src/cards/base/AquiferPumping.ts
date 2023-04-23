@@ -38,7 +38,7 @@ export class AquiferPumping extends Card implements IActionCard, IProjectCard {
   }
 
   public canAct(player: Player): boolean {
-    const oceansMaxed = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
+    const oceansMaxed = player.game.noOceansAvailable();
     const oceanCost = 8;
 
     const trGain = oceansMaxed ? 0 : 1;

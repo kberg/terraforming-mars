@@ -8,7 +8,7 @@ import {ColonyName} from '../../colonies/ColonyName';
 import {BuildColony} from '../../deferredActions/BuildColony';
 import {Colony} from '../../colonies/Colony';
 import {RedsPolicy, ActionDetails} from '../../turmoil/RedsPolicy';
-import {MAX_OCEAN_TILES, MAX_VENUS_SCALE} from '../../constants';
+import {MAX_VENUS_SCALE} from '../../constants';
 import {Card} from '../Card';
 
 export class BuildColonyStandardProject extends StandardProjectCard {
@@ -56,7 +56,7 @@ export class BuildColonyStandardProject extends StandardProjectCard {
     const availableColonies = this.getOpenColonies(player);
     const colonyNames = availableColonies.map((c) => c.name);
 
-    const hasEuropa = colonyNames.includes(ColonyName.EUROPA) && player.game.board.getOceansOnBoard() < MAX_OCEAN_TILES;
+    const hasEuropa = colonyNames.includes(ColonyName.EUROPA) && player.game.canAddOcean();
     const hasVenus = colonyNames.includes(ColonyName.VENUS) && player.game.getVenusScaleLevel() < MAX_VENUS_SCALE;
     const hasIapetus = colonyNames.includes(ColonyName.IAPETUS);
 

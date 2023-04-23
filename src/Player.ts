@@ -1318,7 +1318,7 @@ export class Player implements ISerializable<SerializedPlayer> {
           }),
         );
       }
-      if (game.board.getOceansOnBoard() < game.getMaxOceanTilesCount()) {
+      if (game.canAddOcean()) {
         action.options.push(
           new SelectSpace(
             'Add an ocean',

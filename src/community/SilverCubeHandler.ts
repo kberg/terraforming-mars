@@ -78,7 +78,7 @@ export class SilverCubeHandler {
 
     if (game.oceansSilverCubeBonusMC >= aquifer.cost) {
       game.oceansSilverCubeBonusMC = 0;
-      if (game.board.getOceansOnBoard() < game.getMaxOceanTilesCount()) {
+      if (game.canAddOcean()) {
         return new SelectSpace(
           'WGT: Add an ocean',
           game.board.getAvailableSpacesForOcean(player), (space) => {
@@ -123,7 +123,7 @@ export class SilverCubeHandler {
         }),
       );
     }
-    if (game.board.getOceansOnBoard() < game.getMaxOceanTilesCount()) {
+    if (game.canAddOcean()) {
       action.options.push(
         new SelectOption('Add 5 M€ to oceans track', 'Select', () => {
           SilverCubeHandler.onOceanSilverCubeAdded(player, game);

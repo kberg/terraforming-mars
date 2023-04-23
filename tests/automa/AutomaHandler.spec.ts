@@ -4,7 +4,7 @@ import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {TestingUtils} from '../TestingUtils';
 import {AutomaHandler} from '../../src/automa/AutomaHandler';
-import {MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE, MILESTONE_VP, SOLO_START_TR_AUTOMA} from '../../src/constants';
+import {MAX_OCEAN_TILES_AUTOMA, MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE, MILESTONE_VP, SOLO_START_TR_AUTOMA} from '../../src/constants';
 import {TileType} from '../../src/TileType';
 import {EmptyBoard} from '../ares/EmptyBoard';
 import {BoardName} from '../../src/boards/BoardName';
@@ -326,6 +326,19 @@ describe('AutomaHandler: performActionForTag', function() {
     expect(game.automaBotVictoryPointsBreakdown.terraformRating).to.eq(initialTR + 1);
     expect(game.automaBotVictoryPointsBreakdown.total).to.eq(initialTotal + 1);
     expect(game.board.getOceansOnBoard()).to.eq(2); // including the initial ocean
+  });
+
+  it('Earth tag: Does not place ocean when oceans are maxed', function() {
+    const initialTR = game.automaBotVictoryPointsBreakdown.terraformRating;
+    const initialTotal = game.automaBotVictoryPointsBreakdown.total;
+
+    TestingUtils.maxOutOceans(player);
+    expect(game.board.getOceansOnBoard()).to.eq(MAX_OCEAN_TILES_AUTOMA);
+
+    AutomaHandler.performActionForTag(game, Tags.EARTH);
+    expect(game.automaBotVictoryPointsBreakdown.terraformRating).to.eq(initialTR + 1);
+    expect(game.automaBotVictoryPointsBreakdown.total).to.eq(initialTotal + 1);
+    expect(game.board.getOceansOnBoard()).to.eq(MAX_OCEAN_TILES_AUTOMA);
   });
 
   it('Space tag: Places city', function() {

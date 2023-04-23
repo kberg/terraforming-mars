@@ -56,9 +56,7 @@ export class PermafrostExtraction extends Card implements IProjectCard {
   }
 
   public play(player: Player) {
-    if (player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) {
-      return undefined;
-    }
+    if (player.game.noOceansAvailable()) return undefined;
 
     return new SelectSpace('Select space for ocean tile', player.game.board.getAvailableSpacesForOcean(player), (space: ISpace) => {
       player.game.addOceanTile(player, space.id);

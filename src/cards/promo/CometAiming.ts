@@ -51,7 +51,7 @@ export class CometAiming extends Card implements IActionCard, IProjectCard, IRes
 
     public canAct(player: Player): boolean {
       const hasTitanium = player.titanium > 0;
-      const oceansMaxed = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
+      const oceansMaxed = player.game.noOceansAvailable();
       const canPlaceOcean = this.resourceCount > 0 && !oceansMaxed;
       const trGain = oceansMaxed ? 0 : 1;
       const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);

@@ -66,7 +66,7 @@ export class Flooding extends Card implements IProjectCard {
       return undefined;
     }
 
-    const oceansMaxedBeforePlacement = player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount();
+    const oceansMaxedBeforePlacement = player.game.noOceansAvailable();
     if (oceansMaxedBeforePlacement === true) return undefined;
 
     return new SelectSpace(

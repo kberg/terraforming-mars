@@ -30,9 +30,7 @@ export class AquiferStandardProject extends StandardProjectCard {
   }
 
   public canAct(player: Player): boolean {
-    if (player.game.board.getOceansOnBoard() === player.game.getMaxOceanTilesCount()) {
-      return false;
-    }
+    if (player.game.noOceansAvailable()) return false;
 
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(player, trGain, this, false, 'take this action');
