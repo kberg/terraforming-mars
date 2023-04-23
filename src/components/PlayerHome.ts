@@ -398,7 +398,7 @@ export const PlayerHome = Vue.component('player-home', {
 
                     <dynamic-title title="Game details" :color="player.color"/>
 
-                    <div class="player_home_block" v-if="player.players.length > 1">
+                    <div class="player_home_block" v-if="player.players.length > 1 || (player.players.length === 1 && player.gameOptions.automaSoloVariant)">
                         <milestone :show_scores="false" :milestones_list="player.milestones" :automaSoloVariant="player.gameOptions.automaSoloVariant" />
                         <award :show_scores="false" :awards_list="player.awards" />
                     </div>
