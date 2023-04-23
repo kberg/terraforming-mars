@@ -911,7 +911,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 </label>
                             </div>
 
-                            <div v-if="!isSoloGame()">
+                            <div v-if="!isSoloGame() || this.automaSoloVariant">
                                 <input type="checkbox" name="randomMAToggle" id="randomMA-checkbox" v-on:change="randomMAToggle()">
                                 <label for="randomMA-checkbox">
                                     <span v-i18n>Milestones/Awards</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#random-milestones-and-awards" class="tooltip" target="_blank">&#9432;</a>
