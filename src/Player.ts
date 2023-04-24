@@ -171,6 +171,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   public cardDiscount: number = 0;
 
   public timer: Timer = Timer.newInstance();
+  public hasConceded: boolean = false;
 
   // Colonies
   private fleetSize: number = 1;
@@ -1429,26 +1430,32 @@ export class Player implements ISerializable<SerializedPlayer> {
       'Select a card to keep and pass the rest to ${0}' :
       'Select two cards to keep and pass the rest to ${0}';
 
-    this.setWaitingFor(
-      new SelectCard({
-        message: message,
-        data: [{
-          type: LogMessageDataType.RAW_STRING,
-          value: playerName,
-        }],
-      },
-      'Keep',
-      cards,
-      (foundCards: Array<IProjectCard>) => {
-        foundCards.forEach((card) => {
-          this.draftedCards.push(card);
-          cards = cards.filter((c) => c !== card);
-        });
-        LogHelper.logDraftedCards(this, foundCards, cards, playerName);
-        this.game.playerIsFinishedWithDraftingPhase(initialDraft, this, cards);
-        return undefined;
-      }, {min: cardsToKeep, max: cardsToKeep, played: false}),
-    );
+    const selectCard = new SelectCard({
+      message: message,
+      data: [{
+        type: LogMessageDataType.RAW_STRING,
+        value: playerName,
+      }],
+    },
+    'Keep',
+    cards,
+    (foundCards: Array<IProjectCard>) => {
+      foundCards.forEach((card) => {
+        this.draftedCards.push(card);
+        cards = cards.filter((c) => c !== card);
+      });
+      LogHelper.logDraftedCards(this, foundCards, cards, playerName);
+      this.game.playerIsFinishedWithDraftingPhase(initialDraft, this, cards);
+      return undefined;
+    }, {min: cardsToKeep, max: cardsToKeep, played: false});
+
+    // If player has conceded, autopick the first card for them
+    if (this.hasConceded) {
+      selectCard.cb([selectCard.cards[0]]);
+      return;
+    }
+
+    this.setWaitingFor(selectCard);
   }
 
   /**
@@ -1477,6 +1484,13 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     const action = DrawCards.choose(this, dealtCards, {paying: true});
+
+    // Players who have conceded will automatically buy 0 cards
+    if (this.hasConceded) {
+      action.cb([]);
+      return;
+    }
+
     this.setWaitingFor(action, () => this.game.playerIsFinishedWithResearchPhase(this));
   }
 
@@ -2022,6 +2036,15 @@ export class Player implements ISerializable<SerializedPlayer> {
     return new SelectOption('Pass for this generation', 'Pass', () => {
       this.pass();
       this.game.log('${0} passed', (b) => b.player(this));
+      return undefined;
+    });
+  }
+
+  private concedeOption(): PlayerInput {
+    return new SelectOption('Concede this game', 'Concede', () => {
+      this.hasConceded = true;
+      this.pass();
+      this.game.log('${0} conceded the game', (b) => b.player(this));
       return undefined;
     });
   }
@@ -2661,6 +2684,11 @@ export class Player implements ISerializable<SerializedPlayer> {
       action.options.push(new UndoActionOption());
     }
 
+    // Conceding a game is only available from gen 6 onwards
+    if (!this.game.isSoloMode() && this.game.generation > 5 && this.game.getPlayersStillInGame().length > 1) {
+      action.options.push(this.concedeOption());
+    }
+
     return action;
   }
 
@@ -2918,6 +2946,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       beginner: this.beginner,
       handicap: this.handicap,
       timer: this.timer.serialize(),
+      hasConceded: this.hasConceded,
       // Stats
       totalSpend: this.totalSpend,
       endGenerationScores: this.endGenerationScores,
@@ -2949,6 +2978,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     player.energy = d.energy;
     player.energyProduction = d.energyProduction;
     player.fleetSize = d.fleetSize;
+    player.hasConceded = d.hasConceded;
     player.hasIncreasedTerraformRatingThisGeneration = d.hasIncreasedTerraformRatingThisGeneration;
     player.hasTurmoilScienceTagBonus = d.hasTurmoilScienceTagBonus;
     player.hasBureaucratsColonyTradePenalty = d.hasBureaucratsColonyTradePenalty;

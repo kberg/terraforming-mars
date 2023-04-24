@@ -30,6 +30,7 @@ export interface SerializedPlayer {
     energyProduction: number;
     fleetSize: number;
     handicap: number;
+    hasConceded: boolean;
     hasIncreasedTerraformRatingThisGeneration: boolean;
     hasTradedThisTurn: boolean;
     hasTurmoilScienceTagBonus: boolean;

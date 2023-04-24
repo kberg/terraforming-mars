@@ -68,6 +68,7 @@ export const Button = Vue.component('Button', {
         classes.push('btn-action');
       } else if (this.type === 'submit') {
         classes.push('btn-submit');
+        if (this.title === 'Concede') classes.push('btn-submit-warning')
       }
 
       // align

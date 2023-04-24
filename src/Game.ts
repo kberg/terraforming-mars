@@ -630,6 +630,18 @@ export class Game implements ISerializable<SerializedGame> {
     return globalParametersMaxed;
   }
 
+  public getPlayersStillInGame(): Player[] {
+    return this.getPlayers().filter((p) => !p.hasConceded);
+  }
+
+  public allOtherPlayersHaveConceded(): boolean {
+    if (this.isSoloMode()) return false;
+
+    // In a multiplayer game, if there is only 1 player remaining, immediately end the game
+    const playersStillInGame = this.getPlayersStillInGame();
+    return playersStillInGame.length === 1;
+  }
+
   public lastSoloGeneration(): number {
     let lastGeneration = 14;
     const options = this.gameOptions;
@@ -843,18 +855,25 @@ export class Game implements ISerializable<SerializedGame> {
   private runDraftRound(initialDraft: boolean = false, preludeDraft: boolean = false): void {
     this.save();
     this.draftedPlayers.clear();
-    this.players.forEach((player) => {
-      player.needsToDraft = true;
-      if (this.draftRound === 1 && !preludeDraft) {
-        player.runDraftPhase(initialDraft, this.getNextDraft(player).name);
-      } else if (this.draftRound === 1 && preludeDraft) {
-        player.runDraftPhase(initialDraft, this.getNextDraft(player).name, player.dealtPreludeCards);
-      } else {
-        const cards = this.unDraftedCards.get(this.getDraftCardsFrom(player));
-        this.unDraftedCards.delete(this.getDraftCardsFrom(player));
-        player.runDraftPhase(initialDraft, this.getNextDraft(player).name, cards);
-      }
-    });
+
+    const playersWhoNeedToDraft = this.getPlayersStillInGame();
+
+    if (playersWhoNeedToDraft.length > 1) {
+      this.players.forEach((player) => {
+        player.needsToDraft = true;
+        if (this.draftRound === 1 && !preludeDraft) {
+          player.runDraftPhase(initialDraft, this.getNextDraft(player).name);
+        } else if (this.draftRound === 1 && preludeDraft) {
+          player.runDraftPhase(initialDraft, this.getNextDraft(player).name, player.dealtPreludeCards);
+        } else {
+          const cards = this.unDraftedCards.get(this.getDraftCardsFrom(player));
+          this.unDraftedCards.delete(this.getDraftCardsFrom(player));
+          player.runDraftPhase(initialDraft, this.getNextDraft(player).name, cards);
+        }
+      });
+    } else if (playersWhoNeedToDraft.length === 1) {
+      this.gotoResearchPhase();
+    }
   }
 
   private gotoInitialResearchPhase(): void {
@@ -904,11 +923,14 @@ export class Game implements ISerializable<SerializedGame> {
       // Solo games continue until the designated generation end even if Mars is already terraformed
       return this.generation === this.lastSoloGeneration();
     }
-    return this.marsIsTerraformed();
+    return this.marsIsTerraformed() || this.allOtherPlayersHaveConceded();
   }
 
   public isDoneWithFinalProduction(): boolean {
-    return this.phase === Phase.END || (this.gameIsOver() && this.phase === Phase.PRODUCTION);
+    if (this.phase === Phase.END) return true;
+    if (this.gameIsOver() && this.phase === Phase.PRODUCTION) return true;
+
+    return false;
   }
 
   private gotoProductionPhase(): void {
@@ -1063,7 +1085,7 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private allPlayersHaveFinishedResearch(): boolean {
-    for (const player of this.players) {
+    for (const player of this.getPlayersStillInGame()) {
       if (!this.hasResearched(player)) {
         return false;
       }
@@ -1072,7 +1094,7 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private allPlayersHaveFinishedDraft(): boolean {
-    for (const player of this.players) {
+    for (const player of this.getPlayersStillInGame()) {
       if (!this.hasDrafted(player)) {
         return false;
       }
@@ -1282,7 +1304,8 @@ export class Game implements ISerializable<SerializedGame> {
   // Finds the next player who can place a final greenery.
   // this.getPlayers returns in turn order -- a necessary rule for final greenery placement.
   public gotoFinalGreeneryPlacement(): void {
-    for (const player of this.getPlayers()) {
+    // Players who have conceded will not place final greeneries
+    for (const player of this.getPlayersStillInGame()) {
       if (this.donePlayers.has(player.id)) continue;
 
       if (this.canPlaceGreenery(player)) {
@@ -1305,6 +1328,12 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private startActionsForPlayer(player: Player) {
+    if (player.hasConceded) {
+      player.pass();
+      this.playerIsFinishedTakingActions();
+      return;
+    }
+
     this.activePlayer = player.id;
     player.actionsTakenThisRound = 0;
     player.takeAction();

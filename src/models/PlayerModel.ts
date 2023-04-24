@@ -48,6 +48,7 @@ export interface PlayerModel {
     gameAge: number;
     gameOptions: GameOptionsModel;
     generation: number;
+    hasConceded: boolean;
     heat: number;
     heatProduction: number;
     id: string; // PlayerId

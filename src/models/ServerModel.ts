@@ -100,6 +100,7 @@ export class Server {
       gameAge: game.gameAge,
       gameOptions: getGameOptionsAsModel(game.gameOptions),
       generation: game.getGeneration(),
+      hasConceded: player.hasConceded,
       heat: player.heat,
       heatProduction: player.getProduction(Resources.HEAT),
       id: player.id,
@@ -472,6 +473,7 @@ function getPlayers(players: Array<Player>, game: Game): Array<PlayerModel> {
         // TODO(kberg): strictly speaking, game options shouldn't be necessary on the
         // individual player level.
         gameOptions: getGameOptionsAsModel(game.gameOptions),
+        hasConceded: player.hasConceded,
         heat: player.heat,
         heatProduction: player.getProduction(Resources.HEAT),
         id: game.phase === Phase.END ? player.id : player.color,

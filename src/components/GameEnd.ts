@@ -46,6 +46,15 @@ export const GameEnd = Vue.component('game-end', {
         if (a.megaCredits > b.megaCredits) return 1;
         return 0;
       });
+
+      const sortByConcededPlayers = function(p1: PlayerModel, p2: PlayerModel) {
+        if (p1.hasConceded && p2.hasConceded) return p1.victoryPointsBreakdown.total > p2.victoryPointsBreakdown.total ? 1 : -1;
+        if (p1.hasConceded) return -1;
+        return 1;
+      }
+
+      copy.sort(sortByConcededPlayers);
+
       return copy.reverse();
     },
     getWinners: function() {
@@ -199,7 +208,10 @@ export const GameEnd = Vue.component('game-end', {
                                 <td v-if="player.moon !== undefined">{{ p.victoryPointsBreakdown.moonMines }}</td>
                                 <td>{{ p.victoryPointsBreakdown.victoryPoints }}</td>
                                 <td v-if="player.gameOptions.escapeVelocityMode">{{ p.victoryPointsBreakdown.escapeVelocity }}</td>
-                                <td class="game-end-total">{{ p.victoryPointsBreakdown.total }}</td>
+                                <td class="game-end-total">
+                                  {{ p.victoryPointsBreakdown.total }}
+                                  <span v-if="p.hasConceded">🏳</span>
+                                </td>
                                 <td>{{ p.megaCredits }}</td>
                                 <td v-if="player.gameOptions.showTimers">{{ getTimer(p) }}</td>
                                 <td><div class="game-end-timer">{{ p.actionsTakenThisGame }}</div></td>

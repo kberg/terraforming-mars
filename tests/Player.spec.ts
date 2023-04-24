@@ -157,46 +157,6 @@ describe('Player', function() {
     expect(bufferGas).to.be.undefined;
   });
 
-  it('wgt includes all parameters at the game start', () => {
-    const player = TestPlayers.BLUE.newPlayer();
-    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: false});
-    Game.newInstance('foobar', [player], player, gameOptions);
-    player.worldGovernmentTerraforming();
-    const parameters = waitingForGlobalParameters(player);
-    expect(parameters).to.have.members([
-      GlobalParameter.OXYGEN,
-      GlobalParameter.TEMPERATURE,
-      GlobalParameter.OCEANS]);
-  });
-
-  it('wgt includes all parameters at the game start, with Venus', () => {
-    const player = TestPlayers.BLUE.newPlayer();
-    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: true});
-    Game.newInstance('foobar', [player], player, gameOptions);
-    player.worldGovernmentTerraforming();
-    const parameters = waitingForGlobalParameters(player);
-    expect(parameters).to.have.members([
-      GlobalParameter.OXYGEN,
-      GlobalParameter.TEMPERATURE,
-      GlobalParameter.OCEANS,
-      GlobalParameter.VENUS]);
-  });
-
-  it('wgt includes all parameters at the game start, with The Moon', () => {
-    const player = TestPlayers.BLUE.newPlayer();
-    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: false, moonExpansion: true});
-    Game.newInstance('foobar', [player], player, gameOptions);
-    player.worldGovernmentTerraforming();
-    const parameters = waitingForGlobalParameters(player);
-    expect(parameters).to.have.members([
-      GlobalParameter.OXYGEN,
-      GlobalParameter.TEMPERATURE,
-      GlobalParameter.OCEANS,
-      GlobalParameter.MOON_MINING_RATE,
-      GlobalParameter.MOON_COLONY_RATE,
-      GlobalParameter.MOON_LOGISTICS_RATE]);
-  });
-
   it('Include buffer gas for solo games with 63 TR', function() {
     const player = TestPlayers.BLUE.newPlayer();
     const game = Game.newInstance('foobar', [player], player);
@@ -261,6 +221,7 @@ describe('Player', function() {
       turmoilPolicyActionUsed: false,
       politicalAgendasActionUsedCount: 0,
       dominantPartyActionUsedCount: 0,
+      hasConceded: false,
       hasTradedThisTurn: false,
       hasTurmoilScienceTagBonus: false,
       hasBureaucratsColonyTradePenalty: false,
@@ -1040,5 +1001,85 @@ describe('canTrade', function() {
 
     luna.trade(player);
     expect(player.canTrade()).is.true;
+  });
+});
+
+describe('WGT', function() {
+  let player: Player;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+  });
+
+  it('wgt includes all parameters at the game start', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: false});
+    Game.newInstance('foobar', [player], player, gameOptions);
+    player.worldGovernmentTerraforming();
+
+    const parameters = waitingForGlobalParameters(player);
+    expect(parameters).to.have.members([
+      GlobalParameter.OXYGEN,
+      GlobalParameter.TEMPERATURE,
+      GlobalParameter.OCEANS]);
+  });
+
+  it('wgt includes all parameters at the game start, with Venus', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: true});
+    Game.newInstance('foobar', [player], player, gameOptions);
+    player.worldGovernmentTerraforming();
+
+    const parameters = waitingForGlobalParameters(player);
+    expect(parameters).to.have.members([
+      GlobalParameter.OXYGEN,
+      GlobalParameter.TEMPERATURE,
+      GlobalParameter.OCEANS,
+      GlobalParameter.VENUS]);
+  });
+
+  it('wgt includes all parameters at the game start, with The Moon', () => {
+    const gameOptions = TestingUtils.setCustomGameOptions({venusNextExtension: false, moonExpansion: true});
+    Game.newInstance('foobar', [player], player, gameOptions);
+    player.worldGovernmentTerraforming();
+
+    const parameters = waitingForGlobalParameters(player);
+    expect(parameters).to.have.members([
+      GlobalParameter.OXYGEN,
+      GlobalParameter.TEMPERATURE,
+      GlobalParameter.OCEANS,
+      GlobalParameter.MOON_MINING_RATE,
+      GlobalParameter.MOON_COLONY_RATE,
+      GlobalParameter.MOON_LOGISTICS_RATE]);
+  });
+});
+
+describe('Concede option', function() {
+  let player: Player; let player2: Player; let game: Game;
+
+  beforeEach(() => {
+    player = TestPlayers.BLUE.newPlayer();
+    player2 = TestPlayers.RED.newPlayer();
+    game = Game.newInstance('foobar', [player, player2], player);
+  });
+
+  it('Does not show Concede option before generation 6', () => {
+    game.generation = 5;
+    const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
+    expect(concedeOption).is.undefined;
+  });
+
+  it('Shows Concede option from generation 6 onwards', () => {
+    game.generation = 6;
+    const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
+    expect(concedeOption).is.not.undefined;
+
+    concedeOption!.cb();
+    expect(player.hasConceded).is.true;
+  });
+
+  it('Does not show Concede option in solo games', () => {
+    game = Game.newInstance('foobar', [player], player);
+    game.generation = 6;
+    const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
+    expect(concedeOption).is.undefined;
   });
 });
