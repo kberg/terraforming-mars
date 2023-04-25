@@ -27,8 +27,8 @@ export class ThorgateBot extends Card implements CorporationCard {
               eb.empty().startAction.text('next tag', Size.MEDIUM, true).nbsp(Size.SMALL).colon().nbsp(Size.SMALL).energy(1).played.asterix();
             });
             ce.vSpace();
-            ce.effect('When resolving a power tag, additionally raise oxygen 1 step.', (eb) => {
-              eb.energy(1).played.startEffect.oxygen(1);
+            ce.effect('When resolving a power tag, additionally raise oxygen 1 step and gain 1 TR.', (eb) => {
+              eb.energy(1).played.startEffect.oxygen(1).tr(1);
             });
             ce.vSpace();
           });
@@ -57,7 +57,8 @@ export class ThorgateBot extends Card implements CorporationCard {
     return undefined;
   }
 
-  public static handleOxygenIncreaseFromPowerTag(game: Game, neutral: Player): void {
+  public static handleOxygenandTRIncreaseFromPowerTag(game: Game, neutral: Player): void {
+    game.automaBotVictoryPointsBreakdown.terraformRating++;
     game.automaBotVictoryPointsBreakdown.terraformRating++;
 
     if (game.getOxygenLevel() !== MAX_OXYGEN_LEVEL) {

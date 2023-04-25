@@ -387,7 +387,7 @@ export class AutomaHandler {
           game.log('Bot action from ${0} tag: Gain 1 TR as temperature is already maxed', (b) => b.string(originalTag));
 
           if (appliedTag === Tags.ENERGY && game.automaBotCorporation?.name === CardName.THORGATE_BOT) {
-            ThorgateBot.handleOxygenIncreaseFromPowerTag(game, neutral);
+            ThorgateBot.handleOxygenandTRIncreaseFromPowerTag(game, neutral);
           }
 
           break;
@@ -404,7 +404,7 @@ export class AutomaHandler {
         game.log('Bot action from ${0} tag: Increase temperature 1 step', (b) => b.string(originalTag));
 
         if (appliedTag === Tags.ENERGY && game.automaBotCorporation?.name === CardName.THORGATE_BOT) {
-          ThorgateBot.handleOxygenIncreaseFromPowerTag(game, neutral);
+          ThorgateBot.handleOxygenandTRIncreaseFromPowerTag(game, neutral);
         }
 
         break;

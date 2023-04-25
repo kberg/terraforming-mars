@@ -18,9 +18,9 @@ describe('ThorgateBot', function() {
     game.automaBotVictoryPointsBreakdown.terraformRating = 20;
   });
 
-  it('Raises oxygen 1 step when resolving a power tag', function() {
+  it('Raises oxygen 1 step and gains 1 TR when resolving a power tag', function() {
     AutomaHandler.performActionForTag(game, Tags.ENERGY);
-    expect(game.automaBotVictoryPointsBreakdown.terraformRating).eq(22);
+    expect(game.automaBotVictoryPointsBreakdown.terraformRating).eq(23);
     expect(game.getTemperature()).to.eq(-28);
     expect(game.getOxygenLevel()).to.eq(2);
   });
@@ -31,7 +31,7 @@ describe('ThorgateBot', function() {
 
     // Next tag is treated as a power tag no matter what it is
     AutomaHandler.performActionForTag(game, Tags.MICROBE);
-    expect(game.automaBotVictoryPointsBreakdown.terraformRating).eq(22);
+    expect(game.automaBotVictoryPointsBreakdown.terraformRating).eq(23);
     expect(game.getTemperature()).to.eq(-28);
     expect(game.getOxygenLevel()).to.eq(2);
     expect(game.overwriteNextBotAction).is.false;
