@@ -32,9 +32,7 @@ describe('Pluto', function() {
 
   it('Should give trade bonus', function() {
     pluto.addColony(player);
-
     pluto.trade(player2);
-
     game.deferredActions.runAll(() => {});
 
     const input = player.getWaitingFor()! as SelectCard<IProjectCard>;
@@ -42,6 +40,17 @@ describe('Pluto', function() {
     input.cb([input.cards[0]]); // Discard a card
 
     expect(player.cardsInHand).has.lengthOf(2);
+    expect(player2.cardsInHand).has.lengthOf(1);
+  });
+
+  it('Automatically discards cards for conceded players', function() {
+    pluto.addColony(player);
+    player.hasConceded = true;
+    pluto.trade(player2);
+
+    game.deferredActions.runAll(() => {});
+
+    expect(player.cardsInHand).has.lengthOf(2); // 2 + 1 - 1
     expect(player2.cardsInHand).has.lengthOf(1);
   });
 });

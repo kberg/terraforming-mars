@@ -19,6 +19,19 @@ export class DiscardCards implements DeferredAction {
       LogHelper.logPlayerDiscardedCards(this.player, cards);
       return undefined;
     }
+
+    // Auto discard for conceded players
+    if (this.player.hasConceded) {
+      for (let i = 0; i < this.count; i++) {
+        const targetCard = this.player.cardsInHand[0];
+        this.player.cardsInHand.splice(0, 1);
+        this.player.game.dealer.discard(targetCard);
+        LogHelper.logPlayerDiscardedCards(this.player, [targetCard]);
+      }
+
+      return undefined;
+    }
+
     return new SelectCard(
       this.title,
       'Discard',
