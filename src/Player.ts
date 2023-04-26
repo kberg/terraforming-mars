@@ -1294,6 +1294,14 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public worldGovernmentTerraforming(): void {
     const game = this.game;
+
+    // Conceded players skip WGT
+    if (this.hasConceded) {
+      this.doneWorldGovernmentTerraforming();
+      game.log('WGT phase was skipped for ${0}', (b) => b.player(this));
+      return undefined;
+    }
+
     const action: OrOptions = new OrOptions();
     action.title = 'Select action for World Government Terraforming';
     action.buttonLabel = 'Confirm';
