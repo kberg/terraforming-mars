@@ -44,7 +44,7 @@ export class AddResourcesToCard implements DeferredAction {
       return undefined;
     }
 
-    if (cards.length === 1) {
+    if (cards.length === 1 || this.player.hasConceded) {
       this.player.addResourceTo(cards[0], {qty: count, log: true});
       return undefined;
     }

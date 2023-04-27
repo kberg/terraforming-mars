@@ -222,6 +222,8 @@ export abstract class Colony implements SerializedColony {
         break;
 
       case ColonyBenefit.DRAW_CARDS_AND_BUY_ONE:
+        if (player.hasConceded) return;
+
         if (player.canAfford(player.cardCost)) {
           action = DrawCards.keepSome(player, 1, {paying: true, logDrawnCard: true});
         } else {
@@ -363,11 +365,13 @@ export abstract class Colony implements SerializedColony {
 
       case ColonyBenefit.OPPONENT_DISCARD:
         if (game.isSoloMode()) break;
+
         action = new DeferredAction(
           player,
           () => {
-            const playersWithCards = game.getPlayers().filter((p) => p.cardsInHand.length > 0);
+            const playersWithCards = game.getPlayersStillInGame().filter((p) => p.cardsInHand.length > 0);
             if (playersWithCards.length === 0) return undefined;
+
             return new SelectPlayer(
               playersWithCards,
               'Select player to discard a card',
