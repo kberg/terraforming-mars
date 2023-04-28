@@ -21,7 +21,7 @@ export class Will extends Card implements LeaderCard {
           b.floaters(1).floaters(1).wild(1).wild(1);
           b.br;
         }),
-        description: 'Once per game, add the following resources to your cards: 2 animals, 2 microbes, 2 floaters, 2 wild.',
+        description: 'Once per game, add 2 animals to ANOTHER card, 2 microbes to ANOTHER card, 2 floaters to ANOTHER card, and 2 resources to ANY card.',
       },
     });
   }

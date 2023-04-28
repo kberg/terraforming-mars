@@ -7,7 +7,6 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {ProductiveOutpost} from '../colonies/ProductiveOutpost';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
-import {Size} from '../render/Size';
 
 export class Yvonne extends Card implements LeaderCard {
   constructor() {
@@ -17,7 +16,7 @@ export class Yvonne extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L25',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().text('GAIN ALL YOUR COLONY BONUSES TWICE', Size.SMALL);
+          b.opgArrow().text('GAIN ALL YOUR COLONY BONUSES TWICE');
         }),
         description: 'Once per game, gain all your colony bonuses twice.',
       },
