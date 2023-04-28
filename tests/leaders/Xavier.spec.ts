@@ -63,4 +63,17 @@ describe('Xavier', function() {
     cartel.play(player);
     expect(player.getProduction(Resources.MEGACREDITS)).eq(4);
   });
+
+  it('Gives discount for cards withh requirements', function() {
+    card.play();
+    const lightningHarvest = new LightningHarvest();
+    const geneRepair = new GeneRepair();
+
+    expect(card.getCardDiscount(player, lightningHarvest)).eq(0);
+    expect(card.getCardDiscount(player, geneRepair)).eq(0);
+
+    card.isDisabled = true;
+    expect(card.getCardDiscount(player, lightningHarvest)).eq(1);
+    expect(card.getCardDiscount(player, geneRepair)).eq(1);
+  });
 });

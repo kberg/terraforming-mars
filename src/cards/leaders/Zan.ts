@@ -20,11 +20,11 @@ export class Zan extends Card implements LeaderCard {
         cardNumber: 'L26',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.redsInactive().asterix();
+          b.redsInactive().nbsp(Size.SMALL).asterix();
           b.br.br;
           b.opgArrow().text('ALL', Size.SMALL).delegates(1).colon().reds().megacredits(1);
         }),
-        description: 'You are immune to Reds\' ruling policy. Once per game, place all your delegates in Reds. Gain 1 M€ for each delegate placed this way.',
+        description: 'You are immune to Reds\' ruling policy. Once per game, place ALL your delegates in Reds. Gain 1 M€ for each delegate placed this way.',
       },
     });
   }
