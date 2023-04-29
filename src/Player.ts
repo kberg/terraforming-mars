@@ -824,10 +824,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public addResourceTo(card: IResourceCard & ICard, options: number | {qty?: number, log?: boolean} = 1): void {
     const count = typeof(options) === 'number' ? options : (options.qty ?? 1);
-
-    if (card.resourceCount !== undefined) {
-      card.resourceCount += count;
-    }
+    if (card.resourceCount !== undefined) card.resourceCount += count;
 
     TopsoilContract.onResourceAdded(this, card, count);
     MeatIndustry.onResourceAdded(this, card, count);
@@ -857,9 +854,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     let result: Array<ICard> = this.playedCards.filter((card) => card.resourceType !== undefined);
 
     this.corporationCards.forEach((corp) => {
-      if (corp.resourceType !== undefined) {
-        result.push(corp);
-      }
+      if (corp.resourceType !== undefined) result.push(corp);
     });
 
     if (resource !== undefined) {
@@ -1123,12 +1118,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.runInputCb(pi.cb(foundCard, howToPay));
     } else if (pi instanceof SelectCard) {
       this.checkInputLength(input, 1);
-      if (input[0].length < pi.config.min) {
-        throw new Error('Not enough cards selected');
-      }
-      if (input[0].length > pi.config.max) {
-        throw new Error('Too many cards selected');
-      }
+      if (input[0].length < pi.config.min) throw new Error('Not enough cards selected');
+      if (input[0].length > pi.config.max) throw new Error('Too many cards selected');
+
       const mappedCards: Array<ICard> = [];
       for (const cardName of input[0]) {
         const cardIndex = PlayerInput.getCard(pi.cards, cardName);
@@ -1141,9 +1133,8 @@ export class Player implements ISerializable<SerializedPlayer> {
     } else if (pi instanceof SelectAmount) {
       this.checkInputLength(input, 1, 1);
       const amount = parseInt(input[0][0]);
-      if (isNaN(amount)) {
-        throw new Error('Amount is not a number');
-      }
+      if (isNaN(amount)) throw new Error('Amount is not a number');
+
       this.runInputCb(pi.cb(amount));
     } else if (pi instanceof SelectSpace) {
       this.checkInputLength(input, 1, 1);
@@ -1440,10 +1431,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     const selectCard = new SelectCard({
       message: message,
-      data: [{
-        type: LogMessageDataType.RAW_STRING,
-        value: playerName,
-      }],
+      data: [{type: LogMessageDataType.RAW_STRING, value: playerName}],
     },
     'Keep',
     cards,
@@ -1656,16 +1644,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     if (howToPay.science !== undefined) totalToPay += howToPay.science;
-
-    if (howToPay.megaCredits > this.megaCredits) {
-      throw new Error('Do not have enough M€');
-    }
+    if (howToPay.megaCredits > this.megaCredits) throw new Error('Do not have enough M€');
 
     totalToPay += howToPay.megaCredits;
+    if (totalToPay < cardCost) throw new Error('Did not spend enough to pay for card');
 
-    if (totalToPay < cardCost) {
-      throw new Error('Did not spend enough to pay for card');
-    }
     this.totalSpend += cardCost;
     return this.playCard(selectedCard, howToPay);
   }
@@ -1990,10 +1973,8 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   public claimMilestone(milestone: IMilestone): SelectOption {
     return new SelectOption(milestone.name, 'Claim - ' + '('+ milestone.name + ')', () => {
-      this.game.claimedMilestones.push({
-        player: this,
-        milestone: milestone,
-      });
+      this.game.claimedMilestones.push({player: this, milestone: milestone});
+
       let cost = MILESTONE_COST;
       if (this.cardIsInEffect(CardName.VAN_ALLEN) || this.game.gameOptions.automaSoloVariant) cost = 0;
       this.game.defer(new SelectHowToPayDeferred(this, cost, {title: 'Select how to pay for milestone'}));
@@ -2540,17 +2521,16 @@ export class Player implements ISerializable<SerializedPlayer> {
       });
 
       orOptions.options.push(this.passOption());
-      
-      this.setWaitingFor(orOptions, () => {
-        this.actionsTakenThisRound++;
-        this.actionsTakenThisGame++;
-        this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
-        this.takeAction();
-      });
+      this.performAction(orOptions);
+
       return;
     };
 
-    this.setWaitingFor(this.getActions(), () => {
+    this.performAction(this.getActions());
+  }
+
+  private performAction(options: OrOptions) {
+    this.setWaitingFor(options, () => {
       this.actionsTakenThisRound++;
       this.actionsTakenThisGame++;
       this.timer.rebateTime(constants.BONUS_SECONDS_PER_ACTION);
@@ -2585,17 +2565,9 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     if (this.getTurmoilActions().length > 0) action.options.push(this.getTurmoilActionOption());
 
-    if (this.getPlayableActionCards().length > 0) {
-      action.options.push(
-        this.playActionCard(),
-      );
-    }
+    if (this.getPlayableActionCards().length > 0) action.options.push(this.playActionCard());
 
-    if (this.getPlayableCards().length > 0) {
-      action.options.push(
-        this.playProjectCard(),
-      );
-    }
+    if (this.getPlayableCards().length > 0) action.options.push(this.playProjectCard());
 
     if (this.game.gameOptions.coloniesExtension) {
       let openColonies = this.game.colonies.filter((colony) => colony.isActive && colony.visitor === undefined);
