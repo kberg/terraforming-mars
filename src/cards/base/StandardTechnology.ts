@@ -6,6 +6,7 @@ import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
+import {Resources} from '../../Resources';
 
 export class StandardTechnology extends Card implements IProjectCard {
   constructor() {
@@ -27,7 +28,7 @@ export class StandardTechnology extends Card implements IProjectCard {
   }
   public onStandardProject(player: Player, projectType: StandardProjectCard) {
     if (projectType.name !== CardName.SELL_PATENTS_STANDARD_PROJECT) {
-      player.megaCredits += 3;
+      player.addResource(Resources.MEGACREDITS, 3, {log: true});
     }
   }
   public play() {
