@@ -136,8 +136,9 @@ export abstract class Board {
     ).length;
   }
 
-  public getAvailableSpacesForCity(player: Player): Array<ISpace> {
-    if (player.cardIsInEffect(CardName.GORDON)) return this.getAvailableSpacesOnLand(player);
+  // The second parameter shouldApplyGordonEffect is used by Deimos Down Promo
+  public getAvailableSpacesForCity(player: Player, shouldApplyGordonEffect: boolean = true): Array<ISpace> {
+    if (player.cardIsInEffect(CardName.GORDON) && shouldApplyGordonEffect) return this.getAvailableSpacesOnLand(player);
 
     // A city cannot be adjacent to another city
     return this.getAvailableSpacesOnLand(player).filter(
