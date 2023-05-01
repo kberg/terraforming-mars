@@ -1329,6 +1329,7 @@ export class Game implements ISerializable<SerializedGame> {
 
   private startActionsForPlayer(player: Player) {
     if (player.hasConceded) {
+      this.activePlayer = player.id;
       player.pass();
       this.playerIsFinishedTakingActions();
       return;
