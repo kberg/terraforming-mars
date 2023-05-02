@@ -448,6 +448,7 @@ function getCards(
     isDisabled: options.enabled?.[index] === false || (card as LeaderCard).isDisabled === true,
     opgActionIsActive: (card as LeaderCard).opgActionIsActive === true,
     effectTriggerCount: (card as LeaderCard).effectTriggerCount,
+    generationUsed: (card as LeaderCard).generationUsed,
     warning: card.warning,
     reserveUnits: options.reserveUnits ? options.reserveUnits[index] : Units.EMPTY,
     bonusResource: (card as IProjectCard).bonusResource,

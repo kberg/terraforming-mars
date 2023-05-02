@@ -2819,6 +2819,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       if ((c as LeaderCard).effectTriggerCount !== undefined) {
         result.effectTriggerCount = (c as LeaderCard).effectTriggerCount;
       }
+      if ((c as LeaderCard).generationUsed !== undefined) {
+        result.generationUsed = (c as LeaderCard).generationUsed;
+      }
       if (c instanceof SelfReplicatingRobots) {
         result.targetCards = c.targetCards.map((t) => {
           return {
@@ -3078,6 +3081,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
       if (element.effectTriggerCount !== undefined) {
         (card as LeaderCard).effectTriggerCount = Number(element.effectTriggerCount);
+      }
+      if (element.generationUsed !== undefined) {
+        (card as LeaderCard).generationUsed = Number(element.generationUsed);
       }
       if (card instanceof SelfReplicatingRobots && element.targetCards !== undefined) {
         card.targetCards = [];

@@ -8,6 +8,7 @@ export interface SerializedCard {
   isDisabled?: boolean;
   opgActionIsActive?: boolean;
   effectTriggerCount?: number;
+  generationUsed?: number;
   name: CardName;
   resourceCount?: number;
   targetCards?: Array<SerializedRobotCard>;
