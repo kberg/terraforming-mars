@@ -6,6 +6,7 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {StandardProjectCard} from '../StandardProjectCard';
+import {Resources} from '../../Resources';
 
 export class CrediCor extends Card implements CorporationCard {
   constructor() {
@@ -31,7 +32,7 @@ export class CrediCor extends Card implements CorporationCard {
   }
   private effect(player: Player, card: IProjectCard | StandardProjectCard): void {
     if (player.corporationCards.some((corp) => corp.name === this.name) && card.cost >= 20) {
-      player.megaCredits += 4;
+      player.addResource(Resources.MEGACREDITS, 4, {log: true});
     }
   }
   public onCardPlayed(player: Player, card: IProjectCard) {
