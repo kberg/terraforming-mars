@@ -3,7 +3,7 @@ import {IMilestone} from "../IMilestone";
 
 export class Passer implements IMilestone {
   public name: string = 'Passer';
-  public description: string = 'Be the first player to pass twice consecutively';
+  public description: string = 'Have passed first at least twice consecutively';
 
   public getScore(player: Player): number {
     return player.consecutiveFirstPassCount;

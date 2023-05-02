@@ -4,7 +4,7 @@ import {Tags} from '../cards/Tags';
 
 export class RimSettler implements IMilestone {
     public name: string = 'Rim Settler';
-    public description: string = 'Have 3 Jovian tags';
+    public description: string = 'Have at least 3 Jovian tags in play';
 
     public getScore(player: Player): number {
       return player.getTagCount(Tags.JOVIAN, 'milestone');

@@ -5,7 +5,7 @@ import {IMilestone} from "../IMilestone";
 
 export class Wanderer implements IMilestone {
   public name: string = 'Wanderer';
-  public description: string = 'Have 3 tiles on areas with no direct placement bonus';
+  public description: string = 'Have at least 3 tiles on areas with no direct placement bonus';
 
   public getScore(player: Player): number {
     const emptyMarsSpaces = player.game.board.spaces.filter((space) =>

@@ -3,7 +3,7 @@ import {Player} from '../Player';
 
 export class Diversifier implements IMilestone {
     public name: string = 'Diversifier';
-    public description: string = 'Have 8 different tags in play';
+    public description: string = 'Have at least 8 different tags in play';
 
     public getScore(player: Player): number {
       return player.getDistinctTagCount('milestone');

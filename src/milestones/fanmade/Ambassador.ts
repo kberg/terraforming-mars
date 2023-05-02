@@ -4,7 +4,7 @@ import {IMilestone} from "../IMilestone";
 
 export class Ambassador implements IMilestone {
   public name: string = 'Ambassador';
-  public description: string = 'Have 4 party leaders and chairmanships';
+  public description: string = 'Have at least 4 party leaders and chairmanships';
 
   public getScore(player: Player): number {
     const turmoil = Turmoil.getTurmoil(player.game);

@@ -3,7 +3,7 @@ import {IMilestone} from "../IMilestone";
 
 export class Purifier implements IMilestone {
   public name: string = 'Purifier';
-  public description: string = 'Remove 3 hazard tiles (excluding WGT)';
+  public description: string = 'Have removed at least 3 hazard tiles (excluding WGT)';
 
   public getScore(player: Player): number {
     return player.hazardsRemoved;

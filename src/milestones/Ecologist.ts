@@ -4,7 +4,7 @@ import {Tags} from '../cards/Tags';
 
 export class Ecologist implements IMilestone {
     public name: string = 'Ecologist';
-    public description: string = 'Have 4 Animal, Plant and Microbe tags';
+    public description: string = 'Have at least 4 Animal, Plant and Microbe tags in play';
 
     public getScore(player: Player): number {
       const tags: Array<Tags> = [Tags.PLANT, Tags.ANIMAL, Tags.MICROBE];

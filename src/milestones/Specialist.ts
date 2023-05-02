@@ -4,7 +4,7 @@ import {Resources} from '../Resources';
 
 export class Specialist implements IMilestone {
     public name: string = 'Specialist';
-    public description: string = 'Have 10 production of any resource';
+    public description: string = 'Have at least 10 production of any resource';
 
     public getScore(player: Player): number {
       return Math.max(player.getProduction(Resources.MEGACREDITS),

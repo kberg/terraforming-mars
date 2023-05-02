@@ -4,7 +4,7 @@ import {Tags} from '../cards/Tags';
 
 export class Builder implements IMilestone {
     public name: string = 'Builder';
-    public description: string = 'Have 8 Building tags';
+    public description: string = 'Have at least 8 Building tags';
 
     public getScore(player: Player): number {
       return player.getTagCount(Tags.BUILDING, 'milestone');

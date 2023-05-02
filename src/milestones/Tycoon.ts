@@ -4,7 +4,7 @@ import {CardType} from '../cards/CardType';
 
 export class Tycoon implements IMilestone {
     public name: string = 'Tycoon';
-    public description: string = 'Have 15 active and automated cards in play';
+    public description: string = 'Have at least 15 active and automated cards in play';
 
     public getScore(player: Player): number {
       return player.playedCards

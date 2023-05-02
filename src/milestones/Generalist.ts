@@ -4,7 +4,7 @@ import {Resources} from '../Resources';
 
 export class Generalist implements IMilestone {
     public name: string = 'Generalist';
-    public description: string = 'Increase all 6 productions by at least 1 step';
+    public description: string = 'Have increased all 6 productions by at least 1 step';
 
     public getScore(player: Player): number {
       let score: number = 0;

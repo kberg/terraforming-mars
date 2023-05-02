@@ -9,7 +9,7 @@ export class Terraformer implements IMilestone {
     public description: string;
 
     constructor() {
-      this.description = 'Have ' + this.terraformRating + ' TR (or ' + this.terraformRatingTurmoil + ' with Turmoil)';
+      this.description = 'Have at least ' + this.terraformRating + ' TR (or ' + this.terraformRatingTurmoil + ' with Turmoil)';
     }
 
     public getScore(player: Player): number {
