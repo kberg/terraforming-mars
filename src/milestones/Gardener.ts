@@ -4,7 +4,7 @@ import {TileType} from '../TileType';
 
 export class Gardener implements IMilestone {
     public name: string = 'Gardener';
-    public description: string = 'Own at least 3 greenery tiles';
+    public description: string = 'Have at least 3 greenery tiles';
 
     public getScore(player: Player): number {
       return player.game.board.getSpaceCount(TileType.GREENERY, player);
