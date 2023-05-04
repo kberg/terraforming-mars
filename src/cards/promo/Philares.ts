@@ -106,6 +106,9 @@ export class Philares extends Card implements CorporationCard {
   }
 
   public onTilePlaced(cardOwner: Player, activePlayer: Player, space: ISpace, boardType: BoardType) {
+    // Skip resource choice if player has conceded
+    if (cardOwner.hasConceded) return;
+
     // Nerfing on The Moon.
     if (boardType !== BoardType.MARS) return;
     if (space.player === undefined) return;
