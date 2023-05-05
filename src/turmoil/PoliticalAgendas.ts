@@ -1,5 +1,6 @@
 import {ChoosePoliticalAgenda} from '../deferredActions/ChoosePoliticaAgenda';
 import {Game} from '../Game';
+import {Player} from '../Player';
 import {Bonus, BonusId} from './Bonus';
 import {IParty} from './parties/IParty';
 import {PartyName} from './parties/PartyName';
@@ -77,7 +78,10 @@ export class PoliticalAgendas {
     const politicalAgendasData = turmoil.politicalAgendasData;
     const chairman: string = turmoil.chairman as string;
 
-    if (agendaStyle !== AgendaStyle.CHAIRMAN || (agendaStyle === AgendaStyle.CHAIRMAN && chairman === 'NEUTRAL')) {
+    let chairmanPlayer: Player | undefined = undefined;
+    if (chairman !== 'NEUTRAL') chairmanPlayer = game.getPlayerById(chairman);
+
+    if (agendaStyle !== AgendaStyle.CHAIRMAN || chairman === 'NEUTRAL' || chairmanPlayer?.hasConceded === true) {
       politicalAgendasData.currentAgenda = this.getDeterministicAgenda(rulingParty, politicalAgendasData.staticAgendas);
       turmoil.onAgendaSelected(game);
     } else {
