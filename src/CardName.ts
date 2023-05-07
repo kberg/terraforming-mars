@@ -501,6 +501,7 @@ export enum CardName {
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',
+    MISINFORMATION = 'Misinformation',
 
     // Community corps
     AGRICOLA_INC = 'Agricola Inc',

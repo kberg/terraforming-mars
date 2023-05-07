@@ -33,6 +33,7 @@ import {GamblingHouse} from './preludes/GamblingHouse';
 import {LabourUnion} from './corporations/LabourUnion';
 import {UnitedNationsMissionOne} from './corporations/UnitedNationsMissionOne';
 import {AbandonedSteelForge} from './preludes/AbandonedSteelForge';
+import {Misinformation} from './Misinformation';
 import {PerseveranceLanding} from './PerseveranceLanding';
 import {MarsCoalition} from './corporations/MarsCoalition';
 import {LaserFactory} from './preludes/LaserFactory';
@@ -62,6 +63,7 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
   module: GameModule.Community,
   projectCards: [
     {cardName: CardName.PERSEVERANCE_LANDING, Factory: PerseveranceLanding},
+    {cardName: CardName.MISINFORMATION, Factory: Misinformation},
   ],
   corporationCards: [
     {cardName: CardName.AGRICOLA_INC, Factory: AgricolaInc},
@@ -169,5 +171,8 @@ export const COMMUNITY_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ENERGY_BEAM, Factory: EnergyBeam},
     {cardName: CardName.COMMITTEE_REPRESENTATIVE, Factory: CommitteeRepresentative, compatibility: GameModule.Turmoil},
     {cardName: CardName.CO_LEADERSHIP, Factory: CoLeadership, compatibility: GameModule.Leader},
+  ],
+  cardsToRemove: [
+    CardName.MISINFORMATION,
   ],
 });
