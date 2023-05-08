@@ -24,7 +24,7 @@ export class Quill extends Card implements LeaderCard {
           b.cards(1).secondaryTag(AltSecondaryTag.FLOATER).colon().floaters(2).megacredits(1).asterix();
           b.br;
         }),
-        description: 'Once per game, add 2 floaters to each of your cards that collect floaters, then add 2 floaters to ANY card. Gain 1 M€ for every 2 floaters added this way.',
+        description: 'Once per game, add 2 floaters to each of your cards that collect floaters, then add 2 floaters to ANY card. Gain 1 M€ for each floater added this way.',
       },
     });
   }
@@ -46,7 +46,7 @@ export class Quill extends Card implements LeaderCard {
     player.game.defer(new AddResourcesToCard(player, ResourceType.FLOATER, {count: 2}));
 
     player.game.defer(new DeferredAction(player,() => {
-      player.addResource(Resources.MEGACREDITS, resourceCards.length + 1, {log: true});
+      player.addResource(Resources.MEGACREDITS, (resourceCards.length + 1) * 2, {log: true});
       return undefined;
     }), Priority.GAIN_RESOURCE_OR_PRODUCTION);
 

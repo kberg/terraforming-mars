@@ -39,7 +39,7 @@ describe('Quill', function() {
     expect(dirigibles.resourceCount).eq(4);
 
     game.deferredActions.runAll(() => {});
-    expect(player.megaCredits).to.eq(3);
+    expect(player.megaCredits).to.eq(6);
   });
 
   it('Can only act once per game', function() {
