@@ -8,12 +8,14 @@ import {Phase} from '../../../Phase';
 import {Resources} from '../../../Resources';
 import {IProjectCard} from '../../IProjectCard';
 import {Size} from '../../render/Size';
+import {Tags} from '../../Tags';
 
 export class Aerotech extends Card implements CorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.AEROTECH,
+      tags: [Tags.SPACE],
       startingMegaCredits: 48,
 
       metadata: {
