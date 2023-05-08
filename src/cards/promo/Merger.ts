@@ -13,6 +13,7 @@ import {CARD_COST} from '../../constants';
 import {Game} from '../../Game';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {Size} from '../render/Size';
+import {Resources} from '../../Resources';
 
 export class Merger extends PreludeCard {
   constructor() {
@@ -43,6 +44,7 @@ export class Merger extends PreludeCard {
 
     if (availableCorps.length === 0) {
       game.log('None of the four drawn corporation cards are affordable.');
+      player.addResource(Resources.MEGACREDITS, 15, {log: true});
       return undefined;
     }
 
@@ -80,6 +82,9 @@ export class Merger extends PreludeCard {
     while (cards.length < 4) {
       const card = candidateCards.pop();
       if (card === undefined) break;
+
+      // Remove the dealt corps from corporations deck
+      dealer.corporationCards.splice(dealer.corporationCards.indexOf(card), 1);
       cards.push(card as IProjectCard);
     }
 
