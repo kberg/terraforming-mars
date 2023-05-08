@@ -44,4 +44,5 @@ export interface GameOptionsModel {
   requiresVenusTrackCompletion: boolean,
   altVenusBoard: boolean,
   automaSoloVariant: boolean,
+  preludeTwoExtension: boolean,
 }

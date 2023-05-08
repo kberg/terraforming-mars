@@ -78,6 +78,7 @@ export class TestingUtils {
       newOpsExpansion: false,
       archaeologyExtension: false,
       automaSoloVariant: false,
+      preludeTwoExtension: false,
       leadersExpansion: false,
       undoOption: false,
       showTimers: false,

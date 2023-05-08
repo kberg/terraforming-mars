@@ -79,6 +79,7 @@ export interface CreateGameModel {
     escapeVelocityPenalty: number;
     requiresPassword: boolean;
     automaSoloVariant: boolean;
+    preludeTwoExtension: boolean;
 }
 
 export interface NewPlayerModel {
@@ -172,6 +173,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       escapeVelocityPeriod: 2,
       escapeVelocityPenalty: 1,
       automaSoloVariant: false,
+      preludeTwoExtension: false,
     };
   },
   components: {
@@ -349,11 +351,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
       if (!this.isSoloGame()) this.automaSoloVariant = false;
     },
     isBeginnerToggleEnabled: function(): Boolean {
-      return !(this.initialDraft || this.prelude || this.venusNext || this.colonies || this.turmoil);
+      return !(this.initialDraft || this.prelude || this.preludeTwoExtension || this.venusNext || this.colonies || this.turmoil);
     },
     selectAll: function() {
       this.corporateEra = this.$data.allOfficialExpansions;
       this.prelude = this.$data.allOfficialExpansions;
+      this.preludeTwoExtension = this.$data.allOfficialExpansions;
       this.venusNext = this.$data.allOfficialExpansions;
       this.colonies = this.$data.allOfficialExpansions;
       this.turmoil = this.$data.allOfficialExpansions;
@@ -431,6 +434,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       case GameModule.Venus: return this.$data.venusNext;
       case GameModule.Colonies: return this.$data.colonies;
       case GameModule.Prelude: return this.$data.prelude;
+      case GameModule.PreludeTwo: return this.$data.preludeTwoExtension;
       case GameModule.Turmoil: return this.$data.turmoil;
       case GameModule.Community: return this.$data.communityCardsOption;
       case GameModule.Ares: return this.$data.aresExtension;
@@ -493,6 +497,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
       const colonies = component.colonies;
       const turmoil = component.turmoil;
       const automaSoloVariant = component.automaSoloVariant;
+      const preludeTwoExtension = component.preludeTwoExtension;
       const solarPhaseOption = this.solarPhaseOption;
       const silverCubeVariant = this.silverCubeVariant;
       const singleTradeVariant = this.singleTradeVariant;
@@ -597,6 +602,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
         newOpsExpansion: newOpsExpansion,
         archaeologyExtension: archaeologyExtension,
         automaSoloVariant: automaSoloVariant,
+        preludeTwoExtension: preludeTwoExtension,
         leadersExpansion: leadersExpansion,
         aresExtension: aresExtension,
         politicalAgendasExtension: politicalAgendasExtension,
@@ -687,6 +693,12 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <label for="prelude-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-prelude"></div>
                                 <span v-i18n>Prelude</span>
+                            </label>
+
+                            <input type="checkbox" name="preludeTwoExtension" id="preludeTwoExtension-checkbox" v-model="preludeTwoExtension">
+                            <label for="preludeTwoExtension-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-prelude-two"></div>
+                                <span v-i18n>Prelude 2</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
                             <input type="checkbox" name="venusNext" id="venusNext-checkbox" v-model="venusNext" v-on:change="toggleVenusNext()">
@@ -1127,6 +1139,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                   v-on:corporation-list-changed="updateCustomCorporationsList"
                   v-bind:corporateEra="corporateEra"
                   v-bind:prelude="prelude"
+                  v-bind:preludeTwo="preludeTwoExtension"
                   v-bind:venusNext="venusNext"
                   v-bind:colonies="colonies"
                   v-bind:turmoil="turmoil"

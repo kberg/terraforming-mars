@@ -78,6 +78,7 @@ export const GameSetupDetail = Vue.component('game-setup-detail', {
               <div v-if="gameOptions.turmoilExtension" class="create-game-expansion-icon expansion-icon-turmoil"></div>
               <div v-if="gameOptions.promoCardsOption" class="create-game-expansion-icon expansion-icon-promo"></div>
               <div v-if="gameOptions.automaSoloVariant" class="create-game-expansion-icon expansion-icon-automa"></div>
+              <div v-if="gameOptions.preludeTwoExtension" class="create-game-expansion-icon expansion-icon-prelude-two"></div>
               <div v-if="isArchaeologyExtensionOn()" class="create-game-expansion-icon expansion-icon-archaeology"></div>
               <div v-if="gameOptions.aresExtension" class="create-game-expansion-icon expansion-icon-ares"></div>
               <div v-if="gameOptions.moonExpansion" class="create-game-expansion-icon expansion-icon-themoon"></div>

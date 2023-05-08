@@ -96,6 +96,7 @@ export interface GameOptions {
   venusNextExtension: boolean;
   coloniesExtension: boolean;
   preludeExtension: boolean;
+  preludeTwoExtension: boolean;
   turmoilExtension: boolean;
   promoCardsOption: boolean;
   communityCardsOption: boolean;
@@ -188,6 +189,7 @@ const DEFAULT_GAME_OPTIONS: GameOptions = {
   undoOption: false,
   venusNextExtension: false,
   automaSoloVariant: false,
+  preludeTwoExtension: false,
 };
 
 export class Game implements ISerializable<SerializedGame> {

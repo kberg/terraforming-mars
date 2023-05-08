@@ -7,6 +7,7 @@ export enum GameModule {
     Colonies = 'Colonies',
     Prelude = 'Prelude',
     Turmoil = 'Turmoil',
+    PreludeTwo = 'Prelude 2',
     Community = 'Community',
     Ares = 'Ares',
     Moon = 'Moon',

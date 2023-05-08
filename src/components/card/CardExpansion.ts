@@ -7,6 +7,7 @@ const MODULE_TO_CSS: Map<string, string> = new Map([
   [GameModule.Venus, 'venus-icon'],
   [GameModule.Colonies, 'colonies-icon'],
   [GameModule.Prelude, 'prelude-icon'],
+  [GameModule.PreludeTwo, 'prelude-two-icon'],
   [GameModule.Turmoil, 'turmoil-icon'],
   [GameModule.Community, 'community-icon'],
   [GameModule.Ares, 'ares-icon'],

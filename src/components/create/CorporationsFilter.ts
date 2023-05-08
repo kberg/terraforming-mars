@@ -35,6 +35,9 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
     prelude: {
       type: Boolean,
     },
+    preludeTwo: {
+      type: Boolean,
+    },
     venusNext: {
       type: Boolean,
     },
@@ -67,6 +70,7 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
         ...cardsByModuleMap.get(GameModule.Base)!,
         ...this.corporateEra ? cardsByModuleMap.get(GameModule.CorpEra)! : [],
         ...this.prelude ? cardsByModuleMap.get(GameModule.Prelude)! : [],
+        ...this.preludeTwo ? cardsByModuleMap.get(GameModule.PreludeTwo)! : [],
         ...this.venusNext ? cardsByModuleMap.get(GameModule.Venus)! : [],
         ...this.colonies ? cardsByModuleMap.get(GameModule.Colonies)! : [],
         ...this.turmoil ? cardsByModuleMap.get(GameModule.Turmoil)! : [],
@@ -168,6 +172,9 @@ export const CorporationsFilter = Vue.component('corporations-filter', {
     },
     prelude: function(enabled) {
       enabled ? this.selectAll(GameModule.Prelude) : this.selectNone(GameModule.Prelude);
+    },
+    preludeTwo: function(enabled) {
+      enabled ? this.selectAll(GameModule.PreludeTwo) : this.selectNone(GameModule.PreludeTwo);
     },
     venusNext: function(enabled) {
       enabled ? this.selectAll(GameModule.Venus) : this.selectNone(GameModule.Venus);

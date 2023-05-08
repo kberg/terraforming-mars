@@ -50,6 +50,7 @@ export interface DebugUIModel {
   leaders: boolean,
   promo: boolean,
   automaSoloVariant: boolean,
+  preludeTwoExtension: boolean,
 }
 
 export const DebugUI = Vue.component('debug-ui', {
@@ -73,6 +74,7 @@ export const DebugUI = Vue.component('debug-ui', {
       leaders: true,
       promo: true,
       automaSoloVariant: true,
+      preludeTwoExtension: true,
     } as DebugUIModel;
   },
   mounted() {
@@ -105,6 +107,7 @@ export const DebugUI = Vue.component('debug-ui', {
       data.moon = !data.moon;
       data.leaders = !data.leaders;
       data.automaSoloVariant = !data.automaSoloVariant;
+      data.preludeTwoExtension = !data.preludeTwoExtension;
     },
     sort: function(names: Array<CardName>): Array<CardName> {
       if (this.$data.sortById) {
@@ -224,6 +227,12 @@ export const DebugUI = Vue.component('debug-ui', {
               <label for="prelude-checkbox" class="expansion-button">
                   <div class="create-game-expansion-icon expansion-icon-prelude"></div>
                   <span v-i18n>Prelude</span>
+              </label>
+
+              <input type="checkbox" name="preludeTwoExtension" id="preludeTwoExtension-checkbox" v-model="preludeTwoExtension"></input>
+              <label for="preludeTwoExtension-checkbox" class="expansion-button">
+                  <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                  <span v-i18n>Prelude 2</span>
               </label>
 
               <input type="checkbox" name="venusNext" id="venusNext-checkbox" v-model="venusNext"></input>
