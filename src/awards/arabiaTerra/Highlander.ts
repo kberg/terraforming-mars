@@ -6,7 +6,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Highlander implements IAward {
   public name: string = 'Highlander';
-  public description: string = 'Most tiles on Mars not adjacent to oceans'
+  public description: string = 'Have the most tiles on Mars not adjacent to oceans'
   
   public getScore(player: Player): number {
     let score = player.game.board.spaces.filter((space) =>

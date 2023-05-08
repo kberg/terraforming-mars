@@ -3,7 +3,7 @@ import {Player} from '../Player';
 
 export class Entrepreneur implements IAward {
     public name: string = 'Entrepreneur';
-    public description: string = 'Most tiles that grant adjacency bonuses'
+    public description: string = 'Have the most tiles that grant adjacency bonuses'
     public getScore(player: Player): number {
       let score = player.game.board.spaces
         .filter((space) => (

@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Producer implements IAward {
   public name: string = 'Producer';
-  public description: string = 'Most sets of all 6 productions'
+  public description: string = 'Have the most sets of all 6 productions'
   
   public getScore(player: Player): number {
     let score = Math.min(player.getProduction(Resources.MEGACREDITS), player.getProduction(Resources.STEEL),

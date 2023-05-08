@@ -4,7 +4,7 @@ import {Tags} from '../cards/Tags';
 
 export class Venuphile implements IAward {
     public name: string = 'Venuphile';
-    public description: string = 'Having the most Venus tags in play'
+    public description: string = 'Have the most Venus tags in play'
     public getScore(player: Player): number {
       let score = player.getTagCount(Tags.VENUS, 'award');
       return score + getAdditionalScore(player);

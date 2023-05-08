@@ -5,7 +5,7 @@ import {MoonExpansion} from '../moon/MoonExpansion';
 
 export class Landlord implements IAward {
     public name: string = 'Landlord';
-    public description: string = 'Owning the most tiles in play'
+    public description: string = 'Have the most tiles in play'
     public getScore(player: Player): number {
       const marsSpaces = player.game.board.spaces.filter(
         // Don't simplifiy this to "space.tile?.tileType !== TileType.OCEAN" because that will make

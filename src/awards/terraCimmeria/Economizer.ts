@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Economizer implements IAward {
   public name: string = 'Economizer';
-  public description: string = 'Most cards in play costing 10 M€ or less'
+  public description: string = 'Have the most cards in play with a cost of 10 M€ or less'
 
   public getScore(player: Player): number {
     const validCardTypes = [CardType.ACTIVE, CardType.AUTOMATED];

@@ -5,7 +5,7 @@ import {Board} from '../boards/Board';
 
 export class EstateDealer implements IAward {
     public name: string = 'Estate Dealer';
-    public description: string = 'Most tiles adjacent to ocean tiles'
+    public description: string = 'Have the most tiles adjacent to ocean tiles'
     public getScore(player: Player): number {
       let score = player.game.board.spaces.filter((space) =>
         space.player === player &&

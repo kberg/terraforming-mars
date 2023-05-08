@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Edgedancer implements IAward {
   public name: string = 'Edgedancer';
-  public description: string = 'Most tiles on the edges of the board'
+  public description: string = 'Have the most tiles on the edges of the board'
 
   public getScore(player: Player): number {
     let score = player.game.board.spaces

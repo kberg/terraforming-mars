@@ -4,7 +4,7 @@ import {Resources} from '../Resources';
 
 export class Miner implements IAward {
     public name: string = 'Miner';
-    public description: string = 'Having the most steel and titanium resources'
+    public description: string = 'Have the most steel and titanium resources'
     public getScore(player: Player): number {
       let score: number;
 

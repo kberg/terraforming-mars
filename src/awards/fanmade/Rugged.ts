@@ -4,7 +4,7 @@ import {isAresTile} from '../../TileType';
 
 export class Rugged implements IAward {
     public name: string = 'Rugged';
-    public description: string = 'Most tiles adjacent to hazards'
+    public description: string = 'Have the most tiles adjacent to hazards'
     public getScore(player: Player): number {
       let score = player.game.board.spaces.filter((space) =>
         space.player === player &&

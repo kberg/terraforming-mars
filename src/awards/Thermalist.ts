@@ -4,7 +4,7 @@ import {Resources} from '../Resources';
 
 export class Thermalist implements IAward {
     public name: string = 'Thermalist';
-    public description: string = 'Having the most heat resources'
+    public description: string = 'Have the most heat resources'
     public getScore(player: Player): number {
       let score: number;
 

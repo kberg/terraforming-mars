@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Warmonger implements IAward {
   public name: string = 'Warmonger';
-  public description: string = 'Most cards that reduce other players\' resources or production'
+  public description: string = 'Play the most cards that reduce other players\' resources or production'
 
   public getScore(player: Player): number {
     const cardNames = player.playedCards.map((card) => card.name);

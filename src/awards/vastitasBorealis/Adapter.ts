@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Adapter implements IAward {
   public name: string = 'Adapter';
-  public description: string = 'Most cards in play with requirements'
+  public description: string = 'Have the most cards with requirements in play'
   
   public getScore(player: Player): number {
     let score = player.playedCards.filter((card) => {

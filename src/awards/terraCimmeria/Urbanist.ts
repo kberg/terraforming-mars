@@ -5,7 +5,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Urbanist implements IAward {
   public name: string = 'Urbanist';
-  public description: string = 'Most VP from city tiles on Mars'
+  public description: string = 'Have the most VP from city tiles on Mars'
 
   public getScore(player: Player): number {
     let score = 0;

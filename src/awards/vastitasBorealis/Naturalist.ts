@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Naturalist implements IAward {
   public name: string = 'Naturalist';
-  public description: string = 'Most plant and heat production'
+  public description: string = 'Have the most plant and heat production'
   
   public getScore(player: Player): number {
     let score = player.getProduction(Resources.HEAT) + player.getProduction(Resources.PLANTS);

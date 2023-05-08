@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Zoologist implements IAward {
   public name: string = 'Zoologist';
-  public description: string = 'Most animal and microbe resources';
+  public description: string = 'Have the most animal and microbe resources';
 
   public getScore(player: Player): number {
     const resourceTypes = [ResourceType.ANIMAL, ResourceType.MICROBE];

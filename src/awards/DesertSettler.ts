@@ -4,7 +4,7 @@ import {isAresTile} from '../TileType';
 
 export class DesertSettler implements IAward {
     public name: string = 'Desert Settler';
-    public description: string = 'Most tiles in the bottom four rows'
+    public description: string = 'Have the most tiles in the bottom four rows'
     public getScore(player: Player): number {
       let score = player.game.board.spaces
         .filter((space) => space.player !== undefined &&

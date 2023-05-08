@@ -5,7 +5,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Purist implements IAward {
   public name: string = 'Purist';
-  public description: string = 'Most cards in play from the base game'
+  public description: string = 'Have the most cards in play from the base game'
   
   public getScore(player: Player): number {
     const validCardTypes = [CardType.ACTIVE, CardType.AUTOMATED];

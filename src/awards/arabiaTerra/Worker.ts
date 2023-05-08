@@ -3,7 +3,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Worker implements IAward {
   public name: string = 'Worker';
-  public description: string = 'Most active (blue) action cards'
+  public description: string = 'Have the most active (blue) action cards'
   
   public getScore(player: Player): number {
     let score = player.playedCards.filter((card) => card.action !== undefined).length;

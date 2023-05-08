@@ -4,7 +4,7 @@ import {getAdditionalScore, IAward} from "../IAward";
 
 export class Tourist implements IAward {
   public name: string = 'Tourist';
-  public description: string = 'Most empty spaces adjacent to your tiles';
+  public description: string = 'Have the most empty spaces adjacent to your tiles';
 
   public getScore(player: Player): number {
     let score = RedTourismWave.getAdjacentEmptySpacesCount(player);
