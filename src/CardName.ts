@@ -525,6 +525,7 @@ export enum CardName {
     SECRET_SANTA_SOCIETY = 'Secret Santa Society',
     BENTENMARU = 'Bentenmaru',
     AEROTECH = 'Aerotech',
+    FAUX_NEWS = 'Faux News',
 
     // Community preludes
     VALUABLE_GASES = 'Valuable Gases',

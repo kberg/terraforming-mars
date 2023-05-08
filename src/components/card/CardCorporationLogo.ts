@@ -215,6 +215,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-phobolog-bot-logo">PHOBOLOG BOT</div>';
       case CardName.AEROTECH:
         return '<div class="card-aerotech-logo"></div>';
+      case CardName.FAUX_NEWS:
+        return '<div class="card-faux-news-logo"></div>';
       }
       return '';
     },

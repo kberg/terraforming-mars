@@ -74,4 +74,5 @@ export enum CardRenderItemType {
   REDS_DEACTIVATED = 'reds-deactivated',
   GLOBAL_EVENT = 'global-event',
   ADJACENCY_BONUS = 'adjacency-bonus',
+  MISINFORMATION = 'misinformation',
 }

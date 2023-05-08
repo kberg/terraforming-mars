@@ -669,6 +669,11 @@ class Builder {
     return this;
   }
 
+  public misinformation(amount: number): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.MISINFORMATION, amount));
+    return this;
+  }
+
   public text(text: string, size: Size = Size.MEDIUM, uppercase: boolean = false, isBold: boolean = true): Builder {
     const item = new CardRenderItem(CardRenderItemType.TEXT);
     item.text = text;
