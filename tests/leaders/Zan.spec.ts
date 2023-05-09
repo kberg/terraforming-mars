@@ -52,6 +52,7 @@ describe('Zan', function() {
     expect(turmoil.dominantParty.name).eq(PartyName.REDS);
     expect(turmoil.dominantParty.partyLeader).eq(player.id);
     expect(player.megaCredits).to.eq(PLAYER_DELEGATES_COUNT);
+    expect(player.totalDelegatesPlaced).to.eq(PLAYER_DELEGATES_COUNT);
     expect(card.isDisabled).is.true;
   });
 

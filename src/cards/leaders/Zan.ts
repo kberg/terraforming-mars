@@ -48,6 +48,7 @@ export class Zan extends Card implements LeaderCard {
     for (let i = 0; i < reserveDelegates; i++) {
       game.defer(new DeferredAction(player, () => {
         turmoil.sendDelegateToParty(player.id, PartyName.REDS, game, 'reserve');
+        player.totalDelegatesPlaced++;
         return undefined;
       }));
     }
@@ -55,6 +56,7 @@ export class Zan extends Card implements LeaderCard {
     if (turmoil.lobby.has(player.id)) {
       game.defer(new DeferredAction(player, () => {
         turmoil.sendDelegateToParty(player.id, PartyName.REDS, game, 'lobby');
+        player.totalDelegatesPlaced++;
         return undefined;
       }));
     }
