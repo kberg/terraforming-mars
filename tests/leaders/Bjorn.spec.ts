@@ -6,22 +6,25 @@ import {TestingUtils} from "../TestingUtils";
 import {TestPlayers} from "../TestPlayers";
 
 describe('Bjorn', function() {
-  let card: Bjorn; let player: Player; let player2: Player; let game: Game;
+  let card: Bjorn; let player: Player; let player2: Player; let player3: Player; let game: Game;
 
   beforeEach(() => {
     card = new Bjorn();
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
-    game = Game.newInstance('foobar', [player, player2], player);
+    player3 = TestPlayers.GREEN.newPlayer();
+    game = Game.newInstance('foobar', [player, player2, player3], player);
   });
 
   it('Takes OPG action', function() {
     game.generation = 9;
     player2.megaCredits = 4;
+    player3.megaCredits = 25;
 
     card.action(player);
-    expect(player.megaCredits).eq(4);
+    expect(player.megaCredits).eq(15);
     expect(player2.megaCredits).eq(0);
+    expect(player3.megaCredits).eq(14);
     expect(card.isDisabled).is.true;
   });
 
