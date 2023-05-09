@@ -2031,10 +2031,23 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   private concedeOption(): PlayerInput {
     return new SelectOption('Concede this game', 'Concede', () => {
-      this.hasConceded = true;
-      this.pass();
-      this.game.log('${0} conceded the game', (b) => b.player(this));
-      return undefined;
+      const orOptions = new OrOptions();
+      orOptions.title = 'Are you sure you want to concede?';
+
+      orOptions.options.push(new SelectOption('Concede this game', 'Concede', () => {
+        this.hasConceded = true;
+        this.pass();
+        this.game.log('${0} conceded the game', (b) => b.player(this));
+        return undefined;
+      }));
+
+      orOptions.options.push(new SelectOption('Continue playing', 'Confirm', () => {
+        this.actionsTakenThisRound--;
+        this.actionsTakenThisGame--;
+        return undefined;
+      }));
+
+      return orOptions;
     });
   }
 
@@ -2664,8 +2677,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       action.options.push(new UndoActionOption());
     }
 
-    // Conceding a game is only available from gen 6 onwards
-    if (!this.game.isSoloMode() && this.game.generation > 5 && this.game.getPlayersStillInGame().length > 1) {
+    // Conceding a game is only available from gen 5 onwards
+    if (!this.game.isSoloMode() && this.game.generation > 4 && this.game.getPlayersStillInGame().length > 1) {
       action.options.push(this.concedeOption());
     }
 
