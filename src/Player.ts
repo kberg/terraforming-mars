@@ -706,12 +706,13 @@ export class Player implements ISerializable<SerializedPlayer> {
         board.getSpaceCount(TileType.OCEAN_CITY, this);
   }
 
-  // Return the number of cards in the player's hand without tags.
-  // Wildcard tags are ignored in this computation. (why?)
+  // Return the number of played cards without tags.
+  // Wild tags are ignored in this computation as they can also be counted as having no tag
   public getNoTagsCount() {
     let noTagsCount: number = 0;
 
-    this.corporationCards.forEach((corp) => {
+    // Count all corps with no tags, except flipped Pharmacy Union which is considered to be a played event
+    this.corporationCards.filter((c) => c.name !== CardName.PHARMACY_UNION).forEach((corp) => {
       if (corp.tags.filter((tag) => tag !== Tags.WILDCARD).length === 0) {
         noTagsCount++;
       }

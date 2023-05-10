@@ -9,6 +9,7 @@ import {Game} from "../../../src/Game";
 import {Maverick} from "../../../src/milestones/fanmade/Maverick";
 import {Player} from "../../../src/Player";
 import {TestPlayers} from "../../TestPlayers";
+import {PharmacyUnion} from "../../../src/cards/promo/PharmacyUnion";
 
 describe('Maverick', () => {
   let milestone : Maverick; let player : Player; let player2 : Player;
@@ -34,5 +35,13 @@ describe('Maverick', () => {
   it('Works with wild tags', () => {
     player.playedCards.push(new ResearchCoordination());
     expect(milestone.canClaim(player)).is.true;
+  });
+
+  it('Does not count flipped PU', () => {
+    const pharmacyUnion = new PharmacyUnion();
+    pharmacyUnion.isDisabled = true;
+
+    player.corporationCards.push(pharmacyUnion);
+    expect(milestone.canClaim(player)).is.false;
   });
 });

@@ -31,6 +31,7 @@ import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE, MAX_VENUS_SCALE} from '../src/constan
 import {GiantSolarShade} from '../src/cards/venusNext/GiantSolarShade';
 import {Luna} from '../src/colonies/Luna';
 import {Callisto} from '../src/colonies/Callisto';
+import {OrOptions} from '../src/inputs/OrOptions';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -1061,24 +1062,25 @@ describe('Concede option', function() {
     game = Game.newInstance('foobar', [player, player2], player);
   });
 
-  it('Does not show Concede option before generation 6', () => {
-    game.generation = 5;
+  it('Does not show Concede option before generation 5', () => {
+    game.generation = 4;
     const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
     expect(concedeOption).is.undefined;
   });
 
-  it('Shows Concede option from generation 6 onwards', () => {
-    game.generation = 6;
+  it('Shows Concede option from generation 5 onwards', () => {
+    game.generation = 5;
     const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
     expect(concedeOption).is.not.undefined;
 
-    concedeOption!.cb();
+    const orOptions = concedeOption!.cb() as OrOptions;
+    orOptions.options[0].cb();
     expect(player.hasConceded).is.true;
   });
 
   it('Does not show Concede option in solo games', () => {
     game = Game.newInstance('foobar', [player], player);
-    game.generation = 6;
+    game.generation = 5;
     const concedeOption = player.getActions().options.find((option) => option.title == "Concede this game");
     expect(concedeOption).is.undefined;
   });
