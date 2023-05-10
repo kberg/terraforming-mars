@@ -19,12 +19,12 @@ describe('SymbioticFungus', function() {
   });
 
   it('Can not play', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     setTemperature(game, -14);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('Can act without targets', function() {

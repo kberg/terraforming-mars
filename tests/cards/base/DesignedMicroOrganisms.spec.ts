@@ -17,17 +17,17 @@ describe('DesignedMicroOrganisms', function() {
 
   it('Cannot play', function() {
     setTemperature(game, -12);
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Can play', function() {
     setTemperature(game, -14);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('Should play', function() {
     setTemperature(game, -14);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
     card.play(player);
     expect(player.production.plants).to.eq(2);
   });

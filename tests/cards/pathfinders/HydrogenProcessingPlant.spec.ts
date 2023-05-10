@@ -19,10 +19,10 @@ describe('HydrogenProcessingPlant', function() {
 
   it('canPlay', function() {
     setOxygenLevel(game, 2);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     setOxygenLevel(game, 3);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('play', function() {

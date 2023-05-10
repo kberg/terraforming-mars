@@ -30,22 +30,22 @@ describe('GeologicalSurvey', () => {
 
   it('Can play', () => {
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     addGreenery(player);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
   });
 
 

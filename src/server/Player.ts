@@ -1428,15 +1428,14 @@ export class Player {
       });
   }
 
-  public canPlay(card: IProjectCard): boolean {
-    return this.canAffordCard(card) && this.simpleCanPlay(card);
-  }
-
   /**
    * Verify if requirements for the card can be met, ignoring the project cost.
    * Only made public for tests.
    */
-  public simpleCanPlay(card: IProjectCard): boolean {
+  public canPlay(card: IProjectCard, options?: {testAffordability: boolean}): boolean {
+    if (options?.testAffordability === true && this.canAffordCard(card) === false) {
+      return false;
+    }
     if (card.requirements !== undefined && !card.requirements.satisfies(this)) {
       return false;
     }

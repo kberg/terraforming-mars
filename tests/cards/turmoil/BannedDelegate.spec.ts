@@ -26,12 +26,12 @@ describe('Banned Delegate', function() {
 
   it('Cannot play', function() {
     turmoil.chairman = player2.id;
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     turmoil.chairman = player.id;
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     const greens = turmoil.getPartyByName(PartyName.GREENS);
     turmoil.sendDelegateToParty(player.id, PartyName.GREENS, game);

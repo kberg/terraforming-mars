@@ -24,19 +24,19 @@ describe('OceanSanctuary', function() {
 
   it('Can play', function() {
     addOcean(player);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false}) {testAffordability: false}, {testAffordability: false})).is.false;
 
     addOcean(player);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     addOcean(player);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     addOcean(player);
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     addOcean(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('Play', function() {

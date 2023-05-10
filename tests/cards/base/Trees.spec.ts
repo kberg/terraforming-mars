@@ -16,12 +16,12 @@ describe('Trees', function() {
   });
 
   it('Can not play', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     setTemperature(game, -4);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     card.play(player);
     expect(player.production.plants).to.eq(3);

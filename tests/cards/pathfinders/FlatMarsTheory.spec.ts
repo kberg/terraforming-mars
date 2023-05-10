@@ -17,19 +17,19 @@ describe('FlatMarsTheory', function() {
 
   it('canPlay', function() {
     player.tagsForTest = {};
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     player.tagsForTest = {science: 1};
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     player.tagsForTest = {science: 2};
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     player.tagsForTest = {science: 1, wild: 1};
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     player.tagsForTest = {wild: 2};
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('play', function() {

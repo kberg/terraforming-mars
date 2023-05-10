@@ -8,10 +8,10 @@ describe('PublicCelebrations', function() {
     const card = new PublicCelebrations();
     const [game, player] = testGame(1, testGameOptions({turmoilExtension: true}));
 
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
 
     game.turmoil!.chairman = player.id;
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
     card.play(player);
   });
 });

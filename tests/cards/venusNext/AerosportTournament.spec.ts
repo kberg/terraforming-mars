@@ -19,9 +19,9 @@ describe('AerosportTournament', function() {
     const [, player] = testGame(2);
     player.setCorporationForTest(corp);
     corp.resourceCount = 4;
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
     corp.resourceCount = 5;
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
   it('Play', function() {
     addCityTile(player, '03');

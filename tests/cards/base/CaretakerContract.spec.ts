@@ -22,13 +22,13 @@ describe('CaretakerContract', function() {
   });
 
   it('Cannot play or act', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
     expect(card.canAct(player)).is.not.true;
   });
 
   it('Should play', function() {
     setTemperature(game, 0);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('Cannot act', function() {

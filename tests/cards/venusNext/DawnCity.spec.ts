@@ -9,7 +9,7 @@ describe('DawnCity', function() {
     const card = new DawnCity();
     const [, player] = testGame(2, testGameOptions({venusNextExtension: true}));
     player.production.add(Resource.ENERGY, 1);
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
 
     const action = card.play(player);
     expect(action).is.undefined;

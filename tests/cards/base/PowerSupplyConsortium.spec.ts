@@ -20,12 +20,12 @@ describe('PowerSupplyConsortium', function() {
 
   it('Cannot play without power tags', function() {
     player.production.add(Resource.ENERGY, 3);
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Can play - no targets', function() {
     player.playedCards.push(card, card);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     card.play(player);
     runAllActions(game);
@@ -37,7 +37,7 @@ describe('PowerSupplyConsortium', function() {
   it('Can play - single target', function() {
     player2.production.override({energy: 1});
     player.playedCards.push(card, card);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     card.play(player);
     runAllActions(game);

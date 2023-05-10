@@ -13,11 +13,11 @@ describe('PROffice', function() {
     const card3 = new AcquiredCompany();
     const [game, player] = testGame(1, testGameOptions({turmoilExtension: true}));
 
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
 
     const unity = game.turmoil!.getPartyByName(PartyName.UNITY);
     unity.delegates.add(player.id, 2);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     player.playedCards.push(card2, card3);
     card.play(player);

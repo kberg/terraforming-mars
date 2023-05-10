@@ -9,11 +9,11 @@ describe('RedTourismWave', function() {
   it('Should play', function() {
     const card = new RedTourismWave();
     const [game, player] = testGame(2, {turmoilExtension: true});
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
 
     const reds = game.turmoil!.getPartyByName(PartyName.REDS);
     reds.delegates.add(player.id, 2);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     const tharsis = game.board.getSpace(SpaceName.THARSIS_THOLUS);
     const lands = game.board.getAdjacentSpaces(tharsis).filter((space) => space.spaceType === SpaceType.LAND);

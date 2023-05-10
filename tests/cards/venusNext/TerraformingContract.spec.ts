@@ -8,9 +8,9 @@ describe('TerraformingContract', function() {
     const [, player] = testGame(1);
 
     player.setTerraformRating(24);
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
     player.setTerraformRating(25);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     const action = card.play(player);
     expect(action).is.undefined;

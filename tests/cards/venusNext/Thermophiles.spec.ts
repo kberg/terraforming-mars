@@ -20,12 +20,12 @@ describe('Thermophiles', function() {
 
   it('Can not play', function() {
     setVenusScaleLevel(game, 4);
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     setVenusScaleLevel(game, 6);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
     const action = card.play(player);
     expect(action).is.undefined;
   });

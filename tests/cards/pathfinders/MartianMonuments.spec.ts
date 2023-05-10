@@ -17,15 +17,15 @@ describe('MartianMonuments', function() {
   });
 
   it('can play', function() {
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
     addCity(player);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
-    expect(player2.simpleCanPlay(card)).is.false;
+    expect(player2.canPlay(card, {testAffordability: false})).is.false;
 
     // Add a city in space, it shouldn't count.
     addCityTile(player2, SpaceName.GANYMEDE_COLONY);
-    expect(player2.simpleCanPlay(card)).is.false;
+    expect(player2.canPlay(card, {testAffordability: false})).is.false;
   });
 
   it('play', function() {

@@ -17,13 +17,13 @@ describe('PrefabricationofHumanHabitats', function() {
   });
 
   it('canPlay', function() {
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     player.production.override({steel: 0});
-    expect(player.simpleCanPlay(card)).is.false;
+    expect(player.canPlay(card, {testAffordability: false})).is.false;
 
     player.production.override({steel: 1});
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
   });
 
   it('City tag discount ', function() {

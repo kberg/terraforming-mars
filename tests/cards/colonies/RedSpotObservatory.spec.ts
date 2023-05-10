@@ -15,12 +15,12 @@ describe('RedSpotObservatory', function() {
   });
 
   it('Can not play', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     player.playedCards.push(card, card, card);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
 
     const action = card.play(player);
     expect(action).is.undefined;

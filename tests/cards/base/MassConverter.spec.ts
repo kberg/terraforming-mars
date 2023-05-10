@@ -16,12 +16,12 @@ describe('MassConverter', function() {
   });
 
   it('Can not play', function() {
-    expect(player.simpleCanPlay(card)).is.not.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.not.true;
   });
 
   it('Should play', function() {
     player.playedCards.push(card, card, card, card, card);
-    expect(player.simpleCanPlay(card)).is.true;
+    expect(player.canPlay(card, {testAffordability: false})).is.true;
     card.play(player);
 
     expect(player.production.energy).to.eq(6);
