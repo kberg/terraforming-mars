@@ -61,6 +61,7 @@ export class Petra extends Card implements LeaderCard {
       while (party.delegates.includes("NEUTRAL")) {
         const source = turmoil.hasAvailableDelegates(player.id) ? 'reserve' : 'lobby';
         turmoil.replaceDelegateFromParty("NEUTRAL", player.id, source, party.name, game);
+        player.totalDelegatesPlaced++;
         count++;
       }
       turmoil.checkDominantParty(party);
@@ -70,6 +71,7 @@ export class Petra extends Card implements LeaderCard {
     if (turmoil.chairman === "NEUTRAL") {
       turmoil.delegateReserve.push("NEUTRAL");
       turmoil.chairman = player.id;
+      player.totalDelegatesPlaced++;
       count++;
 
       const index = turmoil.delegateReserve.indexOf(player.id);
