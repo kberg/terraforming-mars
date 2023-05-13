@@ -41,7 +41,7 @@ export class MinorityRefuge extends Card implements IProjectCard {
     } else if (megaCreditsProduction <= -4) {
       const lunaIsAvailable = player.game.colonies.some((colony) =>
         colony.name === ColonyName.LUNA &&
-        colony.isColonyFull() === false &&
+        colony.isColonyFull(player, player.game) === false &&
         colony.colonies.includes(player.id) === false);
 
       if (lunaIsAvailable === false) {

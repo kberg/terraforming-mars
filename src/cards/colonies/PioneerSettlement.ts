@@ -42,7 +42,7 @@ export class PioneerSettlement extends Card implements IProjectCard {
     let coloniesCount: number = 0;
     const hasOneColonyMax = player.game.colonies.every((colony) => {
       if (colony.name === ColonyName.LUNA &&
-          colony.isColonyFull() === false &&
+          colony.isColonyFull(player, player.game) === false &&
           colony.colonies.includes(player.id) === false) {
         lunaIsAvailable = true;
       }

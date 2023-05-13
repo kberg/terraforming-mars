@@ -90,14 +90,23 @@ export abstract class Colony implements SerializedColony {
       this.trackPosition = Math.max(this.trackPosition - value, this.colonies.length);
     }
 
-    public isColonyFull(): boolean {
-      return this.colonies.length >= 3;
+    public isColonyFull(player: Player, game: Game): boolean {
+      if (game.gameOptions.equalOpportunityVariant === false) {
+        return this.colonies.length >= 3;
+      }
+
+      return this.colonies.includes(player.id);
     }
 
     public addColony(player: Player): void {
       player.game.log('${0} built a colony on ${1}', (b) => b.player(player).colony(this));
 
-      this.giveBonus(player, this.buildType, this.buildQuantity[this.colonies.length], this.buildResource);
+      let colonyBonusRewardPosition = this.colonies.length;
+      if (player.game.gameOptions.equalOpportunityVariant === true) {
+        colonyBonusRewardPosition = Math.min(colonyBonusRewardPosition, 2);
+      }
+
+      this.giveBonus(player, this.buildType, this.buildQuantity[colonyBonusRewardPosition], this.buildResource);
 
       this.colonies.push(player.id);
       if (this.trackPosition < this.colonies.length) {

@@ -211,19 +211,42 @@ describe('Colony', function() {
 
   it('Shouldn\'t let players build a colony if colony tile is full', function() {
     player.megaCredits = 17;
-    expect(luna.isColonyFull()).to.be.false;
+    expect(luna.isColonyFull(player, game)).to.be.false;
 
     luna.addColony(player2);
-    expect(luna.isColonyFull()).to.be.false;
+    expect(luna.isColonyFull(player, game)).to.be.false;
     expect(isBuildColonyStandardProjectAvailable(player)).to.be.true;
 
     luna.addColony(player3);
-    expect(luna.isColonyFull()).to.be.false;
+    expect(luna.isColonyFull(player, game)).to.be.false;
     expect(isBuildColonyStandardProjectAvailable(player)).to.be.true;
 
     luna.addColony(player4);
-    expect(luna.isColonyFull()).to.be.true;
+    expect(luna.isColonyFull(player, game)).to.be.true;
     expect(isBuildColonyStandardProjectAvailable(player)).to.be.false;
+  });
+
+  it('Can build a colony if equalOpportunityVariant is enabled and player has no colony, even if colony tile is full', function() {
+    game = Game.newInstance('foobar', [player, player2, player3, player4], player, TestingUtils.setCustomGameOptions({coloniesExtension: true, equalOpportunityVariant: true}));
+    player.megaCredits = 17;
+
+    luna.addColony(player2);
+    luna.addColony(player3);
+    luna.addColony(player4);
+    expect(luna.isColonyFull(player, game)).is.false;
+    expect(isBuildColonyStandardProjectAvailable(player)).to.be.true;
+  });
+
+  it('Gives colony bonus correctly if equalOpportunityVariant is enabled', function() {
+    game = Game.newInstance('foobar', [player, player2, player3, player4], player, TestingUtils.setCustomGameOptions({coloniesExtension: true, equalOpportunityVariant: true}));
+    player.megaCredits = 17;
+
+    luna.addColony(player2);
+    luna.addColony(player3);
+    luna.addColony(player4);
+
+    luna.addColony(player);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(2);
   });
 
   it('Should let players trade only if they can afford it', function() {
