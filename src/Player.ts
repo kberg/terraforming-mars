@@ -2073,7 +2073,7 @@ export class Player implements ISerializable<SerializedPlayer> {
             // Unless it is a 63 TR solo game that was already won before final placement
             const shouldRaiseOxygen = this.game.isSoloMode() ? this.game.isSoloModeWin() : false;
             this.game.addGreenery(this, space.id, SpaceType.LAND, shouldRaiseOxygen);
-            this.plants -= this.plantsNeededForGreenery;
+            this.deductResource(Resources.PLANTS, this.plantsNeededForGreenery);
             this.takeActionForFinalGreenery();
 
             // Resolve Philares deferred actions
