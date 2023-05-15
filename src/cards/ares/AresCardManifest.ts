@@ -16,6 +16,7 @@ import {GeologicalSurvey} from './GeologicalSurvey';
 import {GreatDamAres} from './GreatDamAres';
 import {IndustrialCenterAres} from './IndustrialCenterAres';
 import {LavaFlowsAres} from './LavaFlowsAres';
+import {MagneticFieldGeneratorsAres} from './MagneticFieldGeneratorsAres';
 import {MarketingExperts} from './MarketingExperts';
 import {MetallicAsteroid} from './MetallicAsteroid';
 import {MiningAreaAres} from './MiningAreaAres';
@@ -45,6 +46,7 @@ export const ARES_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.GREAT_DAM_ARES, Factory: GreatDamAres},
     {cardName: CardName.INDUSTRIAL_CENTER_ARES, Factory: IndustrialCenterAres},
     {cardName: CardName.LAVA_FLOWS_ARES, Factory: LavaFlowsAres},
+    {cardName: CardName.MAGNETIC_FIELD_GENERATORS_ARES, Factory: MagneticFieldGeneratorsAres},
     {cardName: CardName.MARKETING_EXPERTS, Factory: MarketingExperts},
     {cardName: CardName.METALLIC_ASTEROID, Factory: MetallicAsteroid},
     {cardName: CardName.MINING_AREA_ARES, Factory: MiningAreaAres},
@@ -68,6 +70,8 @@ export const ARES_CARD_MANIFEST = new CardManifest({
     CardName.GREAT_DAM_PROMO,
     CardName.INDUSTRIAL_CENTER,
     CardName.LAVA_FLOWS,
+    CardName.MAGNETIC_FIELD_GENERATORS,
+    CardName.MAGNETIC_FIELD_GENERATORS_PROMO,
     CardName.MINING_AREA,
     CardName.MINING_RIGHTS,
     CardName.MOHOLE_AREA,

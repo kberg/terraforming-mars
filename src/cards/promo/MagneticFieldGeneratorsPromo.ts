@@ -14,30 +14,34 @@ import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/Re
 import {REDS_RULING_POLICY_COST} from '../../constants';
 import {PartyHooks} from '../../turmoil/parties/PartyHooks';
 import {PartyName} from '../../turmoil/parties/PartyName';
+import {IAdjacencyBonus} from '../../ares/IAdjacencyBonus';
 
 export class MagneticFieldGeneratorsPromo extends Card implements IProjectCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
 
-  constructor() {
+  constructor(
+    name: CardName = CardName.MAGNETIC_FIELD_GENERATORS_PROMO,
+    adjacencyBonus: IAdjacencyBonus | undefined = undefined,
+    metadata = {
+      cardNumber: 'X33',
+      renderData: CardRenderer.builder((b) => {
+        b.production((pb) => {
+          pb.minus().energy(4).digit.br;
+          pb.plus().plants(2);
+        }).br;
+        b.tr(3).digit.tile(TileType.MAGNETIC_FIELD_GENERATORS, true).asterix();
+      }),
+      description: 'Decrease your Energy production 4 steps and increase your Plant production 2 steps. Raise your TR 3 steps.',
+    }) {
     super({
       cardType: CardType.AUTOMATED,
-      name: CardName.MAGNETIC_FIELD_GENERATORS_PROMO,
+      name,
       tags: [Tags.BUILDING],
       cost: 22,
       productionBox: Units.of({energy: -4, plants: 2}),
       tr: {tr: 3},
-
-      metadata: {
-        cardNumber: 'X33',
-        renderData: CardRenderer.builder((b) => {
-          b.production((pb) => {
-            pb.minus().energy(4).digit.br;
-            pb.plus().plants(2);
-          }).br;
-          b.tr(3).digit.tile(TileType.MAGNETIC_FIELD_GENERATORS, true).asterix();
-        }),
-        description: 'Decrease your Energy production 4 steps and increase your Plant production 2 steps. Raise your TR 3 steps.',
-      },
+      adjacencyBonus,
+      metadata,
     });
   }
 
@@ -76,6 +80,7 @@ export class MagneticFieldGeneratorsPromo extends Card implements IProjectCard {
 
     return new SelectSpace('Select space for tile', availableSpaces, (foundSpace: ISpace) => {
       player.game.addTile(player, foundSpace.spaceType, foundSpace, {tileType: TileType.MAGNETIC_FIELD_GENERATORS});
+      foundSpace.adjacency = this.adjacencyBonus;
       return undefined;
     });
   }

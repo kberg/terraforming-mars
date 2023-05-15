@@ -43,6 +43,7 @@ const tileTypeToCssClassAresOverride = new Map<TileType, string>([
   [TileType.GREAT_DAM, 'great-dam-ares'],
   [TileType.INDUSTRIAL_CENTER, 'industrial-center-ares'],
   [TileType.LAVA_FLOWS, 'lava-flows-ares'],
+  [TileType.MAGNETIC_FIELD_GENERATORS, 'magnetic-field-generators-ares'],
   [TileType.CAPITAL, 'capital-ares'],
   [TileType.MOHOLE_AREA, 'mohole-area-ares'],
   [TileType.NATURAL_PRESERVE, 'natural-preserve-ares'],
