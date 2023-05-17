@@ -6,6 +6,7 @@ import {CardName} from '../../CardName';
 import {CardType} from '../CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
+import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 
 export class MonsInsurance extends Card implements CorporationCard {
   constructor() {
@@ -59,16 +60,20 @@ export class MonsInsurance extends Card implements CorporationCard {
   }
 
   private static payoutAndLogInsurance(insurer: Player, victim: Player): void {
-    const retribution: number = Math.min(insurer.megaCredits, 3);
-    insurer.deductResource(Resources.MEGACREDITS, retribution);
-    victim.addResource(Resources.MEGACREDITS, retribution);
+    insurer.game.defer(new DeferredAction(insurer, () => {
+      const retribution: number = Math.min(insurer.megaCredits, 3);
+      insurer.deductResource(Resources.MEGACREDITS, retribution);
+      victim.addResource(Resources.MEGACREDITS, retribution);
 
-    if (retribution > 0) {
-      insurer.game.log('${0} received ${1} M€ from ${2} owner (${3})', (b) =>
-        b.player(victim)
-          .number(retribution)
-          .cardName(CardName.MONS_INSURANCE)
-          .player(insurer));
-    }
+      if (retribution > 0) {
+        insurer.game.log('${0} received ${1} M€ from ${2} owner (${3})', (b) =>
+          b.player(victim)
+            .number(retribution)
+            .cardName(CardName.MONS_INSURANCE)
+            .player(insurer));
+      }
+
+      return undefined;
+    }), Priority.LOSE_AS_MUCH_AS_POSSIBLE);
   }
 }

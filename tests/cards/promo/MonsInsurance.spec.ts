@@ -10,9 +10,11 @@ import {Resources} from '../../../src/Resources';
 import {GlobalEventName} from '../../../src/turmoil/globalEvents/GlobalEventName';
 import {TestPlayer} from '../../TestPlayer';
 import {TestPlayers} from '../../TestPlayers';
+import {TestingUtils} from '../../TestingUtils';
+import {MediaGroup} from '../../../src/cards/base/MediaGroup';
 
 describe('MonsInsurance', () => {
-  let card: MonsInsurance; let player: TestPlayer; let player2: TestPlayer; let player3: TestPlayer;
+  let card: MonsInsurance; let player: TestPlayer; let player2: TestPlayer; let player3: TestPlayer; let game: Game;
 
   beforeEach(() => {
     card = new MonsInsurance();
@@ -20,7 +22,7 @@ describe('MonsInsurance', () => {
     player = TestPlayers.BLUE.newPlayer();
     player2 = TestPlayers.RED.newPlayer();
     player3 = TestPlayers.GREEN.newPlayer();
-    Game.newInstance('foobar', [player, player2, player3], player);
+    game = Game.newInstance('foobar', [player, player2, player3], player);
   });
 
   it('Should play', () => {
@@ -41,9 +43,29 @@ describe('MonsInsurance', () => {
     const action = card2.play!(player3) as OrOptions;
 
     action.options[1].cb();
+    TestingUtils.runAllActions(game);
     expect(player2.titanium).eq(0);
     expect(player2.megaCredits).eq(2);
     expect(player.megaCredits).eq(0);
+  });
+
+  it('Triggers payout before other effects that give rebates', () => {
+    card.play(player);
+    player.corporationCards = [card];
+    player.playedCards.push(new MediaGroup());
+    player.megaCredits = 2;
+    player2.titanium = 3;
+
+    const card2 = new Sabotage();
+    // const action = card2.play!(player) as OrOptions;
+    player.playCard(card2);
+    const action = game.deferredActions.pop()!.execute() as OrOptions
+
+    action.options[0].cb(); // Remove 3 titanium from player2
+    TestingUtils.runAllActions(game);
+    expect(player2.titanium).eq(0);
+    expect(player2.megaCredits).eq(2);
+    expect(player.megaCredits).eq(3); // 2 - 2 + 3 from Media Group
   });
 
   it('Does not trigger in solo mode', () => {
@@ -102,6 +124,7 @@ describe('MonsInsurance', () => {
     player2.steel = 1;
 
     player2.deductResource(Resources.STEEL, 1, {log: false, from: player3});
+    TestingUtils.runAllActions(game);
 
     expect(player2.megaCredits).eq(13);
     expect(player.megaCredits).eq(7);
@@ -128,6 +151,7 @@ describe('MonsInsurance', () => {
     player2.megaCredits = 10;
 
     player2.addProduction(Resources.MEGACREDITS, -1, {log: false, from: player3});
+    TestingUtils.runAllActions(game);
 
     expect(player2.megaCredits).eq(13);
     expect(player.megaCredits).eq(7);
