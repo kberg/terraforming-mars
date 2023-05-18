@@ -58,7 +58,9 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
   }
 
   public static keep(player: Player, cards: Array<IProjectCard>, logType: LogType = LogType.DREW): undefined {
+    player.canUndoLastAction = false;
     player.cardsInHand.push(...cards);
+
     if (logType === LogType.DREW_VERBOSE) {
       LogHelper.logDrawnCards(player, cards);
     } else {
@@ -80,6 +82,8 @@ export class DrawCards<T extends undefined | SelectCard<IProjectCard>> implement
   }
 
   public static choose(player: Player, cards: Array<IProjectCard>, options: DrawCards.ChooseOptions): SelectCard<IProjectCard> {
+    player.canUndoLastAction = false;
+
     let max = options.keepMax || cards.length;
     if (options.paying) {
       max = Math.min(max, Math.floor(player.spendableMegacredits() / player.cardCost));

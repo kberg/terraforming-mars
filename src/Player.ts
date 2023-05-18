@@ -155,6 +155,7 @@ export class Player implements ISerializable<SerializedPlayer> {
   public lastCardPlayed: IProjectCard | undefined;
   public pendingInitialActions: Array<CorporationCard> = [];
   public remainingStallActionsCount: number = 2;
+  public canUndoLastAction: boolean = true;
 
   // Cards
   public dealtCorporationCards: Array<CorporationCard> = [];
@@ -2544,6 +2545,8 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   private performAction(options: OrOptions) {
+    this.canUndoLastAction = true;
+
     this.setWaitingFor(options, () => {
       this.actionsTakenThisRound++;
       this.actionsTakenThisGame++;
@@ -2674,7 +2677,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     // Propose undo action only if you have done one action this turn
-    if (this.actionsTakenThisRound > 0 && this.game.gameOptions.undoOption) {
+    if (this.actionsTakenThisRound > 0 && this.game.gameOptions.undoOption && this.canUndoLastAction) {
       action.options.push(new UndoActionOption());
     }
 
@@ -2904,6 +2907,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       cardCost: this.cardCost,
       needsToDraft: this.needsToDraft,
       cardDiscount: this.cardDiscount,
+      canUndoLastAction: this.canUndoLastAction,
       // Colonies
       fleetSize: this.fleetSize,
       tradesThisGeneration: this.tradesThisGeneration,
@@ -2963,6 +2967,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     player.actionsTakenThisGame = d.actionsTakenThisGame;
     player.actionsTakenThisRound = d.actionsTakenThisRound;
+    player.canUndoLastAction = d.canUndoLastAction;
     player.canUseHeatAsMegaCredits = d.canUseHeatAsMegaCredits;
     player.cardCost = d.cardCost;
     player.cardDiscount = d.cardDiscount;

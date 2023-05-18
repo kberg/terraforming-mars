@@ -9,6 +9,7 @@ export interface SerializedPlayer {
     actionsTakenThisGame: number;
     actionsThisGeneration: Array<CardName>;
     beginner: boolean;
+    canUndoLastAction: boolean;
     canUseHeatAsMegaCredits: boolean;
     cardCost: number;
     cardDiscount: number;

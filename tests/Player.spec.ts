@@ -247,6 +247,7 @@ describe('Player', function() {
       heatProductionStepsIncreasedThisGeneration: 0,
       requirementsBonus: 0,
       hasUsedHeadStart: false,
+      canUndoLastAction: true,
       consecutiveFirstPassCount: 0,
       hazardsRemoved: 0,
       totalDelegatesPlaced: 0,
