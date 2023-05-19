@@ -52,6 +52,7 @@ export class SearchForLife extends Card implements IActionCard, IProjectCard, IR
     public action(player: Player) {
       const topCard = player.game.dealer.dealCard(player.game);
 
+      player.canUndoLastAction = false;
       player.game.log('${0} revealed and discarded ${1}', (b) => b.player(player).card(topCard));
 
       if (topCard.tags.includes(Tags.MICROBE)) {
