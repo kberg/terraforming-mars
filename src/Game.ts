@@ -1218,7 +1218,7 @@ export class Game implements ISerializable<SerializedGame> {
     if (playerIndex === -1) return undefined;
 
     // Head Start: Allow current player to take 2 more actions before moving on to next player
-    const shouldGiveHeadStart = player.lastCardPlayed?.name === CardName.HEAD_START || (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[0].name === CardName.HEAD_START);
+    const shouldGiveHeadStart = this.shouldGiveHeadStart(player);
 
     if (shouldGiveHeadStart && player.hasUsedHeadStart === false) {
       player.hasUsedHeadStart = true;
@@ -1229,6 +1229,21 @@ export class Game implements ISerializable<SerializedGame> {
     return this.players[(playerIndex + 1 >= this.players.length) ? 0 : playerIndex + 1];
   }
 
+  private shouldGiveHeadStart(player: Player) :boolean {
+    // Normal game with preludes
+    if (player.lastCardPlayed?.name === CardName.HEAD_START) return true;
+    if (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[0].name === CardName.HEAD_START) return true;
+
+    // With CEOs. Special handling as the CEO is auto played during the action phase, replacing player.lastCardPlayed
+    if (player.lastCardPlayed?.cardType === CardType.LEADER) {
+      const indexOfLeaderCard = player.playedCards.indexOf(player.lastCardPlayed);
+      const indexOfPreviousPlayedCard = indexOfLeaderCard - 1;
+      const targetCard = player.playedCards[indexOfPreviousPlayedCard];
+      if (targetCard.name === CardName.HEAD_START) return true;
+    }
+
+    return false;
+  }
 
   public playerIsFinishedTakingActions(): void {
     // Deferred actions hook
