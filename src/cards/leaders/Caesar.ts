@@ -23,7 +23,7 @@ export class Caesar extends Card implements LeaderCard {
           b.minus().production((pb) => pb.wild(1).any).asterix();
           b.br;
         }),
-        description: 'Once per game, place X hazard tiles equal to the current generation number. Each opponent loses 1 unit of production, or 2 units if there are more than 5 hazard tiles.',
+        description: 'Once per game, place X hazard tiles equal to the current generation number. Each opponent loses units of production equal to half the number of hazard tiles in play, rounded up.',
       },
     });
   }
@@ -54,11 +54,7 @@ export class Caesar extends Card implements LeaderCard {
       const hazardTileCount = game.board.spaces.filter((space) => space.tile && HAZARD_TILES.has(space.tile.tileType)).length;
 
       otherPlayers.forEach((player) => {
-        if (hazardTileCount > 5) {
-          game.defer(new SelectProductionToLoseDeferred(player, 2));
-        } else {
-          game.defer(new SelectProductionToLoseDeferred(player, 1));
-        }
+        game.defer(new SelectProductionToLoseDeferred(player, Math.ceil(hazardTileCount / 2)));
       });
 
       return undefined;
