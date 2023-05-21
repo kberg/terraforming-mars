@@ -54,6 +54,7 @@ export class Karen extends Card implements LeaderCard {
       } else {
         // Same rationale as player.playPreludeCard()
         player.game.log('${0} was discarded for 15 M€ as ${1} could not afford to play it', (b) => b.card(foundCards[0]).player(player));
+        this.isDisabled = true;
         player.addResource(Resources.MEGACREDITS, 15, {log: true});
         foundCards[0].warning = undefined;
         return undefined;
