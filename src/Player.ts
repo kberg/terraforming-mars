@@ -1253,9 +1253,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     });
 
-    // Leader OPG actions reset hook
+    // OPG actions reset hook for all CEOs except Darwin, which is reset in Turmoil.endGeneration
     this.playedCards
-      .filter((card) => card.cardType === CardType.LEADER)
+      .filter((card) => card.cardType === CardType.LEADER && card.name !== CardName.DARWIN)
       .forEach((card) => (card as LeaderCard).opgActionIsActive = false);
   }
 

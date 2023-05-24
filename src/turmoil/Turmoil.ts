@@ -28,6 +28,7 @@ import {MarsCoalition} from '../cards/community/corporations/MarsCoalition';
 import {Random} from '../Random';
 import {Darwin} from '../cards/leaders/Darwin';
 import {LeadersExpansion} from '../cards/leaders/LeadersExpansion';
+import {LeaderCard} from '../cards/LeaderCard';
 
 export type NeutralPlayer = 'NEUTRAL';
 
@@ -351,6 +352,10 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
           }
           this.lobby.add(player.id);
         }
+
+        // Reset Darwin's opgActionIsActive property only after global event is resolved
+        const darwin = player.playedCards.find((c) => c.name === CardName.DARWIN);
+        if (darwin !== undefined) (darwin as LeaderCard).opgActionIsActive = false;
       });
 
       // 4 - Changing Time
