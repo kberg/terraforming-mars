@@ -857,9 +857,11 @@ export class Game implements ISerializable<SerializedGame> {
     this.draftedPlayers.clear();
 
     const playersWhoNeedToDraft = this.getPlayersStillInGame();
+    // Put conceded players last in the order
+    const sortedPlayers = this.players.filter((p) => !p.hasConceded).concat(this.players.filter((p) => p.hasConceded));
 
     if (playersWhoNeedToDraft.length > 1) {
-      this.players.forEach((player) => {
+      sortedPlayers.forEach((player) => {
         player.needsToDraft = true;
         if (this.draftRound === 1 && !preludeDraft) {
           player.runDraftPhase(initialDraft, this.getNextDraft(player).name);
@@ -1094,7 +1096,7 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private allPlayersHaveFinishedDraft(): boolean {
-    for (const player of this.getPlayersStillInGame()) {
+    for (const player of this.players) {
       if (!this.hasDrafted(player)) {
         return false;
       }
