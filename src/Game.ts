@@ -1279,6 +1279,8 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   private gotoEndGame(): void {
+    this.players.forEach((player) => player.timer.stop());
+
     if (this.clonedGamedId !== undefined && this.clonedGamedId.startsWith('#')) {
       this.log('This game was a clone from game ' + this.clonedGamedId);
     } else {
