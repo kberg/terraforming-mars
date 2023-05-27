@@ -20,7 +20,7 @@ export class Jane extends Card implements LeaderCard {
           b.br.br;
           b.opgArrow().text('RESET X-1').cards(1).secondaryTag(AltSecondaryTag.BLUE).asterix();
         }),
-        description: 'Mark up to X-1 blue card actions as unused this generation, where X is the current generation number.',
+        description: 'Once per game, mark up to X-1 blue card actions as unused this generation, where X is the current generation number.',
       },
     });
   }
