@@ -15,6 +15,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {HowToAffordRedsPolicy, ActionDetails, RedsPolicy} from '../../turmoil/RedsPolicy';
 import {Units} from '../../Units';
+import {LogHelper} from '../../LogHelper';
 
 export class Thermophiles extends Card implements IActionCard, IResourceCard {
   public howToAffordReds: HowToAffordRedsPolicy | undefined;
@@ -82,6 +83,7 @@ export class Thermophiles extends Card implements IActionCard, IResourceCard {
 
     const spendResource = new SelectOption('Remove 2 microbes to raise Venus 1 step', 'Remove microbes', () => {
       player.removeResourceFrom(this, 2);
+      LogHelper.logRemoveResource(player, this, 2, 'raise Venus 1 step');
       player.game.increaseVenusScaleLevel(player, 1);
       return undefined;
     });
