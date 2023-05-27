@@ -19,6 +19,7 @@ import {Greta} from './Greta';
 import {HAL9000} from './HAL9000';
 import {Huan} from './Huan';
 import {Ingrid} from './Ingrid';
+import {Jane} from './Jane';
 import {Jansson} from './Jansson';
 import {Karen} from './Karen';
 import {Lowell} from './Lowell';
@@ -62,6 +63,7 @@ export const LEADER_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HAL9000, Factory: HAL9000},
     {cardName: CardName.HUAN, Factory: Huan, compatibility: GameModule.Colonies},
     {cardName: CardName.INGRID, Factory: Ingrid},
+    {cardName: CardName.JANE, Factory: Jane},
     {cardName: CardName.JANSSON, Factory: Jansson},
     {cardName: CardName.KAREN, Factory: Karen, compatibility: GameModule.Prelude},
     {cardName: CardName.LOWELL, Factory: Lowell, compatibility: GameModule.Prelude},
