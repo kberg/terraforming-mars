@@ -10,6 +10,7 @@ import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Card} from '../Card';
+import {LogHelper} from '../../LogHelper';
 
 export class DeuteriumExport extends Card implements IActionCard, IResourceCard {
   constructor() {
@@ -45,17 +46,18 @@ export class DeuteriumExport extends Card implements IActionCard, IResourceCard 
   }
   public action(player: Player) {
     if (this.resourceCount < 1) {
-      player.addResourceTo(this, 1);
+      player.addResourceTo(this, {log: true});
       return undefined;
     }
     return new OrOptions(
       new SelectOption('Remove 1 floater to raise energy production 1 step', 'Remove floater', () => {
         this.resourceCount--;
+        LogHelper.logRemoveResource(player, this, 1, 'increase energy production 1 step');
         player.addProduction(Resources.ENERGY, 1);
         return undefined;
       }),
       new SelectOption('Add 1 floater to this card', 'Add floater', () => {
-        player.addResourceTo(this, 1);
+        player.addResourceTo(this, {log: true});
         return undefined;
       }),
     );
