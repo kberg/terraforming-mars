@@ -35,7 +35,7 @@ export class Virus extends Card implements IProjectCard {
   public play(player: Player): PlayerInput | undefined {
     if (player.game.isSoloMode()) {
       player.game.someoneHasRemovedOtherPlayersPlants = true;
-      if (player.isCorporation(CardName.BENTENMARU)) player.addResource(Resources.PLANTS, 5);
+      if (player.isCorporation(CardName.BENTENMARU)) player.addResource(Resources.PLANTS, 5, {log: true});
 
       if (player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
         MonsInsuranceBot.resolveMonsInsuranceBot(player);

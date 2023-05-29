@@ -30,7 +30,7 @@ export class StealResources implements DeferredAction {
     }
 
     if (this.player.isCorporation(CardName.BENTENMARU)) {
-      this.player.addResource(this.resource, this.count);
+      this.player.addResource(this.resource, this.count, {log: true});
       return undefined;
     }
 

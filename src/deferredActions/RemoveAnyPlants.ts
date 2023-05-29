@@ -20,7 +20,7 @@ export class RemoveAnyPlants implements DeferredAction {
       this.player.game.someoneHasRemovedOtherPlayersPlants = true;
       // Bentenmaru hook
       if (this.player.isCorporation(CardName.BENTENMARU)) {
-        this.player.addResource(Resources.PLANTS, this.count);
+        this.player.addResource(Resources.PLANTS, this.count, {log: true});
       }
       // Mons Insurance Bot hook
       if (this.player.game.automaBotCorporation?.name === CardName.MONS_INSURANCE_BOT) {
