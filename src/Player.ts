@@ -1884,8 +1884,11 @@ export class Player implements ISerializable<SerializedPlayer> {
   private tradeWithColony(openColonies: Array<Colony>): PlayerInput {
     const opts: Array<OrOptions | SelectColony> = [];
     let payWith: Resources | ResourceType | undefined = undefined;
+
     const coloniesModel: Array<ColonyModel> = this.game.getColoniesModel(openColonies);
     const titanFloatingLaunchPad = this.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
+    const darksideSmugglersUnion = this.playedCards.find((card) => card.name === CardName.DARKSIDE_SMUGGLERS_UNION);
+
     const mcTradeAmount: number = this.getMcTradeCost();
     const energyTradeAmount: number = this.getEnergyTradeCost();
     const titaniumTradeAmount: number = this.getTitaniumTradeCost();
@@ -1918,7 +1921,12 @@ export class Player implements ISerializable<SerializedPlayer> {
             this.actionsThisGeneration.add(titanFloatingLaunchPad.name);
             this.game.log('${0} spent 1 floater to trade with ${1}', (b) => b.player(this).colony(colony));
             colony.trade(this);
+          } else if (payWith === undefined && darksideSmugglersUnion !== undefined && darksideSmugglersUnion.canAct!(this)) {
+            this.actionsThisGeneration.add(darksideSmugglersUnion.name);
+            this.game.log('${0} traded with ${1} using ${2} action', (b) => b.player(this).colony(colony).card(darksideSmugglersUnion));
+            colony.trade(this);
           }
+
           return undefined;
         }
         return undefined;
@@ -1942,6 +1950,15 @@ export class Player implements ISerializable<SerializedPlayer> {
       payWith = Resources.TITANIUM;
       return undefined;
     });
+
+    if (darksideSmugglersUnion !== undefined &&
+      darksideSmugglersUnion.canAct!(this) &&
+      !this.actionsThisGeneration.has(darksideSmugglersUnion.name)) {
+      howToPayForTrade.options.push(new SelectOption('Use Darkside Smugglers\' Union action', '', () => {
+        payWith = undefined;
+        return undefined;
+      }));
+    }
 
     if (titanFloatingLaunchPad !== undefined &&
       titanFloatingLaunchPad.resourceCount !== undefined &&
@@ -2698,6 +2715,11 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     const titanFloatingLaunchPad = this.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
     if (titanFloatingLaunchPad !== undefined && titanFloatingLaunchPad.resourceCount! > 0) {
+      return true;
+    }
+
+    const darksideSmugglersUnion = this.playedCards.find((card) => card.name === CardName.DARKSIDE_SMUGGLERS_UNION);
+    if (darksideSmugglersUnion !== undefined && darksideSmugglersUnion.canAct!(this) && !this.actionsThisGeneration.has(darksideSmugglersUnion.name)) {
       return true;
     }
 

@@ -18,7 +18,7 @@ import {DarksideIncubationPlant} from './DarksideIncubationPlant';
 import {DarksideMeteorBombardment} from './DarksideMeteorBombardment';
 import {DarksideMiningSyndicate} from './DarksideMiningSyndicate';
 import {DarksideObservatory} from './DarksideObservatory';
-// import {DarksideSmugglersUnion} from './DarksideSmugglersUnion';
+import {DarksideSmugglersUnion} from './DarksideSmugglersUnion';
 import {DeepLunarMining} from './DeepLunarMining';
 import {EarthEmbassy} from './EarthEmbassy';
 import {FirstLunarSettlement} from './FirstLunarSettlement';
@@ -57,7 +57,6 @@ import {LunarSecurityStations} from './LunarSecurityStations';
 import {LunarSteel} from './LunarSteel';
 import {LunarTradeFleet} from './LunarTradeFleet';
 import {LunaSenate} from './LunaSenate';
-// import {LunaSenate} from './LunaSenate';
 import {LunaStagingStation} from './LunaStagingStation';
 import {LunaTradeStation} from './LunaTradeStation';
 import {LunaTrainStation} from './LunaTrainStation';
@@ -84,7 +83,6 @@ import {NewColonyPlanningInitiaitives} from './NewColonyPlanningInitiaitives';
 import {OffWorldCityLiving} from './OffWorldCityLiving';
 import {PreliminaryDarkside} from './PreliminaryDarkside';
 import {OrbitalPowerGrid} from './OrbitalPowerGrid';
-// import {PreliminaryDarkside} from './PreliminaryDarkside';
 import {PrideoftheEarthArkship} from './PrideoftheEarthArkship';
 import {ProcessorFactory} from './ProcessorFactory';
 import {RevoltingColonists} from './RevoltingColonists';
@@ -206,6 +204,7 @@ export const MOON_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.RUST_EATING_BACTERIA, Factory: RustEatingBacteria},
     {cardName: CardName.SOLAR_PANEL_FOUNDRY, Factory: SolarPanelFoundry},
     {cardName: CardName.MOON_TETHER, Factory: MoonTether},
+    {cardName: CardName.DARKSIDE_SMUGGLERS_UNION, Factory: DarksideSmugglersUnion, compatibility: GameModule.Colonies},
   ],
   corporationCards: [
     {cardName: CardName.NANOTECH_INDUSTRIES, Factory: NanotechIndustries, compatibility: GameModule.Moon},
