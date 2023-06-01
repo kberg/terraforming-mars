@@ -108,6 +108,7 @@ import {TranshumansPolicy2Action} from './cards/turmoil/standardActions/Transhum
 import {TranshumansPolicy3Action} from './cards/turmoil/standardActions/TranshumansPolicy3Action';
 import {CentristsDefaultAction} from './cards/turmoil/standardActions/CentristsDefaultAction';
 import {CentristsPolicy3Action} from './cards/turmoil/standardActions/CentristsPolicy3Action';
+import {Supercapacitors} from './cards/promo/Supercapacitors';
 
 export type PlayerId = string;
 export type Password = string;
@@ -1239,13 +1240,23 @@ export class Player implements ISerializable<SerializedPlayer> {
     this.turmoilPolicyActionUsed = false;
     this.politicalAgendasActionUsedCount = 0;
     this.dominantPartyActionUsedCount = 0;
+
+    if (this.cardIsInEffect(CardName.SUPERCAPACITORS)) {
+      Supercapacitors.onProduction(this);
+    } else {
+      this.heat += this.energy;
+      this.energy = 0;
+      this.finishProductionPhase();
+    }
+  }
+
+  public finishProductionPhase() {
     this.megaCredits += this.megaCreditProduction + this.terraformRating;
-    this.heat += this.energy;
-    this.heat += this.heatProduction;
-    this.energy = this.energyProduction;
-    this.titanium += this.titaniumProduction;
     this.steel += this.steelProduction;
+    this.titanium += this.titaniumProduction;
+    this.energy += this.energyProduction;
     this.plants += this.plantProduction;
+    this.heat += this.heatProduction;
 
     this.corporationCards.forEach((corp) => {
       if (corp.onProductionPhase !== undefined) {

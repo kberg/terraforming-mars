@@ -57,6 +57,7 @@ import {DoubleDown} from './DoubleDown';
 import {HeadStart} from './HeadStart';
 import {SixteenPsyche} from './16Psyche';
 import {RobotPollinators} from './RobotPollinators';
+import {Supercapacitors} from './Supercapacitors';
 
 export const PROMO_CARD_MANIFEST = new CardManifest({
   module: GameModule.Promo,
@@ -104,6 +105,7 @@ export const PROMO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.OUTDOOR_SPORTS, Factory: OutdoorSports},
     {cardName: CardName.SIXTEEN_PSYCHE, Factory: SixteenPsyche},
     {cardName: CardName.ROBOT_POLLINATORS, Factory: RobotPollinators},
+    {cardName: CardName.SUPERCAPACITORS, Factory: Supercapacitors},
   ],
   preludeCards: [
     {cardName: CardName.NEW_PARTNER, Factory: NewPartner},

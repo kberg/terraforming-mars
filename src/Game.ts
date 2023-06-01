@@ -944,6 +944,15 @@ export class Game implements ISerializable<SerializedGame> {
       player.runProductionPhase();
     });
 
+    this.postProductionPhase();
+  }
+
+  private postProductionPhase(): void {
+    if (this.deferredActions.length > 0) {
+      this.deferredActions.runAll(() => this.postProductionPhase());
+      return;
+    }
+
     if (this.gameIsOver()) {
       if (this.gameOptions.coloniesExtension) {
         this.colonies.forEach((colony) => {
