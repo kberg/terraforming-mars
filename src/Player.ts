@@ -375,7 +375,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     throw new Error('Resource ' + resource + ' not found');
   }
 
-  private logUnitDelta(resource: Resources, amount: number, unitType: 'production' | 'amount', from: Player | GlobalEventName | undefined) {
+  private logUnitDelta(resource: Resources, amount: number, unitType: 'production' | 'amount', from: Player | GlobalEventName | undefined, stealing = false) {
     if (amount === 0) return;
 
     const modifier = amount > 0 ? 'increased' : 'decreased';
@@ -383,6 +383,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     let message = '${0}\'s ${1} ' + unitType + ' ${2} by ${3}';
 
     if (from !== undefined) {
+      if (stealing === true) message = message + ' stolen';
       message = message + ' by ' + ((from instanceof Player) ? '${4}' : 'Global Event');
     }
 
@@ -403,6 +404,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     options? : {
       log?: boolean,
       from? : Player | GlobalEventName,
+      stealing?: boolean,
     }) {
     const shouldApplyBentenmaruEffect = options?.from !== undefined && options.from instanceof Player && options.from.isCorporation(CardName.BENTENMARU) && options.from.id !== this.id;
 
@@ -414,7 +416,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
   }
 
-  public addResource(resource: Resources, amount: number = 1, options? : { log?: boolean, from? : Player | GlobalEventName}) {
+  public addResource(resource: Resources, amount: number = 1, options? : { log?: boolean, from? : Player | GlobalEventName, stealing?: boolean}) {
     const playerAmount = this.getResource(resource);
     const delta = (amount >= 0) ? amount : Math.max(amount, -playerAmount);
 
@@ -437,7 +439,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     if (options?.log === true) {
-      this.logUnitDelta(resource, delta, 'amount', options.from);
+      this.logUnitDelta(resource, delta, 'amount', options.from, options.stealing);
     }
 
     if (options?.from instanceof Player) {
@@ -523,6 +525,18 @@ export class Player implements ISerializable<SerializedPlayer> {
       Manutech.onProductionGain(this, resource, amount);
     }
   };
+
+  /**
+   * `from` steals up to `qty` units of `resource` from this player. Or, at least as
+   * much as possible.
+   */
+  public stealResource(resource: Resources, qty: number, thief: Player) {
+    const qtyToSteal = Math.min(this.getResource(resource), qty);
+    if (qtyToSteal > 0) {
+      this.deductResource(resource, qtyToSteal, {log: true, from: thief, stealing: true});
+      thief.addResource(resource, qtyToSteal);
+    }
+  }
 
   // Returns true when the player has the supplied units in its inventory.
   public hasUnits(units: Units): boolean {
