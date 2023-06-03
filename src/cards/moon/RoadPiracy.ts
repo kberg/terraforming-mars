@@ -26,6 +26,7 @@ export class RoadPiracy extends Card {
           '(Resources may be stolen from more than 1 opponent.)',
         cardNumber: 'M54',
         renderData: CardRenderer.builder((b) => {
+          b.br.br;
           b.text('STEAL').steel(6).any.slash().titanium(4).any.digit.asterix();
         }),
       },

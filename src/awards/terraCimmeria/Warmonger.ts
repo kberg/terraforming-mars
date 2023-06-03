@@ -57,6 +57,7 @@ export class Warmonger implements IAward {
     // Moon
     CardName.ANCIENT_SHIPYARDS,
     CardName.COSMIC_RADIATION,
+    CardName.ROAD_PIRACY,
     CardName.THE_DARKSIDE_OF_THE_MOON_SYNDICATE,
   ];
 }
