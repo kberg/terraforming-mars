@@ -69,14 +69,14 @@ export class RoadPiracy extends Card {
 
   private generateOption(player: Player, resource: Resources, title: string, limit: number) {
     const selectAmounts: Array<SelectAmount> = [];
-    const ledger: Array<[Player, number]> = [];
+    const ledger: Map<Player, number> = new Map();
 
     for (const opponent of player.game.getPlayers()) {
       if (opponent === player) continue;
 
       if (opponent.getResource(resource) > 0) {
         const cb = (amount: number) => {
-          ledger.push([opponent, amount]);
+          ledger.set(opponent, amount);
           return undefined;
         };
         const selectAmount = new SelectAmount(`${opponent.name}`, undefined, cb, 0, opponent.getResource(resource));
@@ -87,10 +87,10 @@ export class RoadPiracy extends Card {
     if (selectAmounts.length === 0) return undefined;
 
     const cb = () => {
-      const total = ledger.map((e) => e[1]).reduce((a, b) => a + b, 0);
+      const total = Array.from(ledger.values()).reduce((a, b) => a + b, 0);
 
       if (total > limit) {
-        ledger.splice(0, ledger.length); // Empty the ledger
+        ledger.clear(); // Empty the ledger
         throw new Error(`You may only steal up to ${limit} ${resource} from all players`);
       }
 
