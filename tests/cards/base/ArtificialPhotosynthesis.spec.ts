@@ -9,13 +9,20 @@ describe('ArtificialPhotosynthesis', () => {
     const card = new ArtificialPhotosynthesis();
     const [game, player] = testGame(1);
     const action = card.play(player);
+
     expect(action).is.undefined;
+
     runAllActions(game);
     const options = cast(player.popWaitingFor(), OrOptions);
+
     expect(options.options).has.lengthOf(2);
+
     options.options[0].cb();
+
     expect(player.production.energy).to.eq(2);
+
     options.options[1].cb();
+
     expect(player.production.plants).to.eq(1);
   });
 });
