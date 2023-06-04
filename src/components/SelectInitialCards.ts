@@ -109,7 +109,11 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
         case CardName.CORPORATE_ARCHIVES:
           result += 13;
           break;
+        case CardName.HEAD_START:
+          result += this.selectedCards.length * 2;
+          break;
         }
+
         switch (this.selectedCorporation?.name) {
         case CardName.MANUTECH:
           switch (prelude) {
