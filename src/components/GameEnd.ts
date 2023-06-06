@@ -48,8 +48,13 @@ export const GameEnd = Vue.component('game-end', {
       });
 
       const sortByConcededPlayers = function(p1: PlayerModel, p2: PlayerModel) {
+        // If both players have conceded, sort them by VP
         if (p1.hasConceded && p2.hasConceded) return p1.victoryPointsBreakdown.total > p2.victoryPointsBreakdown.total ? 1 : -1;
+        // If neither player has conceded, don't change the sort order
+        if (!p1.hasConceded && !p2.hasConceded) return 0;
+        // p1 has conceded, put them last
         if (p1.hasConceded) return -1;
+        // p2 has conceded, put them last
         return 1;
       }
 
