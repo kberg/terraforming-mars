@@ -13,6 +13,7 @@ import {PlayerInput} from '../../../src/server/PlayerInput';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {CardType} from '../../../src/common/cards/CardType';
+import {doWait} from '../../TestingUtils';
 
 describe('HeadStart', function() {
   let headStart: HeadStart;
@@ -35,12 +36,6 @@ describe('HeadStart', function() {
     return cast(pi, OrOptions).options.find((option) => option.title === title)!;
   }
 
-  function dowait(player: TestPlayer, f: (waitingFor: PlayerInput) => void) {
-    const [waitingFor, cb] = player.popWaitingFor2();
-    f(waitingFor!);
-    cb!();
-  }
-
   it('Take 2 actions, as first prelude', () => {
     game.phase = Phase.PRELUDES;
     const ants = new Ants();
@@ -56,9 +51,9 @@ describe('HeadStart', function() {
     player.megaCredits = headStart.cost;
     player.takeAction();
 
-    dowait(player, (waitingFor) => {
-      expect(waitingFor!.title).eq('Select prelude card to play');
-      cast(waitingFor, SelectCard).cb([headStart]);
+    doWait(player, SelectCard, (selectCard) => {
+      expect(selectCard!.title).eq('Select prelude card to play');
+      selectCard.cb([headStart]);
     });
 
     runAllActions(game);
@@ -66,33 +61,35 @@ describe('HeadStart', function() {
     expect(player.actionsTakenThisRound).eq(0); // Playing preludes is not an action.
     expect(game.activePlayer).eq(player.id);
 
-    dowait(player, (waitingFor) => {
-      expect(waitingFor.title).eq('Take your first action');
-      const patents1 = cast(findOption(waitingFor, 'Sell patents'), SelectCard);
-      patents1.cb([player.cardsInHand[0]]);
+    doWait(player, OrOptions, (orOptions) => {
+      expect(orOptions.title).eq('Take your first action');
+      const sellPatents = cast(findOption(orOptions, 'Sell patents'), SelectCard);
+      sellPatents.cb([player.cardsInHand[0]]);
     });
-
     runAllActions(game);
 
     expect(player.actionsTakenThisRound).eq(1);
     expect(game.activePlayer).eq(player.id);
 
-    dowait(player, (waitingFor) => {
-      expect(waitingFor.title).eq('Take your next action');
-      const patents2 = cast(findOption(waitingFor, 'Sell patents'), SelectCard);
-      patents2.cb([player.cardsInHand[0]]);
+    doWait(player, OrOptions, (orOptions) => {
+      expect(orOptions.title).eq('Take your next action');
+      const sellPatents = cast(findOption(orOptions, 'Sell patents'), SelectCard);
+      sellPatents.cb([player.cardsInHand[0]]);
     });
     runAllActions(game);
 
     expect(game.activePlayer).eq(player.id);
 
-    dowait(player, (waitingFor) => {
-      expect(waitingFor.title).eq('Select prelude card to play');
-      cast(waitingFor, SelectCard).cb([loan]);
+    doWait(player, SelectCard, (selectCard) => {
+      expect(selectCard.title).eq('Select prelude card to play');
+      selectCard.cb([loan]);
     });
 
     runAllActions(game);
 
     expect(game.activePlayer).eq(player2.id);
   });
+
+  // TODO(kberg): Add test with Valley Trust (draw and play prelude)
+  // TODO(kberg): Add test for New Partner  (draw and play prelude)
 });
