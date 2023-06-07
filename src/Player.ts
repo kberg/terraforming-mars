@@ -1228,7 +1228,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     });
 
-    const playedCards = this.playedCards.filter((card) => card.cardType === CardType.ACTIVE);
+    const playedCards = this.playedCards.filter((card) => card.cardType === CardType.ACTIVE || card.cardType === CardType.PRELUDE);
     for (const playedCard of playedCards) {
       if (
         playedCard.action !== undefined &&
