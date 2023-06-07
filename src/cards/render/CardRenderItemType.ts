@@ -35,6 +35,7 @@ export enum CardRenderItemType {
   INFLUENCE = 'influence',
   NO_TAGS ='no_tags',
   PRESERVATION = 'preservation',
+  GRAPHENE = 'graphene',
   WILD = 'wild',
   WILD_TAG = 'wild_tag',
   FIGHTER = 'fighter',

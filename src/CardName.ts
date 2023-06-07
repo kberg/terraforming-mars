@@ -500,6 +500,9 @@ export enum CardName {
     SUPERCAPACITORS = 'Supercapacitors',
     DIRECTED_HEAT_USAGE = 'Directed Heat Usage',
 
+    // Prelude 2
+    CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
+
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',
     MISINFORMATION_1 = 'Misinformation:1',

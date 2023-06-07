@@ -698,7 +698,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
                             <input type="checkbox" name="preludeTwoExtension" id="preludeTwoExtension-checkbox" v-model="preludeTwoExtension">
                             <label for="preludeTwoExtension-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-prelude-two"></div>
-                                <span v-i18n>Prelude 2</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#promo-cards" class="tooltip" target="_blank">&#9432;</a>
+                                <span v-i18n>Prelude 2</span>
                             </label>
 
                             <input type="checkbox" name="venusNext" id="venusNext-checkbox" v-model="venusNext" v-on:change="toggleVenusNext()">

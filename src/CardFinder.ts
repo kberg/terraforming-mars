@@ -16,6 +16,7 @@ import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
 import {Deck} from './Deck';
 import {LEADER_CARD_MANIFEST} from './cards/leaders/LeaderCardManifest';
 import {AUTOMA_CARD_MANIFEST} from './cards/automa/AutomaCardManifest';
+import {PRELUDE_TWO_CARD_MANIFEST} from './cards/preludeTwo/PreludeTwoCardManifest';
 
 export class CardFinder {
     private static decks: undefined | Array<CardManifest>;
@@ -28,6 +29,7 @@ export class CardFinder {
           VENUS_CARD_MANIFEST,
           COLONIES_CARD_MANIFEST,
           PRELUDE_CARD_MANIFEST,
+          PRELUDE_TWO_CARD_MANIFEST,
           TURMOIL_CARD_MANIFEST,
           ARES_CARD_MANIFEST,
           COMMUNITY_CARD_MANIFEST,

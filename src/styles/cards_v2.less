@@ -1248,6 +1248,10 @@
             .card-resource-preservation {
                 background-image: url(./assets/resources/preservation.png);
             }
+            .card-resource-graphene {
+                background-image: url(./assets/resources/graphene.png);
+                transform: scale(1.1);
+            }
             .card-resource-data {
                 color: #0000 !important;
                 background-image: url(./assets/resources/data.png);
@@ -2360,7 +2364,7 @@
         vertical-align: middle;
     }
 
-    @resource_types: microbe, animal, science, floater, fighter, camp, asteroid, disease, preservation, data, syndicate-fleet, resource-cube;
+    @resource_types: microbe, animal, science, floater, fighter, camp, asteroid, disease, preservation, graphene, data, syndicate-fleet, resource-cube;
     each(@resource_types, {
       .card-resource-@{value} {
         background-image: url("./assets/resources/@{value}.png");

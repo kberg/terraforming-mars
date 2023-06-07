@@ -1065,6 +1065,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       microbes: 0,
       floaters: 0,
       science: 0,
+      graphene: 0,
     };
     try {
       const howToPay: HowToPay = JSON.parse(json);
@@ -1579,6 +1580,11 @@ export class Player implements ISerializable<SerializedPlayer> {
     return card.tags.includes(Tags.SPACE);
   }
 
+  private canUseGraphene(card: ICard): boolean {
+    if (this.cardIsInEffect(CardName.CARBON_NANOSYSTEMS) === false) return false;
+    return card.tags.includes(Tags.SPACE) || card.tags.includes(Tags.CITY);
+  }
+
   private canUseMicrobes(card: ICard): boolean {
     return card.tags.includes(Tags.PLANT);
   }
@@ -1636,6 +1642,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     const canUseSteel: boolean = this.canUseSteel(selectedCard);
     const canUseTitanium: boolean = this.canUseTitanium(selectedCard);
+    const canUseGraphene: boolean = this.canUseGraphene(selectedCard);
 
     if (canUseSteel && howToPay.steel > 0) {
       if (howToPay.steel > this.steel) {
@@ -1649,6 +1656,10 @@ export class Player implements ISerializable<SerializedPlayer> {
         throw new Error('Do not have enough titanium');
       }
       totalToPay += howToPay.titanium * this.getTitaniumValue();
+    }
+
+    if (canUseGraphene && howToPay.graphene > 0) {
+      totalToPay += howToPay.graphene * 4;
     }
 
     if (this.canUseHeatAsMegaCredits && howToPay.heat !== undefined) {
@@ -1704,6 +1715,13 @@ export class Player implements ISerializable<SerializedPlayer> {
   public getSpendableScienceResources(): number {
     const lunaArchives = this.playedCards.find((card) => card.name === CardName.LUNA_ARCHIVES);
     if (lunaArchives !== undefined) return this.getResourcesOnCard(lunaArchives)!;
+
+    return 0;
+  }
+
+  public getSpendableGrapheneResources(): number {
+    const carbonNanosystems = this.playedCards.find((card) => card.name === CardName.CARBON_NANOSYSTEMS);
+    if (carbonNanosystems !== undefined) return this.getResourcesOnCard(carbonNanosystems)!;
 
     return 0;
   }
@@ -1906,6 +1924,15 @@ export class Player implements ISerializable<SerializedPlayer> {
 
     this.deductResource(Resources.HEAT, amount);
     return cb();
+  }
+
+  public spendGraphene(amount: number) : undefined {
+    if (this.cardIsInEffect(CardName.CARBON_NANOSYSTEMS)) {
+      const carbonNanosystems = this.playedCards.find((card) => card.name === CardName.CARBON_NANOSYSTEMS)!;
+      this.removeResourceFrom(carbonNanosystems, amount);
+    }
+
+    return undefined;
   }
 
   private tradeWithColony(openColonies: Array<Colony>): PlayerInput {
@@ -2193,6 +2220,7 @@ export class Player implements ISerializable<SerializedPlayer> {
         titanium: this.canUseTitanium(card),
         floaters: this.canUseFloaters(card),
         microbes: this.canUseMicrobes(card),
+        graphene: this.canUseGraphene(card),
         reserveUnits: MoonExpansion.adjustedReserveCosts(this, card),
       });
 
@@ -2206,6 +2234,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     titanium?: boolean,
     floaters?: boolean,
     microbes?: boolean,
+    graphene?: boolean,
     reserveUnits?: Units,
   }) {
     const reserveUnits = options?.reserveUnits ?? Units.EMPTY;
@@ -2229,6 +2258,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     const canUseTitanium: boolean = options?.titanium ?? false;
     const canUseFloaters: boolean = options?.floaters ?? false;
     const canUseMicrobes: boolean = options?.microbes ?? false;
+    const canUseGraphene: boolean = options?.graphene ?? false;
 
     const availableMegacredits = this.megaCredits - reserveUnits.megacredits;
     if (availableMegacredits < 0) return false;
@@ -2239,7 +2269,8 @@ export class Player implements ISerializable<SerializedPlayer> {
       (canUseSteel ? (this.steel - reserveUnits.steel) * this.getSteelValue() : 0) +
       (canUseTitanium ? (this.titanium - reserveUnits.titanium) * this.getTitaniumValue() : 0) +
       (canUseFloaters ? this.getFloatersCanSpend() * 3 : 0) +
-      (canUseMicrobes ? this.getMicrobesCanSpend() * 2 : 0);
+      (canUseMicrobes ? this.getMicrobesCanSpend() * 2 : 0) +
+      (canUseGraphene ? this.getSpendableGrapheneResources() * 4 : 0);
   }
 
   public computeTerraformRatingBump(card: IProjectCard): number {

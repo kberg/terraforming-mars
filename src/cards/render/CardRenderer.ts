@@ -405,6 +405,11 @@ class Builder {
     return this;
   }
 
+  public graphene(amount: number) {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.GRAPHENE, amount));
+    return this;
+  }
+
   public diverseTag(amount: number = 1, size?: Size) {
     const item = new CardRenderItem(CardRenderItemType.DIVERSE_TAG, amount);
     item.isPlayed = true;

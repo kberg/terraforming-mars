@@ -36,6 +36,8 @@ export const PaymentWidgetMixin = {
         rate = 2;
       } else if (resourceName === 'floaters') {
         rate = 3;
+      } else if (resourceName === 'graphene') {
+        rate = 4;
       }
       return rate;
     },
@@ -65,6 +67,7 @@ export const PaymentWidgetMixin = {
         if (this.isStratosphericBirdsEdgeCase()) maxValue--;
       }
       if (target === 'science') maxValue = (this as any).playerinput.science;
+      if (target === 'graphene') maxValue = (this as any).playerinput.graphene;
       if (currentValue === maxValue) return;
 
       const realTo = (currentValue + to <= maxValue) ? to : maxValue - currentValue;
@@ -81,6 +84,7 @@ export const PaymentWidgetMixin = {
               (this as any)['steel'] * this.getResourceRate('steel') -
               (this as any)['microbes'] * this.getResourceRate('microbes') -
               (this as any)['floaters'] * this.getResourceRate('floaters') -
+              (this as any)['graphene'] * this.getResourceRate('graphene') -
               ((this as any)['science'] ?? 0);
 
       (this as any)['megaCredits'] = Math.max(0, Math.min(this.getMegaCreditsMax(), remainingMC));
@@ -92,7 +96,7 @@ export const PaymentWidgetMixin = {
       if (target === 'heat') amountHave = this.availableHeat();
 
       let amountNeed: number = cardCost;
-      if (['titanium', 'steel', 'microbes', 'floaters'].includes(target)) {
+      if (['titanium', 'steel', 'microbes', 'floaters', 'graphene'].includes(target)) {
         amountNeed = Math.floor(cardCost/this.getResourceRate(target));
       }
 
@@ -102,6 +106,7 @@ export const PaymentWidgetMixin = {
         if (this.isStratosphericBirdsEdgeCase()) amountHave--;
       }
       if (target === 'science') amountHave = (this as any).playerinput.science;
+      if (target === 'graphene') amountHave = (this as any).playerinput.graphene;
 
       while (currentValue < amountHave && currentValue < amountNeed) {
         this.addValue(target, 1, max);

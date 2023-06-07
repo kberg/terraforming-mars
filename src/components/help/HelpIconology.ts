@@ -145,6 +145,11 @@ export const HelpIconology = Vue.component('help-iconology', {
                 <div class="help-icon-label" v-i18n>Disease</div>
                 <div class="expansion-icon expansion-icon-promo"></div>
             </div>
+            <div>
+            <div class="help-icon-resource graphene"></div>
+                <div class="help-icon-label" v-i18n>Graphene</div>
+                <div class="expansion-icon expansion-icon-prelude-two"></div>
+            </div>
         </div>
 
         <div class="help-icons-column">

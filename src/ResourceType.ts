@@ -9,6 +9,7 @@ export enum ResourceType {
     PRESERVATION = 'Preservation',
     CAMP = 'Camp',
     DISEASE = 'Disease',
+    GRAPHENE = 'Graphene',
     RESOURCE_CUBE = 'Resource cube',
     DATA = 'Data',
     SYNDICATE_FLEET = 'Syndicate Fleet',

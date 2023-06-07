@@ -86,6 +86,8 @@ export class RedsPolicy {
     canUseFloaters: boolean = false,
     canUseMicrobes: boolean = false,
     canUseScience: boolean = false,
+    // TODO: Update RedsPolicy.canAffordRedsPolicy for affected cards
+    canUseGraphene: boolean = false,
   ): HowToAffordRedsPolicy {
     const board = game.board;
 
@@ -329,6 +331,10 @@ export class RedsPolicy {
 
     if (canUseScience) {
       missingMC -= Math.min(player.getSpendableScienceResources(), missingMC);
+    }
+
+    if (canUseGraphene) {
+      missingMC -= Math.min(player.getSpendableGrapheneResources(), Math.ceil(missingMC / 4)) * 2;
     }
 
     // If player uses steel/titanium/etc it can pay for everything but must not spend more than |mustSpendAtMost| M€ on the action/card itself

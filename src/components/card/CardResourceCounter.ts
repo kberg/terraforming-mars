@@ -33,6 +33,8 @@ export const CardResourceCounter = Vue.component('CardResourceCounter', {
         return 'card-resource-camp';
       case ResourceType.DISEASE:
         return 'card-resource-disease';
+      case ResourceType.GRAPHENE:
+        return 'card-resource-graphene';
       case ResourceType.RESOURCE_CUBE:
         return 'card-resource-resource-cube';
       case ResourceType.DATA:

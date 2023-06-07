@@ -15,6 +15,7 @@ import {GameModule} from './GameModule';
 import {GameOptions} from './Game';
 import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
 import {LEADER_CARD_MANIFEST} from './cards/leaders/LeaderCardManifest';
+import {PRELUDE_TWO_CARD_MANIFEST} from './cards/preludeTwo/PreludeTwoCardManifest';
 
 export class CardLoader {
   private readonly gameOptions: GameOptions;
@@ -27,6 +28,7 @@ export class CardLoader {
       [true, BASE_CARD_MANIFEST],
       [gameOptions.corporateEra, CORP_ERA_CARD_MANIFEST],
       [gameOptions.preludeExtension, PRELUDE_CARD_MANIFEST],
+      [gameOptions.preludeTwoExtension, PRELUDE_TWO_CARD_MANIFEST],
       [gameOptions.venusNextExtension, VENUS_CARD_MANIFEST],
       [gameOptions.coloniesExtension, COLONIES_CARD_MANIFEST],
       [gameOptions.turmoilExtension, TURMOIL_CARD_MANIFEST],
@@ -55,6 +57,8 @@ export class CardLoader {
         return gameOptions.coloniesExtension;
       case GameModule.Turmoil:
         return gameOptions.turmoilExtension;
+      case GameModule.Promo:
+        return gameOptions.promoCardsOption;
       case GameModule.Ares:
         return gameOptions.aresExtension;
       case GameModule.Moon:

@@ -29,11 +29,13 @@ export class SelectHowToPayDeferred implements DeferredAction {
       this.options.canUseSteel || false,
       this.options.canUseTitanium || false,
       this.player.canUseHeatAsMegaCredits && this.player.availableHeat > 0,
+      this.options.canUseGraphene || false,
       this.amount,
       (howToPay: HowToPay) => {
         this.player.steel -= howToPay.steel;
         this.player.titanium -= howToPay.titanium;
         this.player.megaCredits -= howToPay.megaCredits;
+        this.player.spendGraphene(howToPay.graphene);
         this.player.game.defer(new DeferredAction(this.player, () => this.player.spendHeat(howToPay.heat)));
         if (this.options.afterPay !== undefined) {
           this.options.afterPay();
@@ -48,6 +50,7 @@ export namespace SelectHowToPayDeferred {
   export interface Options {
     canUseSteel?: boolean;
     canUseTitanium?: boolean;
+    canUseGraphene?: boolean;
     title?: string;
     afterPay?: () => void;
   };

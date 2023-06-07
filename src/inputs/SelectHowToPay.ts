@@ -15,6 +15,7 @@ export class SelectHowToPay implements PlayerInput {
         public canUseSteel: boolean,
         public canUseTitanium: boolean,
         public canUseHeat: boolean,
+        public canUseGraphene: boolean,
         public amount: number,
         public cb: (howToPay: HowToPay) => SelectSpace | SelectOption| OrOptions | undefined,
     ) {
