@@ -1,6 +1,7 @@
 import {CardName} from '../../CardName';
 import {GameModule} from '../../GameModule';
 import {CardManifest} from '../CardManifest';
+import {AntiDesertificationTechniques} from './AntiDesertificationTechniques';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {TerraformingDeal} from './TerraformingDeal';
@@ -15,6 +16,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   ],
   preludeCards: [
     {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
+    {cardName: CardName.ANTI_DESERTIFICATION_TECHNIQUES, Factory: AntiDesertificationTechniques},
   ],
 });
 
