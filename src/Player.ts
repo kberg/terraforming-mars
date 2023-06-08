@@ -110,6 +110,7 @@ import {CentristsDefaultAction} from './cards/turmoil/standardActions/CentristsD
 import {CentristsPolicy3Action} from './cards/turmoil/standardActions/CentristsPolicy3Action';
 import {Supercapacitors} from './cards/promo/Supercapacitors';
 import {Card} from './cards/Card';
+import {TerraformingDeal} from './cards/preludeTwo/TerraformingDeal';
 
 export type PlayerId = string;
 export type Password = string;
@@ -312,8 +313,9 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public increaseTerraformRating() {
-    // United Nations Mission One hook
+    // United Nations Mission One and Terraforming Deal hook
     UnitedNationsMissionOne.onTRIncrease(this.game);
+    TerraformingDeal.onTRIncrease(this);
 
     if (!this.game.gameOptions.turmoilExtension || this.cardIsInEffect(CardName.ZAN)) {
       this.terraformRating++;

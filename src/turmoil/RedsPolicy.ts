@@ -151,6 +151,7 @@ export class RedsPolicy {
     const hasAdvertising = player.cardIsInEffect(CardName.ADVERTISING);
     const hasGMOContracts = player.cardIsInEffect(CardName.GMO_CONTRACT);
     const hasStandardTechnology = player.cardIsInEffect(CardName.STANDARD_TECHNOLOGY);
+    const hasTerraformingDeal = player.cardIsInEffect(CardName.TERRAFORMING_DEAL);
     // CEOs
     const hasGordon = player.cardIsInEffect(CardName.GORDON);
     const hasGreta = player.cardIsInEffect(CardName.GRETA);
@@ -172,6 +173,7 @@ export class RedsPolicy {
     let bonusMCFromPlay: number = action.bonusMegaCredits;
 
     if (isUNMO) bonusMCFromPlay += totalTRGain;
+    if (hasTerraformingDeal) bonusMCFromPlay += totalTRGain * 2;
 
     if (hasGreta && totalTRGain > 0) {
       const greta = player.playedCards.find((c) => c.name === CardName.GRETA)!;
