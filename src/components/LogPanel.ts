@@ -387,7 +387,6 @@ export const LogPanel = Vue.component('log-panel', {
         name: colonyName,
         trackPosition: 0,
         visitor: undefined,
-        details: [],
       };
     },
     getResourcesOnCard(cardName: CardName) {

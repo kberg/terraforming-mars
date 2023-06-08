@@ -14,9 +14,4 @@ export class Triton extends Colony {
     public tradeResource = Resources.TITANIUM;
     public colonyBonusType = ColonyBenefit.GAIN_RESOURCES;
     public colonyBonusResource = Resources.TITANIUM;
-    public details = [
-      'Gain 3 titanium',
-      'Gain n titanium',
-      'Gain 1 titanium',
-    ];
 }

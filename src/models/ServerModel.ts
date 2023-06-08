@@ -550,7 +550,6 @@ function getColonies(game: Game): Array<ColonyModel> {
       isActive: colony.isActive,
       name: colony.name,
       trackPosition: colony.trackPosition,
-      details: colony.details,
       visitor:
           colony.visitor === undefined ?
             undefined :
@@ -570,7 +569,6 @@ function getDiscardedColonies(game: Game): Array<ColonyModel> {
         isActive: colony.isActive,
         name: colony.name,
         trackPosition: colony.trackPosition,
-        details: colony.details,
         visitor:
             colony.visitor === undefined ?
               undefined :
