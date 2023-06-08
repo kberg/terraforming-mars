@@ -39,12 +39,7 @@ export class SellPatentsStandardProject extends StandardProjectCard {
       (foundCards: Array<IProjectCard>) => {
         player.megaCredits += foundCards.length;
         foundCards.forEach((card) => {
-          for (let i = 0; i < player.cardsInHand.length; i++) {
-            if (player.cardsInHand[i].name === card.name) {
-              player.cardsInHand.splice(i, 1);
-              break;
-            }
-          }
+          player.cardsInHand.splice(player.cardsInHand.indexOf(card), 1);
           player.game.dealer.discard(card);
         });
         this.projectPlayed(player);

@@ -27,9 +27,6 @@ export class ByElection extends PreludeCard implements IProjectCard {
       },
     });
   }
-  public canPlay() {
-    return true;
-  }
 
   public play(player: Player) {
     const turmoil = Turmoil.getTurmoil(player.game);

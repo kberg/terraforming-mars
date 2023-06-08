@@ -939,6 +939,7 @@ export class Game implements ISerializable<SerializedGame> {
     this.phase = Phase.PRODUCTION;
     this.passedPlayers.clear();
     this.someoneHasRemovedOtherPlayersPlants = false;
+
     this.players.forEach((player) => {
       player.cardDiscount = 0; // Iapetus reset hook
       player.runProductionPhase();

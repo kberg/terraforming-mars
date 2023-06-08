@@ -4,7 +4,7 @@ import {ARES_CARD_MANIFEST} from './ares/AresCardManifest';
 import {GameModule} from '../GameModule';
 import {CardManifest} from './CardManifest';
 import {COLONIES_CARD_MANIFEST} from './colonies/ColoniesCardManifest';
-import {COMMUNITY_CARD_MANIFEST} from './community/CommunityCardManifest';
+import {COMMUNITY_CARD_MANIFEST, MISINFORMATION_CARDS} from './community/CommunityCardManifest';
 import {ICard} from './ICard';
 import {PRELUDE_CARD_MANIFEST} from './prelude/PreludeCardManifest';
 import {PROMO_CARD_MANIFEST} from './promo/PromoCardManifest';
@@ -36,7 +36,10 @@ export const ALL_CARD_MANIFESTS: Array<CardManifest> = [
 function allCardNames(decks: Array<Deck<ICard>>): Array<CardName> {
   const cardNames: Array<CardName> = [];
   for (const deck of decks) {
-    deck.factories.forEach((cf) => cardNames.push(cf.cardName));
+    deck.factories.forEach((cf) => {
+      const misinformationDuplicates = [...MISINFORMATION_CARDS].slice(0, MISINFORMATION_CARDS.length - 1);
+      if (misinformationDuplicates.includes(cf.cardName) === false) cardNames.push(cf.cardName);
+    });
   }
   return cardNames;
 }

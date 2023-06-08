@@ -2,18 +2,19 @@ import {expect} from 'chai';
 import {Player} from '../../../src/Player';
 import {TestPlayers} from '../../TestPlayers';
 import {Game} from '../../../src/Game';
-import {Misinformation} from '../../../src/cards/community/Misinformation';
+import {Misinformation1} from '../../../src/cards/community/misinformation/Misinformation1';
 
 describe('Misinformation', function() {
-  let card : Misinformation; let player : Player;
+  let card : Misinformation1; let player : Player;
 
   beforeEach(() => {
-    card = new Misinformation();
+    card = new Misinformation1();
     player = TestPlayers.BLUE.newPlayer();
     Game.newInstance('foobar', [player], player);
   });
 
-  it('Cannot play', function() {
-    expect(card.canPlay()).is.false;
+  it('Play', function() {
+    card.play(player);
+    expect(player.megaCredits).to.eq(3);
   });
 });

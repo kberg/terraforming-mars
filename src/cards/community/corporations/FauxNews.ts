@@ -5,32 +5,34 @@ import {CardRenderer} from '../../render/CardRenderer';
 import {Card} from '../../Card';
 import {Player} from '../../../Player';
 import {Size} from '../../render/Size';
-import {Misinformation} from '../Misinformation';
 import {Dealer} from '../../../Dealer';
+import {Resources} from '../../../Resources';
+import {MISINFORMATION_CARDS} from '../CommunityCardManifest';
+import {CardFinder} from '../../../CardFinder';
+import {IProjectCard} from '../../IProjectCard';
+import {DeferredAction} from '../../../deferredActions/DeferredAction';
 import {OrOptions} from '../../../inputs/OrOptions';
 import {SelectOption} from '../../../inputs/SelectOption';
-import {Resources} from '../../../Resources';
 
 export class FauxNews extends Card implements CorporationCard {
   constructor() {
     super({
       cardType: CardType.CORPORATION,
       name: CardName.FAUX_NEWS,
-      initialActionText: 'Shuffle 10 Misinformation cards into the deck',
+      initialActionText: 'Shuffle Misinformation into the deck',
       startingMegaCredits: 40,
 
       metadata: {
         cardNumber: 'R60',
-        description: 'You start with 46 M€. As your first action, shuffle 10 Misinformation into the deck.',
+        description: 'You start with 40 M€. As your first action, shuffle a Misinformation into the deck for every 8 cards in the deck (max 60).',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(46).nbsp(Size.TINY).text('SHUFFLE 10', Size.SMALL).misinformation(1).asterix();
-          b.corpBox('action', (ce) => {
+          b.megacredits(40).nbsp(Size.TINY).text('SHUFFLE ?', Size.SMALL).misinformation(1).asterix();
+          b.corpBox('effect', (ce) => {
             ce.vSpace();
-            ce.action('Place a Misinformation in your hand and on top of the deck, or discard a Misinformation from your hand to gain 6 M€ and draw a card.', (eb) => {
-              eb.empty().startAction.misinformation(1).slash().misinformation(1).colon().megacredits(6).cards(1).asterix();
-            }).br;
-            ce.vSpace(Size.SMALL);
+            ce.effect('When any Misinformation card is played, THAT PLAYER gains 3 M€, and you gain 3 M€ OR draw a card.', (eb) => {
+              eb.misinformation(1).any.startEffect.megacredits(3).any.nbsp(Size.SMALL).plus().nbsp(Size.TINY).megacredits(3).slash().cards(1).asterix();
+            });
           });
         }),
       },
@@ -40,13 +42,16 @@ export class FauxNews extends Card implements CorporationCard {
   public initialAction(player: Player) {
     const game = player.game;
     const deck = game.dealer.deck;
+    const cardFinder = new CardFinder();
+    const count = Math.min(Math.ceil(deck.length / 8), 60);
 
-    for (let i = 0; i < 10; i++) {
-      deck.push(new Misinformation());
+    for (let i = 0; i < count; i++) {
+      const card = cardFinder.getProjectCardByName(MISINFORMATION_CARDS[i])!;
+      deck.push(card);
     }
 
     game.dealer.deck = Dealer.shuffle(deck);
-    game.log('${0} shuffled 10 ${1} into the deck', (b) => b.player(player).cardName(CardName.MISINFORMATION));
+    game.log('${0} shuffled ${1} ${2} into the deck', (b) => b.player(player).number(count).cardName(CardName.MISINFORMATION_1));
     return undefined;
   }
 
@@ -54,39 +59,34 @@ export class FauxNews extends Card implements CorporationCard {
     return undefined;
   }
 
-  public canAct(): boolean {
-    return true;
-  }
+  public onCardPlayed(player: Player, card: IProjectCard) {
+    const megacreditsGain = 3;
+    const fauxNewsOwner = player.game.getCardPlayer(this.name);
 
-  public action(player: Player) {
-    const game = player.game;
-    const orOptions = new OrOptions();
+    if (MISINFORMATION_CARDS.includes(card.name)) {
+      player.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
 
-    const playerHasMisinformation = player.cardsInHand.some((card) => card.name === CardName.MISINFORMATION);
+      const orOptions = new OrOptions(
+        new SelectOption('Gain 3 M€', 'Select', () => {
+          fauxNewsOwner.addResource(Resources.MEGACREDITS, megacreditsGain, {log: true});
+          return undefined;
+        }),
+        new SelectOption('Draw a card', 'Select', () => {
+          fauxNewsOwner.drawCard(1);
+          return undefined;
+        }),
+      );
 
-    if (playerHasMisinformation) {
-      orOptions.options.push(new SelectOption('Discard a Misinformation from your hand to gain 6 M€ and draw a card', 'Select', () => {
-        const misinformation = player.cardsInHand.find((c) => c.name === CardName.MISINFORMATION)!;
-        player.cardsInHand.splice(player.cardsInHand.indexOf(misinformation), 1);
-        game.dealer.discard(misinformation);
-
-        game.log('${0} discarded a ${1} from their hand to gain 6 M€ and draw a card', (b) => b.player(player).cardName(CardName.MISINFORMATION));
-        player.addResource(Resources.MEGACREDITS, 6);
-        player.drawCard();
-
+      if (fauxNewsOwner.hasConceded) {
+        orOptions.options[0].cb();
         return undefined;
+      }
+
+      player.game.defer(new DeferredAction(fauxNewsOwner, () => {
+        return orOptions;
       }));
     }
 
-    orOptions.options.push(new SelectOption('Place a Misinformation in your hand and on top of the deck', 'Select', () => {
-      game.log('${0} added a ${1} to their hand and on top of the deck', (b) => b.player(player).cardName(CardName.MISINFORMATION));
-      player.cardsInHand.push(new Misinformation());
-      game.dealer.deck.push(new Misinformation());
-
-      return undefined;
-    }));
-
-    if (orOptions.options.length === 1) return orOptions.options[0].cb();
-    return orOptions;
+    return undefined;
   }
 }
