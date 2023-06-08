@@ -52,6 +52,7 @@ export class Celestic extends Card implements IActionCard, CorporationCard, IRes
       CardName.HYDROGEN_TO_VENUS,
       CardName.NITROGEN_FROM_TITAN,
       CardName.STRATOSPHERIC_BIRDS,
+      CardName.CLOUD_TOURISM,
     ]);
 
     public initialAction(player: Player) {

@@ -502,6 +502,7 @@ export enum CardName {
 
     // Prelude 2
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
+    CLOUD_TOURISM = 'Cloud Tourism',
     TERRAFORMING_DEAL = 'Terraforming Deal',
 
     // Community cards
