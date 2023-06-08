@@ -1661,7 +1661,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     if (canUseGraphene && howToPay.graphene > 0) {
-      totalToPay += howToPay.graphene * 4;
+      totalToPay += howToPay.graphene * constants.DEFAULT_GRAPHENE_VALUE;
     }
 
     if (this.canUseHeatAsMegaCredits && howToPay.heat !== undefined) {
@@ -1750,6 +1750,10 @@ export class Player implements ISerializable<SerializedPlayer> {
 
         if (playedCard.name === CardName.LUNA_ARCHIVES) {
           this.removeResourceFrom(playedCard, howToPay.science);
+        }
+
+        if (playedCard.name === CardName.CARBON_NANOSYSTEMS) {
+          this.removeResourceFrom(playedCard, howToPay.graphene);
         }
       }
     }

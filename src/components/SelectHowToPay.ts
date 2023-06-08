@@ -202,7 +202,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         microbes: 0,
         floaters: 0,
         science: 0,
-        graphene: 0,
+        graphene: this.$data.graphene,
       };
 
       if (htp.megaCredits > this.player.megaCredits) {
