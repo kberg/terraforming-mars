@@ -55,7 +55,6 @@ export class Supercapacitors extends Card implements IProjectCard {
         },
         0,
         player.energy,
-        true,
       );
     }));
   }
