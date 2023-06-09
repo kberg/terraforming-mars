@@ -57,12 +57,12 @@ export const PlayerTimer = Vue.component('player-timer', {
   template: `
     <div class="player-timer">
       <template v-if="hasHours()">
-         <div class="player-timer-hours time-part">{{ getHours() }}</div>
+         <div class="player-timer-hours">{{ getHours() }}</div>
          <div class="timer-delimiter">:</div>
       </template>   
-      <div class="player-timer-minutes time-part">{{ getMinutes() }}</div>
+      <div class="player-timer-minutes">{{ getMinutes() }}</div>
       <div class="timer-delimiter">:</div>
-      <div class="player-timer-seconds time-part">{{ getSeconds() }}</div>
+      <div class="player-timer-seconds">{{ getSeconds() }}</div>
     </div>
   `,
 });
