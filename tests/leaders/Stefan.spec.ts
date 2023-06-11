@@ -19,22 +19,30 @@ describe('Stefan', function() {
     game = Game.newInstance('foobar', [player, player2], player);
   });
 
-  it('Cannot act without cards', function() {
+  it('Cannot act', function() {
+    game.generation = 5;
+    player.megaCredits = 4;
     expect(card.canAct(player)).is.false;
+  });
+
+  it('Can act without cards in hand', function() {
+    game.generation = 5;
+    player.megaCredits = 5;
+    expect(card.canAct(player)).is.true;
   });
 
   it('Takes action', function() {
     const research = new Research();
     const microMills = new MicroMills();
     player.cardsInHand.push(research, microMills);
-    expect(card.canAct(player)).is.true;
+    game.generation = 5;
+    player.megaCredits = 5;
 
     const selectCard = card.action(player) as SelectCard<IProjectCard>;
-    selectCard.cb([research, microMills]);
-
     game.deferredActions.runAll(() => {});
-    expect(player.cardsInHand).has.length(0);
-    expect(player.megaCredits).eq(6);
+    selectCard.cb([research, microMills]);
+    expect(player.cardsInHand).has.length(5);
+    expect(player.megaCredits).eq(6); // 5 - 5 cost to draw cards + 6 from selling 2 cards
   });
 
   it('Can only act once per game', function() {

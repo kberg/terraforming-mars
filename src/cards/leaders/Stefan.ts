@@ -5,10 +5,12 @@ import {LeaderCard} from '../LeaderCard';
 import {PlayerInput} from '../../PlayerInput';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
-import {LogType} from '../../deferredActions/DrawCards';
+import {DrawCards, LogType} from '../../deferredActions/DrawCards';
 import {SelectCard} from '../../inputs/SelectCard';
 import {LogHelper} from '../../LogHelper';
 import {IProjectCard} from '../IProjectCard';
+import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
+import {Size} from '../render/Size';
 
 export class Stefan extends Card implements LeaderCard {
   constructor() {
@@ -18,9 +20,13 @@ export class Stefan extends Card implements LeaderCard {
       metadata: {
         cardNumber: 'L19',
         renderData: CardRenderer.builder((b) => {
-          b.opgArrow().text('SELL').cards(1).colon().megacredits(3);
+          b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
+          b.br;
+          b.megacredits(0).multiplier.colon().text('X').cards(1).text('(MAX 5)', Size.SMALL);
+          b.br;
+          b.text('SELL').cards(1).colon().megacredits(3);
         }),
-        description: 'Once per game, sell any number of cards from hand for 3 M€ each.',
+        description: 'Once per game, pay X M€ to draw up to X cards (max 5), then sell any number of cards from hand for 3 M€ each.',
       },
     });
   }
@@ -32,10 +38,17 @@ export class Stefan extends Card implements LeaderCard {
   }
 
   public canAct(player: Player): boolean {
-    return player.cardsInHand.length > 0 && this.isDisabled === false;
+    const cost = player.game.generation;
+    return player.canAfford(cost) && this.isDisabled === false;
   }
 
   public action(player: Player): PlayerInput | undefined {
+    const game = player.game;
+    const cost = game.generation;
+    const cardsDrawnQty = Math.min(game.generation, 5);
+    game.defer(new SelectHowToPayDeferred(player, cost, {title: 'Select how to pay for action'}));
+    game.defer(DrawCards.keepAll(player, cardsDrawnQty));
+
     return new SelectCard(
       'Sell patents',
       'Sell',
@@ -50,11 +63,11 @@ export class Stefan extends Card implements LeaderCard {
               break;
             }
           }
-          player.game.dealer.discard(card);
+          game.dealer.discard(card);
         });
 
-        player.game.log('${0} sold ${1} patents', (b) => b.player(player).number(foundCards.length));
-        LogHelper.logDrawnCards(player, foundCards.map((card)=>card.name), true, LogType.SOLD);
+        game.log('${0} sold ${1} patents', (b) => b.player(player).number(foundCards.length));
+        LogHelper.logDrawnCards(player, foundCards.map((card) => card.name), true, LogType.SOLD);
         this.isDisabled = true;
         return undefined;
       }, {max: player.cardsInHand.length},

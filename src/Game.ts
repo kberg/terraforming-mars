@@ -1146,7 +1146,7 @@ export class Game implements ISerializable<SerializedGame> {
       const lastCards = this.unDraftedCards.get(this.getDraftCardsFrom(player));
       if (lastCards !== undefined) {
         player.draftedCards.push(...lastCards);
-        LogHelper.logDrawnCards(player, lastCards.map((card)=>card.name), true, LogType.DRAFTED);
+        LogHelper.logDrawnCards(player, lastCards.map((card) => card.name), true, LogType.DRAFTED);
       }
       player.needsToDraft = undefined;
 
