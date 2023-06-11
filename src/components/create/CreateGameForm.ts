@@ -1006,19 +1006,19 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                 </label>
                             </template>
 
+                            <template v-if="!isSoloGame() && prelude">
+                                <input type="checkbox" name="twoCorpsVariant" v-model="twoCorpsVariant" id="twoCorps-checkbox">
+                                <label for="twoCorps-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-prelude"></div>
+                                    <span v-i18n>All Merger</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
                             <template v-if="!isSoloGame() && venusNext">
                                 <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
                                 <label for="requiresVenusTrackCompletion-checkbox">
                                     <div class="create-game-expansion-icon expansion-icon-venus"></div>
                                     <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
-                                </label>
-                            </template>
-
-                            <template v-if="!isSoloGame() && prelude">
-                                <input type="checkbox" name="twoCorpsVariant" v-model="twoCorpsVariant" id="twoCorps-checkbox">
-                                <label for="twoCorps-checkbox">
-                                    <div class="create-game-expansion-icon expansion-icon-prelude"></div>
-                                    <span v-i18n>Merger</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
                                 </label>
                             </template>
 
