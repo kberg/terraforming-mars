@@ -50,6 +50,8 @@ export const SpectatorOverview = Vue.component('spectator-overview', {
       return this.player.players;
     },
     getActionLabel(player: PlayerModel): string {
+      if (player.hasConceded) return ActionLabel.CONCEDED;
+
       if (this.player.phase === Phase.DRAFTING) {
         if (!this.player.draftedPlayers.includes(player.color)) return ActionLabel.DRAFTING;
         return ActionLabel.NONE;

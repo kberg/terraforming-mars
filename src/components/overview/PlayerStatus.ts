@@ -59,7 +59,7 @@ export const PlayerStatus = Vue.component('player-status', {
       if (!this.player.gameOptions.showTimers) {
         classes.push('no-timer');
       }
-      if (this.actionLabel === ActionLabel.PASSED) {
+      if (this.actionLabel === ActionLabel.PASSED || this.actionLabel === ActionLabel.CONCEDED) {
         classes.push(`${baseClass}--passed`);
       } else if (this.actionLabel === ActionLabel.ACTIVE || this.actionLabel === ActionLabel.DRAFTING || this.actionLabel === ActionLabel.RESEARCHING) {
         classes.push(`${baseClass}--active`);
