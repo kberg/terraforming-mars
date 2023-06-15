@@ -1517,6 +1517,11 @@ export class Game implements ISerializable<SerializedGame> {
         player.addProduction(Resources.HEAT, 1, {log: true});
       }
 
+      // Homeostasis Bureau gives 3 M€ for each step temperature is raised
+      if (player.cardIsInEffect(CardName.HOMEOSTASIS_BUREAU)) {
+        player.addResource(Resources.MEGACREDITS, steps * 3, {log: true});
+      }
+
       TurmoilHandler.onGlobalParameterIncrease(player, GlobalParameter.TEMPERATURE, steps);
       player.increaseTerraformRatingSteps(steps);
     }

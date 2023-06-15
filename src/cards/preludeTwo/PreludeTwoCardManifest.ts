@@ -4,6 +4,7 @@ import {CardManifest} from '../CardManifest';
 import {AntiDesertificationTechniques} from './AntiDesertificationTechniques';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
+import {HomeostasisBureau} from './HomeostasisBureau';
 import {TerraformingDeal} from './TerraformingDeal';
 
 export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
@@ -11,6 +12,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   projectCards: [
     {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems, compatibility: GameModule.Promo},
     {cardName: CardName.CLOUD_TOURISM, Factory: CloudTourism, compatibility: GameModule.Venus},
+    {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
   ],
   corporationCards: [
   ],

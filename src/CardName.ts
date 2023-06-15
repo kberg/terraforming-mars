@@ -501,10 +501,11 @@ export enum CardName {
     DIRECTED_HEAT_USAGE = 'Directed Heat Usage',
 
     // Prelude 2
+    ANTI_DESERTIFICATION_TECHNIQUES = 'Anti-Desertification Techniques',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
+    HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     TERRAFORMING_DEAL = 'Terraforming Deal',
-    ANTI_DESERTIFICATION_TECHNIQUES = 'Anti-Desertification Techniques',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',
