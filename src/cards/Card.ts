@@ -10,6 +10,7 @@ import {CardRequirements} from './CardRequirements';
 import {CardDiscount, ICard, TRSource} from './ICard';
 import {REDS_RULING_POLICY_COST, SOCIETY_ADDITIONAL_CARD_COST} from '../constants';
 import {Resources} from '../Resources';
+import {IProjectCard} from './IProjectCard';
 
 export interface StaticCardProperties {
   adjacencyBonus?: IAdjacencyBonus;
@@ -155,6 +156,14 @@ export abstract class Card {
   public static setCannotAffordWarningText(card: ICard, player: Player, qty: number = 1): void {
     if (!player.canAfford(player.cardCost * qty)) {
       card.warning = `You will not be able to buy ${qty} card(s) if you take this action now.`;
+    } else {
+      card.warning = undefined;
+    }
+  }
+
+  public static setUnplayablePreludeWarningText(card: IProjectCard, player: Player): void {
+    if ((card.canPlay === undefined || card.canPlay(player)) === false) {
+      card.warning = "This prelude will be discarded for 15 M€ if you play it now.";
     } else {
       card.warning = undefined;
     }

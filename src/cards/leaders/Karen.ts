@@ -42,9 +42,7 @@ export class Karen extends Card implements LeaderCard {
     }
 
     cardsDrawn.forEach((card) => {
-      if ((card.canPlay === undefined || card.canPlay(player)) === false) {
-        card.warning = "This prelude will be discarded for 15 M€ if you play it now as you cannot afford to pay for it.";
-      }
+      Card.setUnplayablePreludeWarningText(card, player);
     });
 
     return new SelectCard('Choose prelude card to play', 'Play', cardsDrawn, (foundCards: Array<IProjectCard>) => {

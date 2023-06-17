@@ -109,6 +109,7 @@ import {TranshumansPolicy3Action} from './cards/turmoil/standardActions/Transhum
 import {CentristsDefaultAction} from './cards/turmoil/standardActions/CentristsDefaultAction';
 import {CentristsPolicy3Action} from './cards/turmoil/standardActions/CentristsPolicy3Action';
 import {Supercapacitors} from './cards/promo/Supercapacitors';
+import {Card} from './cards/Card';
 
 export type PlayerId = string;
 export type Password = string;
@@ -2493,11 +2494,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       game.phase = Phase.PRELUDES;
 
       this.preludeCardsInHand.forEach((card) => {
-        if ((card.canPlay === undefined || card.canPlay(this)) === false) {
-          card.warning = "This prelude will be discarded for 15 M€ if you play it now as you cannot afford to pay for it.";
-        } else {
-          card.warning = undefined;
-        }
+        Card.setUnplayablePreludeWarningText(card, this);
       });
 
       const playPrelude = this.playPreludeCard();
