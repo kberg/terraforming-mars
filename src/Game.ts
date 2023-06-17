@@ -1233,7 +1233,7 @@ export class Game implements ISerializable<SerializedGame> {
     const shouldGiveHeadStart = this.shouldGiveHeadStart(player);
 
     if (shouldGiveHeadStart && player.hasUsedHeadStart === false) {
-      player.hasUsedHeadStart = true;
+      if (player.lastCardPlayed?.name !== CardName.DOUBLE_DOWN) player.hasUsedHeadStart = true;
       return this.players[playerIndex];
     }
 
@@ -1245,6 +1245,9 @@ export class Game implements ISerializable<SerializedGame> {
     // Normal game with preludes
     if (player.lastCardPlayed?.name === CardName.HEAD_START) return true;
     if (player.game.phase === Phase.PRELUDES && player.playedCards.length > 0 && player.playedCards[0].name === CardName.HEAD_START) return true;
+
+    // With Head Start + Double Down, a player can potentially get 4 consecutive actions
+    if (player.cardIsInEffect(CardName.HEAD_START) && player.hasUsedHeadStart === false) return true;
 
     // With CEOs. Special handling as the CEO is auto played during the action phase, replacing player.lastCardPlayed
     if (player.lastCardPlayed?.cardType === CardType.LEADER) {
