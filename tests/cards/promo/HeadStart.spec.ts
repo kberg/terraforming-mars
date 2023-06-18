@@ -24,7 +24,7 @@ describe('HeadStart', function() {
     card.play(player);
     expect(player.megaCredits).to.eq(4);
     expect(player.steel).to.eq(2);
-    expect(game.deferredActions).has.length(1);
+    expect(game.deferredActions).has.length(2);
 
     game.deferredActions.runAll(() => {});
     expect(game.activePlayer).to.eq(player.id);
