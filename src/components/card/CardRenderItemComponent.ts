@@ -49,6 +49,9 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.VENUS) {
         classes.push('card-global-requirement');
         classes.push('card-venus-global-requirement');
+        if (this.item.size !== undefined && this.item.size !== Size.MEDIUM) {
+          classes.push(`card-venus--${this.item.size}`);
+        }
       } else if (type === CardRenderItemType.TR) {
         classes.push('card-tile');
         classes.push('card-tr');

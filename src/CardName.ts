@@ -502,6 +502,7 @@ export enum CardName {
 
     // Prelude 2
     ANTI_DESERTIFICATION_TECHNIQUES = 'Anti-Desertification Techniques',
+    ATMOSPHERIC_ENHANCERS = 'Atmospheric Enhancers',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
