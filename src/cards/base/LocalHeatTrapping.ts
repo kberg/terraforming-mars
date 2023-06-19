@@ -32,6 +32,39 @@ export class LocalHeatTrapping extends Card implements IProjectCard {
     });
   }
 
+  public canPlay(player: Player) {
+    // This card can cost 0 or 1 M€
+    const cardCost = player.getCardCost(this);
+
+    let heat = player.heat;
+
+    const stormcraft = player.corporationCards.find((corp) => corp.name === CardName.STORMCRAFT_INCORPORATED);
+    let floaters = stormcraft?.resourceCount ?? 0;
+
+    // If the card costs anything, determine where that 1 M€ can come from. Assume it can come from M€ first.
+    if (cardCost === 1) {
+      if (player.megaCredits === 0) {
+        if (heat > 0) {
+          heat--;
+        } else if (floaters > 0) {
+          floaters--;
+        } else {
+          return false;
+        }
+      } else if (player.megaCredits === 1) {
+        if (heat === 0 && floaters === 3) {
+          this.reserveUnits.heat = 6;
+        } else {
+          this.reserveUnits.heat = 5;
+        }
+      }
+    }
+
+    // At this point, the card cost has been assumed handled, and it's just a question of whether there's 5 heat left.
+    const availableHeat = heat + (floaters * 2);
+    return availableHeat >= 5;
+  }
+
   public play(player: Player) {
     const animalCards: Array<ICard> = player.getResourceCards(ResourceType.ANIMAL);
     const availableActions = new OrOptions();
@@ -40,6 +73,7 @@ export class LocalHeatTrapping extends Card implements IProjectCard {
       player.addResource(Resources.PLANTS, 4, {log: true});
       return undefined;
     };
+
     if (animalCards.length === 0) {
       availableActions.options.push(new SelectOption('Gain 4 plants', 'Gain plants', gain4Plants));
     } else if (animalCards.length === 1) {

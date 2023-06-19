@@ -546,7 +546,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       this.titanium - units.titanium >= 0 &&
       this.plants - units.plants >= 0 &&
       this.energy - units.energy >= 0 &&
-      this.availableHeat - units.heat >= 0;
+      this.heat - units.heat >= 0;
   }
 
   public addUnits(units: Partial<Units>, options? : {
@@ -2208,7 +2208,21 @@ export class Player implements ISerializable<SerializedPlayer> {
     reserveUnits?: Units,
   }) {
     const reserveUnits = options?.reserveUnits ?? Units.EMPTY;
-    if (!this.hasUnits(reserveUnits)) return false;
+
+    if (reserveUnits.heat > 0) {
+      // Special-case heat
+      const unitsWithoutHeat = {...reserveUnits, heat: 0};
+      if (!this.hasUnits(unitsWithoutHeat)) {
+        return false;
+      }
+      if (this.availableHeat < reserveUnits.heat) {
+        return false;
+      }
+    } else {
+      if (!this.hasUnits(reserveUnits)) {
+        return false;
+      }
+    }
 
     const canUseSteel: boolean = options?.steel ?? false;
     const canUseTitanium: boolean = options?.titanium ?? false;

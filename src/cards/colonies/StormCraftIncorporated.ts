@@ -76,8 +76,23 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
     let heatAmount: number;
     let floaterAmount: number;
 
+    const spendHeatOption =
+      new SelectAmount('Heat', 'Spend heat', (amount: number) => {
+        heatAmount = amount;
+        return undefined;
+      }, 0, Math.min(player.heat, targetAmount));
+
+    const spendFloatersOption =
+      new SelectAmount('Stormcraft Incorporated Floaters (2 heat each)', 'Spend floaters', (amount: number) => {
+        floaterAmount = amount;
+        return undefined;
+      }, 0, Math.min(this.resourceCount, Math.ceil(targetAmount / 2)));
+
     const options = new AndOptions(
       () => {
+        if (floaterAmount > this.resourceCount) {
+          throw new Error('You don\'t have that many floaters');
+        }
         if (heatAmount + (floaterAmount * 2) < targetAmount) {
           throw new Error(`Need to pay ${targetAmount} heat`);
         }
@@ -94,14 +109,8 @@ export class StormCraftIncorporated extends Card implements IActionCard, Corpora
         player.deductResource(Resources.HEAT, heatAmount);
         return cb();
       },
-      new SelectAmount('Heat', 'Spend heat', (amount: number) => {
-        heatAmount = amount;
-        return undefined;
-      }, 0, Math.min(player.heat, targetAmount)),
-      new SelectAmount('Stormcraft Incorporated Floaters (2 heat each)', 'Spend floaters', (amount: number) => {
-        floaterAmount = amount;
-        return undefined;
-      }, 0, Math.min(player.getResourcesOnCorporation(), Math.ceil(targetAmount / 2))),
+      spendHeatOption,
+      spendFloatersOption,
     );
 
     options.title = `Select how to spend ${targetAmount} heat`;
