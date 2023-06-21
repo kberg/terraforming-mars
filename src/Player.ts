@@ -769,18 +769,6 @@ export class Player implements ISerializable<SerializedPlayer> {
     } else return undefined;
   }
 
-  public getResourcesOnCorporation():number {
-    let count: number = 0;
-
-    this.corporationCards.forEach((corp) => {
-      if (corp.resourceCount !== undefined) {
-        count += corp.resourceCount;
-      }
-    });
-
-    return count;
-  }
-
   public getRequirementsBonus(parameter: GlobalParameter): number {
     let requirementsBonus: number = this.requirementsBonus;
 
@@ -1891,7 +1879,10 @@ export class Player implements ISerializable<SerializedPlayer> {
   }
 
   public get availableHeat(): number {
-    return this.heat + (this.isCorporation(CardName.STORMCRAFT_INCORPORATED) ? this.getResourcesOnCorporation() * 2 : 0);
+    if (!this.isCorporation(CardName.STORMCRAFT_INCORPORATED)) return this.heat;
+
+    const stormcraft = this.corporationCards.find((card) => card.name === CardName.STORMCRAFT_INCORPORATED)!;
+    return this.heat + (stormcraft.resourceCount! * 2);
   }
 
   public spendHeat(amount: number, cb: () => (undefined | PlayerInput) = () => undefined) : PlayerInput | undefined {
