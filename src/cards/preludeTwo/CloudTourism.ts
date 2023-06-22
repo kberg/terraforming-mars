@@ -20,12 +20,17 @@ export class CloudTourism extends Card implements IProjectCard {
 
       metadata: {
         cardNumber: '??',
+        description: 'Increase your M€ production 1 step per set of Earth and Venus tags you have.',
         renderData: CardRenderer.builder((b) => {
           b.action('Add 1 floater to this card.', (eb) => {
             eb.empty().startAction.floaters(1);
           });
           b.br;
           b.vpText('1 VP for every 3 floaters on this card.');
+          b.br;
+          b.production((pb) => {
+            pb.megacredits(1).slash().earth().played.venus(1).played;
+          });
         }),
         victoryPoints: CardRenderDynamicVictoryPoints.floaters(1, 3),
       },
