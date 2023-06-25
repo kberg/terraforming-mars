@@ -17,10 +17,10 @@ export enum Priority {
   LOSE_AS_MUCH_AS_POSSIBLE, // Effects that make you lose resource or production "as much as possible". Pharmacy Union, Mons.
   ATTACK_OPPONENT, // Effects that make your opponents lose resources or production.
   GAIN_RESOURCE_OR_PRODUCTION,
+  PAY_TO_DRAW_CARDS, // Curiosity II and Faraday
   LOSE_RESOURCE_OR_PRODUCTION,
   DECREASE_COLONY_TRACK_AFTER_TRADE,
   DISCARD_CARDS,
-  PAY_TO_DRAW_CARDS, // Curiosity II and Faraday
 }
 
 export class DeferredAction {

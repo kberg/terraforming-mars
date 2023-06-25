@@ -77,6 +77,10 @@ export class PharmacyUnion extends Card implements CorporationCard {
     const isPharmacyUnion = player.isCorporation(CardName.PHARMACY_UNION);
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
+    // If card player has Faraday and is PU
+    let microbeTagTriggerPriority = Priority.SUPERPOWER;
+    if (isPharmacyUnion && player.cardIsInEffect(CardName.FARADAY)) microbeTagTriggerPriority = Priority.LOSE_RESOURCE_OR_PRODUCTION;
+
     // Edge case, let player pick order of resolution (see https://github.com/terraforming-mars/terraforming-mars/issues/1286)
     if (isPharmacyUnion && hasScienceTag && hasMicrobesTag && this.resourceCount === 0) {
       // TODO (Lynesth): Modify this when https://github.com/terraforming-mars/terraforming-mars/issues/1670 is fixed
@@ -105,7 +109,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
             orOptions.title = 'Choose the order of tag resolution for Pharmacy Union';
             return orOptions;
           },
-        ), Priority.SUPERPOWER);
+        ), microbeTagTriggerPriority);
 
         return undefined;
       }
@@ -165,7 +169,7 @@ export class PharmacyUnion extends Card implements CorporationCard {
           game.log('${0} added a disease to ${1} and lost ${2} M€', (b) => b.player(player).card(this).number(megaCreditsLost));
           return undefined;
         },
-      ), Priority.SUPERPOWER);
+      ), microbeTagTriggerPriority);
     }
 
     return undefined;
