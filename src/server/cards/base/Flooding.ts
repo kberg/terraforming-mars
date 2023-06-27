@@ -12,6 +12,7 @@ import {Resource} from '../../../common/Resource';
 import {PlaceOceanTile} from '../../deferredActions/PlaceOceanTile';
 import {CardRenderer} from '../render/CardRenderer';
 import {all} from '../Options';
+import {M} from '../../../genfiles/i18-n/messages';
 
 export class Flooding extends Card implements IProjectCard {
   constructor() {
@@ -41,7 +42,7 @@ export class Flooding extends Card implements IProjectCard {
     if (!player.game.canAddOcean()) return undefined;
 
     return new SelectSpace(
-      'Select space for ocean tile',
+      M.I1000,
       player.game.board.getAvailableSpacesForOcean(player),
       (space: ISpace) => {
         player.game.addOcean(player, space);

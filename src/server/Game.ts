@@ -70,6 +70,7 @@ import {Logger} from './logs/Logger';
 import {addDays, dayStringToDays} from './database/utils';
 import {ALL_TAGS, Tag} from '../common/cards/Tag';
 import {IGame, Score} from './IGame';
+import {M} from '@/genfiles/i18-n/messages';
 
 export class Game implements IGame, Logger {
   public readonly id: GameId;
@@ -1456,6 +1457,9 @@ export class Game implements IGame, Logger {
 
   public getCardsInHandByType(player: IPlayer, cardType: CardType) {
     return player.cardsInHand.filter((card) => card.type === cardType);
+  }
+
+  public log2(message: typeof M, f?: (builder: LogBuilder) => void, options?: {reservedFor?: IPlayer}) {
   }
 
   public log(message: string, f?: (builder: LogBuilder) => void, options?: {reservedFor?: IPlayer}) {
