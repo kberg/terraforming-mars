@@ -79,7 +79,19 @@ export class PharmacyUnion extends Card implements CorporationCard {
 
     // If card player has Faraday and is PU
     let microbeTagTriggerPriority = Priority.SUPERPOWER;
-    if (isPharmacyUnion && player.cardIsInEffect(CardName.FARADAY)) microbeTagTriggerPriority = Priority.LOSE_RESOURCE_OR_PRODUCTION;
+
+    if (isPharmacyUnion && player.cardIsInEffect(CardName.FARADAY)) {
+      // If there is any possibility that the player can afford 3 M€ to draw a card, PU's M€ loss should trigger last
+      let canAffordFaradayCardDraw: boolean = false;
+      if (player.isCorporation(CardName.SPLICE) && player.canAfford(1)) canAffordFaradayCardDraw = true;
+      if (player.isCorporation(CardName.SPLICE) && player.cardIsInEffect(CardName.TOPSOIL_CONTRACT)) canAffordFaradayCardDraw = true;
+      if (player.isCorporation(CardName.SPLICE) && hasMicrobesTag && card.resourceType === undefined) canAffordFaradayCardDraw = true;
+      if (player.canAfford(3)) canAffordFaradayCardDraw = true;
+
+      if (canAffordFaradayCardDraw) {
+        microbeTagTriggerPriority = Priority.LOSE_RESOURCE_OR_PRODUCTION;
+      }
+    }
 
     // Edge case, let player pick order of resolution (see https://github.com/terraforming-mars/terraforming-mars/issues/1286)
     if (isPharmacyUnion && hasScienceTag && hasMicrobesTag && this.resourceCount === 0) {

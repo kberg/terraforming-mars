@@ -14,16 +14,16 @@ import {Tags} from '../../../src/cards/Tags';
 import {Game} from '../../../src/Game';
 import {AndOptions} from '../../../src/inputs/AndOptions';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {Player} from '../../../src/Player';
 import {TestingUtils} from '../../TestingUtils';
 import {TestPlayers} from '../../TestPlayers';
 import {Splice} from '../../../src/cards/promo/Splice';
 import {Faraday} from '../../../src/cards/leaders/Faraday';
 import {ExtremeColdFungus} from '../../../src/cards/base/ExtremeColdFungus';
 import {IndustrialMicrobes} from '../../../src/cards/base/IndustrialMicrobes';
+import {TestPlayer} from '../../TestPlayer';
 
 describe('PharmacyUnion', function() {
-  let card : PharmacyUnion; let player : Player; let player2 : Player; let game : Game;
+  let card : PharmacyUnion; let player : TestPlayer; let player2 : TestPlayer; let game : Game;
 
   beforeEach(() => {
     card = new PharmacyUnion();
@@ -31,6 +31,7 @@ describe('PharmacyUnion', function() {
     player2 = TestPlayers.RED.newPlayer();
     game = Game.newInstance('foobar', [player, player2], player);
 
+    player.popWaitingFor(); // Remove SelectInitialCards
     player.corporationCards = [card];
   });
 
@@ -163,7 +164,6 @@ describe('PharmacyUnion', function() {
     expect(player.megaCredits).eq(8);
     expect(game.deferredActions).has.lengthOf(0);
 
-
     // PU player playing a Science/Microbes card and Pharmacy Union has no resource
     card.resourceCount = 0;
     player.playedCards.push(viralEnhancers);
@@ -190,7 +190,7 @@ describe('PharmacyUnion', function() {
     expect(player.megaCredits).eq(3);
   });
 
-  it('Edge Case - With Splice and Faraday, gains M€ first and can choose to spend M€ to draw a card before losing it', () => {
+  it('Edge Case - With Splice and Faraday, gains M€ first and can choose to spend 3 M€ to draw a card before losing M€', () => {
     player.megaCredits = 1;
     player.corporationCards.push(new Splice());
     player.playedCards = [new Faraday(), new ExtremeColdFungus()];
@@ -213,5 +213,38 @@ describe('PharmacyUnion', function() {
     // PU triggers last, removing up to 4 M€
     TestingUtils.runAllActions(game);
     expect(player.megaCredits).eq(0);
+  });
+
+  it('Edge Case - With Splice and Faraday, loses M€ for PU first before gaining M€ from Splice if might not be able to afford 3 M€ to draw a card', () => {
+    // Player may not be able to afford 3 M€ to draw a card even after Splice gives 2 M€, as they can choose to add a microbe resource instead
+    player.megaCredits = 0;
+    player.corporationCards.push(new Splice());
+    player.playedCards = [new Faraday(), new ExtremeColdFungus()];
+
+    player.playCard(new Ants());
+    expect(game.deferredActions).has.length(4);
+
+    // PU triggers first
+    game.deferredActions.runNext();
+    expect(player.megaCredits).eq(0);
+
+    // Splice triggers next
+    game.deferredActions.runNext();
+    const orOptions = player.getWaitingFor() as OrOptions;
+    // Pick 2 M€
+    orOptions.options[1].cb();
+    game.deferredActions.runNext();
+    expect(player.megaCredits).eq(2);
+
+    // Give Splice owner their 2 M€
+    game.deferredActions.runNext();
+    expect(player.megaCredits).eq(4);
+
+    const faradayOptions = game.deferredActions.pop()!.execute() as OrOptions;
+    faradayOptions.options[0].cb();
+    // Clear the SelectHowToPayDeferred
+    game.deferredActions.runNext();
+    expect(player.cardsInHand).has.length(1);
+    expect(player.megaCredits).to.eq(1);
   });
 });
