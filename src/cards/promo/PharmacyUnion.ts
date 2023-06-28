@@ -71,16 +71,16 @@ export class PharmacyUnion extends Card implements CorporationCard {
     if (this.isDisabled) return undefined;
 
     const game = player.game;
-
     const hasScienceTag = card.tags.includes(Tags.SCIENCE);
     const hasMicrobesTag = card.tags.includes(Tags.MICROBE);
     const isPharmacyUnion = player.isCorporation(CardName.PHARMACY_UNION);
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
+    const someTagWillTriggerFaraday = card.tags.some((tag) => player.getTagCount(tag) % 5 === 0);
 
     // If card player has Faraday and is PU
     let microbeTagTriggerPriority = Priority.SUPERPOWER;
 
-    if (isPharmacyUnion && player.cardIsInEffect(CardName.FARADAY)) {
+    if (isPharmacyUnion && player.cardIsInEffect(CardName.FARADAY) && someTagWillTriggerFaraday) {
       // If there is any possibility that the player can afford 3 M€ to draw a card, PU's M€ loss should trigger last
       let canAffordFaradayCardDraw: boolean = false;
       if (player.isCorporation(CardName.SPLICE) && player.canAfford(1)) canAffordFaradayCardDraw = true;
