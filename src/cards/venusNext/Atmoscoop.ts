@@ -94,8 +94,11 @@ export class Atmoscoop extends Card implements IProjectCard {
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
 
     const venusScale = game.getVenusScaleLevel();
+    const venusStepsRaised = Math.min((MAX_VENUS_SCALE - venusScale) / 2, 2);
+
     const increaseVenus = new SelectOption('Raise Venus 2 steps', 'Raise venus', () => {
       game.increaseVenusScaleLevel(player, 2);
+      game.log('${0} increased Venus ${1} step(s)', (b) => b.player(player).number(venusStepsRaised));
       return undefined;
     });
 
@@ -105,14 +108,16 @@ export class Atmoscoop extends Card implements IProjectCard {
       if (venusScale === 12 || venusScale === 14) {
         raiseVenusCost = 3 * REDS_RULING_POLICY_COST;
       } else {
-        const venusStepsRaised = Math.min((MAX_VENUS_SCALE - venusScale) / 2, 2);
         raiseVenusCost = venusStepsRaised * REDS_RULING_POLICY_COST;
       }
     }
 
     const temperature = game.getTemperature();
+    const temperatureStepsRaised = Math.min((MAX_TEMPERATURE - temperature) / 2, 2);
+
     const increaseTemp = new SelectOption('Raise temperature 2 steps', 'Raise temperature', () => {
       game.increaseTemperature(player, 2);
+      game.log('${0} increased temperature ${1} step(s)', (b) => b.player(player).number(temperatureStepsRaised));
       return undefined;
     });
 
@@ -122,7 +127,6 @@ export class Atmoscoop extends Card implements IProjectCard {
       if (temperature === -4 || temperature === -2) {
         raiseTemperatureCost = 3 * REDS_RULING_POLICY_COST;
       } else {
-        const temperatureStepsRaised = Math.min((MAX_TEMPERATURE - temperature) / 2, 2);
         raiseTemperatureCost = temperatureStepsRaised * REDS_RULING_POLICY_COST;
       }
     }
@@ -130,7 +134,7 @@ export class Atmoscoop extends Card implements IProjectCard {
     const increaseTempOrVenus = new OrOptions();
     increaseTempOrVenus.title = 'Choose global parameter to raise';
     if (player.canAfford(raiseTemperatureCost - (this.howToAffordReds?.bonusMCFromPlay || 0))) increaseTempOrVenus.options.push(increaseTemp);
-    if (player.canAfford(raiseVenusCost)) increaseTempOrVenus.options.push(increaseVenus);
+    if (player.canAfford(raiseVenusCost - (this.howToAffordReds?.bonusMCFromPlay || 0))) increaseTempOrVenus.options.push(increaseVenus);
 
     const addFloaters = new SelectCard(
       'Select card to add 2 floaters',
