@@ -28,7 +28,10 @@ export class ConvertHeat extends StandardActionCard {
     const trGain = player.computeTerraformRatingBump(this);
     Card.setRedsWarningText(player, trGain, this, false, 'take this action');
 
-    if (player.game.getTemperature() === MAX_TEMPERATURE) return false;
+    if (player.game.getTemperature() === MAX_TEMPERATURE) {
+      Card.setUselessActionWarningText(this, 'temperature is already maxed');
+    }
+
     if (player.availableHeat < HEAT_FOR_TEMPERATURE) return false;
 
     if (PartyHooks.shouldApplyPolicy(player, PartyName.REDS)) {
