@@ -43,11 +43,7 @@ export const Card = Vue.component('card', {
     robotCard: {
       type: Object as () => CardModel | undefined,
       required: false,
-    },
-    isChecked: {
-      type: Boolean,
-      default: false,
-    },
+    }
   },
   data: function() {
     let cardInstance: ICard | undefined;
@@ -121,21 +117,7 @@ export const Card = Vue.component('card', {
       return this.getCard()?.cardType;
     },
     getCardClasses: function(card: CardModel): string {
-      let classes = ['card-container', 'filterDiv', 'filterDiv-card', 'hover-hide-res'];
-
-      if (this.isChecked) {
-        if (card.warning === undefined) {
-          classes.push('card-checked');
-        } else {
-          classes.push('card-checked-with-warning');
-        }
-      } else {
-        if (card.warning === undefined) {
-          classes = classes.filter((c) => c !== 'card-checked');
-        } else {
-          classes = classes.filter((c) => c !== 'card-checked-with-warning');
-        }
-      }
+      const classes = ['card-container', 'filterDiv', 'filterDiv-card', 'hover-hide-res'];
 
       if (card.warning !== undefined) {
         classes.push('filterDiv-card-with-warning');
