@@ -14,7 +14,7 @@ describe('Misinformation', function() {
   });
 
   it('Play', function() {
-    card.play(player);
-    expect(player.megaCredits).to.eq(3);
+    card.play();
+    expect(player.megaCredits).to.eq(0);
   });
 });

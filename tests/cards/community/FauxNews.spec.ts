@@ -25,12 +25,12 @@ describe('FauxNews', function() {
 
     // Gain 3 M€
     orOptions.options[0].cb();
-    expect(player.megaCredits).eq(9); // 3 from card + 6 from corp effect
+    expect(player.megaCredits).eq(6); // 3 + 3 from corp effect
     expect(player.cardsInHand).has.length(0);
 
     // Draw a card
     orOptions.options[1].cb();
-    expect(player.megaCredits).eq(9);
+    expect(player.megaCredits).eq(6);
     expect(player.cardsInHand).has.length(1);
   });
 
@@ -46,7 +46,7 @@ describe('FauxNews', function() {
     orOptions.options[1].cb();
     expect(player.cardsInHand).has.length(1);
 
-    expect(player2.megaCredits).eq(6); // 3 from card + 3 from corp effect
+    expect(player2.megaCredits).eq(3); // 3 from corp effect
     expect(player2.cardsInHand).has.length(0);
   });
 });
