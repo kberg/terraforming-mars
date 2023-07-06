@@ -2,14 +2,13 @@ import * as http from 'http';
 import * as EventEmitter from 'events';
 import {expect} from 'chai';
 import {PlayerInput} from '../../src/routes/PlayerInput';
-import {Route} from '../../src/routes/Route';
 import {MockResponse} from './HttpMocks';
 import {IContext} from '../../src/routes/IHandler';
 import {Game} from '../../src/Game';
-import {FakeGameLoader} from './FakeGameLoader';
 import {TestPlayers} from '../TestPlayers';
 import {OrOptions} from '../../src/inputs/OrOptions';
 import {UndoActionOption} from '../../src/inputs/UndoActionOption';
+import {TestingUtils} from '../TestingUtils';
 
 describe('PlayerInput', function() {
   let req: http.IncomingMessage;
@@ -19,12 +18,7 @@ describe('PlayerInput', function() {
   beforeEach(() => {
     req = new EventEmitter() as http.IncomingMessage;
     res = new MockResponse();
-    ctx = {
-      route: new Route(),
-      serverId: '1',
-      url: new URL('http://boo.com'),
-      gameLoader: new FakeGameLoader(),
-    };
+    ctx = TestingUtils.mockContext();
   });
 
   it('fails when id not provided', () => {

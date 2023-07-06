@@ -12,6 +12,7 @@ import {ApiCloneableGames} from './routes/ApiCloneableGames';
 import {ApiGameLogs} from './routes/ApiGameLogs';
 import {ApiGames} from './routes/ApiGames';
 import {ApiGame} from './routes/ApiGame';
+import {ApiIps} from './routes/ApiIps';
 import {ApiPlayer} from './routes/ApiPlayer';
 import {ApiSpectator} from './routes/ApiSpectator';
 import {ApiWaitingFor} from './routes/ApiWaitingFor';
@@ -19,13 +20,14 @@ import {Database} from './database/Database';
 import {GameHandler} from './routes/Game';
 import {GameLoader} from './database/GameLoader';
 import {GamesOverview} from './routes/GamesOverview';
-import {IHandler} from './routes/IHandler';
+import {IContext, IHandler} from './routes/IHandler';
 import {Load} from './routes/Load';
 import {LoadGame} from './routes/LoadGame';
 import {Route} from './routes/Route';
 import {PlayerInput} from './routes/PlayerInput';
 import {ServeApp} from './routes/ServeApp';
 import {ServeAsset} from './routes/ServeAsset';
+import {getHerokuIpAddress, newIPTracker} from './IPTracker';
 
 process.on('uncaughtException', (err: any) => {
   console.error('UNCAUGHT EXCEPTION', err);
@@ -33,6 +35,7 @@ process.on('uncaughtException', (err: any) => {
 
 const serverId = process.env.SERVER_ID || GameHandler.INSTANCE.generateRandomId('');
 const route = new Route();
+const ipTracker = newIPTracker();
 
 const handlers: Map<string, IHandler> = new Map(
   [
@@ -42,6 +45,7 @@ const handlers: Map<string, IHandler> = new Map(
     ['/api/game', ApiGame.INSTANCE],
     ['/api/game/logs', ApiGameLogs.INSTANCE],
     ['/api/games', ApiGames.INSTANCE],
+    ['/api/ips', ApiIps.INSTANCE],
     ['/api/player', ApiPlayer.INSTANCE],
     ['/api/spectator', ApiSpectator.INSTANCE],
     ['/api/waitingfor', ApiWaitingFor.INSTANCE],
@@ -63,14 +67,43 @@ const handlers: Map<string, IHandler> = new Map(
   ],
 );
 
+function getIPAddress(req: http.IncomingMessage): string {
+  const herokuIpAddress = getHerokuIpAddress(req);
+  if (herokuIpAddress !== undefined) {
+    return herokuIpAddress;
+  }
+  const socketIpAddress = req.socket.address();
+  if (typeof socketIpAddress === 'object') {
+    return `${socketIpAddress.family}/${socketIpAddress.address}/${socketIpAddress.port}`;
+  }
+  return socketIpAddress;
+}
+
 function processRequest(req: http.IncomingMessage, res: http.ServerResponse): void {
   if (req.url === undefined) {
     route.notFound(req, res);
     return;
   }
 
+  const ipAddress = getIPAddress(req);
+  ipTracker.add(ipAddress);
+
+  // if (ipBlocklist.isBlocked(ipAddress)) {
+  // route.notFound(req, res);
+  // return;
+  // }
+
   const url = new URL(req.url, `http://${req.headers.host}`);
-  const ctx = {url, route, serverId, gameLoader: GameLoader.getInstance()};
+
+  const ctx: IContext = {
+    url: url,
+    route: route,
+    serverId: serverId,
+    gameLoader: GameLoader.getInstance(),
+    ip: getIPAddress(req),
+    ipTracker: ipTracker,
+  };
+
   const handler: IHandler | undefined = handlers.get(url.pathname);
 
   if (handler !== undefined) {
@@ -134,7 +167,6 @@ console.log('version 0.X');
 
 server.listen(process.env.PORT || 8080);
 
-console.log();
 console.log(
   'The secret serverId for this server is \x1b[1m' +
   serverId +

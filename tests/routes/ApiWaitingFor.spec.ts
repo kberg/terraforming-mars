@@ -1,12 +1,11 @@
 import * as http from 'http';
 import {expect} from 'chai';
 import {ApiWaitingFor} from '../../src/routes/ApiWaitingFor';
-import {Route} from '../../src/routes/Route';
 import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {MockResponse} from './HttpMocks';
 import {IContext} from '../../src/routes/IHandler';
-import {FakeGameLoader} from './FakeGameLoader';
+import {TestingUtils} from '../TestingUtils';
 
 describe('ApiWaitingFor', function() {
   let req: http.IncomingMessage;
@@ -16,12 +15,7 @@ describe('ApiWaitingFor', function() {
   beforeEach(() => {
     req = {headers: {}} as http.IncomingMessage;
     res = new MockResponse();
-    ctx = {
-      route: new Route(),
-      serverId: '1',
-      url: new URL('http://boo.com'),
-      gameLoader: new FakeGameLoader(),
-    };
+    ctx = TestingUtils.mockContext();
   });
 
   it('fails when game not found', () => {

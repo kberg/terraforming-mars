@@ -21,6 +21,8 @@ export class PlayerInput extends Handler {
       return;
     }
 
+    ctx.ipTracker.addParticipant(playerId, ctx.ip);
+
     // This is the exact same code as in `ApiPlayer`. I bet it's not the only place.
     ctx.gameLoader.getByPlayerId(playerId, (game) => {
       if (game === undefined) {
@@ -84,7 +86,7 @@ export class PlayerInput extends Handler {
         }
         player.process(entity);
         ctx.route.writeJson(res, Server.getPlayerModel(player));
-      } catch (err) {
+      } catch (err: any) {
         res.writeHead(400, {
           'Content-Type': 'application/json',
         });

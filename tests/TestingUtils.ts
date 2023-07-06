@@ -12,6 +12,10 @@ import {TurmoilPolicy} from '../src/turmoil/TurmoilPolicy';
 import {LogMessage} from '../src/LogMessage';
 import {Log} from '../src/Log';
 import {MAX_TEMPERATURE, MAX_OXYGEN_LEVEL, MAX_VENUS_SCALE} from '../src/constants';
+import {newIPTracker} from '../src/IPTracker';
+import {Route} from '../src/routes/Route';
+import {FakeGameLoader} from './routes/FakeGameLoader';
+import {IContext} from '../src/routes/IHandler';
 
 export class TestingUtils {
   // Returns the oceans created during this operation which may not reflect all oceans.
@@ -147,5 +151,16 @@ export class TestingUtils {
       throw new Error(`Not an instance of ${klass.name}: ${obj.constructor.name}`);
     }
     return obj;
+  }
+
+  public static mockContext(): IContext {
+    return {
+      route: new Route(),
+      serverId: '1',
+      url: new URL('http://boo.com'),
+      gameLoader: new FakeGameLoader(),
+      ip: '1',
+      ipTracker: newIPTracker(),
+    };
   }
 }

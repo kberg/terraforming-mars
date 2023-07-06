@@ -1,13 +1,12 @@
 import * as http from 'http';
 import {expect} from 'chai';
 import {ApiPlayer} from '../../src/routes/ApiPlayer';
-import {Route} from '../../src/routes/Route';
 import {Game} from '../../src/Game';
 import {TestPlayers} from '../TestPlayers';
 import {MockResponse} from './HttpMocks';
 import {IContext} from '../../src/routes/IHandler';
-import {FakeGameLoader} from './FakeGameLoader';
 import {PlayerModel} from '../../src/models/PlayerModel';
+import {TestingUtils} from '../TestingUtils';
 
 describe('ApiPlayer', function() {
   let req: http.IncomingMessage;
@@ -17,12 +16,7 @@ describe('ApiPlayer', function() {
   beforeEach(() => {
     req = {} as http.IncomingMessage;
     res = new MockResponse();
-    ctx = {
-      route: new Route(),
-      serverId: '1',
-      url: new URL('http://boo.com'),
-      gameLoader: new FakeGameLoader(),
-    };
+    ctx = TestingUtils.mockContext();
   });
 
   it('fails game not found', () => {

@@ -1,10 +1,9 @@
 import * as http from 'http';
 import {expect} from 'chai';
 import {ServeAsset} from '../../src/routes/ServeAsset';
-import {Route} from '../../src/routes/Route';
-import {FakeGameLoader} from './FakeGameLoader';
 import {MockResponse} from './HttpMocks';
 import {IContext} from '../../src/routes/IHandler';
+import {TestingUtils} from '../TestingUtils';
 
 describe('ServeAsset', () => {
   let instance: ServeAsset;
@@ -25,12 +24,7 @@ describe('ServeAsset', () => {
     instance = new ServeAsset(undefined, false);
     req = {headers: {}} as http.IncomingMessage;
     res = new MockResponse();
-    ctx = {
-      route: new Route(),
-      serverId: '1',
-      url: new URL('http://boo.com'),
-      gameLoader: new FakeGameLoader(),
-    };
+    ctx = TestingUtils.mockContext();
   });
 
   it('bad filename', () => {

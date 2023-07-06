@@ -22,6 +22,7 @@ export class ApiPlayer extends Handler {
         return;
       }
       try {
+        ctx.ipTracker.addParticipant(playerId, ctx.ip);
         const player = game.getPlayerById(playerId);
 
         // Don't bother with password for solo mode

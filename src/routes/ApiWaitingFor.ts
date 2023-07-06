@@ -35,6 +35,7 @@ export class ApiWaitingFor extends Handler {
       }
       try {
         const player = game.getPlayerById(playerId);
+        ctx.ipTracker.addParticipant(playerId, ctx.ip);
         ctx.route.writeJson(res, this.getWaitingForModel(player, gameAge, undoCount));
       } catch (err) {
         // This is basically impossible since getPlayerById ensures that the player is on that game.

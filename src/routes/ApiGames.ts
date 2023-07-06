@@ -4,7 +4,6 @@ import {IContext} from './IHandler';
 import {GameId, SpectatorId} from '../Game';
 import {PlayerId} from '../Player';
 
-
 export class ApiGames extends Handler {
   public static readonly INSTANCE = new ApiGames();
   private constructor() {
