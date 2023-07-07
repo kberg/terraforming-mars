@@ -52,8 +52,9 @@ export class Route {
     res.write('Not authorized');
     res.end();
   }
-  public writeJson(res: http.ServerResponse, json: any) {
+  public writeJson(res: http.ServerResponse, json: any, space?: string | number | undefined) {
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(json));
+    const s = JSON.stringify(json, undefined, space);
+    res.end(s);
   }
 }

@@ -9,6 +9,6 @@ export class ApiIps extends Handler {
   }
 
   public get(_req: http.IncomingMessage, res: http.ServerResponse, ctx: IContext): void {
-    ctx.route.writeJson(res, ctx.ipTracker.toJSON());
+    ctx.route.writeJson(res, ctx.ipTracker.toJSON(), 2);
   }
 }
