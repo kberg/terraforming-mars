@@ -22,7 +22,7 @@ export class Stefan extends Card implements LeaderCard {
         renderData: CardRenderer.builder((b) => {
           b.opgArrow().text('ACTIVATE THE BELOW ABILITY');
           b.br;
-          b.megacredits(0).multiplier.colon().text('X').cards(1).text('(MAX 5)', Size.SMALL);
+          b.text('PAY').megacredits(0).multiplier.colon().text('X').cards(1).text('(MAX 5)', Size.SMALL);
           b.br;
           b.text('SELL').cards(1).colon().megacredits(3);
         }),
