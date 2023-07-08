@@ -28,6 +28,7 @@ import {PlayerInput} from './routes/PlayerInput';
 import {ServeApp} from './routes/ServeApp';
 import {ServeAsset} from './routes/ServeAsset';
 import {getHerokuIpAddress, newIPTracker} from './IPTracker';
+import {newIpBlocklist} from './IPBlocklist';
 
 process.on('uncaughtException', (err: any) => {
   console.error('UNCAUGHT EXCEPTION', err);
@@ -35,6 +36,8 @@ process.on('uncaughtException', (err: any) => {
 
 const serverId = process.env.SERVER_ID || GameHandler.INSTANCE.generateRandomId('');
 const route = new Route();
+const ips = (process.env.IP_BLOCKLIST ?? '').trim().split(' ');
+const ipBlocklist = newIpBlocklist(ips);
 const ipTracker = newIPTracker();
 
 const handlers: Map<string, IHandler> = new Map(
@@ -88,10 +91,10 @@ function processRequest(req: http.IncomingMessage, res: http.ServerResponse): vo
   const ipAddress = getIPAddress(req);
   ipTracker.add(ipAddress);
 
-  // if (ipBlocklist.isBlocked(ipAddress)) {
-  // route.notFound(req, res);
-  // return;
-  // }
+  if (ipBlocklist.isBlocked(ipAddress)) {
+    route.notFound(req, res);
+    return;
+  }
 
   const url = new URL(req.url, `http://${req.headers.host}`);
 
