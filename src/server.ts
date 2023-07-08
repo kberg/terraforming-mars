@@ -69,13 +69,13 @@ const handlers: Map<string, IHandler> = new Map(
 
 function getIPAddress(req: http.IncomingMessage): string {
   const herokuIpAddress = getHerokuIpAddress(req);
-  if (herokuIpAddress !== undefined) {
-    return herokuIpAddress;
-  }
+  if (herokuIpAddress !== undefined) return herokuIpAddress;
+
   const socketIpAddress = req.socket.address();
   if (typeof socketIpAddress === 'object') {
-    return `${socketIpAddress.family}/${socketIpAddress.address}/${socketIpAddress.port}`;
+    return '!' + socketIpAddress.address + '!';
   }
+
   return socketIpAddress;
 }
 
