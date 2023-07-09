@@ -16,7 +16,10 @@ export const Tag = Vue.component('tag', {
   },
   methods: {
     getClasses: function(): string {
-      const classes = ['tag-count', 'tooltip', 'tooltip-bottom'];
+      const classes = ['tag-count'];
+      const showTooltip = (this.tag as any) !== 'escape';
+      if (showTooltip) classes.push('tooltip', 'tooltip-bottom');
+
       classes.push(`tag-${this.tag}`);
       if (this.size !== undefined) {
         classes.push(`tag-size-${this.size}`);
@@ -26,7 +29,8 @@ export const Tag = Vue.component('tag', {
       }
       return classes.join(' ');
     },
-    getToolTip: function(): string {
+    getToolTip: function(): string | undefined {
+      if ((this.tag as any) === 'escape') return undefined;
       return $t(this.tag);
     }
   },
