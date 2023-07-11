@@ -72,10 +72,11 @@ export class TempestInc extends Card implements CorporationCard {
 
     const redsAreRuling = PartyHooks.shouldApplyPolicy(player, PartyName.REDS);
     // We only need to check oceans here as this is the cheapest possible TR raise when Reds are ruling
-    this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oceansToPlace: 1}));
-
-    const playerCanAffordReds = redsAreRuling && this.howToAffordReds.canAfford;
-    if (redsAreRuling && !playerCanAffordReds) return this.addResource(player);
+    if (redsAreRuling) {
+      this.howToAffordReds = RedsPolicy.canAffordRedsPolicy(player, player.game, new ActionDetails({oceansToPlace: 1}));
+      const playerCanAffordReds = this.howToAffordReds.canAfford;
+      if (!playerCanAffordReds) return this.addResource(player);
+    }
 
     const opts: Array<SelectOption> = [];
     const spendResource = new SelectOption('Remove 1 floater to raise a global parameter 1 step', 'Remove floater', () => this.spendResource(player));
