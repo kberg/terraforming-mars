@@ -34,4 +34,17 @@ describe('Supercapacitors', function() {
     expect(player.heat).to.eq(6);
     expect(player.energy).to.eq(6);
   });
+
+  it('Effect when player has conceded', function() {
+    player.playedCards.push(card);
+    player.energy = 4;
+    player.setProductionForTest({energy: 4, heat: 4});
+    player.hasConceded = true;
+
+    player.runProductionPhase();
+    expect(game.deferredActions).has.lengthOf(0);
+
+    expect(player.heat).to.eq(8);
+    expect(player.energy).to.eq(4);
+  });
 });
