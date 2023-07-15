@@ -157,7 +157,12 @@ export const GameEnd = Vue.component('game-end', {
                     </div>
                 </div>
                 <div class="game_end_navigation">
-                    <div>
+                    <div class="game_end_actions">
+                        <div>
+                            <a href="https://www.buymeacoffee.com/memories90" target="_blank">
+                                <img src="/assets/misc/bmac.png" class="bmac-small">
+                            </a>
+                        </div>
                         <a href="new-game">
                             <Button size="big" type="back" />
                             <span v-i18n>Create New Game</span>
