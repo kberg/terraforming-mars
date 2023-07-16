@@ -39,7 +39,14 @@ export const MoonSpace = Vue.component('moon-space', {
         ret = 'Luna Mining Hub';
       } else if (tileType === TileType.LUNA_TRAIN_STATION) {
         ret = 'Luna Train Station';
+      } else if (tileType === TileType.MOON_COLONY) {
+        ret = 'Moon Colony: 1 VP per adjacent Road';
+      } else if (tileType === TileType.MOON_MINE) {
+        ret = 'Moon Mine: 1 VP per adjacent Road';
+      } else if (tileType === TileType.MOON_ROAD) {
+        ret = 'Moon Road: 1 VP';
       }
+
       return $t(ret);
     },
     getMainClass: function(): string {

@@ -81,7 +81,7 @@ export const BoardSpace = Vue.component('board-space', {
       if (tileType === TileType.MOHOLE_AREA) {
         ret = 'Mohole Area';
       } else if (tileType === TileType.COMMERCIAL_DISTRICT) {
-        ret = 'Commercial District: 1 VP per adjacent city tile';
+        ret = 'Commercial District: 1 VP per adjacent City';
       } else if (tileType === TileType.ECOLOGICAL_ZONE) {
         ret = 'Ecological Zone';
       } else if (tileType === TileType.INDUSTRIAL_CENTER) {
@@ -103,13 +103,15 @@ export const BoardSpace = Vue.component('board-space', {
       } else if (tileType === TileType.GREAT_DAM) {
         ret = 'Great Dam';
       } else if (tileType === TileType.MAGNETIC_FIELD_GENERATORS) {
-        ret = 'Magnetic field generators';
+        ret = 'Magnetic Field Generators';
       } else if (tileType === TileType.DEIMOS_DOWN) {
         ret = 'Deimos Down';
       } else if (tileType === TileType.CITY) {
-        ret = 'City: 1 VP per adjacent greenery';
+        ret = 'City: 1 VP per adjacent Greenery';
       } else if (tileType === TileType.GREENERY) {
         ret = 'Greenery: 1 VP';
+      } else if (tileType === TileType.OCEAN) {
+        ret = 'Ocean';
       } else if (tileType === TileType.BIOFERTILIZER_FACILITY) {
         ret = 'Biofertilizer Facility';
       } else if (tileType === TileType.METALLIC_ASTEROID) {
@@ -131,9 +133,9 @@ export const BoardSpace = Vue.component('board-space', {
       } else if (tileType === TileType.EROSION_SEVERE) {
         ret = 'Severe Erosion';
       } else if (tileType === TileType.MINING_STEEL_BONUS) {
-        ret = 'Mining: steel bonus';
+        ret = 'Mining: Steel bonus';
       } else if (tileType === TileType.MINING_TITANIUM_BONUS) {
-        ret = 'Mining: titanium bonus';
+        ret = 'Mining: Titanium bonus';
       } else if (tileType === TileType.PERSEVERANCE_LANDING) {
         ret = 'Perseverance Landing';
       }
