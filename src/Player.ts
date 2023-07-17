@@ -356,6 +356,15 @@ export class Player implements ISerializable<SerializedPlayer> {
     return this.terraformRating = value;
   }
 
+  public getAvailableProductionUnits(): number {
+    return (this.getProduction(Resources.MEGACREDITS) + 5) +
+      this.getProduction(Resources.STEEL) +
+      this.getProduction(Resources.TITANIUM) +
+      this.getProduction(Resources.PLANTS) +
+      this.getProduction(Resources.ENERGY) +
+      this.getProduction(Resources.HEAT);
+  }
+
   public getProduction(resource: Resources): number {
     if (resource === Resources.MEGACREDITS) return this.megaCreditProduction;
     if (resource === Resources.STEEL) return this.steelProduction;

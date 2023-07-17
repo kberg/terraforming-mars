@@ -14,6 +14,7 @@ import {TileType} from '../../TileType';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
+import {AresHandler} from '../../ares/AresHandler';
 
 export abstract class MiningCard extends Card implements IProjectCard {
   constructor(
@@ -47,10 +48,23 @@ export abstract class MiningCard extends Card implements IProjectCard {
   }
 
   protected getAvailableSpaces(player: Player): Array<ISpace> {
-    return player.game.board.getAvailableSpacesOnLand(player)
-    // Ares-only: exclude spaces already covered (which is only returned if the tile is a hazard tile.)
+    const game = player.game;
+
+    return game.board.getAvailableSpacesOnLand(player)
+    .filter((space) => space.bonus.includes(SpaceBonus.STEEL) || space.bonus.includes(SpaceBonus.TITANIUM))
+    // Ares: exclude spaces already covered (which is only returned if the tile is a hazard tile.)
     .filter((space) => space.tile === undefined)
-    .filter((space) => space.bonus.includes(SpaceBonus.STEEL) || space.bonus.includes(SpaceBonus.TITANIUM));
+    // Ares: exclude spaces where player cannot pay adjacency costs
+    // TODO: Account for adjacent oceans that can pay for cost.megacredits
+    .filter((space) => {
+      if (game.gameOptions.aresExtension) {
+        const cost = AresHandler.computeAdjacencyCosts(game, space, true);
+        const availableProductionUnits = player.getAvailableProductionUnits();
+        return availableProductionUnits >= cost.production && player.canAfford(cost.megacredits);
+      } else {
+        return true;
+      }
+    });
   }
 
   private getSelectTitle(): string {

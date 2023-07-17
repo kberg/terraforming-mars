@@ -4,7 +4,6 @@ import {Game} from '../Game';
 import {SelectCard} from '../inputs/SelectCard';
 import {ISpace} from '../boards/ISpace';
 import {Player} from '../Player';
-import {Resources} from '../Resources';
 import {ResourceType} from '../ResourceType';
 import {SpaceBonus} from '../SpaceBonus';
 import {OCEAN_UPGRADE_TILES, TileType} from '../TileType';
@@ -143,7 +142,7 @@ export class AresHandler {
     }
   }
 
-  private static computeAdjacencyCosts(game: Game, space: ISpace, subjectToHazardAdjacency: boolean): IAdjacencyCost {
+  public static computeAdjacencyCosts(game: Game, space: ISpace, subjectToHazardAdjacency: boolean): IAdjacencyCost {
     // Summing up production cost isn't really the way to do it, because each tile could
     // reduce different production costs. Oh well.
     let megaCreditCost = 0;
@@ -190,12 +189,7 @@ export class AresHandler {
 
     // Make this more sophisticated, a player can pay for different adjacencies
     // with different production units, and, a severe hazard can't split payments.
-    const availableProductionUnits = (player.getProduction(Resources.MEGACREDITS) + 5) +
-            player.getProduction(Resources.STEEL) +
-            player.getProduction(Resources.TITANIUM) +
-            player.getProduction(Resources.PLANTS) +
-            player.getProduction(Resources.ENERGY) +
-            player.getProduction(Resources.HEAT);
+    const availableProductionUnits = player.getAvailableProductionUnits();
 
     if (availableProductionUnits >= cost.production && player.canAfford(cost.megacredits)) {
       return cost;
