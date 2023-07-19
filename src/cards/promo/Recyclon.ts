@@ -39,32 +39,81 @@ export class Recyclon extends Card implements CorporationCard, IResourceCard {
       },
     });
   }
-    public resourceCount = 0;
 
-    public play(player: Player) {
-      player.addProduction(Resources.STEEL, 1);
-      player.addResourceTo(this);
+  public resourceCount = 0;
+
+  public play(player: Player) {
+    player.addProduction(Resources.STEEL, 1);
+    player.addResourceTo(this);
+    return undefined;
+  }
+
+  public onCardPlayed(player: Player, card: IProjectCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  public onCorpCardPlayed(player: Player, card: CorporationCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  private _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
+    if (card.tags.includes(Tags.BUILDING) === false || !player.isCorporation(this.name)) {
       return undefined;
     }
-    public onCardPlayed(player: Player, card: IProjectCard) {
-      if (card.tags.includes(Tags.BUILDING) === false || !player.isCorporation(this.name)) {
-        return undefined;
-      }
-      if (this.resourceCount < 2) {
-        player.addResourceTo(this);
-        return undefined;
-      }
 
-      const addResource = new SelectOption('Add a microbe resource to this card', 'Add microbe', () => {
-        player.addResourceTo(this);
-        return undefined;
-      });
+    const resourceCount = player.getResourcesOnCard(this)!;
+    const buildingTagCount = card.tags.filter((tag) => tag === Tags.BUILDING).length;
 
-      const spendResource = new SelectOption('Remove 2 microbes on this card and increase plant production 1 step', 'Remove microbes', () => {
-        player.removeResourceFrom(this, 2);
-        player.addProduction(Resources.PLANTS, 1);
-        return undefined;
-      });
-      return new OrOptions(spendResource, addResource);
+    if (resourceCount + buildingTagCount < 3) {
+      player.addResourceTo(this, buildingTagCount);
+      return undefined;
     }
+
+    const addResource = new SelectOption('Add a microbe to Recyclon', 'Add microbe', () => {
+      player.addResourceTo(this);
+      return undefined;
+    });
+
+    const spendResource = new SelectOption('Remove 2 microbes on Recyclon to increase plant production 1 step', 'Remove microbes', () => {
+      player.removeResourceFrom(this, 2);
+      player.addProduction(Resources.PLANTS, 1);
+      return undefined;
+    });
+
+    // Special-case: Merge into Mining Guild
+    if (buildingTagCount === 2) {
+      if (resourceCount === 1) {
+        // Add 1 microbe for the first building tag, ask for the second building tag
+        player.addResourceTo(this);
+        return new OrOptions(spendResource, addResource);
+      } else {
+        // If we get here it means there are already at least 2 microbes on Recyclon
+        const addTwoMicrobes = new SelectOption('Add 2 microbes to Recyclon', 'Select', () => {
+          player.addResourceTo(this, buildingTagCount);
+          return undefined;
+        });
+
+        const removeTwoMicrobesAndAddOneMicrobe = new SelectOption('Remove 2 microbes on Recyclon to increase plant production 1 step, then add 1 microbe', 'Select', () => {
+          player.removeResourceFrom(this, 2);
+          player.addProduction(Resources.PLANTS, 1);
+          player.addResourceTo(this);
+          return undefined;
+        });
+
+        const removeFourMicrobes = new SelectOption('Remove 4 microbes on Recyclon to increase plant production 2 steps', 'Select', () => {
+          player.removeResourceFrom(this, 4);
+          player.addProduction(Resources.PLANTS, 2);
+          return undefined;
+        });
+
+        if (resourceCount >= 4) {
+          return new OrOptions(removeFourMicrobes, removeTwoMicrobesAndAddOneMicrobe, addTwoMicrobes);
+        } else {
+          return new OrOptions(removeTwoMicrobesAndAddOneMicrobe, addTwoMicrobes);
+        }
+      }
+    }
+
+    return new OrOptions(spendResource, addResource);
+  }
 }
