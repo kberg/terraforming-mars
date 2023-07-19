@@ -65,18 +65,19 @@ export class Recyclon extends Card implements CorporationCard, IResourceCard {
     const buildingTagCount = card.tags.filter((tag) => tag === Tags.BUILDING).length;
 
     if (resourceCount + buildingTagCount < 3) {
-      player.addResourceTo(this, buildingTagCount);
+      player.addResourceTo(this, {qty: buildingTagCount, log: true});
       return undefined;
     }
 
     const addResource = new SelectOption('Add a microbe to Recyclon', 'Add microbe', () => {
-      player.addResourceTo(this);
+      player.addResourceTo(this, {log: true});
       return undefined;
     });
 
     const spendResource = new SelectOption('Remove 2 microbes on Recyclon to increase plant production 1 step', 'Remove microbes', () => {
       player.removeResourceFrom(this, 2);
       player.addProduction(Resources.PLANTS, 1);
+      player.game.log('${0} removed 2 microbes from ${1} to increase plant production 1 step', (b) => b.player(player).cardName(this.name));
       return undefined;
     });
 
@@ -84,25 +85,27 @@ export class Recyclon extends Card implements CorporationCard, IResourceCard {
     if (buildingTagCount === 2) {
       if (resourceCount === 1) {
         // Add 1 microbe for the first building tag, ask for the second building tag
-        player.addResourceTo(this);
+        player.addResourceTo(this, {log: true});
         return new OrOptions(spendResource, addResource);
       } else {
         // If we get here it means there are already at least 2 microbes on Recyclon
         const addTwoMicrobes = new SelectOption('Add 2 microbes to Recyclon', 'Select', () => {
-          player.addResourceTo(this, buildingTagCount);
+          player.addResourceTo(this, {qty: buildingTagCount, log: true});
           return undefined;
         });
 
         const removeTwoMicrobesAndAddOneMicrobe = new SelectOption('Remove 2 microbes on Recyclon to increase plant production 1 step, then add 1 microbe', 'Select', () => {
           player.removeResourceFrom(this, 2);
           player.addProduction(Resources.PLANTS, 1);
-          player.addResourceTo(this);
+          player.game.log('${0} removed 2 microbes from ${1} to increase plant production 1 step', (b) => b.player(player).cardName(this.name));
+          player.addResourceTo(this, {log: true});
           return undefined;
         });
 
         const removeFourMicrobes = new SelectOption('Remove 4 microbes on Recyclon to increase plant production 2 steps', 'Select', () => {
           player.removeResourceFrom(this, 4);
           player.addProduction(Resources.PLANTS, 2);
+          player.game.log('${0} removed 4 microbes from ${1} to increase plant production 2 steps', (b) => b.player(player).cardName(this.name));
           return undefined;
         });
 
