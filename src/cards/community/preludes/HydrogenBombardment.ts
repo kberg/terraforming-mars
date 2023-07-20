@@ -23,10 +23,6 @@ export class HydrogenBombardment extends PreludeCard implements IProjectCard {
       });
     }
 
-    public canPlay(player: Player) {
-      return player.canAfford(3);
-    }
-
     public play(player: Player) {
       player.game.increaseVenusScaleLevel(player, 1);
       player.addProduction(Resources.TITANIUM);
