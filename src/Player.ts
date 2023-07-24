@@ -984,6 +984,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     }
 
     tagCount += this.getRawTagCount(Tags.WILDCARD, false);
+    tagCount += LeadersExpansion.getBonusWildTags(this);
 
     return tagCount;
   }
