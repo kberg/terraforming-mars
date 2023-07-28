@@ -503,7 +503,10 @@ export namespace MilestoneAwardSelector {
     };
 
     const includeVenus = gameOptions.venusNextExtension;
-    const requiredQty = includeVenus ? 6 : 5;
+    let requiredQty = includeVenus ? 6 : 5;
+
+    const includeMoon = gameOptions.moonExpansion;
+    if (includeMoon) requiredQty++;
 
     switch (gameOptions.randomMA) {
     case RandomMAOptionType.NONE:
