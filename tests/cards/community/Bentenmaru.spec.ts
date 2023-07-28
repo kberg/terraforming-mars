@@ -9,7 +9,6 @@ import {Bentenmaru} from '../../../src/cards/community/corporations/Bentenmaru';
 import {ImportedNutrients} from '../../../src/cards/promo/ImportedNutrients';
 import {Game} from '../../../src/Game';
 import {OrOptions} from '../../../src/inputs/OrOptions';
-import {SelectPlayer} from '../../../src/inputs/SelectPlayer';
 import {Player} from '../../../src/Player';
 import {Resources} from '../../../src/Resources';
 import {TestPlayers} from '../../TestPlayers';
@@ -73,8 +72,8 @@ describe('Bentenmaru', function() {
     expect(player2.getProduction(Resources.TITANIUM)).to.eq(1);
 
     amc.play(player);
-    const selectPlayer = game.deferredActions.pop()!.execute() as SelectPlayer;
-    selectPlayer.cb(player2);
+    const selectPlayer = game.deferredActions.pop()!.execute();
+    expect(selectPlayer).is.undefined;
     expect(player.getProduction(Resources.TITANIUM)).to.eq(3);
     expect(player2.getProduction(Resources.TITANIUM)).to.eq(1); // no decrease
   });

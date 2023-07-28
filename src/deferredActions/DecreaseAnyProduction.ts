@@ -22,6 +22,11 @@ export class DecreaseAnyProduction implements DeferredAction {
       return undefined;
     }
 
+    if (this.player.isCorporation(CardName.BENTENMARU)) {
+      this.player.addProduction(this.resource, this.count);
+      return undefined;
+    }
+
     let candidates: Array<Player> = [];
     if (this.resource === Resources.MEGACREDITS) {
       candidates = this.player.game.getPlayers().filter((p) => p.getProduction(this.resource) >= this.count - 5);
