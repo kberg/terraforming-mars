@@ -8,6 +8,9 @@ import {TestPlayers} from '../../TestPlayers';
 import {Resources} from '../../../src/Resources';
 import {SpaceBonus} from '../../../src/SpaceBonus';
 import {MiningGuild} from '../../../src/cards/corporation/MiningGuild';
+import {CuriosityII} from '../../../src/cards/community/corporations/CuriosityII';
+import {OrOptions} from '../../../src/inputs/OrOptions';
+import {TestingUtils} from '../../TestingUtils';
 
 describe('TharsisPrototypeCity', function() {
   let card : TharsisPrototypeCity; let player : Player; let game : Game;
@@ -51,5 +54,34 @@ describe('TharsisPrototypeCity', function() {
     expect(player.getProduction(Resources.ENERGY)).eq(1);
     expect(player.steel).eq(0); // No placement bonus granted
     expect(player.getProduction(Resources.STEEL)).eq(0); // No placement bonus granted
+  });
+
+  it('Triggers corp effect for CuriosityII', function() {
+    player.megaCredits = 2;
+    player.corporationCards = [new CuriosityII()];
+    card.play(player);
+    expect(game.deferredActions).has.lengthOf(1);
+
+    const selectSpaceForCity = game.deferredActions.pop()!.execute() as SelectSpace;
+    // Manually set for test
+    selectSpaceForCity.availableSpaces[0].bonus = [SpaceBonus.STEEL];
+
+    selectSpaceForCity.cb(selectSpaceForCity.availableSpaces[0]);
+    expect(player.getProduction(Resources.MEGACREDITS)).eq(1);
+    expect(player.getProduction(Resources.ENERGY)).eq(1);
+    expect(player.steel).eq(0); // No placement bonus granted
+
+    // CuriosityII effect
+    expect(game.deferredActions).has.length(1);
+    const orOptions = game.deferredActions.pop()!.execute() as OrOptions;
+
+    orOptions.options[1].cb(); // Do nothing
+    expect(player.cardsInHand).is.empty;
+    expect(player.megaCredits).eq(2);
+
+    orOptions.options[0].cb(); // Pay 2 M€ to draw a card
+    TestingUtils.runAllActions(game);
+    expect(player.cardsInHand).has.lengthOf(1);
+    expect(player.megaCredits).eq(0);
   });
 });

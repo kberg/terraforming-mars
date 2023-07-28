@@ -11,6 +11,7 @@ import {ISpace} from '../../../boards/ISpace';
 import {SelectSpace} from '../../../inputs/SelectSpace';
 import {TileType} from '../../../TileType';
 import {SpaceType} from '../../../SpaceType';
+import {BoardType} from '../../../boards/BoardType';
 
 export class TharsisPrototypeCity extends PreludeCard implements IProjectCard {
   constructor() {
@@ -40,6 +41,12 @@ export class TharsisPrototypeCity extends PreludeCard implements IProjectCard {
         spaces,
         (space: ISpace) => {
           player.game.addTile(player, SpaceType.LAND, space, {tileType: TileType.CITY}, false);
+
+          if (player.isCorporation(CardName.CURIOSITY_II)) {
+            const curiosityII = player.corporationCards.find((c) => c.name === CardName.CURIOSITY_II)!;
+            curiosityII.onTilePlaced!(player, player, space, BoardType.MARS);
+          }
+
           return undefined;
         },
       );
