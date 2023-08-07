@@ -20,11 +20,6 @@
    "Action: Use a blue card action that has already been used this generation.":"Azione: usa l'azione di una carta blu che è già stata utilizzata durante la Generazione in corso.",
    "You start with 48 MC.":"Inizi con 48 M€.",
   
-  
-  
-  
-  
-  
   "% Venus":"% di Venere",
 
   "Stratospheric Birds":"Uccelli Stratosferici",
@@ -104,14 +99,12 @@
 
   "Dirigibles":"Dirigibili",
   "Action: Add 1 Floater to ANY card":"Azione: aggiungi 1 Galleggiante ad una carta QUALUNQUE.",
-  "Effect: When playing a Venus tag, Floaters here may be used as payment, and are worth 3MC each.":"Effetto: quando giochi un simbolo Venere, i Galleggianti collocati su questa carta possono essere usati per pagare, e ciascuno vale 3 M€.",
+  "Effect: When playing a Venus tag, Floaters here may be used as payment, and are worth 3M€ each.":"Effetto: quando giochi un simbolo Venere, i Galleggianti collocati su questa carta possono essere usati per pagare, e ciascuno vale 3 M€.",
 
   "Floating Habs":"Abitazioni Fluttuanti",
   "Action: Spend 2 MC to add 1 Floater to ANY card":"Azione: spendi 2 M€ per aggiungere 1 Galleggiante ad una carta QUALUNQUE.",
   "Requires 2 Science tags. 1 VP for every 2nd Floater on this card).":"Richiede 2 simboli Scienza. 1 PV per ogni coppia di Galleggianti su questa carta.",
-  "Requires 2 Science tags.":"Richiede 2 simboli Scienza.",
   "1 VP for every 2nd Floater on this card.":"1 PV per ogni coppia di Galleggianti su questa carta.",
-
 
   "Hydrogen to Venus":"Idrogeno per Venere",
   "Raise Venus 1 step. Add 1 Floater to A Venus CARD for each Jovian tag you have.":"Incrementa Venere di 1 livello. Aggiungi 1 Galleggiante ad UNA CARTA DI TIPO VENERE per ogni simbolo Gioviano in tuo possesso.",
@@ -161,8 +154,7 @@
   "Action: Spend 1 Floater here to increase your energy production 1 step.":"Azione: rimuovi 1 Galleggiante da questa carta per incrementare la tua Produzione di Energia di 1 livello.",
 
   "Extractor Balloons":"Palloni Estrattori",
-  "Action: Add 1 Floater to this card.":"Azione: aggiungi 1 Galleggiante a questa carta.",
-  "OR":"OPPURE",
+  "OR":"OR",
   "Action: Remove 2 Floaters here to raise Venus 1 step.":"Azione: rimuovi 2 Galleggianti da questa carta per incrementare Venere di 1 livello.",
   "Add 3 Floaters to this card":"Aggiungi 3 Galleggianti a questa carta.",
   
