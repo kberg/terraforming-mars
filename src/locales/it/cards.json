@@ -36,7 +36,6 @@
 
     "Space Elevator": "Montacarichi Spaziale",
     "Action: Spend 1 steel to gain 5 MC.": "Azione: spendi una risorsa Acciaio per ottenere 5 M€.",
-    "Increase your titanium production 1 step.": "Incrementa la tua Produzione di Titanio di 1 livello.",
 
     "Development Center": "Centro di Sviluppo",
     "Action: Spend 1 Energy to draw a card.": "Azione: spendi 1 risorsa Energia per pescare 1 carta.",
@@ -231,9 +230,9 @@
     "Effect: When you play a Science tag, including this, you may discard a card from hand to draw a card.": "Effetto: quando giochi una carta con un simbolo Scienza, inclusa questa, puoi scartare 1 carta dalla tua mano per pescarne 1 dal mazzo.",
 
     "Viral Enhancers": "Amplificatori Virali",
-    "When you play a Plant, Microbe, or an Animal tag, including this, gain 1 plant or add 1 resource to THAT CARD.": "Effetto: quando giochi una carta contenente un simbolo Pianta, Microbo o Animale, inclusa questa, ottieni una Pianta oppure aggiungi 1 Risorsa A QUELLA CARTA.",
+    "Effect: When you play a Plant, Microbe, or an Animal tag, including this, gain 1 plant or add 1 resource to THAT CARD.": "Effetto: quando giochi una carta contenente un simbolo Pianta, Microbo o Animale, inclusa questa, ottieni una Pianta oppure aggiungi 1 Risorsa A QUELLA CARTA.",
 
-    "Towing a Comet": "Trainare una Cometa",
+    "Towing A Comet": "Trainare Una Cometa",
     "Gain 2 plants. Raise oxygen level 1 step and place an ocean tile.": "Ottieni 2 Piante. Aumenta di 1 il livello di Ossigeno e colloca 1 tessera Oceano.",
 
     "Space Mirrors": "Specchi Spaziali",
@@ -246,7 +245,6 @@
     "Place 2 ocean tiles.": "Colloca due tessere Oceano.",
 
     "Quantum Extractor": "Estrattore Quantistico",
-    "Effect: When you play a Space card, you pay 2M€ less for it.": "Effetto: quando giochi una carta Spazio, la paghi 2 M€ in meno.",
     "Requires 4 science tags. Increase your energy production 4 steps.": "Richiede 4 simboli Scienza. Incrementa la tua Produzione di Energia di 4 livelli.",
 
     "Giant Ice Asteroid": "Asteroide Ghiacciato Gigante",
@@ -254,7 +252,6 @@
 
     "Ganymede Colony": "Colonia di Ganimede",
     "(Place a city tile ON THE RESERVED AREA.)": "(Colloca una tessera Città SULL'AREA RISERVATA.)",
-    "1 VP per Jovian tag you have.": "1 PV per ogni simbolo Gioviano in tuo possesso.",
 
     "Callisto Penal Mines": "Miniere Penali di Callisto",
     "Increase your MC production 3 steps.": "Incrementa la tua Produzione di M€ di 3 livelli.",
@@ -662,6 +659,9 @@
   "Copy A":"copia una",
   
   "Requires 4 ocean tiles. Place this tile. Decrease your Energy production 2 steps and increase your M€ production 5 steps.": "Richiede almeno 4 tessere Oceano. Colloca questa tessera. Diminuisci la tua produzione di Energia di 2 livelli e incrementa la tua produzione di M€ di 5 livelli.",
-  "Place this tile. Decrease your energy production 1 step and increase your M€ production 4 steps.": "Piazza questa tessera. Diminuisci la tua produzione di Energia di 1 livello e incrementa la tua produzione di M€ di 4 livelli."
+  "Place this tile. Decrease your energy production 1 step and increase your M€ production 4 steps.": "Piazza questa tessera. Diminuisci la tua produzione di Energia di 1 livello e incrementa la tua produzione di M€ di 4 livelli.",
+  "Oxygen must be 4% or less. Place this tile NEXT TO NO OTHER TILE. Increase your M€ production 1 step.":"Il livello di Ossigeno deve essere minore o uguale al 4%. Colloca questa tessera in modo che NON SIA ADIACENTE AD ALCUNA ALTRA TESSERA. Incrementa la tua produzione di M€ di 1 livello",
+  "Increase your M€ production 2 steps.":"Incrementa la tua produzione di M€ di 2 livelli.",
+  "Raise temperature 2 steps and place this tile on a VOLCANIC AREA.":"Aumenta la Temperatura di 1 livello e piazza questa tessera SU zona vulcanica."
 }
 
