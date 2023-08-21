@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {AquiferTurbines} from '../../../src/server/cards/prelude/AquiferTurbines';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('AquiferTurbines', function() {
   let card: AquiferTurbines;
@@ -10,8 +11,7 @@ describe('AquiferTurbines', function() {
 
   beforeEach(function() {
     card = new AquiferTurbines();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can not play', function() {

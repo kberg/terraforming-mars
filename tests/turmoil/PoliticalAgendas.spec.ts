@@ -7,14 +7,15 @@ import {TestPlayer} from '../TestPlayer';
 import {PoliticalAgendas} from '../../src/server/turmoil/PoliticalAgendas';
 import {AgendaStyle} from '../../src/common/turmoil/Types';
 import {OrOptions} from '../../src/server/inputs/OrOptions';
+import {IGame} from '../../src/server/IGame';
+import {testGame} from '../TestGame';
 
 describe('PoliticalAgendas', function() {
-  let player1: TestPlayer;
   let player2: TestPlayer;
+  let game: IGame;
   let randomElement: (list: Array<any>) => any;
 
   beforeEach(() => {
-    player1 = TestPlayer.BLUE.newPlayer();
     player2 = TestPlayer.RED.newPlayer();
     randomElement = PoliticalAgendas.randomElement;
   });
@@ -28,7 +29,7 @@ describe('PoliticalAgendas', function() {
   deserialized.forEach((deserialize) => {
     const suffix = deserialize ? ', but deserialized' : '';
     it('Standard' + suffix, () => {
-      let game = Game.newInstance('gameid', [player1, player2], player1, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.STANDARD});
+      [game, , player2] = testGame(2, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.STANDARD});
       if (deserialize) {
         game = Game.deserialize(game.serialize());
       }
@@ -51,7 +52,7 @@ describe('PoliticalAgendas', function() {
       // For the neutral chairman to always pick the second item in the list.
       PoliticalAgendas.randomElement = (list: Array<any>) => list[1];
 
-      let game = Game.newInstance('gameid', [player1, player2], player1, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.CHAIRMAN});
+      [game, , player2] = testGame(2, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.CHAIRMAN});
       let newPlayer2: IPlayer = player2;
       if (deserialize) {
         game = Game.deserialize(game.serialize());
@@ -72,6 +73,8 @@ describe('PoliticalAgendas', function() {
       // The new ruling party is lined up.
       expect(PoliticalAgendas.currentAgenda(turmoil)).deep.eq({bonusId: 'kb02', policyId: 'kp02'});
 
+      // This is pretty gross.
+      (newPlayer2 as TestPlayer).popWaitingFor();
       const waitingFor = cast(newPlayer2.getWaitingFor(), OrOptions);
       const bonusOptions = cast(waitingFor.options[0], OrOptions);
       bonusOptions.options[0].cb();
@@ -89,7 +92,7 @@ describe('PoliticalAgendas', function() {
       // For the neutral chairperson to always pick the second item.
       PoliticalAgendas.randomElement = (list: Array<any>) => list[1];
 
-      let game = Game.newInstance('gameid', [player1, player2], player1, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.CHAIRMAN});
+      [game, , player2] = testGame(2, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.CHAIRMAN});
       if (deserialize) {
         game = Game.deserialize(game.serialize());
       }

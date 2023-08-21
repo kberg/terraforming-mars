@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {Cryptocurrency} from '../../../src/server/cards/pathfinders/Cryptocurrency';
-import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {cast} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('Cryptocurrency', function() {
   let card: Cryptocurrency;
@@ -11,8 +11,7 @@ describe('Cryptocurrency', function() {
 
   beforeEach(function() {
     card = new Cryptocurrency();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
   });
 
   it('canAct with energy', function() {

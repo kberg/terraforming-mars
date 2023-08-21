@@ -1,11 +1,11 @@
 import {expect} from 'chai';
 import {EcologyExperts} from '../../../src/server/cards/prelude/EcologyExperts';
-import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {cast, runAllActions} from '../../TestingUtils';
 import {AICentral} from '../../../src/server/cards/base/AICentral';
 import {Ants} from '../../../src/server/cards/base/Ants';
 import {SelectProjectCardToPlay} from '../../../src/server/inputs/SelectProjectCardToPlay';
+import {testGame} from '../../TestGame';
 
 describe('EcologyExperts', function() {
   let card: EcologyExperts;
@@ -13,8 +13,7 @@ describe('EcologyExperts', function() {
 
   beforeEach(function() {
     card = new EcologyExperts();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
   });
 
   it('Gets requirement bonus', function() {

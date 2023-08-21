@@ -21,6 +21,8 @@ describe('Splice', function() {
   });
 
   it('Should play', function() {
+    player.popWaitingFor(); // Select initial cards
+
     const card2 = new Tardigrades();
     const play = card.play(player);
     expect(play).is.undefined;
@@ -57,12 +59,12 @@ describe('Splice', function() {
   it('Should grant Recyclon a Microbe or 2MC', function() {
     const card2 = new Recyclon();
     // Player 1 picks Splice
-    const pi = cast(player.getWaitingFor(), AndOptions);
+    const pi = cast(player.popWaitingFor(), AndOptions);
     pi.options[0].cb([card]);
     pi.options[1].cb([]);
     pi.cb();
     // Player 2 picks Recyclon
-    const pi2 = cast(player2.getWaitingFor(), AndOptions);
+    const pi2 = cast(player2.popWaitingFor(), AndOptions);
     pi2.options[0].cb([card2]);
     pi2.options[1].cb([]);
     pi2.cb();

@@ -7,6 +7,7 @@ import {SpaceName} from '../../../src/server/SpaceName';
 import {TileType} from '../../../src/common/TileType';
 import {cast, resetBoard} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('LavaTubeSettlement', function() {
   let card: LavaTubeSettlement;
@@ -15,8 +16,7 @@ describe('LavaTubeSettlement', function() {
 
   beforeEach(function() {
     card = new LavaTubeSettlement();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     resetBoard(game);
   });
 

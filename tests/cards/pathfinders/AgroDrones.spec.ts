@@ -3,6 +3,7 @@ import {setTemperature} from '../../TestingUtils';
 import {AgroDrones} from '../../../src/server/cards/pathfinders/AgroDrones';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('AgroDrones', function() {
   let card: AgroDrones;
@@ -11,8 +12,7 @@ describe('AgroDrones', function() {
 
   beforeEach(function() {
     card = new AgroDrones();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.playedCards.push(card);
   });
 

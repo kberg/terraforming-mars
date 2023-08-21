@@ -4,13 +4,13 @@ import {AquiferStandardProject} from '../../../../src/server/cards/base/standard
 import {maxOutOceans} from '../../../TestingUtils';
 import {TestPlayer} from '../../../TestPlayer';
 import {Game} from '../../../../src/server/Game';
+import {testGame} from '../../../TestGame';
 import {PoliticalAgendas} from '../../../../src/server/turmoil/PoliticalAgendas';
 import {Reds} from '../../../../src/server/turmoil/parties/Reds';
 import {Phase} from '../../../../src/common/Phase';
 import {SelectSpace} from '../../../../src/server/inputs/SelectSpace';
 import {SpaceType} from '../../../../src/common/boards/SpaceType';
 import {TileType} from '../../../../src/common/TileType';
-import {testGame} from '../../../TestGame';
 
 describe('AquiferStandardProject', function() {
   let card: AquiferStandardProject;
@@ -19,8 +19,7 @@ describe('AquiferStandardProject', function() {
 
   beforeEach(function() {
     card = new AquiferStandardProject();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can act', function() {

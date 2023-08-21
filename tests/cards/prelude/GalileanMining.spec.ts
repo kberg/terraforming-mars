@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {GalileanMining} from '../../../src/server/cards/prelude/GalileanMining';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('GalileanMining', function() {
   let card: GalileanMining;
@@ -10,8 +11,7 @@ describe('GalileanMining', function() {
 
   beforeEach(function() {
     card = new GalileanMining();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can not play', function() {

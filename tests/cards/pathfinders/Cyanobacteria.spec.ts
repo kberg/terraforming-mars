@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import {Cyanobacteria} from '../../../src/server/cards/pathfinders/Cyanobacteria';
-import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {cast, maxOutOceans, runAllActions} from '../../TestingUtils';
 import {AndOptions} from '../../../src/server/inputs/AndOptions';
@@ -8,6 +7,7 @@ import {GHGProducingBacteria} from '../../../src/server/cards/base/GHGProducingB
 import {Tardigrades} from '../../../src/server/cards/base/Tardigrades';
 import {Ants} from '../../../src/server/cards/base/Ants';
 import {TileType} from '../../../src/common/TileType';
+import {testGame} from '../../TestGame';
 
 describe('Cyanobacteria', function() {
   let card: Cyanobacteria;
@@ -18,8 +18,7 @@ describe('Cyanobacteria', function() {
 
   beforeEach(function() {
     card = new Cyanobacteria();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
     ghgProducingBacteria = new GHGProducingBacteria();
     tardigrades = new Tardigrades();
     ants = new Ants();

@@ -48,10 +48,9 @@ describe('Player', function() {
 
   it('Should run select player for PowerSupplyConsortium', function() {
     const card = new PowerSupplyConsortium();
-    const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    const player2 = new Player('red', Color.RED, false, 0, 'p-red');
-    const player3 = new Player('yellow', Color.YELLOW, false, 0, 'p-yellow');
-    Game.newInstance('gameid', [player, player2, player3], player);
+    // This uses TestPlayer, but will work.
+    const [, player, player2, player3] = testGame(3);
+
     player2.production.add(Resource.ENERGY, 2);
     player3.production.add(Resource.ENERGY, 2);
     player.playedCards.push(new LunarBeam());
@@ -85,11 +84,10 @@ describe('Player', function() {
 
   it('Should run select amount for Insulation', function() {
     const card = new Insulation();
-    const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    const redPlayer = new Player('red', Color.RED, false, 0, 'p-red');
+    // This uses TestPlayer, but will work.
+    const [, player] = testGame(2);
 
     player.production.add(Resource.HEAT, 2);
-    Game.newInstance('gameid', [player, redPlayer], player);
     player.defer(card.play(player));
     runAllActions(player.game);
     cast(player.getWaitingFor(), SelectAmount);

@@ -1,11 +1,11 @@
 import {expect} from 'chai';
 import {DeclarationOfIndependence} from '../../../src/server/cards/pathfinders/DeclarationOfIndependence';
-import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {cast, runAllActions} from '../../TestingUtils';
 import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {SelectParty} from '../../../src/server/inputs/SelectParty';
+import {testGame} from '../../TestGame';
 
 describe('DeclarationOfIndependence', function() {
   let card: DeclarationOfIndependence;
@@ -14,8 +14,7 @@ describe('DeclarationOfIndependence', function() {
 
   beforeEach(function() {
     card = new DeclarationOfIndependence();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player, {turmoilExtension: true});
+    [, player] = testGame(1, {turmoilExtension: true});
     turmoil = player.game.turmoil!;
   });
 

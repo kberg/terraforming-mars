@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {BreedingFarms} from '../../../src/server/cards/pathfinders/BreedingFarms';
 import {Fish} from '../../../src/server/cards/base/Fish';
-import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {runAllActions} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('BreedingFarms', function() {
   let card: BreedingFarms;
@@ -12,8 +12,7 @@ describe('BreedingFarms', function() {
 
   beforeEach(function() {
     card = new BreedingFarms();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
     player.playedCards.push(card);
     fish = new Fish();
     player.popWaitingFor();

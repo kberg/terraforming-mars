@@ -47,7 +47,7 @@ describe('DeimosDownPromo', function() {
   });
 
   it('Works fine in solo mode', function() {
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
 
     player.plants = 15;
     expect(card.play(player)).is.undefined;

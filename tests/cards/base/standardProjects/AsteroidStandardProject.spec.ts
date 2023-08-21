@@ -16,8 +16,7 @@ describe('AsteroidStandardProject', function() {
 
   beforeEach(function() {
     card = new AsteroidStandardProject();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can act', function() {

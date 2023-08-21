@@ -11,6 +11,7 @@ import {Space} from '../../../src/server/boards/Space';
 import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE} from '../../../src/common/constants';
 import {CardRequirements} from '../../../src/server/cards/requirements/CardRequirements';
 import {CardName} from '../../../src/common/cards/CardName';
+import {testGame} from '../../TestGame';
 
 const toSpaceId = (space: Space): string => space.id;
 
@@ -21,9 +22,7 @@ describe('Wetlands', function() {
 
   beforeEach(function() {
     card = new Wetlands();
-    player = TestPlayer.BLUE.newPlayer();
-    const redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {pathfindersExpansion: true});
+    [game, player] = testGame(2, {pathfindersExpansion: true});
     game.board = EmptyBoard.newInstance();
     game.board.getSpace('15').spaceType = SpaceType.OCEAN;
     game.board.getSpace('16').spaceType = SpaceType.OCEAN;

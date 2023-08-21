@@ -8,6 +8,7 @@ import {TileType} from '../../../src/common/TileType';
 import {runAllActions, cast} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
+import {testGame} from '../../TestGame';
 
 describe('CuriosityII', function() {
   let card: CuriosityII;
@@ -17,9 +18,7 @@ describe('CuriosityII', function() {
 
   beforeEach(function() {
     card = new CuriosityII();
-    player = TestPlayer.BLUE.newPlayer();
-    player2 = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, player2], player, {aresExtension: true, aresHazards: false});
+    [game, player, player2] = testGame(2, {aresExtension: true, aresHazards: false});
     game.phase = Phase.ACTION;
 
     player.setCorporationForTest(card);

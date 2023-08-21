@@ -9,6 +9,7 @@ import {Capital} from '../../../src/server/cards/base/Capital';
 import {Decomposers} from '../../../src/server/cards/base/Decomposers';
 import {EarthOffice} from '../../../src/server/cards/base/EarthOffice';
 import {cast} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('ReturntoAbandonedTechnology', function() {
   let card: ReturntoAbandonedTechnology;
@@ -17,8 +18,7 @@ describe('ReturntoAbandonedTechnology', function() {
 
   beforeEach(function() {
     card = new ReturntoAbandonedTechnology();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.playedCards.push(card);
   });
 

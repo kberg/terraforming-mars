@@ -6,6 +6,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {Units} from '../../../src/common/Units';
 import {cast, runAllActions, setTemperature} from '../../TestingUtils';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
+import {testGame} from '../../TestGame';
 
 describe('EarlyExpedition', function() {
   let card: EarlyExpedition;
@@ -14,8 +15,7 @@ describe('EarlyExpedition', function() {
 
   beforeEach(function() {
     card = new EarlyExpedition();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.playedCards.push(card);
   });
 

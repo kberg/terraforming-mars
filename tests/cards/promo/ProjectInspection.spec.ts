@@ -3,7 +3,6 @@ import {RestrictedArea} from '../../../src/server/cards/base/RestrictedArea';
 import {ProjectInspection} from '../../../src/server/cards/promo/ProjectInspection';
 import {IndenturedWorkers} from '../../../src/server/cards/base/IndenturedWorkers';
 import {Playwrights} from '../../../src/server/cards/community/Playwrights';
-import {Game} from '../../../src/server/Game';
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {SelectProjectCardToPlay} from '../../../src/server/inputs/SelectProjectCardToPlay';
 import {ICard} from '../../../src/server/cards/ICard';
@@ -13,6 +12,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {Odyssey} from '../../../src/server/cards/pathfinders/Odyssey';
 import {cast, runAllActions} from '../../TestingUtils';
 import {Payment} from '../../../src/common/inputs/Payment';
+import {testGame} from '../../TestGame';
 
 describe('ProjectInspection', function() {
   let card: ProjectInspection;
@@ -21,8 +21,7 @@ describe('ProjectInspection', function() {
 
   beforeEach(function() {
     card = new ProjectInspection();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
     restrictedArea = new RestrictedArea();
   });
 

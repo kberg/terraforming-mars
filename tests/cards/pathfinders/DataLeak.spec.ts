@@ -4,6 +4,7 @@ import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {LunarObservationPost} from '../../../src/server/cards/moon/LunarObservationPost';
 import {runAllActions} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('DataLeak', function() {
   let card: DataLeak;
@@ -12,8 +13,7 @@ describe('DataLeak', function() {
 
   beforeEach(function() {
     card = new DataLeak();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('play', function() {

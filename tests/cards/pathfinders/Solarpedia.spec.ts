@@ -5,6 +5,7 @@ import {TestPlayer} from '../../TestPlayer';
 import {LunarObservationPost} from '../../../src/server/cards/moon/LunarObservationPost';
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {cast} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('Solarpedia', function() {
   let card: Solarpedia;
@@ -14,8 +15,7 @@ describe('Solarpedia', function() {
 
   beforeEach(function() {
     card = new Solarpedia();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     lunarObservationPost = new LunarObservationPost();
   });
 

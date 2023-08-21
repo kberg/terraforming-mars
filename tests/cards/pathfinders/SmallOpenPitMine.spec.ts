@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import {SmallOpenPitMine} from '../../../src/server/cards/pathfinders/SmallOpenPitMine';
-import {Game} from '../../../src/server/Game';
 import {Units} from '../../../src/common/Units';
 import {TestPlayer} from '../../TestPlayer';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
@@ -8,6 +7,7 @@ import {IProjectCard} from '../../../src/server/cards/IProjectCard';
 import {JovianLanterns} from '../../../src/server/cards/colonies/JovianLanterns';
 import {GHGProducingBacteria} from '../../../src/server/cards/base/GHGProducingBacteria';
 import {cast} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('SmallOpenPitMine', function() {
   let card: SmallOpenPitMine;
@@ -17,8 +17,7 @@ describe('SmallOpenPitMine', function() {
 
   beforeEach(function() {
     card = new SmallOpenPitMine();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
     microbeCard = new GHGProducingBacteria();
     floaterCard = new JovianLanterns();
     player.playedCards = [microbeCard, floaterCard];

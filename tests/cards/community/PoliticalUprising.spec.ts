@@ -5,6 +5,7 @@ import {SelectParty} from '../../../src/server/inputs/SelectParty';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {cast} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('PoliticalUprising', function() {
   let card: PoliticalUprising;
@@ -13,9 +14,7 @@ describe('PoliticalUprising', function() {
 
   beforeEach(function() {
     card = new PoliticalUprising();
-    player = TestPlayer.BLUE.newPlayer();
-    const redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {turmoilExtension: true});
+    [game, player] = testGame(2, {turmoilExtension: true});
   });
 
   it('Should play', function() {

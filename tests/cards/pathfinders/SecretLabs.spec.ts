@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import {SecretLabs} from '../../../src/server/cards/pathfinders/SecretLabs';
-import {Game} from '../../../src/server/Game';
 import {Units} from '../../../src/common/Units';
 import {TestPlayer} from '../../TestPlayer';
 import {cast, runAllActions} from '../../TestingUtils';
@@ -10,6 +9,7 @@ import {JovianLanterns} from '../../../src/server/cards/colonies/JovianLanterns'
 import {GHGProducingBacteria} from '../../../src/server/cards/base/GHGProducingBacteria';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {TileType} from '../../../src/common/TileType';
+import {testGame} from '../../TestGame';
 
 describe('SecretLabs', function() {
   let card: SecretLabs;
@@ -19,8 +19,7 @@ describe('SecretLabs', function() {
 
   beforeEach(function() {
     card = new SecretLabs();
-    player = TestPlayer.BLUE.newPlayer();
-    Game.newInstance('gameid', [player], player);
+    [, player] = testGame(1);
     microbeCard = new GHGProducingBacteria();
     floaterCard = new JovianLanterns();
     player.playedCards = [microbeCard, floaterCard];
