@@ -37,6 +37,12 @@ export class Merger extends PreludeCard {
     const game = player.game;
     const dealtCorps = Merger.dealCorporationCards(player, game.dealer);
 
+    if (dealtCorps.length === 0) {
+      game.log('There are no corporation cards left in the deck');
+      player.addResource(Resources.MEGACREDITS, 15, {log: true});
+      return undefined;
+    }
+
     const availableCorps = dealtCorps.filter((corp) => {
       const balance = this.mergerCost - (corp as CorporationCard).startingMegaCredits;
       return player.canAfford(balance);
