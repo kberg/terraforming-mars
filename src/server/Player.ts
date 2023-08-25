@@ -1284,7 +1284,7 @@ export class Player implements IPlayer {
           return undefined;
         }),
       );
-      this.setWaitingForSafely(action);
+      this.defer(action);
       return;
     }
 

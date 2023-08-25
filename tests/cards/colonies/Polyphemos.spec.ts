@@ -13,7 +13,7 @@ describe('Polyphemos', function() {
     const card2 = new PowerPlant();
     const card3 = new BusinessNetwork();
     const [, player] = testGame(1, {skipInitialCardSelection: false});
-    const pi = cast(player.getWaitingFor(), SelectInitialCards);
+    const pi = cast(player.popWaitingFor(), SelectInitialCards);
     pi.options[0].cb([card]);
     pi.options[1].cb([card2, card2]);
     pi.cb();
