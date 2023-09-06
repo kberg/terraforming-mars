@@ -18,6 +18,6 @@ describe('AntiDesertificationTechniques', function() {
     card.play(player);
     expect(player.getProduction(Resources.STEEL)).eq(1);
     expect(player.getProduction(Resources.PLANTS)).eq(1);
-    expect(player.megaCredits).eq(5);
+    expect(player.megaCredits).eq(3);
   });
 });

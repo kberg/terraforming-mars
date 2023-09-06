@@ -507,6 +507,7 @@ export enum CardName {
     CLOUD_TOURISM = 'Cloud Tourism',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     TERRAFORMING_DEAL = 'Terraforming Deal',
+    APPLIED_SCIENCE = 'Applied Science',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',

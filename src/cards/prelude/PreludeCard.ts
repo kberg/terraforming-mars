@@ -7,12 +7,14 @@ import {CardName} from '../../CardName';
 import {Tags} from '../Tags';
 import {IProjectCard} from '../IProjectCard';
 import {Units} from '../../Units';
+import {ResourceType} from '../../ResourceType';
 
 interface StaticPreludeProperties {
     metadata: ICardMetadata;
     name: CardName;
     tags?: Array<Tags>;
     productionBox?: Units;
+    resourceType?: ResourceType;
 }
 
 export abstract class PreludeCard extends Card implements IProjectCard {
@@ -23,6 +25,7 @@ export abstract class PreludeCard extends Card implements IProjectCard {
       tags: properties.tags,
       metadata: properties.metadata,
       productionBox: properties.productionBox,
+      resourceType: properties.resourceType,
     });
   }
   public abstract play(player: Player): PlayerInput | undefined;

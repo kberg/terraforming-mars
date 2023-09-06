@@ -14,9 +14,9 @@ export class AntiDesertificationTechniques extends PreludeCard {
         cardNumber: '??',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.plants(1).steel(1));
-          b.megacredits(5);
+          b.megacredits(3);
         }),
-        description: 'Increase your plant and steel production 1 step each. Gain 5 M€.',
+        description: 'Increase your plant and steel production 1 step each. Gain 3 M€.',
       },
     });
   }
@@ -24,7 +24,7 @@ export class AntiDesertificationTechniques extends PreludeCard {
   public play(player: Player) {
     player.addProduction(Resources.STEEL, 1);
     player.addProduction(Resources.PLANTS, 1);
-    player.addResource(Resources.MEGACREDITS, 5);
+    player.addResource(Resources.MEGACREDITS, 3);
     return undefined;
   }
 }
