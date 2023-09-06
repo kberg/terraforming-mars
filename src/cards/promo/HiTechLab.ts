@@ -37,6 +37,14 @@ export class HiTechLab extends Card implements IProjectCard {
   }
 
   public action(player: Player) {
+    return HiTechLab.spendEnergyToDrawCards(player);
+  }
+
+  public getVictoryPoints() {
+    return 1;
+  }
+
+  public static spendEnergyToDrawCards(player: Player) {
     // Minor optimization: If player has only 1 energy, we don't need the SelectAmount
     if (player.energy === 1) {
       player.deductResource(Resources.ENERGY, 1);
@@ -62,9 +70,5 @@ export class HiTechLab extends Card implements IProjectCard {
       1,
       player.energy,
     );
-  }
-
-  public getVictoryPoints() {
-    return 1;
   }
 }

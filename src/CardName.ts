@@ -502,12 +502,13 @@ export enum CardName {
 
     // Prelude 2
     ANTI_DESERTIFICATION_TECHNIQUES = 'Anti-Desertification Techniques',
+    APPLIED_SCIENCE = 'Applied Science',
     ATMOSPHERIC_ENHANCERS = 'Atmospheric Enhancers',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     TERRAFORMING_DEAL = 'Terraforming Deal',
-    APPLIED_SCIENCE = 'Applied Science',
+    TYCHO_MAGNETICS = 'Tycho Magnetics',
 
     // Community cards
     PERSEVERANCE_LANDING = 'Perseverance Landing',

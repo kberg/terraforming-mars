@@ -8,6 +8,7 @@ import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {TerraformingDeal} from './TerraformingDeal';
+import {TychoMagnetics} from './TychoMagnetics';
 
 export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   module: GameModule.PreludeTwo,
@@ -17,6 +18,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
   ],
   corporationCards: [
+    {cardName: CardName.TYCHO_MAGNETICS, Factory: TychoMagnetics},
   ],
   preludeCards: [
     {cardName: CardName.ANTI_DESERTIFICATION_TECHNIQUES, Factory: AntiDesertificationTechniques},
