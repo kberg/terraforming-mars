@@ -504,6 +504,7 @@ export enum CardName {
     ANTI_DESERTIFICATION_TECHNIQUES = 'Anti-Desertification Techniques',
     APPLIED_SCIENCE = 'Applied Science',
     AQUEDUCT_SYSTEMS = 'Aqueduct Systems',
+    ASTRA_MECHANICA = 'Astra Mechanica',
     ATMOSPHERIC_ENHANCERS = 'Atmospheric Enhancers',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
