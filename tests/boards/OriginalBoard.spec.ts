@@ -13,6 +13,7 @@ describe('OriginalBoard', function() {
         bonus: [],
         id: 'foobar',
         spaceType: SpaceType.LAND,
+        hasCathedral: false,
       });
     }).to.throw('Unexpected space ID foobar');
   });

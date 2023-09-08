@@ -13,16 +13,17 @@ class Space implements ISpace {
     public spaceType: SpaceType,
     public x: number,
     public y: number,
-    public bonus: Array<SpaceBonus>) { }
+    public bonus: Array<SpaceBonus>,
+    public hasCathedral: boolean) { }
 
   public static mine(id: string, x: number, y: number, bonus: Array<SpaceBonus>) {
-    return new Space(id, SpaceType.LUNAR_MINE, x, y, bonus);
+    return new Space(id, SpaceType.LUNAR_MINE, x, y, bonus, false);
   }
   public static surface(id: string, x: number, y: number, bonus: Array<SpaceBonus>) {
-    return new Space(id, SpaceType.LAND, x, y, bonus);
+    return new Space(id, SpaceType.LAND, x, y, bonus, false);
   }
   public static colony(id: string) {
-    return new Space(id, SpaceType.COLONY, -1, -1, []);
+    return new Space(id, SpaceType.COLONY, -1, -1, [], false);
   }
 }
 

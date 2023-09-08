@@ -40,6 +40,7 @@ export enum CardRenderItemType {
   WILD_TAG = 'wild_tag',
   FIGHTER = 'fighter',
   CAMPS = 'camps',
+  CATHEDRALS = 'cathedrals',
   DIVERSE_TAG = 'diverse_tag',
   CITY = 'city',
   GREENERY = 'greenery',

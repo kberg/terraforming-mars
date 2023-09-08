@@ -54,6 +54,9 @@ export class CardRenderDynamicVictoryPoints {
   public static camps(points: number, target: number): CardRenderDynamicVictoryPoints {
     return new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.CAMPS), points, target);
   }
+  public static cathedrals(points: number, target: number): CardRenderDynamicVictoryPoints {
+    return new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.CATHEDRALS), points, target);
+  }
   public static colonies(points: number, target: number, any: boolean = false): CardRenderDynamicVictoryPoints {
     const item = new CardRenderItem(CardRenderItemType.COLONIES);
     item.size = Size.SMALL;

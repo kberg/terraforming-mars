@@ -617,6 +617,7 @@ function getSpaces(board: Board): Array<SpaceModel> {
       tileType: space.tile && space.tile.tileType,
       color: getColor(space),
       highlight: highlight,
+      hasCathedral: space.hasCathedral,
     };
   });
 }

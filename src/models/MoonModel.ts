@@ -50,6 +50,7 @@ function getSpaces(spaces: Array<ISpace>): Array<SpaceModel> {
       tileType: space.tile && space.tile.tileType,
       color: getColor(space),
       highlight: undefined,
+      hasCathedral: space.hasCathedral,
     };
   });
 }

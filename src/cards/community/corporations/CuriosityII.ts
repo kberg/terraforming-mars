@@ -55,7 +55,7 @@ export class CuriosityII extends Card implements CorporationCard {
     if (space.spaceType === SpaceType.COLONY) return;
 
     if (space.bonus.some((bonus) => eligibleBonuses.includes(bonus)) || space.tile?.covers !== undefined) {
-      cardOwner.game.defer(new DeferredAction(cardOwner, () => this.corpAction(cardOwner)), Priority.PAY_TO_DRAW_CARDS);
+      cardOwner.game.defer(new DeferredAction(cardOwner, () => CuriosityII.payToDrawCard(cardOwner)), Priority.PAY_TO_DRAW_CARDS);
     }
   }
 
@@ -64,7 +64,7 @@ export class CuriosityII extends Card implements CorporationCard {
     return undefined;
   }
 
-  private corpAction(player: Player) {
+  public static payToDrawCard(player: Player) {
     if (!player.canAfford(2)) return undefined;
 
     return new OrOptions(

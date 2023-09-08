@@ -34,19 +34,19 @@ describe('MiningGuild', () => {
   });
 
   it('Gives steel production bonus when placing tiles', () => {
-    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: []}, BoardType.MARS);
+    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [], hasCathedral: false}, BoardType.MARS);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(0);
 
-    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.STEEL, SpaceBonus.TITANIUM]}, BoardType.MARS);
+    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.STEEL, SpaceBonus.TITANIUM], hasCathedral: false}, BoardType.MARS);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(1);
 
-    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.STEEL]}, BoardType.MARS);
+    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.STEEL], hasCathedral: false}, BoardType.MARS);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(2);
 
-    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.TITANIUM]}, BoardType.MARS);
+    card.onTilePlaced(player, player, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.TITANIUM], hasCathedral: false}, BoardType.MARS);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(3);
   });
@@ -63,7 +63,7 @@ describe('MiningGuild', () => {
   });
 
   it('Does not give bonus when other players place tiles', () => {
-    card.onTilePlaced(player, player2, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.TITANIUM]}, BoardType.MARS);
+    card.onTilePlaced(player, player2, {player, spaceType: SpaceType.LAND, x: 0, y: 0, id: 'foobar', bonus: [SpaceBonus.TITANIUM], hasCathedral: false}, BoardType.MARS);
     TestingUtils.runAllActions(game);
     expect(player.getProduction(Resources.STEEL)).eq(0);
   });

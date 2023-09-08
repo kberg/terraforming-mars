@@ -250,6 +250,7 @@ export abstract class Board {
           player: space.player?.id,
           bonus: space.bonus,
           adjacency: space.adjacency,
+          hasCathedral: space.hasCathedral === true,
           x: space.x,
           y: space.y,
         };
@@ -264,6 +265,7 @@ export abstract class Board {
       id: serialized.id,
       spaceType: serialized.spaceType,
       bonus: serialized.bonus,
+      hasCathedral: serialized.hasCathedral === true,
       x: serialized.x,
       y: serialized.y,
     };

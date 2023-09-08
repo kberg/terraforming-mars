@@ -10,6 +10,7 @@ import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
+import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {TerraformingDeal} from './TerraformingDeal';
 import {TychoMagnetics} from './TychoMagnetics';
 
@@ -21,6 +22,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems, compatibility: GameModule.Promo},
     {cardName: CardName.CLOUD_TOURISM, Factory: CloudTourism, compatibility: GameModule.Venus},
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
+    {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],
   corporationCards: [
     {cardName: CardName.NIRGAL_ENTERPRISES, Factory: NirgalEnterprises},

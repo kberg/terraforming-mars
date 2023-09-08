@@ -16,4 +16,5 @@ export interface SpaceModel {
     tileType: TileType | undefined;
     spaceType: SpaceType;
     highlight: SpaceHighlight;
+    hasCathedral: boolean;
 }

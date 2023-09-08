@@ -510,6 +510,7 @@ export enum CardName {
     CLOUD_TOURISM = 'Cloud Tourism',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
+    ST_JOSEPH_OF_CUPERTINO_MISSION = 'St. Joseph of Cupertino Mission',
     TERRAFORMING_DEAL = 'Terraforming Deal',
     TYCHO_MAGNETICS = 'Tycho Magnetics',
 

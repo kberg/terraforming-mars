@@ -13,6 +13,7 @@ export interface ISpace {
     player?: Player;
     bonus: Array<SpaceBonus>;
     adjacency?: IAdjacencyBonus,
+    hasCathedral: boolean;
     x: number;
     y: number;
 }
