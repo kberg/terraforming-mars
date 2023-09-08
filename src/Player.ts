@@ -2067,7 +2067,7 @@ export class Player implements ISerializable<SerializedPlayer> {
 
   private fundAward(award: IAward): PlayerInput {
     return new SelectOption(award.name, 'Fund - ' + '(' + award.name + ')', () => {
-      this.game.defer(new SelectHowToPayDeferred(this, this.game.getAwardFundingCost(), {title: 'Select how to pay for award'}));
+      this.game.defer(new SelectHowToPayDeferred(this, this.game.getAwardFundingCost(this), {title: 'Select how to pay for award'}));
       this.game.fundAward(this, award);
       return undefined;
     });
@@ -2588,7 +2588,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     //   all 3 Awards are claimed before starting your turn as Vitor), you can skip this and
     //   proceed with other actions instead.
     // This code just uses "must skip" instead of "can skip".
-    if (this.isCorporation(CardName.VITOR) && this.game.allAwardsFunded() && this.game.gameOptions.automaSoloVariant === false) {
+    if (this.isCorporation(CardName.VITOR) && !this.canFundAward() && this.game.gameOptions.automaSoloVariant === false) {
       this.pendingInitialActions = this.pendingInitialActions.filter((card) => card.name !== CardName.VITOR);
     }
 
@@ -2646,6 +2646,25 @@ export class Player implements ISerializable<SerializedPlayer> {
     });
   }
 
+  private canAffordMilestone(): boolean {
+    if (this.canAfford(MILESTONE_COST)) return true;
+    if (this.cardIsInEffect(CardName.VAN_ALLEN)) return true;
+    if (this.game.gameOptions.automaSoloVariant) return true;
+    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES) && this.canAfford(6)) return true;
+
+    return false;
+  }
+
+  public canClaimMilestone(): boolean {
+    if (this.game.allMilestonesClaimed(this)) return false;
+    return true;
+  }
+
+  public canFundAward(): boolean {
+    if (this.game.allAwardsFunded(this)) return false;
+    return true;
+  }
+
   // Return possible mid-game actions like play a card and fund an award, but no play prelude card.
   public getActions() {
     const action: OrOptions = new OrOptions();
@@ -2653,9 +2672,9 @@ export class Player implements ISerializable<SerializedPlayer> {
       'Take your first action' : 'Take your next action';
     action.buttonLabel = 'Take action';
 
-    const canAffordMilestone = this.canAfford(MILESTONE_COST) || this.cardIsInEffect(CardName.VAN_ALLEN) || this.game.gameOptions.automaSoloVariant;
+    const canAffordMilestone = this.canAffordMilestone();
 
-    if (canAffordMilestone && !this.game.allMilestonesClaimed()) {
+    if (canAffordMilestone && this.canClaimMilestone()) {
       const remainingMilestones = new OrOptions();
       remainingMilestones.title = 'Claim a milestone';
       remainingMilestones.options = this.game.milestones
@@ -2747,14 +2766,15 @@ export class Player implements ISerializable<SerializedPlayer> {
       }
     }
 
-    if (this.canAfford(this.game.getAwardFundingCost()) && !this.game.allAwardsFunded()) {
+    if (this.canAfford(this.game.getAwardFundingCost(this)) && this.canFundAward()) {
       const remainingAwards = new OrOptions();
       remainingAwards.title = 'Fund an award';
       remainingAwards.buttonLabel = 'Confirm';
       remainingAwards.options = this.game.awards
         .filter((award: IAward) => this.game.hasBeenFunded(award) === false)
         .map((award: IAward) => this.fundAward(award));
-      action.options.push(remainingAwards);
+
+      if (remainingAwards.options.length >= 1) action.options.push(remainingAwards);
     }
 
     action.options.push(this.getStandardProjectOption());

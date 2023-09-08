@@ -509,6 +509,7 @@ export enum CardName {
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
+    NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     TERRAFORMING_DEAL = 'Terraforming Deal',
     TYCHO_MAGNETICS = 'Tycho Magnetics',
 

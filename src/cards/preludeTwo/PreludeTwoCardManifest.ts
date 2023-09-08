@@ -9,6 +9,7 @@ import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {HomeostasisBureau} from './HomeostasisBureau';
+import {NirgalEnterprises} from './NirgalEnterprises';
 import {TerraformingDeal} from './TerraformingDeal';
 import {TychoMagnetics} from './TychoMagnetics';
 
@@ -22,6 +23,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
   ],
   corporationCards: [
+    {cardName: CardName.NIRGAL_ENTERPRISES, Factory: NirgalEnterprises},
     {cardName: CardName.TYCHO_MAGNETICS, Factory: TychoMagnetics},
   ],
   preludeCards: [

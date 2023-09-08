@@ -2,6 +2,8 @@ import Vue from 'vue';
 import {MILESTONE_COST, MAX_MILESTONES} from '../constants';
 import {ClaimedMilestoneModel} from '../models/ClaimedMilestoneModel';
 import {PreferencesManager} from './PreferencesManager';
+import {ICard} from '../cards/ICard';
+import {CardName} from '../CardName';
 
 export const Milestone = Vue.component('milestone', {
   props: {
@@ -10,6 +12,12 @@ export const Milestone = Vue.component('milestone', {
     },
     milestones_list: {
       type: Array as () => Array<ClaimedMilestoneModel>,
+    },
+    corporations: {
+      type: Array as () => Array<ICard>,
+    },
+    spectator: {
+      type: Boolean,
     },
     show_scores: {
       type: Boolean,
@@ -20,7 +28,7 @@ export const Milestone = Vue.component('milestone', {
     const collapse_milestones: boolean = PreferencesManager.loadBoolean('collapse_milestones');
 
     let showList = this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : !collapse_milestones;
-    if (this.automaSoloVariant) showList = true;
+    if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) showList = true;
 
     return {
       showList: showList,
@@ -49,17 +57,26 @@ export const Milestone = Vue.component('milestone', {
     getClassForMilestoneTile: function(milestone: ClaimedMilestoneModel) {
       if (milestone.player_name) return 'ma-block ma-block-grayscale pwned-item';
       if (milestone.scores.length > 0) return 'ma-block';
-      if (this.automaSoloVariant) return 'ma-block';
+      if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) return 'ma-block';
       return 'ma-block ma-block-grayscale';
     },
-    getAvailableMilestoneSpots: function(): Array<number> {
+    getAvailableMilestoneSpots: function(): Array<number | string> {
       const count = this.milestones_list.filter((milestone) => milestone.player_name).length;
 
       let maxMilestones = MAX_MILESTONES;
-      if (this.automaSoloVariant) maxMilestones =  this.milestones_list.length;
+      if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) maxMilestones =  this.milestones_list.length;
 
-      let milestoneCost = MILESTONE_COST;
-      if (this.automaSoloVariant) milestoneCost = 0;
+      let milestoneCost: number | string = MILESTONE_COST;
+
+      if (this.automaSoloVariant) {
+        milestoneCost = 0;
+      } else if (this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) {
+        if (this.spectator) {
+          milestoneCost = '?';
+        } else {
+          milestoneCost = 6;
+        }
+      }
 
       return Array(maxMilestones - count).fill(milestoneCost);
     },

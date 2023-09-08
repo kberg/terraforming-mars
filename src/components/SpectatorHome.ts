@@ -121,11 +121,11 @@ export const SpectatorHome = Vue.component('spectator-home', {
           <moonboard v-if="spectator.moon" :model="spectator.moon" :automaSoloVariant="spectator.gameOptions.automaSoloVariant"></moonboard>
 
           <div v-if="spectator.players.length > 1 || (spectator.players.length === 1 && spectator.gameOptions.automaSoloVariant)" class="player_home_block--milestones-and-awards">
-            <milestone :milestones_list="spectator.milestones" :automaSoloVariant="spectator.gameOptions.automaSoloVariant" />
+            <milestone :milestones_list="spectator.milestones" :automaSoloVariant="spectator.gameOptions.automaSoloVariant" :corporations="spectator.players.map((p) => p.corporationCards).reduce((a, b) => a.concat(b))" :spectator="true" />
           </div>
 
           <div v-if="spectator.players.length > 1" class="player_home_block--milestones-and-awards">
-            <award :awards_list="spectator.awards" />
+            <award :awards_list="spectator.awards" :corporations="spectator.players.map((p) => p.corporationCards).reduce((a, b) => a.concat(b))" :spectator="true" />
           </div>
 
           <div v-if="spectator.colonies.length > 0" class="player_home_block" ref="colonies" id="shortkey-colonies">

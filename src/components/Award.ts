@@ -2,11 +2,19 @@ import Vue from 'vue';
 import {AWARD_COSTS} from '../constants';
 import {FundedAwardModel} from '../models/FundedAwardModel';
 import {PreferencesManager} from './PreferencesManager';
+import {ICard} from '../cards/ICard';
+import {CardName} from '../CardName';
 
 export const Award = Vue.component('award', {
   props: {
     awards_list: {
       type: Array as () => Array<FundedAwardModel>,
+    },
+    corporations: {
+      type: Array as () => Array<ICard>,
+    },
+    spectator: {
+      type: Boolean,
     },
     show_scores: {
       type: Boolean,
@@ -42,15 +50,25 @@ export const Award = Vue.component('award', {
     },
     getClassForAwardTile: function(award: FundedAwardModel) {
       if (award.scores.length > 0) return 'ma-block';
+      if (this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) return 'ma-block';
       return 'ma-block ma-block-grayscale';
     },
-    getAvailableAwardSpots: function(): Array<number> {
+    getAvailableAwardSpots: function(): Array<number | string> {
       let numFundedAwards = 0;
       this.awards_list.forEach((award)=>{
         if (award.player_name) {
           numFundedAwards++;
         }
       });
+
+      if (this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) {
+        if (this.spectator) {
+          return Array(this.awards_list.length - numFundedAwards).fill('?');
+        } else {
+          return Array(this.awards_list.length - numFundedAwards).fill(6);
+        }
+      }
+
       return AWARD_COSTS.slice(numFundedAwards);
     },
     isLearnerModeOn: function(): boolean {

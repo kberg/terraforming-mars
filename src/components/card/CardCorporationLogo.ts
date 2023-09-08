@@ -219,6 +219,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<div class="card-faux-news-logo"></div>';
       case CardName.TYCHO_MAGNETICS:
         return '<span class="card-tycho-magnetics-logo">TYCHO<br/>MAGNETICS</span>';
+      case CardName.NIRGAL_ENTERPRISES:
+        return '<span class="card-nirgal-enterprises-logo">Nirgal<br/>Enterprises</span>';
       }
       return '';
     },

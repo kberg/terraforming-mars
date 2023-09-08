@@ -29,6 +29,7 @@ describe('Award', function() {
         awards_list: [
           mockAward,
         ],
+        corporations: [],
       },
     });
     const toggler = award.find('a[class="ma-clickable awards-padding"]');

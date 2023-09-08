@@ -30,6 +30,7 @@ describe('Milestone', function() {
         milestones_list: [
           mockMilestone,
         ],
+        corporations: [],
       },
     });
     const toggler = milestone.find('a[class="ma-clickable"]');
