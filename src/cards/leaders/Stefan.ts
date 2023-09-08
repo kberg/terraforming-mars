@@ -70,7 +70,10 @@ export class Stefan extends Card implements LeaderCard {
         LogHelper.logDrawnCards(player, foundCards.map((card) => card.name), true, LogType.SOLD);
         this.isDisabled = true;
         return undefined;
-      }, {max: player.cardsInHand.length},
+      }, {
+        // Account for any new cards drawn by the DeferredAction
+        max: player.cardsInHand.length + cardsDrawnQty,
+      },
     );
   }
 }
