@@ -179,7 +179,7 @@ export const Board = Vue.component('board', {
         <div class="hide-tile-button-container">
         <div class="hide-tile-button" v-on:click.prevent="toggleHideTile()">{{ toggleHideTileLabel() }}</div>
         </div>
-        <div class="board-outer-spaces">
+        <div class="board-outer-spaces" id="colony_spaces">
             <board-space :space="getSpaceById('01')" text="Ganymede Colony"></board-space>
             <board-space :space="getSpaceById('02')" text="Phobos Space Haven"></board-space>
             <board-space :space="getSpaceById('69')" text="Stanford Torus" v-if="promoCardsOption"></board-space>
@@ -243,7 +243,7 @@ export const Board = Vue.component('board', {
         </div>
 
         <div class="board" id="main_board">
-            <board-space :space="curSpace" :is_selectable="true" :key="'board-space-'+curSpace.id" :aresExtension="aresExtension" :isTileHidden="checkHideTile()" v-for="curSpace in getAllSpacesOnMars()"></board-space>
+            <board-space :space="curSpace" :key="'board-space-'+curSpace.id" :aresExtension="aresExtension" :isTileHidden="checkHideTile()" v-for="curSpace in getAllSpacesOnMars()"></board-space>
             <svg id="board_legend" height="550" width="630" class="board-legend">
                 <g v-if="boardName === 'tharsis'" id="noctis_city" transform="translate(85, 320)">
                     <text class="board-caption">

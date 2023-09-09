@@ -12,6 +12,7 @@ import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferr
 import {LogHelper} from '../../LogHelper';
 import {DeferredAction, Priority} from '../../deferredActions/DeferredAction';
 import {CuriosityII} from '../community/corporations/CuriosityII';
+import {SpaceType} from '../../SpaceType';
 
 export class StJosephOfCupertinoMission extends Card implements IProjectCard {
   constructor() {
@@ -39,18 +40,23 @@ export class StJosephOfCupertinoMission extends Card implements IProjectCard {
   }
 
   public canAct(player: Player) {
-    const eligibleCitySpaces = player.game.board.spaces.filter((space) => Board.isCitySpace(space)).filter((space) => !space.hasCathedral);
+    const eligibleCitySpaces = this.getEligibleCitySpaces(player.game.board);
     return player.canAfford(5, {steel: true}) && eligibleCitySpaces.length > 0;
   }
 
   public action(player: Player) {
     const game = player.game;
-    const eligibleCitySpaces = player.game.board.spaces.filter((space) => Board.isCitySpace(space)).filter((space) => !space.hasCathedral);
+    const eligibleCitySpaces = this.getEligibleCitySpaces(game.board);
 
     game.defer(new SelectHowToPayDeferred(player, 5, {canUseSteel: true, title: 'Select how to pay for action', afterPay: () => {
       game.defer(new DeferredAction(player, () => {
         return new SelectSpace('Select city space to build a Cathedral', eligibleCitySpaces, (foundSpace: ISpace) => {
-          LogHelper.logBoardTileAction(player, foundSpace, 'a Cathedral', 'built');
+          if (foundSpace.spaceType === SpaceType.COLONY) {
+            game.log('${0} built an off-world Cathedral', (b) => b.player(player));
+          } else {
+            LogHelper.logBoardTileAction(player, foundSpace, 'a Cathedral', 'built');
+          }
+
           foundSpace.hasCathedral = true;
 
           const cityOwner = foundSpace.player!;
@@ -62,6 +68,10 @@ export class StJosephOfCupertinoMission extends Card implements IProjectCard {
     }}));
 
     return undefined;
+  }
+
+  private getEligibleCitySpaces(board: Board) {
+    return board.spaces.filter((space) => Board.isCitySpace(space)).filter((space) => !space.hasCathedral);
   }
 
   public getVictoryPoints(player: Player): number {

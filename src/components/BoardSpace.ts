@@ -59,9 +59,6 @@ export const BoardSpace = Vue.component('board-space', {
     text: {
       type: String,
     },
-    is_selectable: {
-      type: Boolean,
-    },
     aresExtension: {
       type: Boolean,
     },
@@ -143,9 +140,7 @@ export const BoardSpace = Vue.component('board-space', {
     },
     getMainClass: function(): string {
       let css = 'board-space board-space-' + this.space.id.toString();
-      if (this.is_selectable) {
-        css += ' board-space-selectable';
-      }
+      css += ' board-space-selectable';
       return css;
     },
     getTileClass: function(): string {

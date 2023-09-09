@@ -75,20 +75,15 @@ export const SelectSpace = Vue.component('select-space', {
     },
     getSelectableSpaces: function() {
       const spaces: Array<Element> = [];
+      const regions = ['main_board', 'moon_board', 'colony_spaces'];
 
-      let board = document.getElementById('main_board');
-      if (board !== null) {
-        const array = board.getElementsByClassName('board-space-selectable');
-        for (let i = 0, length = array.length; i < length; i++) {
-          spaces.push(array[i]);
-        }
-      }
-
-      board = document.getElementById('moon_board');
-      if (board !== null) {
-        const array = board.getElementsByClassName('board-space-selectable');
-        for (let i = 0, length = array.length; i < length; i++) {
-          spaces.push(array[i]);
+      for (const region of regions) {
+        const board = document.getElementById(region);
+        if (board !== null) {
+          const array = board.getElementsByClassName('board-space-selectable');
+          for (let i = 0, length = array.length; i < length; i++) {
+            spaces.push(array[i] as HTMLElement);
+          }
         }
       }
 

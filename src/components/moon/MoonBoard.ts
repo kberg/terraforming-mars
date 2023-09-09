@@ -160,7 +160,7 @@ export const MoonBoard = Vue.component('moonboard', {
       </div>
 
       <div class="board" id="moon_board">
-        <moon-space :space="curSpace" :is_selectable="true" :key="'moon-space-'+curSpace.id" v-for="curSpace in getAllNonColonySpaces()"></moon-space>
+        <moon-space :space="curSpace" :key="'moon-space-'+curSpace.id" v-for="curSpace in getAllNonColonySpaces()"></moon-space>
       </div>
     </div>
     `,

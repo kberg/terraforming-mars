@@ -21,9 +21,6 @@ export const MoonSpace = Vue.component('moon-space', {
     text: {
       type: String,
     },
-    is_selectable: {
-      type: Boolean,
-    },
   },
   data: function() {
     return {};
@@ -51,9 +48,8 @@ export const MoonSpace = Vue.component('moon-space', {
     },
     getMainClass: function(): string {
       let css = 'board-space moon-space-' + this.space.id.toString();
-      if (this.is_selectable) {
-        css += ' board-space-selectable';
-      }
+      css += ' board-space-selectable';
+
       const tileType = this.space.tileType;
       if (tileType !== undefined) {
         switch (this.space.tileType) {
