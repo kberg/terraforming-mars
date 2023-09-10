@@ -51,6 +51,7 @@ export const SelectInitialCards = Vue.component('select-initial-cards', {
       for (const prelude of this.selectedPrelude) {
         switch (prelude) {
         case CardName.ALLIED_BANKS:
+        case CardName.ANTI_DESERTIFICATION_TECHNIQUES:
           result += 3;
           break;
         case CardName.BUSINESS_EMPIRE:
