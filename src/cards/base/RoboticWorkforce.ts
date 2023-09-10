@@ -10,6 +10,7 @@ import {ICard} from '../ICard';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../render/Size';
 import {Units} from '../../Units';
+import {PlayerInput} from '../../PlayerInput';
 
 export class RoboticWorkforce extends Card implements IProjectCard {
   constructor() {
@@ -28,11 +29,12 @@ export class RoboticWorkforce extends Card implements IProjectCard {
       },
     });
   }
+
   public canPlay(player: Player): boolean {
-    return this.getAvailableCards(player).length > 0;
+    return RoboticWorkforce.getAvailableCards(player).length > 0;
   }
 
-  private isCardApplicable(card: ICard, player: Player): boolean {
+  public static isCardApplicable(card: ICard, player: Player, adjustment: Units): boolean {
     if (!card.tags.includes(Tags.BUILDING) && !card.tags.includes(Tags.WILDCARD)) {
       return false;
     }
@@ -51,31 +53,33 @@ export class RoboticWorkforce extends Card implements IProjectCard {
 
     if (card.productionBox === undefined || card.productionBox === Units.EMPTY) return false;
 
-    return player.canAdjustProduction(card.productionBox);
+    // Used by Cyberia Systems where a second card may become copyable due to production(s) gained from the first
+    const productionBox = Units.adjustUnits(card.productionBox, adjustment);
+
+    return player.canAdjustProduction(productionBox);
   }
 
-  private getAvailableCards(player: Player): Array<ICard> {
-    const availableCards: Array<ICard> = player.playedCards.filter((card) => this.isCardApplicable(card, player));
+  public static getAvailableCards(player: Player, adjustment: Units = Units.EMPTY): Array<ICard> {
+    const availableCards: Array<ICard> = player.playedCards.filter((card) => RoboticWorkforce.isCardApplicable(card, player, adjustment));
 
     player.corporationCards.forEach((corp) => {
-      if (this.isCardApplicable(corp, player)) availableCards.push(corp);
+      if (RoboticWorkforce.isCardApplicable(corp, player, adjustment)) availableCards.push(corp);
     });
 
     return availableCards;
   }
 
   public play(player: Player) {
-    const availableCards = this.getAvailableCards(player);
+    const availableCards = RoboticWorkforce.getAvailableCards(player);
+    return RoboticWorkforce.selectBuildingCard(player, availableCards, this.name, 'Select builder card to copy');
+  }
 
-    if (availableCards.length === 0) {
-      return undefined;
-    }
+  public static selectBuildingCard(player: Player, availableCards: ICard[], source: CardName, title: string, cb: (card: ICard) => PlayerInput | undefined = () => undefined) {
+    if (availableCards.length === 0) return undefined;
 
-    return new SelectCard('Select builder card to copy', 'Copy', availableCards, (selectedCards: Array<ICard>) => {
+    return new SelectCard(title, 'Copy', availableCards, (selectedCards: Array<ICard>) => {
       const card: ICard = selectedCards[0];
-
-      player.game.log('${0} copied ${1} production with ${2}', (b) =>
-        b.player(player).card(card).card(this));
+      player.game.log('${0} copied ${1} production with ${2}', (b) => b.player(player).card(card).cardName(source));
 
       if (card.produce) {
         card.produce(player);
@@ -84,7 +88,7 @@ export class RoboticWorkforce extends Card implements IProjectCard {
       } else {
         throw new Error(`Card ${card.name} is not a valid Robotic Workforce card.`);
       }
-      return undefined;
+      return cb(card);
     });
   }
 }

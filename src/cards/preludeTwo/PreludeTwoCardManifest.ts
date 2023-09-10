@@ -8,6 +8,7 @@ import {AstraMechanica} from './AstraMechanica';
 import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
+import {CyberiaSystems} from './CyberiaSystems';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
@@ -17,10 +18,11 @@ import {TychoMagnetics} from './TychoMagnetics';
 export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   module: GameModule.PreludeTwo,
   projectCards: [
-    {cardName: CardName.ASTRA_MECHANICA, Factory: AstraMechanica, compatibility: GameModule.Promo},
-    {cardName: CardName.AQUEDUCT_SYSTEMS, Factory: AqueductSystems, compatibility: GameModule.Promo},
-    {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems, compatibility: GameModule.Promo},
+    {cardName: CardName.ASTRA_MECHANICA, Factory: AstraMechanica},
+    {cardName: CardName.AQUEDUCT_SYSTEMS, Factory: AqueductSystems},
+    {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems},
     {cardName: CardName.CLOUD_TOURISM, Factory: CloudTourism, compatibility: GameModule.Venus},
+    {cardName: CardName.CYBERIA_SYSTEMS, Factory: CyberiaSystems},
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],

@@ -16,7 +16,7 @@ describe('CoLeadership', function() {
     const game = Game.newInstance('foobar', [player], player, gameOptions);
     
     const selectCard = card.play(player) as SelectCard<ICard>;
-    selectCard.cb([selectCard.cards[0]]);;
+    selectCard.cb([selectCard.cards[0]]);
     game.deferredActions.runAll(() => {});
 
     expect(player.playedCards.filter((c) => c.cardType === CardType.LEADER)).has.length(1);
