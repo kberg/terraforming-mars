@@ -115,6 +115,7 @@ export const SpectatorHome = Vue.component('spectator-home', {
             :shouldNotify="false"
             :aresExtension="spectator.gameOptions.aresExtension"
             :aresData="spectator.aresData"
+            :promoCardsOption="spectator.gameOptions.promoCardsOption"
             id="shortkey-board""></board>
           </div>
 

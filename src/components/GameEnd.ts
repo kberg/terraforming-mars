@@ -300,7 +300,8 @@ export const GameEnd = Vue.component('game-end', {
                         :boardName ="player.gameOptions.boardName"
                         :oceans_count="player.oceans"
                         :oxygen_level="player.oxygenLevel"
-                        :temperature="player.temperature"></board>
+                        :temperature="player.temperature"
+                        :promoCardsOption="player.gameOptions.promoCardsOption"></board>
                     <moonboard v-if="player.gameOptions.moonExpansion" :model="player.moon" :automaSoloVariant="player.gameOptions.automaSoloVariant"></moonboard>
                 </div>
                 <div class="game_end_block--log game-end-column">
