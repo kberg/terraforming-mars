@@ -38,10 +38,11 @@ export class AstraMechanica extends Card implements IProjectCard {
       events,
       (cards) => {
         for (const card of cards) {
-          player.playedCards.filter((c) => c.name !== card.name);
+          player.playedCards.splice(player.playedCards.indexOf(card), 1)[0];
           player.cardsInHand.push(card);
           player.game.log('${0} returned ${1} to their hand', (b) => b.player(player).card(card));
         }
+
         return undefined;
       },
       {max: 2, min: 0}

@@ -31,5 +31,6 @@ describe('AstraMechanica', function() {
     const selectCard = card.play(player) as SelectCard<ICard>;
     selectCard.cb([selectCard.cards[0], selectCard.cards[1]]);
     expect(player.cardsInHand).has.length(2);
+    expect(player.playedCards).has.length(0);
   });
 });
