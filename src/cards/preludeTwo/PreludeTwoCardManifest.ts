@@ -9,6 +9,7 @@ import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {CyberiaSystems} from './CyberiaSystems';
+import {EstablishedMethods} from './EstablishedMethods';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
@@ -34,6 +35,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ANTI_DESERTIFICATION_TECHNIQUES, Factory: AntiDesertificationTechniques},
     {cardName: CardName.APPLIED_SCIENCE, Factory: AppliedScience},
     {cardName: CardName.ATMOSPHERIC_ENHANCERS, Factory: AtmosphericEnhancers, compatibility: GameModule.Venus},
+    {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
     {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
   ],
 });

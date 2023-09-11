@@ -33,7 +33,7 @@ export abstract class StandardProjectCard extends Card implements IActionCard, I
     });
   }
 
-  protected discount(player: Player): number {
+  public discount(player: Player): number {
     if (player.isCorporation(CardName.LABOUR_UNION)) return 4;
     return 0;
   }

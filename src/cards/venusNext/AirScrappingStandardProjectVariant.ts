@@ -27,7 +27,7 @@ export class AirScrappingStandardProjectVariant extends AirScrappingStandardProj
     });
   }
 
-  protected discount(player: Player): number {
+  public discount(player: Player): number {
     const tagCount = player.getTagCount(Tags.VENUS);
     const discount = Math.min(tagCount, 5);
     return discount + super.discount(player);

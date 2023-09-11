@@ -2343,7 +2343,7 @@ export class Player implements ISerializable<SerializedPlayer> {
     return total;
   }
 
-  private getStandardProjects(): Array<StandardProjectCard> {
+  public getStandardProjects(): Array<StandardProjectCard> {
     return new CardLoader(this.game.gameOptions)
       .getStandardProjects()
       .filter((card) => {
@@ -2377,7 +2377,7 @@ export class Player implements ISerializable<SerializedPlayer> {
       .sort((a, b) => a.cost - b.cost);
   }
 
-  protected getStandardProjectOption(): SelectCard<StandardProjectCard> {
+  public getStandardProjectOption(): SelectCard<StandardProjectCard> {
     const standardProjects: Array<StandardProjectCard> = this.getStandardProjects();
 
     return new SelectCard(

@@ -39,7 +39,7 @@ export class MoonColonyStandardProject extends StandardProjectCard implements IM
 
   public tilesBuilt = [TileType.MOON_COLONY];
 
-  protected discount(player: Player): number {
+  public discount(player: Player): number {
     if (player.playedCards.find((card) => card.name === CardName.MOONCRATE_BLOCK_FACTORY)) {
       return 4 + super.discount(player);
     }
