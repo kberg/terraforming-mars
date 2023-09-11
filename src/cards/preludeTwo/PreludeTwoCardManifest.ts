@@ -10,6 +10,7 @@ import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {CyberiaSystems} from './CyberiaSystems';
 import {EstablishedMethods} from './EstablishedMethods';
+import {GiantSolarCollector} from './GiantSolarCollector';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
@@ -36,6 +37,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.APPLIED_SCIENCE, Factory: AppliedScience},
     {cardName: CardName.ATMOSPHERIC_ENHANCERS, Factory: AtmosphericEnhancers, compatibility: GameModule.Venus},
     {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
+    {cardName: CardName.GIANT_SOLAR_COLLECTOR, Factory: GiantSolarCollector, compatibility: GameModule.Venus},
     {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
   ],
 });

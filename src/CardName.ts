@@ -510,6 +510,7 @@ export enum CardName {
     CLOUD_TOURISM = 'Cloud Tourism',
     CYBERIA_SYSTEMS = 'Cyberia Systems',
     ESTABLISHED_METHODS = 'Established Methods',
+    GIANT_SOLAR_COLLECTOR = 'Giant Solar Collector',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     ST_JOSEPH_OF_CUPERTINO_MISSION = 'St. Joseph of Cupertino Mission',
