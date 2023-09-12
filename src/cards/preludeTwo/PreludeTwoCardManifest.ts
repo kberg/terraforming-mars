@@ -11,6 +11,7 @@ import {CloudTourism} from './CloudTourism';
 import {CyberiaSystems} from './CyberiaSystems';
 import {EstablishedMethods} from './EstablishedMethods';
 import {GiantSolarCollector} from './GiantSolarCollector';
+import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
@@ -25,6 +26,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems},
     {cardName: CardName.CLOUD_TOURISM, Factory: CloudTourism, compatibility: GameModule.Venus},
     {cardName: CardName.CYBERIA_SYSTEMS, Factory: CyberiaSystems},
+    {cardName: CardName.HERMETIC_ORDER_OF_MARS, Factory: HermeticOrderOfMars},
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],
