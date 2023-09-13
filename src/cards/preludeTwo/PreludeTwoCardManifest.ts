@@ -14,6 +14,7 @@ import {EstablishedMethods} from './EstablishedMethods';
 import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
+import {OldMiningColony} from './OldMiningColony';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {TerraformingDeal} from './TerraformingDeal';
@@ -43,5 +44,6 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
     {cardName: CardName.GIANT_SOLAR_COLLECTOR, Factory: GiantSolarCollector, compatibility: GameModule.Venus},
     {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
+    {cardName: CardName.OLD_MINING_COLONY, Factory: OldMiningColony, compatibility: GameModule.Colonies},
   ],
 });

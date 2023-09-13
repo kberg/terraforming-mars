@@ -515,6 +515,7 @@ export enum CardName {
     HERMETIC_ORDER_OF_MARS = 'Hermetic Order of Mars',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
+    OLD_MINING_COLONY = 'Old Mining Colony',
     ST_JOSEPH_OF_CUPERTINO_MISSION = 'St. Joseph of Cupertino Mission',
     TERRAFORMING_DEAL = 'Terraforming Deal',
     TYCHO_MAGNETICS = 'Tycho Magnetics',
