@@ -16,6 +16,7 @@ import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {NirgalEnterprises} from './NirgalEnterprises';
+import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {TerraformingDeal} from './TerraformingDeal';
@@ -45,6 +46,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.COLONY_TRADE_HUB, Factory: ColonyTradeHub, compatibility: GameModule.Colonies},
     {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
     {cardName: CardName.GIANT_SOLAR_COLLECTOR, Factory: GiantSolarCollector, compatibility: GameModule.Venus},
+    {cardName: CardName.NOBEL_PRIZE, Factory: NobelPrize},
     {cardName: CardName.OLD_MINING_COLONY, Factory: OldMiningColony, compatibility: GameModule.Colonies},
     {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
   ],
