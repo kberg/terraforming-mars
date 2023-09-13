@@ -119,6 +119,12 @@ export abstract class Colony implements SerializedColony {
         poseidon.addProduction(Resources.MEGACREDITS, 1);
       }
 
+      // ColonyTradeHub hook
+      const colonyTradeHubOwner = player.game.getPlayers().find((player) => player.playedCards.some((card) => card.name === CardName.COLONY_TRADE_HUB));
+      if (colonyTradeHubOwner !== undefined) {
+        colonyTradeHubOwner.addResource(Resources.MEGACREDITS, 2);
+      }
+
       if (player.cardIsInEffect(CardName.NAOMI)) {
         player.addResource(Resources.ENERGY, 2, {log: true});
         player.addResource(Resources.MEGACREDITS, 3, {log: true});

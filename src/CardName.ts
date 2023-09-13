@@ -508,6 +508,7 @@ export enum CardName {
     ATMOSPHERIC_ENHANCERS = 'Atmospheric Enhancers',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
+    COLONY_TRADE_HUB = 'Colony Trade Hub',
     CYBERIA_SYSTEMS = 'Cyberia Systems',
     ECOTEC = 'Ecotec',
     ESTABLISHED_METHODS = 'Established Methods',

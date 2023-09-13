@@ -8,14 +8,15 @@ import {AstraMechanica} from './AstraMechanica';
 import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
+import {ColonyTradeHub} from './ColonyTradeHub';
 import {CyberiaSystems} from './CyberiaSystems';
 import {Ecotec} from './Ecotec';
 import {EstablishedMethods} from './EstablishedMethods';
 import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
-import {OldMiningColony} from './OldMiningColony';
 import {NirgalEnterprises} from './NirgalEnterprises';
+import {OldMiningColony} from './OldMiningColony';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {TerraformingDeal} from './TerraformingDeal';
 import {TychoMagnetics} from './TychoMagnetics';
@@ -41,9 +42,10 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ANTI_DESERTIFICATION_TECHNIQUES, Factory: AntiDesertificationTechniques},
     {cardName: CardName.APPLIED_SCIENCE, Factory: AppliedScience},
     {cardName: CardName.ATMOSPHERIC_ENHANCERS, Factory: AtmosphericEnhancers, compatibility: GameModule.Venus},
+    {cardName: CardName.COLONY_TRADE_HUB, Factory: ColonyTradeHub, compatibility: GameModule.Colonies},
     {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
     {cardName: CardName.GIANT_SOLAR_COLLECTOR, Factory: GiantSolarCollector, compatibility: GameModule.Venus},
-    {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
     {cardName: CardName.OLD_MINING_COLONY, Factory: OldMiningColony, compatibility: GameModule.Colonies},
+    {cardName: CardName.TERRAFORMING_DEAL, Factory: TerraformingDeal},
   ],
 });
