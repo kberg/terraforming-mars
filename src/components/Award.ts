@@ -50,7 +50,6 @@ export const Award = Vue.component('award', {
     },
     getClassForAwardTile: function(award: FundedAwardModel) {
       if (award.scores.length > 0) return 'ma-block';
-      if (this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) return 'ma-block';
       return 'ma-block ma-block-grayscale';
     },
     getAvailableAwardSpots: function(): Array<number | string> {
@@ -65,7 +64,7 @@ export const Award = Vue.component('award', {
         if (this.spectator) {
           return Array(this.awards_list.length - numFundedAwards).fill('?');
         } else {
-          return Array(this.awards_list.length - numFundedAwards).fill(6);
+          return Array(this.awards_list.length - numFundedAwards).fill(0);
         }
       }
 

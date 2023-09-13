@@ -15,18 +15,18 @@ export class NirgalEnterprises extends Card implements CorporationCard {
       cardType: CardType.CORPORATION,
       name: CardName.NIRGAL_ENTERPRISES,
       tags: [Tags.ENERGY, Tags.PLANT, Tags.BUILDING],
-      startingMegaCredits: 27,
+      startingMegaCredits: 33,
       productionBox: Units.of({energy: 1, plants:1, steel: 1}),
 
       metadata: {
         cardNumber: '??',
-        description: 'You start with 27 M€. Increase your energy, plant and steel production 1 step each.',
+        description: 'You start with 33 M€. Increase your energy, plant and steel production 1 step each.',
         renderData: CardRenderer.builder((b) => {
           b.br.br;
-          b.megacredits(27).production((pb) => pb.energy(1).plants(1).steel(1)).nbsp();
+          b.megacredits(33).production((pb) => pb.energy(1).plants(1).steel(1)).nbsp();
           b.corpBox('effect', (ce) => {
             ce.vSpace(Size.SMALL);
-            ce.text('AWARDS AND MILESTONES ALWAYS COST 6 M€ FOR YOU. YOU MAY FUND AWARDS AND CLAIM MILESTONES EVEN IF 3 ARE ALREADY TAKEN.', Size.SMALL);
+            ce.text('AWARDS AND MILESTONES ALWAYS COST 0 M€ FOR YOU.', Size.SMALL);
           });
         }),
       },

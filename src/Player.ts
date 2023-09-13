@@ -2050,12 +2050,19 @@ export class Player implements ISerializable<SerializedPlayer> {
     return trade;
   }
 
+  private getMilestoneCost(): number {
+    if (this.cardIsInEffect(CardName.VAN_ALLEN)) return 0;
+    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES)) return 0;
+    if (this.game.gameOptions.automaSoloVariant) return 0;
+
+    return MILESTONE_COST;
+  }
+
   public claimMilestone(milestone: IMilestone): SelectOption {
     return new SelectOption(milestone.name, 'Claim - ' + '('+ milestone.name + ')', () => {
       this.game.claimedMilestones.push({player: this, milestone: milestone});
 
-      let cost = MILESTONE_COST;
-      if (this.cardIsInEffect(CardName.VAN_ALLEN) || this.game.gameOptions.automaSoloVariant) cost = 0;
+      const cost = this.getMilestoneCost();
       this.game.defer(new SelectHowToPayDeferred(this, cost, {title: 'Select how to pay for milestone'}));
 
       if (milestone.name === 'Monument') Monument.discardCards(this);
@@ -2646,22 +2653,22 @@ export class Player implements ISerializable<SerializedPlayer> {
     });
   }
 
-  private canAffordMilestone(): boolean {
+  public canAffordMilestone(): boolean {
     if (this.canAfford(MILESTONE_COST)) return true;
     if (this.cardIsInEffect(CardName.VAN_ALLEN)) return true;
     if (this.game.gameOptions.automaSoloVariant) return true;
-    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES) && this.canAfford(6)) return true;
+    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES)) return true;
 
     return false;
   }
 
   public canClaimMilestone(): boolean {
-    if (this.game.allMilestonesClaimed(this)) return false;
+    if (this.game.allMilestonesClaimed()) return false;
     return true;
   }
 
   public canFundAward(): boolean {
-    if (this.game.allAwardsFunded(this)) return false;
+    if (this.game.allAwardsFunded()) return false;
     return true;
   }
 

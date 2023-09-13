@@ -22,23 +22,15 @@ describe('NirgalEnterprises', function() {
     expect(player.getProduction(Resources.STEEL)).eq(1);
   });
 
-  it('Corp owner always claim extra milestones', function() {
+  it('Corp owner can claim milestones for free', function() {
     player.corporationCards = [card];
-    game.claimedMilestones.push({player: player, milestone: game.milestones[0]});
-    game.claimedMilestones.push({player: player2, milestone: game.milestones[1]});
-    game.claimedMilestones.push({player: player2, milestone: game.milestones[2]});
-
-    expect(player2.canClaimMilestone()).is.false;
-    expect(player.canClaimMilestone()).is.true;
+    player.megaCredits = 0;
+    expect(player.canAffordMilestone()).is.true;
   });
 
-  it('Corp owner always fund extra awards', function() {
+  it('Corp owner can fund awards for free', function() {
     player.corporationCards = [card];
-    game.fundedAwards.push({player: player, award: game.awards[0]});
-    game.fundedAwards.push({player: player2, award: game.awards[1]});
-    game.fundedAwards.push({player: player2, award: game.awards[2]});
-
-    expect(player2.canFundAward()).is.false;
-    expect(player.canFundAward()).is.true;
+    player.megaCredits = 0;
+    expect(game.getAwardFundingCost(player)).eq(0);
   });
 });

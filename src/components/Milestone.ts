@@ -28,7 +28,7 @@ export const Milestone = Vue.component('milestone', {
     const collapse_milestones: boolean = PreferencesManager.loadBoolean('collapse_milestones');
 
     let showList = this.milestones_list.filter((milestone) => milestone.player_name).length === MAX_MILESTONES ? false : !collapse_milestones;
-    if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) showList = true;
+    if (this.automaSoloVariant) showList = true;
 
     return {
       showList: showList,
@@ -57,14 +57,14 @@ export const Milestone = Vue.component('milestone', {
     getClassForMilestoneTile: function(milestone: ClaimedMilestoneModel) {
       if (milestone.player_name) return 'ma-block ma-block-grayscale pwned-item';
       if (milestone.scores.length > 0) return 'ma-block';
-      if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) return 'ma-block';
+      if (this.automaSoloVariant) return 'ma-block';
       return 'ma-block ma-block-grayscale';
     },
     getAvailableMilestoneSpots: function(): Array<number | string> {
       const count = this.milestones_list.filter((milestone) => milestone.player_name).length;
 
       let maxMilestones = MAX_MILESTONES;
-      if (this.automaSoloVariant || this.corporations.some((c) => c.name === CardName.NIRGAL_ENTERPRISES)) maxMilestones =  this.milestones_list.length;
+      if (this.automaSoloVariant) maxMilestones =  this.milestones_list.length;
 
       let milestoneCost: number | string = MILESTONE_COST;
 
@@ -74,7 +74,7 @@ export const Milestone = Vue.component('milestone', {
         if (this.spectator) {
           milestoneCost = '?';
         } else {
-          milestoneCost = 6;
+          milestoneCost = 0;
         }
       }
 

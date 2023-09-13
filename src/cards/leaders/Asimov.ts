@@ -38,7 +38,7 @@ export class Asimov extends Card implements LeaderCard {
   }
 
   public canAct(player: Player): boolean {
-    return !player.game.allAwardsFunded(player) && this.isDisabled === false;
+    return !player.game.allAwardsFunded() && this.isDisabled === false;
   }
 
   public action(player: Player): PlayerInput | undefined {

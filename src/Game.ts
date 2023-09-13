@@ -698,12 +698,12 @@ export class Game implements ISerializable<SerializedGame> {
   }
 
   public getAwardFundingCost(player: Player): number {
-    if (player.isCorporation(CardName.NIRGAL_ENTERPRISES)) return 6;
+    if (player.isCorporation(CardName.NIRGAL_ENTERPRISES)) return 0;
     return 8 + (6 * this.fundedAwards.length);
   }
 
   public fundAward(player: Player, award: IAward): void {
-    if (this.allAwardsFunded(player)) {
+    if (this.allAwardsFunded()) {
       throw new Error('All awards already funded');
     }
     this.log('${0} funded ${1} award',
@@ -721,14 +721,13 @@ export class Game implements ISerializable<SerializedGame> {
     ) !== undefined;
   }
 
-  public allAwardsFunded(player: Player): boolean {
+  public allAwardsFunded(): boolean {
     // Awards are disabled for 1 player games
     if (this.isSoloMode()) return true;
-    if (player.isCorporation(CardName.NIRGAL_ENTERPRISES)) return false;
     return this.fundedAwards.length >= constants.MAX_AWARDS;
   }
 
-  public allMilestonesClaimed(player: Player): boolean {
+  public allMilestonesClaimed(): boolean {
     // Milestones are disabled for solo games, except in Automa variant
     if (this.isSoloMode()) {
       if (this.gameOptions.automaSoloVariant === false) {
@@ -738,8 +737,6 @@ export class Game implements ISerializable<SerializedGame> {
         return this.claimedMilestones.length === this.milestones.length;
       }
     }
-
-    if (player.isCorporation(CardName.NIRGAL_ENTERPRISES)) return false;
 
     return this.claimedMilestones.length >= constants.MAX_MILESTONES;
   }
