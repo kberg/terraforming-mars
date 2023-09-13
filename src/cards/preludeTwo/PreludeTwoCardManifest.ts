@@ -9,6 +9,7 @@ import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
 import {CloudTourism} from './CloudTourism';
 import {CyberiaSystems} from './CyberiaSystems';
+import {Ecotec} from './Ecotec';
 import {EstablishedMethods} from './EstablishedMethods';
 import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
@@ -31,6 +32,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],
   corporationCards: [
+    {cardName: CardName.ECOTEC, Factory: Ecotec},
     {cardName: CardName.NIRGAL_ENTERPRISES, Factory: NirgalEnterprises},
     {cardName: CardName.TYCHO_MAGNETICS, Factory: TychoMagnetics},
   ],

@@ -509,6 +509,7 @@ export enum CardName {
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
     CLOUD_TOURISM = 'Cloud Tourism',
     CYBERIA_SYSTEMS = 'Cyberia Systems',
+    ECOTEC = 'Ecotec',
     ESTABLISHED_METHODS = 'Established Methods',
     GIANT_SOLAR_COLLECTOR = 'Giant Solar Collector',
     HERMETIC_ORDER_OF_MARS = 'Hermetic Order of Mars',
