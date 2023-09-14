@@ -16,6 +16,7 @@ import {FocusedOrganization} from './FocusedOrganization';
 import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
+import {IshtarExpedition} from './IshtarExpedition';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
@@ -33,6 +34,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.CYBERIA_SYSTEMS, Factory: CyberiaSystems},
     {cardName: CardName.HERMETIC_ORDER_OF_MARS, Factory: HermeticOrderOfMars},
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
+    {cardName: CardName.ISHTAR_EXPEDITION, Factory: IshtarExpedition},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],
   corporationCards: [

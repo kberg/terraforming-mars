@@ -516,6 +516,7 @@ export enum CardName {
     GIANT_SOLAR_COLLECTOR = 'Giant Solar Collector',
     HERMETIC_ORDER_OF_MARS = 'Hermetic Order of Mars',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
+    ISHTAR_EXPEDITION = 'Ishtar Expedition',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     NOBEL_PRIZE = 'Nobel Prize',
     OLD_MINING_COLONY = 'Old Mining Colony',
