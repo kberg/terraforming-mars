@@ -51,7 +51,7 @@ export class Ecotec extends Card implements CorporationCard {
 
     const microbeCards = player.getResourceCards(ResourceType.MICROBE);
     if (microbeCards.length === 0) {
-      player.addResource(Resources.PLANTS, bioTagCount);
+      player.addResource(Resources.PLANTS, bioTagCount, {log: true});
       return undefined;
     }
 
@@ -72,7 +72,7 @@ export class Ecotec extends Card implements CorporationCard {
     }
 
     orOptions.options.push(new SelectOption('Gain plant', 'Save', () => {
-      player.plants++;
+      player.addResource(Resources.PLANTS, 1, {log: true});
       return undefined;
     }));
 

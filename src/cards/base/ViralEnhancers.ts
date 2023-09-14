@@ -3,13 +3,13 @@ import {Tags} from '../Tags';
 import {Card} from '../Card';
 import {CardType} from '../CardType';
 import {Player} from '../../Player';
-
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {CardName} from '../../CardName';
 import {ResourceType} from '../../ResourceType';
 import {DeferredAction} from '../../deferredActions/DeferredAction';
 import {CardRenderer} from '../render/CardRenderer';
+import {Resources} from '../../Resources';
 
 export class ViralEnhancers extends Card implements IProjectCard {
   constructor() {
@@ -39,7 +39,7 @@ export class ViralEnhancers extends Card implements IProjectCard {
     }
 
     if (card.resourceType !== ResourceType.ANIMAL && card.resourceType !== ResourceType.MICROBE) {
-      player.plants += resourceCount;
+      player.addResource(Resources.PLANTS, resourceCount, {log: true});
       return undefined;
     }
 
@@ -48,11 +48,11 @@ export class ViralEnhancers extends Card implements IProjectCard {
         player,
         () => new OrOptions(
           new SelectOption('Add resource to card ' + card.name, 'Add resource', () => {
-            player.addResourceTo(card);
+            player.addResourceTo(card, {log: true});
             return undefined;
           }),
           new SelectOption('Gain plant', 'Save', () => {
-            player.plants++;
+            player.addResource(Resources.PLANTS, 1, {log: true});
             return undefined;
           }),
         ),
