@@ -507,6 +507,7 @@ export enum CardName {
     ASTRA_MECHANICA = 'Astra Mechanica',
     ATMOSPHERIC_ENHANCERS = 'Atmospheric Enhancers',
     CARBON_NANOSYSTEMS = 'Carbon Nanosystems',
+    CERES_TECH_MARKET = 'Ceres Tech Market',
     CLOUD_TOURISM = 'Cloud Tourism',
     COLONY_TRADE_HUB = 'Colony Trade Hub',
     CYBERIA_SYSTEMS = 'Cyberia Systems',

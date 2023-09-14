@@ -7,6 +7,7 @@ import {AqueductSystems} from './AqueductSystems';
 import {AstraMechanica} from './AstraMechanica';
 import {AtmosphericEnhancers} from './AtmosphericEnhancers';
 import {CarbonNanosystems} from './CarbonNanosystems';
+import {CeresTechMarket} from './CeresTechMarket';
 import {CloudTourism} from './CloudTourism';
 import {ColonyTradeHub} from './ColonyTradeHub';
 import {CyberiaSystems} from './CyberiaSystems';
@@ -30,6 +31,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ASTRA_MECHANICA, Factory: AstraMechanica},
     {cardName: CardName.AQUEDUCT_SYSTEMS, Factory: AqueductSystems},
     {cardName: CardName.CARBON_NANOSYSTEMS, Factory: CarbonNanosystems},
+    {cardName: CardName.CERES_TECH_MARKET, Factory: CeresTechMarket, compatibility: GameModule.Colonies},
     {cardName: CardName.CLOUD_TOURISM, Factory: CloudTourism, compatibility: GameModule.Venus},
     {cardName: CardName.CYBERIA_SYSTEMS, Factory: CyberiaSystems},
     {cardName: CardName.HERMETIC_ORDER_OF_MARS, Factory: HermeticOrderOfMars},
