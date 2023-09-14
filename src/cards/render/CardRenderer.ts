@@ -418,6 +418,11 @@ class Builder {
     return this;
   }
 
+  public diverseResource(amount: number) {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.DIVERSE_RESOURCE, amount));
+    return this;
+  }
+
   public fighter(amount: number = 1) {
     this._addRowItem(new CardRenderItem(CardRenderItemType.FIGHTER, amount));
     return this;

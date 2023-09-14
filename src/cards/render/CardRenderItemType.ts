@@ -42,6 +42,7 @@ export enum CardRenderItemType {
   CAMPS = 'camps',
   CATHEDRALS = 'cathedrals',
   DIVERSE_TAG = 'diverse_tag',
+  DIVERSE_RESOURCE = 'diverse_resource',
   CITY = 'city',
   GREENERY = 'greenery',
   PLATE = 'plate',

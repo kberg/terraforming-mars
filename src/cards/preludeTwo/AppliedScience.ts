@@ -10,6 +10,8 @@ import {OrOptions} from '../../inputs/OrOptions';
 import {ICard, IResourceCard} from '../ICard';
 import {SelectOption} from '../../inputs/SelectOption';
 import {SelectCard} from '../../inputs/SelectCard';
+import {LogHelper} from '../../LogHelper';
+import {RobotCard} from '../promo/SelfReplicatingRobots';
 
 export class AppliedScience extends PreludeCard implements IProjectCard, IResourceCard {
   constructor() {
@@ -50,12 +52,23 @@ export class AppliedScience extends PreludeCard implements IProjectCard, IResour
       return true;
     });
 
-    if (cardsWithResources.length > 0) {
+    const robotCards = player.getSelfReplicatingRobotsTargetCards();
+    const targets = cardsWithResources.concat(robotCards.map((c) => c.card));
+
+    if (targets.length > 0) {
       orOptions.options.push(new SelectOption('Remove 1 Science resource to add 1 resource to a card with at least 1 resource', 'Select', () => {
         player.removeResourceFrom(this, 1);
 
-        if (cardsWithResources.length === 1) {
-          player.addResourceTo(cardsWithResources[0], {log: true});
+        if (targets.length === 1) {
+          const robotCard: RobotCard | undefined = robotCards.find((c) => c.card.name === targets[0].name);
+
+          if (robotCard) {
+          robotCard.resourceCount++;
+          LogHelper.logAddResource(player, robotCard.card);
+          } else {
+          player.addResourceTo(targets[0], {log: true});
+          }
+
           return undefined;
         }
 
@@ -64,7 +77,15 @@ export class AppliedScience extends PreludeCard implements IProjectCard, IResour
           'Add resource',
           cardsWithResources,
           (cards: Array<ICard>) => {
+            const robotCard: RobotCard | undefined = robotCards.find((c) => c.card.name === cards[0].name);
+
+            if (robotCard) {
+            robotCard.resourceCount++;
+            LogHelper.logAddResource(player, robotCard.card);
+            } else {
             player.addResourceTo(cards[0], {log: true});
+            }
+
             return undefined;
           },
         );
