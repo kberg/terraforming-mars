@@ -22,6 +22,7 @@ import {LiTradeTerminal} from './LiTradeTerminal';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
+import {RedAppeasement} from './RedAppeasement';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {TerraformingDeal} from './TerraformingDeal';
 import {TychoMagnetics} from './TychoMagnetics';
@@ -39,6 +40,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
     {cardName: CardName.ISHTAR_EXPEDITION, Factory: IshtarExpedition},
     {cardName: CardName.LI_TRADE_TERMINAL, Factory: LiTradeTerminal, compatibility: GameModule.Colonies},
+    {cardName: CardName.RED_APPEASEMENT, Factory: RedAppeasement, compatibility: GameModule.Turmoil},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
   ],
   corporationCards: [
