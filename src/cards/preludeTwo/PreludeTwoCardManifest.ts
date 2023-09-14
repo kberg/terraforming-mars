@@ -24,6 +24,7 @@ import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
 import {RedAppeasement} from './RedAppeasement';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
+import {SummitLogistics} from './SummitLogistics';
 import {TerraformingDeal} from './TerraformingDeal';
 import {TychoMagnetics} from './TychoMagnetics';
 
@@ -42,6 +43,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.LI_TRADE_TERMINAL, Factory: LiTradeTerminal, compatibility: GameModule.Colonies},
     {cardName: CardName.RED_APPEASEMENT, Factory: RedAppeasement, compatibility: GameModule.Turmoil},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
+    {cardName: CardName.SUMMIT_LOGISTICS, Factory: SummitLogistics, compatibility: GameModule.Turmoil},
   ],
   corporationCards: [
     {cardName: CardName.ECOTEC, Factory: Ecotec},

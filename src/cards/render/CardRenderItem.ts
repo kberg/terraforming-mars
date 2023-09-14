@@ -48,6 +48,7 @@ export class CardRenderItem {
   public isBold?: boolean; // for bold text
   public isPlate?: boolean; // used to mark plate a.k.a. text with golden background
   public isGreyPlate?: boolean; // used to mark plate a.k.a. text with grey background
+  public compact?: boolean; // used to compact adjacent items by reducing default margins
   public size?: Size;
   // adding tag dependency (top right bubble)
   public secondaryTag?: Tags | AltSecondaryTag;

@@ -291,6 +291,10 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         }
       }
 
+      if (this.item.compact === true) {
+        classes.push('compact');
+      }
+
       // act upon any player
       if (this.item.anyPlayer === true) {
         if (type === CardRenderItemType.DELEGATES) {

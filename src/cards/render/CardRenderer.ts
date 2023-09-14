@@ -177,9 +177,10 @@ class Builder {
     return this;
   }
 
-  public venus(amount: number, size: Size = Size.MEDIUM): Builder {
+  public venus(amount: number, size: Size = Size.MEDIUM, compact: boolean = false): Builder {
     const item = new CardRenderItem(CardRenderItemType.VENUS, amount);
     item.size = size;
+    item.compact = compact;
     this._addRowItem(item);
     return this;
   }
@@ -272,8 +273,10 @@ class Builder {
     return this;
   }
 
-  public earth(amount: number = -1): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.EARTH, amount));
+  public earth(amount: number = -1, compact: boolean = false): Builder {
+    const item = new CardRenderItem(CardRenderItemType.EARTH, amount);
+    item.compact = compact;
+    this._addRowItem(item);
     return this;
   }
 
@@ -282,8 +285,10 @@ class Builder {
     return this;
   }
 
-  public jovian(): Builder {
-    this._addRowItem(new CardRenderItem(CardRenderItemType.JOVIAN));
+  public jovian(compact: boolean = false): Builder {
+    const item = new CardRenderItem(CardRenderItemType.JOVIAN);
+    item.compact = compact;
+    this._addRowItem(item);
     return this;
   }
 
