@@ -512,6 +512,7 @@ export enum CardName {
     CYBERIA_SYSTEMS = 'Cyberia Systems',
     ECOTEC = 'Ecotec',
     ESTABLISHED_METHODS = 'Established Methods',
+    FOCUSED_ORGANIZATION = 'Focused Organization',
     GIANT_SOLAR_COLLECTOR = 'Giant Solar Collector',
     HERMETIC_ORDER_OF_MARS = 'Hermetic Order of Mars',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',

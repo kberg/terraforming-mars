@@ -12,6 +12,7 @@ import {ColonyTradeHub} from './ColonyTradeHub';
 import {CyberiaSystems} from './CyberiaSystems';
 import {Ecotec} from './Ecotec';
 import {EstablishedMethods} from './EstablishedMethods';
+import {FocusedOrganization} from './FocusedOrganization';
 import {GiantSolarCollector} from './GiantSolarCollector';
 import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
@@ -45,6 +46,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.ATMOSPHERIC_ENHANCERS, Factory: AtmosphericEnhancers, compatibility: GameModule.Venus},
     {cardName: CardName.COLONY_TRADE_HUB, Factory: ColonyTradeHub, compatibility: GameModule.Colonies},
     {cardName: CardName.ESTABLISHED_METHODS, Factory: EstablishedMethods},
+    {cardName: CardName.FOCUSED_ORGANIZATION, Factory: FocusedOrganization},
     {cardName: CardName.GIANT_SOLAR_COLLECTOR, Factory: GiantSolarCollector, compatibility: GameModule.Venus},
     {cardName: CardName.NOBEL_PRIZE, Factory: NobelPrize},
     {cardName: CardName.OLD_MINING_COLONY, Factory: OldMiningColony, compatibility: GameModule.Colonies},

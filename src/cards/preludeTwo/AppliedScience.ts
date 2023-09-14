@@ -42,7 +42,7 @@ export class AppliedScience extends PreludeCard implements IProjectCard, IResour
 
     orOptions.options.push(new SelectOption('Remove 1 Science resource to gain 1 standard resource', 'Select', () => {
       player.removeResourceFrom(this, 1);
-      return this.gainStandardResourceOptions(player);
+      return AppliedScience.gainStandardResourceOptions(player);
     }));
 
     const cardsWithResources = player.getCardsWithResources().filter((c) => {
@@ -80,7 +80,7 @@ export class AppliedScience extends PreludeCard implements IProjectCard, IResour
     return undefined;
   }
 
-  private gainStandardResourceOptions(player: Player) {
+  public static gainStandardResourceOptions(player: Player) {
     return new OrOptions(
       new SelectOption('Gain 1 titanium', 'Gain titanium', () => {
         player.addResource(Resources.TITANIUM, 1, {log: true});
