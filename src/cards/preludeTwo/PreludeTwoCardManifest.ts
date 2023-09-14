@@ -23,6 +23,7 @@ import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
 import {RedAppeasement} from './RedAppeasement';
+import {PalladinShipping} from './PalladinShipping';
 import {StJosephOfCupertinoMission} from './StJosephOfCupertinoMission';
 import {SummitLogistics} from './SummitLogistics';
 import {TerraformingDeal} from './TerraformingDeal';
@@ -48,6 +49,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   corporationCards: [
     {cardName: CardName.ECOTEC, Factory: Ecotec},
     {cardName: CardName.NIRGAL_ENTERPRISES, Factory: NirgalEnterprises},
+    {cardName: CardName.PALLADIN_SHIPPING, Factory: PalladinShipping},
     {cardName: CardName.TYCHO_MAGNETICS, Factory: TychoMagnetics},
   ],
   preludeCards: [

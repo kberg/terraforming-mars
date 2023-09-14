@@ -223,6 +223,8 @@ export const CardCorporationLogo = Vue.component('CardCorporationLogo', {
         return '<span class="card-nirgal-enterprises-logo">Nirgal<br/>Enterprises</span>';
       case CardName.ECOTEC:
         return '<div class="card-ecotec-logo"></div>';
+      case CardName.PALLADIN_SHIPPING:
+        return '<div class="card-palladin-shipping-logo"></div>';
       }
       return '';
     },

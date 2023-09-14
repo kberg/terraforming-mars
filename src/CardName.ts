@@ -522,6 +522,7 @@ export enum CardName {
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     NOBEL_PRIZE = 'Nobel Prize',
     OLD_MINING_COLONY = 'Old Mining Colony',
+    PALLADIN_SHIPPING = 'Palladin Shipping',
     RED_APPEASEMENT = 'Red Appeasement',
     ST_JOSEPH_OF_CUPERTINO_MISSION = 'St. Joseph of Cupertino Mission',
     SUMMIT_LOGISTICS = 'Summit Logistics',
