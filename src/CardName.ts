@@ -518,6 +518,7 @@ export enum CardName {
     HERMETIC_ORDER_OF_MARS = 'Hermetic Order of Mars',
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     ISHTAR_EXPEDITION = 'Ishtar Expedition',
+    KAGUYA_TECH = 'Kaguya Tech',
     LI_TRADE_TERMINAL = 'Li Trade Terminal',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     NOBEL_PRIZE = 'Nobel Prize',
