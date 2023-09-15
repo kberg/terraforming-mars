@@ -525,6 +525,7 @@ export enum CardName {
     OLD_MINING_COLONY = 'Old Mining Colony',
     PALLADIN_SHIPPING = 'Palladin Shipping',
     RED_APPEASEMENT = 'Red Appeasement',
+    SAGITTA_FRONTIER_SERVICES = 'Sagitta Frontier Services',
     ST_JOSEPH_OF_CUPERTINO_MISSION = 'St. Joseph of Cupertino Mission',
     SUMMIT_LOGISTICS = 'Summit Logistics',
     TERRAFORMING_DEAL = 'Terraforming Deal',

@@ -122,6 +122,14 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         } else {
           classes.push('card-resource-tag card-resource-diverse card-tag-medium');
         }
+      } else if (type === CardRenderItemType.BLANK_TAG) {
+        classes.push('card-resource-blank');
+
+        if (this.item.size === Size.SMALL) {
+          classes.push('card-tag-small');
+        } else {
+          classes.push('card-tag-medium');
+        }
       } else if (type === CardRenderItemType.DIVERSE_RESOURCE) {
         classes.push('card-resource card-resource-diverse diverse-resource');
       } else if (type === CardRenderItemType.SCIENCE) {
@@ -154,6 +162,14 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.NO_TAGS) {
         classes.push('card-resource-tag');
         classes.push('card-community-services');
+      } else if (type === CardRenderItemType.EMPTY_TAG) {
+        classes.push('card-tag-none');
+
+        if (this.item.size === Size.SMALL) {
+          classes.push('card-tag-small');
+        } else {
+          classes.push('card-tag-medium');
+        }
       } else if (type === CardRenderItemType.CITY) {
         classes.push('card-tile');
         classes.push(`city-tile--${this.item.size}`);

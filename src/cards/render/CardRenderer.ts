@@ -428,6 +428,22 @@ class Builder {
     return this;
   }
 
+  public emptyTag(amount: number = 1, size?: Size) {
+    const item = new CardRenderItem(CardRenderItemType.EMPTY_TAG, amount);
+    item.isPlayed = true;
+    item.size = size;
+    this._addRowItem(item);
+    return this;
+  }
+
+  public blankTag(amount: number = 1, size?: Size) {
+    const item = new CardRenderItem(CardRenderItemType.BLANK_TAG, amount);
+    item.isPlayed = true;
+    item.size = size;
+    this._addRowItem(item);
+    return this;
+  }
+
   public fighter(amount: number = 1) {
     this._addRowItem(new CardRenderItem(CardRenderItemType.FIGHTER, amount));
     return this;

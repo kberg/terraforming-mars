@@ -41,11 +41,19 @@ export class Ecotec extends Card implements CorporationCard {
 
   public play(player: Player) {
     player.addProduction(Resources.PLANTS, 1);
-    this.onCardPlayed(player, this);
+    this.onCorpCardPlayed(player, this);
     return undefined;
   }
 
   public onCardPlayed(player: Player, card: IProjectCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  public onCorpCardPlayed(player: Player, card: CorporationCard) {
+    return this._onCardPlayed(player, card);
+  }
+
+  public _onCardPlayed(player: Player, card: IProjectCard | CorporationCard) {
     const bioTagCount = card.tags.filter((tag) => tag === Tags.ANIMAL || tag === Tags.PLANT || tag === Tags.MICROBE).length;
     if (bioTagCount === 0) return undefined;
 

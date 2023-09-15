@@ -43,6 +43,10 @@ export enum CardRenderItemType {
   CATHEDRALS = 'cathedrals',
   DIVERSE_TAG = 'diverse_tag',
   DIVERSE_RESOURCE = 'diverse_resource',
+  // Tag circle with grey background and the word "none"
+  EMPTY_TAG = 'empty_tag',
+  // Tag circle with white background
+  BLANK_TAG = 'blank_tag',
   CITY = 'city',
   GREENERY = 'greenery',
   PLATE = 'plate',
