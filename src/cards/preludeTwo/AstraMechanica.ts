@@ -56,6 +56,7 @@ export class AstraMechanica extends Card implements IProjectCard {
       CardName.LAVA_FLOWS,
       CardName.LAVA_FLOWS_ARES,
       CardName.METALLIC_ASTEROID,
+      CardName.LUNAR_MINE_URBANIZATION,
     ];
 
     return player.playedCards.filter((card) => {
