@@ -60,6 +60,7 @@ export class MareNubiumMine extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

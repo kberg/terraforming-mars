@@ -50,6 +50,7 @@ export class PoliticalAlliance extends Card implements IProjectCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

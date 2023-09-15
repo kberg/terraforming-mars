@@ -47,6 +47,7 @@ export class AirScrappingStandardProject extends StandardProjectCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return player.canAfford(this.cost - this.discount(player));
   }
 

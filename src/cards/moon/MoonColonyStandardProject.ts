@@ -68,6 +68,7 @@ export class MoonColonyStandardProject extends StandardProjectCard implements IM
       return this.howToAffordReds.canAfford && player.titanium >= reserveUnits.titanium;
     }
 
+    this.howToAffordReds = undefined;
     return super.canAct(player);
   }
 

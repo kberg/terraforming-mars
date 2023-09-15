@@ -67,6 +67,7 @@ export class JovianLanterns extends Card implements IProjectCard, IResourceCard 
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

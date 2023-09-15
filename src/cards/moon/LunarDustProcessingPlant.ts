@@ -55,6 +55,7 @@ export class LunarDustProcessingPlant extends MoonCard implements IProjectCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

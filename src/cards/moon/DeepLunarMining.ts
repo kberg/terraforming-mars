@@ -57,6 +57,7 @@ export class DeepLunarMining extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

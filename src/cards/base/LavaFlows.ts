@@ -73,6 +73,7 @@ export class LavaFlows extends Card implements IProjectCard {
 
       return canPlaceTile && this.howToAffordReds.canAfford;
     } else {
+      this.howToAffordReds = undefined;
       return canPlaceTile;
     }
   }

@@ -57,6 +57,8 @@ export class PROffice extends Card implements IProjectCard {
       }
 
       canAffordReds = this.howToAffordReds.canAfford;
+    } else {
+      this.howToAffordReds = undefined;
     }
 
     if (turmoil.parties.find((p) => p.name === PartyName.UNITY)) {

@@ -49,6 +49,7 @@ export class DeepWellHeating extends Card implements IProjectCard {
 
       return this.howToAffordReds.canAfford;
     } else {
+      this.howToAffordReds = undefined;
       return true;
     }
   }

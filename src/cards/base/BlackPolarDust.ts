@@ -54,6 +54,7 @@ export class BlackPolarDust extends Card implements IProjectCard {
       return hasEnoughMegacreditProduction && this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return hasEnoughMegacreditProduction;
   }
 

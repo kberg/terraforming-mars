@@ -87,6 +87,7 @@ export class DarksideSmugglersUnion extends Card implements IProjectCard, IActio
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

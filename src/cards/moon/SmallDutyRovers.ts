@@ -60,6 +60,7 @@ export class SmallDutyRovers extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

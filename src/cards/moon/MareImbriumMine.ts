@@ -62,6 +62,7 @@ export class MareImbriumMine extends MoonCard implements IProjectCard, IMoonCard
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

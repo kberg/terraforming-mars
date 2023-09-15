@@ -62,6 +62,7 @@ export class MareNectarisMine extends MoonCard implements IProjectCard, IMoonCar
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

@@ -59,6 +59,7 @@ export class ColonistShuttles extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

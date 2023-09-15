@@ -52,6 +52,7 @@ export class OrbitalReflectors extends Card {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

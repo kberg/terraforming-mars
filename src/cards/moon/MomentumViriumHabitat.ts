@@ -64,6 +64,7 @@ export class MomentumViriumHabitat extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 

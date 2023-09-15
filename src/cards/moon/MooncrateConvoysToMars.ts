@@ -54,6 +54,8 @@ export class MooncrateConvoysToMars extends Card {
       }
 
       canAffordReds = this.howToAffordReds.canAfford;
+    } else {
+      this.howToAffordReds = undefined;
     }
 
     const turmoil = Turmoil.getTurmoil(player.game);

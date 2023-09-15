@@ -60,6 +60,7 @@ export class ArtificialLake extends Card implements IProjectCard {
       return canPlaceTile && this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return canPlaceTile;
   }
 

@@ -67,6 +67,7 @@ export class MoonRoadStandardProject extends StandardProjectCard implements IMoo
       return this.howToAffordReds.canAfford && player.steel >= reserveUnits.steel;
     }
 
+    this.howToAffordReds = undefined;
     return super.canAct(player);
   }
 

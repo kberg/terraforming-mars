@@ -56,6 +56,7 @@ export class LunaStagingStation extends MoonCard {
       return this.howToAffordReds.canAfford;
     }
 
+    this.howToAffordReds = undefined;
     return true;
   }
 
