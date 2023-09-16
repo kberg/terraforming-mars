@@ -59,6 +59,10 @@ export abstract class StandardProjectCard extends Card implements IActionCard, I
   }
 
   public canAct(player: Player): boolean {
+    if (player.isCorporation(CardName.KUIPER_COOPERATIVE) && (this.name === CardName.ASTEROID_STANDARD_PROJECT || this.name === CardName.AQUIFER_STANDARD_PROJECT)) {
+      return player.canAfford(this.cost - this.discount(player), {asteroids: true, reserveUnits: MoonExpansion.adjustedReserveCosts(player, this)});
+    }
+
     return player.canAfford(this.cost - this.discount(player), {reserveUnits: MoonExpansion.adjustedReserveCosts(player, this)});
   }
 
@@ -72,10 +76,13 @@ export abstract class StandardProjectCard extends Card implements IActionCard, I
   };
 
   public action(player: Player): OrOptions | SelectOption | AndOptions | SelectAmount | SelectCard<ICard> | SelectCard<IProjectCard> | SelectHowToPay | SelectPlayer | SelectSpace | undefined {
+    const canUseAsteroids = player.isCorporation(CardName.KUIPER_COOPERATIVE) && (this.name === CardName.ASTEROID_STANDARD_PROJECT || this.name === CardName.AQUIFER_STANDARD_PROJECT);
+
     player.game.defer(new SelectHowToPayDeferred(
       player,
       this.cost - this.discount(player),
       {
+        canUseAsteroids: canUseAsteroids,
         title: `Select how to pay for ${this.suffixFreeCardName(this.name)} standard project`,
         afterPay: () => {
           this.projectPlayed(player);

@@ -8,5 +8,6 @@ export interface HowToPay {
     floaters: number;
     science: number;
     graphene: number;
+    asteroids: number;
 }
 

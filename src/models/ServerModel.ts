@@ -308,6 +308,7 @@ function getWaitingFor(
     canUseTitanium: undefined,
     canUseHeat: undefined,
     canUseGraphene: undefined,
+    canUseAsteroids: undefined,
     players: undefined,
     availableSpaces: undefined,
     availableParties: undefined,
@@ -318,6 +319,7 @@ function getWaitingFor(
     floaters: undefined,
     science: undefined,
     graphene: undefined,
+    asteroids: undefined,
     coloniesModel: undefined,
     payProduction: undefined,
     aresData: undefined,
@@ -348,6 +350,7 @@ function getWaitingFor(
     playerInputModel.canUseHeat = shtpfpc.canUseHeat;
     playerInputModel.science = shtpfpc.scienceResources;
     playerInputModel.graphene = shtpfpc.grapheneResources;
+    playerInputModel.asteroids = shtpfpc.asteroidResources;
     break;
   case PlayerInputTypes.SELECT_CARD:
     const selectCard = waitingFor as SelectCard<ICard>;
@@ -373,6 +376,7 @@ function getWaitingFor(
     playerInputModel.canUseTitanium = (waitingFor as SelectHowToPay).canUseTitanium;
     playerInputModel.canUseHeat = (waitingFor as SelectHowToPay).canUseHeat;
     playerInputModel.canUseGraphene = (waitingFor as SelectHowToPay).canUseGraphene;
+    playerInputModel.canUseAsteroids = (waitingFor as SelectHowToPay).canUseAsteroids;
     break;
   case PlayerInputTypes.SELECT_PLAYER:
     playerInputModel.players = (waitingFor as SelectPlayer).players.map(

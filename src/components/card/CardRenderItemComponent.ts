@@ -325,6 +325,10 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       // golden background
       if (this.item.isPlate) {
         classes.push('card-plate');
+
+        if (this.item.size === Size.SMALL) {
+          classes.push('card-plate--small');
+        }
       }
 
       // grey background

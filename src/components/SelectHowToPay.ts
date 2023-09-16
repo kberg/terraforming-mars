@@ -19,6 +19,7 @@ interface SelectHowToPayModel {
     microbes: number;
     floaters: number;
     graphene: number;
+    asteroids: number;
     warning: string | undefined;
 }
 
@@ -53,6 +54,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
       microbes: 0,
       floaters: 0,
       graphene: 0,
+      asteroids: 0,
       warning: undefined,
     } as SelectHowToPayModel;
   },
@@ -67,6 +69,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
       app.setDefaultGrapheneValue();
       app.setDefaultTitaniumValue();
       app.setDefaultHeatValue();
+      app.setDefaultAsteroidsValue();
     });
   },
   methods: {
@@ -158,6 +161,16 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
       const discountedCost = this.$data.cost - (this.$data.steel * this.player.steelValue) - (this.$data.graphene * DEFAULT_GRAPHENE_VALUE) - (this.$data.titanium * this.player.titaniumValue) - this.$data.heat;
       this.$data.megaCredits = Math.max(discountedCost, 0);
     },
+    setDefaultAsteroidsValue: function() {
+      // automatically use available asteroids if not enough M€
+      if (!this.canAffordWithMcOnly() && this.canUseAsteroids()) {
+        this.$data.asteroids = Math.max(this.$data.cost - this.player.megaCredits - (this.$data.steel * this.player.steelValue) - (this.$data.graphene * DEFAULT_GRAPHENE_VALUE) - (this.$data.titanium * this.player.titaniumValue) - this.$data.heat, 0);
+      } else {
+        this.$data.asteroids = 0;
+      }
+      const discountedCost = this.$data.cost - (this.$data.steel * this.player.steelValue) - (this.$data.graphene * DEFAULT_GRAPHENE_VALUE) - (this.$data.titanium * this.player.titaniumValue) - this.$data.heat - this.$data.asteroids;
+      this.$data.megaCredits = Math.max(discountedCost, 0);
+    },
     canAffordWithMcOnly: function() {
       return this.player.megaCredits >= this.$data.cost;
     },
@@ -181,6 +194,16 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
 
       return availableGraphene;
     },
+    getAvailableAsteroids: function() {
+      let availableAsteroids = 0;
+      const kuiperCooperative = this.player.corporationCards.find((c) => c.name === CardName.KUIPER_COOPERATIVE);
+
+      if (kuiperCooperative !== undefined && kuiperCooperative.resources !== undefined) {
+        availableAsteroids = kuiperCooperative.resources;
+      }
+
+      return availableAsteroids;
+    },
     canUseHeat: function() {
       return this.playerinput.canUseHeat && this.getAvailableHeat() > 0;
     },
@@ -193,6 +216,9 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
     canUseGraphene: function() {
       return this.playerinput.canUseGraphene && this.getAvailableGraphene() > 0;
     },
+    canUseAsteroids: function() {
+      return this.playerinput.canUseAsteroids && this.getAvailableAsteroids() > 0;
+    },
     saveData: function() {
       const htp: HowToPay = {
         heat: this.$data.heat,
@@ -203,6 +229,7 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         floaters: 0,
         science: 0,
         graphene: this.$data.graphene,
+        asteroids: this.$data.asteroids,
       };
 
       if (htp.megaCredits > this.player.megaCredits) {
@@ -225,9 +252,13 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         this.$data.warning = 'You don\'t have enough graphene resources';
         return;
       }
+      if (htp.asteroids > this.getAvailableAsteroids()) {
+        this.$data.warning = 'You don\'t have enough asteroid resources';
+        return;
+      }
 
       const requiredAmt = this.playerinput.amount || 0;
-      const totalSpentAmt = htp.heat + htp.megaCredits + (htp.steel * this.player.steelValue) + (htp.titanium * this.player.titaniumValue) + (htp.microbes * 2) + (htp.floaters * 3) + (htp.graphene * DEFAULT_GRAPHENE_VALUE);
+      const totalSpentAmt = htp.heat + htp.asteroids + htp.megaCredits + (htp.steel * this.player.steelValue) + (htp.titanium * this.player.titaniumValue) + (htp.microbes * 2) + (htp.floaters * 3) + (htp.graphene * DEFAULT_GRAPHENE_VALUE);
 
       if (requiredAmt > 0 && totalSpentAmt < requiredAmt) {
         this.$data.warning = 'Haven\'t spent enough';
@@ -251,6 +282,10 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
         }
         if (htp.heat && diff >= 1) {
           this.$data.warning = 'You cannot overspend heat';
+          return;
+        }
+        if (htp.asteroids && diff >= 1) {
+          this.$data.warning = 'You cannot overspend asteroids';
           return;
         }
         if (htp.graphene && diff >= DEFAULT_GRAPHENE_VALUE) {
@@ -298,6 +333,14 @@ export const SelectHowToPay = Vue.component('select-how-to-pay', {
       <input class="form-input form-inline payments_input" v-model.number="graphene" />
       <Button type="plus" :onClick="_=>addValue('graphene', 1)" />
       <Button type="max" :onClick="_=>setMaxValue('graphene')" title="MAX" />
+    </div>
+    
+    <div class="payments_type input-group" v-if="playerinput.canUseAsteroids">
+      <i class="resource_icon resource_icon--asteroid payments_type_icon" :title="$t('Pay by Asteroids')"></i>
+      <Button type="minus" :onClick="_=>reduceValue('asteroids', 1)" />
+      <input class="form-input form-inline payments_input" v-model.number="asteroids" />
+      <Button type="plus" :onClick="_=>addValue('asteroids', 1)" />
+      <Button type="max" :onClick="_=>setMaxValue('asteroids')" title="MAX" />
     </div>
 
     <div class="payments_type input-group" v-if="playerinput.canUseTitanium">

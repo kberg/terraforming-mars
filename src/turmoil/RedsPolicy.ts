@@ -88,6 +88,7 @@ export class RedsPolicy {
     canUseScience: boolean = false,
     // TODO: Update RedsPolicy.canAffordRedsPolicy for affected cards
     canUseGraphene: boolean = false,
+    canUseAsteroids: boolean = false,
   ): HowToAffordRedsPolicy {
     const board = game.board;
 
@@ -335,6 +336,10 @@ export class RedsPolicy {
 
     if (canUseScience) {
       missingMC -= Math.min(player.getSpendableScienceResources(), missingMC);
+    }
+
+    if (canUseAsteroids) {
+      missingMC -= Math.min(player.getSpendableAsteroidResources(), missingMC);
     }
 
     if (canUseGraphene) {

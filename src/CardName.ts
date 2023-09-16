@@ -519,6 +519,7 @@ export enum CardName {
     HOMEOSTASIS_BUREAU = 'Homeostasis Bureau',
     ISHTAR_EXPEDITION = 'Ishtar Expedition',
     KAGUYA_TECH = 'Kaguya Tech',
+    KUIPER_COOPERATIVE = 'Kuiper Cooperative',
     LI_TRADE_TERMINAL = 'Li Trade Terminal',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     NOBEL_PRIZE = 'Nobel Prize',

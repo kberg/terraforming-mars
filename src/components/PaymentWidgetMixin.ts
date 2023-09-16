@@ -61,6 +61,10 @@ export const PaymentWidgetMixin = {
         maxValue = this.getMegaCreditsMax();
       }
 
+      if (target === 'asteroids') {
+        maxValue = this.availableAsteroids();
+      }
+
       if (target === 'microbes') maxValue = (this as any).playerinput.microbes;
       if (target === 'floaters') {
         maxValue = (this as any).playerinput.floaters;
@@ -68,6 +72,7 @@ export const PaymentWidgetMixin = {
       }
       if (target === 'science') maxValue = (this as any).playerinput.science;
       if (target === 'graphene') maxValue = (this as any).playerinput.graphene;
+      
       if (currentValue === maxValue) return;
 
       const realTo = (currentValue + to <= maxValue) ? to : maxValue - currentValue;
@@ -85,6 +90,7 @@ export const PaymentWidgetMixin = {
               (this as any)['microbes'] * this.getResourceRate('microbes') -
               (this as any)['floaters'] * this.getResourceRate('floaters') -
               (this as any)['graphene'] * this.getResourceRate('graphene') -
+              ((this as any)['asteroids'] ?? 0) -
               ((this as any)['science'] ?? 0);
 
       (this as any)['megaCredits'] = Math.max(0, Math.min(this.getMegaCreditsMax(), remainingMC));
@@ -94,6 +100,7 @@ export const PaymentWidgetMixin = {
       const cardCost: number = (this as any).$data.cost;
       let amountHave: number = max ?? (this as any).player[target];
       if (target === 'heat') amountHave = this.availableHeat();
+      if (target === 'asteroids') amountHave = this.availableAsteroids();
 
       let amountNeed: number = cardCost;
       if (['titanium', 'steel', 'microbes', 'floaters', 'graphene'].includes(target)) {
@@ -106,6 +113,7 @@ export const PaymentWidgetMixin = {
         if (this.isStratosphericBirdsEdgeCase()) amountHave--;
       }
       if (target === 'science') amountHave = (this as any).playerinput.science;
+      
       if (target === 'graphene') amountHave = (this as any).playerinput.graphene;
 
       while (currentValue < amountHave && currentValue < amountNeed) {
@@ -120,6 +128,17 @@ export const PaymentWidgetMixin = {
         return cardsWithFloaters.length === 1;
       }
       return false;
+    },
+    availableAsteroids(): number {
+      const thisPlayer = (this as any).player;
+      const corpCards = thisPlayer.corporationCards as Array<CardModel>;
+      
+      const kuiperCooperative = corpCards.find((card) => card.name === CardName.KUIPER_COOPERATIVE);
+      if (kuiperCooperative !== undefined && kuiperCooperative.resources !== undefined) {
+        return kuiperCooperative.resources;
+      }
+
+      return 0;
     },
     availableHeat(): number {
       const thisPlayer = (this as any).player;

@@ -16,6 +16,7 @@ interface SelectHowToPayForProjectCardModel {
   floaters: number;
   science: number;
   graphene: number;
+  asteroids: number;
   warning: string | undefined;
   available: Units;
 }
@@ -83,6 +84,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       science: 0,
       floaters: 0,
       graphene: 0,
+      asteroids: 0,
       warning: undefined,
       available: Units.of({}),
     };
@@ -128,6 +130,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       this.titanium = 0;
       this.heat = 0;
       this.graphene = 0;
+      this.asteroids = 0;
 
       const units = this.card.reserveUnits || Units.EMPTY;
       let megacreditBalance = Math.max(this.cost - this.mustSpendAtMost + units.megacredits, 0);
@@ -181,6 +184,10 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.science = deductUnits(this.playerinput.science, 1);
       }
 
+      if (megacreditBalance > 0 && this.canUseAsteroids()) {
+        this.asteroids = deductUnits(this.playerinput.asteroids, 1);
+      }
+
       if (megacreditBalance > 0 && this.canUseGraphene()) {
         this.graphene = deductUnits(this.playerinput.graphene, DEFAULT_GRAPHENE_VALUE);
       }
@@ -211,6 +218,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.floaters -= saveOverSpendingUnits(this.floaters, DEFAULT_FLOATERS_VALUE);
         this.microbes -= saveOverSpendingUnits(this.microbes, DEFAULT_MICROBES_VALUE);
         this.science -= saveOverSpendingUnits(this.science, 1);
+        this.asteroids -= saveOverSpendingUnits(this.asteroids, 1);
         this.graphene -= saveOverSpendingUnits(this.graphene, DEFAULT_GRAPHENE_VALUE);
       }
 
@@ -221,6 +229,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       finalmegaCreditsCost -= (this.microbes || 0) * DEFAULT_MICROBES_VALUE;
       finalmegaCreditsCost -= this.heat || 0;
       finalmegaCreditsCost -= this.science || 0;
+      finalmegaCreditsCost -= this.asteroids || 0;
       finalmegaCreditsCost -= (this.graphene || 0) * DEFAULT_GRAPHENE_VALUE;
 
       this.megaCredits = Math.max(0, finalmegaCreditsCost);
@@ -281,6 +290,15 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
       }
       return false;
     },
+    canUseAsteroids: function() {
+      // Asteroid resources are limited to the Kuiper Cooperative card, which allows spending its resources for SP Asteroid or Aquifer.
+      if (this.card !== undefined && (this.playerinput.asteroids ?? 0) > 0) {
+        if (this.cardName === CardName.ASTEROID_STANDARD_PROJECT || this.cardName === CardName.AQUIFER_STANDARD_PROJECT) {
+          return true;
+        }
+      }
+      return false;
+    },
     canUseGraphene: function() {
       // Graphene resources are limited to the Carbon Nanosystems card, which allows spending graphene resources for Space or City cards.
       if (this.card !== undefined && this.playerinput.graphene !== undefined && this.playerinput.graphene > 0) {
@@ -331,6 +349,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         floaters: this.floaters,
         science: this.science,
         graphene: this.graphene,
+        asteroids: this.asteroids,
       };
       if (htp.megaCredits > this.player.megaCredits) {
         this.warning = 'You don\'t have that many M€';
@@ -352,6 +371,10 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         this.warning = 'You don\'t have enough graphene resources';
         return;
       }
+      if (this.playerinput.asteroids !== undefined && htp.asteroids > this.playerinput.asteroids) {
+        this.warning = 'You don\'t have enough asteroid resources';
+        return;
+      }
       if (htp.heat > this.availableHeat()) {
         this.warning = 'You don\'t have enough heat';
         return;
@@ -369,6 +392,7 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         (DEFAULT_FLOATERS_VALUE * htp.floaters) +
         (DEFAULT_MICROBES_VALUE * htp.microbes) +
         (DEFAULT_GRAPHENE_VALUE * htp.graphene) +
+        htp.asteroids +
         htp.science +
         htp.heat +
         htp.megaCredits +
@@ -400,6 +424,10 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
         }
         if (htp.science && diff >= 1) {
           this.warning = 'You cannot overspend science resources';
+          return;
+        }
+        if (htp.asteroids && diff >= 1) {
+          this.warning = 'You cannot overspend asteroid resources';
           return;
         }
         if (htp.graphene && diff >= DEFAULT_GRAPHENE_VALUE) {
@@ -469,6 +497,14 @@ export const SelectHowToPayForProjectCard = Vue.component('select-how-to-pay-for
     </div>
     <div v-if="showReserveSteelWarning()" class="card-warning" v-i18n>
     (Some steel is unavailable here in reserve for the project card.)
+    </div>
+
+    <div class="payments_type input-group" v-if="canUseAsteroids()">
+      <i class="resource_icon resource_icon--asteroid payments_type_icon" :title="$t('Pay by Asteroids')"></i>
+      <Button type="minus" :onClick="_=>reduceValue('asteroids', 1)" />
+      <input class="form-input form-inline payments_input" v-model.number="asteroids" />
+      <Button type="plus" :onClick="_=>addValue('asteroids', 1)" />
+      <Button type="max" :onClick="_=>setMaxValue('asteroids')" title="MAX" />
     </div>
 
     <div class="payments_type input-group" v-if="canUseGraphene()">

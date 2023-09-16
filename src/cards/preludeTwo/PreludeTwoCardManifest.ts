@@ -19,6 +19,7 @@ import {HermeticOrderOfMars} from './HermeticOrderOfMars';
 import {HomeostasisBureau} from './HomeostasisBureau';
 import {IshtarExpedition} from './IshtarExpedition';
 import {KaguyaTech} from './KaguyaTech';
+import {KuiperCooperative} from './KuiperCooperative';
 import {LiTradeTerminal} from './LiTradeTerminal';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
@@ -51,6 +52,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
   ],
   corporationCards: [
     {cardName: CardName.ECOTEC, Factory: Ecotec},
+    {cardName: CardName.KUIPER_COOPERATIVE, Factory: KuiperCooperative},
     {cardName: CardName.NIRGAL_ENTERPRISES, Factory: NirgalEnterprises},
     {cardName: CardName.PALLADIN_SHIPPING, Factory: PalladinShipping},
     {cardName: CardName.SAGITTA_FRONTIER_SERVICES, Factory: SagittaFrontierServices},

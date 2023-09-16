@@ -672,11 +672,12 @@ class Builder {
     return this;
   }
 
-  public plate(text: string): Builder {
+  public plate(text: string, size: Size = Size.MEDIUM): Builder {
     const item = new CardRenderItem(CardRenderItemType.PLATE);
     item.text = text;
     item.isPlate = true;
     item.isBold = true;
+    item.size = size;
     this._addRowItem(item);
     return this;
   }
