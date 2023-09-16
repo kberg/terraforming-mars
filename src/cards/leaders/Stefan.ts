@@ -26,7 +26,7 @@ export class Stefan extends Card implements LeaderCard {
           b.br;
           b.text('SELL').cards(1).colon().megacredits(3);
         }),
-        description: 'Once per game, pay X M€ to draw up to X cards (max 5), then sell any number of cards from hand for 3 M€ each.',
+        description: 'Once per game, pay X M€ equal to the current generation number to draw X cards (max 5), then sell ANY number of cards from hand for 3 M€ each.',
       },
     });
   }
