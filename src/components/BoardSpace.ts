@@ -192,6 +192,7 @@ export const BoardSpace = Vue.component('board-space', {
             <bonus :bonus="space.bonus" v-if="space.tileType !== undefined && isTileHidden"></bonus>
             <div :class="'board-cube board-cube--'+space.color" v-if="space.color !== undefined && !isTileHidden "></div>
             <div class="board-cube--cathedral" v-if="space.hasCathedral"></div>
+            <div class="board-cube--nomad" v-if="space.hasNomads"></div>
         </div>
     `,
 });

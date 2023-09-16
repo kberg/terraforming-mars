@@ -523,6 +523,11 @@ class Builder {
     return this;
   }
 
+  public nomads(amount = 1): Builder {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.NOMADS, amount));
+    return this;
+  }
+
   public moonColony(options?: ItemOptions | undefined): Builder {
     this._addRowItem(new CardRenderItem(CardRenderItemType.MOON_COLONY).withOptions(options));
     return this;

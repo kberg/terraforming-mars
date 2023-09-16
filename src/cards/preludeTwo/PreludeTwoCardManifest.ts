@@ -21,6 +21,7 @@ import {IshtarExpedition} from './IshtarExpedition';
 import {KaguyaTech} from './KaguyaTech';
 import {KuiperCooperative} from './KuiperCooperative';
 import {LiTradeTerminal} from './LiTradeTerminal';
+import {MarsNomads} from './MarsNomads';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
@@ -43,9 +44,10 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.CYBERIA_SYSTEMS, Factory: CyberiaSystems},
     {cardName: CardName.HERMETIC_ORDER_OF_MARS, Factory: HermeticOrderOfMars},
     {cardName: CardName.HOMEOSTASIS_BUREAU, Factory: HomeostasisBureau},
-    {cardName: CardName.ISHTAR_EXPEDITION, Factory: IshtarExpedition},
+    {cardName: CardName.ISHTAR_EXPEDITION, Factory: IshtarExpedition, compatibility: GameModule.Venus},
     {cardName: CardName.KAGUYA_TECH, Factory: KaguyaTech},
     {cardName: CardName.LI_TRADE_TERMINAL, Factory: LiTradeTerminal, compatibility: GameModule.Colonies},
+    {cardName: CardName.MARS_NOMADS, Factory: MarsNomads},
     {cardName: CardName.RED_APPEASEMENT, Factory: RedAppeasement, compatibility: GameModule.Turmoil},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
     {cardName: CardName.SUMMIT_LOGISTICS, Factory: SummitLogistics, compatibility: GameModule.Turmoil},

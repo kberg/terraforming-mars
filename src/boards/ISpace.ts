@@ -14,6 +14,7 @@ export interface ISpace {
     bonus: Array<SpaceBonus>;
     adjacency?: IAdjacencyBonus,
     hasCathedral: boolean;
+    hasNomads: boolean;
     x: number;
     y: number;
 }

@@ -51,6 +51,7 @@ function getSpaces(spaces: Array<ISpace>): Array<SpaceModel> {
       color: getColor(space),
       highlight: undefined,
       hasCathedral: space.hasCathedral,
+      hasNomads: space.hasNomads,
     };
   });
 }

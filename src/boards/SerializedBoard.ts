@@ -17,6 +17,7 @@ export interface SerializedSpace {
   bonus: Array<SpaceBonus>;
   adjacency?: IAdjacencyBonus,
   hasCathedral?: boolean,
+  hasNomads?: boolean,
   x: number;
   y: number;
 }

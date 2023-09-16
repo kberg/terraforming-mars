@@ -5,6 +5,7 @@ import {CardType} from '../CardType';
 import {Player} from '../../Player';
 import {CardName} from '../../CardName';
 import {CardRenderer} from '../render/CardRenderer';
+import {Size} from '../render/Size';
 
 export class SpecialDesign extends Card implements IProjectCard {
   constructor() {
@@ -17,7 +18,7 @@ export class SpecialDesign extends Card implements IProjectCard {
       metadata: {
         cardNumber: '206',
         renderData: CardRenderer.builder((b) => {
-          b.plate('Global requirements').colon().text('+/- 2');
+          b.plate('Global requirements', Size.LARGE).colon().text('+/- 2');
         }),
         description: 'The next card you play this generation is +2 or -2 steps in global requirements, your choice.',
       },

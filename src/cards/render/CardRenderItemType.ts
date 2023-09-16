@@ -87,4 +87,5 @@ export enum CardRenderItemType {
   GLOBAL_EVENT = 'global-event',
   ADJACENCY_BONUS = 'adjacency-bonus',
   MISINFORMATION = 'misinformation',
+  NOMADS = 'nomads',
 }

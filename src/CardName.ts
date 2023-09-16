@@ -521,6 +521,7 @@ export enum CardName {
     KAGUYA_TECH = 'Kaguya Tech',
     KUIPER_COOPERATIVE = 'Kuiper Cooperative',
     LI_TRADE_TERMINAL = 'Li Trade Terminal',
+    MARS_NOMADS = 'Mars Nomads',
     NIRGAL_ENTERPRISES = 'Nirgal Enterprises',
     NOBEL_PRIZE = 'Nobel Prize',
     OLD_MINING_COLONY = 'Old Mining Colony',

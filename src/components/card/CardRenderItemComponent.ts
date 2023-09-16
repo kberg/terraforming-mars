@@ -132,6 +132,8 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
         }
       } else if (type === CardRenderItemType.DIVERSE_RESOURCE) {
         classes.push('card-resource card-resource-diverse diverse-resource');
+      } else if (type === CardRenderItemType.NOMADS) {
+        classes.push('card-resource card-resource-nomads');
       } else if (type === CardRenderItemType.SCIENCE) {
         classes.push('card-resource');
         classes.push('card-resource-science');
@@ -328,6 +330,8 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
 
         if (this.item.size === Size.SMALL) {
           classes.push('card-plate--small');
+        } else if (this.item.size === Size.LARGE) {
+          classes.push('card-plate--large');
         }
       }
 

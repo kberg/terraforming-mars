@@ -622,6 +622,7 @@ function getSpaces(board: Board): Array<SpaceModel> {
       color: getColor(space),
       highlight: highlight,
       hasCathedral: space.hasCathedral,
+      hasNomads: space.hasNomads,
     };
   });
 }

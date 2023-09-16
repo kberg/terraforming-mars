@@ -124,18 +124,18 @@ export class BoardBuilder {
 }
 
 class Space implements ISpace {
-  private constructor(public id: SpaceId, public spaceType: SpaceType, public bonus: Array<SpaceBonus>, public x: number, public y: number, public hasCathedral: boolean ) {
+  private constructor(public id: SpaceId, public spaceType: SpaceType, public bonus: Array<SpaceBonus>, public x: number, public y: number, public hasCathedral: boolean, public hasNomads: boolean) {
   }
 
   static colony(id: SpaceId) {
-    return new Space(id, SpaceType.COLONY, [], -1, -1, false);
+    return new Space(id, SpaceType.COLONY, [], -1, -1, false, false);
   }
 
   static land(id: string, x: number, y: number, bonus: Array<SpaceBonus> = []) {
-    return new Space(id, SpaceType.LAND, bonus, x, y, false);
+    return new Space(id, SpaceType.LAND, bonus, x, y, false, false);
   }
 
   static ocean(id: string, x: number, y: number, bonus: Array<SpaceBonus> = []) {
-    return new Space(id, SpaceType.OCEAN, bonus, x, y, false);
+    return new Space(id, SpaceType.OCEAN, bonus, x, y, false, false);
   }
 }

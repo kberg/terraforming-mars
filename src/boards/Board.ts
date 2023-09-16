@@ -181,8 +181,10 @@ export abstract class Board {
       const blockedByDesperateMeasures = space.tile?.protectedHazard === true;
       // tiles are not placeable on restricted spaces at all
       const isRestricted = space.bonus.includes(SpaceBonus.RESTRICTED);
+      // Spaces with Nomads are not eligible for tile placement
+      const hasNomads = space.hasNomads;
 
-      return !isRestricted && safeForPlayer && playableSpace && !blockedByDesperateMeasures;
+      return !isRestricted && safeForPlayer && playableSpace && !blockedByDesperateMeasures && !hasNomads;
     });
 
     return landSpaces;
@@ -218,7 +220,7 @@ export abstract class Board {
     return this.spaces.filter((space) => {
       return space.spaceType === SpaceType.LAND &&
         (space.tile === undefined || AresHandler.hasHazardTile(space)) &&
-        space.player === undefined;
+        space.player === undefined && space.hasNomads === false;
     });
   }
 
@@ -251,6 +253,7 @@ export abstract class Board {
           bonus: space.bonus,
           adjacency: space.adjacency,
           hasCathedral: space.hasCathedral === true,
+          hasNomads: space.hasNomads === true,
           x: space.x,
           y: space.y,
         };
@@ -266,6 +269,7 @@ export abstract class Board {
       spaceType: serialized.spaceType,
       bonus: serialized.bonus,
       hasCathedral: serialized.hasCathedral === true,
+      hasNomads: serialized.hasNomads === true,
       x: serialized.x,
       y: serialized.y,
     };

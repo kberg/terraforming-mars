@@ -17,4 +17,5 @@ export interface SpaceModel {
     spaceType: SpaceType;
     highlight: SpaceHighlight;
     hasCathedral: boolean;
+    hasNomads: boolean;
 }
