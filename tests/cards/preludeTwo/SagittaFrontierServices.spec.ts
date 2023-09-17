@@ -7,10 +7,11 @@ import {Resources} from '../../../src/Resources';
 import {IProjectCard} from '../../../src/cards/IProjectCard';
 import {Insulation} from '../../../src/cards/base/Insulation';
 import {Mine} from '../../../src/cards/base/Mine';
+import {ReleaseOfInertGases} from '../../../src/cards/base/ReleaseOfInertGases';
 
 describe('SagittaFrontierServices', function() {
   let card : SagittaFrontierServices; let player : Player;
-  let singleTagCard: IProjectCard; let noTagsCard: IProjectCard;
+  let singleTagCard: IProjectCard; let singleTagEventCard: IProjectCard; let noTagsCard: IProjectCard;
 
   beforeEach(() => {
     card = new SagittaFrontierServices();
@@ -18,6 +19,7 @@ describe('SagittaFrontierServices', function() {
     Game.newInstance('foobar', [player], player);
 
     singleTagCard = new Mine();
+    singleTagEventCard = new ReleaseOfInertGases();
     noTagsCard = new Insulation();
   });
 
@@ -38,5 +40,8 @@ describe('SagittaFrontierServices', function() {
     player.corporationCards.push(card);
     card.onCardPlayed(player, singleTagCard);
     expect(player.megaCredits).eq(1);
+
+    card.onCardPlayed(player, singleTagEventCard);
+    expect(player.megaCredits).eq(2);
   });
 });

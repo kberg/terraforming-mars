@@ -26,20 +26,22 @@ describe('Ecotec', function() {
   });
 
   it('Play', function() {
+    player.corporationCards.push(card);
     card.play(player);
     expect(player.getProduction(Resources.PLANTS)).eq(1);
     expect(player.plants).eq(2);
   });
 
   it('Effect with 1 bio tag: No microbe cards', function() {
-    player.playedCards.push(card);    
+    player.corporationCards.push(card);
     card.onCardPlayed(player, singleBioTagCard);
     expect(player.plants).eq(1);
   });
 
   it('Effect with 1 bio tag: Has 1 microbe card', function() {
     const tardigrades = new Tardigrades();
-    player.playedCards.push(card, tardigrades);
+    player.corporationCards.push(card);
+    player.playedCards.push(tardigrades);
     card.onCardPlayed(player, singleBioTagCard);
     expect(game.deferredActions).has.length(1);
 
@@ -57,7 +59,8 @@ describe('Ecotec', function() {
   it('Effect with 1 bio tag: Has multiple microbe cards', function() {
     const tardigrades = new Tardigrades();
     const decomposers = new Decomposers();
-    player.playedCards.push(card, tardigrades, decomposers);
+    player.corporationCards.push(card);
+    player.playedCards.push(tardigrades, decomposers);
     card.onCardPlayed(player, singleBioTagCard);
     expect(game.deferredActions).has.length(1);
 
@@ -75,7 +78,8 @@ describe('Ecotec', function() {
 
   it('Works with multiple bio tags', function() {
     const tardigrades = new Tardigrades();
-    player.playedCards.push(card, tardigrades);
+    player.corporationCards.push(card);
+    player.playedCards.push(tardigrades);
     card.onCardPlayed(player, twoBioTagsCard);
     expect(game.deferredActions).has.length(2);
   });
