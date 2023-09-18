@@ -7,7 +7,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {ISpace} from '../../boards/ISpace';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {Multiset} from '../../utils/Multiset';
-import {SpaceType} from '../../SpaceType';
+import {intersection} from '../../utils/utils';
 
 export class MarsNomads extends Card implements IProjectCard {
   constructor() {
@@ -58,15 +58,13 @@ export class MarsNomads extends Card implements IProjectCard {
     const board = player.game.board;
     if (board.spaces.some((space) => space.hasNomads) === false) return false;
 
-    const currentNomadSpace = board.spaces.find((space) => space.hasNomads) as ISpace;
-    const eligibleAdjacentSpaces = board.getAdjacentSpaces(currentNomadSpace).filter((space) => space.spaceType === SpaceType.LAND && space.tile === undefined && space.player === undefined);
+    const eligibleAdjacentSpaces = this.getEligibleDestinationSpaces(player);
     return eligibleAdjacentSpaces.length > 0;
   }
 
   public action(player: Player) {
     const board = player.game.board;
-    const currentNomadSpace = board.spaces.find((space) => space.hasNomads) as ISpace;
-    const eligibleAdjacentSpaces = board.getAdjacentSpaces(currentNomadSpace).filter((space) => space.spaceType === SpaceType.LAND && space.tile === undefined && space.player === undefined);
+    const eligibleAdjacentSpaces = this.getEligibleDestinationSpaces(player);
     
     return new SelectSpace(
       'Select adjacent space to move Nomads to',
@@ -85,5 +83,15 @@ export class MarsNomads extends Card implements IProjectCard {
         return undefined;
       },
     );
+  }
+
+  private getEligibleDestinationSpaces(player: Player): ISpace[] {
+    const board = player.game.board;
+    if (board.spaces.some((space) => space.hasNomads) === false) return [];
+
+    const availableSpaces = board.getAvailableSpacesOnLand(player);
+    const currentNomadSpace = board.spaces.find((space) => space.hasNomads) as ISpace;
+    const adjacentSpaces = board.getAdjacentSpaces(currentNomadSpace);
+    return intersection(availableSpaces, adjacentSpaces);
   }
 }

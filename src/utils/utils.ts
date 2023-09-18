@@ -20,3 +20,16 @@ export function deArray<T>(input: T | Array<T>): T | undefined {
   }
   return undefined;
 }
+
+/**
+ * Returns a new array consisting of elements only in both a and b.
+ *
+ * This preserves the order of the first array.
+ *
+ * @param {ReadonlyArray<T>} a: the first array
+ * @param {ReadonlyArray<T>} b: the second array
+ * @return {Array<T>} the intersection of both arrays
+ */
+export function intersection<T>(a: ReadonlyArray<T>, b: ReadonlyArray<T>): Array<T> {
+  return a.filter((e) => b.includes(e));
+}
