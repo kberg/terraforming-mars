@@ -42,7 +42,7 @@ export class SagittaFrontierServices extends Card implements CorporationCard {
     player.addProduction(Resources.MEGACREDITS, 2);
     this.onCorpCardPlayed(player, this);
 
-    player.drawCard(1, {include: (card) => card.tags.length === 0});
+    player.drawCard(1, {include: (card) => card.tags.length === 0 && card.cardType !== CardType.EVENT});
 
     return undefined;
   }
