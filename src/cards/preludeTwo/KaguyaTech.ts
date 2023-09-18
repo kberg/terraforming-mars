@@ -21,7 +21,7 @@ export class KaguyaTech extends Card implements IProjectCard {
 
       metadata: {
         cardNumber: '??',
-        description: 'Increaes your M€ production 2 steps. Draw 1 card. Remove 1 of your greenery tiles (does not affect oxygen). Place a city there, regardless of other nearby cities.',
+        description: 'Increase your M€ production 2 steps. Draw 1 card. Remove 1 of your greenery tiles (does not affect oxygen). Place a city there, regardless of other nearby cities. Collect placement bonuses as usual.',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.megacredits(2)).cards(1);
           b.br.br;
