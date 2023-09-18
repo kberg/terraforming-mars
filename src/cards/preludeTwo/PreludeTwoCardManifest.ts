@@ -22,6 +22,7 @@ import {KaguyaTech} from './KaguyaTech';
 import {KuiperCooperative} from './KuiperCooperative';
 import {LiTradeTerminal} from './LiTradeTerminal';
 import {MarsNomads} from './MarsNomads';
+import {NeptunianPowerConsultants} from './NeptunianPowerConsultants';
 import {NirgalEnterprises} from './NirgalEnterprises';
 import {NobelPrize} from './NobelPrize';
 import {OldMiningColony} from './OldMiningColony';
@@ -48,6 +49,7 @@ export const PRELUDE_TWO_CARD_MANIFEST = new CardManifest({
     {cardName: CardName.KAGUYA_TECH, Factory: KaguyaTech},
     {cardName: CardName.LI_TRADE_TERMINAL, Factory: LiTradeTerminal, compatibility: GameModule.Colonies},
     {cardName: CardName.MARS_NOMADS, Factory: MarsNomads},
+    {cardName: CardName.NEPTUNIAN_POWER_CONSULTANTS, Factory: NeptunianPowerConsultants},
     {cardName: CardName.RED_APPEASEMENT, Factory: RedAppeasement, compatibility: GameModule.Turmoil},
     {cardName: CardName.ST_JOSEPH_OF_CUPERTINO_MISSION, Factory: StJosephOfCupertinoMission},
     {cardName: CardName.SUMMIT_LOGISTICS, Factory: SummitLogistics, compatibility: GameModule.Turmoil},

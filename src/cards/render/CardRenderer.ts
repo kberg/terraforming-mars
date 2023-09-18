@@ -459,6 +459,11 @@ class Builder {
     return this;
   }
 
+  public hydroelectric(amount: number = 1) {
+    this._addRowItem(new CardRenderItem(CardRenderItemType.HYDROELECTRIC, amount));
+    return this;
+  }
+
   public selfReplicatingRobots() {
     this._addRowItem(new CardRenderItem(CardRenderItemType.SELF_REPLICATING));
     return this;

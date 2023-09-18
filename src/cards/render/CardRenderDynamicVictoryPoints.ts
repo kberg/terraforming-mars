@@ -57,6 +57,9 @@ export class CardRenderDynamicVictoryPoints {
   public static cathedrals(points: number, target: number): CardRenderDynamicVictoryPoints {
     return new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.CATHEDRALS), points, target);
   }
+  public static hydroelectric(points: number, target: number): CardRenderDynamicVictoryPoints {
+    return new CardRenderDynamicVictoryPoints(new CardRenderItem(CardRenderItemType.HYDROELECTRIC), points, target);
+  }
   public static colonies(points: number, target: number, any: boolean = false): CardRenderDynamicVictoryPoints {
     const item = new CardRenderItem(CardRenderItemType.COLONIES);
     item.size = Size.SMALL;

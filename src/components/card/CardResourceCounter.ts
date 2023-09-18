@@ -41,6 +41,8 @@ export const CardResourceCounter = Vue.component('CardResourceCounter', {
         return 'card-resource-data';
       case ResourceType.SYNDICATE_FLEET:
         return 'card-resource-syndicate-fleet';
+      case ResourceType.HYDROELECTRIC:
+        return 'card-resource-hydroelectric';
       default:
         return '';
       }

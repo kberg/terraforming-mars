@@ -1303,6 +1303,11 @@
                 background-image: url(./assets/board/cathedral.png);
                 border: 2px solid black;
             }
+            .card-resource-hydroelectric {
+                background-image: url(./assets/resources/hydroelectric.png);
+                filter: contrast(1.5);
+                border: 1px solid navy;
+            }
             .card-resource-asteroid {
                 color: #0000 !important;
                 background-image: url(./assets/resources/asteroid.png);
@@ -2178,8 +2183,8 @@
             }
             .card-ocean--S {
                 width: 30px !important;
-                height: 32px !important;
-                background-size: 30px 32px !important;
+                height: 34px !important;
+                background-size: 30px 34px !important;
                 vertical-align: middle !important;
                 box-shadow: none !important;
                 background-repeat: no-repeat;
@@ -2463,7 +2468,7 @@
         vertical-align: middle;
     }
 
-    @resource_types: microbe, animal, science, floater, fighter, camp, asteroid, disease, preservation, graphene, data, syndicate-fleet, resource-cube;
+    @resource_types: microbe, animal, science, floater, fighter, camp, asteroid, disease, preservation, graphene, data, syndicate-fleet, resource-cube, hydroelectric;
     each(@resource_types, {
       .card-resource-@{value} {
         background-image: url("./assets/resources/@{value}.png");

@@ -24,10 +24,10 @@ export class SecretSantaSociety extends Card implements CorporationCard {
 
       metadata: {
         cardNumber: 'R57',
-        description: 'You start with 36 M€.',
         renderData: CardRenderer.builder((b) => {
-          b.br.br;
+          b.br.br.br;
           b.megacredits(36);
+          b.text('(You start with 36 M€.)', Size.TINY, false, false);
 
           b.corpBox('action', (ce) => {
             ce.vSpace(Size.LARGE);
@@ -38,7 +38,7 @@ export class SecretSantaSociety extends Card implements CorporationCard {
             ce.action('Add 1 science resource to this card, OR remove 1 science resource from this card to discard 1 card, then draw 3 cards. All OPPONENTS draw 1 card.', (eb) => {
               eb.science(1).startAction.minus(Size.SMALL).cards(1).cards(3).digit.nbsp(Size.SMALL).cards(1).any.asterix();
             });
-            ce.vSpace(Size.TINY);
+            ce.vSpace(Size.SMALL);
           });
         }),
       },

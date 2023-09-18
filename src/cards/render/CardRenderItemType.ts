@@ -41,6 +41,7 @@ export enum CardRenderItemType {
   FIGHTER = 'fighter',
   CAMPS = 'camps',
   CATHEDRALS = 'cathedrals',
+  HYDROELECTRIC = 'hydroelectric',
   DIVERSE_TAG = 'diverse_tag',
   DIVERSE_RESOURCE = 'diverse_resource',
   // Tag circle with grey background and the word "none"

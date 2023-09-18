@@ -42,7 +42,7 @@ export class TempestInc extends Card implements CorporationCard {
             ce.action('Add 1 floater to this card, OR remove 1 floater from this card to raise any global parameter 1 step.', (eb) => {
               eb.floaters(1).startAction.temperature(1, Size.SMALL).slash().oxygen(1, Size.SMALL).slash().oceans(1, Size.SMALL);
             });
-            ce.vSpace(Size.TINY);
+            ce.vSpace(Size.SMALL);
           });
         }),
       },

@@ -13,5 +13,6 @@ export enum ResourceType {
     RESOURCE_CUBE = 'Resource cube',
     DATA = 'Data',
     SYNDICATE_FLEET = 'Syndicate Fleet',
+    HYDROELECTRIC = 'Hydroelectric',
 }
 

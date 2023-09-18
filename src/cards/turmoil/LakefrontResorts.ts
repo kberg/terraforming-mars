@@ -22,17 +22,22 @@ export class LakefrontResorts extends Card implements CorporationCard {
 
       metadata: {
         cardNumber: 'R38',
-        description: 'You start with 54 M€.',
         renderData: CardRenderer.builder((b) => {
           b.br.br.br;
           b.megacredits(54);
+          b.text('(You start with 54 M€.)', Size.TINY, false, false);
+
           b.corpBox('effect', (ce) => {
-            ce.vSpace(Size.MEDIUM);
-            ce.effect('When any ocean tile is placed, increase your M€ production 1 step. Your bonus for placing adjacent to oceans is 3M€ instead of 2 M€.', (eb) => {
-              eb.oceans(1, Size.SMALL).any.colon().production((pb) => pb.megacredits(1));
+            ce.vSpace(Size.LARGE);
+            ce.effect(undefined, (eb) => {
+              eb.oceans(1, Size.SMALL).any.startEffect.production((pb) => pb.megacredits(1));
+            });
+            ce.vSpace(Size.SMALL);
+            ce.effect('When any ocean tile is placed, increase your M€ production 1 step. Your bonus for placing adjacent to oceans is 3 M€ instead of 2 M€.', (eb) => {
               eb.emptyTile('normal', Size.SMALL).oceans(1, Size.SMALL);
               eb.startEffect.megacredits(3);
             });
+            ce.vSpace(Size.SMALL);
           });
         }),
       },

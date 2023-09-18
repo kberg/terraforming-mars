@@ -113,6 +113,9 @@ export const CardRenderItemComponent = Vue.component('CardRenderItemComponent', 
       } else if (type === CardRenderItemType.CATHEDRALS) {
         classes.push('card-resource');
         classes.push('card-resource-cathedral');
+      } else if (type === CardRenderItemType.HYDROELECTRIC) {
+        classes.push('card-resource');
+        classes.push('card-resource-hydroelectric');
       } else if (type === CardRenderItemType.GRAPHENE) {
         classes.push('card-resource');
         classes.push('card-resource-graphene');
