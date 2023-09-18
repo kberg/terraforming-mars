@@ -183,6 +183,8 @@ export const DebugUI = Vue.component('debug-ui', {
         return this.leaders === true;
       case GameModule.Automa:
         return this.automaSoloVariant === true;
+      case GameModule.PreludeTwo:
+        return this.preludeTwoExtension === true;
       default:
         return true;
       }
