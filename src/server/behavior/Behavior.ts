@@ -144,6 +144,10 @@ export interface Behavior {
     miningRate?: number,
     logisticsRate?: number,
   },
+
+  underworld?: {
+    corruption?: Countable,
+  }
 }
 
 export interface PlaceMoonTile {

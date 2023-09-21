@@ -87,4 +87,7 @@ export enum CardRenderItemType {
   REDS_DEACTIVATED = 'reds-deactivated',
   HAZARD_TILE = 'hazard-tile',
   ADJACENCY_BONUS = 'adjacency-bonus',
+
+  // Underworld
+  CORRUPTION = 'corruption',
 }
