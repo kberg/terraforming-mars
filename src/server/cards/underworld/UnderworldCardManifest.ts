@@ -10,7 +10,7 @@ import {ModuleManifest} from '../ModuleManifest';
 // import {BatteryFactory} from './BatteryFactory';
 import {BatteryShipment} from './BatteryShipment';
 // import {BehemothExcavator} from './BehemothExcavator';
-// import {Casino} from './Casino';
+import {Casino} from './Casino';
 // import {CaveCity} from './CaveCity';
 import {CentralReservoir} from './CentralReservoir';
 // import {ChemicalFactory} from './ChemicalFactory';
@@ -30,7 +30,7 @@ import {ElectionSponsorship} from './ElectionSponsorship';
 // import {ExcavatorLeasing} from './ExcavatorLeasing';
 // import {ExpeditionVehicles} from './ExpeditionVehicles';
 // import {FabricatedScandal} from './FabricatedScandal';
-// import {ForestTunnels} from './ForestTunnels';
+import {ForestTunnels} from './ForestTunnels';
 import {FreeTradePort} from './FreeTradePort';
 // import {FriendsinHighPlaces} from './FriendsinHighPlaces';
 // import {GaiaCity} from './GaiaCity';
@@ -40,7 +40,7 @@ import {GeologicalExpertise} from './GeologicalExpertise';
 // import {GeologicalSurvey} from './GeologicalSurvey';
 // import {GeologistTemperature} from './GeologistTemperature';
 // import {GeoscanSatellite} from './GeoscanSatellite';
-// import {GeothermalNetwork} from './GeothermalNetwork';
+import {GeothermalNetwork} from './GeothermalNetwork';
 // import {GlobalAudit} from './GlobalAudit';
 // import {GreyMarketManipulation} from './GreyMarketManipulation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
@@ -48,7 +48,7 @@ import {GeologicalExpertise} from './GeologicalExpertise';
 // import {HectateSpeditions} from './HectateSpeditions';
 // import {HenkeiGenetics} from './HenkeiGenetics';
 // import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
-// import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
+import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
 // import {InducedTremor} from './InducedTremor';
 // import {InfrastructureOverload} from './InfrastructureOverload';
 import {InheritedFortune} from './InheritedFortune';
@@ -67,14 +67,14 @@ import {InvestorPlaza} from './InvestorPlaza';
 // import {MercenaryAssault} from './MercenaryAssault';
 // import {MicroGeodesics} from './MicroGeodesics';
 // import {Microgravimetry} from './Microgravimetry';
-// import {MicroprobingTechnology} from './MicroprobingTechnology';
+import {MicroprobingTechnology} from './MicroprobingTechnology';
 // import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
 // import {Nanofoundry} from './Nanofoundry';
 // import {NarrativeSpin} from './NarrativeSpin';
 // import {Neutrinograph} from './Neutrinograph';
 import {Nightclubs} from './Nightclubs';
-// import {OffWorldTaxHaven} from './OffWorldTaxHaven';
+import {OffWorldTaxHaven} from './OffWorldTaxHaven';
 import {OldWorldMafia} from './OldWorldMafia';
 // import {OrbitalLaserDrill} from './OrbitalLaserDrill';
 // import {PatentManipulation} from './PatentManipulation';
@@ -108,7 +108,7 @@ import {SecretResearch} from './SecretResearch';
 import {TunnelBoringMachine} from './TunnelBoringMachine';
 import {TunnelingOperation} from './TunnelingOperation';
 import {TunnelingSubcontractor} from './TunnelingSubcontractor';
-// import {UndergroundAmusementPark} from './UndergroundAmusementPark';
+import {UndergroundAmusementPark} from './UndergroundAmusementPark';
 // import {UndergroundHabitat} from './UndergroundHabitat';
 import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
@@ -132,21 +132,21 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.OLD_WORLD_MAFIA]: {Factory: OldWorldMafia},
     [CardName.NIGHTCLUBS]: {Factory: Nightclubs},
     [CardName.RECKLESS_DETONATION]: {Factory: RecklessDetonation},
-    // [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
+    [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
     // [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering},
     // [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
     // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking},
     // [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
-    // [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
+    [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
-    // [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
-    // [CardName.CASINO]: {Factory: Casino},
-    // [CardName.IMPORTED_HEAVY_MACHINERY]: {Factory: ImportedHeavyMachinery},
-    // [CardName.MICROPROBING_TECHNOLOGY]: {Factory: MicroprobingTechnology},
+    [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
+    [CardName.CASINO]: {Factory: Casino},
+    [CardName.IMPORTED_HEAVY_MACHINERY]: {Factory: ImportedHeavyMachinery},
+    [CardName.MICROPROBING_TECHNOLOGY]: {Factory: MicroprobingTechnology},
     // [CardName.SEARCH_FOR_LIFE_UNDERGROUND]: {Factory: SearchforLifeUnderground},
-    // [CardName.GEOTHERMAL_NETWORK]: {Factory: GeothermalNetwork},
+    [CardName.GEOTHERMAL_NETWORK]: {Factory: GeothermalNetwork},
     // [CardName.GLOBAL_AUDIT]: {Factory: GlobalAudit},
     // [CardName.PATENT_MANIPULATION]: {Factory: PatentManipulation},
     // [CardName.CAVE_CITY]: {Factory: CaveCity},

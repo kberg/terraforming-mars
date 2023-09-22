@@ -72,6 +72,7 @@ import {PreludesExpansion} from './preludes/PreludesExpansion';
 import {ChooseCards} from './deferredActions/ChooseCards';
 import {UnderworldPlayerData} from './underworld/UnderworldData';
 import {Counter} from './behavior/Counter';
+import {UnderworldExpansion} from './underworld/UnderworldExpansion';
 
 const THROW_WAITING_FOR = Boolean(process.env.THROW_WAITING_FOR);
 
@@ -227,7 +228,7 @@ export class Player implements IPlayer {
     this.production = new Production(this);
     this.stock = new Stock(this);
     // TODO: serialize this.
-    this.underworldData = {corruption: 0};
+    this.underworldData = UnderworldExpansion.initializePlayer();
   }
 
   public static initialize(

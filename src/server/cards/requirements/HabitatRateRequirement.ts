@@ -12,4 +12,3 @@ export class HabitatRateRequirement extends GlobalParameterRequirement {
     return MoonExpansion.moonData(player.game).habitatRate;
   }
 }
-

@@ -28,6 +28,8 @@ import {TRRequirement} from './TRRequirement';
 import {TagCardRequirement} from './TagCardRequirement';
 import {TemperatureRequirement} from './TemperatureRequirement';
 import {VenusRequirement} from './VenusRequirement';
+import {ExcavationRequirement} from './ExcavationRequirement';
+import {CorruptionRequirement} from './CorruptionRequirement';
 
 export class CardRequirements implements ICardRequirements {
   constructor(public requirements: Array<CardRequirement>) {}
@@ -179,6 +181,16 @@ class Builder {
 
   public roadTiles(amount: number = 1, options?: Options): this {
     this.reqs.push(new RoadTilesRequirement(amount, options));
+    return this;
+  }
+
+  public excavation(amount: number = 1, options?: Options): this {
+    this.reqs.push(new ExcavationRequirement(amount, options));
+    return this;
+  }
+
+  public corruption(amount: number = 1, options?: Options): this {
+    this.reqs.push(new CorruptionRequirement(amount, options));
     return this;
   }
 }

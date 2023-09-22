@@ -22,6 +22,7 @@ export class UnderworldExpansion {
   public static initializePlayer(): UnderworldPlayerData {
     return {
       corruption: 0,
+      excavationTiles: 0,
     };
   }
 

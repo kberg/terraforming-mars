@@ -6,4 +6,5 @@ export type UnderworldData = {
 
 export type UnderworldPlayerData = {
   corruption: number;
+  excavationTiles: number;
 }
