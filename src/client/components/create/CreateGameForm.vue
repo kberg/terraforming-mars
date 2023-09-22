@@ -146,6 +146,12 @@
                                 <div class="create-game-expansion-icon expansion-icon-ceo"></div>
                                 <span v-i18n>CEOs</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/CEOs" class="tooltip" target="_blank">&#9432;</a>
                             </label>
+
+                            <input type="checkbox" name="ceo" id="underworld-checkbox" v-model="underworldExpansion">
+                            <label for="underworld-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-underworld"></div>
+                                <span v-i18n>Underworld 🆕(α)</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Underworld" class="tooltip" target="_blank">&#9432;</a>
+                            </label>
                         </div>
 
                         <div class="create-game-page-column">
@@ -572,6 +578,9 @@ export default (Vue as WithRefs<Refs>).extend({
       politicalAgendasExtension: AgendaStyle.STANDARD,
       moonExpansion: false,
       pathfindersExpansion: false,
+      ceoExtension: false,
+      underworldExpansion: false,
+
       undoOption: false,
       showTimers: true,
       fastModeOption: false,
@@ -592,7 +601,6 @@ export default (Vue as WithRefs<Refs>).extend({
       escapeVelocityPeriod: constants.DEFAULT_ESCAPE_VELOCITY_PERIOD,
       escapeVelocityPenalty: constants.DEFAULT_ESCAPE_VELOCITY_PENALTY,
       twoCorpsVariant: false,
-      ceoExtension: false,
       customCeos: [],
       startingCeos: 3,
     };
@@ -950,6 +958,9 @@ export default (Vue as WithRefs<Refs>).extend({
       const politicalAgendasExtension = this.politicalAgendasExtension;
       const moonExpansion = this.moonExpansion;
       const pathfindersExpansion = this.pathfindersExpansion;
+      const ceoExtension = this.ceoExtension;
+      const underworldExpansion= this.underworldExpansion;
+
       const undoOption = this.undoOption;
       const showTimers = this.showTimers;
       const fastModeOption = this.fastModeOption;
@@ -967,7 +978,6 @@ export default (Vue as WithRefs<Refs>).extend({
       const escapeVelocityPeriod = this.escapeVelocityMode ? this.escapeVelocityPeriod : undefined;
       const escapeVelocityPenalty = this.escapeVelocityMode ? this.escapeVelocityPenalty : undefined;
       const twoCorpsVariant = this.twoCorpsVariant;
-      const ceoExtension = this.ceoExtension;
       const customCeos = this.customCeos;
       const startingCeos = this.startingCeos;
       let clonedGamedId: undefined | GameId = undefined;
@@ -1111,6 +1121,9 @@ export default (Vue as WithRefs<Refs>).extend({
         politicalAgendasExtension: politicalAgendasExtension,
         moonExpansion: moonExpansion,
         pathfindersExpansion: pathfindersExpansion,
+        ceoExtension,
+        underworldExpansion,
+
         undoOption,
         showTimers,
         fastModeOption,
@@ -1135,7 +1148,6 @@ export default (Vue as WithRefs<Refs>).extend({
         escapeVelocityPeriod,
         escapeVelocityPenalty,
         twoCorpsVariant,
-        ceoExtension,
         customCeos,
         startingCeos,
       };

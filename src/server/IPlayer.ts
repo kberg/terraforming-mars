@@ -30,6 +30,7 @@ import {PlayableCard} from './cards/IProjectCard';
 import {Color} from '../common/Color';
 import {OrOptions} from './inputs/OrOptions';
 import {Stock} from './player/Stock';
+import {UnderworldData} from './underworld/UnderworldData';
 
 export type ResourceSource = IPlayer | GlobalEventName | ICard;
 
@@ -136,6 +137,8 @@ export interface IPlayer {
   actionsTakenThisGame: number;
   victoryPointsByGeneration: Array<number>;
   totalDelegatesPlaced: number;
+
+  underworldData: UnderworldData;
 
   tearDown(): void;
   tableau: Array<ICorporationCard | IProjectCard>;

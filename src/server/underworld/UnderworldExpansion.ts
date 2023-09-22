@@ -13,14 +13,13 @@ export class UnderworldExpansion {
     return board.spaces.filter((space) => space.undergroundResources !== undefined);
   }
 
-  public static identify(player: IPlayer, space: Space) {
+  public static identify(_player: IPlayer, space: Space) {
     if (space.undergroundResources !== undefined) {
       throw new Error('Space alrady identified');
     }
   }
 
   public static excavatableSpaces(player: IPlayer) {
-    const board = player.game.board;
     return this.identifiedSpaces(player).filter(
       (space) =>
         space.excavatedBy === undefined &&
@@ -28,7 +27,7 @@ export class UnderworldExpansion {
     );
   }
 
-  public static excavate(player: IPlayer, space: Space) {
-    const board = player.game.board;
+  public static excavate(_player: IPlayer, _space: Space) {
+    // const board = player.game.board;
   }
 }

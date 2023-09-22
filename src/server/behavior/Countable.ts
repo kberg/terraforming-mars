@@ -32,6 +32,11 @@ export type _Countable = {
     road?: NoAttributes,
   }
 
+  underworld?: {
+    corruption?: NoAttributes,
+    excavationMarkers?: NoAttributes,
+  }
+
   all?: boolean; // (Note for later: Tags and Cities have different defaults. THIS IS NOT GOOD, IS IT?)
   others?: true; // For tags this has a behavior.
 

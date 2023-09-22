@@ -167,7 +167,7 @@ import {COMMUNITY_COLONY_NAMES, OFFICIAL_COLONY_NAMES, PATHFINDERS_COLONY_NAMES}
 import {ColonyModel} from '@/common/models/ColonyModel';
 import {ColonyName} from '@/common/colonies/ColonyName';
 import PreferencesIcon from '@/client/components/PreferencesIcon.vue';
-import {GameModule, GAME_MODULES} from '@/common/cards/GameModule';
+import {EXPANSION_NAMES, GameModule, GAME_MODULES} from '@/common/cards/GameModule';
 import {Tag} from '@/common/cards/Tag';
 import {allColonyNames, getColony} from '@/client/colonies/ClientColonyManifest';
 import {ClientCard} from '@/common/cards/ClientCard';
@@ -198,11 +198,12 @@ const moduleAbbreviations: Record<GameModule, string> = {
   ares: 'a',
   moon: 'm',
   pathfinders: 'P',
+  underworld: 'u',
   ceo: 'l', // ceo abbreviation is 'l' for leader, since both 'C' are already taken
 };
 
 // TODO(kberg): make this use suffixModules.
-const ALL_MODULES = 'bcpvCt*ramPl2';
+const ALL_MODULES = 'bcpvCt*ramPl2u';
 
 type TypeOption = CardType | 'colonyTiles' | 'globalEvents' | 'milestones' | 'awards';
 type TagOption = Tag | 'none';
@@ -315,6 +316,7 @@ export default (Vue as WithRefs<Refs>).extend({
         promo: true,
         pathfinders: true,
         ceo: true,
+        underworld: true,
       },
       types: {
         event: true,
@@ -493,21 +495,7 @@ export default (Vue as WithRefs<Refs>).extend({
       }
     },
     expansionName(expansion: GameModule): string {
-      switch (expansion) {
-      case 'base': return 'Base';
-      case 'corpera': return 'Corporate Era';
-      case 'prelude': return 'Prelude';
-      case 'prelude2': return 'Prelude 2';
-      case 'venus': return 'Venus Next';
-      case 'colonies': return 'Colonies';
-      case 'turmoil': return 'Turmoil';
-      case 'promo': return 'Promos';
-      case 'ares': return 'Ares';
-      case 'community': return 'Community';
-      case 'moon': return 'The Moon';
-      case 'pathfinders': return 'Pathfinders';
-      case 'ceo': return 'CEOs';
-      }
+      return EXPANSION_NAMES[expansion];
     },
     filterByTags(card: ClientCard): boolean {
       if (card.tags.length === 0) {

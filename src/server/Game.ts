@@ -70,6 +70,7 @@ import {addDays, dayStringToDays} from './database/utils';
 import {ALL_TAGS, Tag} from '../common/cards/Tag';
 import {IGame, Score} from './IGame';
 import {MarsBoard} from './boards/MarsBoard';
+import {UnderworldData} from './underworld/UnderworldData';
 
 export class Game implements IGame, Logger {
   public readonly id: GameId;
@@ -130,6 +131,7 @@ export class Game implements IGame, Logger {
   public aresData: AresData | undefined;
   public moonData: IMoonData | undefined;
   public pathfindersData: PathfindersData | undefined;
+  public underworldData: UnderworldData | undefined;
 
   // Card-specific data
   // Mons Insurance promo corp

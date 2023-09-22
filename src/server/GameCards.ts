@@ -9,6 +9,8 @@ import {ARES_CARD_MANIFEST} from './cards/ares/AresCardManifest';
 import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
 import {PATHFINDERS_CARD_MANIFEST} from './cards/pathfinders/PathfindersCardManifest';
 import {CEO_CARD_MANIFEST} from './cards/ceos/CeoCardManifest';
+import {PRELUDE2_CARD_MANIFEST} from './cards/prelude2/Prelude2CardManifest';
+import {UNDERWORLD_CARD_MANIFEST} from './cards/underworld/UnderworldCardManifest';
 import {CardManifest, ModuleManifest} from './cards/ModuleManifest';
 import {CardName} from '../common/cards/CardName';
 import {ICard} from './cards/ICard';
@@ -21,7 +23,6 @@ import {IStandardProjectCard} from './cards/IStandardProjectCard';
 import {CardFinder} from './CardFinder';
 import {IPreludeCard} from './cards/prelude/IPreludeCard';
 import {ICeoCard} from './cards/ceos/ICeoCard';
-import {PRELUDE2_CARD_MANIFEST} from './cards/prelude2/Prelude2CardManifest';
 
 /**
  * Returns the cards available to a game based on its `GameOptions`.
@@ -58,6 +59,7 @@ export class GameCards {
       [gameOptions.moonExpansion, MOON_CARD_MANIFEST],
       [gameOptions.pathfindersExpansion, PATHFINDERS_CARD_MANIFEST],
       [gameOptions.ceoExtension, CEO_CARD_MANIFEST],
+      [gameOptions.underworldExpansion, UNDERWORLD_CARD_MANIFEST],
     ];
 
     this.moduleManifests = manifests.filter((a) => a[0]).map((a) => a[1]);

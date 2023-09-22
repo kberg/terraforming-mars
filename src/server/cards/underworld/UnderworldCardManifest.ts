@@ -22,7 +22,7 @@ import {BatteryShipment} from './BatteryShipment';
 // import {CraterSurvey} from './CraterSurvey';
 // import {CutThroatBudgeting} from './CutThroatBudgeting';
 // import {Deepmining} from './Deepmining';
-// import {Deepnuking} from './Deepnuking';
+import {Deepnuking} from './Deepnuking';
 // import {DeepwaterDome} from './DeepwaterDome';
 // import {DemetronLabs} from './DemetronLabs';
 // import {EarthquakeMachine} from './EarthquakeMachine';
@@ -72,9 +72,9 @@ import {InvestorPlaza} from './InvestorPlaza';
 // import {Nanofoundry} from './Nanofoundry';
 // import {NarrativeSpin} from './NarrativeSpin';
 // import {Neutrinograph} from './Neutrinograph';
-// import {Nightclubs} from './Nightclubs';
+import {Nightclubs} from './Nightclubs';
 // import {OffWorldTaxHaven} from './OffWorldTaxHaven';
-// import {OldWorldMafia} from './OldWorldMafia';
+import {OldWorldMafia} from './OldWorldMafia';
 // import {OrbitalLaserDrill} from './OrbitalLaserDrill';
 // import {PatentManipulation} from './PatentManipulation';
 // import {PersonalSpacecruiser} from './PersonalSpacecruiser';
@@ -86,7 +86,7 @@ import {InvestorPlaza} from './InvestorPlaza';
 // import {PrivateResorts} from './PrivateResorts';
 // import {Prospecting} from './Prospecting';
 // import {PublicSpaceline} from './PublicSpaceline';
-// import {RecklessDetonation} from './RecklessDetonation';
+import {RecklessDetonation} from './RecklessDetonation';
 // import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
 // import {RobotMoles} from './RobotMoles';
 // import {Scapegoat} from './Scapegoat';
@@ -104,12 +104,12 @@ import {SecretResearch} from './SecretResearch';
 // import {SubterraneanSea} from './SubterraneanSea';
 // import {ThiolavaVents} from './ThiolavaVents';
 // import {TitanManufacturingColony} from './TitanManufacturingColony';
-// import {TunnelBoringMachine} from './TunnelBoringMachine';
+import {TunnelBoringMachine} from './TunnelBoringMachine';
 // import {TunnelingOperation} from './TunnelingOperation';
-// import {TunnelingSubcontractor} from './TunnelingSubcontractor';
+import {TunnelingSubcontractor} from './TunnelingSubcontractor';
 // import {UndergroundAmusementPark} from './UndergroundAmusementPark';
 // import {UndergroundHabitat} from './UndergroundHabitat';
-// import {UndergroundRailway} from './UndergroundRailway';
+import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
 // import {UndergroundSettlement} from './UndergroundSettlement';
 // import {UndergroundShelters} from './UndergroundShelters';
@@ -124,13 +124,13 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
   projectCards: {
     // [CardName.GEOLOGIST_TEMPERATURE]: {Factory: GeologistTemperature},
     // [CardName.GEOSCAN_SATELLITE]: {Factory: GeoscanSatellite},
-    // [CardName.TUNNEL_BORING_MACHINE]: {Factory: TunnelBoringMachine},
-    // [CardName.UNDERGROUND_RAILWAY]: {Factory: UndergroundRailway},
+    [CardName.TUNNEL_BORING_MACHINE]: {Factory: TunnelBoringMachine},
+    [CardName.UNDERGROUND_RAILWAY]: {Factory: UndergroundRailway},
     // [CardName.GAIA_CITY]: {Factory: GaiaCity},
-    // [CardName.DEEPNUKING]: {Factory: Deepnuking},
-    // [CardName.OLD_WORLD_MAFIA]: {Factory: OldWorldMafia},
-    // [CardName.NIGHTCLUBS]: {Factory: Nightclubs},
-    // [CardName.RECKLESS_DETONATION]: {Factory: RecklessDetonation},
+    [CardName.DEEPNUKING]: {Factory: Deepnuking},
+    [CardName.OLD_WORLD_MAFIA]: {Factory: OldWorldMafia},
+    [CardName.NIGHTCLUBS]: {Factory: Nightclubs},
+    [CardName.RECKLESS_DETONATION]: {Factory: RecklessDetonation},
     // [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
     // [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering},
@@ -139,7 +139,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     // [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
-    // [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
+    [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
     // [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
     // [CardName.CASINO]: {Factory: Casino},
     // [CardName.IMPORTED_HEAVY_MACHINERY]: {Factory: ImportedHeavyMachinery},

@@ -454,6 +454,17 @@ export class Executor implements BehaviorExecutor {
       if (moon.miningRate !== undefined) MoonExpansion.raiseMiningRate(player, moon.miningRate);
       if (moon.logisticsRate !== undefined) MoonExpansion.raiseLogisticRate(player, moon.logisticsRate);
     }
+
+    if (behavior.underworld !== undefined) {
+      const underworld = behavior.underworld;
+      if (underworld.corruption !== undefined) {
+        // Log? Make a function
+        player.underworldData.corruption += ctx.count(underworld.corruption);
+      }
+      if (underworld.excavate !== undefined) {
+        player.game.defer(new ExcavateSpaces(player, ctx.count(underworld.excavate)));
+      }
+    }
   }
 
   public onDiscard(behavior: Behavior, player: IPlayer, _card: ICard) {

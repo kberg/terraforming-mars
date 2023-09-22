@@ -40,6 +40,9 @@ export interface CreateGameModel {
   politicalAgendasExtension: AgendaStyle;
   moonExpansion: boolean;
   pathfindersExpansion: boolean;
+  ceoExtension: boolean;
+  underworldExpansion: boolean;
+
   undoOption: boolean;
   showTimers: boolean;
   fastModeOption: boolean;
@@ -60,7 +63,6 @@ export interface CreateGameModel {
   escapeVelocityPeriod: number;
   escapeVelocityPenalty: number;
   twoCorpsVariant: boolean;
-  ceoExtension: boolean;
   customCeos: Array<CardName>;
   startingCeos: number;
 }

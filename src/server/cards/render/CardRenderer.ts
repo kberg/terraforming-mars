@@ -449,8 +449,13 @@ abstract class Builder<T> {
     return this._appendToRow(item);
   }
 
-  public corruption(count: number = 1) {
-    const item = new CardRenderItem(CardRenderItemType.CORRUPTION, count);
+  public corruption(count: number = 1, options?: ItemOptions) {
+    const item = new CardRenderItem(CardRenderItemType.CORRUPTION, count, options);
+    return this._appendToRow(item);
+  }
+
+  public excavate(count: number = 1, options?: ItemOptions) {
+    const item = new CardRenderItem(CardRenderItemType.EXCAVATE, count, options);
     return this._appendToRow(item);
   }
 

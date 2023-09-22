@@ -90,4 +90,5 @@ export enum CardRenderItemType {
 
   // Underworld
   CORRUPTION = 'corruption',
+  EXCAVATE = 'excavate',
 }

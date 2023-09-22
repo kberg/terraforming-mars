@@ -20,6 +20,7 @@ const MODULE_TO_CSS: Omit<Record<GameModule, string>, 'base'> = {
   'moon': 'moon-icon',
   'pathfinders': 'pathfinders-icon',
   'ceo': 'ceo-icon',
+  'underworld': 'underworld-icon',
 };
 export default Vue.extend({
   name: 'CardExpansion',

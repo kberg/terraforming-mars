@@ -71,6 +71,7 @@ import {IPreludeCard} from './cards/prelude/IPreludeCard';
 import {sum} from '../common/utils/utils';
 import {PreludesExpansion} from './preludes/PreludesExpansion';
 import {ChooseCards} from './deferredActions/ChooseCards';
+import {UnderworldData} from './underworld/UnderworldData';
 
 const THROW_WAITING_FOR = Boolean(process.env.THROW_WAITING_FOR);
 
@@ -193,6 +194,9 @@ export class Player implements IPlayer {
   // cards that provide 'next card' discounts. This will clear between turns.
   public removedFromPlayCards: Array<IProjectCard> = [];
 
+  // Underworld
+  public underworldData: UnderworldData;
+
   // The number of actions a player can take this round.
   // It's almost always 2, but certain cards can change this value.
   //
@@ -222,6 +226,8 @@ export class Player implements IPlayer {
     this.colonies = new Colonies(this);
     this.production = new Production(this);
     this.stock = new Stock(this);
+    // TODO: serialize this.
+    this.underworldData = {corruption: 0};
   }
 
   public static initialize(

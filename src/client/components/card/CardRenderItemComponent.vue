@@ -293,6 +293,12 @@ export default Vue.extend({
       case CardRenderItemType.HYDROELECTRIC_RESOURCE:
         classes.push('card-resource', 'card-resource-hydroelectric-resource');
         break;
+      case CardRenderItemType.CORRUPTION:
+        classes.push('card-resource', 'card-resource-corruption');
+        break;
+      case CardRenderItemType.EXCAVATE:
+        classes.push('card-excavation');
+        break;
       }
 
       if (this.item.secondaryTag === AltSecondaryTag.NO_PLANETARY_TAG) {

@@ -100,6 +100,9 @@ export class GameHandler extends Handler {
             pathfindersExpansion: gameReq.pathfindersExpansion,
             promoCardsOption: gameReq.promoCardsOption,
             communityCardsOption: gameReq.communityCardsOption,
+            ceoExtension: gameReq.ceoExtension,
+            underworldExpansion: gameReq.underworldExpansion,
+
             solarPhaseOption: gameReq.solarPhaseOption,
             removeNegativeGlobalEventsOption: gameReq.removeNegativeGlobalEventsOption,
             includeVenusMA: gameReq.includeVenusMA,
@@ -125,7 +128,6 @@ export class GameHandler extends Handler {
             escapeVelocityPeriod: gameReq.escapeVelocityPeriod,
             escapeVelocityPenalty: gameReq.escapeVelocityPenalty,
             twoCorpsVariant: gameReq.twoCorpsVariant,
-            ceoExtension: gameReq.ceoExtension,
             customCeos: gameReq.customCeos,
             startingCeos: gameReq.startingCeos,
           };

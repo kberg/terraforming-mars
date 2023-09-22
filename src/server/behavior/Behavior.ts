@@ -60,7 +60,7 @@ export interface Behavior {
 
   /** Gain units of TR */
   // TODO(kberg) permit losing TR for TerralabsResearch
-  tr?: number;
+  tr?: Countable;
 
   /** Raise certain global parameters. */
   global?: {
@@ -147,6 +147,7 @@ export interface Behavior {
 
   underworld?: {
     corruption?: Countable,
+    excavate?: Countable,
   }
 }
 
