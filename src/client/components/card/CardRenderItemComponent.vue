@@ -293,11 +293,14 @@ export default Vue.extend({
       case CardRenderItemType.HYDROELECTRIC_RESOURCE:
         classes.push('card-resource', 'card-resource-hydroelectric-resource');
         break;
-      case CardRenderItemType.CORRUPTION:
-        classes.push('card-resource', 'card-resource-corruption');
+      case CardRenderItemType.IDENTIFY:
+        classes.push('card-identification');
         break;
       case CardRenderItemType.EXCAVATE:
         classes.push('card-excavation');
+        break;
+      case CardRenderItemType.CORRUPTION:
+        classes.push('card-resource', 'card-resource-corruption');
         break;
       }
 

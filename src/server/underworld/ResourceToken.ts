@@ -1,1 +1,2 @@
 export type ResourceTokenType = 'data' | 'corruption' | 'card' | 'steel' | 'steel production' | 'titanium' | 'plant' | 'titanium production' | 'plant production' | 'energy production' | 'heat production' | 'microbe' | 'tr' | 'ocean';
+export type ResourceToken = Array<ResourceTokenType>;

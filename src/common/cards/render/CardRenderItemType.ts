@@ -89,6 +89,7 @@ export enum CardRenderItemType {
   ADJACENCY_BONUS = 'adjacency-bonus',
 
   // Underworld
-  CORRUPTION = 'corruption',
+  IDENTIFY = 'identify',
   EXCAVATE = 'excavate',
+  CORRUPTION = 'corruption',
 }

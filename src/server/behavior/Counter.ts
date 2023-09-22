@@ -8,12 +8,17 @@ import {MoonExpansion} from '../moon/MoonExpansion';
 import {CardResource} from '../../common/CardResource';
 import * as utils from '../../common/utils/utils'; // Since there's already a sum variable.
 
+export interface ICounter {
+  count(countable: Countable, context?: 'default' | 'vps'): number;
+  countUnits(countableUnits: Partial<CountableUnits>): Units;
+}
+
 /**
  * Counts things in game state.
  *
  * The constructor accepts the game state, which is essentially the player, and the card being played or acted upon.
  */
-export class Counter {
+export class Counter implements ICounter {
   /**
    * True if the `this.card` is still in the player's hand.
    *

@@ -146,8 +146,9 @@ export interface Behavior {
   },
 
   underworld?: {
-    corruption?: Countable,
+    identify?: Countable,
     excavate?: Countable,
+    corruption?: Countable,
   }
 }
 

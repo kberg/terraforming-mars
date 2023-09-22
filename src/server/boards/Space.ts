@@ -4,7 +4,7 @@ import {Tile} from '../Tile';
 import {AdjacencyBonus} from '../ares/AdjacencyBonus';
 import {SpaceId} from '../../common/Types';
 import {IPlayer} from '../IPlayer';
-import {ResourceToken} from '../underworld/ResourceTokens';
+import {ResourceToken} from '../underworld/ResourceToken';
 
 export type Space = {
     id: SpaceId;

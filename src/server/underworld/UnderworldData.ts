@@ -1,3 +1,9 @@
+import {ResourceToken} from './ResourceToken';
+
 export type UnderworldData = {
-  corruption: number;
+  tokens: Array<ResourceToken>;
 };
+
+export type UnderworldPlayerData = {
+  corruption: number;
+}

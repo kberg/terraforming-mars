@@ -31,6 +31,7 @@ import {CorporationDeck, PreludeDeck, ProjectDeck, CeoDeck} from './cards/Deck';
 import {Tag} from '../common/cards/Tag';
 import {Tile} from './Tile';
 import {Logger} from './logs/Logger';
+import {UnderworldData} from './underworld/UnderworldData';
 
 export interface Score {
   corporation: String;
@@ -69,6 +70,8 @@ export interface IGame extends Logger {
   aresData: AresData | undefined;
   moonData: IMoonData | undefined;
   pathfindersData: PathfindersData | undefined;
+  underworldData: UnderworldData | undefined;
+
   // Card-specific data
   // Mons Insurance promo corp
   monsInsuranceOwner?: PlayerId; // Not serialized

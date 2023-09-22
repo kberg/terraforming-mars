@@ -16,7 +16,7 @@ import {PlaceMoonRoadTile} from '../moon/PlaceMoonRoadTile';
 import {PlaceSpecialMoonTile} from '../moon/PlaceSpecialMoonTile';
 import {CanAffordOptions, IPlayer} from '../IPlayer';
 import {Behavior} from './Behavior';
-import {Counter} from './Counter';
+import {Counter, ICounter} from './Counter';
 import {Turmoil} from '../turmoil/Turmoil';
 import {SendDelegateToArea} from '../deferredActions/SendDelegateToArea';
 import {BehaviorExecutor} from './BehaviorExecutor';
@@ -27,11 +27,13 @@ import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {Payment} from '../../common/inputs/Payment';
 import {SelectResources} from '../inputs/SelectResources';
+import {IdentifySpacesDeferred} from '../underworld/IdentifySpacesDeferred';
+import {ExcavateSpacesDeferred} from '../underworld/ExcavateSpacesDeferred';
 
 export class Executor implements BehaviorExecutor {
   public canExecute(behavior: Behavior, player: IPlayer, card: ICard, canAffordOptions?: CanAffordOptions) {
     const ctx = new Counter(player, card);
-    const asTrSource = this.toTRSource(behavior);
+    const asTrSource = this.toTRSource(behavior, ctx);
 
     if (behavior.production && !player.production.canAdjust(ctx.countUnits(behavior.production))) {
       return false;
@@ -307,7 +309,7 @@ export class Executor implements BehaviorExecutor {
     }
 
     if (behavior.tr !== undefined) {
-      player.increaseTerraformRating(behavior.tr);
+      player.increaseTerraformRating(ctx.count(behavior.tr));
     }
     const addResources = behavior.addResources;
     if (addResources !== undefined) {
@@ -457,12 +459,15 @@ export class Executor implements BehaviorExecutor {
 
     if (behavior.underworld !== undefined) {
       const underworld = behavior.underworld;
+      if (underworld.identify !== undefined) {
+        player.game.defer(new IdentifySpacesDeferred(player, ctx.count(underworld.identify)));
+      }
+      if (underworld.excavate !== undefined) {
+        player.game.defer(new ExcavateSpacesDeferred(player, ctx.count(underworld.excavate)));
+      }
       if (underworld.corruption !== undefined) {
         // Log? Make a function
         player.underworldData.corruption += ctx.count(underworld.corruption);
-      }
-      if (underworld.excavate !== undefined) {
-        player.game.defer(new ExcavateSpaces(player, ctx.count(underworld.excavate)));
       }
     }
   }
@@ -495,9 +500,9 @@ export class Executor implements BehaviorExecutor {
     }
   }
 
-  public toTRSource(behavior: Behavior): TRSource {
+  public toTRSource(behavior: Behavior, ctx: ICounter): TRSource {
     const trSource: TRSource = {
-      tr: behavior.tr,
+      tr: behavior.tr ? ctx.count(behavior.tr) : undefined,
 
       temperature: behavior.global?.temperature,
       oxygen: (behavior.global?.oxygen ?? 0) + (behavior.greenery !== undefined ? 1 : 0),

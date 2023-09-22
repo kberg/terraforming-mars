@@ -3,7 +3,7 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {all} from '../Options';
+import {all, digit} from '../Options';
 // import {CardRequirements} from '../requirements/CardRequirements';
 
 export class RecklessDetonation extends Card implements IProjectCard {
@@ -23,7 +23,7 @@ export class RecklessDetonation extends Card implements IProjectCard {
       metadata: {
         cardNumber: 'U06',
         renderData: CardRenderer.builder((b) => {
-          b.excavate(1).minus().steel(3, {all}).asterix().or().titanium(2, {all}).asterix();
+          b.excavate(1).minus().steel(3, {digit, all}).asterix().or().titanium(2, {digit, all}).asterix();
         }),
         description: 'Requires 2 corruption. Excavate an underground resources. Remove up to 3 steel or 2 titanium from another player.',
       },

@@ -10,8 +10,7 @@ import {IGame} from './IGame';
 import {Game} from './Game';
 import {Payment, PaymentKey, PAYMENT_KEYS} from '../common/inputs/Payment';
 import {IAward} from './awards/IAward';
-import {ICard, isIActionCard, IActionCard, DynamicTRSource} from './cards/ICard';
-import {TRSource} from '../common/cards/TRSource';
+import {ICard, isIActionCard, IActionCard} from './cards/ICard';
 import {IMilestone} from './milestones/IMilestone';
 import {IProjectCard} from './cards/IProjectCard';
 import {OrOptions} from './inputs/OrOptions';
@@ -71,7 +70,8 @@ import {IPreludeCard} from './cards/prelude/IPreludeCard';
 import {sum} from '../common/utils/utils';
 import {PreludesExpansion} from './preludes/PreludesExpansion';
 import {ChooseCards} from './deferredActions/ChooseCards';
-import {UnderworldData} from './underworld/UnderworldData';
+import {UnderworldPlayerData} from './underworld/UnderworldData';
+import {Counter} from './behavior/Counter';
 
 const THROW_WAITING_FOR = Boolean(process.env.THROW_WAITING_FOR);
 
@@ -195,7 +195,7 @@ export class Player implements IPlayer {
   public removedFromPlayCards: Array<IProjectCard> = [];
 
   // Underworld
-  public underworldData: UnderworldData;
+  public underworldData: UnderworldPlayerData;
 
   // The number of actions a player can take this round.
   // It's almost always 2, but certain cards can change this value.
@@ -1353,7 +1353,11 @@ export class Player implements IPlayer {
   }
 
   public affordOptionsForCard(card: IProjectCard): CanAffordOptions {
-    const trSource: TRSource | DynamicTRSource | undefined = card.tr || (card.behavior !== undefined ? getBehaviorExecutor().toTRSource(card.behavior) : undefined);
+    const trSource =
+        card.tr ||
+        (card.behavior !== undefined ?
+          getBehaviorExecutor().toTRSource(card.behavior, new Counter(this, card)) :
+          undefined);
     return {
       cost: this.getCardCost(card),
       ...this.paymentOptionsForCard(card),
