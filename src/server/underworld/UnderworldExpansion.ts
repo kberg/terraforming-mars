@@ -13,6 +13,7 @@ import {PlaceOceanTile} from '../deferredActions/PlaceOceanTile';
 import {MultiSet} from 'mnemonist';
 import {IGame} from '../IGame';
 import {SpaceType} from '../../common/boards/SpaceType';
+import {CardName} from '../../common/cards/CardName';
 
 export class UnderworldExpansion {
   private constructor() {
@@ -54,19 +55,21 @@ export class UnderworldExpansion {
     space.undergroundResources = token;
   }
 
-  public static excavatableSpaces(player: IPlayer) {
+  public static excavatableSpaces(player: IPlayer, ignorePlacementRestrictions: boolean = false) {
     const board = player.game.board;
-    const commonExcavatableSpaces = board.spaces.filter((space) => {
+    const anyExcavatableSpaces = board.spaces.filter((space) => {
       if (space.excavator !== undefined) {
         return false;
       }
-      if (space.spaceType === SpaceType.COLONY) {
-        return false;
-      }
-      if (Board.isCitySpace(space) || space.player !== player) {
-        return false;
-      }
-      return true;
+      return space.spaceType !== SpaceType.COLONY;
+    });
+
+    if (ignorePlacementRestrictions === true) {
+      return anyExcavatableSpaces;
+    }
+
+    const commonExcavatableSpaces = anyExcavatableSpaces.filter((space) => {
+      return !Board.isCitySpace(space) || space.player === player;
     });
     const spaces = commonExcavatableSpaces.filter((space) => {
       if (space.tile !== undefined && space.player === player) {
@@ -91,6 +94,10 @@ export class UnderworldExpansion {
     const game = player.game;
     game.board.getAdjacentSpaces(space)
       .forEach((s) => UnderworldExpansion.identify(game, s));
+    const leaser = game.getCardPlayerOrUndefined(CardName.EXCAVATOR_LEASING);
+    if (leaser !== undefined) {
+      leaser.stock.add(Resource.MEGACREDITS, 1, {log: true});
+    }
   }
 
   public static grant(player: IPlayer, reward: ResourceTokenType, count: number): void {

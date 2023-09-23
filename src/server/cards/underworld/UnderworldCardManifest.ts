@@ -9,7 +9,7 @@ import {ModuleManifest} from '../ModuleManifest';
 // import {ArtesianAquifer} from './ArtesianAquifer';
 // import {BatteryFactory} from './BatteryFactory';
 import {BatteryShipment} from './BatteryShipment';
-// import {BehemothExcavator} from './BehemothExcavator';
+import {BehemothExcavator} from './BehemothExcavator';
 import {Casino} from './Casino';
 // import {CaveCity} from './CaveCity';
 import {CentralReservoir} from './CentralReservoir';
@@ -28,7 +28,7 @@ import {Deepnuking} from './Deepnuking';
 // import {EarthquakeMachine} from './EarthquakeMachine';
 import {ElectionSponsorship} from './ElectionSponsorship';
 import {ExcavateStandardProject} from './ExcavateStandardProject';
-// import {ExcavatorLeasing} from './ExcavatorLeasing';
+import {ExcavatorLeasing} from './ExcavatorLeasing';
 // import {ExpeditionVehicles} from './ExpeditionVehicles';
 // import {FabricatedScandal} from './FabricatedScandal';
 import {ForestTunnels} from './ForestTunnels';
@@ -60,8 +60,8 @@ import {InvestorPlaza} from './InvestorPlaza';
 // import {Keplertec} from './Keplertec';
 // import {KingdomofTauraro} from './KingdomofTauraro';
 // import {LaborTrafficking} from './LaborTrafficking';
-// import {Landfill} from './Landfill';
-// import {LobbyingNetwork} from './LobbyingNetwork';
+import {Landfill} from './Landfill';
+import {LobbyingNetwork} from './LobbyingNetwork';
 // import {ManMadeVolcano} from './ManMadeVolcano';
 // import {MartianExpress} from './MartianExpress';
 // import {MediaFrenzy} from './MediaFrenzy';
@@ -77,7 +77,7 @@ import {MicroprobingTechnology} from './MicroprobingTechnology';
 import {Nightclubs} from './Nightclubs';
 import {OffWorldTaxHaven} from './OffWorldTaxHaven';
 import {OldWorldMafia} from './OldWorldMafia';
-// import {OrbitalLaserDrill} from './OrbitalLaserDrill';
+import {OrbitalLaserDrill} from './OrbitalLaserDrill';
 // import {PatentManipulation} from './PatentManipulation';
 // import {PersonalSpacecruiser} from './PersonalSpacecruiser';
 // import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
@@ -115,7 +115,7 @@ import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
 import {UndergroundSettlement} from './UndergroundSettlement';
 // import {UndergroundShelters} from './UndergroundShelters';
-// import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
+import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 // import {Voltagon} from './Voltagon';
 // import {VoltaicMettalurgy} from './VoltaicMettalurgy';
 // import {VolunteerMiningInititive} from './VolunteerMiningInititive';
@@ -151,15 +151,15 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.GLOBAL_AUDIT]: {Factory: GlobalAudit},
     // [CardName.PATENT_MANIPULATION]: {Factory: PatentManipulation},
     // [CardName.CAVE_CITY]: {Factory: CaveCity},
-    // [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
+    [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
     // [CardName.DEEPMINING]: {Factory: Deepmining},
-    // [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
-    // [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
+    [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
+    [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
     // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights},
-    // [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
+    [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
     // [CardName.GREY_MARKET_MANIPULATION]: {Factory: GreyMarketManipulation},
-    // [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
-    // [CardName.LANDFILL]: {Factory: Landfill},
+    [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
+    [CardName.LANDFILL]: {Factory: Landfill},
     // [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
     // [CardName.PRIVATE_INVESTIGATOR]: {Factory: PrivateInvestigator},
     // [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},

@@ -9,6 +9,7 @@ export class ExcavateSpacesDeferred extends DeferredAction {
   constructor(
     player: IPlayer,
     public count: number,
+    private ignorePlacementRestrictions: boolean = false,
   ) {
     super(player, Priority.EXCAVATE_UNDERGROUND_RESOURCE);
   }
@@ -17,7 +18,7 @@ export class ExcavateSpacesDeferred extends DeferredAction {
     const prefix = 'Select space to excavate';
     const title = prefix + (this.count > 1 ? ` (${this.nth} of ${this.count})` : '');
     return new SelectSpace(title,
-      UnderworldExpansion.excavatableSpaces(this.player),
+      UnderworldExpansion.excavatableSpaces(this.player, this.ignorePlacementRestrictions),
       (space) => {
         UnderworldExpansion.excavate(this.player, space);
         this.nth++;
