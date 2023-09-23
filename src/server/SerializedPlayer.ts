@@ -3,6 +3,7 @@ import {CardName} from '../common/cards/CardName';
 import {Color} from '../common/Color';
 import {SerializedCard} from './SerializedCard';
 import {SerializedTimer} from '../common/SerializedTimer';
+import {UnderworldPlayerData} from './underworld/UnderworldData';
 
 interface DeprecatedFields {
 }
@@ -66,5 +67,6 @@ export interface SerializedPlayer extends DeprecatedFields{
     totalDelegatesPlaced: number;
     tradesThisGeneration: number;
     turmoilPolicyActionUsed: boolean;
+    underworldData: UnderworldPlayerData;
     victoryPointsByGeneration: Array<number>;
 }

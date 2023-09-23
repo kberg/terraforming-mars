@@ -196,7 +196,7 @@ export class Player implements IPlayer {
   public removedFromPlayCards: Array<IProjectCard> = [];
 
   // Underworld
-  public underworldData: UnderworldPlayerData;
+  public underworldData: UnderworldPlayerData = UnderworldExpansion.initializePlayer();
 
   // The number of actions a player can take this round.
   // It's almost always 2, but certain cards can change this value.
@@ -227,8 +227,6 @@ export class Player implements IPlayer {
     this.colonies = new Colonies(this);
     this.production = new Production(this);
     this.stock = new Stock(this);
-    // TODO: serialize this.
-    this.underworldData = UnderworldExpansion.initializePlayer();
   }
 
   public static initialize(
@@ -1531,6 +1529,8 @@ export class Player implements IPlayer {
         case CardName.MOON_MINE_STANDARD_PROJECT_V2:
         case CardName.MOON_ROAD_STANDARD_PROJECT_V2:
           return gameOptions.moonStandardProjectVariant === true;
+        case CardName.EXCAVATE_STANDARD_PROJECT:
+          return gameOptions.underworldExpansion === true;
         default:
           return true;
         }
@@ -1933,6 +1933,7 @@ export class Player implements IPlayer {
       actionsTakenThisGame: this.actionsTakenThisGame,
       victoryPointsByGeneration: this.victoryPointsByGeneration,
       totalDelegatesPlaced: this.totalDelegatesPlaced,
+      underworldData: this.underworldData,
     };
 
     if (this.lastCardPlayed !== undefined) {
@@ -2028,6 +2029,10 @@ export class Player implements IPlayer {
     player.draftedCards = cardFinder.cardsFromJSON(d.draftedCards);
 
     player.timer = Timer.deserialize(d.timer);
+
+    if (d.underworldData !== undefined) {
+      player.underworldData = d.underworldData;
+    }
 
     return player;
   }

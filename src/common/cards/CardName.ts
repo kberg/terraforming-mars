@@ -966,5 +966,9 @@ export enum CardName {
     PROSPECTING = 'Prospecting',
     ELECTION_SPONSORSHIP = 'Election Sponsorship',
     CLOUD_VORTEX_OUTPOST = 'Cloud Vortex Outpost',
+
+    // Underworld Standard Projects
+    EXCAVATE_STANDARD_PROJECT = 'Excavate',
+
     // End Underworld
 }

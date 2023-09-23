@@ -39,5 +39,6 @@ export type GameOptionsModel = {
   turmoilExtension: boolean,
   twoCorpsVariant: boolean,
   venusNextExtension: boolean,
+  underworldExpansion: boolean,
   undoOption: boolean,
 }

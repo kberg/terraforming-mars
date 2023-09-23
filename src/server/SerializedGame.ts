@@ -14,6 +14,7 @@ import {SerializedBoard} from './boards/SerializedBoard';
 import {SerializedMoonData} from './moon/SerializedMoonData';
 import {SerializedPathfindersData} from './pathfinders/SerializedPathfindersData';
 import {SerializedDeck} from './cards/SerializedDeck';
+import {UnderworldData} from './underworld/UnderworldData';
 
 export type SerializedGame = {
     activePlayer: PlayerId;
@@ -60,6 +61,7 @@ export type SerializedGame = {
     temperature: number;
     turmoil?: SerializedTurmoil;
     undoCount: number;
+    underworldData?: UnderworldData;
     unDraftedCards: Array<[PlayerId, Array<CardName>]>;
     venusScaleLevel: number;
 }

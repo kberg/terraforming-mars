@@ -429,8 +429,10 @@ export class Server {
       citiesCount: player.game.board.getCities(player).length,
       coloniesCount: player.getColoniesCount(),
       color: player.color,
+      corruption: player.underworldData.corruption,
       energy: player.energy,
       energyProduction: player.production.energy,
+      excavations: player.underworldData.excavationTiles,
       fleetSize: player.colonies.getFleetSize(),
       heat: player.heat,
       heatProduction: player.production.heat,
@@ -582,6 +584,12 @@ export class Server {
       if (space.id === nomads) {
         model.nomads = true;
       }
+      if (space.undergroundResources !== undefined) {
+        model.undergroundResources = space.undergroundResources;
+      }
+      if (space.excavator !== undefined) {
+        model.excavator = space.excavator.color;
+      }
 
       return model;
     });
@@ -624,6 +632,7 @@ export class Server {
       turmoilExtension: options.turmoilExtension,
       twoCorpsVariant: options.twoCorpsVariant,
       venusNextExtension: options.venusNextExtension,
+      underworldExpansion: options.underworldExpansion,
       undoOption: options.undoOption,
     };
   }

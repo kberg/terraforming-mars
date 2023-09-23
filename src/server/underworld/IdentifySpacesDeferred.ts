@@ -5,7 +5,7 @@ import {SelectSpace} from '../inputs/SelectSpace';
 import {UnderworldExpansion} from './UnderworldExpansion';
 
 export class IdentifySpacesDeferred extends DeferredAction {
-  private nth: number = 0;
+  private nth: number = 1;
   constructor(
     player: IPlayer,
     public count: number,
@@ -19,7 +19,7 @@ export class IdentifySpacesDeferred extends DeferredAction {
     return new SelectSpace(title,
       UnderworldExpansion.identifyableSpaces(this.player),
       (space) => {
-        UnderworldExpansion.identify(this.player, space);
+        UnderworldExpansion.identify(this.player.game, space);
         this.nth++;
         if (this.nth <= this.count) {
           return this.selectSpace();

@@ -69,31 +69,44 @@ const ORDER: Array<InterfaceTagsType> = [
   SpecialTags.INFLUENCE,
   SpecialTags.CITY_COUNT,
   SpecialTags.COLONY_COUNT,
+  SpecialTags.EXCAVATIONS,
+  SpecialTags.CORRUPTION,
 ];
 
 const isInGame = (tag: InterfaceTagsType, game: GameModel): boolean => {
-  if (game.gameOptions.coloniesExtension === false && tag === SpecialTags.COLONY_COUNT) return false;
-  if (game.turmoil === undefined && tag === SpecialTags.INFLUENCE) return false;
-  if (game.gameOptions.venusNextExtension === false && tag === Tag.VENUS) return false;
-  if (game.gameOptions.moonExpansion === false && tag === Tag.MOON) return false;
-  if (game.gameOptions.pathfindersExpansion === false && tag === Tag.MARS) return false;
+  switch (tag) {
+  case SpecialTags.COLONY_COUNT:
+    return game.gameOptions.coloniesExtension;
+  case SpecialTags.INFLUENCE:
+    return game.turmoil !== undefined;
+  case SpecialTags.EXCAVATIONS:
+  case SpecialTags.CORRUPTION:
+    return game.gameOptions.underworldExpansion;
+  case Tag.VENUS:
+    return game.gameOptions.venusNextExtension;
+  case Tag.MOON:
+    return game.gameOptions.moonExpansion;
+  case Tag.MARS:
+    return game.gameOptions.pathfindersExpansion;
+  }
   return true;
 };
 
 const getTagCount = (tagName: InterfaceTagsType, player: PublicPlayerModel): number => {
-  if (tagName === SpecialTags.COLONY_COUNT) {
+  switch (tagName) {
+  case SpecialTags.COLONY_COUNT:
     return player.coloniesCount || 0;
-  }
-  if (tagName === SpecialTags.INFLUENCE) {
+  case SpecialTags.INFLUENCE:
     return player.influence || 0;
-  }
-  if (tagName === SpecialTags.CITY_COUNT) {
+  case SpecialTags.CITY_COUNT:
     return player.citiesCount || 0;
-  }
-  if (tagName === SpecialTags.NONE) {
+  case SpecialTags.NONE:
     return player.noTagsCount || 0;
+  case SpecialTags.EXCAVATIONS:
+    return player.excavations;
+  case SpecialTags.CORRUPTION:
+    return player.corruption;
   }
-
   return player.tags.find((tag) => tag.tag === tagName)?.count ?? 0;
 };
 

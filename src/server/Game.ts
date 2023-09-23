@@ -71,6 +71,8 @@ import {ALL_TAGS, Tag} from '../common/cards/Tag';
 import {IGame, Score} from './IGame';
 import {MarsBoard} from './boards/MarsBoard';
 import {UnderworldData} from './underworld/UnderworldData';
+import {UnderworldExpansion} from './underworld/UnderworldExpansion';
+import {SpaceType} from '../common/boards/SpaceType';
 
 export class Game implements IGame, Logger {
   public readonly id: GameId;
@@ -286,6 +288,9 @@ export class Game implements IGame, Logger {
       game.pathfindersData = PathfindersExpansion.initialize(gameOptions);
     }
 
+    if (gameOptions.underworldExpansion) {
+      game.underworldData = UnderworldExpansion.initialize(rng);
+    }
     // Failsafe for exceeding corporation pool
     // (I do not think this is necessary any further given how corporation cards are stored now)
     const minCorpsRequired = players.length * gameOptions.startingCorporations;
@@ -420,6 +425,7 @@ export class Game implements IGame, Logger {
       spectatorId: this.spectatorId,
       syndicatePirateRaider: this.syndicatePirateRaider,
       temperature: this.temperature,
+      underworldData: this.underworldData,
       undoCount: this.undoCount,
       unDraftedCards: Array.from(this.unDraftedCards.entries()).map((a) => {
         return [
@@ -1250,6 +1256,12 @@ export class Game implements IGame, Logger {
     AresHandler.ifAres(this, () => {
       AresHandler.grantBonusForRemovingHazard(player, initialTileTypeForAres);
     });
+
+    if (this.gameOptions.underworldExpansion) {
+      if (space.spaceType !== SpaceType.COLONY && space.player === player) {
+        UnderworldExpansion.identify(this, space);
+      }
+    }
   }
 
   public simpleAddTile(player: IPlayer, space: Space, tile: Tile) {
@@ -1573,6 +1585,9 @@ export class Game implements IGame, Logger {
       game.pathfindersData = PathfindersData.deserialize(d.pathfindersData);
     }
 
+    if (d.underworldData !== undefined) {
+      game.underworldData = d.underworldData;
+    }
     game.passedPlayers = new Set<PlayerId>(d.passedPlayers);
     game.donePlayers = new Set<PlayerId>(d.donePlayers);
     game.researchedPlayers = new Set<PlayerId>(d.researchedPlayers);

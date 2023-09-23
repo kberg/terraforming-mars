@@ -3,9 +3,16 @@ import {IPlayer} from '../IPlayer';
 import {Space} from '../boards/Space';
 import {UnderworldData, UnderworldPlayerData} from './UnderworldData';
 import {Random} from '../../common/utils/Random';
-import {ResourceToken} from './ResourceToken';
-import {ResourceTokenType} from './ResourceToken';
+import {ResourceToken} from '../../common/underworld/ResourceToken';
+import {ResourceTokenType} from '../../common/underworld/ResourceToken';
 import {inplaceShuffle} from '../utils/shuffle';
+import {Resource} from '../../common/Resource';
+import {AddResourcesToCard} from '../deferredActions/AddResourcesToCard';
+import {CardResource} from '../../common/CardResource';
+import {PlaceOceanTile} from '../deferredActions/PlaceOceanTile';
+import {MultiSet} from 'mnemonist';
+import {IGame} from '../IGame';
+import {SpaceType} from '../../common/boards/SpaceType';
 
 export class UnderworldExpansion {
   private constructor() {
@@ -31,16 +38,16 @@ export class UnderworldExpansion {
     return board.spaces.filter((space) => space.undergroundResources === undefined);
   }
 
-  public static identifiedSpaces(player: IPlayer): ReadonlyArray<Space>  {
+  public static identifiedSpaces(player: IPlayer): ReadonlyArray<Space> {
     const board = player.game.board;
     return board.spaces.filter((space) => space.undergroundResources !== undefined);
   }
 
-  public static identify(player: IPlayer, space: Space) {
+  public static identify(game: IGame, space: Space) {
     if (space.undergroundResources !== undefined) {
-      throw new Error('Space alrady identified');
+      return;
     }
-    const token = player.game.underworldData?.tokens.pop();
+    const token = game.underworldData?.tokens.pop();
     if (token === undefined) {
       throw new Error('Cannot identify excatation space, no available tokens.');
     }
@@ -48,15 +55,94 @@ export class UnderworldExpansion {
   }
 
   public static excavatableSpaces(player: IPlayer) {
-    return this.identifiedSpaces(player).filter(
-      (space) =>
-        space.excavatedBy === undefined &&
-        (!Board.isCitySpace(space) || space.player === player),
-    );
+    const board = player.game.board;
+    const commonExcavatableSpaces = board.spaces.filter((space) => {
+      if (space.excavator !== undefined) {
+        return false;
+      }
+      if (space.spaceType === SpaceType.COLONY) {
+        return false;
+      }
+      if (Board.isCitySpace(space) || space.player !== player) {
+        return false;
+      }
+      return true;
+    });
+    const spaces = commonExcavatableSpaces.filter((space) => {
+      if (space.tile !== undefined && space.player === player) {
+        return true;
+      }
+      return board.getAdjacentSpaces(space).some((s) => s.excavator === player);
+    });
+    if (spaces.length === 0) {
+      return commonExcavatableSpaces;
+    }
+    return spaces;
   }
 
-  public static excavate(_player: IPlayer, _space: Space) {
-    // const board = player.game.board;
+  public static excavate(player: IPlayer, space: Space) {
+    if (space.undergroundResources === undefined) {
+      this.identify(player.game, space);
+    }
+    const multiset = MultiSet.from(space.undergroundResources ?? []);
+    multiset.forEachMultiplicity((count, e) => this.grant(player, e, count));
+    space.excavator = player;
+
+    const game = player.game;
+    game.board.getAdjacentSpaces(space)
+      .forEach((s) => UnderworldExpansion.identify(game, s));
+  }
+
+  public static grant(player: IPlayer, reward: ResourceTokenType, count: number): void {
+    const game = player.game;
+
+    switch (reward) {
+    case 'card':
+      player.drawCard(count);
+      break;
+    case 'corruption':
+      player.underworldData.corruption += count;
+      break;
+    case 'data':
+      player.game.defer(
+        new AddResourcesToCard(
+          player,
+          CardResource.DATA,
+          {count: count}));
+      break;
+    case 'energy_production':
+      player.production.add(Resource.ENERGY, count, {log: true});
+      break;
+    case 'heat_production':
+      player.production.add(Resource.HEAT, count, {log: true});
+      break;
+    case 'ocean':
+      game.defer(new PlaceOceanTile(player));
+      break;
+    case 'plant':
+      player.stock.add(Resource.PLANTS, count, {log: true});
+      break;
+    case 'plant_production':
+      player.production.add(Resource.PLANTS, count, {log: true});
+      break;
+    case 'steel':
+      player.stock.add(Resource.STEEL, count, {log: true});
+      break;
+    case 'steel_production':
+      player.production.add(Resource.STEEL, count, {log: true});
+      break;
+    case 'titanium':
+      player.stock.add(Resource.TITANIUM, count, {log: true});
+      break;
+    case 'titanium_production':
+      player.production.add(Resource.TITANIUM, count, {log: true});
+      break;
+    case 'tr':
+      player.increaseTerraformRating(count);
+      break;
+    default:
+      throw new Error('Unknown reward: ' + reward);
+    }
   }
 }
 
@@ -82,24 +168,24 @@ function allTokens(): Array<ResourceToken> {
   add(1, 'card', 'card');
 
   add(3, 'steel', 'steel');
-  add(1, 'steel production');
+  add(1, 'steel_production');
 
   // 3 2 Steel per Temperature increase
 
   add(3, 'titanium', 'plant');
   add(3, 'titanium', 'titanium');
-  add(1, 'titanium production');
+  add(1, 'titanium_production');
 
   // 3 1 Titanium per Temperature increase
 
   add(4, 'plant', 'plant');
   add(1, 'plant', 'plant', 'plant');
-  add(4, 'plant production');
+  add(4, 'plant_production');
 
   // 3 2 Plants per Temperature increase
 
-  add(5, 'energy production');
-  add(3, 'heat production', 'heat production');
+  add(5, 'energy_production');
+  add(3, 'heat_production', 'heat_production');
 
   add(4, 'microbe', 'microbe');
 

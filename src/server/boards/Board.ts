@@ -1,6 +1,6 @@
 import {Space} from './Space';
 import {CanAffordOptions, IPlayer} from '../IPlayer';
-import {PlayerId, SpaceId} from '../../common/Types';
+import {SpaceId} from '../../common/Types';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {BASE_OCEAN_TILES, CITY_TILES, GREENERY_TILES, OCEAN_TILES, TileType} from '../../common/TileType';
 import {SerializedBoard, SerializedSpace} from './SerializedBoard';
@@ -308,30 +308,34 @@ export abstract class Board {
           adjacency: space.adjacency,
           x: space.x,
           y: space.y,
+          undergroundResources: space.undergroundResources,
+          excavator: space.excavator?.id,
         };
       }),
     };
   }
 
-  public static deserializeSpace(serialized: SerializedSpace, players: ReadonlyArray<IPlayer>): Space {
-    const playerId: PlayerId | undefined = serialized.player;
-    const player = players.find((p) => p.id === playerId);
+  public static deserializeSpace(d: SerializedSpace, players: ReadonlyArray<IPlayer>): Space {
     const space: Space = {
-      id: serialized.id,
-      spaceType: serialized.spaceType,
-      bonus: serialized.bonus,
-      x: serialized.x,
-      y: serialized.y,
+      id: d.id,
+      spaceType: d.spaceType,
+      bonus: d.bonus,
+      x: d.x,
+      y: d.y,
+      player: players.find((p) => p.id === d.player),
+      excavator: players.find((p) => p.id === d.excavator),
     };
 
-    if (serialized.tile !== undefined) {
-      space.tile = serialized.tile;
+    if (d.tile !== undefined) {
+      space.tile = d.tile;
     }
-    if (player !== undefined) {
-      space.player = player;
+
+    if (d.adjacency !== undefined) {
+      space.adjacency = d.adjacency;
     }
-    if (serialized.adjacency !== undefined) {
-      space.adjacency = serialized.adjacency;
+
+    if (d.undergroundResources !== undefined) {
+      space.undergroundResources = d.undergroundResources;
     }
 
     return space;

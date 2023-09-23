@@ -1,4 +1,4 @@
-import {ResourceToken} from './ResourceToken';
+import {ResourceToken} from '../../common/underworld/ResourceToken';
 
 export type UnderworldData = {
   tokens: Array<ResourceToken>;

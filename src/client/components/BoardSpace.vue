@@ -22,6 +22,9 @@
     <template v-if="space.nomads === true">
       <div class='board-cube--nomad'></div>
     </template>
+    <template v-if="space.undergroundResources !== undefined">
+      <underground-resources :space="space"></underground-resources>
+    </template>
     </div>
 </template>
 
@@ -30,6 +33,7 @@
 import Vue from 'vue';
 import Bonus from '@/client/components/Bonus.vue';
 import BoardSpaceTile from '@/client/components/board/BoardSpaceTile.vue';
+import UndergroundResources from '@/client/components/board/UndergroundResources.vue';
 import {TileView} from '@/client/components/board/TileView';
 import {SpaceModel} from '@/common/models/SpaceModel';
 import {SpaceBonus} from '@/common/boards/SpaceBonus';
@@ -56,6 +60,7 @@ export default Vue.extend({
   components: {
     'bonus': Bonus,
     'board-space-tile': BoardSpaceTile,
+    'underground-resources': UndergroundResources,
   },
   methods: {
     getMainClass(): string {
