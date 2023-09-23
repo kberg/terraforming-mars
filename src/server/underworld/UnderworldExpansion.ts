@@ -3,14 +3,12 @@ import {IPlayer} from '../IPlayer';
 import {Space} from '../boards/Space';
 import {UnderworldData, UnderworldPlayerData} from './UnderworldData';
 import {Random} from '../../common/utils/Random';
-import {ResourceToken} from '../../common/underworld/ResourceToken';
-import {ResourceTokenType} from '../../common/underworld/ResourceToken';
+import {ExcavationToken} from '../../common/underworld/ExcavationToken';
 import {inplaceShuffle} from '../utils/shuffle';
 import {Resource} from '../../common/Resource';
 import {AddResourcesToCard} from '../deferredActions/AddResourcesToCard';
 import {CardResource} from '../../common/CardResource';
 import {PlaceOceanTile} from '../deferredActions/PlaceOceanTile';
-import {MultiSet} from 'mnemonist';
 import {IGame} from '../IGame';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {CardName} from '../../common/cards/CardName';
@@ -87,8 +85,7 @@ export class UnderworldExpansion {
     if (space.undergroundResources === undefined) {
       this.identify(player.game, space);
     }
-    const multiset = MultiSet.from(space.undergroundResources ?? []);
-    multiset.forEachMultiplicity((count, e) => this.grant(player, e, count));
+    this.grant(player, space.undergroundResources ?? 'nothing');
     space.excavator = player;
 
     const game = player.game;
@@ -100,52 +97,81 @@ export class UnderworldExpansion {
     }
   }
 
-  public static grant(player: IPlayer, reward: ResourceTokenType, count: number): void {
+  public static grant(player: IPlayer, reward: ExcavationToken): void {
     const game = player.game;
 
     switch (reward) {
-    case 'card':
-      player.drawCard(count);
+    case 'card1':
+      player.drawCard(1);
       break;
-    case 'corruption':
-      player.underworldData.corruption += count;
+    case 'card2':
+      player.drawCard(2);
       break;
-    case 'data':
-      player.game.defer(
-        new AddResourcesToCard(
-          player,
-          CardResource.DATA,
-          {count: count}));
+    case 'corruption1':
+      player.underworldData.corruption += 1;
       break;
-    case 'energy_production':
-      player.production.add(Resource.ENERGY, count, {log: true});
+    case 'corruption2':
+      player.underworldData.corruption += 2;
       break;
-    case 'heat_production':
-      player.production.add(Resource.HEAT, count, {log: true});
+    case 'data1':
+      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 1}));
+      break;
+    case 'data2':
+      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 2}));
+      break;
+    case 'data3':
+      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 3}));
+      break;
+    case 'steel2':
+      player.stock.add(Resource.STEEL, 2, {log: true});
+      break;
+    case 'steel1production':
+      player.production.add(Resource.STEEL, 1, {log: true});
+      break;
+    case 'titanium2':
+      player.stock.add(Resource.TITANIUM, 2, {log: true});
+      break;
+    case 'titanium1production':
+      player.production.add(Resource.TITANIUM, 1, {log: true});
+      break;
+    case 'plant1':
+      player.stock.add(Resource.PLANTS, 1, {log: true});
+      break;
+    case 'plant2':
+      player.stock.add(Resource.PLANTS, 2, {log: true});
+      break;
+    case 'plant3':
+      player.stock.add(Resource.PLANTS, 3, {log: true});
+      break;
+    case 'plant1production':
+      player.production.add(Resource.PLANTS, 1, {log: true});
+      break;
+    case 'titaniumandplant':
+      break;
+    case 'energy1production':
+      player.production.add(Resource.ENERGY, 1, {log: true});
+      break;
+    case 'heat2production':
+      player.production.add(Resource.HEAT, 2, {log: true});
+      break;
+    case 'microbe1':
+      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 1}));
+      break;
+    case 'microbe2':
+      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}));
+      break;
+    case 'tr':
+      player.increaseTerraformRating();
       break;
     case 'ocean':
       game.defer(new PlaceOceanTile(player));
       break;
-    case 'plant':
-      player.stock.add(Resource.PLANTS, count, {log: true});
-      break;
-    case 'plant_production':
-      player.production.add(Resource.PLANTS, count, {log: true});
-      break;
-    case 'steel':
-      player.stock.add(Resource.STEEL, count, {log: true});
-      break;
-    case 'steel_production':
-      player.production.add(Resource.STEEL, count, {log: true});
-      break;
-    case 'titanium':
-      player.stock.add(Resource.TITANIUM, count, {log: true});
-      break;
-    case 'titanium_production':
-      player.production.add(Resource.TITANIUM, count, {log: true});
-      break;
-    case 'tr':
-      player.increaseTerraformRating(count);
+    case 'data1pertemp':
+    case 'microbe1pertemp':
+    case 'plant2pertemp':
+    case 'steel2pertemp':
+    case 'titanium1pertemp':
+      player.stock.add(Resource.MEGACREDITS, 5, {log: true});
       break;
     default:
       throw new Error('Unknown reward: ' + reward);
@@ -153,53 +179,50 @@ export class UnderworldExpansion {
   }
 }
 
-function allTokens(): Array<ResourceToken> {
-  const tokens: Array<ResourceToken> = [];
-  function add(count: number, ...tile: Array<ResourceTokenType>) {
+function allTokens(): Array<ExcavationToken> {
+  const tokens: Array<ExcavationToken> = [];
+  function add(count: number, token: ExcavationToken) {
     for (let idx = 0; idx < count; idx++) {
-      tokens.push([...tile]);
+      tokens.push(token);
     }
   }
 
-  add(5); // nothing
-  add(13, 'data');
-  add(4, 'data', 'data');
-  add(1, 'data', 'data', 'data');
+  add(5, 'nothing');
+  add(13, 'data1');
+  add(4, 'data2');
+  add(1, 'data3');
 
-  // 3 1 Data per Temperature increase
+  add(10, 'corruption1');
+  add(2, 'corruption2');
 
-  add(10, 'corruption');
-  add(2, 'corruption', 'corruption');
+  add(4, 'card1');
+  add(1, 'card2');
 
-  add(4, 'card');
-  add(1, 'card', 'card');
+  add(3, 'steel2');
+  add(1, 'steel1production');
 
-  add(3, 'steel', 'steel');
-  add(1, 'steel_production');
+  add(3, 'titaniumandplant');
+  add(3, 'titanium2');
+  add(1, 'titanium1production');
 
-  // 3 2 Steel per Temperature increase
+  add(4, 'plant2');
+  add(1, 'plant3');
+  add(4, 'plant1production');
 
-  add(3, 'titanium', 'plant');
-  add(3, 'titanium', 'titanium');
-  add(1, 'titanium_production');
+  add(5, 'energy1production');
+  add(3, 'heat2production');
 
-  // 3 1 Titanium per Temperature increase
-
-  add(4, 'plant', 'plant');
-  add(1, 'plant', 'plant', 'plant');
-  add(4, 'plant_production');
-
-  // 3 2 Plants per Temperature increase
-
-  add(5, 'energy_production');
-  add(3, 'heat_production', 'heat_production');
-
-  add(4, 'microbe', 'microbe');
-
-  // 1 1 Microbe per Temperature increase
+  add(4, 'microbe2');
 
   add(2, 'tr');
   add(2, 'ocean');
+
+
+  add(3, 'data1pertemp');
+  add(1, 'microbe1pertemp');
+  add(3, 'plant2pertemp');
+  add(3, 'steel2pertemp');
+  add(3, 'titanium1pertemp');
 
   return tokens;
 }

@@ -1,7 +1,7 @@
-import {ResourceToken} from '../../common/underworld/ResourceToken';
+import {ExcavationToken} from '../../common/underworld/ExcavationToken';
 
 export type UnderworldData = {
-  tokens: Array<ResourceToken>;
+  tokens: Array<ExcavationToken>;
 };
 
 export type UnderworldPlayerData = {

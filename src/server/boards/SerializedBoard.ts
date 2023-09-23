@@ -4,7 +4,7 @@ import {PlayerId} from '../../common/Types';
 import {SpaceBonus} from '../../common/boards/SpaceBonus';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {SpaceId} from '../../common/Types';
-import {ResourceToken} from '../../common/underworld/ResourceToken';
+import {ExcavationToken} from '../../common/underworld/ExcavationToken';
 
 export interface SerializedBoard {
   spaces: Array<SerializedSpace>;
@@ -19,6 +19,6 @@ export interface SerializedSpace {
   adjacency?: AdjacencyBonus,
   x: number;
   y: number;
-  undergroundResources?: ResourceToken;
+  undergroundResources?: ExcavationToken;
   excavator?: PlayerId;
 }
