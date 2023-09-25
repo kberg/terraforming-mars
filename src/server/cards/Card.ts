@@ -52,6 +52,12 @@ type Properties = {
   startingMegaCredits?: number;
   tags?: Array<Tag>;
   tilesBuilt?: Array<TileType>,
+  /**
+   * The amount of TR this card will give.
+   *
+   * This is used to compute whether the player has enough money to support the required
+   * Reds costs. It does not grant the TR.
+   */
   tr?: TRSource | DynamicTRSource,
   victoryPoints?: number | 'special' | IVictoryPoints,
 }

@@ -11,7 +11,7 @@ import {ModuleManifest} from '../ModuleManifest';
 import {BatteryShipment} from './BatteryShipment';
 import {BehemothExcavator} from './BehemothExcavator';
 import {Casino} from './Casino';
-// import {CaveCity} from './CaveCity';
+import {CaveCity} from './CaveCity';
 import {CentralReservoir} from './CentralReservoir';
 // import {ChemicalFactory} from './ChemicalFactory';
 // import {ClassActionLawsuit} from './ClassActionLawsuit';
@@ -30,7 +30,7 @@ import {ElectionSponsorship} from './ElectionSponsorship';
 import {ExcavateStandardProject} from './ExcavateStandardProject';
 import {ExcavatorLeasing} from './ExcavatorLeasing';
 // import {ExpeditionVehicles} from './ExpeditionVehicles';
-// import {FabricatedScandal} from './FabricatedScandal';
+import {FabricatedScandal} from './FabricatedScandal';
 import {ForestTunnels} from './ForestTunnels';
 import {FreeTradePort} from './FreeTradePort';
 // import {FriendsinHighPlaces} from './FriendsinHighPlaces';
@@ -42,7 +42,7 @@ import {GeologicalExpertise} from './GeologicalExpertise';
 // import {GeologistTemperature} from './GeologistTemperature';
 // import {GeoscanSatellite} from './GeoscanSatellite';
 import {GeothermalNetwork} from './GeothermalNetwork';
-// import {GlobalAudit} from './GlobalAudit';
+import {GlobalAudit} from './GlobalAudit';
 // import {GreyMarketManipulation} from './GreyMarketManipulation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
 // import {Hadesphere} from './Hadesphere';
@@ -72,7 +72,7 @@ import {MicroprobingTechnology} from './MicroprobingTechnology';
 // import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
 // import {Nanofoundry} from './Nanofoundry';
-// import {NarrativeSpin} from './NarrativeSpin';
+import {NarrativeSpin} from './NarrativeSpin';
 // import {Neutrinograph} from './Neutrinograph';
 import {Nightclubs} from './Nightclubs';
 import {OffWorldTaxHaven} from './OffWorldTaxHaven';
@@ -80,7 +80,7 @@ import {OldWorldMafia} from './OldWorldMafia';
 import {OrbitalLaserDrill} from './OrbitalLaserDrill';
 // import {PatentManipulation} from './PatentManipulation';
 // import {PersonalSpacecruiser} from './PersonalSpacecruiser';
-// import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
+import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
 // import {PlantTax} from './PlantTax';
 // import {PriceWars} from './PriceWars';
 // import {PrivateInvestigator} from './PrivateInvestigator';
@@ -91,7 +91,7 @@ import {Prospecting} from './Prospecting';
 import {RecklessDetonation} from './RecklessDetonation';
 // import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
 // import {RobotMoles} from './RobotMoles';
-// import {Scapegoat} from './Scapegoat';
+import {Scapegoat} from './Scapegoat';
 // import {SearchforLifeUnderground} from './SearchforLifeUnderground';
 import {SecretResearch} from './SecretResearch';
 // import {ServerSabotage} from './ServerSabotage';
@@ -102,8 +102,8 @@ import {SecretResearch} from './SecretResearch';
 // import {StagedProtests} from './StagedProtests';
 // import {StarVegas} from './StarVegas';
 // import {StemFieldSubsidies} from './StemFieldSubsidies';
-// import {SubnauticPirates} from './SubnauticPirates';
-// import {SubterraneanSea} from './SubterraneanSea';
+import {SubnauticPirates} from './SubnauticPirates';
+import {SubterraneanSea} from './SubterraneanSea';
 // import {ThiolavaVents} from './ThiolavaVents';
 // import {TitanManufacturingColony} from './TitanManufacturingColony';
 import {TunnelBoringMachine} from './TunnelBoringMachine';
@@ -134,11 +134,11 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.NIGHTCLUBS]: {Factory: Nightclubs},
     [CardName.RECKLESS_DETONATION]: {Factory: RecklessDetonation},
     [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
-    // [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
+    [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering},
-    // [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
+    [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
     // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking},
-    // [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
+    [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
@@ -148,22 +148,22 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.MICROPROBING_TECHNOLOGY]: {Factory: MicroprobingTechnology},
     // [CardName.SEARCH_FOR_LIFE_UNDERGROUND]: {Factory: SearchforLifeUnderground},
     [CardName.GEOTHERMAL_NETWORK]: {Factory: GeothermalNetwork},
-    // [CardName.GLOBAL_AUDIT]: {Factory: GlobalAudit},
+    [CardName.GLOBAL_AUDIT]: {Factory: GlobalAudit},
     // [CardName.PATENT_MANIPULATION]: {Factory: PatentManipulation},
-    // [CardName.CAVE_CITY]: {Factory: CaveCity},
+    [CardName.CAVE_CITY]: {Factory: CaveCity},
     [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
     // [CardName.DEEPMINING]: {Factory: Deepmining},
     [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
     [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
     // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights},
     [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
-    // [CardName.GREY_MARKET_MANIPULATION]: {Factory: GreyMarketManipulation},
+    // [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
     [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
     [CardName.LANDFILL]: {Factory: Landfill},
-    // [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
+    [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
     // [CardName.PRIVATE_INVESTIGATOR]: {Factory: PrivateInvestigator},
     // [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
-    // [CardName.SCAPEGOAT]: {Factory: Scapegoat},
+    [CardName.SCAPEGOAT]: {Factory: Scapegoat},
     // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces},
     // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
     // [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
@@ -208,7 +208,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
     // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault},
     // [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
-    // [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
+    [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
     // [CardName.MEDIA_FRENZY]: {Factory: MediaFrenzy},
     // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
     // [CardName.WHALES]: {Factory: Whales},
