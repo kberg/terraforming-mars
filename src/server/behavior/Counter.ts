@@ -109,6 +109,9 @@ export class Counter implements ICounter {
 
     if (countable.resourcesHere !== undefined) {
       sum += card.resourceCount;
+      if (countable.resourcesHere.plus !== undefined) {
+        sum += countable.resourcesHere.plus;
+      }
     }
 
     if (countable.colonies !== undefined) {
@@ -161,6 +164,9 @@ export class Counter implements ICounter {
     }
     if (countable.per !== undefined) {
       sum = Math.floor(sum / countable.per);
+    }
+    if (countable.max !== undefined) {
+      sum = Math.max(sum, countable.max);
     }
     return sum;
   }

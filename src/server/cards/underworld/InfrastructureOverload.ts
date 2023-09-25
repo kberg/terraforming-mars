@@ -3,29 +3,33 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {all, digit} from '../Options';
 import {CardRequirements} from '../requirements/CardRequirements';
+import {Tag} from '../../../common/cards/Tag';
+import {all} from '../Options';
+import {Resource} from '../../../common/Resource';
 
-export class RecklessDetonation extends Card implements IProjectCard {
+export class InfrastructureOverload extends Card implements IProjectCard {
   constructor() {
     super({
+      name: CardName.INFRASTRUCTURE_OVERLOAD,
       type: CardType.EVENT,
-      name: CardName.RECKLESS_DETONATION,
-      cost: 1,
+      cost: 3,
+      tags: [Tag.POWER],
 
       requirements: CardRequirements.builder((b) => b.corruption(2)),
 
+      victoryPoints: -1,
+
       behavior: {
-        spend: {energy: 3},
-        underworld: {excavate: 2},
+        decreaseAnyProduction: {count: 2, type: Resource.ENERGY}
       },
 
       metadata: {
-        cardNumber: 'U06',
+        cardNumber: 'U68',
         renderData: CardRenderer.builder((b) => {
-          b.excavate(1).minus().steel(3, {digit, all}).asterix().or().titanium(2, {digit, all}).asterix();
+          b.text('-2').production((pb) => pb.energy(1, {all})),
         }),
-        description: 'Requires 2 corruption. Excavate an underground resources. Remove up to 3 steel or 2 titanium from another player.',
+        description: 'Requires 2 corruption. Reduce any energy production 2 steps.',
       },
     });
   }

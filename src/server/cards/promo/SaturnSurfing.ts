@@ -10,6 +10,7 @@ import {Resource} from '../../../common/Resource';
 import {CardRenderer} from '../render/CardRenderer';
 import {played} from '../Options';
 
+// TODO(kberg): this can become an actioncard
 export class SaturnSurfing extends Card implements IActionCard, IProjectCard {
   constructor() {
     super({

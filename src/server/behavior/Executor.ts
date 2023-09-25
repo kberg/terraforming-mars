@@ -94,6 +94,9 @@ export class Executor implements BehaviorExecutor {
       if (spend.resourcesHere && card.resourceCount < spend.resourcesHere) {
         return false;
       }
+      if (spend.corruption && player.underworldData.corruption < spend.corruption) {
+        return false;
+      }
     }
 
     if (behavior.decreaseAnyProduction !== undefined) {
@@ -253,6 +256,9 @@ export class Executor implements BehaviorExecutor {
       }
       if (spend.resourcesHere) {
         player.removeResourceFrom(card, spend.resourcesHere);
+      }
+      if (spend.corruption) {
+        player.underworldData.corruption -= spend.corruption;
       }
     }
 

@@ -19,7 +19,7 @@ import {CloudVortexOutpost} from './CloudVortexOutpost';
 // import {ConcessionRights} from './ConcessionRights';
 // import {CorporateBlackmail} from './CorporateBlackmail';
 // import {CorporateTheft} from './CorporateTheft';
-// import {CraterSurvey} from './CraterSurvey';
+import {CraterSurvey} from './CraterSurvey';
 // import {CutThroatBudgeting} from './CutThroatBudgeting';
 // import {Deepmining} from './Deepmining';
 import {Deepnuking} from './Deepnuking';
@@ -38,20 +38,20 @@ import {FreeTradePort} from './FreeTradePort';
 import {GanymedeTradingCompany} from './GanymedeTradingCompany';
 import {GeologicalExpertise} from './GeologicalExpertise';
 // import {GeologicalExpertise} from './GeologicalExpertise';
-// import {GeologicalSurvey} from './GeologicalSurvey';
+import {GeologicalSurvey} from './GeologicalSurvey';
 // import {GeologistTemperature} from './GeologistTemperature';
 // import {GeoscanSatellite} from './GeoscanSatellite';
 import {GeothermalNetwork} from './GeothermalNetwork';
 import {GlobalAudit} from './GlobalAudit';
-// import {GreyMarketManipulation} from './GreyMarketManipulation';
+import {GreyMarketExploitation} from './GreyMarketExploitation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
 // import {Hadesphere} from './Hadesphere';
 // import {HectateSpeditions} from './HectateSpeditions';
 // import {HenkeiGenetics} from './HenkeiGenetics';
-// import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
+import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
 import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
 // import {InducedTremor} from './InducedTremor';
-// import {InfrastructureOverload} from './InfrastructureOverload';
+import {InfrastructureOverload} from './InfrastructureOverload';
 import {InheritedFortune} from './InheritedFortune';
 // import {IntellectualPropertyTheft} from './IntellectualPropertyTheft';
 // import {InvestigativeJournalism} from './InvestigativeJournalism';
@@ -90,7 +90,7 @@ import {Prospecting} from './Prospecting';
 // import {PublicSpaceline} from './PublicSpaceline';
 import {RecklessDetonation} from './RecklessDetonation';
 // import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
-// import {RobotMoles} from './RobotMoles';
+import {RobotMoles} from './RobotMoles';
 import {Scapegoat} from './Scapegoat';
 // import {SearchforLifeUnderground} from './SearchforLifeUnderground';
 import {SecretResearch} from './SecretResearch';
@@ -98,10 +98,10 @@ import {SecretResearch} from './SecretResearch';
 // import {SocialEngineering} from './SocialEngineering';
 // import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
-// import {SpaceWargames} from './SpaceWargames';
+import {SpaceWargames} from './SpaceWargames';
 // import {StagedProtests} from './StagedProtests';
 // import {StarVegas} from './StarVegas';
-// import {StemFieldSubsidies} from './StemFieldSubsidies';
+import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
 import {SubterraneanSea} from './SubterraneanSea';
 // import {ThiolavaVents} from './ThiolavaVents';
@@ -110,7 +110,7 @@ import {TunnelBoringMachine} from './TunnelBoringMachine';
 import {TunnelingOperation} from './TunnelingOperation';
 import {TunnelingSubcontractor} from './TunnelingSubcontractor';
 import {UndergroundAmusementPark} from './UndergroundAmusementPark';
-// import {UndergroundHabitat} from './UndergroundHabitat';
+import {UndergroundHabitat} from './UndergroundHabitat';
 import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
 import {UndergroundSettlement} from './UndergroundSettlement';
@@ -157,7 +157,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
     // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights},
     [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
-    // [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
+    [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
     [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
     [CardName.LANDFILL]: {Factory: Landfill},
     [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
@@ -166,16 +166,16 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.SCAPEGOAT]: {Factory: Scapegoat},
     // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces},
     // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
-    // [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
+    [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony},
-    // [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
+    [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
     // [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
     // [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
-    // [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
+    [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
     // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor},
     // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers},
     // [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
-    // [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
+    [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
     // [CardName.STAR_VEGAS]: {Factory: StarVegas},
     // [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
     // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
@@ -191,10 +191,10 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.MONOPOLY]: {Factory: Monopoly},
     // [CardName.STAGED_PROTESTS]: {Factory: StagedProtests},
     // [CardName.PLANT_TAX]: {Factory: PlantTax},
-    // [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
-    // [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
+    [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
+    [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
     // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
-    // [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
+    [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
     // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
     // [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     // [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
@@ -204,7 +204,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress},
     // [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
     // [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
-    // [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
+    [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
     // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
     // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault},
     // [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},

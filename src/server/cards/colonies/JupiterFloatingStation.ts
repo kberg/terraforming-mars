@@ -13,6 +13,7 @@ import {Card} from '../Card';
 import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../../common/cards/render/Size';
 
+// TODO(kberg): this can become an actioncard
 export class JupiterFloatingStation extends Card implements IProjectCard {
   constructor() {
     super({

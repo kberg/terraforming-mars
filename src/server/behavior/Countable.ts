@@ -18,7 +18,13 @@ export type _Countable = {
   cities?: {where?: 'onmars' | 'offmars' | 'everywhere'},
   greeneries?: NoAttributes,
   oceans?: NoAttributes,
-  resourcesHere?: NoAttributes,
+  /**
+   * Count the number of resources on this card.
+   *
+   * Plus is a simple additive that allows for 'including this resource' actions, since this
+   * will be counted after the original resource is removed.
+   */
+  resourcesHere?: {plus?: number},
   floaters?: NoAttributes,
   colonies?: {
     colonies?: {},
@@ -56,6 +62,11 @@ export type _Countable = {
    * of moon tags.
    */
   per?: number;
+
+  /**
+   * After computing each and per, apply this as a maximum value.
+   */
+  max?: number;
 };
 
 export type Countable = number | _Countable;
