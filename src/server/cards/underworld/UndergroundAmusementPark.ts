@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 
 export class UndergroundAmusementPark extends Card implements IProjectCard {
@@ -14,7 +13,7 @@ export class UndergroundAmusementPark extends Card implements IProjectCard {
       tags: [Tag.BUILDING],
       cost: 5,
 
-      requirements: CardRequirements.builder((b) => b.excavation()),
+      requirements: {excavation: 1},
 
       behavior: {
         production: {megacredits: 1},

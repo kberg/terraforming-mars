@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class Nightclubs extends Card implements IProjectCard {
   constructor() {
@@ -14,7 +13,7 @@ export class Nightclubs extends Card implements IProjectCard {
       cost: 11,
       tags: [Tag.BUILDING],
 
-      requirements: CardRequirements.builder((b) => b.cities(1)),
+      requirements: {cities: 1},
 
       behavior: {
         production: {megacredits: 2},

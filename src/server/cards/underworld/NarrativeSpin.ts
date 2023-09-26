@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 
 export class NarrativeSpin extends Card implements IProjectCard {
@@ -17,7 +16,7 @@ export class NarrativeSpin extends Card implements IProjectCard {
         underworld: {corruption: 2},
       },
 
-      requirements: CardRequirements.builder((b) => b.tag(Tag.EARTH)),
+      requirements: {tag: Tag.EARTH, count: 1},
       victoryPoints: -1,
 
       metadata: {

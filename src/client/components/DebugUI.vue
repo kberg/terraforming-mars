@@ -1,9 +1,6 @@
 <template>
   <div class="debug-ui-container" :class="getLanguageCssClass()">
       <h1 v-i18n>Cards List</h1>
-      <div class="legacy-anchor">
-        <a href="https://ssimeonoff.github.io/cards-list" target="_blank"><span v-i18n>legacy card UI</span></a>
-      </div>
 
       <!-- start filters -->
 
@@ -25,7 +22,7 @@
           <input type="checkbox" :name="expansion" :id="`${expansion}-checkbox`" v-model="expansions[expansion]">
           <label :for="`${expansion}-checkbox`" class="expansion-button">
             <div class='create-game-expansion-icon' :class="expansionIconClass(expansion)"></div>
-            <span v-i18n>{{expansionName(expansion)}}</span>
+            <span v-i18n>{{EXPANSION_NAMES[expansion]}}</span>
           </label>
         </span>
       </div>
@@ -198,12 +195,13 @@ const moduleAbbreviations: Record<GameModule, string> = {
   ares: 'a',
   moon: 'm',
   pathfinders: 'P',
-  underworld: 'u',
   ceo: 'l', // ceo abbreviation is 'l' for leader, since both 'C' are already taken
+  starwars: 'w',
+  underworld: 'u',
 };
 
 // TODO(kberg): make this use suffixModules.
-const ALL_MODULES = 'bcpvCt*ramPl2u';
+const ALL_MODULES = 'bcpvCt*ramPl2wu';
 
 type TypeOption = CardType | 'colonyTiles' | 'globalEvents' | 'milestones' | 'awards';
 type TagOption = Tag | 'none';
@@ -316,6 +314,7 @@ export default (Vue as WithRefs<Refs>).extend({
         promo: true,
         pathfinders: true,
         ceo: true,
+        starwars: true,
         underworld: true,
       },
       types: {
@@ -371,6 +370,9 @@ export default (Vue as WithRefs<Refs>).extend({
   computed: {
     allModules(): ReadonlyArray<GameModule> {
       return GAME_MODULES;
+    },
+    EXPANSION_NAMES(): typeof EXPANSION_NAMES {
+      return EXPANSION_NAMES;
     },
     allTypes(): Array<TypeOption> {
       return [

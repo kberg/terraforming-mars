@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {IPlayer} from '../../IPlayer';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {Resource} from '../../../common/Resource';
 
@@ -15,7 +14,7 @@ export class SubnauticPirates extends Card implements IProjectCard {
       type: CardType.EVENT,
       cost: 3,
 
-      requirements: CardRequirements.builder((b) => b.excavation().corruption()),
+      requirements: [{excavation: 1}, {corruption: 1}],
       victoryPoints: -1,
 
       metadata: {

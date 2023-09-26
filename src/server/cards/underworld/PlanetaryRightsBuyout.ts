@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class PlanetaryRightsBuyout extends Card implements IProjectCard {
   constructor() {
@@ -16,7 +15,7 @@ export class PlanetaryRightsBuyout extends Card implements IProjectCard {
         underworld: {corruption: 2},
       },
 
-      requirements: CardRequirements.builder((b) => b.corruption(5)),
+      requirements: {corruption: 5},
       victoryPoints: -3,
 
       metadata: {

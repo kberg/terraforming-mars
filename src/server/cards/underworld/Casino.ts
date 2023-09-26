@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 import {all} from '../Options';
 
@@ -15,7 +14,7 @@ export class Casino extends Card implements IProjectCard {
       tags: [Tag.BUILDING],
       cost: 12,
 
-      requirements: CardRequirements.builder((b) => b.cities(1, {all})),
+      requirements: {cities: 1, all},
 
       behavior: {
         production: {megacredits: 2},

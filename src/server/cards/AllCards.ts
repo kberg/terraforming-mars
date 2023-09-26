@@ -14,6 +14,7 @@ import {VENUS_CARD_MANIFEST} from './venusNext/VenusCardManifest';
 import {MOON_CARD_MANIFEST} from './moon/MoonCardManifest';
 import {PATHFINDERS_CARD_MANIFEST} from './pathfinders/PathfindersCardManifest';
 import {PRELUDE2_CARD_MANIFEST} from './prelude2/Prelude2CardManifest';
+import {STAR_WARS_CARD_MANIFEST} from './starwars/StarwarsCardManifest';
 import {UNDERWORLD_CARD_MANIFEST} from './underworld/UnderworldCardManifest';
 
 export const ALL_MODULE_MANIFESTS: Array<ModuleManifest> = [
@@ -30,5 +31,6 @@ export const ALL_MODULE_MANIFESTS: Array<ModuleManifest> = [
   MOON_CARD_MANIFEST,
   PATHFINDERS_CARD_MANIFEST,
   CEO_CARD_MANIFEST,
+  STAR_WARS_CARD_MANIFEST,
   UNDERWORLD_CARD_MANIFEST,
 ];

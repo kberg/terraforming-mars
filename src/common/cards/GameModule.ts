@@ -12,6 +12,7 @@ export const GAME_MODULES = [
   'moon',
   'pathfinders',
   'ceo',
+  'starwars',
   'underworld',
 ] as const;
 export type GameModule = typeof GAME_MODULES[number];
@@ -30,5 +31,6 @@ export const EXPANSION_NAMES: Record<GameModule, string> = {
   'moon': 'The Moon',
   'pathfinders': 'Pathfinders',
   'ceo': 'CEOs',
+  'starwars': 'Star Wars',
   'underworld': 'Underworld',
 } as const;

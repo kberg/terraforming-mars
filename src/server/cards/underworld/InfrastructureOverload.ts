@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 import {all} from '../Options';
 import {Resource} from '../../../common/Resource';
@@ -16,7 +15,7 @@ export class InfrastructureOverload extends Card implements IProjectCard {
       cost: 3,
       tags: [Tag.POWER],
 
-      requirements: CardRequirements.builder((b) => b.corruption(2)),
+      requirements: {corruption: 2},
 
       victoryPoints: -1,
 

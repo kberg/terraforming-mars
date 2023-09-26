@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 import {digit} from '../Options';
 import {CardResource} from '../../../common/CardResource';
@@ -16,7 +15,7 @@ export class MicroprobingTechnology extends Card implements IProjectCard {
       tags: [Tag.SCIENCE],
       cost: 7,
 
-      requirements: CardRequirements.builder((b) => b.tag(Tag.SCIENCE)),
+      requirements: {tag: Tag.SCIENCE, count: 1},
 
       behavior: {
         stock: {plants: 3},

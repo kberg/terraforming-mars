@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class OffWorldTaxHaven extends Card implements IProjectCard {
   constructor() {
@@ -15,7 +14,7 @@ export class OffWorldTaxHaven extends Card implements IProjectCard {
       tags: [Tag.EARTH, Tag.SPACE],
 
       victoryPoints: -1,
-      requirements: CardRequirements.builder((b) => b.corruption(2)),
+      requirements: {corruption: 2},
 
       behavior: {
         production: {megacredits: 5},

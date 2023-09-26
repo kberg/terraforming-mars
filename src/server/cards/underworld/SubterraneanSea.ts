@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {IPlayer} from '../../IPlayer';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {Tag} from '../../../common/cards/Tag';
 
@@ -16,7 +15,7 @@ export class SubterraneanSea extends Card implements IProjectCard {
       cost: 10,
       tags: [Tag.BUILDING],
 
-      requirements: CardRequirements.builder((b) => b.excavation()),
+      requirements: {excavation: 1},
 
       tr: {oceans: 1},
 

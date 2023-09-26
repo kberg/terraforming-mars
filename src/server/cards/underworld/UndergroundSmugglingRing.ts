@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {digit} from '../Options';
 
 export class UndergroundSmugglingRing extends Card implements IProjectCard {
@@ -13,7 +12,7 @@ export class UndergroundSmugglingRing extends Card implements IProjectCard {
       name: CardName.UNDERGROUND_SMUGGLING_RING,
       cost: 8,
 
-      requirements: CardRequirements.builder((b) => b.excavation(1)),
+      requirements: {excavation: 1},
 
       behavior: {
         underworld: {corruption: 1},

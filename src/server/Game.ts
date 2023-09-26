@@ -49,7 +49,7 @@ import {GameSetup} from './GameSetup';
 import {GameCards} from './GameCards';
 import {GlobalParameter} from '../common/GlobalParameter';
 import {AresSetup} from './ares/AresSetup';
-import {IMoonData} from './moon/IMoonData';
+import {MoonData} from './moon/MoonData';
 import {MoonExpansion} from './moon/MoonExpansion';
 import {TurmoilHandler} from './turmoil/TurmoilHandler';
 import {SeededRandom} from '../common/utils/Random';
@@ -131,7 +131,7 @@ export class Game implements IGame, Logger {
   public discardedColonies: Array<IColony> = []; // Not serialized
   public turmoil: Turmoil | undefined;
   public aresData: AresData | undefined;
-  public moonData: IMoonData | undefined;
+  public moonData: MoonData | undefined;
   public pathfindersData: PathfindersData | undefined;
   public underworldData: UnderworldData | undefined;
 
@@ -151,6 +151,11 @@ export class Game implements IGame, Logger {
 
   // The set of tags available in this game.
   public readonly tags: ReadonlyArray<Tag>;
+
+  // Trade Embargo
+  public tradeEmbargo: boolean = false;
+  // Behold The Emperor
+  public beholdTheEmperor: boolean = false;
 
   private constructor(
     id: GameId,
@@ -387,6 +392,7 @@ export class Game implements IGame, Logger {
     const result: SerializedGame = {
       activePlayer: this.activePlayer,
       awards: this.awards.map((a) => a.name),
+      beholdTheEmperor: this.beholdTheEmperor,
       board: this.board.serialize(),
       claimedMilestones: serializeClaimedMilestones(this.claimedMilestones),
       ceoDeck: this.ceoDeck.serialize(),
@@ -411,7 +417,7 @@ export class Game implements IGame, Logger {
       initialDraftIteration: this.initialDraftIteration,
       lastSaveId: this.lastSaveId,
       milestones: this.milestones.map((m) => m.name),
-      moonData: IMoonData.serialize(this.moonData),
+      moonData: MoonData.serialize(this.moonData),
       oxygenLevel: this.oxygenLevel,
       passedPlayers: Array.from(this.passedPlayers),
       pathfindersData: PathfindersData.serialize(this.pathfindersData),
@@ -425,6 +431,7 @@ export class Game implements IGame, Logger {
       spectatorId: this.spectatorId,
       syndicatePirateRaider: this.syndicatePirateRaider,
       temperature: this.temperature,
+      tradeEmbargo: this.tradeEmbargo,
       underworldData: this.underworldData,
       undoCount: this.undoCount,
       unDraftedCards: Array.from(this.unDraftedCards.entries()).map((a) => {
@@ -727,6 +734,10 @@ export class Game implements IGame, Logger {
       });
       // Syndicate Pirate Raids hook. Also see Colony.ts and Player.ts
       this.syndicatePirateRaider = undefined;
+      // Trade embargo hook.
+      this.tradeEmbargo = false;
+      // Behold The Emperor hook
+      this.beholdTheEmperor = false;
     }
   }
 
@@ -1514,7 +1525,11 @@ export class Game implements IGame, Logger {
 
   public static deserialize(d: SerializedGame): Game {
     const gameOptions = d.gameOptions;
+
+    // TODO(kberg): delete this block by 2023-07-01
+    gameOptions.starWarsExpansion = gameOptions.starWarsExpansion ?? false;
     gameOptions.bannedCards = gameOptions.bannedCards ?? [];
+
     const players = d.players.map((element) => Player.deserialize(element));
     const first = players.find((player) => player.id === d.first);
     if (first === undefined) {
@@ -1578,7 +1593,7 @@ export class Game implements IGame, Logger {
 
     // Reload moon elements if needed
     if (d.moonData !== undefined && gameOptions.moonExpansion === true) {
-      game.moonData = IMoonData.deserialize(d.moonData, players);
+      game.moonData = MoonData.deserialize(d.moonData, players);
     }
 
     if (d.pathfindersData !== undefined && gameOptions.pathfindersExpansion === true) {
@@ -1619,6 +1634,8 @@ export class Game implements IGame, Logger {
     // TODO(kberg): remove ?? [] by 2023-11-01
     game.stJosephCathedrals = d.stJosephCathedrals ?? [];
     game.nomadSpace = d.nomadSpace;
+    game.tradeEmbargo = d.tradeEmbargo ?? false;
+    game.beholdTheEmperor = d.beholdTheEmperor ?? false;
 
     // Still in Draft or Research of generation 1
     if (game.generation === 1 && players.some((p) => p.corporations.length === 0)) {

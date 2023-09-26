@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {Tag} from '../../../common/cards/Tag';
 
 export class GeothermalNetwork extends Card implements IProjectCard {
@@ -14,7 +13,7 @@ export class GeothermalNetwork extends Card implements IProjectCard {
       tags: [Tag.MARS, Tag.BUILDING],
       cost: 14,
 
-      requirements: CardRequirements.builder((b) => b.excavation(3)),
+      requirements: {excavation: 3},
 
       behavior: {
         production: {heat: 3},

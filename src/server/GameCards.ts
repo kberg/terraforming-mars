@@ -10,6 +10,7 @@ import {MOON_CARD_MANIFEST} from './cards/moon/MoonCardManifest';
 import {PATHFINDERS_CARD_MANIFEST} from './cards/pathfinders/PathfindersCardManifest';
 import {CEO_CARD_MANIFEST} from './cards/ceos/CeoCardManifest';
 import {PRELUDE2_CARD_MANIFEST} from './cards/prelude2/Prelude2CardManifest';
+import {STAR_WARS_CARD_MANIFEST} from './cards/starwars/StarwarsCardManifest';
 import {UNDERWORLD_CARD_MANIFEST} from './cards/underworld/UnderworldCardManifest';
 import {CardManifest, ModuleManifest} from './cards/ModuleManifest';
 import {CardName} from '../common/cards/CardName';
@@ -59,6 +60,7 @@ export class GameCards {
       [gameOptions.moonExpansion, MOON_CARD_MANIFEST],
       [gameOptions.pathfindersExpansion, PATHFINDERS_CARD_MANIFEST],
       [gameOptions.ceoExtension, CEO_CARD_MANIFEST],
+      [gameOptions.starWarsExpansion, STAR_WARS_CARD_MANIFEST],
       [gameOptions.underworldExpansion, UNDERWORLD_CARD_MANIFEST],
     ];
 
@@ -90,9 +92,10 @@ export class GameCards {
         return gameOptions.aresExtension;
       case 'ceo':
         return gameOptions.ceoExtension;
-      default:
-        throw new Error(`Unhandled expansion type ${expansion}`);
+      case 'starwars':
+        return gameOptions.starWarsExpansion;
       }
+      throw new Error(`Unhandled expansion type ${expansion}`);
     });
   }
 

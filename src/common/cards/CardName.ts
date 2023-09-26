@@ -846,6 +846,17 @@ export enum CardName {
     // CEO Preludes
     CO_LEADERSHIP = 'Co-leadership',
 
+    // Star Wars cards
+    TRADE_EMBARGO = 'Trade Embargo (I)',
+    CLONE_TROOPERS = 'Clone Troopers (II)',
+    BEHOLD_THE_EMPEROR = 'Behold The Emperor! (III)',
+    TOSCHE_STATION = 'Tosche Station (IV)',
+    CLOUD_CITY = 'Cloud City (V)',
+    FOREST_MOON = 'Forest Moon (VI)',
+    TAKONDA_CASTLE = 'Takonda Castle (VII)',
+    TOOL_WITH_THE_FIRST_ORDER = 'Tool with the First Order (VIII)',
+    REY_SKYWALKER = 'Rey ... Skywalker?! (IX)',
+
     // Underworld
     GEOLOGIST_TEMPERATURE = 'Geologist Temperature',
     GEOSCAN_SATELLITE = 'Geoscan Satellite',

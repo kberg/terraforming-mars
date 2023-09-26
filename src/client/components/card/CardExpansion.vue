@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClasses()"></div>
+  <div :class="classes"></div>
 </template>
 
 <script lang="ts">
@@ -20,8 +20,10 @@ const MODULE_TO_CSS: Omit<Record<GameModule, string>, 'base'> = {
   'moon': 'moon-icon',
   'pathfinders': 'pathfinders-icon',
   'ceo': 'ceo-icon',
+  'starwars': 'starwars-icon',
   'underworld': 'underworld-icon',
 };
+
 export default Vue.extend({
   name: 'CardExpansion',
   props: {
@@ -34,8 +36,8 @@ export default Vue.extend({
       required: true,
     },
   },
-  methods: {
-    getClasses(): string {
+  computed: {
+    classes(): string {
       const classes = ['card-expansion', 'project-icon'];
       if (this.expansion !== 'base') {
         classes.push(MODULE_TO_CSS[this.expansion]);

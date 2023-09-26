@@ -31,6 +31,7 @@ import {CO2Reducers} from '../src/server/cards/pathfinders/CO2Reducers';
 import {Donation} from '../src/server/cards/prelude/Donation';
 import {Loan} from '../src/server/cards/prelude/Loan';
 import {IPreludeCard} from '../src/server/cards/prelude/IPreludeCard';
+import {OrOptions} from '../src/server/inputs/OrOptions';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -265,6 +266,7 @@ describe('Player', function() {
       } as SerializedTimer,
       totalDelegatesPlaced: 0,
       victoryPointsByGeneration: [],
+      underworldData: {corruption: 0, excavationTiles: 0},
     };
 
     const newPlayer = Player.deserialize(json);
@@ -483,7 +485,7 @@ describe('Player', function() {
 });
 
 function waitingForGlobalParameters(player: Player): Array<GlobalParameter> {
-  return player.getWaitingFor()!.options!.map((o) => o.title as string).map(titlesToGlobalParameter);
+  return cast(player.getWaitingFor(), OrOptions).options.map((o) => o.title as string).map(titlesToGlobalParameter);
 }
 
 function titlesToGlobalParameter(title: string): GlobalParameter {

@@ -88,6 +88,9 @@ export enum CardRenderItemType {
   HAZARD_TILE = 'hazard-tile',
   ADJACENCY_BONUS = 'adjacency-bonus',
 
+  // Star Wars
+  CLONE_TROOPER = 'clone-trooper',
+
   // Underworld
   IDENTIFY = 'identify',
   EXCAVATE = 'excavate',

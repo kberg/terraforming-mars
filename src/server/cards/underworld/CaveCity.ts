@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {IPlayer} from '../../IPlayer';
-import {CardRequirements} from '../requirements/CardRequirements';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {Tag} from '../../../common/cards/Tag';
 
@@ -16,7 +15,7 @@ export class CaveCity extends Card implements IProjectCard {
       cost: 14,
       tags: [Tag.MARS, Tag.BUILDING, Tag.CITY],
 
-      requirements: CardRequirements.builder((b) => b.excavation()),
+      requirements: {excavation: 1},
 
       behavior: {production: {megacredits: 1}},
 

@@ -147,6 +147,12 @@
                                 <span v-i18n>CEOs</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/CEOs" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
+                            <input type="checkbox" name="starwars" id="starwars-checkbox" v-model="starWarsExpansion">
+                            <label for="starwars-checkbox" class="expansion-button">
+                                <div class="create-game-expansion-icon expansion-icon-starwars"></div>
+                                <span v-i18n>Star Wars 🆕(β)</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/StarWars" class="tooltip" target="_blank">&#9432;</a>
+                            </label>
+
                             <input type="checkbox" name="ceo" id="underworld-checkbox" v-model="underworldExpansion">
                             <label for="underworld-checkbox" class="expansion-button">
                                 <div class="create-game-expansion-icon expansion-icon-underworld"></div>
@@ -446,6 +452,7 @@
                   v-bind:communityCardsOption="communityCardsOption"
                   v-bind:moonExpansion="moonExpansion"
                   v-bind:pathfindersExpansion="pathfindersExpansion"
+                  v-bind:underworldExpansion="underworldExpansion"
               ></CorporationsFilter>
             </div>
 
@@ -603,6 +610,7 @@ export default (Vue as WithRefs<Refs>).extend({
       twoCorpsVariant: false,
       customCeos: [],
       startingCeos: 3,
+      starWarsExpansion: false,
     };
   },
   components: {
@@ -980,6 +988,7 @@ export default (Vue as WithRefs<Refs>).extend({
       const twoCorpsVariant = this.twoCorpsVariant;
       const customCeos = this.customCeos;
       const startingCeos = this.startingCeos;
+      const starWarsExpansion = this.starWarsExpansion;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
@@ -1150,6 +1159,7 @@ export default (Vue as WithRefs<Refs>).extend({
         twoCorpsVariant,
         customCeos,
         startingCeos,
+        starWarsExpansion,
       };
       return JSON.stringify(dataToSend, undefined, 4);
     },

@@ -1,5 +1,7 @@
-// https://steveholgado.com/typescript-types-from-arrays/
-export const PAYMENT_KEYS = [
+import {DATA_VALUE, FLOATERS_VALUE, MICROBES_VALUE, GRAPHENE_VALUE, SEED_VALUE} from '../constants';
+
+/** Types of resources spent to pay for anything. */
+export const PAYMENT_UNITS = [
   'heat',
   'megaCredits',
   'steel',
@@ -12,7 +14,8 @@ export const PAYMENT_KEYS = [
   'auroraiData',
   'graphene',
   'kuiperAsteroids'] as const;
-export type PaymentKey = typeof PAYMENT_KEYS[number];
+/** Types of resources spent to pay for anything. */
+export type PaymentUnit = typeof PAYMENT_UNITS[number];
 
 /**
  * The units of resources to deduct from the player's play area. These resources are all worth
@@ -55,9 +58,39 @@ export function isPayment(obj: unknown): obj is Payment {
   if (typeof obj !== 'object') return false;
   if (!obj) return false;
   const h = obj as Payment; // Still might not be Payment, but h is does not escape this method.
-  return PAYMENT_KEYS.every((key) =>
+  return PAYMENT_UNITS.every((key) =>
     h.hasOwnProperty(key) && typeof h[key] === 'number' && !isNaN(h[key]));
 }
+
+export type PaymentOptions = {
+  heat: boolean,
+  steel: boolean,
+  titanium: boolean,
+  floaters: boolean,
+  microbes: boolean,
+  lunaTradeFederationTitanium: boolean,
+  lunaArchivesScience: boolean,
+  spireScience: boolean,
+  seeds: boolean,
+  auroraiData: boolean,
+  graphene: boolean,
+  kuiperAsteroids: boolean,
+}
+
+export const DEFAULT_PAYMENT_VALUES: Record<PaymentUnit, number> = {
+  megaCredits: 1,
+  steel: 2,
+  titanium: 3,
+  heat: 1,
+  microbes: MICROBES_VALUE,
+  floaters: FLOATERS_VALUE,
+  lunaArchivesScience: 1,
+  spireScience: 2,
+  seeds: SEED_VALUE,
+  auroraiData: DATA_VALUE,
+  graphene: GRAPHENE_VALUE,
+  kuiperAsteroids: 1,
+} as const;
 
 export namespace Payment {
   export const EMPTY: Readonly<Payment> = {
@@ -74,19 +107,6 @@ export namespace Payment {
     graphene: 0,
     kuiperAsteroids: 0,
   } as const;
-
-  export interface Options {
-    steel: boolean,
-    titanium: boolean,
-    floaters: boolean,
-    microbes: boolean,
-    lunaArchivesScience: boolean,
-    spireScience: boolean,
-    seeds: boolean,
-    auroraiData: boolean,
-    graphene: boolean,
-    kuiperAsteroids: boolean,
-  }
 
   export function of(payment: Partial<Payment>) : Payment {
     return {

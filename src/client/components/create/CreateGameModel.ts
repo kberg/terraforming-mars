@@ -65,4 +65,5 @@ export interface CreateGameModel {
   twoCorpsVariant: boolean;
   customCeos: Array<CardName>;
   startingCeos: number;
+  starWarsExpansion: boolean,
 }

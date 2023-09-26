@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class OrbitalLaserDrill extends Card implements IProjectCard {
   constructor() {
@@ -14,7 +13,7 @@ export class OrbitalLaserDrill extends Card implements IProjectCard {
       tags: [Tag.SCIENCE, Tag.SPACE],
       cost: 15,
 
-      requirements: CardRequirements.builder((b) => b.tag(Tag.SCIENCE, 2)),
+      requirements: {tag: Tag.SCIENCE, count: 2},
       victoryPoints: 1,
 
       behavior: {

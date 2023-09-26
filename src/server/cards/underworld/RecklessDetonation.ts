@@ -4,7 +4,6 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {all, digit} from '../Options';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class RecklessDetonation extends Card implements IProjectCard {
   constructor() {
@@ -13,7 +12,7 @@ export class RecklessDetonation extends Card implements IProjectCard {
       name: CardName.RECKLESS_DETONATION,
       cost: 1,
 
-      requirements: CardRequirements.builder((b) => b.corruption(2)),
+      requirements: {corruption: 2},
 
       behavior: {
         spend: {energy: 3},

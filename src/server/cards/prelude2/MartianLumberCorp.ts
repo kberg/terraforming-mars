@@ -7,7 +7,6 @@ import {IPlayer} from '../../IPlayer';
 import {PlayerInput} from '../../PlayerInput';
 import {SelectCard} from '../../inputs/SelectCard';
 import {ICard} from '../ICard';
-import {CardRequirements} from '../requirements/CardRequirements';
 
 export class MartianLumberCorp extends Card {
   constructor() {
@@ -21,12 +20,12 @@ export class MartianLumberCorp extends Card {
         production: {plants: 1},
       },
 
-      requirements: CardRequirements.builder((b) => b.greeneries(2)),
+      requirements: {greeneries: 2},
 
       /*
 https://discord.com/channels/737945098695999559/742826825922904225/1153319755458031658
       Requires that you have 2 greenery tiles. Increase plant production 1 step.
-      Effect: Plants may be spent for buliding tags, 3 MC.
+      Effect: Plants may be spent for buliding tags, 3 M€.
       b.building({played}).startEffect.plants(1).equals().megaCredits(3)
       */
       metadata: {
