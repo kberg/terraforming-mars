@@ -299,18 +299,26 @@ export abstract class Board {
   public serialize(): SerializedBoard {
     return {
       spaces: this.spaces.map((space) => {
-        return {
+        const serialized: SerializedSpace = {
           id: space.id,
           spaceType: space.spaceType,
           tile: space.tile,
-          player: space.player?.id,
           bonus: space.bonus,
           adjacency: space.adjacency,
           x: space.x,
           y: space.y,
-          undergroundResources: space.undergroundResources,
-          excavator: space.excavator?.id,
         };
+        if (space.player !== undefined) {
+          serialized.player = space.player.id;
+        }
+        if (space.undergroundResources !== undefined) {
+          serialized.undergroundResources = space.undergroundResources;
+        }
+        if (space.excavator !== undefined) {
+          serialized.excavator = space.excavator.id;
+        }
+
+        return serialized;
       }),
     };
   }
@@ -322,12 +330,14 @@ export abstract class Board {
       bonus: d.bonus,
       x: d.x,
       y: d.y,
-      player: players.find((p) => p.id === d.player),
-      excavator: players.find((p) => p.id === d.excavator),
     };
 
     if (d.tile !== undefined) {
       space.tile = d.tile;
+    }
+
+    if (d.player !== undefined) {
+      space.player = players.find((p) => p.id === d.player);
     }
 
     if (d.adjacency !== undefined) {
@@ -338,6 +348,9 @@ export abstract class Board {
       space.undergroundResources = d.undergroundResources;
     }
 
+    if (d.excavator !== undefined) {
+      space.excavator = players.find((p) => p.id === d.excavator);
+    }
     return space;
   }
 

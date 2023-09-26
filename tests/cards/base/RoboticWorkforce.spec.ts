@@ -31,7 +31,8 @@ import {ResearchNetwork} from '../../../src/server/cards/prelude/ResearchNetwork
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {CardManifest} from '../../../src/server/cards/ModuleManifest';
 import {HeatTrappers} from '../../../src/server/cards/base/HeatTrappers';
-import {DEFAULT_GAME_OPTIONS} from '../../../src/server/game/GameOptions';
+import {DEFAULT_GAME_OPTIONS, GameOptions} from '../../../src/server/game/GameOptions';
+import {testGame} from '../../TestGame';
 
 describe('RoboticWorkforce', () => {
   let card: RoboticWorkforce;
@@ -41,9 +42,7 @@ describe('RoboticWorkforce', () => {
 
   beforeEach(() => {
     card = new RoboticWorkforce();
-    player = TestPlayer.BLUE.newPlayer();
-    redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {moonExpansion: true});
+    [game, player, redPlayer] = testGame(2, {moonExpansion: true});
   });
 
   it('Cannot play if no building cards to copy', () => {
@@ -216,12 +215,23 @@ describe('RoboticWorkforce', () => {
 
     const testCard = function(card: ICard) {
       const researchCoordination = new ResearchCoordination();
-      const gameOptions = {turmoilExtension: true, aresExtension: true, aresHazards: false, moonExpansion: true};
+      const gameOptions: Partial<GameOptions> = {
+        turmoilExtension: true,
+        aresExtension: true,
+        aresHazards: false,
+        moonExpansion: true,
+        underworldExpansion: true,
+      };
 
       let include = false;
       if ((card.tags.includes(Tag.BUILDING) || card.tags.includes(Tag.WILD)) && card.play !== undefined) {
-        // Solar Farm is a pain to test so let's just say it's fine
-        if (card.name === CardName.SOLAR_FARM) {
+        // These cards are a pain to test so let's just say they're fine
+        const skippedCards = [
+          CardName.SOLAR_FARM,
+          CardName.SUBTERRANEAN_SEA,
+          CardName.CAVE_CITY,
+        ];
+        if (skippedCards.includes(card.name)) {
           return;
         }
 

@@ -295,6 +295,8 @@ export class Game implements IGame, Logger {
 
     if (gameOptions.underworldExpansion) {
       game.underworldData = UnderworldExpansion.initialize(rng);
+    } else {
+      game.underworldData = undefined;
     }
     // Failsafe for exceeding corporation pool
     // (I do not think this is necessary any further given how corporation cards are stored now)

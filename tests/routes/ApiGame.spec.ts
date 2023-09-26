@@ -86,9 +86,10 @@ describe('ApiGame', () => {
           'soloTR': false,
           'randomMA': 'No randomization',
           'turmoilExtension': false,
+          'twoCorpsVariant': false,
+          'underworldExpansion': false,
           'undoOption': false,
           'venusNextExtension': false,
-          'twoCorpsVariant': false,
         },
       },
     );

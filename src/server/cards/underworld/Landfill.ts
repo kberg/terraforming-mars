@@ -29,9 +29,14 @@ export class Landfill extends Card implements IProjectCard {
     });
   }
 
-  override bespokePlay(player: IPlayer) {
+  public produce(player: IPlayer) {
     const count = Units.keys.filter((type) => player.production[type] > 0).length;
     player.production.add(Resource.MEGACREDITS, count, {log: true});
+  }
+
+
+  override bespokePlay(player: IPlayer) {
+    this.produce(player);
     return undefined;
   }
 }
