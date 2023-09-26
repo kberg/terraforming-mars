@@ -23,7 +23,7 @@ export class Landfill extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.megacredits(1).slash().production((pb2) => pb2.text('1+').wild(1)).asterix());
         }),
-        description: 'Increase your MC production 1 step for each different TYPE of production .' +
+        description: 'Increase your M€ production 1 step for each different TYPE of production .' +
           'you have at least 1 step.',
       },
     });

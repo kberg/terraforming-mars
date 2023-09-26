@@ -74,6 +74,8 @@ export interface ICard {
      */
     onResourceAdded?: (player: IPlayer, playedCard: ICard, count: number) => void;
 
+    onExcavation?: (player: IPlayer, space: Space) => void;
+
     cost?: number; /** Used with IProjectCard and PreludeCard. */
     type: CardType;
     requirements?: CardRequirements;

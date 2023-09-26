@@ -25,7 +25,7 @@ export class UndergroundAmusementPark extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.megacredits(1));
         }),
-        description: 'Requires an excavation marker. Increase your MC production 1 step.',
+        description: 'Requires an excavation marker. Increase your M€ production 1 step.',
       },
     });
   }

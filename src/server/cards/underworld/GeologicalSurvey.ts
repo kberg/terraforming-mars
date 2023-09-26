@@ -4,7 +4,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
-import {all, digit} from '../Options';
+import {digit} from '../Options';
 import {CardResource} from '../../../common/CardResource';
 
 export class GeologicalSurvey extends Card implements IProjectCard {

@@ -95,6 +95,7 @@ export class UnderworldExpansion {
     if (leaser !== undefined) {
       leaser.stock.add(Resource.MEGACREDITS, 1, {log: true});
     }
+    player.tableau.forEach((card) => card.onExcavation?.(player, space));
   }
 
   public static grant(player: IPlayer, reward: ExcavationToken): void {

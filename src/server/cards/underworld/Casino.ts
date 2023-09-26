@@ -28,7 +28,7 @@ export class Casino extends Card implements IProjectCard {
           b.corruption();
           b.production((pb) => pb.megacredits(2));
         }),
-        description: 'Requires at least 1 city tile in play. Gain 1 corruption. Increase your MC production 2 steps.',
+        description: 'Requires at least 1 city tile in play. Gain 1 corruption. Increase your M€ production 2 steps.',
       },
     });
   }

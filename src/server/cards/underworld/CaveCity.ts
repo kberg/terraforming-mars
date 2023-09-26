@@ -26,7 +26,7 @@ export class CaveCity extends Card implements IProjectCard {
           b.production((pb) => pb.megacredits(1)).br;
           b.city().excavate().asterix();
         }),
-        description: 'Requires 1 excavation marker. Increase your MC production 1 step. ' +
+        description: 'Requires 1 excavation marker. Increase your M€ production 1 step. ' +
         'Place a city in a space where YOU have an excavation marker. ' +
         'Regular placement restrictions still apply.',
       },

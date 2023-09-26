@@ -1,10 +1,10 @@
 import {CardName} from '../../../common/cards/CardName';
 import {ModuleManifest} from '../ModuleManifest';
 
-// import {AeronGenomics} from './AeronGenomics';
+import {AeronGenomics} from './AeronGenomics';
 // import {AntiTrustCrackdown} from './AntiTrustCrackdown';
 // import {AnubisSecurities} from './AnubisSecurities';
-// import {ArboristCollective} from './ArboristCollective';
+import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
 // import {ArtesianAquifer} from './ArtesianAquifer';
 // import {BatteryFactory} from './BatteryFactory';
@@ -45,9 +45,9 @@ import {GeothermalNetwork} from './GeothermalNetwork';
 import {GlobalAudit} from './GlobalAudit';
 import {GreyMarketExploitation} from './GreyMarketExploitation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
-// import {Hadesphere} from './Hadesphere';
+import {Hadesphere} from './Hadesphere';
 // import {HectateSpeditions} from './HectateSpeditions';
-// import {HenkeiGenetics} from './HenkeiGenetics';
+import {HenkeiGenetics} from './HenkeiGenetics';
 import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
 import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
 // import {InducedTremor} from './InducedTremor';
@@ -56,7 +56,7 @@ import {InheritedFortune} from './InheritedFortune';
 // import {IntellectualPropertyTheft} from './IntellectualPropertyTheft';
 // import {InvestigativeJournalism} from './InvestigativeJournalism';
 import {InvestorPlaza} from './InvestorPlaza';
-// import {JensonBoyleCo} from './JensonBoyleCo';
+import {JensonBoyleCo} from './JensonBoyleCo';
 // import {Keplertec} from './Keplertec';
 // import {KingdomofTauraro} from './KingdomofTauraro';
 // import {LaborTrafficking} from './LaborTrafficking';
@@ -116,7 +116,7 @@ import {UndergroundRailway} from './UndergroundRailway';
 import {UndergroundSettlement} from './UndergroundSettlement';
 // import {UndergroundShelters} from './UndergroundShelters';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
-// import {Voltagon} from './Voltagon';
+import {Voltagon} from './Voltagon';
 // import {VoltaicMettalurgy} from './VoltaicMettalurgy';
 // import {VolunteerMiningInititive} from './VolunteerMiningInititive';
 // import {Whales} from './Whales';
@@ -217,15 +217,15 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
   },
 
   corporationCards: {
-    // [CardName.HADESPHERE]: {Factory: Hadesphere},
+    [CardName.HADESPHERE]: {Factory: Hadesphere},
     // [CardName.DEMETRON_LABS]: {Factory: DemetronLabs},
-    // [CardName.JENSON_BOYLE_CO]: {Factory: JensonBoyleCo},
-    // [CardName.HENKEI_GENETICS]: {Factory: HenkeiGenetics},
-    // [CardName.ARBORIST_COLLECTIVE]: {Factory: ArboristCollective},
+    [CardName.JENSON_BOYLE_CO]: {Factory: JensonBoyleCo},
+    [CardName.HENKEI_GENETICS]: {Factory: HenkeiGenetics},
+    [CardName.ARBORIST_COLLECTIVE]: {Factory: ArboristCollective},
     // [CardName.KINGDOM_OF_TAURARO]: {Factory: KingdomofTauraro},
-    // [CardName.AERON_GENOMICS]: {Factory: AeronGenomics},
+    [CardName.AERON_GENOMICS]: {Factory: AeronGenomics},
     // [CardName.KEPLERTEC]: {Factory: Keplertec},
-    // [CardName.VOLTAGON]: {Factory: Voltagon},
+    [CardName.VOLTAGON]: {Factory: Voltagon, compatibility: 'venus'},
     // [CardName.ARES_MEDIA]: {Factory: AresMedia},
     // [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities},
     // [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions},

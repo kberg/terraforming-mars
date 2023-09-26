@@ -1,45 +1,56 @@
-import {Card} from '../Card';
-import {CardName} from '../../../common/cards/CardName';
-import {CardResource} from '../../../common/CardResource';
-import {CardType} from '../../../common/cards/CardType';
 import {IActionCard} from '../ICard';
-import {IProjectCard} from '../IProjectCard';
 import {Tag} from '../../../common/cards/Tag';
-import {SelectCard} from '../../inputs/SelectCard';
-import {SimpleDeferredAction} from '../../deferredActions/DeferredAction';
-import {CardRequirements} from '../requirements/CardRequirements';
+import {CardName} from '../../../common/cards/CardName';
+import {CardType} from '../../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
+import {ICorporationCard} from '../corporation/ICorporationCard';
+import {digit} from '../Options';
+import {CardResource} from '../../../common/CardResource';
 import {IPlayer} from '../../IPlayer';
+import {Card} from '../Card';
+import {SimpleDeferredAction} from '../../deferredActions/DeferredAction';
+import {SelectCard} from '../../inputs/SelectCard';
+import {Space} from '../../boards/Space';
 
-export class BioengineeringEnclosure extends Card implements IProjectCard, IActionCard {
+export class AeronGenomics extends Card implements IActionCard, ICorporationCard {
   constructor() {
     super({
-      type: CardType.ACTIVE,
-      name: CardName.BIOENGINEERING_ENCLOSURE,
+      type: CardType.CORPORATION,
+      name: CardName.AERON_GENOMICS,
       tags: [Tag.ANIMAL],
-      cost: 7,
+      startingMegaCredits: 35,
       resourceType: CardResource.ANIMAL,
 
+      victoryPoints: {resourcesHere: {}, per: 3},
+
       behavior: {
-        addResources: 2,
+        stock: {steel: 3},
+        addResources: 1,
       },
 
-      requirements: CardRequirements.builder((b) => b.tag(Tag.SCIENCE)),
       metadata: {
-        description: 'Requires 1 science tag to play. Add 2 animals to this card. OTHERS MAY NOT REMOVE ANIMALS FROM THIS CARD.',
-        cardNumber: 'A01',
+        cardNumber: 'UC05',
+        description: 'You start with 35 M€, 5 steel, and 1 animal resource on this card. 1 VP per 3 animals on this card.',
         renderData: CardRenderer.builder((b) => {
-          b.action('Remove 1 animal from THIS card to add 1 animal to ANOTHER card.', (eb) => {
-            eb.animals(1).asterix().startAction.animals(1).asterix();
+          b.megacredits(35).steel(5, {digit}).animals(1).br;
+          b.effect('After you excavate an underground resource, put an animal on this card.', (eb) => {
+            eb.excavate(1).startEffect.animals(1);
           }).br;
-          b.animals(2);
+          b.action('Spend 1 M€ to move an animal from here to another card.', (ab) => {
+            ab.megacredits(1).animals(1).startAction.animals(1).asterix();
+          });
         }),
       },
     });
   }
 
+  onExcavation(player: IPlayer, _space: Space) {
+    player.addResourceTo(this, {qty: 1, log: true});
+  }
+
+  // COPIED FROM BioEngineering Enclosure
   public canAct(player: IPlayer): boolean {
-    // >1 because this player already has bioengineering enclosure.
+    // >1 because this player already has Aeron Genomics.
     return this.resourceCount > 0 && player.getResourceCards(this.resourceType).length > 1;
   }
 

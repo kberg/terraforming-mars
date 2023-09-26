@@ -24,7 +24,7 @@ export class SubnauticPirates extends Card implements IProjectCard {
           b.oceans(1).excavate().asterix().colon().text('STEAL').megacredits(6);
         }),
         description: 'Requires 1 excavation marker and 1 corruption. Pick an ocean tile ' +
-        'that has your excavation marker on it. Steal 6 MC from each other player that ' +
+        'that has your excavation marker on it. Steal 6 M€ from each other player that ' +
         'owns a tile adjacent to that ocean. This can be blocked by corruption.',
       },
     });
