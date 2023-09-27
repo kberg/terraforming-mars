@@ -4,6 +4,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardType} from '../../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardResource} from '../../../common/CardResource';
+import {IPlayer} from '@/server/IPlayer';
 
 export class SolBank extends Card implements ICorporationCard {
   constructor() {
@@ -27,5 +28,10 @@ export class SolBank extends Card implements ICorporationCard {
     });
   }
 
-  // Behavior is in Player and Pathfinders.addToSolBank.
+  public onProductionPhase(player: IPlayer) {
+    player.megaCredits += this.resourceCount;
+    this.resourceCount = 0;
+    return undefined;
+  }
+  // Behavior is in Pathfinders.addToSolBank.
 }

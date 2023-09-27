@@ -53,6 +53,14 @@ export class UnderworldExpansion {
     space.undergroundResources = token;
   }
 
+  public static onIdentification(player: IPlayer, count: number) {
+    for (const p of player.game.getPlayersInGenerationOrder()) {
+      for (const card of p.tableau) {
+        card.onIdentification?.(player, p, count);
+      }
+    }
+  }
+
   public static excavatableSpaces(player: IPlayer, ignorePlacementRestrictions: boolean = false) {
     const board = player.game.board;
     const anyExcavatableSpaces = board.spaces.filter((space) => {

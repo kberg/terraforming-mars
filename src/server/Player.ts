@@ -646,17 +646,12 @@ export class Player implements IPlayer {
     this.energy += this.production.energy;
     this.heat += this.production.heat;
 
-    this.corporations.forEach((card) => card.onProductionPhase?.(this));
+    this.tableau.forEach((card) => card.onProductionPhase?.(this));
     // Turn off CEO OPG actions that were activated this generation
     for (const card of this.playedCards) {
       if (isCeoCard(card)) {
         card.opgActionIsActive = false;
       }
-    }
-    const solBank = this.getCorporation(CardName.SOLBANK);
-    if (solBank !== undefined && solBank.resourceCount > 0) {
-      this.megaCredits += solBank.resourceCount;
-      solBank.resourceCount = 0;
     }
   }
 

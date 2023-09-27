@@ -69,7 +69,7 @@ import {LobbyingNetwork} from './LobbyingNetwork';
 // import {MicroGeodesics} from './MicroGeodesics';
 // import {Microgravimetry} from './Microgravimetry';
 import {MicroprobingTechnology} from './MicroprobingTechnology';
-// import {MiningMarketInsider} from './MiningMarketInsider';
+import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
 // import {Nanofoundry} from './Nanofoundry';
 import {NarrativeSpin} from './NarrativeSpin';
@@ -79,7 +79,7 @@ import {OffWorldTaxHaven} from './OffWorldTaxHaven';
 import {OldWorldMafia} from './OldWorldMafia';
 import {OrbitalLaserDrill} from './OrbitalLaserDrill';
 // import {PatentManipulation} from './PatentManipulation';
-// import {PersonalSpacecruiser} from './PersonalSpacecruiser';
+import {PersonalSpacecruiser} from './PersonalSpacecruiser';
 import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
 // import {PlantTax} from './PlantTax';
 // import {PriceWars} from './PriceWars';
@@ -169,12 +169,12 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony},
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
-    // [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
+    [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
     // [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
     [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
     // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor},
     // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers},
-    // [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
+    [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
     [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
     // [CardName.STAR_VEGAS]: {Factory: StarVegas},
     // [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},

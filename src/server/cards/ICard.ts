@@ -75,6 +75,9 @@ export interface ICard {
   onResourceAdded?: (player: IPlayer, playedCard: ICard, count: number) => void;
 
   onExcavation?: (player: IPlayer, space: Space) => void;
+  onIdentification?: (identifyingPlayer: IPlayer, cardOwner: IPlayer, count: number) => void;
+  onProductionPhase?: (player: IPlayer) => undefined; // For Pristar and Underworld
+
   cost?: number; /** Used with IProjectCard and PreludeCard. */
   type: CardType;
   requirements: Array<CardRequirementDescriptor>;
