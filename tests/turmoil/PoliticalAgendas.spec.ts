@@ -2,11 +2,12 @@ import {expect} from 'chai';
 import {IPlayer} from '../../src/server/IPlayer';
 import {PartyName} from '../../src/common/turmoil/PartyName';
 import {Game} from '../../src/server/Game';
-import {cast, runAllActions} from '../TestingUtils';
+import {cast, popSelectInitialCards, runAllActions} from '../TestingUtils';
 import {TestPlayer} from '../TestPlayer';
 import {PoliticalAgendas} from '../../src/server/turmoil/PoliticalAgendas';
 import {AgendaStyle} from '../../src/common/turmoil/Types';
 import {OrOptions} from '../../src/server/inputs/OrOptions';
+import {Turmoil} from '../../src/server/turmoil/Turmoil';
 
 describe('PoliticalAgendas', function() {
   let player1: TestPlayer;
@@ -32,7 +33,8 @@ describe('PoliticalAgendas', function() {
       if (deserialize) {
         game = Game.deserialize(game.serialize());
       }
-      const turmoil = game.turmoil!;
+      popSelectInitialCards(game);
+      const turmoil = Turmoil.getTurmoil(game);
 
       expect(PoliticalAgendas.currentAgenda(turmoil).bonusId).eq('gb01');
       expect(PoliticalAgendas.currentAgenda(turmoil).policyId).eq('gp01');
@@ -52,13 +54,15 @@ describe('PoliticalAgendas', function() {
       PoliticalAgendas.randomElement = (list: Array<any>) => list[1];
 
       let game = Game.newInstance('gameid', [player1, player2], player1, {turmoilExtension: true, politicalAgendasExtension: AgendaStyle.CHAIRMAN});
+      popSelectInitialCards(game);
       let newPlayer2: IPlayer = player2;
       if (deserialize) {
         game = Game.deserialize(game.serialize());
         // Get a new copy of player2 who will have a different set of waitingFor.
         newPlayer2 = game.getPlayerById(player2.id);
       }
-      const turmoil = game.turmoil!;
+      popSelectInitialCards(game);
+      const turmoil = Turmoil.getTurmoil(game);
 
       expect(PoliticalAgendas.currentAgenda(turmoil)).deep.eq({bonusId: 'gb02', policyId: 'gp02'});
 
@@ -93,7 +97,8 @@ describe('PoliticalAgendas', function() {
       if (deserialize) {
         game = Game.deserialize(game.serialize());
       }
-      const turmoil = game.turmoil!;
+      popSelectInitialCards(game);
+      const turmoil = Turmoil.getTurmoil(game);
 
       expect(PoliticalAgendas.currentAgenda(turmoil).bonusId).eq('gb02');
       expect(PoliticalAgendas.currentAgenda(turmoil).policyId).eq('gp02');

@@ -2,7 +2,6 @@ import {Game} from '../src/server/Game';
 import {IGame} from '../src/server/IGame';
 import {GameOptions} from '../src/server/game/GameOptions';
 import {TestPlayer} from './TestPlayer';
-import {SelectInitialCards} from '../src/server/inputs/SelectInitialCards';
 
 export type TestGameOptions = GameOptions & {
   /* skip initial card selection */
@@ -46,9 +45,7 @@ export function testGame(count: number, customOptions?: Partial<TestGameOptions>
   if (customOptions?.skipInitialCardSelection !== false) {
     for (const player of players) {
       /* Removes waitingFor if it is SelectInitialCards. Used when wanting it cleared out for further testing. */
-      if (player.getWaitingFor() instanceof SelectInitialCards) {
-        player.popWaitingFor();
-      }
+      player.popSelectInitialCards();
     }
   }
   return [game, ...players];

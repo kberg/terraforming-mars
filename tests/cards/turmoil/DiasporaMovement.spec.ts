@@ -22,7 +22,7 @@ describe('DiasporaMovement', function() {
     player2 = TestPlayer.RED.newPlayer();
 
     game = Game.newInstance('gameid', [player, player2], player, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     reds = turmoil.getPartyByName(PartyName.REDS);
   });
 

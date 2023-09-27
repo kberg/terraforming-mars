@@ -20,7 +20,7 @@ describe('StripMine', function() {
     const redPlayer = TestPlayer.RED.newPlayer();
 
     game = Game.newInstance('gameid', [player, redPlayer], player, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('Can not play', function() {

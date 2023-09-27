@@ -8,6 +8,7 @@ import {Greens} from '../../../src/server/turmoil/parties/Greens';
 import {Reds} from '../../../src/server/turmoil/parties/Reds';
 import {PoliticalAgendas} from '../../../src/server/turmoil/PoliticalAgendas';
 import {testGame} from '../../TestGame';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('AquiferPumping', function() {
   let card: AquiferPumping;
@@ -45,7 +46,7 @@ describe('AquiferPumping', function() {
   it('Cannot act if cannot afford reds tax', function() {
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Greens();
@@ -67,7 +68,7 @@ describe('AquiferPumping', function() {
   it('Steel does not satisfy the reds tax', function() {
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Reds();

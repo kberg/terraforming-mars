@@ -31,7 +31,7 @@ import {ResearchNetwork} from '../../../src/server/cards/prelude/ResearchNetwork
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {CardManifest} from '../../../src/server/cards/ModuleManifest';
 import {HeatTrappers} from '../../../src/server/cards/base/HeatTrappers';
-import {DEFAULT_GAME_OPTIONS} from '../../../src/server/game/GameOptions';
+import {testGame} from '../../TestGame';
 
 describe('RoboticWorkforce', () => {
   let card: RoboticWorkforce;
@@ -41,9 +41,7 @@ describe('RoboticWorkforce', () => {
 
   beforeEach(() => {
     card = new RoboticWorkforce();
-    player = TestPlayer.BLUE.newPlayer();
-    redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {moonExpansion: true});
+    [game, player, redPlayer] = testGame(2, {moonExpansion: true});
   });
 
   it('Cannot play if no building cards to copy', () => {
@@ -107,7 +105,7 @@ describe('RoboticWorkforce', () => {
   });
 
   it('Should work with Capital (Ares expansion)', () => {
-    game = Game.newInstance('gameid', [player, redPlayer], player, {...DEFAULT_GAME_OPTIONS, aresExtension: true, aresHazards: false});
+    [game, player, redPlayer] = testGame(2, {aresExtension: true, aresHazards: false});
     const capitalAres = new CapitalAres();
     player.playedCards.push(capitalAres);
 
@@ -122,7 +120,7 @@ describe('RoboticWorkforce', () => {
   });
 
   it('Should work with Solar Farm (Ares expansion)', () => {
-    game = Game.newInstance('gameid', [player, redPlayer], player, {...DEFAULT_GAME_OPTIONS, aresExtension: true, aresHazards: false});
+    [game, player, redPlayer] = testGame(2, {aresExtension: true, aresHazards: false});
     const solarFarm = new SolarFarm();
 
     // This space should have 2 plants bonus on default map
@@ -216,7 +214,6 @@ describe('RoboticWorkforce', () => {
 
     const testCard = function(card: ICard) {
       const researchCoordination = new ResearchCoordination();
-      const gameOptions = {turmoilExtension: true, aresExtension: true, aresHazards: false, moonExpansion: true};
 
       let include = false;
       if ((card.tags.includes(Tag.BUILDING) || card.tags.includes(Tag.WILD)) && card.play !== undefined) {
@@ -226,9 +223,7 @@ describe('RoboticWorkforce', () => {
         }
 
         // Create new players, set all productions to 2
-        player = TestPlayer.BLUE.newPlayer();
-        redPlayer = TestPlayer.RED.newPlayer();
-        game = Game.newInstance('gameid', [player, redPlayer], player, gameOptions);
+        [game, player, redPlayer] = testGame(2, {turmoilExtension: true, aresExtension: true, aresHazards: false, moonExpansion: true});
         player.production.override({megacredits: 2, steel: 2, titanium: 2, plants: 2, energy: 2, heat: 2});
         redPlayer.production.override({megacredits: 2, steel: 2, titanium: 2, plants: 2, energy: 2, heat: 2});
 

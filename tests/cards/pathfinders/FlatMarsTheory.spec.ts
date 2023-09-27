@@ -3,6 +3,7 @@ import {FlatMarsTheory} from '../../../src/server/cards/pathfinders/FlatMarsTheo
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {Units} from '../../../src/common/Units';
+import {testGame} from '../../TestGame';
 
 describe('FlatMarsTheory', function() {
   let card: FlatMarsTheory;
@@ -11,8 +12,7 @@ describe('FlatMarsTheory', function() {
 
   beforeEach(function() {
     card = new FlatMarsTheory();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('canPlay', function() {

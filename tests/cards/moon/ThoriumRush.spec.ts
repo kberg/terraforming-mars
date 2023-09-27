@@ -8,6 +8,7 @@ import {Phase} from '../../../src/common/Phase';
 import {Greens} from '../../../src/server/turmoil/parties/Greens';
 import {PoliticalAgendas} from '../../../src/server/turmoil/PoliticalAgendas';
 import {Reds} from '../../../src/server/turmoil/parties/Reds';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('ThoriumRush', () => {
   let player: TestPlayer;
@@ -50,7 +51,7 @@ describe('ThoriumRush', () => {
   it('canPlay when Reds are in power', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {moonExpansion: true, turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const moonData = MoonExpansion.moonData(game);
     game.phase = Phase.ACTION;
 

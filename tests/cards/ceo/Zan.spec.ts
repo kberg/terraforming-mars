@@ -8,6 +8,7 @@ import {ReleaseOfInertGases} from '../../../src/server/cards/base/ReleaseOfInert
 import {forceGenerationEnd, setRulingParty, runAllActions} from '../../TestingUtils';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {Politician} from '../../../src/server/awards/terraCimmeria/Politician';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('Zan', function() {
   let card: Zan;
@@ -37,7 +38,7 @@ describe('Zan', function() {
   });
 
   it('Takes OPG action', function() {
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     player.megaCredits = 0;
     const expectedMegagredits = turmoil.getAvailableDelegateCount(player.id);
     card.action(player);

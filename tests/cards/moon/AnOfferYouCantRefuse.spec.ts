@@ -21,7 +21,7 @@ describe('AnOfferYouCantRefuse', () => {
 
   beforeEach(() => {
     [game, player, redPlayer, yellowPlayer] = testGame(3, {moonExpansion: true, turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     parties = new Parties(turmoil);
     clearParties();
     card = new AnOfferYouCantRefuse();

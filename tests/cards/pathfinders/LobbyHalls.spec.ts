@@ -22,7 +22,7 @@ describe('LobbyHalls', function() {
   beforeEach(function() {
     card = new LobbyHalls();
     [game, player] = testGame(1, {turmoilExtension: true, pathfindersExpansion: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('cannot play, not enough delegates', () => {

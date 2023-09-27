@@ -6,6 +6,7 @@ import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {ExecutiveOrder} from '../../../src/server/cards/community/ExecutiveOrder';
 import {SelectParty} from '../../../src/server/inputs/SelectParty';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('ExecutiveOrder', function() {
   let card: ExecutiveOrder;
@@ -25,7 +26,7 @@ describe('ExecutiveOrder', function() {
     expect(player.megaCredits).to.eq(10);
     expect(game.deferredActions).has.lengthOf(2);
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const selectGlobalEvent = cast(game.deferredActions.pop()!.execute(), OrOptions);
     selectGlobalEvent.options[0].cb();
     expect(turmoil.currentGlobalEvent).is.not.undefined;

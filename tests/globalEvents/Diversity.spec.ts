@@ -5,13 +5,14 @@ import {EarlySettlement} from '../../src/server/cards/prelude/EarlySettlement';
 import {Diversity} from '../../src/server/turmoil/globalEvents/Diversity';
 import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {testGame} from '../TestGame';
+import {Turmoil} from '../../src/server/turmoil/Turmoil';
 
 describe('Diversity', function() {
   it('resolve play', function() {
     const card = new Diversity();
 
     const [game, player, player2] = testGame(2, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
 
     // player2 has 8 tags.
     player2.playedCards.push(new AdvancedEcosystems()); // Plant, Microbe, Animal

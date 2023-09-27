@@ -36,6 +36,7 @@ import {DarksideMeteorBombardment} from '../../src/server/cards/moon/DarksideMet
 import {LunaStagingStation} from '../../src/server/cards/moon/LunaStagingStation';
 import {MoonExpansion} from '../../src/server/moon/MoonExpansion';
 import {TileType} from '../../src/common/TileType';
+import {testGame} from '../TestGame';
 
 describe('Turmoil', function() {
   let player: TestPlayer;
@@ -44,12 +45,9 @@ describe('Turmoil', function() {
   let turmoil: Turmoil;
 
   beforeEach(function() {
-    player = TestPlayer.BLUE.newPlayer();
-    player2 = TestPlayer.RED.newPlayer();
-
-    game = Game.newInstance('gameid', [player, player2], player, {turmoilExtension: true});
+    [game, player, player2] = testGame(2, {turmoilExtension: true});
     game.phase = Phase.ACTION;
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     // Eliminate the flaky cases where the current global event sends delegates to
     // parties, changing the dominant party outcome.
     turmoil.parties.forEach((p) => p.delegates.clear());
@@ -261,9 +259,8 @@ describe('Turmoil', function() {
   it('canPlay: Reds tax applies by default when raising oxygen', function() {
   // Strip Mine raises the oxygen level two steps.
     const card = new StripMine();
-    const player = TestPlayer.BLUE.newPlayer();
-    const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    [game, player] = testGame(1, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
     player.production.override({energy: 2}); // Card requirement.
 
@@ -299,7 +296,7 @@ describe('Turmoil', function() {
     const card = new StripMine();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
     player.production.override({energy: 2}); // Card requirement.
 
@@ -320,7 +317,7 @@ describe('Turmoil', function() {
     const card = new StripMine();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
     player.production.override({energy: 2}); // Card requirement.
 
@@ -343,7 +340,7 @@ describe('Turmoil', function() {
     const card = new LavaFlows();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Greens();
@@ -380,7 +377,7 @@ describe('Turmoil', function() {
     const card = new LavaFlows();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Reds();
@@ -400,7 +397,7 @@ describe('Turmoil', function() {
     const card = new ArtificialLake();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     setTemperature(game, -6); // minimum requirement for the card.
     game.phase = Phase.ACTION;
 
@@ -429,7 +426,7 @@ describe('Turmoil', function() {
     const card = new GiantSolarShade();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Greens();
@@ -466,7 +463,7 @@ describe('Turmoil', function() {
     const card = new GiantSolarShade();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Reds();
@@ -486,7 +483,7 @@ describe('Turmoil', function() {
     const card = new WaterTreatmentComplex();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true, moonExpansion: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const moonData = MoonExpansion.moonData(game);
     game.phase = Phase.ACTION;
 
@@ -526,7 +523,7 @@ describe('Turmoil', function() {
     const card = new DarksideMeteorBombardment();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true, moonExpansion: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const moonData = MoonExpansion.moonData(game);
     game.phase = Phase.ACTION;
 
@@ -562,7 +559,7 @@ describe('Turmoil', function() {
     const card = new LunaStagingStation();
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true, moonExpansion: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const moonData = MoonExpansion.moonData(game);
     game.phase = Phase.ACTION;
 
@@ -600,7 +597,7 @@ describe('Turmoil', function() {
   it('Reds: Cannot raise TR directly without the money to back it up', function() {
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true, moonExpansion: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Reds();

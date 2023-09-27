@@ -7,6 +7,7 @@ import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {cast, getSendADelegateOption, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
 import {Turmoil} from '../../../src/server/turmoil/Turmoil';
+import {testGame} from '../../TestGame';
 
 describe('Incite', function() {
   let card: Incite;
@@ -16,13 +17,11 @@ describe('Incite', function() {
 
   beforeEach(function() {
     card = new Incite();
-    player = TestPlayer.BLUE.newPlayer();
-
-    game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
+    [game, player] = testGame(1, {turmoilExtension: true});
 
     card.play(player);
     player.setCorporationForTest(card);
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('Starts with +1 influence', function() {

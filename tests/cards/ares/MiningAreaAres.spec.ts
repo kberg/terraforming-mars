@@ -15,7 +15,7 @@ describe('MiningAreaAres', function() {
 
   beforeEach(function() {
     card = new MiningAreaAres();
-    [game, player] = testGame(2, {aresExtension: true});
+    [game, player] = testGame(2, {aresExtension: true, aresHazards: false});
   });
 
   it('Should play', function() {

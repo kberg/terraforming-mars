@@ -1,17 +1,14 @@
 import {expect} from 'chai';
 import {PowerPlant} from '../../src/server/cards/pathfinders/PowerPlant';
-import {Game} from '../../src/server/Game';
 import {BalancedDevelopment} from '../../src/server/turmoil/globalEvents/BalancedDevelopment';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
+import {testGame} from '../TestGame';
 
 describe('BalancedDevelopment', function() {
   it('resolve play', function() {
     const card = new BalancedDevelopment();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     turmoil.initGlobalEvent(game);
     player.playedCards.push(new PowerPlant());

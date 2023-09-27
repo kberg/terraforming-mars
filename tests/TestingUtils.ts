@@ -21,6 +21,8 @@ import {TestPlayer} from './TestPlayer';
 import {PartyName} from '../src/common/turmoil/PartyName';
 import {IPlayer} from '../src/server/IPlayer';
 import {CardRequirements} from '../src/server/cards/requirements/CardRequirements';
+import {Game} from '../src/server/Game';
+import {SelectInitialCards} from '../src/server/inputs/SelectInitialCards';
 
 // Returns the oceans created during this operation which may not reflect all oceans.
 export function maxOutOceans(player: Player, toValue: number = 0): Array<Space> {
@@ -261,4 +263,13 @@ export function doWait<T>(player: TestPlayer, klass: new (...args: any[]) => T, 
   const [waitingFor, cb] = player.popWaitingFor2();
   f(cast(waitingFor, klass));
   cb?.();
+}
+
+export function popSelectInitialCards(game: Game) {
+  for (const player of game.getPlayers()) {
+    if (player.getWaitingFor() instanceof SelectInitialCards) {
+      (player as any).waitingFor = undefined;
+      (player as any).waitingForCb = undefined;
+    }
+  }
 }

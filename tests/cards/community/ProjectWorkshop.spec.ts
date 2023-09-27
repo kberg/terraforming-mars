@@ -20,6 +20,7 @@ import {Birds} from '../../../src/server/cards/base/Birds';
 import {Helion} from '../../../src/server/cards/corporation/Helion';
 import {SelectPayment} from '../../../src/server/inputs/SelectPayment';
 import {Payment} from '../../../src/common/inputs/Payment';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('ProjectWorkshop', function() {
   let card: ProjectWorkshop;
@@ -129,7 +130,7 @@ describe('ProjectWorkshop', function() {
     player.setCorporationForTest(card);
     player.game.phase = Phase.ACTION;
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     turmoil.rulingParty = new Reds();
     PoliticalAgendas.setNextAgenda(turmoil, game);
 

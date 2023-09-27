@@ -19,7 +19,7 @@ describe('HeatTrappers', function() {
   });
 
   it('Should be playable in solo mode', function() {
-    game = Game.newInstance('gameid', [player], player);
+      [game, player] = testGame(1);
     player.production.add(Resource.HEAT, 1);
 
     expect(card.canPlay(player)).is.true;

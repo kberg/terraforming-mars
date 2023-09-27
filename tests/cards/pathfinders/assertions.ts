@@ -8,12 +8,15 @@ import {cast} from '../../TestingUtils';
 import {PlaceCityTile} from '../../../src/server/deferredActions/PlaceCityTile';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {TileType} from '../../../src/common/TileType';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
+
+// TODO(kberg): Move these to a more common area
 
 export function assertSendDelegateToArea(player: IPlayer, action: DeferredAction) {
   const sendDelegate = cast(action, SendDelegateToArea);
 
   const game = player.game;
-  const turmoil = game.turmoil!;
+  const turmoil = Turmoil.getTurmoil(game);
   const marsFirst = turmoil.getPartyByName(PartyName.MARS);
 
   const delegatesInReserve = turmoil.getAvailableDelegateCount(player.id);

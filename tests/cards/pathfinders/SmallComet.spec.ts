@@ -6,6 +6,7 @@ import {SpaceType} from '../../../src/common/boards/SpaceType';
 import {TileType} from '../../../src/common/TileType';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {cast, runAllActions} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('SmallComet', function() {
   let card: SmallComet;
@@ -16,10 +17,7 @@ describe('SmallComet', function() {
 
   beforeEach(function() {
     card = new SmallComet();
-    player = TestPlayer.BLUE.newPlayer();
-    player2 = TestPlayer.RED.newPlayer();
-    player3 = TestPlayer.GREEN.newPlayer();
-    game = Game.newInstance('gameid', [player, player2, player3], player);
+    [game, player, player2, player3] = testGame(3);
   });
 
   it('play', function() {

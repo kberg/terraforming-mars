@@ -1,18 +1,15 @@
 import {expect} from 'chai';
-import {Game} from '../../src/server/Game';
+import {testGame} from '../TestGame';
 import {StrongSociety} from '../../src/server/turmoil/globalEvents/StrongSociety';
 import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
 import {addCity} from '../TestingUtils';
 
 describe('StrongSociety', function() {
   it('resolve play', function() {
     const card = new StrongSociety();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     addCity(player);
     turmoil.chairman = player2.id;

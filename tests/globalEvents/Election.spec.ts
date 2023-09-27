@@ -5,12 +5,13 @@ import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {testGame} from '../TestGame';
 import {addCity, fakeCard} from '../TestingUtils';
 import {Tag} from '../../src/common/cards/Tag';
+import {Turmoil} from '../../src/server/turmoil/Turmoil';
 
 describe('Election', function() {
   it('resolve play', function() {
     const card = new Election();
     const [game, player, player2, player3] = testGame(3, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     turmoil.initGlobalEvent(game);
     player.playedCards.push(new StripMine());
     player2.playedCards.push(new StripMine());
@@ -36,7 +37,7 @@ describe('Election', function() {
   it('solo play', function() {
     const card = new Election();
     const [game, player] = testGame(1, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     turmoil.initGlobalEvent(game);
     const fake = fakeCard({tags: [Tag.BUILDING, Tag.BUILDING, Tag.BUILDING, Tag.BUILDING]});
     player.playedCards.push(fake);

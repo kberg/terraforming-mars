@@ -18,7 +18,7 @@ describe('LunaPoliticalInstitute', () => {
     player = TestPlayer.BLUE.newPlayer();
     game = Game.newInstance('gameid', [player], player, {turmoilExtension: true, moonExpansion: true});
     card = new LunaPoliticalInstitute();
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('can play', () => {

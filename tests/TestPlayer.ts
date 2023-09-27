@@ -7,6 +7,7 @@ import {ICorporationCard} from '../src/server/cards/corporation/ICorporationCard
 import {Tags} from '../src/server/player/Tags';
 import {IProjectCard} from '../src/server/cards/IProjectCard';
 import {PlayerId} from '../src/common/Types';
+import {SelectInitialCards} from '../src/server/inputs/SelectInitialCards';
 
 type Options = {name: string, beginner?: boolean, idSuffix?: string};
 
@@ -90,5 +91,11 @@ export class TestPlayer extends Player {
 
   public getPlayableCardsForTest(): Array<IProjectCard> {
     return this.getPlayableCards().map((entry) => entry.card);
+  }
+
+  public popSelectInitialCards() {
+    if (this.getWaitingFor() instanceof SelectInitialCards) {
+      this.popWaitingFor();
+    }
   }
 }

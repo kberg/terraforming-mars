@@ -1,18 +1,15 @@
 import {expect} from 'chai';
-import {Game} from '../../src/server/Game';
+import {testGame} from '../TestGame';
 import {Resource} from '../../src/common/Resource';
 import {Sabotage} from '../../src/server/turmoil/globalEvents/Sabotage';
 import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
 
 describe('Sabotage', function() {
   it('resolve play', function() {
     const card = new Sabotage();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     turmoil.initGlobalEvent(game);
     player.production.add(Resource.ENERGY, 1);

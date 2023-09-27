@@ -6,6 +6,7 @@ import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {cast} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
 import {SelectOption} from '../../../src/server/inputs/SelectOption';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('ByElection', function() {
   let card: ByElection;
@@ -27,7 +28,7 @@ describe('ByElection', function() {
     const subOptions = cast(orOptions.options[0], SelectOption);
     subOptions.cb();
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     expect(turmoil.playersInfluenceBonus.get(player.id)).to.eq(1);
 
     const rulingParty = turmoil.rulingParty;

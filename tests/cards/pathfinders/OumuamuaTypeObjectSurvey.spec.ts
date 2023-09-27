@@ -8,6 +8,7 @@ import {IProjectCard} from '../../../src/server/cards/IProjectCard';
 import {CardName} from '../../../src/common/cards/CardName';
 import {Tag} from '../../../src/common/cards/Tag';
 import {ProjectDeck} from '../../../src/server/cards/Deck';
+import {testGame} from '../../TestGame';
 
 describe('OumuamuaTypeObjectSurvey', function() {
   let card: OumuamuaTypeObjectSurvey;
@@ -58,8 +59,7 @@ describe('OumuamuaTypeObjectSurvey', function() {
 
   beforeEach(function() {
     card = new OumuamuaTypeObjectSurvey();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     projectDeck = game.projectDeck;
     projectDeck.discardPile = [];
     player.megaCredits = 100;

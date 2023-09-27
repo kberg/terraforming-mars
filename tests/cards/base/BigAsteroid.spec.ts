@@ -33,7 +33,7 @@ describe('BigAsteroid', function() {
   });
 
   it('Works fine in solo', function() {
-    game = Game.newInstance('gameid', [player], player);
+      [game, player] = testGame(1);
     player.plants = 5;
     card.play(player);
     expect(game.deferredActions).has.lengthOf(1);

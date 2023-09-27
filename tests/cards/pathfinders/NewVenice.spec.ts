@@ -9,6 +9,7 @@ import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
 import {addOcean, cast, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
+import {testGame} from '../../TestGame';
 
 // There's a fair bit of code duplication from OceanCity. Rather a lot really.
 describe('NewVenice', function() {
@@ -18,9 +19,7 @@ describe('NewVenice', function() {
 
   beforeEach(function() {
     card = new NewVenice();
-    player = TestPlayer.BLUE.newPlayer();
-    const redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {pathfindersExpansion: true});
+    [game, player] = testGame(2, {pathfindersExpansion: true});
   });
 
   it('Can play', function() {

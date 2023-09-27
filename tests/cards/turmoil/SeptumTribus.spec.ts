@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {SeptumTribus} from '../../../src/server/cards/turmoil/SeptumTribus';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {testGame} from '../../TestGame';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('SeptumTribus', function() {
   it('Should play', function() {
@@ -12,7 +13,7 @@ describe('SeptumTribus', function() {
     player.setCorporationForTest(card);
     player.megaCredits = 0;
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
 
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);
     turmoil.sendDelegateToParty(player.id, PartyName.REDS, game);

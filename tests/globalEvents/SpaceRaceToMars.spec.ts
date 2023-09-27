@@ -20,7 +20,7 @@ describe('SpaceRaceToMars', function() {
   beforeEach(() => {
     card = new SpaceRaceToMars();
     [game, player, player2] = testGame(3, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     turmoil.initGlobalEvent(game);
     spaces = player.game.board.getAvailableSpacesOnLand(player);
   });

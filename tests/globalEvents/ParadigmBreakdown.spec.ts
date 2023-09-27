@@ -13,7 +13,7 @@ describe('ParadigmBreakdown', function() {
   it('resolve play', function() {
     const card = new ParadigmBreakdown();
     const [game, player, player2] = testGame(2, {turmoilExtension: true});
-    const turmoil = Turmoil.newInstance(game);
+    const turmoil = Turmoil.getTurmoil(game);
 
     turmoil.initGlobalEvent(game);
     turmoil.chairman = player2.id;

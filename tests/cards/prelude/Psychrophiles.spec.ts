@@ -3,6 +3,7 @@ import {Psychrophiles} from '../../../src/server/cards/prelude/Psychrophiles';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {cast, runAllActions, setTemperature} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('Psychrophiles', () => {
   let card: Psychrophiles;
@@ -11,8 +12,7 @@ describe('Psychrophiles', () => {
 
   beforeEach(() => {
     card = new Psychrophiles();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Cannot play', () => {

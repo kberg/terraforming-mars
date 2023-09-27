@@ -31,7 +31,7 @@ describe('DeimosDown', function() {
   });
 
   it('Works fine in solo mode', function() {
-    const game = Game.newInstance('gameid', [player], player);
+    const [game, player] = testGame(1);
 
     player.plants = 15;
     card.play(player);

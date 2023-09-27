@@ -10,6 +10,7 @@ import {Helion} from '../../../src/server/cards/corporation/Helion';
 import {StormCraftIncorporated} from '../../../src/server/cards/colonies/StormCraftIncorporated';
 import {testGame} from '../../TestGame';
 import {setTemperature} from '../../TestingUtils';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('CaretakerContract', function() {
   let card: CaretakerContract;
@@ -46,7 +47,7 @@ describe('CaretakerContract', function() {
 
   it('Cannot act if cannot afford reds tax', function() {
     [game, player] = testGame(1, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Greens();
@@ -69,7 +70,7 @@ describe('CaretakerContract', function() {
     const helion = new Helion();
     player.corporations.push(helion);
     helion.play(player);
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     game.phase = Phase.ACTION;
 
     turmoil.rulingParty = new Reds();

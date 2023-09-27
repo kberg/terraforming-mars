@@ -27,7 +27,7 @@ describe('Petra', function() {
     card = new Petra();
     [game, player] = testGame(2, {ceoExtension: true, turmoilExtension: true});
 
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     scientists = turmoil.getPartyByName(PartyName.SCIENTISTS)!;
     greens = turmoil.getPartyByName(PartyName.GREENS)!;
     reds = turmoil.getPartyByName(PartyName.REDS)!;

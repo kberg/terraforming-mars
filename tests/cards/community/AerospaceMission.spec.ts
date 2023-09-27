@@ -9,6 +9,7 @@ import {Game} from '../../../src/server/Game';
 import {SelectColony} from '../../../src/server/inputs/SelectColony';
 import {cast, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('AerospaceMission', function() {
   let card: AerospaceMission;
@@ -17,9 +18,7 @@ describe('AerospaceMission', function() {
 
   beforeEach(function() {
     card = new AerospaceMission();
-    player = TestPlayer.BLUE.newPlayer();
-    const redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {coloniesExtension: true});
+    [game, player] = testGame(2, {coloniesExtension: true});
     // Ignore randomly generated colonies, and add some colonies that can be built independently of cards
     game.colonies = [new Callisto(), new Ceres(), new Io(), new Luna()];
   });

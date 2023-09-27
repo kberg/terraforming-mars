@@ -1,19 +1,16 @@
 import {expect} from 'chai';
 import {Luna} from '../../src/server/colonies/Luna';
 import {Triton} from '../../src/server/colonies/Triton';
-import {Game} from '../../src/server/Game';
+import {testGame} from '../TestGame';
 import {JovianTaxRights} from '../../src/server/turmoil/globalEvents/JovianTaxRights';
 import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
 
 describe('JovianTaxRights', function() {
   it('resolve play', function() {
     const card = new JovianTaxRights();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     const colony1 = new Luna();
     const colony2 = new Triton();

@@ -18,7 +18,7 @@ describe('BeholdTheEmperor', () => {
   beforeEach(() => {
     card = new BeholdTheEmperor();
     [game, player, player2] = testGame(2, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('Can play', () => {

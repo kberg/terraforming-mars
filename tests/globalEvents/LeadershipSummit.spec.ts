@@ -1,17 +1,14 @@
 import {expect} from 'chai';
 import {LeadershipSummit} from '../../src/server/turmoil/globalEvents/LeadershipSummit';
-import {Game} from '../../src/server/Game';
+import {testGame} from '../TestGame';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
 import {PartyName} from '../../src/common/turmoil/PartyName';
-import {TestPlayer} from '../TestPlayer';
 
 describe('LeadershipSummit', function() {
   it('resolve play', function() {
     const card = new LeadershipSummit();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     turmoil.dominantParty = turmoil.getPartyByName(PartyName.REDS);
     turmoil.dominantParty.partyLeader = player2.id;

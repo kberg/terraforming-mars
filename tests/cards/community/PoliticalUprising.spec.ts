@@ -5,6 +5,7 @@ import {SelectParty} from '../../../src/server/inputs/SelectParty';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {cast} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('PoliticalUprising', function() {
   let card: PoliticalUprising;
@@ -28,7 +29,7 @@ describe('PoliticalUprising', function() {
       game.deferredActions.pop();
     }
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
     expect(marsFirst.delegates.get(player.id)).eq(4);
     expect(player.cardsInHand).has.lengthOf(1);

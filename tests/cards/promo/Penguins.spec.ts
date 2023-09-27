@@ -3,6 +3,7 @@ import {Penguins} from '../../../src/server/cards/promo/Penguins';
 import {Game} from '../../../src/server/Game';
 import {maxOutOceans, runAllActions} from '../../TestingUtils';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('Penguins', function() {
   let card: Penguins;
@@ -11,8 +12,7 @@ describe('Penguins', function() {
 
   beforeEach(function() {
     card = new Penguins();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Cannot play', function() {

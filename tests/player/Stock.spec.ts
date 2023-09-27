@@ -6,6 +6,7 @@ import {Color} from '../../src/common/Color';
 import {formatLogMessage} from '../TestingUtils';
 import {Units} from '../../src/common/Units';
 import {GlobalEventName} from '../../src/common/turmoil/globalEvents/GlobalEventName';
+import {testGame} from '../TestGame';
 
 describe('Stock', function() {
   it('has units', () => {
@@ -229,8 +230,7 @@ describe('Stock', function() {
   });
 
   it('addResource logging', () => {
-    const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    const game = Game.newInstance('gameid', [player], player);
+    const [game, player] = testGame(1);
 
     const log = game.gameLog;
     log.length = 0; // Empty it out.
@@ -257,8 +257,7 @@ describe('Stock', function() {
   });
 
   it('addResource logging from global event', () => {
-    const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    const game = Game.newInstance('gameid', [player], player);
+    const [game, player] = testGame(1);
 
     player.stock.add(Resource.MEGACREDITS, 12, {log: true, from: GlobalEventName.ASTEROID_MINING});
 

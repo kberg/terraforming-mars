@@ -13,7 +13,7 @@ import {Player} from '../src/server/Player';
 import {Color} from '../src/common/Color';
 import {CardName} from '../src/common/cards/CardName';
 import {GlobalParameter} from '../src/common/GlobalParameter';
-import {cast, doWait, getSendADelegateOption, runAllActions} from './TestingUtils';
+import {cast, doWait, getSendADelegateOption, popSelectInitialCards, runAllActions} from './TestingUtils';
 import {SelfReplicatingRobots} from '../src/server/cards/promo/SelfReplicatingRobots';
 import {Pets} from '../src/server/cards/base/Pets';
 import {TestPlayer} from './TestPlayer';
@@ -32,6 +32,7 @@ import {Donation} from '../src/server/cards/prelude/Donation';
 import {Loan} from '../src/server/cards/prelude/Loan';
 import {IPreludeCard} from '../src/server/cards/prelude/IPreludeCard';
 import {OrOptions} from '../src/server/inputs/OrOptions';
+import {Turmoil} from '../src/server/turmoil/Turmoil';
 
 describe('Player', function() {
   it('should initialize with right defaults', function() {
@@ -41,8 +42,8 @@ describe('Player', function() {
 
   it('Should throw error if nothing to process', function() {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player);
-    (player as any).setWaitingFor(undefined, undefined);
+    const game = Game.newInstance('gameid', [player], player);
+    popSelectInitialCards(game);
 
     expect(() => player.process({type: 'option'})).to.throw('Not waiting for anything');
   });
@@ -52,7 +53,8 @@ describe('Player', function() {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
     const player2 = new Player('red', Color.RED, false, 0, 'p-red');
     const player3 = new Player('yellow', Color.YELLOW, false, 0, 'p-yellow');
-    Game.newInstance('gameid', [player, player2, player3], player);
+    const game = Game.newInstance('gameid', [player, player2, player3], player);
+    popSelectInitialCards(game);
     player2.production.add(Resource.ENERGY, 2);
     player3.production.add(Resource.ENERGY, 2);
     player.playedCards.push(new LunarBeam());
@@ -67,8 +69,8 @@ describe('Player', function() {
     const card = new PowerSupplyConsortium();
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
     const player2 = new Player('red', Color.RED, false, 0, 'p-red');
-    Game.newInstance('gameid', [player, player2], player);
-    (player as any).setWaitingFor(undefined, undefined);
+    const game = Game.newInstance('gameid', [player, player2], player);
+    popSelectInitialCards(game);
 
     player.playedCards.push(new LunarBeam());
     player.playedCards.push(new LunarBeam());
@@ -90,7 +92,8 @@ describe('Player', function() {
     const redPlayer = new Player('red', Color.RED, false, 0, 'p-red');
 
     player.production.add(Resource.HEAT, 2);
-    Game.newInstance('gameid', [player, redPlayer], player);
+    const game = Game.newInstance('gameid', [player, redPlayer], player);
+    popSelectInitialCards(game);
     player.defer(card.play(player));
     runAllActions(player.game);
     cast(player.getWaitingFor(), SelectAmount);
@@ -105,7 +108,8 @@ describe('Player', function() {
   it('Runs SaturnSystems when other player plays card', function() {
     const player1 = new Player('blue', Color.BLUE, false, 0, 'p-blue');
     const player2 = new Player('red', Color.RED, false, 0, 'p-red');
-    Game.newInstance('gto', [player1, player2], player1);
+    const game = Game.newInstance('gto', [player1, player2], player1);
+    popSelectInitialCards(game);
     const card = new IoMiningIndustries();
     const corporationCard = new SaturnSystems();
     expect(player1.production.megacredits).to.eq(0);
@@ -115,7 +119,8 @@ describe('Player', function() {
   });
   it('Chains onend functions from player inputs', function(done) {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player);
+    const game = Game.newInstance('gameid', [player], player);
+    popSelectInitialCards(game);
     const mockOption3 = new SelectOption('Mock select option 3', 'Save', () => {
       return undefined;
     });
@@ -135,15 +140,17 @@ describe('Player', function() {
   });
   it('Omits buffer gas for non solo games', function() {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    const player2= new Player('red', Color.RED, false, 0, 'p-red');
-    Game.newInstance('gameid', [player, player2], player);
+    const player2 = new Player('red', Color.RED, false, 0, 'p-red');
+    const game = Game.newInstance('gameid', [player, player2], player);
+    popSelectInitialCards(game);
     const option = player.getStandardProjectOption();
     const bufferGas = option.cards.find((card) => card.name === CardName.BUFFER_GAS_STANDARD_PROJECT);
     expect(bufferGas).to.be.undefined;
   });
   it('Omit buffer gas for solo games without 63 TR', function() {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player);
+    const game = Game.newInstance('gameid', [player], player);
+    popSelectInitialCards(game);
     const option = player.getStandardProjectOption();
     const bufferGas = option.cards.find((card) => card.name === CardName.BUFFER_GAS_STANDARD_PROJECT);
     expect(bufferGas).to.be.undefined;
@@ -151,7 +158,8 @@ describe('Player', function() {
 
   it('wgt includes all parameters at the game start', () => {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player, {venusNextExtension: false});
+    const game = Game.newInstance('gameid', [player], player, {venusNextExtension: false});
+    popSelectInitialCards(game);
     player.worldGovernmentTerraforming();
     const parameters = waitingForGlobalParameters(player);
     expect(parameters).to.have.members([
@@ -162,7 +170,8 @@ describe('Player', function() {
 
   it('wgt includes all parameters at the game start, with Venus', () => {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player, {venusNextExtension: true});
+    const game = Game.newInstance('gameid', [player], player, {venusNextExtension: true});
+    popSelectInitialCards(game);
     player.worldGovernmentTerraforming();
     const parameters = waitingForGlobalParameters(player);
     expect(parameters).to.have.members([
@@ -174,7 +183,8 @@ describe('Player', function() {
 
   it('wgt includes all parameters at the game start, with The Moon', () => {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player, {venusNextExtension: false, moonExpansion: true});
+    const game = Game.newInstance('gameid', [player], player, {venusNextExtension: false, moonExpansion: true});
+    popSelectInitialCards(game);
     player.worldGovernmentTerraforming();
     const parameters = waitingForGlobalParameters(player);
     expect(parameters).to.have.members([
@@ -188,7 +198,8 @@ describe('Player', function() {
 
   it('Include buffer gas for solo games with 63 TR', function() {
     const player = new Player('blue', Color.BLUE, false, 0, 'p-blue');
-    Game.newInstance('gameid', [player], player, {soloTR: true});
+    const game = Game.newInstance('gameid', [player], player, {soloTR: true});
+    popSelectInitialCards(game);
     const option = player.getStandardProjectOption();
     const bufferGas = option.cards.find((card) => card.name === CardName.BUFFER_GAS_STANDARD_PROJECT);
     expect(bufferGas).not.to.be.undefined;
@@ -369,8 +380,7 @@ describe('Player', function() {
     const player = TestPlayer.BLUE.newPlayer();
 
     const game = Game.newInstance('gameid', [player], player, {turmoilExtension: true});
-
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
 
     expect(turmoil.usedFreeDelegateAction.has(player.id)).is.false;
 

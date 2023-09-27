@@ -21,7 +21,7 @@ describe('ExperiencedMartians', function() {
   beforeEach(function() {
     card = new ExperiencedMartians();
     [game, player] = testGame(1, {turmoilExtension: true, pathfindersExpansion: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('play', function() {

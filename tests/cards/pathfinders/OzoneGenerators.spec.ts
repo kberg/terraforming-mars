@@ -3,6 +3,7 @@ import {setOxygenLevel} from '../../TestingUtils';
 import {OzoneGenerators} from '../../../src/server/cards/pathfinders/OzoneGenerators';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('OzoneGenerators', function() {
   let card: OzoneGenerators;
@@ -11,8 +12,7 @@ describe('OzoneGenerators', function() {
 
   beforeEach(function() {
     card = new OzoneGenerators();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('canPlay', function() {

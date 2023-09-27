@@ -8,7 +8,7 @@ import * as constants from '../src/common/constants';
 import {Birds} from '../src/server/cards/base/Birds';
 import {WaterImportFromEuropa} from '../src/server/cards/base/WaterImportFromEuropa';
 import {Phase} from '../src/common/Phase';
-import {addCity, addGreenery, addOcean, cast, forceGenerationEnd, maxOutOceans, runAllActions, setOxygenLevel, setTemperature, setVenusScaleLevel} from './TestingUtils';
+import {addCity, addGreenery, addOcean, cast, forceGenerationEnd, maxOutOceans, runAllActions, setOxygenLevel, setTemperature, setVenusScaleLevel, popSelectInitialCards} from './TestingUtils';
 import {TestPlayer} from './TestPlayer';
 import {SaturnSystems} from '../src/server/cards/corporation/SaturnSystems';
 import {Resource} from '../src/common/Resource';
@@ -41,8 +41,8 @@ describe('Game', () => {
 
   it('sets starting production if corporate era not selected', () => {
     const player = TestPlayer.BLUE.newPlayer();
-
     Game.newInstance('gameid', [player], player, {corporateEra: false});
+
     expect(player.production.megacredits).to.eq(1);
     expect(player.production.steel).to.eq(1);
     expect(player.production.titanium).to.eq(1);
@@ -151,6 +151,8 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('game-draft', [player, player2], player);
+    popSelectInitialCards(game);
+
     game.generation = 4;
     game.playerHasPassed(player);
     game.playerIsFinishedTakingActions();
@@ -163,6 +165,7 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('game-classic', [player, player2], player);
+    popSelectInitialCards(game);
     game.generation = 2;
     game.playerHasPassed(player);
     game.playerIsFinishedTakingActions();
@@ -174,6 +177,8 @@ describe('Game', () => {
   it('Solo play next generation', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const game = Game.newInstance('game-solo', [player], player);
+    popSelectInitialCards(game);
+
     game.playerHasPassed(player);
     game.playerIsFinishedTakingActions();
     expect(game.getGeneration()).to.eq(2);
@@ -183,6 +188,7 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('game-venusterraform', [player, player2], player, {venusNextExtension: true, requiresVenusTrackCompletion: true});
+    popSelectInitialCards(game);
     setTemperature(game, constants.MAX_TEMPERATURE);
     setOxygenLevel(game, constants.MAX_OXYGEN_LEVEL);
     // setVenusScaleLevel(game, constants.MAX_VENUS_SCALE);
@@ -203,6 +209,7 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('game-venusterraform', [player, player2], player, {venusNextExtension: true, requiresVenusTrackCompletion: true});
+    popSelectInitialCards(game);
     setTemperature(game, constants.MAX_TEMPERATURE);
     setOxygenLevel(game, constants.MAX_OXYGEN_LEVEL);
     setVenusScaleLevel(game, constants.MAX_VENUS_SCALE);
@@ -228,6 +235,7 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('game-venusterraform', [player, player2], player, {venusNextExtension: true, requiresVenusTrackCompletion: true});
+    popSelectInitialCards(game);
     setTemperature(game, 2);
     setOxygenLevel(game, 2);
     setVenusScaleLevel(game, constants.MAX_VENUS_SCALE);
@@ -548,6 +556,7 @@ describe('Game', () => {
     const player2 = TestPlayer.RED.newPlayer();
     const gameOptions = {boardName: BoardName.HELLAS, randomMA: RandomMAOptionType.UNLIMITED};
     const game = Game.newInstance('gameid', [player, player2], player, gameOptions);
+    popSelectInitialCards(game);
 
     const prevMilestones = game.milestones.map((m) => m.name).sort();
     const prevAwards = game.awards.map((a) => a.name).sort();
@@ -769,6 +778,7 @@ describe('Game', () => {
     const player = TestPlayer.BLUE.newPlayer();
     const player2 = TestPlayer.RED.newPlayer();
     const game = Game.newInstance('gameid', [player, player2], player, {pathfindersExpansion: false});
+    popSelectInitialCards(game);
     const scientist = game.awards.find((award) => award.name === 'Scientist')!;
 
     game.fundedAwards.push({

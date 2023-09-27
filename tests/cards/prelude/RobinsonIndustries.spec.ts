@@ -8,6 +8,7 @@ import {cast, runAllActions} from '../../TestingUtils';
 import {Helion} from '../../../src/server/cards/corporation/Helion';
 import {SelectPayment} from '../../../src/server/inputs/SelectPayment';
 import {Payment} from '../../../src/common/inputs/Payment';
+import {testGame} from '../../TestGame';
 
 describe('RobinsonIndustries', function() {
   let card: RobinsonIndustries;
@@ -16,8 +17,7 @@ describe('RobinsonIndustries', function() {
 
   beforeEach(function() {
     card = new RobinsonIndustries();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.setCorporationForTest(card);
   });
 

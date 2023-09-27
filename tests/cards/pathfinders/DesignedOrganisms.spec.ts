@@ -6,6 +6,7 @@ import {Units} from '../../../src/common/Units';
 import {Penguins} from '../../../src/server/cards/promo/Penguins';
 import {Tardigrades} from '../../../src/server/cards/base/Tardigrades';
 import {runAllActions} from '../../TestingUtils';
+import {testGame} from '../../TestGame';
 
 describe('DesignedOrganisms', function() {
   let card: DesignedOrganisms;
@@ -14,8 +15,7 @@ describe('DesignedOrganisms', function() {
 
   beforeEach(function() {
     card = new DesignedOrganisms();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.playedCards.push(card);
   });
 

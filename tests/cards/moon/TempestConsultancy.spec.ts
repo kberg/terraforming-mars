@@ -23,7 +23,7 @@ describe('TempestConsultancy', () => {
     otherPlayer = TestPlayer.RED.newPlayer();
     game = Game.newInstance('gameid', [player, otherPlayer], player, {turmoilExtension: true});
     card = new TempestConsultancy();
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('can act', () => {

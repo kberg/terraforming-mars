@@ -43,7 +43,7 @@ describe('Virus', function() {
   });
 
   it('Works in solo mode', function() {
-    game = Game.newInstance('gameid', [player], player);
+      [game, player] = testGame(1);
     expect(card.canPlay(player)).is.true;
     expect(card.play(player)).is.undefined;
     expect(game.someoneHasRemovedOtherPlayersPlants).is.true;

@@ -5,6 +5,7 @@ import {cast, maxOutOceans} from '../../TestingUtils';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('Comet', function() {
   let card: Comet;
@@ -15,10 +16,7 @@ describe('Comet', function() {
 
   beforeEach(function() {
     card = new Comet();
-    player = TestPlayer.BLUE.newPlayer();
-    player2 = TestPlayer.RED.newPlayer();
-    player3 = TestPlayer.YELLOW.newPlayer();
-    game = Game.newInstance('gameid', [player, player2, player3], player);
+    [game, player, player2, player3] = testGame(3);
   });
 
   it('Should play', function() {

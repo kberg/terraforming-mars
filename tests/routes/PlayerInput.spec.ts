@@ -9,6 +9,7 @@ import {RouteTestScaffolding} from './RouteTestScaffolding';
 import {cast} from '../TestingUtils';
 import {OrOptionsResponse} from '../../src/common/inputs/InputResponse';
 import {CardName} from '../../src/common/cards/CardName';
+import {testGame} from '../TestGame';
 
 describe('PlayerInput', function() {
   let scaffolding: RouteTestScaffolding;
@@ -84,9 +85,8 @@ describe('PlayerInput', function() {
   });
 
   it('sends 400 on server error', async () => {
-    const player = TestPlayer.BLUE.newPlayer();
+    const [game, player] = testGame(1);
     scaffolding.url = `/player/input?id=${player.id}`;
-    const game = Game.newInstance('gameid', [player], player);
     await scaffolding.ctx.gameLoader.add(game);
 
     const post = scaffolding.post(PlayerInput.INSTANCE, res);

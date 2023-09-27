@@ -18,6 +18,7 @@ import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {AsteroidStandardProject} from '../../../src/server/cards/base/standardProjects/AsteroidStandardProject';
 import {SelectCard} from '../../../src/server/inputs/SelectCard';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('SolBank', () => {
   let solBank: SolBank;
@@ -158,7 +159,7 @@ describe('SolBank', () => {
   });
 
   it('paying for a Turmoil delegate', () => {
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     player.megaCredits = 6;
     const input = turmoil.getSendDelegateInput(player);
     input!.process({type: 'party', partyName: PartyName.REDS});

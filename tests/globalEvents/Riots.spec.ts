@@ -1,17 +1,15 @@
 import {expect} from 'chai';
-import {Game} from '../../src/server/Game';
 import {Resource} from '../../src/common/Resource';
 import {Riots} from '../../src/server/turmoil/globalEvents/Riots';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
 import {addCity} from '../TestingUtils';
+import {testGame} from '../TestGame';
 
 describe('Riots', function() {
   it('resolve play', function() {
     const card = new Riots();
-    const player = TestPlayer.BLUE.newPlayer();
-    const game = Game.newInstance('gameid', [player], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player] = testGame(1, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
     turmoil.initGlobalEvent(game);
     addCity(player);
     player.stock.add(Resource.MEGACREDITS, 10);

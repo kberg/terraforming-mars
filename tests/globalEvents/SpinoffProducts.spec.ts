@@ -19,7 +19,7 @@ describe('SpinoffProducts', function() {
   beforeEach(() => {
     card = new SpinoffProducts();
     [game, player, player2] = testGame(2, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
   });
 
   it('resolve play', function() {

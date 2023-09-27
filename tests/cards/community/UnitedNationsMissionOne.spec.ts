@@ -7,6 +7,7 @@ import {UnitedNationsMissionOne} from '../../../src/server/cards/community/Unite
 import {UNMIContractor} from '../../../src/server/cards/prelude/UNMIContractor';
 import {Game} from '../../../src/server/Game';
 import {Election} from '../../../src/server/turmoil/globalEvents/Election';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('UnitedNationsMissionOne', function() {
   let card: UnitedNationsMissionOne;
@@ -56,7 +57,7 @@ describe('UnitedNationsMissionOne', function() {
     player.corporations.push(card);
     game.phase = Phase.PRODUCTION;
 
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     player2.playedCards.push(new Mine());
     turmoil.initGlobalEvent(game);
 

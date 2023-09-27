@@ -13,6 +13,7 @@ import {DeclarationOfIndependence} from '../../../src/server/cards/pathfinders/D
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {GameOptions} from '../../../src/server/game/GameOptions';
+import {testGame} from '../../TestGame';
 
 describe('InterplanetaryTrade', function() {
   let card: InterplanetaryTrade;
@@ -21,8 +22,7 @@ describe('InterplanetaryTrade', function() {
 
   beforeEach(function() {
     card = new InterplanetaryTrade();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Should play', function() {

@@ -85,7 +85,7 @@ describe('Greta', function() {
 
   it('Does not gain 4MC from TR bonus when the winning Chairman', function() {
     [game, player, player2] = testGame(2, {turmoilExtension: true, ceoExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     turmoil.parties.forEach((p) => p.delegates.clear());
     player.playCard(card);
     player.setTerraformRating(20);

@@ -28,7 +28,7 @@ describe('BiomassCombustors', function() {
   });
 
   it('Can play in solo mode if oxygen requirement is met', function() {
-    const game = Game.newInstance('gameid', [player], player);
+    const [game, player] = testGame(1);
     setOxygenLevel(game, 6);
     expect(player.simpleCanPlay(card)).is.true;
   });

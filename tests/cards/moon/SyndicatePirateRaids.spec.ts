@@ -3,6 +3,7 @@ import {forceGenerationEnd} from '../../TestingUtils';
 import {expect} from 'chai';
 import {TestPlayer} from '../../TestPlayer';
 import {SyndicatePirateRaids} from '../../../src/server/cards/moon/SyndicatePirateRaids';
+import {testGame} from '../../TestGame';
 
 describe('SyndicatePirateRaids', () => {
   let player: TestPlayer;
@@ -11,9 +12,7 @@ describe('SyndicatePirateRaids', () => {
   let card: SyndicatePirateRaids;
 
   beforeEach(() => {
-    player = TestPlayer.BLUE.newPlayer();
-    otherPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, otherPlayer], player, {coloniesExtension: true});
+    [game, player, otherPlayer] = testGame(2, {coloniesExtension: true});
     card = new SyndicatePirateRaids();
   });
 

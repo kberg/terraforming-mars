@@ -9,11 +9,11 @@ import {TestPlayer} from '../../TestPlayer';
 import {SelectSpace} from '../../../src/server/inputs/SelectSpace';
 import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 import {IParty} from '../../../src/server/turmoil/parties/IParty';
+import {testGame} from '../../TestGame';
 
 describe('WildlifeDome', function() {
   let card: WildlifeDome;
   let player: TestPlayer;
-  let redPlayer: TestPlayer;
   let game: Game;
   let turmoil: Turmoil;
   let reds: IParty;
@@ -21,10 +21,8 @@ describe('WildlifeDome', function() {
 
   beforeEach(() => {
     card = new WildlifeDome();
-    player = TestPlayer.BLUE.newPlayer();
-    redPlayer = TestPlayer.RED.newPlayer();
-    game = Game.newInstance('gameid', [player, redPlayer], player, {turmoilExtension: true});
-    turmoil = game.turmoil!;
+    [game, player] = testGame(2, {turmoilExtension: true});
+    turmoil = Turmoil.getTurmoil(game);
     reds = turmoil.getPartyByName(PartyName.REDS);
     greens = turmoil.getPartyByName(PartyName.GREENS);
   });

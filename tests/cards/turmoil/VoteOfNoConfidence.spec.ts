@@ -4,12 +4,13 @@ import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {runAllActions} from '../../TestingUtils';
 import {isPlayerId, PlayerId} from '../../../src/common/Types';
 import {testGame} from '../../TestGame';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('VoteOfNoConfidence', function() {
   it('Should play', function() {
     const card = new VoteOfNoConfidence();
     const [game, player] = testGame(1, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     expect(player.simpleCanPlay(card)).is.not.true;
 
     turmoil.chairman = 'NEUTRAL';
@@ -29,7 +30,7 @@ describe('VoteOfNoConfidence', function() {
   it('Neutral Delegate returns to Reserve', function() {
     const card = new VoteOfNoConfidence();
     const [game, player] = testGame(1, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const turmoil = Turmoil.getTurmoil(game);
     const neutralReserve = turmoil.getAvailableDelegateCount('NEUTRAL');
     turmoil.chairman = 'NEUTRAL';
     const greens = game.turmoil!.getPartyByName(PartyName.GREENS);

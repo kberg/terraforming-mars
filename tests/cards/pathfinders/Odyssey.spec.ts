@@ -23,6 +23,7 @@ import {SolarWindPower} from '../../../src/server/cards/base/SolarWindPower';
 import {ThoriumRush} from '../../../src/server/cards/moon/ThoriumRush';
 import {Diversity} from '../../../src/server/turmoil/globalEvents/Diversity';
 import {Kelvinists} from '../../../src/server/turmoil/parties/Kelvinists';
+import {Turmoil} from '../../../src/server/turmoil/Turmoil';
 
 describe('Odyssey', () => {
   let odyssey: Odyssey;
@@ -187,8 +188,8 @@ describe('Odyssey', () => {
   it('Be compatible with Diversity Global Event', () => {
     const diversity = new Diversity();
 
-    const [game, player] = testGame(2, {turmoilExtension: true});
-    const turmoil = game.turmoil!;
+    const [game] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
 
     // player has 8 tags.
     player.playedCards.push(new AdvancedEcosystems()); // Plant, Microbe, Animal

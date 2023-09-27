@@ -24,7 +24,7 @@ describe('RedCity', function() {
   beforeEach(function() {
     card = new RedCity();
     [game, player, player2] = testGame(2, {pathfindersExpansion: true, turmoilExtension: true});
-    turmoil = game.turmoil!;
+    turmoil = Turmoil.getTurmoil(game);
     board = game.board;
   });
 

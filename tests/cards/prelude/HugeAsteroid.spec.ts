@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {HugeAsteroid} from '../../../src/server/cards/prelude/HugeAsteroid';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('HugeAsteroid', function() {
   let card: HugeAsteroid;
@@ -10,8 +11,7 @@ describe('HugeAsteroid', function() {
 
   beforeEach(function() {
     card = new HugeAsteroid();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Can not play', function() {

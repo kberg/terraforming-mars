@@ -1,18 +1,15 @@
 import {expect} from 'chai';
 import {StripMine} from '../../src/server/cards/base/StripMine';
-import {Game} from '../../src/server/Game';
 import {GlobalDustStorm} from '../../src/server/turmoil/globalEvents/GlobalDustStorm';
 import {Kelvinists} from '../../src/server/turmoil/parties/Kelvinists';
 import {Turmoil} from '../../src/server/turmoil/Turmoil';
-import {TestPlayer} from '../TestPlayer';
+import {testGame} from '../TestGame';
 
 describe('GlobalDustStorm', function() {
   it('resolve play', function() {
     const card = new GlobalDustStorm();
-    const player = TestPlayer.BLUE.newPlayer();
-    const player2 = TestPlayer.RED.newPlayer();
-    const game = Game.newInstance('gameid', [player, player2], player);
-    const turmoil = Turmoil.newInstance(game);
+    const [game, player, player2] = testGame(2, {turmoilExtension: true});
+    const turmoil = Turmoil.getTurmoil(game);
     turmoil.initGlobalEvent(game);
     player.playedCards.push(new StripMine());
     player2.playedCards.push(new StripMine());

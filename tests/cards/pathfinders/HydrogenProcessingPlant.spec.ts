@@ -4,6 +4,7 @@ import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
 import {addOcean, setOxygenLevel} from '../../TestingUtils';
 import {Units} from '../../../src/common/Units';
+import {testGame} from '../../TestGame';
 
 describe('HydrogenProcessingPlant', function() {
   let card: HydrogenProcessingPlant;
@@ -12,8 +13,7 @@ describe('HydrogenProcessingPlant', function() {
 
   beforeEach(function() {
     card = new HydrogenProcessingPlant();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.playedCards.push(card);
   });
 

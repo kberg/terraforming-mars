@@ -3,6 +3,7 @@ import {setOxygenLevel} from '../../TestingUtils';
 import {MartianSurvey} from '../../../src/server/cards/prelude/MartianSurvey';
 import {Game} from '../../../src/server/Game';
 import {TestPlayer} from '../../TestPlayer';
+import {testGame} from '../../TestGame';
 
 describe('MartianSurvey', function() {
   let card: MartianSurvey;
@@ -11,8 +12,7 @@ describe('MartianSurvey', function() {
 
   beforeEach(function() {
     card = new MartianSurvey();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
   });
 
   it('Cannot play', () => {
