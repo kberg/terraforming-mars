@@ -7,7 +7,7 @@ import {AeronGenomics} from './AeronGenomics';
 import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
 // import {ArtesianAquifer} from './ArtesianAquifer';
-// import {BatteryFactory} from './BatteryFactory';
+import {BatteryFactory} from './BatteryFactory';
 import {BatteryShipment} from './BatteryShipment';
 import {BehemothExcavator} from './BehemothExcavator';
 import {Casino} from './Casino';
@@ -20,7 +20,7 @@ import {CloudVortexOutpost} from './CloudVortexOutpost';
 // import {CorporateBlackmail} from './CorporateBlackmail';
 // import {CorporateTheft} from './CorporateTheft';
 import {CraterSurvey} from './CraterSurvey';
-// import {CutThroatBudgeting} from './CutThroatBudgeting';
+import {CutThroatBudgeting} from './CutThroatBudgeting';
 // import {Deepmining} from './Deepmining';
 import {Deepnuking} from './Deepnuking';
 // import {DeepwaterDome} from './DeepwaterDome';
@@ -29,7 +29,7 @@ import {Deepnuking} from './Deepnuking';
 import {ElectionSponsorship} from './ElectionSponsorship';
 import {ExcavateStandardProject} from './ExcavateStandardProject';
 import {ExcavatorLeasing} from './ExcavatorLeasing';
-// import {ExpeditionVehicles} from './ExpeditionVehicles';
+import {ExpeditionVehicles} from './ExpeditionVehicles';
 import {FabricatedScandal} from './FabricatedScandal';
 import {ForestTunnels} from './ForestTunnels';
 import {FreeTradePort} from './FreeTradePort';
@@ -71,7 +71,7 @@ import {LobbyingNetwork} from './LobbyingNetwork';
 import {MicroprobingTechnology} from './MicroprobingTechnology';
 import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
-// import {Nanofoundry} from './Nanofoundry';
+import {Nanofoundry} from './Nanofoundry';
 import {NarrativeSpin} from './NarrativeSpin';
 // import {Neutrinograph} from './Neutrinograph';
 import {Nightclubs} from './Nightclubs';
@@ -118,7 +118,7 @@ import {UndergroundSettlement} from './UndergroundSettlement';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 import {Voltagon} from './Voltagon';
 // import {VoltaicMettalurgy} from './VoltaicMettalurgy';
-// import {VolunteerMiningInititive} from './VolunteerMiningInititive';
+import {VolunteerMiningInititive} from './VolunteerMiningInititive';
 // import {Whales} from './Whales';
 
 export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
@@ -196,14 +196,14 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
     // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
-    // [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
-    // [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
-    // [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
+    [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
+    [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
+    [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
     // [CardName.VOLTAIC_METTALURGY]: {Factory: VoltaicMettalurgy},
     // [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline},
     // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress},
-    // [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
-    // [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
+    [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
+    [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
     [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
     // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
     // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault},
