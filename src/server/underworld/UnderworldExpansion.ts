@@ -12,10 +12,13 @@ import {PlaceOceanTile} from '../deferredActions/PlaceOceanTile';
 import {IGame} from '../IGame';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {CardName} from '../../common/cards/CardName';
+import {PlayerInput} from '../PlayerInput';
+import {OrOptions} from '../inputs/OrOptions';
+import {SelectOption} from '../inputs/SelectOption';
+import {newMessage} from '../logs/MessageBuilder';
 
 export class UnderworldExpansion {
-  private constructor() {
-  }
+  private constructor() {}
 
   public static initialize(rnd: Random): UnderworldData {
     const tokens = allTokens();
@@ -34,11 +37,15 @@ export class UnderworldExpansion {
 
   public static identifyableSpaces(player: IPlayer): ReadonlyArray<Space> {
     const board = player.game.board;
-    return board.spaces.filter((space) => space.undergroundResources === undefined);
+    return board.spaces.filter(
+      (space) => space.undergroundResources === undefined,
+    );
   }
 
   public static identifiedSpaces(game: IGame): ReadonlyArray<Space> {
-    return game.board.spaces.filter((space) => space.undergroundResources !== undefined);
+    return game.board.spaces.filter(
+      (space) => space.undergroundResources !== undefined,
+    );
   }
 
   public static identify(game: IGame, space: Space) {
@@ -60,7 +67,10 @@ export class UnderworldExpansion {
     }
   }
 
-  public static excavatableSpaces(player: IPlayer, ignorePlacementRestrictions: boolean = false) {
+  public static excavatableSpaces(
+    player: IPlayer,
+    ignorePlacementRestrictions: boolean = false,
+  ) {
     const board = player.game.board;
     const anyExcavatableSpaces = board.spaces.filter((space) => {
       if (space.excavator !== undefined) {
@@ -96,7 +106,8 @@ export class UnderworldExpansion {
     space.excavator = player;
 
     const game = player.game;
-    game.board.getAdjacentSpaces(space)
+    game.board
+      .getAdjacentSpaces(space)
       .forEach((s) => UnderworldExpansion.identify(game, s));
     const leaser = game.getCardPlayerOrUndefined(CardName.EXCAVATOR_LEASING);
     if (leaser !== undefined) {
@@ -122,13 +133,19 @@ export class UnderworldExpansion {
       player.underworldData.corruption += 2;
       break;
     case 'data1':
-      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 1}));
+      player.game.defer(
+        new AddResourcesToCard(player, CardResource.DATA, {count: 1}),
+      );
       break;
     case 'data2':
-      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 2}));
+      player.game.defer(
+        new AddResourcesToCard(player, CardResource.DATA, {count: 2}),
+      );
       break;
     case 'data3':
-      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: 3}));
+      player.game.defer(
+        new AddResourcesToCard(player, CardResource.DATA, {count: 3}),
+      );
       break;
     case 'steel2':
       player.stock.add(Resource.STEEL, 2, {log: true});
@@ -163,10 +180,14 @@ export class UnderworldExpansion {
       player.production.add(Resource.HEAT, 2, {log: true});
       break;
     case 'microbe1':
-      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 1}));
+      player.game.defer(
+        new AddResourcesToCard(player, CardResource.MICROBE, {count: 1}),
+      );
       break;
     case 'microbe2':
-      player.game.defer(new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}));
+      player.game.defer(
+        new AddResourcesToCard(player, CardResource.MICROBE, {count: 2}),
+      );
       break;
     case 'tr':
       player.increaseTerraformRating();
@@ -184,6 +205,38 @@ export class UnderworldExpansion {
     default:
       throw new Error('Unknown reward: ' + reward);
     }
+  }
+
+  public static mayBlockAttack(
+    target: IPlayer,
+    perpetrator: IPlayer,
+    cb: (proceed: boolean) => PlayerInput | undefined,
+  ): PlayerInput | undefined {
+    if (target.underworldData.corruption === 0) {
+      return cb(true);
+    }
+    const options = new OrOptions();
+    options.title = newMessage(
+      'Spend 1 corruption to block an attack by ${0}?',
+      (b) => b.player(perpetrator),
+    );
+    options.options.push(
+      new SelectOption('Yes.', 'Spend corruption', () => {
+        target.underworldData.corruption--;
+        target.game.log(
+          '${0} spent 1 corruption to block an attack by ${1}',
+          (b) => b.player(target).player(perpetrator));
+        cb(false);
+        return undefined;
+      }),
+    );
+    options.options.push(
+      new SelectOption('No', 'Do not block', () => {
+        cb(true);
+        return undefined;
+      }),
+    );
+    throw new Error('Method not implemented.');
   }
 }
 

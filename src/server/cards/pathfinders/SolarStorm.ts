@@ -38,6 +38,9 @@ export class SolarStorm extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     for (const p of player.game.getPlayers()) {
       if (!p.plantsAreProtected()) {
+        //
+        // TODO(kberg): make blockable
+        //
         // Botanical Experience reduces the impact in half.
         if (p.cardIsInEffect(CardName.BOTANICAL_EXPERIENCE)) {
           p.stock.deduct(Resource.PLANTS, 1, {log: true, from: player});
