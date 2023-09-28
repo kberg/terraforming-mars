@@ -979,7 +979,8 @@ export enum CardName {
     CLOUD_VORTEX_OUTPOST = 'Cloud Vortex Outpost',
 
     // Underworld Standard Projects
-    EXCAVATE_STANDARD_PROJECT = 'Excavate',
+    EXCAVATE_STANDARD_PROJECT = 'Excavate:SP',
+    COLLUSION_STANDARD_PROJECT = 'Collusion:SP',
 
     // End Underworld
 }

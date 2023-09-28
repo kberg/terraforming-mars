@@ -1523,6 +1523,8 @@ export class Player implements IPlayer {
           return gameOptions.moonStandardProjectVariant === true;
         case CardName.EXCAVATE_STANDARD_PROJECT:
           return gameOptions.underworldExpansion === true;
+        case CardName.COLLUSION_STANDARD_PROJECT:
+          return gameOptions.underworldExpansion === true && gameOptions.turmoilExtension === true;
         default:
           return true;
         }
