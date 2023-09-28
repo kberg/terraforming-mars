@@ -3,7 +3,6 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Tag} from '../../../common/cards/Tag';
 import {IProjectCard} from '../IProjectCard';
 import {CardType} from '../../../common/cards/CardType';
-import {all, digit} from '../Options';
 import {IPlayer} from '../../IPlayer';
 import {Card} from '../Card';
 import {CardResource} from '../../../common/CardResource';

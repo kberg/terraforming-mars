@@ -6,22 +6,31 @@ import {SelectOption} from '../inputs/SelectOption';
 import {CardName} from '../../common/cards/CardName';
 import {ICard} from '../cards/ICard';
 import {DeferredAction, Priority} from './DeferredAction';
+import {Message} from '@/common/logs/Message';
 
-// TODO (kberg chosta): Make this a card attribute instead
+// TODO (kberg Make this a card attribute instead
 const animalsProtectedCards = [CardName.PETS, CardName.BIOENGINEERING_ENCLOSURE];
 
 export class RemoveResourcesFromCard extends DeferredAction {
   public override priority = Priority.ATTACK_OPPONENT;
+  private ownCardsOnly: boolean;
+  private mandatory: boolean;
+  private title: string | Message;
+
   constructor(
     player: IPlayer,
     public resourceType: CardResource,
     public count: number = 1,
-    public ownCardsOnly: boolean = false,
-    public mandatory: boolean = true, // Resource must be removed (either it's a cost or the icon is not red-bordered)
-    public title: string = 'Select card to remove ' + count + ' ' + resourceType + '(s)',
-  ) {
+    options?: {
+      ownCardsOnly?: boolean, // default false
+      mandatory?: boolean, // default true (Resource must be removed (either it's a cost or the icon is not red-bordered))
+      title?: string | Message,
+    }) {
     super(player, Priority.ATTACK_OPPONENT);
-    if (ownCardsOnly) {
+    this.ownCardsOnly = options?.ownCardsOnly ?? false;
+    this.mandatory = options?.mandatory ?? true;
+    this.title = options?.title ?? (`Select card to remove ${count} ${resourceType}(s)`);
+    if (this.ownCardsOnly === true) {
       this.priority = Priority.LOSE_RESOURCE_OR_PRODUCTION;
     }
   }

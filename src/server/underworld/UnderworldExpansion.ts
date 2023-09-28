@@ -37,9 +37,8 @@ export class UnderworldExpansion {
     return board.spaces.filter((space) => space.undergroundResources === undefined);
   }
 
-  public static identifiedSpaces(player: IPlayer): ReadonlyArray<Space> {
-    const board = player.game.board;
-    return board.spaces.filter((space) => space.undergroundResources !== undefined);
+  public static identifiedSpaces(game: IGame): ReadonlyArray<Space> {
+    return game.board.spaces.filter((space) => space.undergroundResources !== undefined);
   }
 
   public static identify(game: IGame, space: Space) {

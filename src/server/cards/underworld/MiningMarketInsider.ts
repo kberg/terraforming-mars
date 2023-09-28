@@ -5,7 +5,7 @@ import {IProjectCard} from '../IProjectCard';
 import {CardType} from '../../../common/cards/CardType';
 import {ActionCard} from '../ActionCard';
 import {all, digit} from '../Options';
-import {IPlayer} from '@/server/IPlayer';
+import {IPlayer} from '../../IPlayer';
 
 export class MiningMarketInsider extends ActionCard implements IProjectCard {
   constructor() {

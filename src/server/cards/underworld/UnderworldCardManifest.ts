@@ -94,7 +94,7 @@ import {RobotMoles} from './RobotMoles';
 import {Scapegoat} from './Scapegoat';
 // import {SearchforLifeUnderground} from './SearchforLifeUnderground';
 import {SecretResearch} from './SecretResearch';
-// import {ServerSabotage} from './ServerSabotage';
+import {ServerSabotage} from './ServerSabotage';
 // import {SocialEngineering} from './SocialEngineering';
 // import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
@@ -170,7 +170,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony},
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
     [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
-    // [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
+    [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
     [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
     // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor},
     // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers},
