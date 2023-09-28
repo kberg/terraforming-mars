@@ -78,6 +78,8 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
 
   private attack(card: ICard) {
     const target = this.player.game.getCardPlayerOrThrow(card.name);
+
+    // TODO(kberg): Consolidate the blockable in mayBlock.
     if (this.blockable === false) {
       target.removeResourceFrom(card, this.count, {removingPlayer: this.player});
       this.cb(true);

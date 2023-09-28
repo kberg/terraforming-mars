@@ -4,13 +4,14 @@ import {Space} from '../boards/Space';
 import {DeferredAction, Priority} from './DeferredAction';
 import {PlacementType} from '../boards/PlacementType';
 
-export class PlaceOceanTile extends DeferredAction {
+type Options = {title?: string} & (
+  {on: PlacementType, spaces: undefined} |
+  {spaces: Array<Space>, on: undefined} |
+);
+export class PlaceOceanTile extends DeferredAction<Space> {
   constructor(
     player: IPlayer,
-    private options?: {
-      on?: PlacementType,
-      title?: string,
-    }) {
+    private options: Options = {}) {
     super(player, Priority.PLACE_OCEAN_TILE);
   }
 
@@ -19,15 +20,20 @@ export class PlaceOceanTile extends DeferredAction {
       return undefined;
     }
 
-    const on = this.options?.on || 'ocean';
-    const availableSpaces = this.player.game.board.getAvailableSpacesForType(this.player, on);
-    const title = this.options?.title ?? this.getTitle(on);
+    let availableSpaces = this.options.spaces;
+    let title = this.options.title ?? this.getTitle('ocean');
+    if (availableSpaces === undefined) {
+      const on = this.options?.on || 'ocean';
+      availableSpaces = this.player.game.board.getAvailableSpacesForType(this.player, on);
+      title = this.options?.title ?? this.getTitle(on);
+    }
 
     return new SelectSpace(
       title,
       availableSpaces,
       (space: Space) => {
         this.player.game.addOcean(this.player, space);
+        this.cb(space);
         return undefined;
       },
     );
