@@ -40,7 +40,7 @@ export class AstraMechanica extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     const events = this.getCards(player);
     if (events.length === 0) {
-      player.game.log('${0} had no events', (b) => b.player(player));
+      player.game.log('${0} had no played events', (b) => b.player(player));
       return undefined;
     }
     return new SelectCard(
