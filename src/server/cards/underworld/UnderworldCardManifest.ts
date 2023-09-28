@@ -41,7 +41,7 @@ import {GeologicalExpertise} from './GeologicalExpertise';
 // import {GeologicalExpertise} from './GeologicalExpertise';
 import {GeologicalSurvey} from './GeologicalSurvey';
 // import {GeologistTemperature} from './GeologistTemperature';
-// import {GeoscanSatellite} from './GeoscanSatellite';
+import {GeoscanSatellite} from './GeoscanSatellite';
 import {GeothermalNetwork} from './GeothermalNetwork';
 import {GlobalAudit} from './GlobalAudit';
 import {GreyMarketExploitation} from './GreyMarketExploitation';
@@ -126,7 +126,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
   module: 'underworld',
   projectCards: {
     // [CardName.GEOLOGIST_TEMPERATURE]: {Factory: GeologistTemperature},
-    // [CardName.GEOSCAN_SATELLITE]: {Factory: GeoscanSatellite},
+    [CardName.GEOSCAN_SATELLITE]: {Factory: GeoscanSatellite},
     [CardName.TUNNEL_BORING_MACHINE]: {Factory: TunnelBoringMachine},
     [CardName.UNDERGROUND_RAILWAY]: {Factory: UndergroundRailway},
     // [CardName.GAIA_CITY]: {Factory: GaiaCity},
