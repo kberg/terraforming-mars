@@ -1,51 +1,57 @@
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {IGlobalEvent} from './IGlobalEvent';
-import {GlobalDustStorm} from './GlobalDustStorm';
-import {SponsoredProjects} from './SponsoredProjects';
+import {SerializedGlobalEventDealer} from './SerializedGlobalEventDealer';
+import {IGame} from '../../IGame';
+import {GameModule} from '../../../common/cards/GameModule';
+
+import {AquiferReleasedByPublicCouncil} from './AquiferReleasedByPublicCouncil';
 import {AsteroidMining} from './AsteroidMining';
-import {GenerousFunding} from './GenerousFunding';
-import {SuccessfulOrganisms} from './SuccessfulOrganisms';
-import {Productivity} from './Productivity';
+import {BalancedDevelopment} from './BalancedDevelopment';
+import {CelebrityLeaders} from './CelebrityLeaders';
+import {CloudSocieties} from './CloudSocieties';
+import {CommunicationBoom} from './CommunicationBoom';
+import {ConstantStruggle} from './ConstantStruggle';
+import {CorrosiveRain} from './CorrosiveRain';
+import {Diversity} from './Diversity';
+import {DryDeserts} from './DryDeserts';
 import {EcoSabotage} from './EcoSabotage';
+import {Election} from './Election';
+import {FairTradeComplaint} from './FairTradeComplaint';
+import {GenerousFunding} from './GenerousFunding';
+import {GlobalDustStorm} from './GlobalDustStorm';
 import {HomeworldSupport} from './HomeworldSupport';
+import {ImprovedEnergyTemplates} from './ImprovedEnergyTemplates';
+import {InterplanetaryTrade} from './InterplanetaryTrade';
+import {JovianTaxRights} from './JovianTaxRights';
+import {LaggingRegulation} from './LaggingRegulation';
+import {LeadershipSummit} from './LeadershipSummit';
+import {MagneticFieldStimulationDelays} from './MagneticFieldStimulationDelays';
+import {MediaStir} from './MediaStir';
+import {MicrogravityHealthProblems} from './MicrogravityHealthProblems';
+import {MigrationUnderground} from './MigrationUnderground';
 import {MinersOnStrike} from './MinersOnStrike';
 import {MudSlides} from './MudSlides';
+import {Pandemic} from './Pandemic';
+import {ParadigmBreakdown} from './ParadigmBreakdown';
+import {Productivity} from './Productivity';
+import {RedInfluence} from './RedInfluence';
 import {Revolution} from './Revolution';
 import {Riots} from './Riots';
 import {Sabotage} from './Sabotage';
-import {SnowCover} from './SnowCover';
-import {VolcanicEruptions} from './VolcanicEruptions';
-import {InterplanetaryTrade} from './InterplanetaryTrade';
-import {ImprovedEnergyTemplates} from './ImprovedEnergyTemplates';
-import {WarOnEarth} from './WarOnEarth';
-import {Pandemic} from './Pandemic';
-import {Diversity} from './Diversity';
-import {CelebrityLeaders} from './CelebrityLeaders';
-import {SpinoffProducts} from './SpinoffProducts';
-import {Election} from './Election';
-import {AquiferReleasedByPublicCouncil} from './AquiferReleasedByPublicCouncil';
-import {ParadigmBreakdown} from './ParadigmBreakdown';
-import {CorrosiveRain} from './CorrosiveRain';
-import {IGame} from '../../IGame';
-import {JovianTaxRights} from './JovianTaxRights';
-import {DryDeserts} from './DryDeserts';
 import {ScientificCommunity} from './ScientificCommunity';
-import {RedInfluence} from './RedInfluence';
-import {SolarnetShutdown} from './SolarnetShutdown';
-import {StrongSociety} from './StrongSociety';
+import {SeismicPredictions} from './SeismicPredictions';
+import {SnowCover} from './SnowCover';
 import {SolarFlare} from './SolarFlare';
-import {VenusInfrastructure} from './VenusInfrastructure';
-import {CloudSocieties} from './CloudSocieties';
-import {MicrogravityHealthProblems} from './MicrogravityHealthProblems';
-import {SerializedGlobalEventDealer} from './SerializedGlobalEventDealer';
-import {LeadershipSummit} from './LeadershipSummit';
-import {BalancedDevelopment} from './BalancedDevelopment';
-import {TiredEarth} from './TiredEarth';
-import {MagneticFieldStimulationDelays} from './MagneticFieldStimulationDelays';
-import {ConstantStruggle} from './ConstantStruggle';
+import {SolarnetShutdown} from './SolarnetShutdown';
 import {SpaceRaceToMars} from './SpaceRaceToMars';
-import {CommunicationBoom} from './CommunicationBoom';
-import {GameModule} from '../../../common/cards/GameModule';
+import {SpinoffProducts} from './SpinoffProducts';
+import {SponsoredProjects} from './SponsoredProjects';
+import {StrongSociety} from './StrongSociety';
+import {SuccessfulOrganisms} from './SuccessfulOrganisms';
+import {TiredEarth} from './TiredEarth';
+import {VenusInfrastructure} from './VenusInfrastructure';
+import {VolcanicEruptions} from './VolcanicEruptions';
+import {WarOnEarth} from './WarOnEarth';
 
 const COLONY_ONLY_POSITIVE_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
   [GlobalEventName.JOVIAN_TAX_RIGHTS, JovianTaxRights],
@@ -120,6 +126,18 @@ const PATHFINDERS_NEGATIVE_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGl
   [GlobalEventName.COMMUNICATION_BOOM, CommunicationBoom],
 ]);
 
+
+const UNDERWORLD_POSITIVE_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
+  [GlobalEventName.LAGGING_REGULATION, LaggingRegulation],
+  [GlobalEventName.MIGRATION_UNDERGROUND, MigrationUnderground],
+]);
+
+const UNDERWORLD_NEGATIVE_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
+  [GlobalEventName.FAIR_TRADE_COMPLAINT, FairTradeComplaint],
+  [GlobalEventName.SEISMIC_PREDICTIONS, SeismicPredictions],
+  [GlobalEventName.MEDIA_STIR, MediaStir],
+]);
+
 // When renaming, add the rename here and add a TODO (like the example below)
 // And remember to add a test in GlobalEventDealer.spec.ts
 const RENAMED_GLOBAL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
@@ -138,6 +156,8 @@ export const ALL_EVENTS = new Map<GlobalEventName, new() => IGlobalEvent>([
   ...Array.from(RENAMED_GLOBAL_EVENTS),
   ...Array.from(PATHFINDERS_POSITIVE_GLOBAL_EVENTS),
   ...Array.from(PATHFINDERS_NEGATIVE_GLOBAL_EVENTS),
+  ...Array.from(UNDERWORLD_POSITIVE_GLOBAL_EVENTS),
+  ...Array.from(UNDERWORLD_NEGATIVE_GLOBAL_EVENTS),
 ]);
 
 // Function to return a global event object by its name
@@ -152,6 +172,8 @@ export function getGlobalEventByName(globalEventName: GlobalEventName): IGlobalE
 export function getGlobalEventModule(name: GlobalEventName): GameModule {
   if (PATHFINDERS_POSITIVE_GLOBAL_EVENTS.has(name)) return 'pathfinders';
   if (PATHFINDERS_NEGATIVE_GLOBAL_EVENTS.has(name)) return 'pathfinders';
+  if (UNDERWORLD_POSITIVE_GLOBAL_EVENTS.has(name)) return 'underworld';
+  if (UNDERWORLD_NEGATIVE_GLOBAL_EVENTS.has(name)) return 'underworld';
   if (COMMUNITY_GLOBAL_EVENTS.has(name)) return 'community';
   return 'turmoil';
 }
@@ -190,6 +212,12 @@ export class GlobalEventDealer {
       }
     }
 
+    if (game.gameOptions.underworldExpansion) {
+      events.push(...Array.from(UNDERWORLD_POSITIVE_GLOBAL_EVENTS));
+      if (!game.gameOptions.removeNegativeGlobalEventsOption) {
+        events.push(...Array.from(UNDERWORLD_NEGATIVE_GLOBAL_EVENTS));
+      }
+    }
     const globalEventsDeck = this.shuffle(events.map((cf) => new cf[1]));
     return new GlobalEventDealer(globalEventsDeck, []);
   }

@@ -8,7 +8,6 @@ import {Card} from '../Card';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardResource} from '../../../common/CardResource';
 import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
-import {inplaceShuffle} from '../../utils/shuffle';
 
 export class ServerSabotage extends Card implements IProjectCard {
   constructor() {
@@ -46,14 +45,7 @@ export class ServerSabotage extends Card implements IProjectCard {
     if (game.underworldData === undefined) {
       return;
     }
-    for (const space of UnderworldExpansion.identifiedSpaces(player.game)) {
-      if (space.undergroundResources !== undefined && space.excavator === undefined) {
-        game.underworldData.tokens.push(space.undergroundResources);
-        space.undergroundResources = undefined;
-      }
-    }
-    inplaceShuffle(game.underworldData.tokens, game.rng);
-    game.log('All unidentified underground resources have been shuffled back into the pile.');
+    UnderworldExpansion.removeAllUnclaimedMarkers(player.game);
     return undefined;
   }
 }
