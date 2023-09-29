@@ -8,7 +8,7 @@ import {Turmoil} from '../Turmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {MultiMap} from 'mnemonist';
 import {IPlayer} from '../../IPlayer';
-import {UnderworldExpansion} from '@/server/underworld/UnderworldExpansion';
+import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
   b.text('oof, lots to draw');
