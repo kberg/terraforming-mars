@@ -101,6 +101,7 @@ export interface IGame extends Logger {
   // Retrieve a player by it's id
   getPlayerById(id: PlayerId): IPlayer;
   // Return an array of players from an array of player ids
+  // TODO(kberg): remove this.
   getPlayersById(ids: Array<PlayerId>): Array<IPlayer>;
   defer(action: DeferredAction<any>, priority?: Priority): void;
   milestoneClaimed(milestone: IMilestone): boolean;

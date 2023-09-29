@@ -2,7 +2,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {ModuleManifest} from '../ModuleManifest';
 
 import {AeronGenomics} from './AeronGenomics';
-// import {AntiTrustCrackdown} from './AntiTrustCrackdown';
+import {AntiTrustCrackdown} from './AntiTrustCrackdown';
 // import {AnubisSecurities} from './AnubisSecurities';
 import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
@@ -18,7 +18,7 @@ import {ChemicalFactory} from './ChemicalFactory';
 import {CloudVortexOutpost} from './CloudVortexOutpost';
 import {CollusionStandardProject} from './CollusionStandardProject';
 // import {ConcessionRights} from './ConcessionRights';
-// import {CorporateBlackmail} from './CorporateBlackmail';
+import {CorporateBlackmail} from './CorporateBlackmail';
 // import {CorporateTheft} from './CorporateTheft';
 import {CraterSurvey} from './CraterSurvey';
 import {CutThroatBudgeting} from './CutThroatBudgeting';
@@ -83,21 +83,21 @@ import {PatentManipulation} from './PatentManipulation';
 import {PersonalSpacecruiser} from './PersonalSpacecruiser';
 import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
 // import {PlantTax} from './PlantTax';
-// import {PriceWars} from './PriceWars';
-// import {PrivateInvestigator} from './PrivateInvestigator';
+import {PriceWars} from './PriceWars';
+import {PrivateInvestigator} from './PrivateInvestigator';
 // import {PrivateMilitaryContractor} from './PrivateMilitaryContractor';
-// import {PrivateResorts} from './PrivateResorts';
+import {PrivateResorts} from './PrivateResorts';
 import {Prospecting} from './Prospecting';
 // import {PublicSpaceline} from './PublicSpaceline';
 import {RecklessDetonation} from './RecklessDetonation';
-// import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
+import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
 import {RobotMoles} from './RobotMoles';
 import {Scapegoat} from './Scapegoat';
 import {SearchforLifeUnderground} from './SearchforLifeUnderground';
 import {SecretResearch} from './SecretResearch';
 import {ServerSabotage} from './ServerSabotage';
 // import {SocialEngineering} from './SocialEngineering';
-// import {SoilExport} from './SoilExport';
+import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
 import {SpaceWargames} from './SpaceWargames';
 // import {StagedProtests} from './StagedProtests';
@@ -138,12 +138,12 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // 10-18
     [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
     [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
-    // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering},
+    // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering}, // Use another player's action. Not right now.
     [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
-    // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking},
+    // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 MC less.
     [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
-    // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
+    // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano}, // Special tile
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
     // 19-27
     [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
@@ -157,73 +157,73 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CAVE_CITY]: {Factory: CaveCity},
     // 28-36
     [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
-    // [CardName.DEEPMINING]: {Factory: Deepmining},
+    // [CardName.DEEPMINING]: {Factory: Deepmining}, // Mining Area for Underworld
     [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
     [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
-    // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights},
+    // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights}, // Excavation rule change ntil the end of this generation
     [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
     [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
     [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
     [CardName.LANDFILL]: {Factory: Landfill},
     // 37-45
     [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
-    // [CardName.PRIVATE_INVESTIGATOR]: {Factory: PrivateInvestigator},
-    // [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
+    [CardName.PRIVATE_INVESTIGATOR]: {Factory: PrivateInvestigator},
+    [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
     [CardName.SCAPEGOAT]: {Factory: Scapegoat},
-    // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces},
-    // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
+    // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces}, // ANOTHER card payment thing.
+    // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry}, // Not that hard
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
-    // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony},
+    // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony}, // Special token
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
     // 46-54
     [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
     [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
     [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
-    // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor},
-    // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers},
+    // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor}, // Complicated corruption rules.
+    // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers}, // Complicated corruption rules.
     [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
     [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
-    // [CardName.STAR_VEGAS]: {Factory: StarVegas},
-    // [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
+    // [CardName.STAR_VEGAS]: {Factory: StarVegas}, // Invalidates placing tiles in other places in space.
+    [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
     // 55-63
-    // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
+    // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine}, // I'll get to this one.
     // [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
     // [CardName.NEUTRINOGRAPH]: {Factory: Neutrinograph},
-    // [CardName.SOIL_EXPORT]: {Factory: SoilExport},
-    // [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer},
+    [CardName.SOIL_EXPORT]: {Factory: SoilExport},
+    // [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer}, // yeah I should do this.
     [CardName.CHEMICAL_FACTORY]: {Factory: ChemicalFactory},
-    // [CardName.CORPORATE_THEFT]: {Factory: CorporateTheft},
-    // [CardName.UNDERGROUND_RESEARCH_CENTER]: {Factory: UndergroundResearchCenter},
-    // [CardName.PRICE_WARS]: {Factory: PriceWars},
+    // [CardName.CORPORATE_THEFT]: {Factory: CorporateTheft}, // Tricky resource stuff and tricky corruption stuff.
+    // [CardName.UNDERGROUND_RESEARCH_CENTER]: {Factory: UndergroundResearchCenter}, // I want to take time to think about the tag rule.
+    [CardName.PRICE_WARS]: {Factory: PriceWars},
     // 64-72
-    // [CardName.ANTI_TRUST_CRACKDOWN]: {Factory: AntiTrustCrackdown},
-    // [CardName.MONOPOLY]: {Factory: Monopoly},
-    // [CardName.STAGED_PROTESTS]: {Factory: StagedProtests},
-    // [CardName.PLANT_TAX]: {Factory: PlantTax},
+    [CardName.ANTI_TRUST_CRACKDOWN]: {Factory: AntiTrustCrackdown},
+    // [CardName.MONOPOLY]: {Factory: Monopoly}, // Messy
+    // [CardName.STAGED_PROTESTS]: {Factory: StagedProtests}, // Special milestone/award rules
+    // [CardName.PLANT_TAX]: {Factory: PlantTax}, // Don't feel like dealing with corruption.
     [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
-    // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
+    // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor}, // Not bad, just code.
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
-    // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
+    // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters}, // Special VP rules. Not hard, just extra renderingr work.
     // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
     [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
-    // [CardName.VOLTAIC_METTALURGY]: {Factory: VoltaicMettalurgy},
-    // [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline},
-    // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress},
+    // [CardName.VOLTAIC_METTALURGY]: {Factory: VoltaicMettalurgy}, // Simple code
+    // [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline}, // Want to think about it.
+    // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress}, // Special annoying resource rules.
     [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
     [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
     [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
     // 82-90
-    // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
-    // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault},
-    // [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
+    // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit}, // Messy
+    // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault}, // Blocking rules.
+    [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
     [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
-    // [CardName.MEDIA_FRENZY]: {Factory: MediaFrenzy},
-    // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
-    // [CardName.WHALES]: {Factory: Whales},
-    // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists},
+    // [CardName.MEDIA_FRENZY]: {Factory: MediaFrenzy}, // Scoops is not quite clear yet.
+    // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism}, // Custom resource, not that hard.
+    // [CardName.WHALES]: {Factory: Whales}, // This is gonna be tricky.
+    // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists}, // IP.
     // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts
   },
 
