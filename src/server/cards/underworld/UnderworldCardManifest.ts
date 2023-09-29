@@ -105,7 +105,7 @@ import {SpaceWargames} from './SpaceWargames';
 import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
 import {SubterraneanSea} from './SubterraneanSea';
-import {ThiolavaVents} from './ThiolavaVents';
+// import {ThiolavaVents} from './ThiolavaVents';
 // import {TitanManufacturingColony} from './TitanManufacturingColony';
 import {TunnelBoringMachine} from './TunnelBoringMachine';
 import {TunnelingOperation} from './TunnelingOperation';
@@ -224,7 +224,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
     // [CardName.WHALES]: {Factory: Whales},
     // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists},
-    [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents},
+    // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts
   },
 
   corporationCards: {

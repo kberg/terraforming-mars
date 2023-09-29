@@ -42,12 +42,14 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
   public execute() {
     if (this.ownCardsOnly === false && this.player.game.isSoloMode()) {
       this.player.resolveInsuranceInSoloGame();
+      this.cb(true);
       return undefined;
     }
 
     const cards = RemoveResourcesFromCard.getAvailableTargetCards(this.player, this.resourceType, this.ownCardsOnly);
 
     if (cards.length === 0) {
+      this.cb(false);
       return undefined;
     }
 
@@ -71,6 +73,7 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
     return new OrOptions(
       selectCard,
       new SelectOption('Do not remove', 'Confirm', () => {
+        this.cb(false);
         return undefined;
       }),
     );

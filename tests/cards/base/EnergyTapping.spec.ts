@@ -36,6 +36,7 @@ describe('EnergyTapping', function() {
   });
 
   it('play - auto select if single target', function() {
+    player.production.override({energy: 0});
     player2.production.override({energy: 1});
 
     card.play(player);
