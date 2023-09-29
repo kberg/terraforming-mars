@@ -35,27 +35,29 @@ export class DecreaseAnyProduction extends DeferredAction<boolean> {
   public execute() {
     if (this.player.game.isSoloMode()) {
       this.player.resolveInsuranceInSoloGame();
+      this.cb(true);
     } else {
       const targets = this.player.game.getPlayers().filter((p) => p.canHaveProductionReduced(this.resource, this.options.count, this.player));
 
-      if (targets.length > 0) {
-        if (targets.length > 1 || targets[0] === this.player) {
-          return new SelectPlayer(
-            targets,
-            this.title,
-            'Decrease',
-            (target: IPlayer) => {
-              this.attack(target);
-              return undefined;
-            },
-          );
-        } else {
-          this.attack(targets[0]);
-        }
+      if (targets.length === 0) {
+        this.cb(false);
+        return undefined;
+      }
+      if (targets.length > 1 || targets[0] === this.player) {
+        return new SelectPlayer(
+          targets,
+          this.title,
+          'Decrease',
+          (target: IPlayer) => {
+            this.attack(target);
+            return undefined;
+          },
+        );
+      } else {
+        this.attack(targets[0]);
       }
     }
 
-    this.cb(true);
     return undefined;
   }
 }
