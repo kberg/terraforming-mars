@@ -434,12 +434,24 @@
 	border: 1px solid black;
 }
 
-.underground-token {
+.underground-token-background {
 	position: absolute;
-	width: 21px;
-	height: 21px;
+	width: 20px;
+	height: 18px;
+  background-size: 20px 18px;
 	z-index: 3;
-	margin: 20px 0 0 20px;
+	margin: 8px 0 0 20px;
+	filter: drop-shadow(2px 2px 3px black);
+  background-image: url("assets/underworld/underground-token-background.png");
+}
+
+.underground-token-resource {
+	position: absolute;
+	width: 22px;
+	height: 22px;
+  background-size: 22px;
+	z-index: 3;
+	margin: 6px 0 0 19px;
 	filter: drop-shadow(2px 2px 3px black);
 }
 
@@ -466,8 +478,9 @@ each(@token_types, {
 	width: 21px;
 	height: 21px;
 	z-index: 3;
-	margin: 24px 0 0 24px;
+	margin: 7px 0 0 21px;
 	filter: drop-shadow(2px 2px 3px black);
+  transform: rotate(0.14turn);
 }
 
 .underground-excavator--red {

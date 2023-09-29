@@ -4,7 +4,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
-import {CardResource} from '@/common/CardResource';
+import {CardResource} from '../../../common/CardResource';
 import {IPlayer} from '../../IPlayer';
 import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
 import {IdentifySpacesDeferred} from '../../underworld/IdentifySpacesDeferred';

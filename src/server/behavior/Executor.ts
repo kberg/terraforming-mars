@@ -390,7 +390,7 @@ export class Executor implements BehaviorExecutor {
       }
     }
     if (behavior.greenery !== undefined) {
-      player.game.defer(new PlaceGreeneryTile(player, behavior.greenery.on));
+      player.game.defer(new PlaceGreeneryTile(player, behavior.greenery.on, behavior.greenery.ignorePlacementRestrictions));
     }
     if (behavior.tile !== undefined) {
       const tile = behavior.tile;

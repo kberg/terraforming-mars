@@ -115,6 +115,10 @@ export function requirementType(descriptor: CardRequirementDescriptor): Requirem
     return RequirementType.MINING_TILES;
   } else if (descriptor.roadTiles !== undefined) {
     return RequirementType.ROAD_TILES;
+  } else if (descriptor.excavation !== undefined) {
+    return RequirementType.EXCAVATION;
+  } else if (descriptor.corruption !== undefined) {
+    return RequirementType.CORRUPTION;
   } else {
     throw new Error('Unknown requirement: ' + JSON.stringify(descriptor));
   }

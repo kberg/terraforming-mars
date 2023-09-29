@@ -274,6 +274,13 @@ export class Game implements IGame, Logger {
       game.turmoil = Turmoil.newInstance(game, gameOptions.politicalAgendasExtension);
     }
 
+    // Must configure this before solo placement.
+    if (gameOptions.underworldExpansion) {
+      game.underworldData = UnderworldExpansion.initialize(rng);
+    } else {
+      game.underworldData = undefined;
+    }
+
     // and 2 neutral cities and forests on board
     if (players.length === 1) {
       //  Setup solo player's starting tiles
@@ -293,11 +300,6 @@ export class Game implements IGame, Logger {
       game.pathfindersData = PathfindersExpansion.initialize(gameOptions);
     }
 
-    if (gameOptions.underworldExpansion) {
-      game.underworldData = UnderworldExpansion.initialize(rng);
-    } else {
-      game.underworldData = undefined;
-    }
     // Failsafe for exceeding corporation pool
     // (I do not think this is necessary any further given how corporation cards are stored now)
     const minCorpsRequired = players.length * gameOptions.startingCorporations;
@@ -474,7 +476,7 @@ export class Game implements IGame, Logger {
     return ids.map((id) => this.getPlayerById(id));
   }
 
-  public defer(action: DeferredAction, priority?: Priority): void {
+  public defer(action: DeferredAction<any>, priority?: Priority): void {
     if (priority !== undefined) {
       action.priority = priority;
     }

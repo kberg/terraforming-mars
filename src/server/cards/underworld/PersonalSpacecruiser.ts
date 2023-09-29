@@ -28,8 +28,8 @@ export class PersonalSpacecruiser extends Card implements IProjectCard {
             'gain 2 MC for each corruption resource you HashChangeEvent.',
           (eb) => eb.fighter().startEffect.megacredits(2).slash().corruption().asterix).br;
           b.fighter(1).corruption(1).br;
-          b.description('Put 1 fighter resource on this card. Gain 1 corruption.');
         }),
+        description: 'Put 1 fighter resource on this card. Gain 1 corruption.',
       },
     });
   }

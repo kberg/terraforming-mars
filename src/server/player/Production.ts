@@ -5,6 +5,7 @@ import {Manutech} from '../cards/venusNext/Manutech';
 import {IPlayer} from '../IPlayer';
 import {Resource} from '../../common/Resource';
 import {Units} from '../../common/Units';
+import {ThiolavaVents} from '../cards/underworld/ThiolavaVents';
 
 export class Production {
   private units: Units;
@@ -72,6 +73,9 @@ export class Production {
     if (this.player.isCorporation(CardName.MANUTECH)) {
       Manutech.onProductionGain(this.player, resource, amount);
     }
+
+    // Thiolava Vents hook
+    ThiolavaVents.resourceHook(this.player, resource, delta);
   }
 
   public canAdjust(units: Units): boolean {

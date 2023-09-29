@@ -78,6 +78,7 @@ export interface Behavior {
   /** Places a greenery tile and also raises the oxygen. */
   greenery?: {
     on?: PlacementType,
+    ignorePlacementRestrictions?: true,
   },
   ocean?: {
     count?: 2,

@@ -23,7 +23,10 @@
       <div class='board-cube--nomad'></div>
     </template>
     <template v-if="space.undergroundResources !== undefined">
-      <underground-resources :space="space"></underground-resources>
+      <underground-resources
+        :space="space"
+        :tileView="tileView"
+      ></underground-resources>
     </template>
     </div>
 </template>

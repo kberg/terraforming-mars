@@ -22,7 +22,7 @@ export class ExcavateSpacesDeferred extends DeferredAction {
       (space) => {
         UnderworldExpansion.excavate(this.player, space);
         this.nth++;
-        if (this.nth <= this.count) {
+        if (this.nth < this.count) {
           return this.selectSpace();
         }
         return undefined;

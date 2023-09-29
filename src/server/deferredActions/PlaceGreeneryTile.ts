@@ -8,8 +8,12 @@ export class PlaceGreeneryTile extends DeferredAction {
   constructor(
     player: IPlayer,
     private on: PlacementType = 'greenery',
+    private ignorePlacementRestrictions: boolean = false,
   ) {
     super(player, Priority.DEFAULT);
+    if (this.ignorePlacementRestrictions === true) {
+      throw new Error('Currently not supported.');
+    }
   }
 
   public execute() {

@@ -105,7 +105,7 @@ import {SpaceWargames} from './SpaceWargames';
 import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
 import {SubterraneanSea} from './SubterraneanSea';
-// import {ThiolavaVents} from './ThiolavaVents';
+import {ThiolavaVents} from './ThiolavaVents';
 // import {TitanManufacturingColony} from './TitanManufacturingColony';
 import {TunnelBoringMachine} from './TunnelBoringMachine';
 import {TunnelingOperation} from './TunnelingOperation';
@@ -125,6 +125,7 @@ import {VolunteerMiningInititive} from './VolunteerMiningInititive';
 export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
   module: 'underworld',
   projectCards: {
+    // 1-9
     // [CardName.GEOLOGIST_TEMPERATURE]: {Factory: GeologistTemperature},
     [CardName.GEOSCAN_SATELLITE]: {Factory: GeoscanSatellite},
     [CardName.TUNNEL_BORING_MACHINE]: {Factory: TunnelBoringMachine},
@@ -134,6 +135,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.OLD_WORLD_MAFIA]: {Factory: OldWorldMafia},
     [CardName.NIGHTCLUBS]: {Factory: Nightclubs},
     [CardName.RECKLESS_DETONATION]: {Factory: RecklessDetonation},
+    // 10-18
     [CardName.OFF_WORLD_TAX_HAVEN]: {Factory: OffWorldTaxHaven},
     [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering},
@@ -143,6 +145,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
+    // 19-27
     [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
     [CardName.CASINO]: {Factory: Casino},
     [CardName.IMPORTED_HEAVY_MACHINERY]: {Factory: ImportedHeavyMachinery},
@@ -152,6 +155,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.GLOBAL_AUDIT]: {Factory: GlobalAudit},
     [CardName.PATENT_MANIPULATION]: {Factory: PatentManipulation},
     [CardName.CAVE_CITY]: {Factory: CaveCity},
+    // 28-36
     [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
     // [CardName.DEEPMINING]: {Factory: Deepmining},
     [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
@@ -161,6 +165,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
     [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},
     [CardName.LANDFILL]: {Factory: Landfill},
+    // 37-45
     [CardName.NARRATIVE_SPIN]: {Factory: NarrativeSpin},
     // [CardName.PRIVATE_INVESTIGATOR]: {Factory: PrivateInvestigator},
     // [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
@@ -170,6 +175,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony},
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
+    // 46-54
     [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
     [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
     [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
@@ -179,6 +185,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
     // [CardName.STAR_VEGAS]: {Factory: StarVegas},
     // [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
+    // 55-63
     // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
     // [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
     // [CardName.NEUTRINOGRAPH]: {Factory: Neutrinograph},
@@ -188,6 +195,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.CORPORATE_THEFT]: {Factory: CorporateTheft},
     // [CardName.UNDERGROUND_RESEARCH_CENTER]: {Factory: UndergroundResearchCenter},
     // [CardName.PRICE_WARS]: {Factory: PriceWars},
+    // 64-72
     // [CardName.ANTI_TRUST_CRACKDOWN]: {Factory: AntiTrustCrackdown},
     // [CardName.MONOPOLY]: {Factory: Monopoly},
     // [CardName.STAGED_PROTESTS]: {Factory: StagedProtests},
@@ -197,6 +205,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
     // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
+    // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
     [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
@@ -206,6 +215,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
     [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
     [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
+    // 82-90
     // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
     // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault},
     // [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
@@ -214,7 +224,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
     // [CardName.WHALES]: {Factory: Whales},
     // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists},
-    // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents},
+    [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents},
   },
 
   corporationCards: {

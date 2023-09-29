@@ -75,13 +75,15 @@ export class MarsBoard extends Board {
 
   public getAvailableSpacesForGreenery(player: IPlayer, canAffordOptions?: CanAffordOptions): ReadonlyArray<Space> {
     let spacesOnLand = this.getAvailableSpacesOnLand(player, canAffordOptions);
-    // Gordon CEO can ignore placement restrictions for Cities+Greenery
-    if (player.cardIsInEffect(CardName.GORDON)) return spacesOnLand;
     // Spaces next to Red City are always unavialable.
     if (player.game.gameOptions.pathfindersExpansion === true) {
       spacesOnLand = spacesOnLand.filter((space) => {
         return !this.getAdjacentSpaces(space).some((neighbor) => neighbor.tile?.tileType === TileType.RED_CITY);
       });
+    }
+    // Gordon CEO can ignore placement restrictions for Cities+Greenery
+    if (player.cardIsInEffect(CardName.GORDON)) {
+      return spacesOnLand;
     }
 
     const spacesForGreenery = spacesOnLand

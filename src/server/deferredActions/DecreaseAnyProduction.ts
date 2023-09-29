@@ -26,9 +26,9 @@ export class DecreaseAnyProduction extends DeferredAction<boolean> {
     return UnderworldExpansion.mayBlockAttack(target, this.player, (proceed: boolean) => {
       if (proceed) {
         target.production.add(this.resource, -this.options.count, {log: true, from: this.player, stealing: this.options.stealing});
-        return undefined;
       }
       this.cb(proceed);
+      return undefined;
     });
   }
 
