@@ -29,6 +29,7 @@ import {Payment} from '../../common/inputs/Payment';
 import {SelectResources} from '../inputs/SelectResources';
 import {IdentifySpacesDeferred} from '../underworld/IdentifySpacesDeferred';
 import {ExcavateSpacesDeferred} from '../underworld/ExcavateSpacesDeferred';
+import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
 
 export class Executor implements BehaviorExecutor {
   public canExecute(behavior: Behavior, player: IPlayer, card: ICard, canAffordOptions?: CanAffordOptions) {
@@ -258,7 +259,7 @@ export class Executor implements BehaviorExecutor {
         player.removeResourceFrom(card, spend.resourcesHere);
       }
       if (spend.corruption) {
-        player.underworldData.corruption -= spend.corruption;
+        UnderworldExpansion.loseCorruption(player, spend.corruption);
       }
     }
 
@@ -477,8 +478,7 @@ export class Executor implements BehaviorExecutor {
         }
       }
       if (underworld.corruption !== undefined) {
-        // Log? Make a function
-        player.underworldData.corruption += ctx.count(underworld.corruption);
+        UnderworldExpansion.gainCorruption(player, ctx.count(underworld.corruption), {log: true});
       }
     }
   }

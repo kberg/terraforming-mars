@@ -127,10 +127,10 @@ export class UnderworldExpansion {
       player.drawCard(2);
       break;
     case 'corruption1':
-      player.underworldData.corruption += 1;
+      UnderworldExpansion.gainCorruption(player, 1, {log: true});
       break;
     case 'corruption2':
-      player.underworldData.corruption += 2;
+      UnderworldExpansion.gainCorruption(player, 2, {log: true});
       break;
     case 'data1':
       player.game.defer(
@@ -237,6 +237,34 @@ export class UnderworldExpansion {
       }),
     );
     throw new Error('Method not implemented.');
+  }
+
+  public static gainCorruption(player: IPlayer, count: number, options?: {log: boolean;}) {
+    player.underworldData.corruption += count;
+    if (options?.log === true) {
+      player.game.log('${0} gained ${1} corruption', (b) => b.player(player).number(count));
+    }
+  }
+
+  public static loseCorruption(player: IPlayer, count: number, options?: {log: boolean;}) {
+    player.underworldData.corruption -= count;
+    if (options?.log === true) {
+      player.game.log('${0} spent ${1} corruption', (b) => b.player(player).number(count));
+    }
+  }
+
+  static removeAllUnclaimedMarkers(game: IGame) {
+    if ( game.underworldData === undefined) {
+      return;
+    }
+    for (const space of UnderworldExpansion.identifiedSpaces(game)) {
+      if (space.undergroundResources !== undefined && space.excavator === undefined) {
+        game.underworldData.tokens.push(space.undergroundResources);
+        space.undergroundResources = undefined;
+      }
+    }
+    inplaceShuffle(game.underworldData.tokens, game.rng);
+    game.log('All unidentified underground resources have been shuffled back into the pile.');
   }
 }
 
