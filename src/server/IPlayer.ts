@@ -84,6 +84,8 @@ export interface IPlayer {
   canUseHeatAsMegaCredits: boolean;
   // Luna Trade Federation
   canUseTitaniumAsMegacredits: boolean;
+  // Martian Lumber Corp
+  canUsePlantsAsMegacredits: boolean;
 
   // This generation / this round
   actionsTakenThisRound: number;
