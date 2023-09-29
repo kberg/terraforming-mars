@@ -74,20 +74,29 @@ const ORDER: Array<InterfaceTagsType> = [
 ];
 
 const isInGame = (tag: InterfaceTagsType, game: GameModel): boolean => {
+  const gameOptions = game.gameOptions;
   switch (tag) {
   case SpecialTags.COLONY_COUNT:
-    return game.gameOptions.coloniesExtension;
+    return gameOptions.coloniesExtension === true;
   case SpecialTags.INFLUENCE:
     return game.turmoil !== undefined;
   case SpecialTags.EXCAVATIONS:
   case SpecialTags.CORRUPTION:
-    return game.gameOptions.underworldExpansion;
+    return gameOptions.underworldExpansion === true;
   case Tag.VENUS:
-    return game.gameOptions.venusNextExtension;
+    if (game.gameOptions.venusNextExtension === false) {
+      return false;
+    }
+    break;
   case Tag.MOON:
-    return game.gameOptions.moonExpansion;
+    if (game.gameOptions.moonExpansion === false) {
+      return false;
+    }
+    break;
   case Tag.MARS:
-    return game.gameOptions.pathfindersExpansion;
+    if (game.gameOptions.pathfindersExpansion === false && game.gameOptions.underworldExpansion === false) {
+      return false;
+    }
   }
   return true;
 };
