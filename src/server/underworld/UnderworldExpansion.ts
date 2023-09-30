@@ -21,11 +21,59 @@ export class UnderworldExpansion {
   private constructor() {}
 
   public static initialize(rnd: Random): UnderworldData {
-    const tokens = allTokens();
+    const tokens = this.allTokens();
     inplaceShuffle(tokens, rnd);
     return {
       tokens: tokens,
     };
+  }
+
+  private static allTokens(): Array<UndergroundResourceToken> {
+    const tokens: Array<UndergroundResourceToken> = [];
+    function add(count: number, token: UndergroundResourceToken) {
+      for (let idx = 0; idx < count; idx++) {
+        tokens.push(token);
+      }
+    }
+
+    add(5, 'nothing');
+    add(13, 'data1');
+    add(4, 'data2');
+    add(1, 'data3');
+
+    add(10, 'corruption1');
+    add(2, 'corruption2');
+
+    add(4, 'card1');
+    add(1, 'card2');
+
+    add(3, 'steel2');
+    add(1, 'steel1production');
+
+    add(3, 'titaniumandplant');
+    add(3, 'titanium2');
+    add(1, 'titanium1production');
+
+    add(4, 'plant2');
+    add(1, 'plant3');
+    add(4, 'plant1production');
+
+    add(5, 'energy1production');
+    add(3, 'heat2production');
+
+    add(4, 'microbe2');
+
+    add(2, 'tr');
+    add(2, 'ocean');
+
+
+    add(3, 'data1pertemp');
+    add(1, 'microbe1pertemp');
+    add(3, 'plant2pertemp');
+    add(3, 'steel2pertemp');
+    add(3, 'titanium1pertemp');
+
+    return tokens;
   }
 
   public static initializePlayer(): UnderworldPlayerData {
@@ -204,7 +252,9 @@ export class UnderworldExpansion {
     case 'plant2pertemp':
     case 'steel2pertemp':
     case 'titanium1pertemp':
-      player.stock.add(Resource.MEGACREDITS, 5, {log: true});
+      // TODO(kberg): viz
+      player.underworldData.temperatureBonus = reward;
+      player.game.log('For the rest of this generation, ${0} will gain ${1}', (b) => b.player(player).string(reward));
       break;
     default:
       throw new Error('Unknown reward: ' + reward);
@@ -281,52 +331,36 @@ export class UnderworldExpansion {
   static excavationMarkerCount(player: IPlayer): number {
     return player.game.board.spaces.filter((space) => space.excavator === player).length;
   }
-}
 
-function allTokens(): Array<UndergroundResourceToken> {
-  const tokens: Array<UndergroundResourceToken> = [];
-  function add(count: number, token: UndergroundResourceToken) {
-    for (let idx = 0; idx < count; idx++) {
-      tokens.push(token);
-    }
+  static endGeneration(game: IGame) {
+    game.getPlayersInGenerationOrder().forEach((player) => player.underworldData.temperatureBonus === undefined);
   }
 
-  add(5, 'nothing');
-  add(13, 'data1');
-  add(4, 'data2');
-  add(1, 'data3');
-
-  add(10, 'corruption1');
-  add(2, 'corruption2');
-
-  add(4, 'card1');
-  add(1, 'card2');
-
-  add(3, 'steel2');
-  add(1, 'steel1production');
-
-  add(3, 'titaniumandplant');
-  add(3, 'titanium2');
-  add(1, 'titanium1production');
-
-  add(4, 'plant2');
-  add(1, 'plant3');
-  add(4, 'plant1production');
-
-  add(5, 'energy1production');
-  add(3, 'heat2production');
-
-  add(4, 'microbe2');
-
-  add(2, 'tr');
-  add(2, 'ocean');
-
-
-  add(3, 'data1pertemp');
-  add(1, 'microbe1pertemp');
-  add(3, 'plant2pertemp');
-  add(3, 'steel2pertemp');
-  add(3, 'titanium1pertemp');
-
-  return tokens;
+  // TODO(kberg): add viz for temperature bonus.
+  static onTemperatureChange(game: IGame, steps: number) {
+    game.getPlayersInGenerationOrder().forEach((player) => {
+      switch (player.underworldData.temperatureBonus) {
+      case 'data1pertemp':
+      case 'microbe1pertemp':
+        const resource = player.underworldData.temperatureBonus === 'data1pertemp' ? CardResource.DATA : CardResource.MICROBE;
+        for (let i = 0; i < steps; i++) {
+          player.game.defer(new AddResourcesToCard(player, resource));
+        }
+        break;
+      case 'plant2pertemp':
+        player.stock.add(Resource.PLANTS, 2 * steps, {log: true});
+        break;
+      case 'steel2pertemp':
+        player.stock.add(Resource.STEEL, 2 * steps, {log: true});
+        break;
+      case 'titanium1pertemp':
+        player.stock.add(Resource.TITANIUM, steps, {log: true});
+        break;
+      case undefined:
+        break;
+      default:
+        throw new Error('Unknown temperatore bonus: ' + player.underworldData.temperatureBonus);
+      }
+    });
+  }
 }

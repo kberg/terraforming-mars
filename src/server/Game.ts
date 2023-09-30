@@ -740,8 +740,6 @@ export class Game implements IGame, Logger {
       this.syndicatePirateRaider = undefined;
       // Trade embargo hook.
       this.tradeEmbargo = false;
-      // Behold The Emperor hook
-      this.beholdTheEmperor = false;
     }
   }
 
@@ -750,14 +748,17 @@ export class Game implements IGame, Logger {
 
     Turmoil.ifTurmoil(this, (turmoil) => {
       turmoil.endGeneration(this);
+      // Behold The Emperor hook
+      this.beholdTheEmperor = false;
     });
+
+    UnderworldExpansion.endGeneration(this);
 
     // turmoil.endGeneration might have added actions.
     if (this.deferredActions.length > 0) {
-      this.deferredActions.runAll(() => this.goToDraftOrResearch());
+      this.deferredActions.runAll(() => this.startNewGeneration());
     } else {
-      this.phase = Phase.INTERGENERATION;
-      this.goToDraftOrResearch();
+      this.startNewGeneration();
     }
   }
 
@@ -767,12 +768,16 @@ export class Game implements IGame, Logger {
     });
   }
 
-  private goToDraftOrResearch() {
+  private startNewGeneration() {
+    this.phase = Phase.INTERGENERATION;
     this.updateVPbyGeneration();
     this.generation++;
     this.log('Generation ${0}', (b) => b.forNewGeneration().number(this.generation));
     this.incrementFirstPlayer();
+    this.goToDraftOrResearch();
+  }
 
+  private goToDraftOrResearch() {
     this.players.forEach((player) => {
       player.terraformRatingAtGenerationStart = player.getTerraformRating();
       player.hasIncreasedTerraformRatingThisGeneration = false;
@@ -1163,7 +1168,7 @@ export class Game implements IGame, Logger {
     AresHandler.ifAres(this, (aresData) => {
       AresHandler.onTemperatureChange(this, aresData);
     });
-
+    UnderworldExpansion.onTemperatureChange(this, steps);
     return undefined;
   }
 
