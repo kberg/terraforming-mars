@@ -5,7 +5,7 @@ import {SelectSpace} from '../inputs/SelectSpace';
 import {UnderworldExpansion} from './UnderworldExpansion';
 
 export class ExcavateSpacesDeferred extends DeferredAction {
-  private nth: number = 0;
+  private nth: number = 1;
   constructor(
     player: IPlayer,
     public count: number,
@@ -22,7 +22,7 @@ export class ExcavateSpacesDeferred extends DeferredAction {
       (space) => {
         UnderworldExpansion.excavate(this.player, space);
         this.nth++;
-        if (this.nth < this.count) {
+        if (this.nth <= this.count) {
           return this.selectSpace();
         }
         return undefined;
