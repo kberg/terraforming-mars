@@ -982,5 +982,9 @@ export enum CardName {
     EXCAVATE_STANDARD_PROJECT = 'Excavate:SP',
     COLLUSION_STANDARD_PROJECT = 'Collusion:SP',
 
+    // Underworld Replacement Cards
+    STANDARD_TECHNOLOGY_UNDERWORLD = 'Standard Technology:u',
+    HACKERS_UNDERWORLD = 'Hackers:u',
+    HIRED_RAIDERS_UNDERWORLD = 'Hired Raiders:u',
     // End Underworld
 }
