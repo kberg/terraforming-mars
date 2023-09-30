@@ -46,9 +46,11 @@ import {GeothermalNetwork} from './GeothermalNetwork';
 import {GlobalAudit} from './GlobalAudit';
 import {GreyMarketExploitation} from './GreyMarketExploitation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
+import {Hackers} from './Hackers';
 import {Hadesphere} from './Hadesphere';
 // import {HectateSpeditions} from './HectateSpeditions';
 import {HenkeiGenetics} from './HenkeiGenetics';
+import {HiredRaiders} from './HiredRaiders';
 import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
 import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
 // import {InducedTremor} from './InducedTremor';
@@ -225,21 +227,32 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.WHALES]: {Factory: Whales}, // This is gonna be tricky.
     // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists}, // IP.
     // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts
+
+    // Replacements
+    // [CardName.STANDARD_TECHNOLOGY]: {Factory: StandardTechnology}, // Tracking standard projects during a generation.
+    [CardName.HACKERS_UNDERWORLD]: {Factory: Hackers},
+    [CardName.HIRED_RAIDERS_UNDERWORLD]: {Factory: HiredRaiders},
+
   },
+  cardsToRemove: [
+    // CardName.STANDARD_TECHNOLOGY,
+    CardName.HACKERS,
+    CardName.HIRED_RAIDERS,
+  ],
 
   corporationCards: {
     [CardName.HADESPHERE]: {Factory: Hadesphere},
-    // [CardName.DEMETRON_LABS]: {Factory: DemetronLabs},
+    // [CardName.DEMETRON_LABS]: {Factory: DemetronLabs}, // Requires tracking players taking resource tiles from the map.
     [CardName.JENSON_BOYLE_CO]: {Factory: JensonBoyleCo},
     [CardName.HENKEI_GENETICS]: {Factory: HenkeiGenetics},
     [CardName.ARBORIST_COLLECTIVE]: {Factory: ArboristCollective},
     // [CardName.KINGDOM_OF_TAURARO]: {Factory: KingdomofTauraro},
     [CardName.AERON_GENOMICS]: {Factory: AeronGenomics},
-    // [CardName.KEPLERTEC]: {Factory: Keplertec},
+    // [CardName.KEPLERTEC]: {Factory: Keplertec}, // Requires special PlayerInput.
     [CardName.VOLTAGON]: {Factory: Voltagon, compatibility: 'venus'},
-    // [CardName.ARES_MEDIA]: {Factory: AresMedia},
-    // [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities},
-    // [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions},
+    // [CardName.ARES_MEDIA]: {Factory: AresMedia}, // Not another events are up card.
+    // [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities}, // Doable but a lot of work
+    // [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions}, // Doable, not unlike Mind Set Mars
   },
 
   preludeCards: {

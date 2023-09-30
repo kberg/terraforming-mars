@@ -45,7 +45,7 @@ export class Voltagon extends ActionCard implements ICorporationCard {
             eb.excavate(1).startEffect.energy(2);
           }).br;
           b.action('Spend 8 energy to increase the oxygen or Venus 1 step.', (ab) => {
-            ab.megacredits(1).animals(1).startAction.oxygen(1).or().venus(1);
+            ab.energy(8).startAction.oxygen(1).or().venus(1);
           });
         }),
       },

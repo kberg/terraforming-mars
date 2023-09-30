@@ -54,6 +54,7 @@ export class UnderworldExpansion {
     }
     const token = game.underworldData?.tokens.pop();
     if (token === undefined) {
+      // TODO(kberg): collect tokens from all players
       throw new Error('Cannot identify excatation space, no available tokens.');
     }
     space.undergroundResources = token;
@@ -253,8 +254,8 @@ export class UnderworldExpansion {
     }
   }
 
-  static removeAllUnclaimedMarkers(game: IGame) {
-    if ( game.underworldData === undefined) {
+  static removeAllUnclaimedTokens(game: IGame) {
+    if (game.underworldData === undefined) {
       return;
     }
     for (const space of UnderworldExpansion.identifiedSpaces(game)) {
@@ -265,6 +266,14 @@ export class UnderworldExpansion {
     }
     inplaceShuffle(game.underworldData.tokens, game.rng);
     game.log('All unidentified underground resources have been shuffled back into the pile.');
+  }
+
+  static addTokens(game: IGame, tokens: Array<ExcavationToken>) {
+    if (game.underworldData === undefined) {
+      return;
+    }
+    game.underworldData.tokens.push(...tokens);
+    inplaceShuffle(game.underworldData.tokens, game.rng);
   }
 }
 

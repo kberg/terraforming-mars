@@ -45,7 +45,7 @@ export class ServerSabotage extends Card implements IProjectCard {
     if (game.underworldData === undefined) {
       return;
     }
-    UnderworldExpansion.removeAllUnclaimedMarkers(player.game);
+    UnderworldExpansion.removeAllUnclaimedTokens(player.game);
     return undefined;
   }
 }
