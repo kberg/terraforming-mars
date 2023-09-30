@@ -8,10 +8,11 @@ import {Turmoil} from '../Turmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
 import {isHazardTileType} from '../../../common/AresTileType';
+import {Size} from '../../../common/cards/render/Size';
+import {cancelled} from '../../cards/Options';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
-  b.text('oof, lots to draw');
-  // b.vSpace(Size.MEDIUM).br.text('9').diverseTag(1).influence({size: Size.SMALL}).colon().megacredits(10);
+  b.text('ALL').undergroundResources(1, {cancelled}).nbsp.megacredits(-2).slash().emptyTile().asterix().influence({size: Size.SMALL});
 });
 
 export class SeismicPredictions extends GlobalEvent implements IGlobalEvent {
@@ -19,9 +20,7 @@ export class SeismicPredictions extends GlobalEvent implements IGlobalEvent {
     super({
       name: GlobalEventName.SEISMIC_PREDICTIONS,
       description: 'Discard all unclaimed underground resources. ' +
-      'Lose 2 MC for each tile on Mars you own WITHOUT excavation markers (max 5) minus influence.' +
-        'Each point of incluence reduce the damage by 2 MC. ' +
-        'Each player with 6 or fewer cards in hand draws 2 cards.',
+      'Lose 2 MC for each tile on Mars you own WITHOUT excavation markers (max 5) minus influence.',
       revealedDelegate: PartyName.SCIENTISTS,
       currentDelegate: PartyName.MARS,
       renderData: RENDER_DATA,

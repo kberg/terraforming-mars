@@ -7,10 +7,11 @@
 //
 // So instead when annotating card items, {played: true} can be reduced to {played}.
 
-export const all = true;
-export const clone = true;
-export const digit = true;
-export const played = true;
-export const multiplier = true;
-export const max = true;
-export const nextTo = true;
+export const all = true as const;
+export const clone = true as const;
+export const digit = true as const;
+export const played = true as const;
+export const multiplier = true as const;
+export const max = true as const;
+export const nextTo = true as const;
+export const cancelled = true as const;
