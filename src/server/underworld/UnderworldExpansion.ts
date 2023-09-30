@@ -73,6 +73,8 @@ export class UnderworldExpansion {
     ignorePlacementRestrictions: boolean = false,
   ) {
     const board = player.game.board;
+
+    // Compute any space that any player can excavate.
     const anyExcavatableSpaces = board.spaces.filter((space) => {
       if (space.excavator !== undefined) {
         return false;
@@ -84,6 +86,7 @@ export class UnderworldExpansion {
       return anyExcavatableSpaces;
     }
 
+    // Filter out the set of excavatable spaces that other players control.
     const commonExcavatableSpaces = anyExcavatableSpaces.filter((space) => {
       return !Board.isCitySpace(space) || space.player === player;
     });
