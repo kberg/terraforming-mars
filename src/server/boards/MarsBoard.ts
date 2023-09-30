@@ -105,6 +105,24 @@ export class MarsBoard extends Board {
       );
   }
 
+  public edges(): ReadonlyArray<Space> {
+    return this.spaces.filter((space) => {
+      if (space.y === 0 || space.y === 8 || space.x === 8) {
+        return true;
+      }
+      // left side is tricky.
+      // top-left is easy with math. Look at the map.
+      if (space.y + space.x === 4) {
+        return true;
+      }
+      // bottom-left is also easy with math. Look at the map.
+      if (space.y - space.x === 4) {
+        return true;
+      }
+      return false;
+    });
+  }
+
   public getAvailableIsolatedSpaces(player: IPlayer, canAffordOptions?: CanAffordOptions): ReadonlyArray<Space> {
     return this.getAvailableSpacesOnLand(player, canAffordOptions)
       .filter((space: Space) => this.getAdjacentSpaces(space).every((space) => space.tile === undefined));
