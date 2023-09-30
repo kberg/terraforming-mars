@@ -3,7 +3,7 @@ import {IPlayer} from '../IPlayer';
 import {Space} from '../boards/Space';
 import {UnderworldData, UnderworldPlayerData} from './UnderworldData';
 import {Random} from '../../common/utils/Random';
-import {ExcavationToken} from '../../common/underworld/ExcavationToken';
+import {UndergroundResourceToken} from '../../common/underworld/UndergroundResourceToken';
 import {inplaceShuffle} from '../utils/shuffle';
 import {Resource} from '../../common/Resource';
 import {AddResourcesToCard} from '../deferredActions/AddResourcesToCard';
@@ -117,7 +117,7 @@ export class UnderworldExpansion {
     player.tableau.forEach((card) => card.onExcavation?.(player, space));
   }
 
-  public static grant(player: IPlayer, reward: ExcavationToken): void {
+  public static grant(player: IPlayer, reward: UndergroundResourceToken): void {
     const game = player.game;
 
     switch (reward) {
@@ -268,18 +268,21 @@ export class UnderworldExpansion {
     game.log('All unidentified underground resources have been shuffled back into the pile.');
   }
 
-  static addTokens(game: IGame, tokens: Array<ExcavationToken>) {
+  static addTokens(game: IGame, tokens: Array<UndergroundResourceToken>) {
     if (game.underworldData === undefined) {
       return;
     }
     game.underworldData.tokens.push(...tokens);
     inplaceShuffle(game.underworldData.tokens, game.rng);
   }
+  static excavationMarkerCount(player: IPlayer): number {
+    return player.game.board.spaces.filter((space) => space.excavator === player).length;
+  }
 }
 
-function allTokens(): Array<ExcavationToken> {
-  const tokens: Array<ExcavationToken> = [];
-  function add(count: number, token: ExcavationToken) {
+function allTokens(): Array<UndergroundResourceToken> {
+  const tokens: Array<UndergroundResourceToken> = [];
+  function add(count: number, token: UndergroundResourceToken) {
     for (let idx = 0; idx < count; idx++) {
       tokens.push(token);
     }

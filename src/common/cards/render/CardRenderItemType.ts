@@ -95,4 +95,5 @@ export enum CardRenderItemType {
   IDENTIFY = 'identify',
   EXCAVATE = 'excavate',
   CORRUPTION = 'corruption',
+  NEUTRAL_DELEGATE = 'neutral-delegate',
 }

@@ -264,6 +264,11 @@ abstract class Builder<T> {
     return this._appendToRow(new CardRenderItem(CardRenderItemType.DELEGATES, amount, options));
   }
 
+  // Underworld
+  public neutralDelegate(amount: number, options?: ItemOptions) {
+    return this._appendToRow(new CardRenderItem(CardRenderItemType.NEUTRAL_DELEGATE, amount, options));
+  }
+
   public partyLeaders(amount: number = -1) {
     return this._appendToRow(new CardRenderItem(CardRenderItemType.PARTY_LEADERS, amount));
   }

@@ -1,5 +1,6 @@
 import {BaseMilestone} from '../IMilestone';
 import {IPlayer} from '../../IPlayer';
+import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
 
 export class Tunneler extends BaseMilestone {
   constructor() {
@@ -10,6 +11,6 @@ export class Tunneler extends BaseMilestone {
   }
 
   public getScore(player: IPlayer): number {
-    return player.underworldData.excavationTiles;
+    return UnderworldExpansion.excavationMarkerCount(player);
   }
 }

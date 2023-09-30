@@ -8,7 +8,7 @@ import {ActionCard} from '../ActionCard';
 import {CardResource} from '../../../common/CardResource';
 import {digit} from '../Options';
 import {ICard} from '../ICard';
-import {ExcavationToken} from '../../../common/underworld/ExcavationToken';
+import {UndergroundResourceToken} from '../../../common/underworld/UndergroundResourceToken';
 import {UnderworldExpansion} from '../../../server/underworld/UnderworldExpansion';
 
 export class Keplertec extends ActionCard implements ICorporationCard {
@@ -56,7 +56,7 @@ export class Keplertec extends ActionCard implements ICorporationCard {
     if (game.underworldData === undefined) {
       return;
     }
-    const tokens: Array<ExcavationToken> = [];
+    const tokens: Array<UndergroundResourceToken> = [];
     for (let i = 0; i < 4; i++) {
       const token = game.underworldData?.tokens.pop();
       if (token === undefined) {

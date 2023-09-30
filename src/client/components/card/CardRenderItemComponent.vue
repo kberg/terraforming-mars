@@ -305,6 +305,9 @@ export default Vue.extend({
       case CardRenderItemType.CORRUPTION:
         classes.push('card-resource', 'card-resource-corruption');
         break;
+      case CardRenderItemType.NEUTRAL_DELEGATE:
+        classes.push('card-neutral-delegate');
+        break;
       }
 
       if (this.item.secondaryTag === AltSecondaryTag.NO_PLANETARY_TAG) {

@@ -4,7 +4,7 @@ import {Tile} from '../Tile';
 import {AdjacencyBonus} from '../ares/AdjacencyBonus';
 import {SpaceId} from '../../common/Types';
 import {IPlayer} from '../IPlayer';
-import {ExcavationToken} from '../../common/underworld/ExcavationToken';
+import {UndergroundResourceToken} from '../../common/underworld/UndergroundResourceToken';
 
 export type Space = {
     id: SpaceId;
@@ -15,7 +15,7 @@ export type Space = {
     adjacency?: AdjacencyBonus,
     x: number;
     y: number;
-    undergroundResources?: ExcavationToken;
+    undergroundResources?: UndergroundResourceToken;
     excavator?: IPlayer;
 }
 

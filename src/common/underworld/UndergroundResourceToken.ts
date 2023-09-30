@@ -1,5 +1,4 @@
-// Rename to UndergroundResourceToken
-export type ExcavationToken =
+export type UndergroundResourceToken =
   'nothing' |
   'card1' | 'card2' |
   'corruption1' | 'corruption2' |

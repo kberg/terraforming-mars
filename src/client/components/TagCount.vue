@@ -16,7 +16,7 @@ export default Vue.extend({
   name: 'tag-count',
   props: {
     tag: {
-      type: String as () => CardTag|SpecialTags|'escape',
+      type: String as () => CardTag | SpecialTags | 'escape',
     },
     count: {
       type: Number,

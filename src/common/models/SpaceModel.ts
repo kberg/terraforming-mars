@@ -3,7 +3,7 @@ import {TileType} from '../TileType';
 import {SpaceBonus} from '../boards/SpaceBonus';
 import {SpaceType} from '../boards/SpaceType';
 import {SpaceId} from '../Types';
-import {ExcavationToken} from '../underworld/ExcavationToken';
+import {UndergroundResourceToken} from '../underworld/UndergroundResourceToken';
 
 export type SpaceHighlight = undefined | 'noctis' | 'volcanic';
 
@@ -21,6 +21,6 @@ export type SpaceModel = {
   gagarin?: number; // 0 means current
   cathedral?: true; // Absent or true
   nomads?: true; // Absent or true
-  undergroundResources?: ExcavationToken;
+  undergroundResources?: UndergroundResourceToken;
   excavator?: Color;
 }
