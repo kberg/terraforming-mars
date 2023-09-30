@@ -30,6 +30,7 @@ import {SelectResources} from '../inputs/SelectResources';
 import {IdentifySpacesDeferred} from '../underworld/IdentifySpacesDeferred';
 import {ExcavateSpacesDeferred} from '../underworld/ExcavateSpacesDeferred';
 import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
+import {RemoveResourcesFromCard} from '../deferredActions/RemoveResourcesFromCard';
 
 export class Executor implements BehaviorExecutor {
   public canExecute(behavior: Behavior, player: IPlayer, card: ICard, canAffordOptions?: CanAffordOptions) {
@@ -93,6 +94,9 @@ export class Executor implements BehaviorExecutor {
         }
       }
       if (spend.resourcesHere && card.resourceCount < spend.resourcesHere) {
+        return false;
+      }
+      if (spend.resourceFromAnyCard && player.getCardsWithResources(spend.resourceFromAnyCard.type).length === 0) {
         return false;
       }
       if (spend.corruption && player.underworldData.corruption < spend.corruption) {
@@ -258,6 +262,10 @@ export class Executor implements BehaviorExecutor {
       if (spend.resourcesHere) {
         player.removeResourceFrom(card, spend.resourcesHere);
       }
+      if (spend.resourceFromAnyCard) {
+        player.game.defer(new RemoveResourcesFromCard(player, spend.resourceFromAnyCard.type, 1, {ownCardsOnly: true, blockable: false}));
+      }
+
       if (spend.corruption) {
         UnderworldExpansion.loseCorruption(player, spend.corruption);
       }

@@ -933,7 +933,7 @@ export enum CardName {
     VOLUNTEER_MINING_INITITIVE = 'Volunteer Mining Inititive',
     NANOFOUNDRY = 'Nanofoundry',
     BATTERY_FACTORY = 'Battery Factory',
-    VOLTAIC_METTALURGY = 'Voltaic Mettalurgy',
+    VOLTAIC_METALLURGY = 'Voltaic Metallurgy',
     PUBLIC_SPACELINE = 'Public Spaceline',
     MARTIAN_EXPRESS = 'Martian Express',
     EXPEDITION_VEHICLES = 'Expedition Vehicles',

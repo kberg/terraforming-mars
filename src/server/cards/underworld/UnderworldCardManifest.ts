@@ -6,7 +6,7 @@ import {AntiTrustCrackdown} from './AntiTrustCrackdown';
 // import {AnubisSecurities} from './AnubisSecurities';
 import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
-// import {ArtesianAquifer} from './ArtesianAquifer';
+import {ArtesianAquifer} from './ArtesianAquifer';
 import {BatteryFactory} from './BatteryFactory';
 import {BatteryShipment} from './BatteryShipment';
 import {BehemothExcavator} from './BehemothExcavator';
@@ -26,7 +26,7 @@ import {CutThroatBudgeting} from './CutThroatBudgeting';
 import {Deepnuking} from './Deepnuking';
 import {DeepwaterDome} from './DeepwaterDome';
 // import {DemetronLabs} from './DemetronLabs';
-// import {EarthquakeMachine} from './EarthquakeMachine';
+import {EarthquakeMachine} from './EarthquakeMachine';
 import {ElectionSponsorship} from './ElectionSponsorship';
 import {ExcavateStandardProject} from './ExcavateStandardProject';
 import {ExcavatorLeasing} from './ExcavatorLeasing';
@@ -53,7 +53,7 @@ import {HenkeiGenetics} from './HenkeiGenetics';
 import {HiredRaiders} from './HiredRaiders';
 import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
 import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
-// import {InducedTremor} from './InducedTremor';
+import {InducedTremor} from './InducedTremor';
 import {InfrastructureOverload} from './InfrastructureOverload';
 import {InheritedFortune} from './InheritedFortune';
 // import {IntellectualPropertyTheft} from './IntellectualPropertyTheft';
@@ -69,7 +69,7 @@ import {LobbyingNetwork} from './LobbyingNetwork';
 // import {MartianExpress} from './MartianExpress';
 // import {MediaFrenzy} from './MediaFrenzy';
 // import {MercenaryAssault} from './MercenaryAssault';
-// import {MicroGeodesics} from './MicroGeodesics';
+import {MicroGeodesics} from './MicroGeodesics';
 import {Microgravimetry} from './Microgravimetry';
 import {MicroprobingTechnology} from './MicroprobingTechnology';
 import {MiningMarketInsider} from './MiningMarketInsider';
@@ -120,7 +120,7 @@ import {UndergroundSettlement} from './UndergroundSettlement';
 // import {UndergroundShelters} from './UndergroundShelters';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 import {Voltagon} from './Voltagon';
-// import {VoltaicMettalurgy} from './VoltaicMettalurgy';
+import {VoltaicMetallurgy} from './VoltaicMetallurgy';
 import {VolunteerMiningInititive} from './VolunteerMiningInititive';
 // import {Whales} from './Whales';
 
@@ -188,11 +188,11 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.STAR_VEGAS]: {Factory: StarVegas}, // Invalidates placing tiles in other places in space.
     [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
     // 55-63
-    // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine}, // I'll get to this one.
-    // [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
+    [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
+    [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
     // [CardName.NEUTRINOGRAPH]: {Factory: Neutrinograph},
     [CardName.SOIL_EXPORT]: {Factory: SoilExport},
-    // [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer}, // yeah I should do this.
+    [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer},
     [CardName.CHEMICAL_FACTORY]: {Factory: ChemicalFactory},
     // [CardName.CORPORATE_THEFT]: {Factory: CorporateTheft}, // Tricky resource stuff and tricky corruption stuff.
     // [CardName.UNDERGROUND_RESEARCH_CENTER]: {Factory: UndergroundResearchCenter}, // I want to take time to think about the tag rule.
@@ -204,14 +204,14 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.PLANT_TAX]: {Factory: PlantTax}, // Don't feel like dealing with corruption.
     [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
-    // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor}, // Not bad, just code.
+    [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
     // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters}, // Special VP rules. Not hard, just extra renderingr work.
     // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
     [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
-    // [CardName.VOLTAIC_METTALURGY]: {Factory: VoltaicMettalurgy}, // Simple code
+    [CardName.VOLTAIC_METALLURGY]: {Factory: VoltaicMetallurgy},
     // [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline}, // Want to think about it.
     // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress}, // Special annoying resource rules.
     [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},

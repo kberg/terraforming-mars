@@ -21,8 +21,13 @@ export type OneOfType<Obj> = ValueOf<OneOfByKey<Obj>>;
 
 
 export interface Spend extends Units {
-  /** units or a number of resources from the card. */
+  /** number of resources from this card card. */
   resourcesHere: number,
+
+  /** 1 resource of a type from any card. */
+  resourceFromAnyCard: {
+    type: CardResource,
+  },
   /** corruption from your personal supply. */
   corruption: number,
 }
