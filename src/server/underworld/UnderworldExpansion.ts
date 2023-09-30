@@ -83,11 +83,8 @@ export class UnderworldExpansion {
     };
   }
 
-  public static identifyableSpaces(player: IPlayer): ReadonlyArray<Space> {
-    const board = player.game.board;
-    return board.spaces.filter(
-      (space) => space.undergroundResources === undefined,
-    );
+  public static identifyableSpaces(game: IGame): ReadonlyArray<Space> {
+    return game.board.spaces.filter((space) => space.undergroundResources === undefined);
   }
 
   public static identifiedSpaces(game: IGame): ReadonlyArray<Space> {

@@ -70,7 +70,7 @@ import {LobbyingNetwork} from './LobbyingNetwork';
 // import {MediaFrenzy} from './MediaFrenzy';
 // import {MercenaryAssault} from './MercenaryAssault';
 // import {MicroGeodesics} from './MicroGeodesics';
-// import {Microgravimetry} from './Microgravimetry';
+import {Microgravimetry} from './Microgravimetry';
 import {MicroprobingTechnology} from './MicroprobingTechnology';
 import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
@@ -173,7 +173,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
     [CardName.SCAPEGOAT]: {Factory: Scapegoat},
     // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces}, // ANOTHER card payment thing.
-    // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry}, // Not that hard
+    [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony}, // Special token
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
@@ -232,8 +232,8 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.STANDARD_TECHNOLOGY]: {Factory: StandardTechnology}, // Tracking standard projects during a generation.
     [CardName.HACKERS_UNDERWORLD]: {Factory: Hackers},
     [CardName.HIRED_RAIDERS_UNDERWORLD]: {Factory: HiredRaiders},
-
   },
+
   cardsToRemove: [
     // CardName.STANDARD_TECHNOLOGY,
     CardName.HACKERS,
