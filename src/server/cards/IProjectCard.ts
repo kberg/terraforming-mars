@@ -16,18 +16,28 @@ export interface IProjectCard extends ICard {
   canPlay(player: IPlayer, canAffordOptions?: CanAffordOptions): CanPlayResponse;
   cost: number;
 
-  // This field serves two purposes:
-  // It's used by Robotic Workforce to track production bonuses that are game-specific
-  // (Mining Rights, Mining Area, their Ares equivalents, and Pathfinders' Specialized Settlement all apply.)
-  //
-  // It's also used when rendering the card to indicate which production bonus it might have received, as
-  // a visual cue for someone playing Robotic Workforce.
+  /**
+   * Represents the bonus resource granted by this card, but only under limited circimstances.
+   *
+   * This attribute applies to cards where the player chooses a resource which needs to
+   * be recalled later (at this point only for Robotic Workforce) as it applies to Mining Rights,
+   * Mining Area, and Pathfinders' Specialized Settlement, for instance.
+   *
+   * It also provides a visual cue to indicate which production bonus the player might have have,
+   * for the person playing Robotic Workforce.
+   */
   bonusResource?: Array<Resource>;
 
-  // Represents resources held in reserve when paying for a card.
-  // Cards that require a unit of steel while playing, for instance.
-  // Added for the expansion The Moon.
+  /**
+   * The resources held in reserve when paying for a card.
+   *
+   * Cards that require a unit of steel while playing, for instance. Added for the expansion
+   * The Moon but is used elsewhere.
+   */
   reserveUnits?: Units;
+
+  /** The generation the card was activated. Used for Duncan and Underworld cards. */
+  generationUsed?: number;
 }
 
 export function isIProjectCard(card: ICard): card is IProjectCard {

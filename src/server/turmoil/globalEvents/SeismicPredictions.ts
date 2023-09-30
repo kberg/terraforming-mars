@@ -28,7 +28,7 @@ export class SeismicPredictions extends GlobalEvent implements IGlobalEvent {
     });
   }
   public resolve(game: IGame, turmoil: Turmoil) {
-    UnderworldExpansion.removeAllUnclaimedMarkers(game);
+    UnderworldExpansion.removeAllUnclaimedTokens(game);
 
     game.getPlayersInGenerationOrder().forEach((player) => {
       const playerSpaces = player.game.board.spaces.filter((space) => {

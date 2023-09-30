@@ -162,7 +162,7 @@ export class Stock {
 
 
   /**
-   * `from` steals up to `qty` units of `resource` from this player. Or, at least as
+   * `thief` steals up to `qty` units of `resource` from this player. Or, at least as
    * much as possible.
    */
   public steal(resource: Resource, qty: number, thief: IPlayer) {
