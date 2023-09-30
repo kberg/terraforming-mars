@@ -308,6 +308,9 @@ export default Vue.extend({
       case CardRenderItemType.NEUTRAL_DELEGATE:
         classes.push('card-neutral-delegate');
         break;
+      case CardRenderItemType.UNDERGROUND_RESOURCES:
+        classes.push('card-underground-resources');
+        break;
       }
 
       if (this.item.secondaryTag === AltSecondaryTag.NO_PLANETARY_TAG) {
@@ -467,6 +470,9 @@ export default Vue.extend({
       }
       if (this.item.type === CardRenderItemType.WILD && this.item.cancelled === true) {
         result = '<div class="card-x">✕</div>';
+      }
+      if (this.item.type === CardRenderItemType.UNDERGROUND_RESOURCES && this.item.cancelled === true) {
+        result = '<div class="card-x">X</div>';
       }
 
       return result;

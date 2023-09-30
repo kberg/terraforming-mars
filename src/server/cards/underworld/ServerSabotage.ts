@@ -8,7 +8,7 @@ import {Card} from '../Card';
 import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 import {CardResource} from '../../../common/CardResource';
 import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
-
+import {cancelled} from '../Options';
 export class ServerSabotage extends Card implements IProjectCard {
   constructor() {
     super({
@@ -24,7 +24,7 @@ export class ServerSabotage extends Card implements IProjectCard {
         cardNumber: 'U47',
         renderData: CardRenderer.builder((b) => {
           // TODO(kberg): Use icon.
-          b.corruption(1).data({amount: -2, digit, all}).br.text('Remove unclaimed tokens');
+          b.corruption(1).data({amount: -2, digit, all}).br.text('ALL').undergroundResources(1, {cancelled});
         }),
         description: 'Gain 1 corruption. Remove 2 data from any player. Remove all unclaimed underground resources ' +
           'from the board back into the pile. Their spaces can be identified again.',

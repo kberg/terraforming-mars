@@ -6,10 +6,12 @@ import {IGame} from '../../IGame';
 import {Resource} from '../../../common/Resource';
 import {Turmoil} from '../Turmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
+import {Size} from '../../../common/cards/render/Size';
+import {digit} from '../../cards/Options';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
-  b.text('oof, lots to draw');
-  // b.vSpace(Size.MEDIUM).br.text('9').diverseTag(1).influence({size: Size.SMALL}).colon().megacredits(10);
+  b.megacredits(-1).slash().cards(1, {over: 6}).influence({size: Size.SMALL}).nbsp;
+  b.text('MAX 6').cards(1).colon().cards(2, {digit});
 });
 
 export class FairTradeComplaint extends GlobalEvent implements IGlobalEvent {
@@ -17,7 +19,7 @@ export class FairTradeComplaint extends GlobalEvent implements IGlobalEvent {
     super({
       name: GlobalEventName.FAIR_TRADE_COMPLAINT,
       description: 'Lose 1 MC for each card in hand over 6 cards (no limit.) ' +
-        'Each point of incluence reduce the damage by 2 MC. ' +
+        'Each point of influence reduces the damage by 2 MC. ' +
         'Each player with 6 or fewer cards in hand draws 2 cards.',
       revealedDelegate: PartyName.KELVINISTS,
       currentDelegate: PartyName.UNITY,
