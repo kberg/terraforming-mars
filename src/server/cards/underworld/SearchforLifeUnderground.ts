@@ -11,7 +11,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {max} from '../Options';
 import {IdentifySpacesDeferred} from '../../underworld/IdentifySpacesDeferred';
-import {ExcavationToken} from '../../../common/underworld/ExcavationToken';
+import {UndergroundResourceToken} from '../../../common/underworld/UndergroundResourceToken';
 
 // TODO(kberg): Copies a lot of Search For Life.
 export class SearchforLifeUnderground extends Card implements IActionCard, IProjectCard {
@@ -49,7 +49,7 @@ export class SearchforLifeUnderground extends Card implements IActionCard, IProj
   public canAct(player: IPlayer): boolean {
     return player.canAfford(1);
   }
-  private static microbeResources: ReadonlyArray<ExcavationToken | undefined> = ['microbe1', 'microbe2', 'microbe1pertemp'];
+  private static microbeResources: ReadonlyArray<UndergroundResourceToken | undefined> = ['microbe1', 'microbe2', 'microbe1pertemp'];
   public action(player: IPlayer) {
     player.game.defer(
       new SelectPaymentDeferred(

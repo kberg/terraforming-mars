@@ -7,6 +7,7 @@ import {SelectParty} from '../../inputs/SelectParty';
 import {AndOptions} from '../../inputs/AndOptions';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {SelectAmount} from '../../inputs/SelectAmount';
+import {all} from '../Options';
 
 export class CollusionStandardProject extends StandardProjectCard {
   constructor(properties = {
@@ -18,8 +19,7 @@ export class CollusionStandardProject extends StandardProjectCard {
       renderData: CardRenderer.builder((b) =>
         b.standardProject('Spend 1 corruption to convert 1 or 2 neutral delegates into your own delegates.',
           (eb) => {
-            // TODO(kberg): iconography
-            eb.corruption(1).startAction.text('CONVERT');
+            eb.corruption(1).startAction.text('-2').neutralDelegate(1, {all}).nbsp.text('+2').delegates(1);
           }),
       ),
     },
@@ -33,7 +33,7 @@ export class CollusionStandardProject extends StandardProjectCard {
     }
     const game = player.game;
     const turmoil = Turmoil.getTurmoil(game);
-    if (turmoil.hasDelegatesInReserve(player.id)) {
+    if (!turmoil.hasDelegatesInReserve(player.id)) {
       return false;
     }
     if (this.getParties(turmoil).length === 0) {
@@ -65,17 +65,18 @@ export class CollusionStandardProject extends StandardProjectCard {
       amount: 0,
     };
 
-    const options = new AndOptions(() => {
+    const andOptions = new AndOptions(() => {
       const party = turmoil.getPartyByName(data.partyName);
-      if (party.delegates.get('NEUTRAL') >= data.amount) {
-        throw new Error(`${data.partyName} does not have ${data.amount} delegates.`);
+      const available = party.delegates.get('NEUTRAL');
+      if (available < data.amount) {
+        throw new Error(`${data.partyName} does not have ${data.amount} neutral delegates.`);
       }
       for (let i = 0; i < data.amount; i++) {
         turmoil.replaceDelegateFromParty('NEUTRAL', player.id, data.partyName, game);
       }
 
       player.totalDelegatesPlaced += data.amount;
-      game.log('${0} sent ${1} delegate(s) in ${2} area', (b) =>
+      game.log('${0} replaced ${1} neutral delegate(s) in ${2} area', (b) =>
         b.player(player).number(data.amount).partyName(data.partyName));
       return undefined;
     });
@@ -90,9 +91,9 @@ export class CollusionStandardProject extends StandardProjectCard {
       return undefined;
     });
 
-    options.options.push(selectCount);
-    options.options.push(sendDelegate);
+    andOptions.options.push(selectCount);
+    andOptions.options.push(sendDelegate);
 
-    return sendDelegate;
+    return andOptions;
   }
 }
