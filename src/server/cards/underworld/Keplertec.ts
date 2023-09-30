@@ -54,7 +54,7 @@ export class Keplertec extends ActionCard implements ICorporationCard {
   effect(player: IPlayer) {
     const game = player.game;
     if (game.underworldData === undefined) {
-      return undefined;
+      return;
     }
     const tokens: Array<ExcavationToken> = [];
     for (let i = 0; i < 4; i++) {
@@ -73,10 +73,6 @@ export class Keplertec extends ActionCard implements ICorporationCard {
   }
 
   onResourceAdded(player: IPlayer, _playedCard: ICard, _count: number) {
-    const game = player.game;
-    if (game.underworldData === undefined) {
-      return undefined;
-    }
     // TODO(kberg): address count.
     this.effect(player);
   }
