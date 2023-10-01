@@ -3,10 +3,10 @@ import {ModuleManifest} from '../ModuleManifest';
 
 import {AeronGenomics} from './AeronGenomics';
 import {AntiTrustCrackdown} from './AntiTrustCrackdown';
-// import {AnubisSecurities} from './AnubisSecurities';
+import {AnubisSecurities} from './AnubisSecurities';
 import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
-// import {ArtesianAquifer} from './ArtesianAquifer';
+import {ArtesianAquifer} from './ArtesianAquifer';
 import {BatteryFactory} from './BatteryFactory';
 import {BatteryShipment} from './BatteryShipment';
 import {BehemothExcavator} from './BehemothExcavator';
@@ -26,7 +26,7 @@ import {CutThroatBudgeting} from './CutThroatBudgeting';
 import {Deepnuking} from './Deepnuking';
 import {DeepwaterDome} from './DeepwaterDome';
 // import {DemetronLabs} from './DemetronLabs';
-// import {EarthquakeMachine} from './EarthquakeMachine';
+import {EarthquakeMachine} from './EarthquakeMachine';
 import {ElectionSponsorship} from './ElectionSponsorship';
 import {ExcavateStandardProject} from './ExcavateStandardProject';
 import {ExcavatorLeasing} from './ExcavatorLeasing';
@@ -48,16 +48,16 @@ import {GreyMarketExploitation} from './GreyMarketExploitation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
 import {Hackers} from './Hackers';
 import {Hadesphere} from './Hadesphere';
-// import {HectateSpeditions} from './HectateSpeditions';
+import {HectateSpeditions} from './HectateSpeditions';
 import {HenkeiGenetics} from './HenkeiGenetics';
 import {HiredRaiders} from './HiredRaiders';
 import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
 import {ImportedHeavyMachinery} from './ImportedHeavyMachinery';
-// import {InducedTremor} from './InducedTremor';
+import {InducedTremor} from './InducedTremor';
 import {InfrastructureOverload} from './InfrastructureOverload';
 import {InheritedFortune} from './InheritedFortune';
 // import {IntellectualPropertyTheft} from './IntellectualPropertyTheft';
-// import {InvestigativeJournalism} from './InvestigativeJournalism';
+import {InvestigativeJournalism} from './InvestigativeJournalism';
 import {InvestorPlaza} from './InvestorPlaza';
 import {JensonBoyleCo} from './JensonBoyleCo';
 // import {Keplertec} from './Keplertec';
@@ -69,8 +69,8 @@ import {LobbyingNetwork} from './LobbyingNetwork';
 // import {MartianExpress} from './MartianExpress';
 // import {MediaFrenzy} from './MediaFrenzy';
 // import {MercenaryAssault} from './MercenaryAssault';
-// import {MicroGeodesics} from './MicroGeodesics';
-// import {Microgravimetry} from './Microgravimetry';
+import {MicroGeodesics} from './MicroGeodesics';
+import {Microgravimetry} from './Microgravimetry';
 import {MicroprobingTechnology} from './MicroprobingTechnology';
 import {MiningMarketInsider} from './MiningMarketInsider';
 // import {Monopoly} from './Monopoly';
@@ -90,7 +90,7 @@ import {PrivateInvestigator} from './PrivateInvestigator';
 // import {PrivateMilitaryContractor} from './PrivateMilitaryContractor';
 import {PrivateResorts} from './PrivateResorts';
 import {Prospecting} from './Prospecting';
-// import {PublicSpaceline} from './PublicSpaceline';
+import {PublicSpaceline} from './PublicSpaceline';
 import {RecklessDetonation} from './RecklessDetonation';
 import {ResearchDevelopmentHub} from './ResearchDevelopmentHub';
 import {RobotMoles} from './RobotMoles';
@@ -120,7 +120,7 @@ import {UndergroundSettlement} from './UndergroundSettlement';
 // import {UndergroundShelters} from './UndergroundShelters';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 import {Voltagon} from './Voltagon';
-// import {VoltaicMettalurgy} from './VoltaicMettalurgy';
+import {VoltaicMetallurgy} from './VoltaicMetallurgy';
 import {VolunteerMiningInititive} from './VolunteerMiningInititive';
 // import {Whales} from './Whales';
 
@@ -173,7 +173,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CORPORATE_BLACKMAIL]: {Factory: CorporateBlackmail},
     [CardName.SCAPEGOAT]: {Factory: Scapegoat},
     // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces}, // ANOTHER card payment thing.
-    // [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry}, // Not that hard
+    [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
     // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony}, // Special token
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
@@ -188,11 +188,11 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.STAR_VEGAS]: {Factory: StarVegas}, // Invalidates placing tiles in other places in space.
     [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
     // 55-63
-    // [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine}, // I'll get to this one.
-    // [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
+    [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
+    [CardName.MICRO_GEODESICS]: {Factory: MicroGeodesics},
     // [CardName.NEUTRINOGRAPH]: {Factory: Neutrinograph},
     [CardName.SOIL_EXPORT]: {Factory: SoilExport},
-    // [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer}, // yeah I should do this.
+    [CardName.ARTESIAN_AQUIFER]: {Factory: ArtesianAquifer},
     [CardName.CHEMICAL_FACTORY]: {Factory: ChemicalFactory},
     // [CardName.CORPORATE_THEFT]: {Factory: CorporateTheft}, // Tricky resource stuff and tricky corruption stuff.
     // [CardName.UNDERGROUND_RESEARCH_CENTER]: {Factory: UndergroundResearchCenter}, // I want to take time to think about the tag rule.
@@ -204,15 +204,15 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.PLANT_TAX]: {Factory: PlantTax}, // Don't feel like dealing with corruption.
     [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
-    // [CardName.INDUCED_TREMOR]: {Factory: InducedTremor}, // Not bad, just code.
+    [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
     // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters}, // Special VP rules. Not hard, just extra renderingr work.
     // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
     [CardName.BATTERY_FACTORY]: {Factory: BatteryFactory},
-    // [CardName.VOLTAIC_METTALURGY]: {Factory: VoltaicMettalurgy}, // Simple code
-    // [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline}, // Want to think about it.
+    [CardName.VOLTAIC_METALLURGY]: {Factory: VoltaicMetallurgy},
+    [CardName.PUBLIC_SPACELINE]: {Factory: PublicSpaceline},
     // [CardName.MARTIAN_EXPRESS]: {Factory: MartianExpress}, // Special annoying resource rules.
     [CardName.EXPEDITION_VEHICLES]: {Factory: ExpeditionVehicles},
     [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
@@ -223,7 +223,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
     [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
     // [CardName.MEDIA_FRENZY]: {Factory: MediaFrenzy}, // Scoops is not quite clear yet.
-    // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism}, // Custom resource, not that hard.
+    [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
     // [CardName.WHALES]: {Factory: Whales}, // This is gonna be tricky.
     // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists}, // IP.
     // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts
@@ -232,8 +232,8 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.STANDARD_TECHNOLOGY]: {Factory: StandardTechnology}, // Tracking standard projects during a generation.
     [CardName.HACKERS_UNDERWORLD]: {Factory: Hackers},
     [CardName.HIRED_RAIDERS_UNDERWORLD]: {Factory: HiredRaiders},
-
   },
+
   cardsToRemove: [
     // CardName.STANDARD_TECHNOLOGY,
     CardName.HACKERS,
@@ -251,8 +251,8 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.KEPLERTEC]: {Factory: Keplertec}, // Requires special PlayerInput.
     [CardName.VOLTAGON]: {Factory: Voltagon, compatibility: 'venus'},
     // [CardName.ARES_MEDIA]: {Factory: AresMedia}, // Not another events are up card.
-    // [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities}, // Doable but a lot of work
-    // [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions}, // Doable, not unlike Mind Set Mars
+    [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities},
+    [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions, compatibility: 'colonies'},
   },
 
   preludeCards: {

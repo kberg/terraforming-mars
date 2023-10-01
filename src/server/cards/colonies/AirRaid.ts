@@ -29,6 +29,7 @@ export class AirRaid extends Card implements IProjectCard {
     });
   }
 
+  // TODO(kberg): Use spend.resourceFromAnyCard
   public override bespokeCanPlay(player: IPlayer): boolean {
     return player.getResourceCount(CardResource.FLOATER) > 0;
   }

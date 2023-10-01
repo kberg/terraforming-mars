@@ -40,10 +40,15 @@ export class CorporateBlackmail extends Card implements IProjectCard {
   }
 
   public override bespokeCanPlay(player: IPlayer) {
-    return this.targets(player).length > 0;
+    return player.game.isSoloMode() || this.targets(player).length > 0;
   }
 
   public override bespokePlay(player: IPlayer) {
+    if (player.game.isSoloMode()) {
+      player.stock.add(Resource.MEGACREDITS, 10);
+      player.game.log('${0} blackmailed the neutral player and was paid 10 MC.', (b) => b.player(player));
+      return undefined;
+    }
     function corruptionConsequence(blackmailedPlayer: IPlayer) {
       UnderworldExpansion.loseCorruption(blackmailedPlayer, 2);
       player.game.log('${0} blackmailed ${1} who lost 2 corruption.', (b) => b.player(player).player(blackmailedPlayer));

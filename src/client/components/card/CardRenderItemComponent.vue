@@ -137,6 +137,10 @@ export default Vue.extend({
         break;
       case CardRenderItemType.TRADE_FLEET:
         classes.push('card-resource-trade-fleet');
+        // TODO (chosta): think about an abstraction for item size
+        if (this.item.size === Size.SMALL) {
+          classes.push('card-resource-trade-fleet--S');
+        }
         break;
       case CardRenderItemType.SYNDICATE_FLEET:
         classes.push('card-resource', 'card-resource-syndicate-fleet');
@@ -304,6 +308,21 @@ export default Vue.extend({
         break;
       case CardRenderItemType.CORRUPTION:
         classes.push('card-resource', 'card-resource-corruption');
+        break;
+      case CardRenderItemType.TOOL:
+        classes.push('card-resource', 'card-resource-');
+        break;
+      case CardRenderItemType.WARE:
+        classes.push('card-resource', 'card-resource-ware');
+        break;
+      case CardRenderItemType.SCOOP:
+        classes.push('card-resource', 'card-resource-');
+        break;
+      case CardRenderItemType.JOURNALISM:
+        classes.push('card-resource', 'card-resource-journalism');
+        break;
+      case CardRenderItemType.ACTIVIST:
+        classes.push('card-resource', 'card-resource-activist');
         break;
       case CardRenderItemType.NEUTRAL_DELEGATE:
         classes.push('card-neutral-delegate');

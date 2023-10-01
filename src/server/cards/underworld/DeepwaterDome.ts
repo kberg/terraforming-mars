@@ -62,7 +62,7 @@ export class DeepwaterDome extends PreludeCard {
         (claimedSpace: Space) => {
           claimedSpace.player = player;
           LogHelper.logBoardTileAction(player, claimedSpace, 'land claim');
-          UnderworldExpansion.identify(player.game, claimedSpace);
+          UnderworldExpansion.identify(player.game, claimedSpace, player);
           return undefined;
         },
       );
