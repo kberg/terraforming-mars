@@ -3,7 +3,7 @@ import {ModuleManifest} from '../ModuleManifest';
 
 import {AeronGenomics} from './AeronGenomics';
 import {AntiTrustCrackdown} from './AntiTrustCrackdown';
-// import {AnubisSecurities} from './AnubisSecurities';
+import {AnubisSecurities} from './AnubisSecurities';
 import {ArboristCollective} from './ArboristCollective';
 // import {AresMedia} from './AresMedia';
 import {ArtesianAquifer} from './ArtesianAquifer';
@@ -48,7 +48,7 @@ import {GreyMarketExploitation} from './GreyMarketExploitation';
 // import {GuerillaEcologists} from './GuerillaEcologists';
 import {Hackers} from './Hackers';
 import {Hadesphere} from './Hadesphere';
-// import {HectateSpeditions} from './HectateSpeditions';
+import {HectateSpeditions} from './HectateSpeditions';
 import {HenkeiGenetics} from './HenkeiGenetics';
 import {HiredRaiders} from './HiredRaiders';
 import {HyperspaceDrivePrototype} from './HyperspaceDrivePrototype';
@@ -251,8 +251,8 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.KEPLERTEC]: {Factory: Keplertec}, // Requires special PlayerInput.
     [CardName.VOLTAGON]: {Factory: Voltagon, compatibility: 'venus'},
     // [CardName.ARES_MEDIA]: {Factory: AresMedia}, // Not another events are up card.
-    // [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities}, // Doable but a lot of work
-    // [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions}, // Doable, not unlike Mind Set Mars
+    [CardName.ANUBIS_SECURITIES]: {Factory: AnubisSecurities},
+    [CardName.HECTATE_SPEDITIONS]: {Factory: HectateSpeditions, compatibility: 'colonies'},
   },
 
   preludeCards: {
