@@ -57,7 +57,7 @@ import {InducedTremor} from './InducedTremor';
 import {InfrastructureOverload} from './InfrastructureOverload';
 import {InheritedFortune} from './InheritedFortune';
 // import {IntellectualPropertyTheft} from './IntellectualPropertyTheft';
-// import {InvestigativeJournalism} from './InvestigativeJournalism';
+import {InvestigativeJournalism} from './InvestigativeJournalism';
 import {InvestorPlaza} from './InvestorPlaza';
 import {JensonBoyleCo} from './JensonBoyleCo';
 // import {Keplertec} from './Keplertec';
@@ -223,7 +223,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
     [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
     // [CardName.MEDIA_FRENZY]: {Factory: MediaFrenzy}, // Scoops is not quite clear yet.
-    // [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism}, // Custom resource, not that hard.
+    [CardName.INVESTIGATIVE_JOURNALISM]: {Factory: InvestigativeJournalism},
     // [CardName.WHALES]: {Factory: Whales}, // This is gonna be tricky.
     // [CardName.GUERILLA_ECOLOGISTS]: {Factory: GuerillaEcologists}, // IP.
     // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts

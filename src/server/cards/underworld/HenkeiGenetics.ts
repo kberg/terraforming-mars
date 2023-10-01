@@ -25,7 +25,6 @@ export class HenkeiGenetics extends ActionCard implements IActionCard, ICorporat
       action: {
         spend: {corruption: 1},
         drawCard: {count: 1, resource: CardResource.MICROBE},
-        underworld: {excavate: 1},
       },
 
       metadata: {
@@ -33,7 +32,7 @@ export class HenkeiGenetics extends ActionCard implements IActionCard, ICorporat
         description: 'You start with 47M€ 1 corruption.',
         renderData: CardRenderer.builder((b) => {
           b.megacredits(47).corruption(1).br;
-          b.effect('After you play a microbe card that can hold microbes, 2 to microbes on it.', (eb) => {
+          b.effect('After you play a microbe card that can hold microbes, add 2 to microbes on it.', (eb) => {
             eb.microbes(1, {played}).startEffect.microbes(2);
           }).br;
           b.action('Pay 1 corruption to draw a card with a microbe tag.', (ab) => {

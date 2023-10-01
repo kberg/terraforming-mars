@@ -31,8 +31,7 @@ export class StemFieldSubsidies extends Card implements IProjectCard {
     });
   }
 
-  public override bespokePlay(player: IPlayer) {
-    this.onCardPlayed(player, this);
+  public override bespokePlay() {
     return undefined;
   }
 

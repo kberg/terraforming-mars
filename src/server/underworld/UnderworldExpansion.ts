@@ -3,7 +3,7 @@ import {IPlayer} from '../IPlayer';
 import {Space} from '../boards/Space';
 import {UnderworldData, UnderworldPlayerData} from './UnderworldData';
 import {Random} from '../../common/utils/Random';
-import {UndergroundResourceToken} from '../../common/underworld/UndergroundResourceToken';
+import {UndergroundResourceToken, undergroundResourcerTokenDescription} from '../../common/underworld/UndergroundResourceToken';
 import {inplaceShuffle} from '../utils/shuffle';
 import {Resource} from '../../common/Resource';
 import {AddResourcesToCard} from '../deferredActions/AddResourcesToCard';
@@ -16,6 +16,7 @@ import {PlayerInput} from '../PlayerInput';
 import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {newMessage} from '../logs/MessageBuilder';
+import {LogHelper} from '../LogHelper';
 
 export class UnderworldExpansion {
   private constructor() {}
@@ -93,16 +94,20 @@ export class UnderworldExpansion {
     );
   }
 
-  public static identify(game: IGame, space: Space) {
+  public static identify(game: IGame, space: Space, player?: IPlayer): UndergroundResourceToken {
     if (space.undergroundResources !== undefined) {
-      return;
+      return space.undergroundResources;
     }
-    const token = game.underworldData?.tokens.pop();
-    if (token === undefined) {
+    const undergroundResource = game.underworldData?.tokens.pop();
+    if (undergroundResource === undefined) {
       // TODO(kberg): collect tokens from all players
       throw new Error('Cannot identify excatation space, no available tokens.');
     }
-    space.undergroundResources = token;
+    space.undergroundResources = undergroundResource;
+    if (player !== undefined) {
+      LogHelper.logBoardTileAction(player, space, `(${undergroundResourcerTokenDescription[undergroundResource]})`, 'identified');
+    }
+    return undergroundResource;
   }
 
   public static onIdentification(player: IPlayer, count: number) {
@@ -148,16 +153,16 @@ export class UnderworldExpansion {
   }
 
   public static excavate(player: IPlayer, space: Space) {
-    if (space.undergroundResources === undefined) {
-      this.identify(player.game, space);
-    }
-    this.grant(player, space.undergroundResources ?? 'nothing');
+    const undergroundResource = space.undergroundResources !== undefined ? space.undergroundResources : this.identify(player.game, space, player);
+    this.grant(player, undergroundResource);
+    LogHelper.logBoardTileAction(player, space, `(${undergroundResourcerTokenDescription[undergroundResource]})`, 'excavated');
+
     space.excavator = player;
 
     const game = player.game;
     game.board
       .getAdjacentSpaces(space)
-      .forEach((s) => UnderworldExpansion.identify(game, s));
+      .forEach((s) => UnderworldExpansion.identify(game, s, player));
     const leaser = game.getCardPlayerOrUndefined(CardName.EXCAVATOR_LEASING);
     if (leaser !== undefined) {
       leaser.stock.add(Resource.MEGACREDITS, 1, {log: true});

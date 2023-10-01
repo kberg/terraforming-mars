@@ -305,6 +305,21 @@ export default Vue.extend({
       case CardRenderItemType.CORRUPTION:
         classes.push('card-resource', 'card-resource-corruption');
         break;
+      case CardRenderItemType.TOOL:
+        classes.push('card-resource', 'card-resource-');
+        break;
+      case CardRenderItemType.WARE:
+        classes.push('card-resource', 'card-resource-ware');
+        break;
+      case CardRenderItemType.SCOOP:
+        classes.push('card-resource', 'card-resource-');
+        break;
+      case CardRenderItemType.JOURNALISM:
+        classes.push('card-resource', 'card-resource-journalism');
+        break;
+      case CardRenderItemType.ACTIVIST:
+        classes.push('card-resource', 'card-resource-activist');
+        break;
       case CardRenderItemType.NEUTRAL_DELEGATE:
         classes.push('card-neutral-delegate');
         break;

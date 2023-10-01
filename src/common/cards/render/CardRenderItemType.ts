@@ -97,4 +97,9 @@ export enum CardRenderItemType {
   CORRUPTION = 'corruption',
   NEUTRAL_DELEGATE = 'neutral-delegate',
   UNDERGROUND_RESOURCES = 'underground-resources',
+  TOOL = 'tool',
+  WARE = 'ware',
+  SCOOP = 'scoop',
+  JOURNALISM = 'journalism',
+  ACTIVIST = 'activist',
 }

@@ -17,7 +17,6 @@ export class EarthquakeMachine extends Card implements IProjectCard {
       name: CardName.EARTHQUAKE_MACHINE,
       tags: [Tag.SCIENCE],
       cost: 15,
-      victoryPoints: {resourcesHere: {}, per: 4},
       requirements: {tag: Tag.SCIENCE, count: 2},
 
       behavior: {

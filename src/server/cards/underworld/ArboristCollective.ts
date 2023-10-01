@@ -17,7 +17,7 @@ export class ArboristCollective extends ActionCard implements IActionCard, ICorp
       name: CardName.ARBORIST_COLLECTIVE,
       tags: [Tag.PLANT],
       startingMegaCredits: 36,
-      resourceType: CardResource.CAMP, // TODO(kberg): Replace with Activist token type.
+      resourceType: CardResource.ACTIVIST,
 
       behavior: {
         production: {plants: 1},
@@ -36,10 +36,10 @@ export class ArboristCollective extends ActionCard implements IActionCard, ICorp
         renderData: CardRenderer.builder((b) => {
           b.megacredits(36).plants(3, {digit}).production((pb) => pb.plants(1)).br;
           b.effect('After you play an event card with a base cost of 14 or less, put an activist resource on this card.', (eb) => {
-            eb.text('≤').megacredits(14, {secondaryTag: Tag.EVENT}).startEffect.camps(1);
+            eb.text('≤').megacredits(14, {secondaryTag: Tag.EVENT}).startEffect.activist(1);
           }).br;
           b.action('Spend 2 activists here to increase your plant production 1 step and gain 2 plants.', (ab) => {
-            ab.text('2').camps(1).startAction.plants(2).production((pb) => pb.plants(1));
+            ab.text('2').activist(1).startAction.plants(2).production((pb) => pb.plants(1));
           });
         }),
       },

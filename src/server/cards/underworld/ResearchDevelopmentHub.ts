@@ -26,8 +26,6 @@ export class ResearchDevelopmentHub extends Card implements IProjectCard {
             'At the end of each production phase, ' +
             'add 1 data here for EACH OTHER PLAYER that has 7 or more cards in their hand.',
             (eb) => eb.text('7+').cards(1).asterix().startEffect.data());
-          b.minus().production((pb) => pb.heat(1)).br;
-          b.megacredits(12).asterix().corruption(1).asterix();
         }),
         description: '1 VP for every 3 data resources on this card.',
       },

@@ -31,6 +31,11 @@ const cssClass: Record<CardResource, string> = {
   [CardResource.GRAPHENE]: 'card-resource-graphene',
   [CardResource.HYDROELECTRIC_RESOURCE]: 'card-resource-hydroelectric-resource',
   [CardResource.CLONE_TROOPER]: 'card-resource-clone-trooper',
+  [CardResource.TOOL]: 'card-resource-tool',
+  [CardResource.WARE]: 'card-resource-ware',
+  [CardResource.SCOOP]: 'card-resource-scoop',
+  [CardResource.ACTIVIST]: 'card-resource-activist',
+  [CardResource.JOURNALISM]: 'card-resource-journalism',
 };
 
 export default Vue.extend({

@@ -20,12 +20,17 @@ const RESOURCE_TO_ITEM_TYPE: Record<CardResource, CardRenderItemType | undefined
   [CardResource.SPECIALIZED_ROBOT]: CardRenderItemType.SPECIALIZED_ROBOT,
   [CardResource.HYDROELECTRIC_RESOURCE]: CardRenderItemType.HYDROELECTRIC_RESOURCE,
   [CardResource.CLONE_TROOPER]: CardRenderItemType.CLONE_TROOPER,
+  [CardResource.JOURNALISM]: CardRenderItemType.JOURNALISM,
   [CardResource.DISEASE]: undefined,
   [CardResource.SYNDICATE_FLEET]: undefined,
   [CardResource.SEED]: undefined,
   [CardResource.AGENDA]: undefined,
   [CardResource.ORBITAL]: undefined,
   [CardResource.GRAPHENE]: undefined,
+  [CardResource.TOOL]: undefined,
+  [CardResource.WARE]: undefined,
+  [CardResource.SCOOP]: undefined,
+  [CardResource.ACTIVIST]: undefined,
 };
 
 const TAG_TO_ITEM_TYPE = new Map<Tag, CardRenderItemType>([

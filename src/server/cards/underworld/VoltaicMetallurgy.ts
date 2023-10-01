@@ -24,7 +24,7 @@ export class VoltaicMetallurgy extends Card implements IProjectCard, IActionCard
         cardNumber: 'U76',
         renderData: CardRenderer.builder((b) => {
           b.action('Spend any number of steel to gain the same amount of titanium (max is the number of power tags you have.)', (ab) => {
-            ab.text('X').steel(1, {secondaryTag: Tag.POWER}).startAction.text('X').titanium(1).br;
+            ab.text('X').steel(1, {secondaryTag: Tag.POWER}).startAction.text('X').titanium(1);
           });
         }),
         description: 'Requires 1 science tag.',
