@@ -137,6 +137,10 @@ export default Vue.extend({
         break;
       case CardRenderItemType.TRADE_FLEET:
         classes.push('card-resource-trade-fleet');
+        // TODO (chosta): think about an abstraction for item size
+        if (this.item.size === Size.SMALL) {
+          classes.push('card-resource-trade-fleet--S');
+        }
         break;
       case CardRenderItemType.SYNDICATE_FLEET:
         classes.push('card-resource', 'card-resource-syndicate-fleet');

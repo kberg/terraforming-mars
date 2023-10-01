@@ -8,6 +8,7 @@ import {Card} from '../Card';
 import {PlayProjectCard} from '../../deferredActions/PlayProjectCard';
 import {Resource} from '../../../common/Resource';
 import {all} from '../Options';
+import {Size} from '../../../common/cards/render/Size';
 
 export class AnubisSecurities extends Card implements ICorporationCard {
   constructor() {
@@ -26,7 +27,7 @@ export class AnubisSecurities extends Card implements ICorporationCard {
             eb.tr(1, {all}).startEffect.megacredits(2, {all});
           }).br;
           b.text('-X').corruption(1).text('X').megacredits(6).asterix().br;
-          b.text('Y').corruption(1, {all}).colon().text('PAYS Y').megacredits(1).or().tr(1).asterix().br;
+          b.text('Y').corruption(1, {all}).colon().text('PAYS').text('Y').megacredits(1).or().tr(1, {size: Size.SMALL}).asterix().br;
           b.plainText('(At the end of the production phase, discard all your corruption and gain 6MC for each unit discarded. ' +
             'Then, each player must pay you 1 MC per unit of corruption they have. If no one has any, gain 1 TR instead.)').br;
         }),

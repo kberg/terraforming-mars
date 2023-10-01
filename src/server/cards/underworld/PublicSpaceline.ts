@@ -23,7 +23,8 @@ export class PublicSpaceline extends Card implements IProjectCard {
         cardNumber: 'U77',
         renderData: CardRenderer.builder((b) => {
           b.production((pb) => pb.megacredits(2)).br;
-          b.earth(1, {played}).earth(1, {played}).jovian().jovian().venus(1, {played}).venus(1, {played}).mars(1, {played}).mars(1, {played});
+          b.earth(1, {played}).earth(1, {played}).jovian().jovian().br;
+          b.venus(1, {played}).venus(1, {played}).mars(1, {played}).mars(1, {played});
         }),
         description: 'Requires 5 space stags. This card has 2 Earth tags, 2 Jovian tags, 2 Venus tags, and 2 Mars tags.',
       },
