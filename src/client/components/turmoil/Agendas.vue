@@ -186,6 +186,8 @@
 
 import Vue from 'vue';
 
+// TODO(kberg): move PolicyId and AgendaId to common.
+// TODO(kberg): Rename to Agenda.vue
 export default Vue.extend({
   name: 'agenda',
   props: {

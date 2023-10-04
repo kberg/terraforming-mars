@@ -141,6 +141,51 @@
         </template>
       </section>
 
+      <section>
+         <h2 v-i18n>Turmoil Agendas and Policies</h2>
+        <template v-if="types.awards">
+          <div class="player_home_colony_cont">
+            <agenda :id='"gb01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"gb02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"gp01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"gp02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"gp03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"gp04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kb01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kb02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kp01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kp02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kp03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"kp04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mb01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mb02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mb03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mb04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mfp01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mfp02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mfp03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"mfp04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rb01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rb02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rp01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rp02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rp03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"rp04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sb01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sb02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sp01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sp02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sp03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"sp04"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"ub01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"ub02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"up01"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"up02"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"up03"' :type="'dominant-bonus'"></agenda>
+            <agenda :id='"up04"' :type="'dominant-bonus'"></agenda>
+          </div>
+        </template>
+      </section>
       <div class="free-floating-preferences-icon">
         <preferences-icon></preferences-icon>
       </div>
@@ -163,6 +208,7 @@ import Colony from '@/client/components/colonies/Colony.vue';
 import {COMMUNITY_COLONY_NAMES, OFFICIAL_COLONY_NAMES, PATHFINDERS_COLONY_NAMES} from '@/common/colonies/AllColonies';
 import {ColonyModel} from '@/common/models/ColonyModel';
 import {ColonyName} from '@/common/colonies/ColonyName';
+import Agenda from '@/client/components/turmoil/Agendas.vue';
 import PreferencesIcon from '@/client/components/PreferencesIcon.vue';
 import {GameModule, GAME_MODULES, MODULE_NAMES} from '@/common/cards/GameModule';
 import {Tag} from '@/common/cards/Tag';
@@ -292,6 +338,7 @@ export default (Vue as WithRefs<Refs>).extend({
     Colony,
     Milestone,
     Award,
+    Agenda,
     PreferencesIcon,
   },
   data(): DebugUIModel {
