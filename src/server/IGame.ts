@@ -16,7 +16,7 @@ import {IPlayer} from './IPlayer';
 import {PlayerId, GameId, SpectatorId, SpaceId, isGameId} from '../common/Types';
 import {CardResource} from '../common/CardResource';
 import {Resource} from '../common/Resource';
-import {DeferredAction, Priority} from './deferredActions/DeferredAction';
+import {AndThen, DeferredAction, Priority} from './deferredActions/DeferredAction';
 import {DeferredActionsQueue} from './deferredActions/DeferredActionsQueue';
 import {SerializedGame} from './SerializedGame';
 import {SpaceBonus} from '../common/boards/SpaceBonus';
@@ -31,6 +31,7 @@ import {CorporationDeck, PreludeDeck, ProjectDeck, CeoDeck} from './cards/Deck';
 import {Tag} from '../common/cards/Tag';
 import {Tile} from './Tile';
 import {Logger} from './logs/Logger';
+import {GlobalParameter} from '../common/GlobalParameter';
 import {UnderworldData} from './underworld/UnderworldData';
 
 export interface Score {
@@ -52,6 +53,7 @@ export interface IGame extends Logger {
   inputsThisRound: number;
   resettable: boolean;
   generation: number;
+  globalsPerGeneration: Array<Partial<Record<GlobalParameter, number>>>;
   phase: Phase;
   projectDeck: ProjectDeck;
   preludeDeck: PreludeDeck;
@@ -103,7 +105,7 @@ export interface IGame extends Logger {
   // Return an array of players from an array of player ids
   // TODO(kberg): remove this.
   getPlayersById(ids: Array<PlayerId>): Array<IPlayer>;
-  defer(action: DeferredAction<any>, priority?: Priority): void;
+  defer<T>(action: DeferredAction<T>, priority?: Priority): AndThen<T>;
   milestoneClaimed(milestone: IMilestone): boolean;
   marsIsTerraformed(): boolean;
   lastSoloGeneration(): number;

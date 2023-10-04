@@ -10,6 +10,7 @@ import {IPlayer} from '../../IPlayer';
 import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred';
 import {SelectPlayer} from '../../inputs/SelectPlayer';
 import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
+import {TITLES} from '../../inputs/titles';
 
 export class InvestigativeJournalism extends Card implements IProjectCard, IActionCard {
   constructor() {
@@ -42,9 +43,8 @@ export class InvestigativeJournalism extends Card implements IProjectCard, IActi
   }
 
   public action(player: IPlayer) {
-    player.game.defer(new SelectPaymentDeferred(player, 5, {
-      title: 'Select how to pay for action',
-      afterPay: () => {
+    player.game.defer(new SelectPaymentDeferred(player, 5, {title: TITLES.payForCardAction(this.name)}))
+      .andThen(() => {
         const moreCorruptPlayers = player.game.getPlayers().filter((p) => p.underworldData.corruption > player.underworldData.corruption);
         return new SelectPlayer(moreCorruptPlayers, 'Select player to lose 1 corruption', 'Select player',
           (target) => {
@@ -52,8 +52,7 @@ export class InvestigativeJournalism extends Card implements IProjectCard, IActi
             player.addResourceTo(this, 1);
             return undefined;
           });
-      },
-    }));
+      });
     return undefined;
   }
 }
