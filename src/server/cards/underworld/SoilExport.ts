@@ -17,8 +17,12 @@ export class SoilExport extends Card implements IProjectCard {
       victoryPoints: -1,
 
       behavior: {
-        underworld: {excavate: 1},
+        underworld: {
+          excavate: 1,
+          markThisGeneration: {},
+        },
       },
+
 
       metadata: {
         cardNumber: 'U58',
@@ -33,11 +37,6 @@ export class SoilExport extends Card implements IProjectCard {
   }
 
   public generationUsed: number = -1;
-
-  public override bespokePlay(player: IPlayer) {
-    this.generationUsed = player.game.generation;
-    return undefined;
-  }
 
   public onProductionPhase(player: IPlayer) {
     if (this.generationUsed === player.game.generation) {

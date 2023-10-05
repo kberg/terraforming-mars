@@ -20,6 +20,7 @@ export class PrivateResorts extends Card implements IProjectCard {
 
       behavior: {
         production: {heat: -1},
+        underworld: {markThisGeneration: {}},
       },
 
       metadata: {
@@ -35,11 +36,6 @@ export class PrivateResorts extends Card implements IProjectCard {
   }
 
   public generationUsed: number = -1;
-
-  public override bespokePlay(player: IPlayer) {
-    this.generationUsed = player.game.generation;
-    return undefined;
-  }
 
   public onProductionPhase(player: IPlayer) {
     if (this.generationUsed === player.game.generation) {

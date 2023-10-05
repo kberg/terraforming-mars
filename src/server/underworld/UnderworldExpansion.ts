@@ -140,6 +140,11 @@ export class UnderworldExpansion {
       return anyExcavatableSpaces;
     }
 
+    const concessionRights = player.playedCards.find((card) => card.name === CardName.CONCESSION_RIGHTS);
+    if (concessionRights?.generationUsed === player.game.generation) {
+      return anyExcavatableSpaces;
+    }
+
     // Filter out the set of excavatable spaces that other players control.
     const commonExcavatableSpaces = anyExcavatableSpaces.filter((space) => {
       return !Board.isCitySpace(space) || space.player === player;

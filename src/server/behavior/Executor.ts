@@ -32,6 +32,7 @@ import {IdentifySpacesDeferred} from '../underworld/IdentifySpacesDeferred';
 import {ExcavateSpacesDeferred} from '../underworld/ExcavateSpacesDeferred';
 import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
 import {RemoveResourcesFromCard} from '../deferredActions/RemoveResourcesFromCard';
+import {isIProjectCard} from '../cards/IProjectCard';
 
 export class Executor implements BehaviorExecutor {
   public canExecute(behavior: Behavior, player: IPlayer, card: ICard, canAffordOptions?: CanAffordOptions) {
@@ -488,6 +489,11 @@ export class Executor implements BehaviorExecutor {
       }
       if (underworld.corruption !== undefined) {
         UnderworldExpansion.gainCorruption(player, ctx.count(underworld.corruption), {log: true});
+      }
+      if (underworld.markThisGeneration !== undefined) {
+        if (isIProjectCard(card)) {
+          card.generationUsed = player.game.generation;
+        }
       }
     }
   }

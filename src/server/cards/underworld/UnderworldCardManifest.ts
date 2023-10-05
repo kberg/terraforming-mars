@@ -17,7 +17,7 @@ import {ChemicalFactory} from './ChemicalFactory';
 // import {ClassActionLawsuit} from './ClassActionLawsuit';
 import {CloudVortexOutpost} from './CloudVortexOutpost';
 import {CollusionStandardProject} from './CollusionStandardProject';
-// import {ConcessionRights} from './ConcessionRights';
+import {ConcessionRights} from './ConcessionRights';
 import {CorporateBlackmail} from './CorporateBlackmail';
 // import {CorporateTheft} from './CorporateTheft';
 import {CraterSurvey} from './CraterSurvey';
@@ -162,7 +162,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.DEEPMINING]: {Factory: Deepmining},
     [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
     [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
-    // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights}, // Excavation rule change ntil the end of this generation
+    [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights},
     [CardName.ORBITAL_LASER_DRILL]: {Factory: OrbitalLaserDrill},
     [CardName.GREY_MARKET_EXPLOITATION]: {Factory: GreyMarketExploitation},
     [CardName.EXCAVATOR_LEASING]: {Factory: ExcavatorLeasing},

@@ -3,7 +3,6 @@ import {IProjectCard} from '../IProjectCard';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
-import {IPlayer} from '../../IPlayer';
 
 export class StagedProtests extends Card implements IProjectCard {
   public generationUsed: number = -1;
@@ -17,7 +16,10 @@ export class StagedProtests extends Card implements IProjectCard {
       requirements: {corruption: 1},
 
       behavior: {
-        underworld: {corruption: 1},
+        underworld: {
+          corruption: 1,
+          markThisGeneration: {},
+        },
       },
 
       metadata: {
@@ -28,10 +30,5 @@ export class StagedProtests extends Card implements IProjectCard {
         description: 'Requires 1 corruption. Gain 1 corruption. Until the end fo this generation, milestones and awards cost +8 M€.',
       },
     });
-  }
-
-  public override bespokePlay(player: IPlayer) {
-    this.generationUsed = player.game.generation;
-    return undefined;
   }
 }

@@ -17,6 +17,10 @@ export class PriceWars extends Card implements IProjectCard {
       requirements: {corruption: 2},
       victoryPoints: -1,
 
+      behavior: {
+        underworld: {markThisGeneration: {}},
+      },
+
       metadata: {
         cardNumber: 'U63',
         renderData: CardRenderer.builder((b) => {
@@ -36,7 +40,6 @@ export class PriceWars extends Card implements IProjectCard {
   // TODO(kberg): Make Astra Mechanica, Odyssey and Playwrights compatible.
   // TODO(kberg): log, log, log.
   public override bespokePlay(player: IPlayer) {
-    this.generationUsed = player.game.generation;
     player.increaseSteelValue();
     player.increaseTitaniumValue();
     for (const p of player.game.getPlayersInGenerationOrder()) {

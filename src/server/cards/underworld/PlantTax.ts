@@ -20,6 +20,10 @@ export class PlantTax extends Card implements IProjectCard {
       cost: 7,
       tags: [Tag.MARS],
 
+      behavior: {
+        underworld: {markThisGeneration: {}},
+      },
+
       metadata: {
         cardNumber: 'U67',
         renderData: CardRenderer.builder((b) => {
@@ -31,7 +35,6 @@ export class PlantTax extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    this.generationUsed = player.game.generation;
     const game = player.game;
     game.getPlayers().forEach((p) => {
       player.game.defer(new RemoveResources(player, p, Resource.PLANTS, 2));
