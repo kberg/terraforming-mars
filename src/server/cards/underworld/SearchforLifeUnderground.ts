@@ -12,6 +12,7 @@ import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictory
 import {max} from '../Options';
 import {IdentifySpacesDeferred} from '../../underworld/IdentifySpacesDeferred';
 import {UndergroundResourceToken} from '../../../common/underworld/UndergroundResourceToken';
+import {TITLES} from '../../inputs/titles';
 
 // TODO(kberg): Copies a lot of Search For Life.
 export class SearchforLifeUnderground extends Card implements IActionCard, IProjectCard {
@@ -51,23 +52,17 @@ export class SearchforLifeUnderground extends Card implements IActionCard, IProj
   }
   private static microbeResources: ReadonlyArray<UndergroundResourceToken | undefined> = ['microbe1', 'microbe2', 'microbe1pertemp'];
   public action(player: IPlayer) {
-    player.game.defer(
-      new SelectPaymentDeferred(
-        player,
-        1,
-        {
-          title: 'Select how to pay for action',
-          afterPay: () => {
-            const identify = new IdentifySpacesDeferred(player, 1);
-            player.game.defer(identify);
-            identify.andThen(([space]) => {
-              if (SearchforLifeUnderground.microbeResources.includes(space.undergroundResources)) {
-                player.addResourceTo(this, 1);
-                player.game.log('${0} found life!', (b) => b.player(player));
-              }
-            });
-          },
-        }));
+    player.game.defer(new SelectPaymentDeferred(player, 1, {title: TITLES.payForCardAction(this.name)}))
+      .andThen(() => {
+        const identify = new IdentifySpacesDeferred(player, 1);
+        player.game.defer(identify);
+        identify.andThen(([space]) => {
+          if (SearchforLifeUnderground.microbeResources.includes(space.undergroundResources)) {
+            player.addResourceTo(this, 1);
+            player.game.log('${0} found life!', (b) => b.player(player));
+          }
+        });
+      });
     return undefined;
   }
 }

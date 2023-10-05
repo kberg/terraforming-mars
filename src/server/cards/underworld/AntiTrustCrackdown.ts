@@ -23,7 +23,7 @@ export class AntiTrustCrackdown extends Card implements IProjectCard {
         cardNumber: 'U64',
         renderData: CardRenderer.builder((b) => {
           b.corruption(1).br;
-          b.plainText('Requires that you huave no more than 0 corruption. ALL players lose 2 corruption each.');
+          b.plainText('Requires that you have no more than 0 corruption. ALL players lose 2 corruption each.');
         }),
       },
     });

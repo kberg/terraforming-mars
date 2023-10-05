@@ -10,6 +10,7 @@ import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred
 import {CardRenderer} from '../render/CardRenderer';
 import {CardRenderDynamicVictoryPoints} from '../render/CardRenderDynamicVictoryPoints';
 import {max, played} from '../Options';
+import {TITLES} from '../../inputs/titles';
 
 export class SearchForLife extends Card implements IActionCard, IProjectCard {
   constructor() {
@@ -27,7 +28,7 @@ export class SearchForLife extends Card implements IActionCard, IProjectCard {
         cardNumber: '005',
         description: 'Oxygen must be 6% or less.',
         renderData: CardRenderer.builder((b) => {
-          b.action('Spend 1 M€ to reveal the top card of the draw deck. If that card has a microbe tag, add a science resource here.', (eb) => {
+          b.action('Spend 1 M€ to reveal the top card of t deck. If that card has a microbe tag, add a science resource here.', (eb) => {
             eb.megacredits(1).startAction.microbes(1, {played}).asterix().nbsp.colon().nbsp.science();
           }).br;
           b.vpText('3 VPs if you have one or more science resources here.');
@@ -47,25 +48,17 @@ export class SearchForLife extends Card implements IActionCard, IProjectCard {
     return player.canAfford(1);
   }
   public action(player: IPlayer) {
-    player.game.defer(
-      new SelectPaymentDeferred(
-        player,
-        1,
-        {
-          title: 'Select how to pay for action',
-          afterPay: () => {
-            const topCard = player.game.projectDeck.draw(player.game);
+    player.game.defer(new SelectPaymentDeferred(player, 1, {title: TITLES.payForCardAction(this.name)}))
+      .andThen(() => {
+        const topCard = player.game.projectDeck.draw(player.game);
+        player.game.log('${0} revealed and discarded ${1}', (b) => b.player(player).card(topCard, {tags: true}));
+        if (topCard.tags.includes(Tag.MICROBE)) {
+          player.addResourceTo(this, 1);
+          player.game.log('${0} found life!', (b) => b.player(player));
+        }
 
-            player.game.log('${0} revealed and discarded ${1}', (b) => b.player(player).card(topCard));
-
-            if (topCard.tags.includes(Tag.MICROBE)) {
-              player.addResourceTo(this, 1);
-              player.game.log('${0} found life!', (b) => b.player(player));
-            }
-
-            player.game.projectDeck.discard(topCard);
-          },
-        }));
+        player.game.projectDeck.discard(topCard);
+      });
 
     return undefined;
   }

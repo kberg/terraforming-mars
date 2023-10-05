@@ -4,6 +4,7 @@ import {getPreferences} from '@/client/utils/PreferencesManager';
 import {LogMessageData} from '@/common/logs/LogMessageData';
 import {Log} from '@/common/logs/Log';
 import {PlayerViewModel} from '@/common/models/PlayerModel';
+import {TileType} from '@/common/TileType';
 
 type Context = {
   playerView: PlayerViewModel | undefined;
@@ -37,6 +38,8 @@ export function translateMessage(message: Message): string {
     case LogMessageDataType.CARD:
     case LogMessageDataType.GLOBAL_EVENT:
       return translateText(datum.value);
+    case LogMessageDataType.TILE_TYPE:
+      return translateText(TileType.toString(Number(datum.value) as TileType));
     default:
       return translateText(datum.value);
     }

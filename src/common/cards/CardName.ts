@@ -858,7 +858,7 @@ export enum CardName {
     REY_SKYWALKER = 'Rey ... Skywalker?! (IX)',
 
     // Underworld
-    GEOLOGIST_TEMPERATURE = 'Geologist Temperature',
+    GEOLOGIST_TEAM = 'Geologist Team',
     GEOSCAN_SATELLITE = 'Geoscan Satellite',
     TUNNEL_BORING_MACHINE = 'Tunnel Boring Machine',
     UNDERGROUND_RAILWAY = 'Underground Railway',

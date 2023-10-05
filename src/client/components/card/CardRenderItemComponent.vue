@@ -310,13 +310,13 @@ export default Vue.extend({
         classes.push('card-resource', 'card-resource-corruption');
         break;
       case CardRenderItemType.TOOL:
-        classes.push('card-resource', 'card-resource-');
+        classes.push('card-resource', 'card-resource-tool');
         break;
       case CardRenderItemType.WARE:
         classes.push('card-resource', 'card-resource-ware');
         break;
       case CardRenderItemType.SCOOP:
-        classes.push('card-resource', 'card-resource-');
+        classes.push('card-resource', 'card-resource-scoop');
         break;
       case CardRenderItemType.JOURNALISM:
         classes.push('card-resource', 'card-resource-journalism');
@@ -329,6 +329,9 @@ export default Vue.extend({
         break;
       case CardRenderItemType.UNDERGROUND_RESOURCES:
         classes.push('card-underground-resources');
+        break;
+      case CardRenderItemType.CORRUPTION_SHIELD:
+        classes.push('card-corruption-shield');
         break;
       }
 

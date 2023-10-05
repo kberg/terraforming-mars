@@ -24,6 +24,7 @@ export class UndergroundSmugglingRing extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.corruption(1).wild(2, {digit});
         }),
+        // TODO(kberg) 2 of the same does not work.
         description: 'Requires an excavation marker. Gain 1 corruption and 2 of the same standard resource.',
       },
     });

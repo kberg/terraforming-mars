@@ -22,7 +22,7 @@ import {CorporateBlackmail} from './CorporateBlackmail';
 // import {CorporateTheft} from './CorporateTheft';
 import {CraterSurvey} from './CraterSurvey';
 import {CutThroatBudgeting} from './CutThroatBudgeting';
-// import {Deepmining} from './Deepmining';
+import {Deepmining} from './Deepmining';
 import {Deepnuking} from './Deepnuking';
 import {DeepwaterDome} from './DeepwaterDome';
 // import {DemetronLabs} from './DemetronLabs';
@@ -40,7 +40,7 @@ import {GanymedeTradingCompany} from './GanymedeTradingCompany';
 import {GeologicalExpertise} from './GeologicalExpertise';
 // import {GeologicalExpertise} from './GeologicalExpertise';
 import {GeologicalSurvey} from './GeologicalSurvey';
-// import {GeologistTemperature} from './GeologistTemperature';
+import {GeologistTeam} from './GeologistTeam';
 import {GeoscanSatellite} from './GeoscanSatellite';
 import {GeothermalNetwork} from './GeothermalNetwork';
 import {GlobalAudit} from './GlobalAudit';
@@ -65,7 +65,7 @@ import {JensonBoyleCo} from './JensonBoyleCo';
 // import {LaborTrafficking} from './LaborTrafficking';
 import {Landfill} from './Landfill';
 import {LobbyingNetwork} from './LobbyingNetwork';
-// import {ManMadeVolcano} from './ManMadeVolcano';
+import {ManMadeVolcano} from './ManMadeVolcano';
 // import {MartianExpress} from './MartianExpress';
 // import {MediaFrenzy} from './MediaFrenzy';
 // import {MercenaryAssault} from './MercenaryAssault';
@@ -87,7 +87,7 @@ import {PlanetaryRightsBuyout} from './PlanetaryRightsBuyout';
 // import {PlantTax} from './PlantTax';
 import {PriceWars} from './PriceWars';
 import {PrivateInvestigator} from './PrivateInvestigator';
-// import {PrivateMilitaryContractor} from './PrivateMilitaryContractor';
+import {PrivateMilitaryContractor} from './PrivateMilitaryContractor';
 import {PrivateResorts} from './PrivateResorts';
 import {Prospecting} from './Prospecting';
 import {PublicSpaceline} from './PublicSpaceline';
@@ -108,7 +108,7 @@ import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
 import {SubterraneanSea} from './SubterraneanSea';
 // import {ThiolavaVents} from './ThiolavaVents';
-// import {TitanManufacturingColony} from './TitanManufacturingColony';
+import {TitanManufacturingColony} from './TitanManufacturingColony';
 import {TunnelBoringMachine} from './TunnelBoringMachine';
 import {TunnelingOperation} from './TunnelingOperation';
 import {TunnelingSubcontractor} from './TunnelingSubcontractor';
@@ -117,7 +117,7 @@ import {UndergroundHabitat} from './UndergroundHabitat';
 import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
 import {UndergroundSettlement} from './UndergroundSettlement';
-// import {UndergroundShelters} from './UndergroundShelters';
+import {UndergroundShelters} from './UndergroundShelters';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 import {Voltagon} from './Voltagon';
 import {VoltaicMetallurgy} from './VoltaicMetallurgy';
@@ -128,7 +128,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
   module: 'underworld',
   projectCards: {
     // 1-9
-    // [CardName.GEOLOGIST_TEMPERATURE]: {Factory: GeologistTemperature},
+    [CardName.GEOLOGIST_TEAM]: {Factory: GeologistTeam},
     [CardName.GEOSCAN_SATELLITE]: {Factory: GeoscanSatellite},
     [CardName.TUNNEL_BORING_MACHINE]: {Factory: TunnelBoringMachine},
     [CardName.UNDERGROUND_RAILWAY]: {Factory: UndergroundRailway},
@@ -145,7 +145,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 MC less.
     [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
-    // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano}, // Special tile
+    [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
     // 19-27
     [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},
@@ -159,7 +159,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CAVE_CITY]: {Factory: CaveCity},
     // 28-36
     [CardName.UNDERGROUND_SMUGGLING_RING]: {Factory: UndergroundSmugglingRing},
-    // [CardName.DEEPMINING]: {Factory: Deepmining}, // Mining Area for Underworld
+    [CardName.DEEPMINING]: {Factory: Deepmining},
     [CardName.BEHEMOTH_EXCAVATOR]: {Factory: BehemothExcavator},
     [CardName.LOBBYING_NETWORK]: {Factory: LobbyingNetwork},
     // [CardName.CONCESSION_RIGHTS]: {Factory: ConcessionRights}, // Excavation rule change ntil the end of this generation
@@ -175,13 +175,13 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.FRIENDS_IN_HIGH_PLACES]: {Factory: FriendsinHighPlaces}, // ANOTHER card payment thing.
     [CardName.MICROGRAVIMETRY]: {Factory: Microgravimetry},
     [CardName.STEM_FIELD_SUBSIDIES]: {Factory: StemFieldSubsidies},
-    // [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony}, // Special token
+    [CardName.TITAN_MANUFACTURING_COLONY]: {Factory: TitanManufacturingColony}, // Special token
     [CardName.ROBOT_MOLES]: {Factory: RobotMoles},
     // 46-54
     [CardName.MINING_MARKET_INSIDER]: {Factory: MiningMarketInsider},
     [CardName.SERVER_SABOTAGE]: {Factory: ServerSabotage},
     [CardName.SPACE_WARGAMES]: {Factory: SpaceWargames},
-    // [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor}, // Complicated corruption rules.
+    [CardName.PRIVATE_MILITARY_CONTRACTOR]: {Factory: PrivateMilitaryContractor},
     // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers}, // Complicated corruption rules.
     [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
     [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
@@ -206,7 +206,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
     [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
-    // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters}, // Special VP rules. Not hard, just extra renderingr work.
+    [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
     // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},

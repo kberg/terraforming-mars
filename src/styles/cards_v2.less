@@ -1226,6 +1226,7 @@
             .card-resource-corruption {
                 background-image: url(./assets/underworld/corruption.png);
             }
+            // Is this even used?
             .card-resource-tool {
               background-image: url(./assets/underworld/card-resource-tool.png);
             }
@@ -1258,6 +1259,13 @@
                 font-weight: bold;
                 margin-top: 10px;
               }
+            }
+
+            .card-corruption-shield {
+              width: 44px;
+              background-size: 44px 44px;
+              height: 44px;
+              background-image: url("assets/underworld/corruption-block.png");
             }
 
             /* CEO Assets */
@@ -2439,12 +2447,16 @@ each(@parties, {
     // the stuff above wasn't contained inside card-content.
     @resource_types: microbe, animal, science, floater, fighter, camp,
       asteroid, disease, preservation, data, syndicate-fleet, cube,
-      venusian-habitat, specialized-robot, seed, orbital, agenda, graphene, hydroelectric-resource;
+      venusian-habitat, specialized-robot, seed, orbital, agenda, graphene, hydroelectric-resource,
+      clone-trooper;
     each(@resource_types, {
       .card-resource-@{value} {
         background-image: url("./assets/resources/@{value}.png");
       }
     })
+    .card-resource-tool {
+      background-image: url(./assets/underworld/card-resource-tool.png);
+    }
     .card-resource-cube {
       background-image: url("./assets/cube.png");
     }
