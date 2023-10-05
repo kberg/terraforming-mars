@@ -4,9 +4,10 @@ import {Card} from '../Card';
 import {CardType} from '../../../common/cards/CardType';
 import {CardName} from '../../../common/cards/CardName';
 import {CardRenderer} from '../render/CardRenderer';
-import {Resource} from '../../../common/Resource';
 import {Tag} from '../../../common/cards/Tag';
 import {all} from '../Options';
+import {RemoveResources} from '../../deferredActions/RemoveResources';
+import {Resource} from '../../../common/Resource';
 
 export class SmallComet extends Card implements IProjectCard {
   constructor() {
@@ -41,9 +42,7 @@ export class SmallComet extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     const game = player.game;
     game.getPlayers().forEach((p) => {
-      if (!p.plantsAreProtected()) {
-        p.stock.deduct(Resource.PLANTS, 2, {log: true, from: player});
-      }
+      player.game.defer(new RemoveResources(player, p, Resource.PLANTS, 2));
     });
     return undefined;
   }
