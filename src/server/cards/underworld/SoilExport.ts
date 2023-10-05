@@ -30,7 +30,7 @@ export class SoilExport extends Card implements IProjectCard {
           b.excavate().br;
           b.plainText('Excavate an underground resource.').br;
           b.megacredits(12).asterix().br;
-          b.plainText('At the end of this generation only, during the production phase, gain 12 MC.');
+          b.plainText('At the end of this generation only, during the production phase, gain 12 M€.');
         }),
       },
     });

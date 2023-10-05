@@ -29,7 +29,7 @@ export class CorporateBlackmail extends Card implements IProjectCard {
           b.text('THIS CANNOT BE BLOCKED BY CORRUPTION').br;
         }),
         description: 'Requires 1 corruption. Target a player that has at least 2 corruption. ' +
-          'Unless that player pays you 10 MC, they lose 2 corruption.',
+          'Unless that player pays you 10 M€, they lose 2 corruption.',
       },
     });
   }
@@ -46,7 +46,7 @@ export class CorporateBlackmail extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     if (player.game.isSoloMode()) {
       player.stock.add(Resource.MEGACREDITS, 10);
-      player.game.log('${0} blackmailed the neutral player and was paid 10 MC.', (b) => b.player(player));
+      player.game.log('${0} blackmailed the neutral player and was paid 10 M€.', (b) => b.player(player));
       return undefined;
     }
     function corruptionConsequence(blackmailedPlayer: IPlayer) {
@@ -60,9 +60,9 @@ export class CorporateBlackmail extends Card implements IProjectCard {
         return undefined;
       } else {
         const orOptions = new OrOptions();
-        orOptions.options.push(new SelectOption('Pay $1 10 MC', 'Pay 10 MC', () => {
+        orOptions.options.push(new SelectOption('Pay $1 10 M€', 'Pay 10 M€', () => {
           blackmailedPlayer.stock.steal(Resource.MEGACREDITS, 10, player);
-          player.game.log('${0} blackmailed ${1} and was paid 10 MC.', (b) => b.player(player).player(blackmailedPlayer));
+          player.game.log('${0} blackmailed ${1} and was paid 10 M€.', (b) => b.player(player).player(blackmailedPlayer));
           return undefined;
         }));
         orOptions.options.push(new SelectOption('Lose 2 corruption', 'Lose 2 corruption', () => {

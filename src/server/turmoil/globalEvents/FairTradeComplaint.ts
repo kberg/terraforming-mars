@@ -18,8 +18,8 @@ export class FairTradeComplaint extends GlobalEvent implements IGlobalEvent {
   constructor() {
     super({
       name: GlobalEventName.FAIR_TRADE_COMPLAINT,
-      description: 'Lose 1 MC for each card in hand over 6 cards (no limit.) ' +
-        'Each point of influence reduces the damage by 2 MC. ' +
+      description: 'Lose 1 M€ for each card in hand over 6 cards (no limit.) ' +
+        'Each point of influence reduces the damage by 2 M€. ' +
         'Each player with 6 or fewer cards in hand draws 2 cards.',
       revealedDelegate: PartyName.KELVINISTS,
       currentDelegate: PartyName.UNITY,

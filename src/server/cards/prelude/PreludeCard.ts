@@ -24,7 +24,7 @@ export abstract class PreludeCard extends Card implements IPreludeCard {
   constructor(properties: StaticPreludeProperties) {
     const startingMegaCredits = properties.startingMegacredits ?? properties.behavior?.stock?.megacredits;
     if (typeof(startingMegaCredits) === 'object') {
-      throw new Error('Cannot have a Countable for a Prelude stock MC: ' + properties.name);
+      throw new Error('Cannot have a Countable for a Prelude stock M€: ' + properties.name);
     }
     const obj: StaticCardProperties = {
       behavior: properties.behavior,

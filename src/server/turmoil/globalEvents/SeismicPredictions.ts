@@ -20,7 +20,7 @@ export class SeismicPredictions extends GlobalEvent implements IGlobalEvent {
     super({
       name: GlobalEventName.SEISMIC_PREDICTIONS,
       description: 'Discard all unclaimed underground resources. ' +
-      'Lose 2 MC for each tile on Mars you own WITHOUT excavation markers (max 5) minus influence.',
+      'Lose 2 M€ for each tile on Mars you own WITHOUT excavation markers (max 5) minus influence.',
       revealedDelegate: PartyName.SCIENTISTS,
       currentDelegate: PartyName.MARS,
       renderData: RENDER_DATA,

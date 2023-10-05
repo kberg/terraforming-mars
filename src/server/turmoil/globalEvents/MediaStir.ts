@@ -16,7 +16,7 @@ export class MediaStir extends GlobalEvent implements IGlobalEvent {
   constructor() {
     super({
       name: GlobalEventName.MEDIA_STIR,
-      description: 'Lose 3 MC per corruption resource they have (max 5), minus influence. Players with 0 corruption gain 1 TR.',
+      description: 'Lose 3 M€ per corruption resource they have (max 5), minus influence. Players with 0 corruption gain 1 TR.',
       revealedDelegate: PartyName.UNITY,
       currentDelegate: PartyName.MARS,
       renderData: RENDER_DATA,

@@ -18,7 +18,7 @@ export class MigrationUnderground extends GlobalEvent implements IGlobalEvent {
   constructor() {
     super({
       name: GlobalEventName.MIGRATION_UNDERGROUND,
-      description: 'Gain 1 MC production (max 5) for every 2 excavation markers you own. Each point of influence counts as an extra excavation marker.',
+      description: 'Gain 1 M€ production (max 5) for every 2 excavation markers you own. Each point of influence counts as an extra excavation marker.',
       revealedDelegate: PartyName.REDS,
       currentDelegate: PartyName.GREENS,
       renderData: RENDER_DATA,

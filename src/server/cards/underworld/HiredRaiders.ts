@@ -33,7 +33,7 @@ export class HiredRaiders extends Card implements IProjectCard {
     const amount = 3 + (2 * player.underworldData.corruption);
     if (player.game.isSoloMode()) {
       player.megaCredits += amount;
-      player.game.log('${0} stole ${1} MC from the neutral player', (b) =>
+      player.game.log('${0} stole ${1} M€ from the neutral player', (b) =>
         b.player(player).number(amount),
       );
     }

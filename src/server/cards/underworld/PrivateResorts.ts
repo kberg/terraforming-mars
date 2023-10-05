@@ -30,7 +30,7 @@ export class PrivateResorts extends Card implements IProjectCard {
           b.megacredits(12).asterix().corruption(1).asterix();
         }),
         description: 'Requires 3 oceans. Reduce your heat production 1 step. ' +
-          'At the end of this generation only, during the production phase, gain 12 MC and 1 corruption.',
+          'At the end of this generation only, during the production phase, gain 12 M€ and 1 corruption.',
       },
     });
   }
