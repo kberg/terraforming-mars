@@ -1241,11 +1241,21 @@ export class Player implements IPlayer {
   }
 
   private milestoneCost() {
-    return this.isCorporation(CardName.NIRGAL_ENTERPRISES) ? 0 : MILESTONE_COST;
+    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES)) {
+      return 0;
+    }
+    const [_owner, stagedProtests] = this.game.getCardHolder(CardName.STAGED_PROTESTS);
+    const plus8 = (stagedProtests?.generationUsed === this.game.generation) ? 8 : 0;
+    return MILESTONE_COST + plus8;
   }
 
   private awardFundingCost() {
-    return this.isCorporation(CardName.NIRGAL_ENTERPRISES) ? 0 : this.game.getAwardFundingCost();
+    if (this.isCorporation(CardName.NIRGAL_ENTERPRISES)) {
+      return 0;
+    }
+    const [_owner, stagedProtests] = this.game.getCardHolder(CardName.STAGED_PROTESTS);
+    const plus8 = (stagedProtests?.generationUsed === this.game.generation) ? 8 : 0;
+    return this.game.getAwardFundingCost() + plus8;
   }
 
   private fundAward(award: IAward): PlayerInput {

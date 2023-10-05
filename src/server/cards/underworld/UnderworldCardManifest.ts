@@ -102,7 +102,7 @@ import {ServerSabotage} from './ServerSabotage';
 import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
 import {SpaceWargames} from './SpaceWargames';
-// import {StagedProtests} from './StagedProtests';
+import {StagedProtests} from './StagedProtests';
 // import {StarVegas} from './StarVegas';
 import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
@@ -200,7 +200,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // 64-72
     [CardName.ANTI_TRUST_CRACKDOWN]: {Factory: AntiTrustCrackdown},
     // [CardName.MONOPOLY]: {Factory: Monopoly}, // Messy
-    // [CardName.STAGED_PROTESTS]: {Factory: StagedProtests}, // Special milestone/award rules
+    [CardName.STAGED_PROTESTS]: {Factory: StagedProtests},
     // [CardName.PLANT_TAX]: {Factory: PlantTax}, // Don't feel like dealing with corruption.
     [CardName.INFRASTRUCTURE_OVERLOAD]: {Factory: InfrastructureOverload},
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
