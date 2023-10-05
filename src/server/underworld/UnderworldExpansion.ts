@@ -107,13 +107,17 @@ export class UnderworldExpansion {
     if (player !== undefined) {
       LogHelper.logBoardTileAction(player, space, `(${undergroundResourcerTokenDescription[undergroundResource]})`, 'identified');
     }
+    // TODO(there must be a case when a neutral player identifies that applies to the callbacks);
+    if (player !== undefined) {
+      this.onIdentification(player, space);
+    }
     return undergroundResource;
   }
 
-  public static onIdentification(player: IPlayer, count: number) {
+  public static onIdentification(player: IPlayer, space: Space) {
     for (const p of player.game.getPlayersInGenerationOrder()) {
       for (const card of p.tableau) {
-        card.onIdentification?.(player, p, count);
+        card.onIdentification?.(player, p, space);
       }
     }
   }

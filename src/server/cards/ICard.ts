@@ -75,7 +75,7 @@ export interface ICard {
   onResourceAdded?(player: IPlayer, playedCard: ICard, count: number): void;
 
   onExcavation?: (player: IPlayer, space: Space) => void;
-  onIdentification?: (identifyingPlayer: IPlayer, cardOwner: IPlayer, count: number) => void;
+  onIdentification?: (identifyingPlayer: IPlayer, cardOwner: IPlayer, space: Space) => void;
   // TODO(kberg): return void instead of undefined.
   onProductionPhase?: (player: IPlayer) => undefined; // For Pristar and Underworld
 

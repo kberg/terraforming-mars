@@ -28,7 +28,6 @@ export class IdentifySpacesDeferred extends DeferredAction<Array<Space>> {
         if (this.nth <= this.count) {
           return this.selectSpace();
         }
-        UnderworldExpansion.onIdentification(this.player, this.count);
         this.cb(selectedSpaces);
         return undefined;
       });
