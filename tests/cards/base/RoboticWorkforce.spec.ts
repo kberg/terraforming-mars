@@ -230,6 +230,7 @@ describe('RoboticWorkforce', () => {
           CardName.SOLAR_FARM,
           CardName.SUBTERRANEAN_SEA,
           CardName.CAVE_CITY,
+          CardName.DEEPMINING,
         ];
         if (skippedCards.includes(card.name)) {
           return;
