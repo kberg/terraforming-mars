@@ -65,7 +65,7 @@ import {JensonBoyleCo} from './JensonBoyleCo';
 // import {LaborTrafficking} from './LaborTrafficking';
 import {Landfill} from './Landfill';
 import {LobbyingNetwork} from './LobbyingNetwork';
-// import {ManMadeVolcano} from './ManMadeVolcano';
+import {ManMadeVolcano} from './ManMadeVolcano';
 // import {MartianExpress} from './MartianExpress';
 // import {MediaFrenzy} from './MediaFrenzy';
 // import {MercenaryAssault} from './MercenaryAssault';
@@ -145,7 +145,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 MC less.
     [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
-    // [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano}, // Special tile
+    [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
     [CardName.TUNNELING_SUBCONTRACTOR]: {Factory: TunnelingSubcontractor},
     // 19-27
     [CardName.UNDERGROUND_AMUSEMENT_PARK]: {Factory: UndergroundAmusementPark},

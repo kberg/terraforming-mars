@@ -52,6 +52,7 @@ const tileTypeToCssClass: Record<TileType, string> = {
   [TileType.LUNAR_MINE_URBANIZATION]: 'lunar-mine-urbanization',
   [TileType.CRASHLANDING]: 'crashlanding',
   [TileType.MARS_NOMADS]: '', // This never actually renders.
+  [TileType.MAN_MADE_VOLCANO]: 'man-made-volcano',
 };
 
 const tileTypeToCssClassAresOverride = new Map<TileType, string>([
@@ -112,6 +113,9 @@ const descriptions: Record<TileType, string> = {
   [TileType.MARTIAN_NATURE_WONDERS]: 'Martian Nature Wonders',
   [TileType.CRASHLANDING]: 'Crashlanding',
   [TileType.MARS_NOMADS]: '', // This never actually renders.
+
+  [TileType.MAN_MADE_VOLCANO]: 'Man-made Volcano',
+
 };
 
 export default Vue.extend({
