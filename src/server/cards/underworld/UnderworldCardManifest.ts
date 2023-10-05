@@ -117,7 +117,7 @@ import {UndergroundHabitat} from './UndergroundHabitat';
 import {UndergroundRailway} from './UndergroundRailway';
 // import {UndergroundResearchCenter} from './UndergroundResearchCenter';
 import {UndergroundSettlement} from './UndergroundSettlement';
-// import {UndergroundShelters} from './UndergroundShelters';
+import {UndergroundShelters} from './UndergroundShelters';
 import {UndergroundSmugglingRing} from './UndergroundSmugglingRing';
 import {Voltagon} from './Voltagon';
 import {VoltaicMetallurgy} from './VoltaicMetallurgy';
@@ -206,7 +206,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CRATER_SURVEY]: {Factory: CraterSurvey},
     [CardName.INDUCED_TREMOR]: {Factory: InducedTremor},
     [CardName.UNDERGROUND_HABITAT]: {Factory: UndergroundHabitat},
-    // [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters}, // Special VP rules. Not hard, just extra renderingr work.
+    [CardName.UNDERGROUND_SHELTERS]: {Factory: UndergroundShelters},
     // 73-81
     [CardName.VOLUNTEER_MINING_INITITIVE]: {Factory: VolunteerMiningInititive},
     [CardName.NANOFOUNDRY]: {Factory: Nanofoundry},
