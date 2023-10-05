@@ -24,8 +24,9 @@ export class PriceWars extends Card implements IProjectCard {
           b.megacredits(12).asterix().corruption(1).asterix();
         }),
         description: 'Requires 2 corruption. Until the end of this generation, ' +
-          'your steel and titanium are worth 1 more MC each, ' +
-          'and steel and titanium for other players is worth 1 MC less.',
+          'your steel and titanium are worth 1 more M€ each, ' +
+          'and steel and titanium for other players is worth 1 M€ less. ' +
+          'At the end of this generation, gain 1 corruption and 12 M€.',
       },
     });
   }
