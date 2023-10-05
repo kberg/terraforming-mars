@@ -47,7 +47,7 @@ export class SpaceWargames extends ActionCard implements IProjectCard {
           b.action('Spend 1 fighter resource on this card to gain 3 M€ for each fighter resource on this card INCLUDING THE PAID FIGHTER.',
             (ab) => ab.or().fighter(1).startAction.megacredits(3, {digit}).slash().fighter().asterix()).br;
         }),
-        description: 'Put 1 fighter resource on this card. 1VP for each Jovian tag you  have.',
+        description: 'Put 1 fighter resource on this card. 1VP for each Jovian tag you have.',
       },
     });
   }

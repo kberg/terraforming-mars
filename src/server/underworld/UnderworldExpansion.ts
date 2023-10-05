@@ -267,12 +267,10 @@ export class UnderworldExpansion {
     }
   }
 
-  public static mayBlockAttack(
-    target: IPlayer,
-    perpetrator: IPlayer,
-    cb: (proceed: boolean) => PlayerInput | undefined,
-  ): PlayerInput | undefined {
-    if (target.underworldData.corruption === 0) {
+  public static mayBlockAttack(target: IPlayer, perpetrator: IPlayer, cb: (proceed: boolean) => PlayerInput | undefined): PlayerInput | undefined {
+    const privateMilitaryContractor = target.playedCards.find((card) => card.name === CardName.PRIVATE_MILITARY_CONTRACTOR);
+    const militaryContractorFighters = privateMilitaryContractor?.resourceCount ?? 0;
+    if (target.underworldData.corruption === 0 && militaryContractorFighters === 0) {
       return cb(true);
     }
     const options = new OrOptions();
@@ -280,18 +278,35 @@ export class UnderworldExpansion {
       'Spend 1 corruption to block an attack by ${0}?',
       (b) => b.player(perpetrator),
     );
+    if (privateMilitaryContractor !== undefined && militaryContractorFighters > 0) {
+      options.options.push(
+        new SelectOption(
+          newMessage('Block with ${0} fighters.', (b) => b.cardName(CardName.PRIVATE_MILITARY_CONTRACTOR)),
+          'Spend fighter',
+          () => {
+            target.removeResourceFrom(privateMilitaryContractor, 1);
+            target.game.log(
+              '${0} spent 1 fighter on ${1} to block an attack by ${2}',
+              (b) => b.player(target).cardName(CardName.PRIVATE_MILITARY_CONTRACTOR).player(perpetrator));
+            cb(false);
+            return undefined;
+          }),
+      );
+    }
+    if (target.underworldData.corruption > 0) {
+      options.options.push(
+        new SelectOption('Block with corruption', 'Spend corruption', () => {
+          target.underworldData.corruption--;
+          target.game.log(
+            '${0} spent 1 corruption to block an attack by ${1}',
+            (b) => b.player(target).player(perpetrator));
+          cb(false);
+          return undefined;
+        }),
+      );
+    }
     options.options.push(
-      new SelectOption('Yes.', 'Spend corruption', () => {
-        target.underworldData.corruption--;
-        target.game.log(
-          '${0} spent 1 corruption to block an attack by ${1}',
-          (b) => b.player(target).player(perpetrator));
-        cb(false);
-        return undefined;
-      }),
-    );
-    options.options.push(
-      new SelectOption('No', 'Do not block', () => {
+      new SelectOption('Do not block', 'Do not block', () => {
         cb(true);
         return undefined;
       }),

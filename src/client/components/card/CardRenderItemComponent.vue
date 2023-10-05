@@ -330,6 +330,9 @@ export default Vue.extend({
       case CardRenderItemType.UNDERGROUND_RESOURCES:
         classes.push('card-underground-resources');
         break;
+      case CardRenderItemType.CORRUPTION_SHIELD:
+        classes.push('card-corruption-shield');
+        break;
       }
 
       if (this.item.secondaryTag === AltSecondaryTag.NO_PLANETARY_TAG) {
