@@ -31,6 +31,7 @@ export class EcologyResearch extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
+    // TODO(kberg): Martian Express could receive both resources.
     const coloniesCount = player.getColoniesCount();
     player.production.add(Resource.PLANTS, coloniesCount, {log: true});
 

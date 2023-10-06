@@ -42,7 +42,8 @@ export class MoholeLake extends Card implements IActionCard, IProjectCard {
   }
 
   public action(player: IPlayer) {
-    const availableCards = player.getResourceCards(CardResource.MICROBE).concat(player.getResourceCards(CardResource.ANIMAL));
+    // Deduping to be Underworld / Martian Express-friendly.
+    const availableCards = Array.from(new Set([...player.getResourceCards(CardResource.MICROBE), ...player.getResourceCards(CardResource.ANIMAL)]));
 
     if (availableCards.length === 0) {
       return undefined;
