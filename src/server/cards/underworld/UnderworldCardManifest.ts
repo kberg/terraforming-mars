@@ -14,7 +14,7 @@ import {Casino} from './Casino';
 import {CaveCity} from './CaveCity';
 import {CentralReservoir} from './CentralReservoir';
 import {ChemicalFactory} from './ChemicalFactory';
-// import {ClassActionLawsuit} from './ClassActionLawsuit';
+import {ClassActionLawsuit} from './ClassActionLawsuit';
 import {CloudVortexOutpost} from './CloudVortexOutpost';
 import {CollusionStandardProject} from './CollusionStandardProject';
 import {ConcessionRights} from './ConcessionRights';
@@ -142,7 +142,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering}, // Use another player's action. Not right now.
     [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
-    // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 MC less.
+    // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 M€ less.
     [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
@@ -218,7 +218,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.CUT_THROAT_BUDGETING]: {Factory: CutThroatBudgeting},
     [CardName.GEOLOGICAL_SURVEY_UNDERWORLD]: {Factory: GeologicalSurvey},
     // 82-90
-    // [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit}, // Messy
+    [CardName.CLASS_ACTION_LAWSUIT]: {Factory: ClassActionLawsuit},
     // [CardName.MERCENARY_ASSAULT]: {Factory: MercenaryAssault}, // Blocking rules.
     [CardName.RESEARCH_DEVELOPMENT_HUB]: {Factory: ResearchDevelopmentHub},
     [CardName.PLANETARY_RIGHTS_BUYOUT]: {Factory: PlanetaryRightsBuyout},
