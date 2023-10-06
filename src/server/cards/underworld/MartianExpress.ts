@@ -15,9 +15,9 @@ export class MartianExpress extends Card implements IActionCard {
       name: CardName.MARTIAN_EXPRESS,
       cost: 5,
       tags: [Tag.MARS],
-      resourceType: CardResource.WARE,
-
+      victoryPoints: 1,
       requirements: {cities: 1, all: true},
+      resourceType: CardResource.WARE,
 
       metadata: {
         cardNumber: 'U78',

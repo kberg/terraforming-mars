@@ -123,6 +123,9 @@ export class Executor implements BehaviorExecutor {
         if (player.game.board.getAvailableSpacesForType(player, behavior.city.on ?? 'city', canAffordOptions).length === 0) {
           return false;
         }
+      } else if (player.game.board.getSpace(behavior.city.space).tile?.tileType !== undefined) {
+        // Underworld's Star Vegas
+        return false;
       }
     }
 

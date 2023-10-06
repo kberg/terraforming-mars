@@ -103,7 +103,7 @@ import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
 import {SpaceWargames} from './SpaceWargames';
 import {StagedProtests} from './StagedProtests';
-// import {StarVegas} from './StarVegas';
+import {StarVegas} from './StarVegas';
 import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
 import {SubterraneanSea} from './SubterraneanSea';
@@ -185,7 +185,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.SPACE_PRIVATEERS]: {Factory: SpacePrivateers}, // Complicated corruption rules.
     [CardName.PERSONAL_SPACECRUISER]: {Factory: PersonalSpacecruiser},
     [CardName.HYPERSPACE_DRIVE_PROTOTYPE]: {Factory: HyperspaceDrivePrototype},
-    // [CardName.STAR_VEGAS]: {Factory: StarVegas}, // Invalidates placing tiles in other places in space.
+    [CardName.STAR_VEGAS]: {Factory: StarVegas},
     [CardName.PRIVATE_RESORTS]: {Factory: PrivateResorts},
     // 55-63
     [CardName.EARTHQUAKE_MACHINE]: {Factory: EarthquakeMachine},
