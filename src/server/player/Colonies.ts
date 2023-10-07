@@ -75,10 +75,10 @@ export class Colonies {
     handlers.forEach((handler) => {
       if (handler.canUse()) {
         howToPayForTrade.options.push(new SelectOption(
-          handler.optionText(), '', () => {
-            selected = handler;
-            return undefined;
-          }));
+          handler.optionText()).andThen(() => {
+          selected = handler;
+          return undefined;
+        }));
       }
     });
 
@@ -86,22 +86,16 @@ export class Colonies {
       return undefined;
     }
 
-    const selectColony = new SelectColony('Select colony tile for trade', 'trade', openColonies, (colony: IColony) => {
-      if (selected === undefined) {
-        throw new Error(`Unexpected condition: no trade funding source selected when trading with ${colony.name}.`);
-      }
-      selected.trade(colony);
-      return undefined;
-    });
-
-    const trade = new AndOptions(
-      () => {
+    const selectColony = new SelectColony('Select colony tile for trade', 'trade', openColonies)
+      .andThen((colony) => {
+        if (selected === undefined) {
+          throw new Error(`Unexpected condition: no trade funding source selected when trading with ${colony.name}.`);
+        }
+        selected.trade(colony);
         return undefined;
-      },
-      howToPayForTrade,
-      selectColony,
-    );
+      });
 
+    const trade = new AndOptions(howToPayForTrade, selectColony);
     trade.title = 'Trade with a colony tile';
     trade.buttonLabel = 'Trade';
 

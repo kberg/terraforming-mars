@@ -53,29 +53,30 @@ export class StormCraftIncorporated extends ActionCard implements ICorporationCa
     let floaterAmount: number;
 
     const options = new AndOptions(
-      () => {
-        if (heatAmount + (floaterAmount * 2) < targetAmount) {
-          throw new Error(`Need to pay ${targetAmount} heat`);
-        }
-        if (heatAmount > 0 && heatAmount - 1 + (floaterAmount * 2) >= targetAmount) {
-          throw new Error('You cannot overspend heat');
-        }
-        if (floaterAmount > 0 && heatAmount + ((floaterAmount - 1) * 2) >= targetAmount) {
-          throw new Error('You cannot overspend floaters');
-        }
-        player.removeResourceFrom(this, floaterAmount);
-        player.stock.deduct(Resource.HEAT, heatAmount);
-        return cb();
-      },
-      new SelectAmount('Heat', 'Spend heat', (amount: number) => {
-        heatAmount = amount;
-        return undefined;
-      }, 0, Math.min(player.heat, targetAmount)),
-      new SelectAmount('Stormcraft Incorporated Floaters (2 heat each)', 'Spend floaters', (amount: number) => {
-        floaterAmount = amount;
-        return undefined;
-      }, 0, Math.min(this.resourceCount, Math.ceil(targetAmount / 2))),
-    );
+      new SelectAmount('Heat', 'Spend heat', 0, Math.min(player.heat, targetAmount))
+        .andThen((amount) => {
+          heatAmount = amount;
+          return undefined;
+        }),
+      new SelectAmount('Stormcraft Incorporated Floaters (2 heat each)', 'Spend floaters',
+        0, Math.min(this.resourceCount, Math.ceil(targetAmount / 2)))
+        .andThen((amount) => {
+          floaterAmount = amount;
+          return undefined;
+        })).andThen(() => {
+      if (heatAmount + (floaterAmount * 2) < targetAmount) {
+        throw new Error(`Need to pay ${targetAmount} heat`);
+      }
+      if (heatAmount > 0 && heatAmount - 1 + (floaterAmount * 2) >= targetAmount) {
+        throw new Error('You cannot overspend heat');
+      }
+      if (floaterAmount > 0 && heatAmount + ((floaterAmount - 1) * 2) >= targetAmount) {
+        throw new Error('You cannot overspend floaters');
+      }
+      player.removeResourceFrom(this, floaterAmount);
+      player.stock.deduct(Resource.HEAT, heatAmount);
+      return cb();
+    });
     options.title = newMessage('Select how to spend ${0} heat', (b) => b.number(targetAmount));
     return options;
   }
