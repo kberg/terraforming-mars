@@ -279,16 +279,13 @@ export class UnderworldExpansion {
       return cb(true);
     }
     const options = new OrOptions();
-    options.title = newMessage(
-      'Spend 1 corruption to block an attack by ${0}?',
-      (b) => b.player(perpetrator),
-    );
+    options.title = newMessage('Spend 1 corruption to block an attack by ${0}?', (b) => b.player(perpetrator));
     if (privateMilitaryContractor !== undefined && militaryContractorFighters > 0) {
       options.options.push(
         new SelectOption(
           newMessage('Block with ${0} fighters.', (b) => b.cardName(CardName.PRIVATE_MILITARY_CONTRACTOR)),
-          'Spend fighter',
-          () => {
+          'Spend fighter')
+          .andThen(() => {
             target.removeResourceFrom(privateMilitaryContractor, 1);
             target.game.log(
               '${0} spent 1 fighter on ${1} to block an attack by ${2}',
@@ -300,21 +297,23 @@ export class UnderworldExpansion {
     }
     if (target.underworldData.corruption > 0) {
       options.options.push(
-        new SelectOption('Block with corruption', 'Spend corruption', () => {
-          target.underworldData.corruption--;
-          target.game.log(
-            '${0} spent 1 corruption to block an attack by ${1}',
-            (b) => b.player(target).player(perpetrator));
-          cb(false);
-          return undefined;
-        }),
+        new SelectOption('Block with corruption', 'Spend corruption')
+          .andThen(() => {
+            target.underworldData.corruption--;
+            target.game.log(
+              '${0} spent 1 corruption to block an attack by ${1}',
+              (b) => b.player(target).player(perpetrator));
+            cb(false);
+            return undefined;
+          }),
       );
     }
     options.options.push(
-      new SelectOption('Do not block', 'Do not block', () => {
-        cb(true);
-        return undefined;
-      }),
+      new SelectOption('Do not block', 'Do not block')
+        .andThen(() => {
+          cb(true);
+          return undefined;
+        }),
     );
     throw new Error('Method not implemented.');
   }

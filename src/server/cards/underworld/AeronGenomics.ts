@@ -74,14 +74,13 @@ export class AeronGenomics extends Card implements IActionCard, ICorporationCard
         return new SelectCard(
           'Select card to add 1 animal',
           'Add animal',
-          resourceCards,
-          ([card]) => {
+          resourceCards)
+          .andThen(([card]) => {
             this.resourceCount--;
             player.addResourceTo(card, 1);
             player.game.log('${0} moved 1 animal from ${1} to ${2}.', (b) => b.player(player).card(this).card(resourceCards[0]));
             return undefined;
-          },
-        );
+          });
       },
     ));
     return undefined;

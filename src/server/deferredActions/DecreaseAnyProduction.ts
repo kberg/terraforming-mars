@@ -47,12 +47,11 @@ export class DecreaseAnyProduction extends DeferredAction<boolean> {
         return new SelectPlayer(
           targets,
           this.title,
-          'Decrease',
-          (target: IPlayer) => {
+          'Decrease')
+          .andThen((target: IPlayer) => {
             this.attack(target);
             return undefined;
-          },
-        );
+          });
       } else {
         this.attack(targets[0]);
       }

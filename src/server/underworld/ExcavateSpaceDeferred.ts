@@ -16,8 +16,8 @@ export class ExcavateSpaceDeferred extends DeferredAction<Space> {
 
   public execute(): PlayerInput {
     return new SelectSpace(this.title,
-      this.excavatableSpaces,
-      (space) => {
+      this.excavatableSpaces)
+      .andThen((space) => {
         UnderworldExpansion.excavate(this.player, space);
         this.cb(space);
         return undefined;

@@ -18,8 +18,8 @@ export class ExcavateSpacesDeferred extends DeferredAction {
     const prefix = 'Select space to excavate';
     const title = prefix + (this.count > 1 ? ` (${this.nth} of ${this.count})` : '');
     return new SelectSpace(title,
-      UnderworldExpansion.excavatableSpaces(this.player, this.ignorePlacementRestrictions),
-      (space) => {
+      UnderworldExpansion.excavatableSpaces(this.player, this.ignorePlacementRestrictions))
+      .andThen((space) => {
         UnderworldExpansion.excavate(this.player, space);
         this.nth++;
         if (this.nth <= this.count) {

@@ -38,10 +38,8 @@ export class SubnauticPirates extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    return new SelectSpace(
-      'Select an ocean space you have excavated',
-      this.availableSpaces(player),
-      (space) => {
+    return new SelectSpace('Select an ocean space you have excavated', this.availableSpaces(player))
+      .andThen((space) => {
         const adjacentSpaces = player.game.board.getAdjacentSpaces(space);
         const set = new Set<IPlayer>();
         for (const space of adjacentSpaces) {

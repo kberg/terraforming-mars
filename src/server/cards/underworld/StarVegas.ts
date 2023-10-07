@@ -44,8 +44,8 @@ export class StarVegas extends Card {
 
   public override bespokePlay(player: IPlayer) {
     return new SelectSpace(newMessage('Select space colony for ${0}', (b) => b.card(this)),
-      this.getAvailableSpaces(player),
-      (space) => {
+      this.getAvailableSpaces(player))
+      .andThen((space) => {
         player.game.addCity(player, space, this.name);
         UnderworldExpansion.gainCorruption(player, 2, {log: true});
         const cities = player.game.board.getCities(player).length;

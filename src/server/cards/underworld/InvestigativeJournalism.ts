@@ -46,8 +46,8 @@ export class InvestigativeJournalism extends Card implements IProjectCard, IActi
     player.game.defer(new SelectPaymentDeferred(player, 5, {title: TITLES.payForCardAction(this.name)}))
       .andThen(() => {
         const moreCorruptPlayers = player.game.getPlayers().filter((p) => p.underworldData.corruption > player.underworldData.corruption);
-        return new SelectPlayer(moreCorruptPlayers, 'Select player to lose 1 corruption', 'Select player',
-          (target) => {
+        return new SelectPlayer(moreCorruptPlayers, 'Select player to lose 1 corruption', 'Select player')
+          .andThen((target) => {
             UnderworldExpansion.loseCorruption(target, 1, {log: true});
             player.addResourceTo(this, 1);
             return undefined;

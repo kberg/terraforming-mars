@@ -6,7 +6,7 @@ import {SelectOption} from '../inputs/SelectOption';
 import {CardName} from '../../common/cards/CardName';
 import {ICard} from '../cards/ICard';
 import {DeferredAction, Priority} from './DeferredAction';
-import {Message} from '@/common/logs/Message';
+import {Message} from '../../common/logs/Message';
 import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
 
 // TODO (kberg Make this a card attribute instead
@@ -55,12 +55,11 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
 
     const selectCard = new SelectCard(
       this.title, 'Remove resource(s)', cards,
-      ([card]) => {
+      {showOwner: true})
+      .andThen(([card]) => {
         this.attack(card);
         return undefined;
-      },
-      {showOwner: true},
-    );
+      });
 
     if (this.mandatory) {
       if (cards.length === 1) {
@@ -72,11 +71,11 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
 
     return new OrOptions(
       selectCard,
-      new SelectOption('Do not remove', 'Confirm', () => {
+      new SelectOption('Do not remove', 'Confirm'))
+      .andThen(() => {
         this.cb(false);
         return undefined;
-      }),
-    );
+      });
   }
 
   private attack(card: ICard) {

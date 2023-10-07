@@ -34,11 +34,12 @@ export class UndergroundSettlement extends PreludeCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    return new SelectSpace('Select space for city tile', this.availableSpaces(player), (space) => {
-      player.game.addCity(player, space);
-      UnderworldExpansion.excavate(player, space);
-      return undefined;
-    });
+    return new SelectSpace('Select space for city tile', this.availableSpaces(player))
+      .andThen((space) => {
+        player.game.addCity(player, space);
+        UnderworldExpansion.excavate(player, space);
+        return undefined;
+      });
   }
 }
 

@@ -44,10 +44,8 @@ export class SubterraneanSea extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    return new SelectSpace(
-      'Select space for ocean tile',
-      this.availableSpaces(player),
-      (space) => {
+    return new SelectSpace('Select space for ocean tile', this.availableSpaces(player))
+      .andThen((space) => {
         player.game.addOcean(player, space);
         return undefined;
       });

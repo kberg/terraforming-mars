@@ -56,16 +56,13 @@ export class DeepwaterDome extends PreludeCard {
 
   public override bespokePlay(player: IPlayer) {
     player.game.defer(new PlaceOceanTile(player).andThen((oceanSpace) => {
-      return new SelectSpace(
-        'Select space for claim',
-        this.getAdjacentSpaces(player, oceanSpace),
-        (claimedSpace: Space) => {
+      player.defer(new SelectSpace('Select space for claim', this.getAdjacentSpaces(player, oceanSpace))
+        .andThen((claimedSpace) => {
           claimedSpace.player = player;
           LogHelper.logBoardTileAction(player, claimedSpace, 'land claim');
           UnderworldExpansion.identify(player.game, claimedSpace, player);
           return undefined;
-        },
-      );
+        }));
     }));
 
     return undefined;

@@ -9,6 +9,7 @@ import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {Resource} from '../../../common/Resource';
+import {newMessage} from '../../../server/logs/MessageBuilder';
 
 
 export class CorporateBlackmail extends Card implements IProjectCard {
@@ -54,24 +55,27 @@ export class CorporateBlackmail extends Card implements IProjectCard {
       player.game.log('${0} blackmailed ${1} who lost 2 corruption.', (b) => b.player(player).player(blackmailedPlayer));
     }
 
-    return new SelectPlayer(this.targets(player), 'Select player to blackmail', 'blackmail', (blackmailedPlayer: IPlayer) => {
-      if (blackmailedPlayer.megaCredits < 10) {
-        corruptionConsequence(blackmailedPlayer);
-        return undefined;
-      } else {
-        const orOptions = new OrOptions();
-        orOptions.options.push(new SelectOption('Pay $1 10 M€', 'Pay 10 M€', () => {
-          blackmailedPlayer.stock.steal(Resource.MEGACREDITS, 10, player);
-          player.game.log('${0} blackmailed ${1} and was paid 10 M€.', (b) => b.player(player).player(blackmailedPlayer));
-          return undefined;
-        }));
-        orOptions.options.push(new SelectOption('Lose 2 corruption', 'Lose 2 corruption', () => {
+    return new SelectPlayer(this.targets(player), 'Select player to blackmail', 'blackmail')
+      .andThen((blackmailedPlayer: IPlayer) => {
+        if (blackmailedPlayer.megaCredits < 10) {
           corruptionConsequence(blackmailedPlayer);
           return undefined;
-        }));
-        blackmailedPlayer.defer(orOptions);
-      }
-      return undefined;
-    });
+        } else {
+          const orOptions = new OrOptions(
+            new SelectOption(newMessage('Pay ${0} 10 M€', (b) => b.player(player)), 'Pay 10 M€')
+              .andThen(() => {
+                blackmailedPlayer.stock.steal(Resource.MEGACREDITS, 10, player);
+                player.game.log('${0} blackmailed ${1} and was paid 10 M€.', (b) => b.player(player).player(blackmailedPlayer));
+                return undefined;
+              }),
+            new SelectOption('Lose 2 corruption', 'Lose 2 corruption')
+              .andThen(() => {
+                corruptionConsequence(blackmailedPlayer);
+                return undefined;
+              }));
+          blackmailedPlayer.defer(orOptions);
+        }
+        return undefined;
+      });
   }
 }

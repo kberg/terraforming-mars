@@ -40,11 +40,12 @@ export class CentralReservoir extends PreludeCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    return new SelectSpace('Select space for ocean tile', this.availableSpaces(player), (space) => {
-      player.game.addOcean(player, space);
-      UnderworldExpansion.excavate(player, space);
-      return undefined;
-    });
+    return new SelectSpace('Select space for ocean tile', this.availableSpaces(player))
+      .andThen((space) => {
+        player.game.addOcean(player, space);
+        UnderworldExpansion.excavate(player, space);
+        return undefined;
+      });
   }
 }
 

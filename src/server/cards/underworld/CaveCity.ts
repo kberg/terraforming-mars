@@ -45,8 +45,8 @@ export class CaveCity extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer) {
     return new SelectSpace(
       'Select space for a city tile',
-      this.availableSpaces(player),
-      (space) => {
+      this.availableSpaces(player))
+      .andThen((space) => {
         player.game.addCity(player, space);
         return undefined;
       });

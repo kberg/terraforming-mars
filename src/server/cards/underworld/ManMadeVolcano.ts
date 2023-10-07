@@ -54,8 +54,8 @@ export class ManMadeVolcano extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer): PlayerInput | undefined {
     player.defer(new SelectSpace(
       newMessage('Select space for ${0}', (b) => b.tileType(TileType.MAN_MADE_VOLCANO)),
-      this.availableSpaces(player),
-      (space) => {
+      this.availableSpaces(player))
+      .andThen((space) => {
         player.game.addTile(player, space, {
           tileType: TileType.MAN_MADE_VOLCANO,
           card: this.name,

@@ -65,35 +65,30 @@ export class CollusionStandardProject extends StandardProjectCard {
       amount: 0,
     };
 
-    const andOptions = new AndOptions(() => {
-      const party = turmoil.getPartyByName(data.partyName);
-      const available = party.delegates.get('NEUTRAL');
-      if (available < data.amount) {
-        throw new Error(`${data.partyName} does not have ${data.amount} neutral delegates.`);
-      }
-      for (let i = 0; i < data.amount; i++) {
-        turmoil.replaceDelegateFromParty('NEUTRAL', player.id, data.partyName, game);
-      }
+    const andOptions = new AndOptions(
+      new SelectAmount('Send 1 or 2 delegates', 'choose', 1, 2, true).andThen((amount) => {
+        data.amount = amount;
+        return undefined;
+      }),
+      new SelectParty('Choose a party', 'Send delegate', parties).andThen((partyName: PartyName) => {
+        data.partyName = partyName;
+        return undefined;
+      }))
+      .andThen(() => {
+        const party = turmoil.getPartyByName(data.partyName);
+        const available = party.delegates.get('NEUTRAL');
+        if (available < data.amount) {
+          throw new Error(`${data.partyName} does not have ${data.amount} neutral delegates.`);
+        }
+        for (let i = 0; i < data.amount; i++) {
+          turmoil.replaceDelegateFromParty('NEUTRAL', player.id, data.partyName, game);
+        }
 
-      player.totalDelegatesPlaced += data.amount;
-      game.log('${0} replaced ${1} neutral delegate(s) in ${2} area', (b) =>
-        b.player(player).number(data.amount).partyName(data.partyName));
-      return undefined;
-    });
-
-    const selectCount = new SelectAmount('Send 1 or 2 delegates', 'choose', (amount) => {
-      data.amount = amount;
-      return undefined;
-    }, 1, 2, true);
-
-    const sendDelegate = new SelectParty('Choose a party', 'Send delegate', parties, (partyName: PartyName) => {
-      data.partyName = partyName;
-      return undefined;
-    });
-
-    andOptions.options.push(selectCount);
-    andOptions.options.push(sendDelegate);
-
+        player.totalDelegatesPlaced += data.amount;
+        game.log('${0} replaced ${1} neutral delegate(s) in ${2} area', (b) =>
+          b.player(player).number(data.amount).partyName(data.partyName));
+        return undefined;
+      });
     return andOptions;
   }
 }

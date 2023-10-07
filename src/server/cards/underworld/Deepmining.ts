@@ -57,28 +57,26 @@ export class Deepmining extends Card implements IProjectCard {
   public override bespokePlay(player: IPlayer): SelectSpace {
     return new SelectSpace(
       'Select an excavatable space with a steel or titanium bonus',
-      this.getAvailableSpaces(player), (space: Space) => {
-        const bonusResources = [];
-        if (space.bonus.includes(SpaceBonus.STEEL)) {
-          bonusResources.push(Resource.STEEL);
-        }
-        if (space.bonus.includes(SpaceBonus.TITANIUM)) {
-          bonusResources.push(Resource.TITANIUM);
-        }
+      this.getAvailableSpaces(player)).andThen((space: Space) => {
+      const bonusResources = [];
+      if (space.bonus.includes(SpaceBonus.STEEL)) {
+        bonusResources.push(Resource.STEEL);
+      }
+      if (space.bonus.includes(SpaceBonus.TITANIUM)) {
+        bonusResources.push(Resource.TITANIUM);
+      }
 
-        player.game.defer(
-          new SelectResourceTypeDeferred(
-            player,
-            bonusResources,
-            'Select a resource to gain 1 unit of production'))
-          .andThen(
-            (resource) => {
-              player.production.add(resource, 1, {log: true});
-              this.bonusResource = [resource];
-              UnderworldExpansion.excavate(player, space);
-            },
-          );
-        return undefined;
-      });
+      player.game.defer(
+        new SelectResourceTypeDeferred(
+          player,
+          bonusResources,
+          'Select a resource to gain 1 unit of production'))
+        .andThen((resource) => {
+          player.production.add(resource, 1, {log: true});
+          this.bonusResource = [resource];
+          UnderworldExpansion.excavate(player, space);
+        });
+      return undefined;
+    });
   }
 }

@@ -41,10 +41,11 @@ export class PrivateInvestigator extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    return new SelectPlayer(this.targets(player), 'Select player to investigate', 'investigate', (investigatedPlayer: IPlayer) => {
-      investigatedPlayer.playedCards.push(this);
-      return undefined;
-    });
+    return new SelectPlayer(this.targets(player), 'Select player to investigate', 'investigate')
+      .andThen((investigatedPlayer) => {
+        investigatedPlayer.playedCards.push(this);
+        return undefined;
+      });
   }
 
   public override getVictoryPoints() {

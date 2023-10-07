@@ -39,17 +39,13 @@ export class Microgravimetry extends Card implements IProjectCard {
 
   public action(player: IPlayer) {
     return new SelectAmount(
-      'Select amount of energy to spend',
-      'OK',
-      (amount: number) => {
+      'Select amount of energy to spend', undefined, 1, player.energy)
+      .andThen((amount) => {
         player.stock.deduct(Resource.ENERGY, amount);
         player.game.log('${0} spent ${1} energy', (b) => b.player(player).number(amount));
         player.addResourceTo(this, {qty: amount, log: true});
         player.game.defer(new IdentifySpacesDeferred(player, amount));
         return undefined;
-      },
-      1,
-      player.energy,
-    );
+      });
   }
 }
