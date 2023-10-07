@@ -86,7 +86,7 @@ export class RemoveResourcesFromCard extends DeferredAction<boolean> {
       target.removeResourceFrom(card, this.count, {removingPlayer: this.player});
       this.cb(true);
     }
-    UnderworldExpansion.mayBlockAttack(target, this.player, ((proceed) => {
+    return UnderworldExpansion.mayBlockAttack(target, this.player, ((proceed) => {
       if (proceed) {
         target.removeResourceFrom(card, this.count, {removingPlayer: this.player});
       }

@@ -10,7 +10,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Size} from '../../../common/cards/render/Size';
 import {all} from '../Options';
 import {newMessage} from '../../logs/MessageBuilder';
-import {UnderworldExpansion} from '@/server/underworld/UnderworldExpansion';
+import {UnderworldExpansion} from '../../../server/underworld/UnderworldExpansion';
 
 export class HiredRaiders extends Card implements IProjectCard {
   constructor() {
@@ -48,13 +48,12 @@ export class HiredRaiders extends Card implements IProjectCard {
         const optionTitle = newMessage('Steal ${0} M€ from ${1}', (b) => b.number(amountStolen).player(target));
 
         availableActions.options.push(new SelectOption(optionTitle).andThen(() => {
-          UnderworldExpansion.mayBlockAttack(target, player, (proceed) => {
+          return UnderworldExpansion.mayBlockAttack(target, player, (proceed) => {
             if (proceed) {
               target.stock.steal(Resource.MEGACREDITS, amountStolen, player);
             }
             return undefined;
           });
-          return undefined;
         }));
       }
     });

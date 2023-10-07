@@ -72,9 +72,7 @@ export class HiredRaiders extends Card implements IProjectCard {
     });
 
     if (availableActions.options.length > 0) {
-      availableActions.options.push(new SelectOption('Do not steal', 'Confirm').andThen(() => {
-        return undefined;
-      }));
+      availableActions.options.push(new SelectOption('Do not steal', 'Confirm'));
       return availableActions;
     }
     return undefined;
