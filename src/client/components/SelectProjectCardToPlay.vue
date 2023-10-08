@@ -279,20 +279,28 @@ export default Vue.extend({
       return this.reserveUnits.plants > 0 && this.canUse('plants');
     },
     saveData() {
+      // TODO(kberg): This is FINALLY very similar to SelectPayment. Merge them? :D
       const payment: Payment = {...Payment.EMPTY};
       let totalSpent = 0;
 
       for (const target of PAYMENT_UNITS) {
-        payment[target] = this[target] ?? 0;
-        totalSpent += payment[target] * this.getResourceRate(target);
-      }
+        if (!this.canUse(target)) {
+          continue;
+        }
+        const amount = this[target] ?? 0;
+        if (amount === 0) {
+          continue;
+        }
 
-      for (const target of PAYMENT_UNITS) {
         if (payment[target] > this.getAvailableUnits(target)) {
           this.warning = `You do not have enough ${target}`;
           return;
         }
+
+        payment[target] = amount;
+        totalSpent += payment[target] * this.getResourceRate(target);
       }
+
       if (totalSpent < this.cost) {
         this.warning = 'Haven\'t spent enough';
         return;
