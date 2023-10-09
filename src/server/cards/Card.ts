@@ -347,7 +347,7 @@ export abstract class Card {
     }
   }
 
-  public getCardDiscount(_player?: IPlayer, card?: IProjectCard): number {
+  public getCardDiscount(_player: IPlayer, card?: IProjectCard): number {
     if (this.cardDiscount === undefined) {
       return 0;
     }

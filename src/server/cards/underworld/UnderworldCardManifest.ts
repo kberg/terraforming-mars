@@ -62,7 +62,7 @@ import {InvestorPlaza} from './InvestorPlaza';
 import {JensonBoyleCo} from './JensonBoyleCo';
 // import {Keplertec} from './Keplertec';
 // import {KingdomofTauraro} from './KingdomofTauraro';
-// import {LaborTrafficking} from './LaborTrafficking';
+import {LaborTrafficking} from './LaborTrafficking';
 import {Landfill} from './Landfill';
 import {LobbyingNetwork} from './LobbyingNetwork';
 import {ManMadeVolcano} from './ManMadeVolcano';
@@ -103,6 +103,7 @@ import {SoilExport} from './SoilExport';
 // import {SpacePrivateers} from './SpacePrivateers';
 import {SpaceWargames} from './SpaceWargames';
 import {StagedProtests} from './StagedProtests';
+import {StandardTechnology} from './StandardTechnology';
 import {StarVegas} from './StarVegas';
 import {StemFieldSubsidies} from './StemFieldSubsidies';
 import {SubnauticPirates} from './SubnauticPirates';
@@ -142,7 +143,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.SUBNAUTIC_PIRATES]: {Factory: SubnauticPirates},
     // [CardName.SOCIAL_ENGINEERING]: {Factory: SocialEngineering}, // Use another player's action. Not right now.
     [CardName.FABRICATED_SCANDAL]: {Factory: FabricatedScandal},
-    // [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking}, // The first standard project per generation costs 6 M€ less.
+    [CardName.LABOR_TRAFFICKING]: {Factory: LaborTrafficking},
     [CardName.SUBTERRANEAN_SEA]: {Factory: SubterraneanSea},
     [CardName.FOREST_TUNNELS]: {Factory: ForestTunnels},
     [CardName.MAN_MADE_VOLCANO]: {Factory: ManMadeVolcano},
@@ -229,13 +230,13 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     // [CardName.THIOLAVA_VENTS]: {Factory: ThiolavaVents}, // Uncomment when tests are more manageable. See Production.ts
 
     // Replacements
-    // [CardName.STANDARD_TECHNOLOGY]: {Factory: StandardTechnology}, // Tracking standard projects during a generation.
+    [CardName.STANDARD_TECHNOLOGY]: {Factory: StandardTechnology},
     [CardName.HACKERS_UNDERWORLD]: {Factory: Hackers},
     [CardName.HIRED_RAIDERS_UNDERWORLD]: {Factory: HiredRaiders},
   },
 
   cardsToRemove: [
-    // CardName.STANDARD_TECHNOLOGY,
+    CardName.STANDARD_TECHNOLOGY,
     CardName.HACKERS,
     CardName.HIRED_RAIDERS,
   ],
