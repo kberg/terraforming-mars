@@ -802,7 +802,6 @@ export class Game implements IGame, Logger {
   private goToDraftOrResearch() {
     this.players.forEach((player) => {
       player.terraformRatingAtGenerationStart = player.getTerraformRating();
-      player.hasIncreasedTerraformRatingThisGeneration = false;
     });
 
     if (this.gameOptions.draftVariant) {
