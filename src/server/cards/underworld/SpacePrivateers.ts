@@ -7,10 +7,10 @@ import {CardType} from '../../../common/cards/CardType';
 import {Card} from '../Card';
 import {all} from '../Options';
 import {IActionCard} from '../ICard';
-import {IPlayer} from '@/server/IPlayer';
-import {PlayerInput} from '@/server/PlayerInput';
-import {UnderworldExpansion} from '@/server/underworld/UnderworldExpansion';
-import {Resource} from '@/common/Resource';
+import {IPlayer} from '../../IPlayer';
+import {PlayerInput} from '../../PlayerInput';
+import {UnderworldExpansion} from '../../underworld/UnderworldExpansion';
+import {Resource} from '../../../common/Resource';
 
 export class SpacePrivateers extends Card implements IProjectCard, IActionCard {
   constructor() {
