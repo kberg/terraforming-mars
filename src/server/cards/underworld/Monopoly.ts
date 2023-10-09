@@ -38,13 +38,12 @@ export class Monopoly extends Card implements IProjectCard {
         const resource = Units.ResourceMap[unitKey];
         if (player.game.isSoloMode()) {
           player.production.add(resource, 1, {log: true});
+          player.resolveInsuranceInSoloGame();
           return undefined;
         }
-        const targets = player.game.getPlayers().filter((p) => p.canHaveProductionReduced(resource, 1, player));
+        const targets = player.game.getPlayers().filter((target) => target !== player && target.canHaveProductionReduced(resource, 1, player));
         for (const target of targets) {
-          if (target !== player) {
-            this.attack(target, player, resource);
-          }
+          this.attack(target, player, resource);
         }
         return undefined;
       });
@@ -55,6 +54,7 @@ export class Monopoly extends Card implements IProjectCard {
       if (proceed) {
         target.production.add(resource, -1, {log: true, from: attacker, stealing: true});
         attacker.production.add(resource, 1, {log: false});
+        target.resolveInsurance();
       }
       return undefined;
     });
