@@ -1,23 +1,24 @@
 import {expect} from 'chai';
 import {RobinsonIndustries} from '../../../src/server/cards/prelude/RobinsonIndustries';
-import {Game} from '../../../src/server/Game';
+import {IGame} from '../../../src/server/IGame';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {Resource} from '../../../src/common/Resource';
 import {TestPlayer} from '../../TestPlayer';
-import {cast, runAllActions} from '../../TestingUtils';
+import {cast, formatMessage, runAllActions} from '../../TestingUtils';
 import {Helion} from '../../../src/server/cards/corporation/Helion';
 import {SelectPayment} from '../../../src/server/inputs/SelectPayment';
 import {Payment} from '../../../src/common/inputs/Payment';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
+import {testGame} from '../../TestGame';
 
 describe('RobinsonIndustries', function() {
   let card: RobinsonIndustries;
   let player: TestPlayer;
-  let game: Game;
+  let game: IGame;
 
   beforeEach(function() {
     card = new RobinsonIndustries();
-    player = TestPlayer.BLUE.newPlayer();
-    game = Game.newInstance('gameid', [player], player);
+    [game, player] = testGame(1);
     player.setCorporationForTest(card);
   });
 
@@ -30,7 +31,7 @@ describe('RobinsonIndustries', function() {
     player.megaCredits = 4;
     expect(card.canAct(player)).is.true;
 
-    const result = cast(card.action(player), OrOptions);
+    const result = cast(card.action(player), SelectResource);
     expect(result.options).has.lengthOf(6);
 
     result.options[1].cb();
@@ -41,14 +42,14 @@ describe('RobinsonIndustries', function() {
 
   it('Only allows to choose from lowest production(s)', function() {
     player.production.add(Resource.MEGACREDITS, -1);
-    let result = cast(card.action(player), OrOptions);
+    let result = cast(card.action(player), SelectResource);
     expect(result.options).has.lengthOf(1);
 
     player.production.add(Resource.MEGACREDITS, 5);
     player.production.add(Resource.TITANIUM, 1);
     player.production.add(Resource.PLANTS, 2);
 
-    result = cast(card.action(player), OrOptions);
+    result = cast(card.action(player), SelectResource);
     expect(result.options).has.lengthOf(3);
   });
 
@@ -65,7 +66,7 @@ describe('RobinsonIndustries', function() {
     player.heat = 5;
 
     const selectResource = cast(card.action(player), OrOptions);
-    expect((selectResource.options[1].title as String).includes('steel')).is.true;
+    expect(formatMessage(selectResource.options[1].title).includes('steel')).is.true;
 
     selectResource.options[1].cb();
     runAllActions(game);

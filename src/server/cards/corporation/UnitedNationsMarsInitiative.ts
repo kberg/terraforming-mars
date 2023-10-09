@@ -40,7 +40,7 @@ export class UnitedNationsMarsInitiative extends Card implements IActionCard, IC
 
   onIncreaseTerraformRating(player: IPlayer, cardOwner: IPlayer): void {
     if (player === cardOwner) {
-      this.data.lastGenerationIncreasedTR === player.game.generation;
+      this.data.lastGenerationIncreasedTR = player.game.generation;
     }
   }
 

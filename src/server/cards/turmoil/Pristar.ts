@@ -47,7 +47,7 @@ export class Pristar extends Card implements ICorporationCard {
 
   onIncreaseTerraformRating(player: IPlayer, cardOwner: IPlayer): void {
     if (player === cardOwner) {
-      this.data.lastGenerationIncreasedTR === player.game.generation;
+      this.data.lastGenerationIncreasedTR = player.game.generation;
     }
   }
 

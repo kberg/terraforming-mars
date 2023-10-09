@@ -8,11 +8,12 @@ export class SelectResource extends OrOptions {
     public override title: string | Message,
     public include: ReadonlyArray<keyof Units>,
     cb: (key: keyof Units) => undefined,
-    public override buttonLabel: string = 'Select',
+    optionTitle: (key: keyof Units) => string | Message = (key) => key,
   ) {
     super();
+    this.buttonLabel = 'Select'; // I wonder if this should be standard.
     for (const key of include) {
-      this.options.push(new SelectOption(key).andThen(() => {
+      this.options.push(new SelectOption(optionTitle(key)).andThen(() => {
         cb(key);
         return undefined;
       }));

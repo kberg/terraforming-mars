@@ -1,8 +1,6 @@
 import {IActionCard} from '../ICard';
 import {IPlayer} from '../../IPlayer';
 import {ICorporationCard} from '../corporation/ICorporationCard';
-import {OrOptions} from '../../inputs/OrOptions';
-import {SelectOption} from '../../inputs/SelectOption';
 import {ALL_RESOURCES} from '../../../common/Resource';
 import {Card} from '../Card';
 import {CardName} from '../../../common/cards/CardName';
@@ -10,6 +8,9 @@ import {CardType} from '../../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred';
 import {TITLES} from '../../inputs/titles';
+import {Units} from '../../../common/Units';
+import {SelectResource} from '../../inputs/SelectResource';
+import {newMessage} from '../../logs/MessageBuilder';
 
 export class RobinsonIndustries extends Card implements IActionCard, ICorporationCard {
   constructor() {
@@ -39,25 +40,27 @@ export class RobinsonIndustries extends Card implements IActionCard, ICorporatio
 
   public action(player: IPlayer) {
     let minimum = player.production.megacredits;
-    let lowest: Array<SelectOption> = [];
+    const lowest: Array<keyof Units> = [];
 
-    ALL_RESOURCES.forEach((resource) => {
-      const option = new SelectOption('Increase ' + resource + ' production 1 step').andThen(() => {
-        player.game.defer(new SelectPaymentDeferred(player, 4, {title: TITLES.payForCardAction(this.name)}))
-          // Add production after payment, to prevent Manutech from being in the way.
-          .andThen(() => player.production.add(resource, 1, {log: true}));
-        return undefined;
-      });
-
-      if (player.production[resource] < minimum) {
-        lowest = [];
+    for (const resource of ALL_RESOURCES) {
+      const production = player.production[resource];
+      if (production < minimum) {
+        lowest.length = 0;
         minimum = player.production[resource];
       }
-      if (player.production[resource] === minimum) lowest.push(option);
-    });
-
-    const result = new OrOptions();
-    result.options = lowest;
-    return result;
+      if (production === minimum) {
+        lowest.push(resource);
+      }
+    }
+    return new SelectResource(
+      'Select which production type will increase by 1',
+      lowest,
+      (resource) => {
+        player.game.defer(new SelectPaymentDeferred(player, 4, {title: TITLES.payForCardAction(this.name)}))
+          // Add production after payment, to prevent Manutech from being in the way.
+          .andThen(() => player.production.add(Units.ResourceMap[resource], 1, {log: true}));
+        return undefined;
+      },
+      (resource) => newMessage('Increase ${0} production 1 step', (b) => b.string(resource)));
   }
 }
