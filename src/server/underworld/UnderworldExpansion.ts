@@ -17,6 +17,7 @@ import {OrOptions} from '../inputs/OrOptions';
 import {SelectOption} from '../inputs/SelectOption';
 import {newMessage} from '../logs/MessageBuilder';
 import {LogHelper} from '../LogHelper';
+import {SelectPaymentDeferred} from '../deferredActions/SelectPaymentDeferred';
 
 export class UnderworldExpansion {
   private constructor() {}
@@ -179,10 +180,8 @@ export class UnderworldExpansion {
     player.tableau.forEach((card) => card.onExcavation?.(player, space));
   }
 
-  public static grant(player: IPlayer, reward: UndergroundResourceToken): void {
-    const game = player.game;
-
-    switch (reward) {
+  public static grant(player: IPlayer, token: UndergroundResourceToken): void {
+    switch (token) {
     case 'card1':
       player.drawCard(1);
       break;
@@ -256,7 +255,10 @@ export class UnderworldExpansion {
       player.increaseTerraformRating();
       break;
     case 'ocean':
-      game.defer(new PlaceOceanTile(player));
+      if (player.game.canAddOcean() && player.canAfford({cost: 4, tr: {oceans: 1}})) {
+        player.game.defer(new SelectPaymentDeferred(player, 4, {title: newMessage('Select how to pay 4 M€ for ocean bonus')}))
+          .andThen(() => player.game.defer(new PlaceOceanTile(player)));
+      }
       break;
     case 'data1pertemp':
     case 'microbe1pertemp':
@@ -264,11 +266,11 @@ export class UnderworldExpansion {
     case 'steel2pertemp':
     case 'titanium1pertemp':
       // TODO(kberg): viz
-      player.underworldData.temperatureBonus = reward;
-      player.game.log('For the rest of this generation, ${0} will gain ${1}', (b) => b.player(player).string(reward));
+      player.underworldData.temperatureBonus = token;
+      player.game.log('For the rest of this generation, ${0} will gain ${1}', (b) => b.player(player).string(token));
       break;
     default:
-      throw new Error('Unknown reward: ' + reward);
+      throw new Error('Unknown reward: ' + token);
     }
   }
 

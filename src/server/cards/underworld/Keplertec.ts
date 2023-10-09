@@ -10,6 +10,8 @@ import {digit} from '../Options';
 import {ICard} from '../ICard';
 import {UndergroundResourceToken} from '../../../common/underworld/UndergroundResourceToken';
 import {UnderworldExpansion} from '../../../server/underworld/UnderworldExpansion';
+import {OrOptions} from '../../inputs/OrOptions';
+import {SelectOption} from '../../inputs/SelectOption';
 
 export class Keplertec extends ActionCard implements ICorporationCard {
   constructor() {
@@ -69,6 +71,13 @@ export class Keplertec extends ActionCard implements ICorporationCard {
       return;
     }
 
+    const orOptions = new OrOptions();
+    for (const token of tokens) {
+      orOptions.options.push(new SelectOption(token).andThen(() => {
+        UnderworldExpansion.grant(player, token);
+        return undefined;
+      }));
+    }
     UnderworldExpansion.addTokens(game, tokens);
   }
 
