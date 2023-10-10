@@ -62,7 +62,7 @@ import {InvestorPlaza} from './InvestorPlaza';
 import {JensonBoyleCo} from './JensonBoyleCo';
 import {Keplertec} from './Keplertec';
 // import {Keplertec} from './Keplertec';
-// import {KingdomofTauraro} from './KingdomofTauraro';
+import {KingdomofTauraro} from './KingdomofTauraro';
 import {LaborTrafficking} from './LaborTrafficking';
 import {Landfill} from './Landfill';
 import {LobbyingNetwork} from './LobbyingNetwork';
@@ -248,7 +248,7 @@ export const UNDERWORLD_CARD_MANIFEST = new ModuleManifest({
     [CardName.JENSON_BOYLE_CO]: {Factory: JensonBoyleCo},
     [CardName.HENKEI_GENETICS]: {Factory: HenkeiGenetics},
     [CardName.ARBORIST_COLLECTIVE]: {Factory: ArboristCollective},
-    // [CardName.KINGDOM_OF_TAURARO]: {Factory: KingdomofTauraro},
+    [CardName.KINGDOM_OF_TAURARO]: {Factory: KingdomofTauraro},
     [CardName.AERON_GENOMICS]: {Factory: AeronGenomics},
     [CardName.KEPLERTEC]: {Factory: Keplertec},
     [CardName.VOLTAGON]: {Factory: Voltagon, compatibility: 'venus'},

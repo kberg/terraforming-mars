@@ -67,6 +67,13 @@ export class MarsBoard extends Board {
     const spacesOnLand = this.getAvailableSpacesOnLand(player, canAffordOptions);
     // Gordon CEO can ignore placement restrictions for Cities+Greenery
     if (player.cardIsInEffect(CardName.GORDON)) return spacesOnLand;
+    if (player.isCorporation(CardName.KINGDOM_OF_TAURARO)) {
+      const spacesNextToMySpaces = spacesOnLand.filter(
+        (space) => this.getAdjacentSpaces(space).some(
+          (adj) => adj.tile !== undefined && adj.player === player));
+
+      return (spacesNextToMySpaces.length > 0) ? spacesNextToMySpaces : spacesOnLand;
+    }
     // A city cannot be adjacent to another city
     return spacesOnLand.filter(
       (space) => this.getAdjacentSpaces(space).some((adjacentSpace) => Board.isCitySpace(adjacentSpace)) === false,

@@ -41,6 +41,7 @@ export class MonsInsurance extends Card implements ICorporationCard {
   public override bespokePlay(player: IPlayer) {
     for (const p of player.game.getPlayers()) {
       if (p.id !== player.id) {
+        // TODO(kberg): Preventable with Underworld Corruption?
         p.production.add(Resource.MEGACREDITS, -2, {log: true});
       }
     }
