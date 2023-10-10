@@ -79,10 +79,7 @@ export class UnderworldExpansion {
   }
 
   public static initializePlayer(): UnderworldPlayerData {
-    return {
-      corruption: 0,
-      excavationTiles: 0,
-    };
+    return {corruption: 0};
   }
 
   public static identifyableSpaces(game: IGame): ReadonlyArray<Space> {

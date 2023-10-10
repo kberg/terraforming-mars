@@ -266,7 +266,7 @@ describe('Player', function() {
       } as SerializedTimer,
       totalDelegatesPlaced: 0,
       victoryPointsByGeneration: [],
-      underworldData: {corruption: 0, excavationTiles: 0},
+      underworldData: {corruption: 0},
     };
 
     const newPlayer = Player.deserialize(json);

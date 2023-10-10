@@ -215,7 +215,6 @@ export class Server {
       corruption: player.underworldData.corruption,
       energy: player.energy,
       energyProduction: player.production.energy,
-      excavations: player.underworldData.excavationTiles,
       fleetSize: player.colonies.getFleetSize(),
       heat: player.heat,
       heatProduction: player.production.heat,
