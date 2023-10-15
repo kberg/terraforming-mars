@@ -470,8 +470,8 @@
 
     "Select a card to discard": "Wähle eine Karte um diese abzuwerfen",
     "Select card to add resource": "Wähle eine Karte um Ressource hinzuzufügen",
-    "Select card to add 1 resource": "Wähle eine Karte um 1 Ressource hinzuzufügen",
-    "Select card to add 1 resources(s)": "Wähle eine Karte um 1 Ressource hinzuzufügen",
+    "-- Select card to add 1 resource": "Wähle eine Karte um 1 Ressource hinzuzufügen",
+    "-- Select card to add 1 resources(s)": "Wähle eine Karte um 1 Ressource hinzuzufügen",
     "Select card to add 2 resources(s)": "Wähle eine Karte um 2 Ressourcen hinzuzufügen",
     "Select card to add ${0} Microbe(s)": "Wähle eine Karte um ${0} Mikroben hinzuzufügen",
     "Select card to add 1 Microbe(s)": "Wähle eine Karte um 1 Mikrobe hinzuzufügen",

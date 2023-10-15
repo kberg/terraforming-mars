@@ -336,6 +336,7 @@ export class Executor implements BehaviorExecutor {
                 restrictedTag: arctac.tag,
                 min: arctac.min,
                 robotCards: arctac.robotCards !== undefined,
+                autoSelect: arctac.autoSelect ?? true, // TODO(kberg): document this.
               }));
         }
       }

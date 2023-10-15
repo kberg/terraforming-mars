@@ -31,6 +31,7 @@ import {Color} from '../common/Color';
 import {OrOptions} from './inputs/OrOptions';
 import {Stock} from './player/Stock';
 import {UnderworldPlayerData} from './underworld/UnderworldData';
+import {OneOrArray} from '@/common/utils/types';
 
 export type ResourceSource = IPlayer | GlobalEventName | ICard;
 
@@ -234,7 +235,7 @@ export interface IPlayer {
    *
    * If `resource` is absent, return the cards that collect any resource.
    */
-  getResourceCards(resource?: CardResource): Array<ICard>;
+  getResourceCards(resource?: OneOrArray<CardResource>): Array<ICard>;
 
   /**
    * Count all the resources of a given type in the tableau.

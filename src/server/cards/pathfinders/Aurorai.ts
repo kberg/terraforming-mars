@@ -7,7 +7,6 @@ import {CardType} from '../../../common/cards/CardType';
 import {CardRenderer} from '../render/CardRenderer';
 import {CardResource} from '../../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
-import {Priority} from '../../deferredActions/DeferredAction';
 
 export class Aurorai extends Card implements ICorporationCard {
   constructor() {
@@ -40,7 +39,7 @@ export class Aurorai extends Card implements ICorporationCard {
 
   public onIncreaseTerraformRating(player: IPlayer, cardOwner: IPlayer, steps: number) {
     if (player === cardOwner) {
-      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: steps}), Priority.GAIN_RESOURCE_OR_PRODUCTION);
+      player.game.defer(new AddResourcesToCard(player, CardResource.DATA, {count: steps}));
     }
   }
 }

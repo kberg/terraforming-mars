@@ -13,10 +13,14 @@ import {Countable, CountableUnits} from './Countable';
 import {PlacementType} from '../boards/PlacementType';
 import {AdjacencyBonus} from '../ares/AdjacencyBonus';
 import {Units} from '../../common/Units';
+import {OneOrArray} from '../../common/utils/types';
 
 type ValueOf<Obj> = Obj[keyof Obj];
 type OneOnly<Obj, Key extends keyof Obj> = { [key in Exclude<keyof Obj, Key>]: null } & Pick<Obj, Key>;
 type OneOfByKey<Obj> = { [key in keyof Obj]: OneOnly<Obj, key> };
+/**
+ * This type matches Obj, but only accepts a single field in the type.
+ */
 export type OneOfType<Obj> = ValueOf<OneOfByKey<Obj>>;
 
 
@@ -174,7 +178,7 @@ export interface DrawCard {
 
 export interface AddResource {
   count: Countable,
-  type?: CardResource,
+  type?: OneOrArray<CardResource>,
   tag?: Tag,
   /**
    * If true, then there must be a card that matches this requirement to take the action.
@@ -192,10 +196,13 @@ export interface AddResource {
   robotCards?: true,
 
   /** If true, if only one card matches, apply immediately without asking. */
-  // WARNING: I don't think this is actually used.
   autoSelect?: boolean,
 }
 
+/**
+ * Decreases production of a standard resource from any player, including
+ * the player themselves.
+ */
 export interface DecreaseAnyProduction {
   count: number;
   type: Resource;

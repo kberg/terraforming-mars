@@ -62,17 +62,18 @@ import {CeoExtension} from './CeoExtension';
 import {ICeoCard, isCeoCard} from './cards/ceos/ICeoCard';
 import {newMessage} from './logs/MessageBuilder';
 import {calculateVictoryPoints} from './game/calculateVictoryPoints';
-import {IVictoryPointsBreakdown} from '..//common/game/IVictoryPointsBreakdown';
+import {IVictoryPointsBreakdown} from '../common/game/IVictoryPointsBreakdown';
 import {YesAnd} from './cards/requirements/CardRequirement';
 import {PlayableCard} from './cards/IProjectCard';
 import {Supercapacitors} from './cards/promo/Supercapacitors';
 import {CanAffordOptions, CardAction, IPlayer, ResourceSource, isIPlayer} from './IPlayer';
 import {IPreludeCard} from './cards/prelude/IPreludeCard';
-import {inplaceRemove, sum} from '../common/utils/utils';
+import {asArray, inplaceRemove, sum} from '../common/utils/utils';
 import {PreludesExpansion} from './preludes/PreludesExpansion';
 import {ChooseCards} from './deferredActions/ChooseCards';
 import {UnderworldPlayerData} from './underworld/UnderworldData';
 import {UnderworldExpansion} from './underworld/UnderworldExpansion';
+import {OneOrArray} from '../common/utils/types';
 
 const THROW_WAITING_FOR = Boolean(process.env.THROW_WAITING_FOR);
 
@@ -547,11 +548,12 @@ export class Player implements IPlayer {
     return result;
   }
 
-  public getResourceCards(resource?: CardResource): Array<ICard> {
+  public getResourceCards(resource?: OneOrArray<CardResource>): Array<ICard> {
     let result = this.tableau.filter((card) => card.resourceType !== undefined);
 
+    const array = asArray(resource);
     if (resource !== undefined) {
-      result = result.filter((card) => card.resourceType === resource);
+      result = result.filter((card) => array.includes(card.resourceType));
       // result = result.filter((card) => card.resourceType === resource || card.resourceType === CardResource.WARE);
     }
 
