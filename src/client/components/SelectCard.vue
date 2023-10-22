@@ -3,8 +3,7 @@
         <div v-if="showtitle === true" class="nofloat wf-component-title">{{ $t(playerinput.title) }}</div>
         <label v-for="card in getOrderedCards()" :key="card.name" :class="getCardBoxClass(card)">
             <template v-if="!card.isDisabled">
-              <input v-if="selectOnlyOneCard" type="radio" v-model="cards" :value="card" />
-              <input v-else type="checkbox" v-model="cards" :value="card" :disabled="playerinput.max !== undefined && Array.isArray(cards) && cards.length >= playerinput.max && cards.includes(card) === false" />
+              <input type="checkbox" v-model="cards" :value="card" :disabled="isSelectable(card)" :radio="false"/>
             </template>
             <Card :card="card" :actionUsed="isCardActivated(card)" :robotCard="robotCard(card)">
               <template v-if="playerinput.showOwner">
@@ -14,7 +13,7 @@
               </template>
             </Card>
         </label>
-        <div v-if="hasCardWarning()" class="card-warning">{{ $t(warning) }}</div>
+        <div v-if="showWarning()" class="card-warning">{{ $t(warning) }}</div>
         <div v-if="showsave === true" class="nofloat">
             <AppButton :disabled="isOptionalToManyCards && cardsSelected() === 0" type="submit" @click="saveData" :title="buttonLabel()" />
             <AppButton :disabled="isOptionalToManyCards && cardsSelected() > 0" v-if="isOptionalToManyCards" @click="saveData" type="submit" :title="$t('Skip this action')" />
@@ -30,7 +29,6 @@ import {Color} from '@/common/Color';
 import {Message} from '@/common/logs/Message';
 import {CardOrderStorage} from '@/client/utils/CardOrderStorage';
 import {PlayerViewModel} from '@/common/models/PlayerModel';
-import {VueModelCheckbox, VueModelRadio} from '@/client/types';
 import Card from '@/client/components/card/Card.vue';
 import {CardModel} from '@/common/models/CardModel';
 import {CardName} from '@/common/cards/CardName';
@@ -44,7 +42,7 @@ type Owner = {
 }
 
 type WidgetDataModel = {
-  cards: VueModelRadio<CardModel> | VueModelCheckbox<Array<CardModel>>;
+  cards: Array<CardModel>;
   warning: string | Message | undefined;
   owners: Map<CardName, Owner>,
 }
@@ -83,17 +81,13 @@ export default Vue.extend({
   },
   watch: {
     cards() {
-      this.$emit('cardschanged', this.getData());
+      // I think this is only used in tests. Can be replaced wtih save()
+      this.$emit('cardschanged', this.getNames());
     },
   },
   methods: {
     cardsSelected(): number {
-      if (Array.isArray(this.cards)) {
-        return this.cards.length;
-      } else if (this.cards === false || this.cards === undefined) {
-        return 0;
-      }
-      return 1;
+      return this.cards.length;
     },
     getOrderedCards(): Array<CardModel> {
       let cards: Array<CardModel> = [];
@@ -118,20 +112,20 @@ export default Vue.extend({
       }
       return cards;
     },
-    hasCardWarning() {
-      if (Array.isArray(this.cards)) {
-        return false;
-      } else if (typeof this.cards === 'object' && this.cards.warning !== undefined) {
-        this.warning = this.cards.warning;
-        return true;
-      }
-      return false;
+    showWarning() {
+      return (this.cards.length > 0 && this.cards[0].warning !== undefined);
     },
-    getData(): Array<CardName> {
-      return Array.isArray(this.$data.cards) ? this.$data.cards.map((card) => card.name) : [this.$data.cards.name];
+    isSelectable(card: CardModel): boolean {
+      return this.playerinput.max !== undefined && this.cards.length >= this.playerinput.max && this.cards.includes(card) === false;
+    },
+    getNames(): Array<CardName> {
+      return this.cards.map((card) => card.name);
     },
     saveData() {
-      this.onsave({type: 'card', cards: this.getData()});
+      this.onsave({
+        type: 'card',
+        cards: this.getNames(),
+      });
     },
     getCardBoxClass(card: CardModel): string {
       if (this.playerinput.showOwner && this.getOwner(card) !== undefined) {
