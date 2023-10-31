@@ -16,6 +16,7 @@ export class Deepnuking extends Card implements IProjectCard {
       behavior: {
         spend: {energy: 3},
         underworld: {excavate: 2},
+        removeAnyPlants: 3,
       },
 
       metadata: {

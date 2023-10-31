@@ -24,7 +24,7 @@ export class RecklessDetonation extends Card implements IProjectCard {
         renderData: CardRenderer.builder((b) => {
           b.excavate(1).minus().steel(3, {digit, all}).asterix().or().titanium(2, {digit, all}).asterix();
         }),
-        description: 'Requires 2 corruption. Excavate an underground resources. Remove up to 3 steel or 2 titanium from another player.',
+        description: 'Requires 2 corruption. Excavate an underground resource. Remove up to 3 steel or 2 titanium from another player.',
       },
     });
   }
