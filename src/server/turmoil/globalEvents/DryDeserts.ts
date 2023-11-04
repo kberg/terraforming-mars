@@ -3,7 +3,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 import {RemoveOceanTile} from '../../deferredActions/RemoveOceanTile';
 import {SelectResourcesDeferred} from '../../deferredActions/SelectResourcesDeferred';
 import {CardRenderer} from '../../cards/render/CardRenderer';
@@ -22,7 +22,7 @@ export class DryDeserts extends GlobalEvent implements IGlobalEvent {
       renderData: RENDER_DATA,
     });
   }
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     if (game.canRemoveOcean()) {
       game.defer(new RemoveOceanTile(game.getPlayersInGenerationOrder()[0], 'Dry Deserts Global Event - Remove an Ocean tile from the board'));
     }

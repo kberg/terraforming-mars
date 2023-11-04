@@ -3,7 +3,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 import {Size} from '../../../common/cards/render/Size';
 
@@ -21,7 +21,7 @@ export class WarOnEarth extends GlobalEvent implements IGlobalEvent {
       renderData: RENDER_DATA,
     });
   }
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       player.decreaseTerraformRating(4 - turmoil.getPlayerInfluence(player), {log: true});
     });

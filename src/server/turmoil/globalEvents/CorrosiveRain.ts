@@ -3,7 +3,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 import {CorrosiveRainDeferredAction} from '../../deferredActions/CorrosiveRainDeferredAction';
 import {CardRenderer} from '../../cards/render/CardRenderer';
 
@@ -22,7 +22,7 @@ export class CorrosiveRain extends GlobalEvent implements IGlobalEvent {
     });
   }
 
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       player.drawCard(turmoil.getPlayerInfluence(player));
       game.defer(new CorrosiveRainDeferredAction(player));

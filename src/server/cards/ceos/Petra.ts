@@ -45,7 +45,7 @@ export class Petra extends CeoCard {
   public action(player: IPlayer): PlayerInput | undefined {
     this.isDisabled = true;
 
-    const turmoil = player.game.turmoil as Turmoil;
+    const turmoil = Turmoil.getTurmoil(player.game);
 
     let count = 0; // How many delegates were swapped out
 

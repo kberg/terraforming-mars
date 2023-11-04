@@ -3,7 +3,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 import {CardResource} from '../../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
 import {CardRenderer} from '../../cards/render/CardRenderer';
@@ -25,7 +25,7 @@ export class CloudSocieties extends GlobalEvent implements IGlobalEvent {
     });
   }
 
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       const resourceCards = player.getResourceCards(CardResource.FLOATER);
       resourceCards.forEach((card) => {

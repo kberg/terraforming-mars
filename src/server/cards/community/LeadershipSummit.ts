@@ -3,7 +3,7 @@ import {GlobalEvent} from '../../turmoil/globalEvents/GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../../turmoil/Turmoil';
+import {ITurmoil} from '../../turmoil/ITurmoil';
 import {CardRenderer} from '../render/CardRenderer';
 
 const RENDER_DATA = CardRenderer.builder((b) => {
@@ -20,7 +20,7 @@ export class LeadershipSummit extends GlobalEvent implements IGlobalEvent {
       renderData: RENDER_DATA,
     });
   }
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       const partyLeaderCount = turmoil.parties.filter((party) => party.partyLeader === player).length;
       player.drawCard(Math.min(5, partyLeaderCount) + turmoil.getPlayerInfluence(player));

@@ -2,7 +2,7 @@ import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventN
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {ICardRenderRoot} from '../../../common/cards/render/Types';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 
 export interface IGlobalEvent {
   name: GlobalEventName,
@@ -10,5 +10,5 @@ export interface IGlobalEvent {
   revealedDelegate: PartyName,
   currentDelegate: PartyName,
   renderData: ICardRenderRoot;
-  resolve: (game: IGame, turmoil: Turmoil) => void;
+  resolve(game: IGame, turmoil: ITurmoil): void;
 }

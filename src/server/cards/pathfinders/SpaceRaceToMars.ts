@@ -3,7 +3,7 @@ import {GlobalEvent} from '../../turmoil/globalEvents/GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../../turmoil/Turmoil';
+import {ITurmoil} from '../../turmoil/ITurmoil';
 import {Resource} from '../../../common/Resource';
 import {IPlayer} from '../../IPlayer';
 import {isSpecialTileSpace, playerTileFn} from '../../boards/Board';
@@ -26,7 +26,7 @@ export class SpaceRaceToMars extends GlobalEvent implements IGlobalEvent {
     });
   }
 
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       const specialTileCount = this.specialTileCount(player);
       const bonus = Math.min(specialTileCount, 5);

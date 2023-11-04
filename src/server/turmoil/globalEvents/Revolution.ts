@@ -3,7 +3,7 @@ import {GlobalEvent} from './GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../Turmoil';
+import {ITurmoil} from '../ITurmoil';
 import {Tag} from '../../../common/cards/Tag';
 import {IPlayer} from '../../IPlayer';
 import {CardRenderer} from '../../cards/render/CardRenderer';
@@ -27,7 +27,7 @@ export class Revolution extends GlobalEvent implements IGlobalEvent {
       renderData: RENDER_DATA,
     });
   }
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     if (game.isSoloMode()) {
       if (this.getScore(game.getPlayersInGenerationOrder()[0], turmoil) >= 4 ) {
         game.getPlayersInGenerationOrder()[0].decreaseTerraformRating(2, {log: true});
@@ -71,7 +71,7 @@ export class Revolution extends GlobalEvent implements IGlobalEvent {
       }
     }
   }
-  public getScore(player: IPlayer, turmoil: Turmoil) {
+  public getScore(player: IPlayer, turmoil: ITurmoil) {
     return player.tags.count(Tag.EARTH, 'raw') + turmoil.getPlayerInfluence(player);
   }
 }

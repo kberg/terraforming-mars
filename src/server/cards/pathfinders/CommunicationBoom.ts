@@ -3,7 +3,7 @@ import {GlobalEvent} from '../../turmoil/globalEvents/GlobalEvent';
 import {GlobalEventName} from '../../../common/turmoil/globalEvents/GlobalEventName';
 import {PartyName} from '../../../common/turmoil/PartyName';
 import {IGame} from '../../IGame';
-import {Turmoil} from '../../turmoil/Turmoil';
+import {ITurmoil} from '../../turmoil/ITurmoil';
 import {Resource} from '../../../common/Resource';
 import {CardResource} from '../../../common/CardResource';
 import {AddResourcesToCards} from '../../deferredActions/AddResourcesToCards';
@@ -26,7 +26,7 @@ export class CommunicationBoom extends GlobalEvent implements IGlobalEvent {
     });
   }
 
-  public resolve(game: IGame, turmoil: Turmoil) {
+  public resolve(game: IGame, turmoil: ITurmoil) {
     game.getPlayersInGenerationOrder().forEach((player) => {
       const deducted = Math.min(10, player.megaCredits);
       if (deducted > 0) {
