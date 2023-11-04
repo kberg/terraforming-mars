@@ -17,17 +17,17 @@ describe('ElectionSponsorship', () => {
     cast(card.play(player), undefined);
     runAllActions(game);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(7);
+    expect(turmoil.delegateReserve.get(player)).eq(7);
 
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(7);
+    expect(turmoil.delegateReserve.get(player)).eq(7);
     expect(marsFirst.delegates.get(player)).eq(0);
 
     const selectParty = cast(player.popWaitingFor(), SelectParty);
     selectParty.cb(marsFirst.name);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(6);
+    expect(turmoil.delegateReserve.get(player)).eq(6);
     expect(marsFirst.delegates.get(player)).eq(1);
 
     expect(player.underworldData.corruption).eq(1);

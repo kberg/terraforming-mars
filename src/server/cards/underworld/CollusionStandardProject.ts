@@ -80,7 +80,7 @@ export class CollusionStandardProject extends StandardProjectCard {
         if (available < data.amount) {
           throw new Error(`${data.partyName} does not have ${data.amount} neutral delegates.`);
         }
-        if (turmoil.getAvailableDelegateCount(player) < data.amount) {
+        if (turmoil.delegateReserve.get(player) < data.amount) {
           throw new Error(`Player does not have ${data.amount} delegates in reserve`);
         }
         for (let i = 0; i < data.amount; i++) {

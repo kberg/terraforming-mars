@@ -52,7 +52,7 @@ export class MindSetMars extends Card implements ICorporationCard {
 
   private canAddDelegate(player: IPlayer) {
     const turmoil = Turmoil.getTurmoil(player.game);
-    return this.resourceCount >= 2 && turmoil.getAvailableDelegateCount(player) > 0;
+    return this.resourceCount >= 2 && turmoil.delegateReserve.get(player) > 0;
   }
 
   private canAddCity(player: IPlayer) {

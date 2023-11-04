@@ -452,11 +452,6 @@ export class Turmoil {
     return party.delegates.count(player) >= 2;
   }
 
-  /** Return the number of delegates for `delegate` in the reserve. */
-  public getAvailableDelegateCount(delegate: Delegate): number {
-    return this.delegateReserve.get(delegate);
-  }
-
   /** List the delegates present in the reserve */
   public getPresentPlayersInReserve(): Array<Delegate> {
     return Array.from(new Set(this.delegateReserve));
@@ -464,7 +459,7 @@ export class Turmoil {
 
   /** Return true if `playerId` has delegates in reserve. */
   public hasDelegatesInReserve(playerId: Delegate): boolean {
-    return this.getAvailableDelegateCount(playerId) > 0;
+    return this.delegateReserve.get(playerId) > 0;
   }
 
   /**

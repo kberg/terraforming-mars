@@ -42,7 +42,7 @@ describe('TempestConsultancy', () => {
 
   it('action, 1 delegate', () => {
     player.tagsForTest = {moon: 5};
-    expect(turmoil.getAvailableDelegateCount(player)).eq(7);
+    expect(turmoil.delegateReserve.get(player)).eq(7);
     // This test is brittle - it assumes mars first will be orOptions[0]. But OK.
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
     expect(marsFirst.delegates.get(player)).eq(0);
@@ -51,13 +51,13 @@ describe('TempestConsultancy', () => {
     const options = action.execute();
     options!.cb(marsFirst.name);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(6);
+    expect(turmoil.delegateReserve.get(player)).eq(6);
     expect(marsFirst.delegates.get(player)).eq(1);
   });
 
   it('action, 3 delegates', () => {
     player.tagsForTest = {moon: 16};
-    expect(turmoil.getAvailableDelegateCount(player)).eq(7);
+    expect(turmoil.delegateReserve.get(player)).eq(7);
     // This test is brittle - it assumes mars first will be orOptions[0]. But OK.
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
     expect(marsFirst.delegates.get(player)).eq(0);
@@ -66,7 +66,7 @@ describe('TempestConsultancy', () => {
     const options = cast(action.execute(), SelectParty);
     options.cb(marsFirst.name);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(4);
+    expect(turmoil.delegateReserve.get(player)).eq(4);
     expect(marsFirst.delegates.get(player)).eq(3);
   });
 
@@ -74,7 +74,7 @@ describe('TempestConsultancy', () => {
     player.tagsForTest = {moon: 16};
     turmoil.delegateReserve.clear();
     turmoil.delegateReserve.add(player, 2);
-    expect(turmoil.getAvailableDelegateCount(player)).eq(2);
+    expect(turmoil.delegateReserve.get(player)).eq(2);
     // This test is brittle - it assumes mars first will be orOptions[0]. But OK.
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
     expect(marsFirst.delegates.get(player)).eq(0);
@@ -85,7 +85,7 @@ describe('TempestConsultancy', () => {
     const options = cast(action.execute(), SelectParty);
     options.cb(marsFirst.name);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(0);
+    expect(turmoil.delegateReserve.get(player)).eq(0);
     expect(marsFirst.delegates.get(player)).eq(2);
   });
 

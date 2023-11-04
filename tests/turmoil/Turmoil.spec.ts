@@ -158,8 +158,8 @@ describe('Turmoil', function() {
     turmoil.usedFreeDelegateAction.add(player);
     turmoil.usedFreeDelegateAction.add(player2);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(0);
-    expect(turmoil.getAvailableDelegateCount(player2)).eq(6);
+    expect(turmoil.delegateReserve.get(player)).eq(0);
+    expect(turmoil.delegateReserve.get(player2)).eq(6);
 
     game.phase = Phase.SOLAR;
     turmoil.endGeneration(game);
@@ -170,8 +170,8 @@ describe('Turmoil', function() {
     expect(player.getTerraformRating()).to.eq(21);
     expect(player2.getTerraformRating()).to.eq(20);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(4);
-    expect(turmoil.getAvailableDelegateCount(player2)).eq(6);
+    expect(turmoil.delegateReserve.get(player)).eq(4);
+    expect(turmoil.delegateReserve.get(player2)).eq(6);
 
     expect(turmoil.usedFreeDelegateAction).is.empty;
     expect(turmoil.rulingParty).to.eq(turmoil.getPartyByName(PartyName.REDS));

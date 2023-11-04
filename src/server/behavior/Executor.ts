@@ -178,7 +178,7 @@ export class Executor implements BehaviorExecutor {
 
     if (behavior.turmoil) {
       if (behavior.turmoil.sendDelegates) {
-        if (Turmoil.getTurmoil(player.game).getAvailableDelegateCount(player) < behavior.turmoil.sendDelegates.count) {
+        if (Turmoil.getTurmoil(player.game).delegateReserve.get(player) < behavior.turmoil.sendDelegates.count) {
           return false;
         }
       }

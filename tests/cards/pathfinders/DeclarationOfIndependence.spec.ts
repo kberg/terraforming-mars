@@ -34,7 +34,7 @@ describe('DeclarationOfIndependence', function() {
 
 
   it('play', function() {
-    expect(turmoil.getAvailableDelegateCount(player)).eq(7);
+    expect(turmoil.delegateReserve.get(player)).eq(7);
     const marsFirst = turmoil.getPartyByName(PartyName.MARS);
     expect(marsFirst.delegates.get(player)).eq(0);
     card.play(player);
@@ -42,7 +42,7 @@ describe('DeclarationOfIndependence', function() {
     const action = cast(player.getWaitingFor(), SelectParty);
     action.cb(marsFirst.name);
 
-    expect(turmoil.getAvailableDelegateCount(player)).eq(5);
+    expect(turmoil.delegateReserve.get(player)).eq(5);
     expect(marsFirst.delegates.get(player)).eq(2);
   });
 });
