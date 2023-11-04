@@ -50,15 +50,16 @@ export class Turmoil implements ITurmoil {
   public chairman: undefined | Delegate = undefined;
   public rulingParty: IParty;
   public dominantParty: IParty;
-  public usedFreeDelegateAction = new Set<IPlayer>();
-  public delegateReserve = new MultiSet<Delegate>();
   public parties = createParties();
-  public playersInfluenceBonus = new Map<string, number>();
   public readonly globalEventDealer: GlobalEventDealer;
   public distantGlobalEvent: IGlobalEvent | undefined;
   public comingGlobalEvent: IGlobalEvent | undefined;
   public currentGlobalEvent: IGlobalEvent | undefined;
   public politicalAgendasData: PoliticalAgendasData = UNINITIALIZED_POLITICAL_AGENDAS_DATA;
+
+  public delegateReserve = new MultiSet<Delegate>();
+  public usedFreeDelegateAction = new Set<IPlayer>();
+  private influenceBonuses = new Map<PlayerId, number>();
 
   private constructor(
     rulingPartyName: PartyName,
@@ -411,33 +412,18 @@ export class Turmoil implements ITurmoil {
       if (delegateCount > 0) influence++;
     }
 
-    if (this.playersInfluenceBonus.has(player.id)) {
-      const bonus = this.playersInfluenceBonus.get(player.id);
-      if (bonus) {
-        influence+= bonus;
-      }
-    }
+    influence += (this.influenceBonuses.get(player.id) ?? 0);
 
     player.tableau.forEach((card) => {
-      const bonus = card.getInfluenceBonus?.(player);
-      if (bonus !== undefined) {
-        influence += bonus;
-      }
+      influence += (card.getInfluenceBonus?.(player) ?? 0);
     });
 
     return influence;
   }
 
   public addInfluenceBonus(player: IPlayer, bonus:number = 1) {
-    if (this.playersInfluenceBonus.has(player.id)) {
-      let current = this.playersInfluenceBonus.get(player.id);
-      if (current) {
-        current += bonus;
-        this.playersInfluenceBonus.set(player.id, current);
-      }
-    } else {
-      this.playersInfluenceBonus.set(player.id, bonus);
-    }
+    const current = this.influenceBonuses.get(player.id) ?? 0;
+    this.influenceBonuses.set(player.id, current + bonus);
   }
 
   /**
@@ -510,7 +496,7 @@ export class Turmoil implements ITurmoil {
           partyLeader: serializeDelegateOrUndefined(p.partyLeader),
         };
       }),
-      playersInfluenceBonus: Array.from(this.playersInfluenceBonus.entries()),
+      playersInfluenceBonus: Array.from(this.influenceBonuses.entries()),
       globalEventDealer: this.globalEventDealer.serialize(),
       distantGlobalEvent: this.distantGlobalEvent?.name,
       comingGlobalEvent: this.comingGlobalEvent?.name,
@@ -551,7 +537,7 @@ export class Turmoil implements ITurmoil {
       tp.partyLeader = deserializeDelegateOrUndefined(sp.partyLeader, players);
     });
 
-    turmoil.playersInfluenceBonus = new Map<string, number>(d.playersInfluenceBonus);
+    turmoil.influenceBonuses = new Map<PlayerId, number>(d.playersInfluenceBonus);
 
     if (d.distantGlobalEvent) {
       turmoil.distantGlobalEvent = getGlobalEventByName(d.distantGlobalEvent);
