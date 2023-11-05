@@ -111,8 +111,8 @@ const getTagCount = (tagName: InterfaceTagsType, player: PublicPlayerModel): num
     return player.citiesCount || 0;
   case SpecialTags.NONE:
     return player.noTagsCount || 0;
-  case SpecialTags.EXCAVATIONS:
-    return player.excavations;
+  // case SpecialTags.EXCAVATIONS:
+  //   return player.excavations;
   case SpecialTags.CORRUPTION:
     return player.corruption;
   }

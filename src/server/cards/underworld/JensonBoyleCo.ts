@@ -48,7 +48,7 @@ export class JensonBoyleCo extends ActionCard implements IActionCard, ICorporati
 
       metadata: {
         cardNumber: 'UC03',
-        description: 'You start with 46M€ 2 corruption.',
+        description: 'You start with 46M€ and 2 corruption.',
         renderData: CardRenderer.builder((b) => {
           b.megacredits(46).corruption(2).br;
           b.action('', (ab) => {

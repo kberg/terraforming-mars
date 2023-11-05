@@ -271,7 +271,6 @@ export class Executor implements BehaviorExecutor {
       if (spend.resourceFromAnyCard) {
         player.game.defer(new RemoveResourcesFromCard(player, spend.resourceFromAnyCard.type, 1, {ownCardsOnly: true, blockable: false}));
       }
-
       if (spend.corruption) {
         UnderworldExpansion.loseCorruption(player, spend.corruption);
       }

@@ -5,8 +5,8 @@ import {CardRenderer} from '../render/CardRenderer';
 import {ICorporationCard} from '../corporation/ICorporationCard';
 import {IPlayer} from '../../IPlayer';
 import {Card} from '../Card';
-import {all, digit} from '../Options';
-import {Resource} from '@/common/Resource';
+import {all} from '../Options';
+import {Resource} from '../../../common/Resource';
 
 export class KingdomofTauraro extends Card implements ICorporationCard {
   constructor() {

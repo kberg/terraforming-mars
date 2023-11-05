@@ -20,7 +20,7 @@ export class IdentifySpacesDeferred extends DeferredAction<Array<Space>> {
     const selectedSpaces: Array<Space> = [];
 
     return new SelectSpace(title,
-      UnderworldExpansion.identifyableSpaces(this.player.game))
+      UnderworldExpansion.identifiableSpaces(this.player.game))
       .andThen((space) => {
         UnderworldExpansion.identify(this.player.game, space, this.player);
         selectedSpaces.push(space);

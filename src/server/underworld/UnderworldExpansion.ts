@@ -82,7 +82,7 @@ export class UnderworldExpansion {
     return {corruption: 0};
   }
 
-  public static identifyableSpaces(game: IGame): ReadonlyArray<Space> {
+  public static identifiableSpaces(game: IGame): ReadonlyArray<Space> {
     return game.board.spaces.filter((space) => space.undergroundResources === undefined);
   }
 
