@@ -19,26 +19,19 @@ describe('EarthquakeMachine', () => {
   });
 
   const canPlayRuns = [
-    {it: '1', scienceTags: 1, opponentPlantProduction: 0, expected: false},
-    {it: '2', scienceTags: 1, opponentPlantProduction: 1, expected: false},
-    {it: '3', scienceTags: 2, opponentPlantProduction: 0, expected: false},
-    {it: '4', scienceTags: 2, opponentPlantProduction: 1, expected: true},
+    {scienceTags: 1, opponentPlantProduction: 0, expected: false},
+    {scienceTags: 1, opponentPlantProduction: 1, expected: false},
+    {scienceTags: 2, opponentPlantProduction: 0, expected: false},
+    {scienceTags: 2, opponentPlantProduction: 1, expected: true},
   ] as const;
 
   for (const run of canPlayRuns) {
-    it('canPlay ' + run.it, () => {
+    it('canPlay ' + JSON.stringify(run), () => {
       player.tagsForTest = {science: run.scienceTags};
       player3.production.override({plants: run.opponentPlantProduction});
       expect(card.canPlay(player)).eq(run.expected);
     });
   }
-
-  it('canPlay', () => {
-    player.tagsForTest = {science: 1};
-    expect(card.canPlay(player)).is.false;
-    player.tagsForTest = {science: 2};
-    expect(card.canPlay(player)).is.false;
-  });
 
   it('play', () => {
     player.production.override({plants: 1});
@@ -54,6 +47,8 @@ describe('EarthquakeMachine', () => {
 
     expect(player3.production.plants).eq(0);
   });
+
+  // TODO(kberg): untested
 
   it('canAct', () => {
     expect(card.canAct(player)).is.false;
