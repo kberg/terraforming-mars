@@ -265,6 +265,10 @@ export class Player implements IPlayer {
     return corporation;
   }
 
+  getPlayedCard(cardName: CardName): ICard | undefined {
+    return this.tableau.find((card) => card.name === cardName);
+  }
+
   public getTitaniumValue(): number {
     return this.titaniumValue;
   }
@@ -396,8 +400,7 @@ export class Player implements IPlayer {
   }
 
   public cardIsInEffect(cardName: CardName): boolean {
-    return this.playedCards.some(
-      (playedCard) => playedCard.name === cardName);
+    return this.tableau.some((card) => card.name === cardName);
   }
 
   public hasProtectedHabitats(): boolean {
@@ -875,8 +878,7 @@ export class Player implements IPlayer {
   }
 
   public resourcesOnCard(name: CardName): number {
-    const card = this.tableau.find((card) => card.name === name);
-    return card?.resourceCount ?? 0;
+    return this.getPlayedCard(name)?.resourceCount ?? 0;
   }
 
   public getSpendable(SpendableResource: SpendableCardResource): number {
@@ -901,7 +903,7 @@ export class Player implements IPlayer {
       if (count === 0) {
         return;
       }
-      const card = this.tableau.find((card) => card.name === name);
+      const card = this.getPlayedCard(name);
       if (card === undefined) {
         throw new Error('Card ' + name + ' not found');
       }
@@ -950,7 +952,7 @@ export class Player implements IPlayer {
       }
 
       // Remove card from Self Replicating Robots
-      const card = this.playedCards.find((card) => card.name === CardName.SELF_REPLICATING_ROBOTS);
+      const card = this.getPlayedCard(CardName.SELF_REPLICATING_ROBOTS);
       if (card instanceof SelfReplicatingRobots) {
         for (const targetCard of card.targetCards) {
           if (targetCard.card.name === selectedCard.name) {
@@ -1193,7 +1195,7 @@ export class Player implements IPlayer {
     if (owner === undefined) {
       return false;
     }
-    const stagedProtests = owner.playedCards.find((card) => card.name === CardName.STAGED_PROTESTS);
+    const stagedProtests = owner.getPlayedCard(CardName.STAGED_PROTESTS);
     return stagedProtests?.generationUsed === this.game.generation;
   }
 
@@ -1298,7 +1300,7 @@ export class Player implements IPlayer {
   public getPlayableCards(): Array<PlayableCard> {
     const candidateCards: Array<IProjectCard> = [...this.cardsInHand];
     // Self Replicating robots check
-    const card = this.playedCards.find((card) => card.name === CardName.SELF_REPLICATING_ROBOTS);
+    const card = this.getPlayedCard(CardName.SELF_REPLICATING_ROBOTS);
     if (card instanceof SelfReplicatingRobots) {
       for (const targetCard of card.targetCards) {
         candidateCards.push(targetCard.card);

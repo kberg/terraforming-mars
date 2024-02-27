@@ -1459,10 +1459,8 @@ export class Game implements IGame, Logger {
    */
   public getCardPlayerOrUndefined(name: CardName): IPlayer | undefined {
     for (const player of this.players) {
-      for (const card of player.tableau) {
-        if (card.name === name) {
-          return player;
-        }
+      if (player.getPlayedCard(name) !== undefined) {
+        return player;
       }
     }
     return undefined;

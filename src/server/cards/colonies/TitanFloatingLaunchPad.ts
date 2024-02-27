@@ -14,6 +14,7 @@ import {Card} from '../Card';
 import {IColonyTrader} from '../../colonies/IColonyTrader';
 import {ColoniesHandler} from '../../colonies/ColoniesHandler';
 import {message} from '../../logs/MessageBuilder';
+import {ICard} from '../ICard';
 
 export class TitanFloatingLaunchPad extends Card implements IProjectCard {
   constructor() {
@@ -78,11 +79,10 @@ export class TitanFloatingLaunchPad extends Card implements IProjectCard {
 }
 
 export class TradeWithTitanFloatingLaunchPad implements IColonyTrader {
-  private titanFloatingLaunchPad: TitanFloatingLaunchPad | undefined;
+  private titanFloatingLaunchPad: ICard | undefined;
 
   constructor(private player: IPlayer) {
-    const card = player.playedCards.find((card) => card.name === CardName.TITAN_FLOATING_LAUNCHPAD);
-    this.titanFloatingLaunchPad = card === undefined ? undefined : (card as TitanFloatingLaunchPad);
+    this.titanFloatingLaunchPad = player.getPlayedCard(CardName.TITAN_FLOATING_LAUNCHPAD);
   }
 
   public canUse() {
