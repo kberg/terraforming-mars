@@ -2,7 +2,7 @@ import {IPlayer} from '../IPlayer';
 import {Resource} from '../../common/Resource';
 import {DeferredAction, Priority} from './DeferredAction';
 import {CardName} from '../../common/cards/CardName';
-import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
+import {MaybeBlockAttackDeferred} from '../underworld/MaybeBlockAttackDeferred';
 
 export class RemoveResources extends DeferredAction<number> {
   constructor(
@@ -39,7 +39,7 @@ export class RemoveResources extends DeferredAction<number> {
       return undefined;
     }
     // Move to this.target.maybeBlockAttack?
-    this.target.defer(UnderworldExpansion.maybeBlockAttack(this.target, this.perpetrator, (proceed) => {
+    this.target.game.defer(new MaybeBlockAttackDeferred(this.target, this.perpetrator).andThen((proceed) => {
       if (proceed) {
         this.target.stock.deduct(this.resource, qtyLost, {log: true, from: this.perpetrator});
         this.cb(qtyLost);

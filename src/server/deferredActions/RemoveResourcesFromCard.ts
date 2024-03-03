@@ -6,9 +6,9 @@ import {SelectOption} from '../inputs/SelectOption';
 import {ICard} from '../cards/ICard';
 import {DeferredAction, Priority} from './DeferredAction';
 import {Message} from '../../common/logs/Message';
-import {UnderworldExpansion} from '../underworld/UnderworldExpansion';
+import {MaybeBlockAttackDeferred} from '../underworld/MaybeBlockAttackDeferred';
 
-export type Source = 'self' | 'opponents' | 'all';
+export type Source = 'self' | 'opponents' | 'all' | Array<IPlayer>;
 export type Response = {card: ICard, owner: IPlayer, proceed: boolean} | {card: undefined, owner: undefined, proceed: boolean};
 export class RemoveResourcesFromCard extends DeferredAction<Response> {
   public cardResource: CardResource | undefined;
@@ -96,13 +96,13 @@ export class RemoveResourcesFromCard extends DeferredAction<Response> {
     //   this.cb(true);
     //   return;
     // }
-    target.defer(UnderworldExpansion.maybeBlockAttack(target, this.player, ((proceed) => {
+    target.game.defer(new MaybeBlockAttackDeferred(target, this.player).andThen((proceed) => {
       if (proceed) {
         target.removeResourceFrom(card, this.count, {removingPlayer: this.player});
       }
       this.cb({card: card, owner: target, proceed: proceed});
       return undefined;
-    })));
+    }));
   }
 
   public static getAvailableTargetCards(player: IPlayer, resourceType: CardResource | undefined, source: Source = 'all'): Array<ICard> {
@@ -110,6 +110,9 @@ export class RemoveResourcesFromCard extends DeferredAction<Response> {
     for (const p of player.game.getPlayers()) {
       // Making this a function just to delay calling getCardsWithResources unless it's needed.
       const get = () => p.getCardsWithResources(resourceType).filter((card) => card.protectedResources !== true);
+      if (typeof(source) === 'object' && !source.includes(p)) {
+        continue;
+      }
       if (p === player) {
         if (source !== 'opponents') {
           resourceCards.push(...get());

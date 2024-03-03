@@ -55,15 +55,18 @@ export abstract class DeferredAction<T = undefined> implements IDeferredAction<T
   ) {}
 
   public abstract execute(): PlayerInput | undefined;
-  // TODO(kberg): Make protected again.
-  public cb: (param: T) => PlayerInput | undefined | void = () => {};
+  protected cb: (param: T) => PlayerInput | undefined = () => undefined;
   private callbackSet = false;
 
   public andThen(cb: (param: T) => void): this {
     if (this.callbackSet) {
       throw new Error('Cannot call andThen twice for the same object.');
     }
-    this.cb = cb;
+    // This allows andThen to return void.
+    this.cb = (param: T) => {
+      cb(param);
+      return undefined;
+    };
     this.callbackSet = true;
     return this;
   }

@@ -74,6 +74,7 @@ import {ChooseCards} from './deferredActions/ChooseCards';
 import {UnderworldPlayerData} from './underworld/UnderworldData';
 import {UnderworldExpansion} from './underworld/UnderworldExpansion';
 import {Counter} from './behavior/Counter';
+import {MaybeBlockAttackDeferred} from './underworld/MaybeBlockAttackDeferred';
 
 const THROW_WAITING_FOR = Boolean(process.env.THROW_WAITING_FOR);
 
@@ -429,7 +430,7 @@ export class Player implements IPlayer {
 
 
   public maybeBlockAttack(perpetrator: IPlayer, cb: (proceed: boolean) => PlayerInput | undefined): void {
-    this.defer(UnderworldExpansion.maybeBlockAttack(this, perpetrator, cb));
+    this.game.defer(new MaybeBlockAttackDeferred(this, perpetrator).andThen(cb));
   }
 
   public productionIsProtected(attacker: IPlayer): boolean {

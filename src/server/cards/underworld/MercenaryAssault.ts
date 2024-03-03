@@ -5,39 +5,44 @@ import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
 import {IPlayer} from '../../IPlayer';
-import {CardResource} from '../../../common/CardResource';
+import {all} from '../Options';
+import {RemoveResourcesFromCard} from '../../deferredActions/RemoveResourcesFromCard';
 
 export class MercenaryAssault extends Card implements IProjectCard {
   constructor() {
     super({
-      name: CardName.RESEARCH_DEVELOPMENT_HUB,
-      type: CardType.ACTIVE,
-      cost: 14,
-      tags: [Tag.SCIENCE, Tag.BUILDING],
-      resourceType: CardResource.DATA,
+      name: CardName.MERCENARY_ASSAULT,
+      type: CardType.EVENT,
+      cost: 7,
+      tags: [Tag.SPACE],
 
-      victoryPoints: {resourcesHere: {}, per: 3},
+      requirements: {corruption: 1},
 
       metadata: {
-        cardNumber: 'U84',
+        cardNumber: 'U83',
         renderData: CardRenderer.builder((b) => {
-          // TODO(kberg): This is supposed to be at the START of each production phase.
-          b.effect(
-            'At the end of each production phase, ' +
-            'add 1 data here for EACH OTHER PLAYER that has 7 or more cards in their hand.',
-            (eb) => eb.text('7+').cards(1).asterix().startEffect.data());
+          b.minus().wild(1, {all}).asterix().br;
+          b.corruptionShield().colon().text('min 2').corruption();
         }),
-        description: '1 VP for every 3 data resources on this card.',
+        description: 'Requires 1 corruption. Target 1 resources on a card of a player with more corruption than you. ' +
+          'Discard it. If the owner wants to block this with corruption, they must spend at least 2 corruption.',
       },
     });
   }
 
-  public onProductionPhase(player: IPlayer) {
-    for (const p of player.game.getPlayersInGenerationOrder()) {
-      if (p !== player && p.cardsInHand.length >= 7) {
-        player.addResourceTo(this);
-      }
-    }
+  private getTargets(player: IPlayer) {
+    return player.getOpponents()
+      .filter((p) => p.underworldData.corruption > player.underworldData.corruption)
+      .filter((p) => p.getCardsWithResources()
+        .some((card) => card.protectedResources !== true));
+  }
+
+  public override bespokeCanPlay(player: IPlayer) {
+    return this.getTargets(player).length > 0;
+  }
+
+  public override bespokePlay(player: IPlayer) {
+    player.game.defer(new RemoveResourcesFromCard(player, undefined, 1, {source: this.getTargets(player)}));
     return undefined;
   }
 }
