@@ -3,7 +3,7 @@ import {SpaceType} from '../../common/boards/SpaceType';
 import {CanAffordOptions, IPlayer} from '../IPlayer';
 import {Board} from './Board';
 import {Space} from './Space';
-import {PlacementType} from './PlacementType';
+import {Placement, PlacementType, PlacementType2} from './PlacementType';
 import {AresHandler} from '../ares/AresHandler';
 import {CardName} from '../../common/cards/CardName';
 
@@ -49,7 +49,7 @@ export class MarsBoard extends Board {
   }
 
   /*
-   * Returns spaces on the board with ocean tiless.
+   * Returns spaces on the board with ocean tiles.
    *
    * The default condition is to return those oceans used to count toward the global parameter, so
    * upgraded oceans are included, but Wetlands is not. That's why the boolean values have different defaults.

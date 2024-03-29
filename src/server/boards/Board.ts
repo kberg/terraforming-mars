@@ -42,6 +42,7 @@ export abstract class Board {
     });
   }
 
+  // TODO(kberg): make this a Set.
   public getVolcanicSpaceIds(): ReadonlyArray<SpaceId> {
     return [];
   }
@@ -210,7 +211,6 @@ export abstract class Board {
   }
 
   public getAvailableSpacesOnLand(player: IPlayer, canAffordOptions?: CanAffordOptions): ReadonlyArray<Space> {
-    // Does this also apply to cove spaces?
     const landSpaces = this.getSpaces(SpaceType.LAND, player).filter((space) => {
       // A space is available if it doesn't have a player marker on it, or it belongs to |player|
       if (space.player !== undefined && space.player !== player) {
