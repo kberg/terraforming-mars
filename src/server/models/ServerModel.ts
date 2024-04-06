@@ -314,14 +314,12 @@ export class Server {
     gagarin: ReadonlyArray<SpaceId> = [],
     cathedrals: ReadonlyArray<SpaceId> = [],
     nomads: SpaceId | undefined = undefined): Array<SpaceModel> {
-    const volcanicSpaceIds = board.getVolcanicSpaceIds();
-    const noctisCitySpaceIds = board.getNoctisCitySpaceId();
-
     return board.spaces.map((space) => {
+      // TODO(kberg): Make noctis and volcanic space attributes
       let highlight: SpaceHighlight = undefined;
-      if (volcanicSpaceIds.includes(space.id)) {
+      if (board.volcanicSpaceIds.includes(space.id)) {
         highlight = 'volcanic';
-      } else if (noctisCitySpaceIds === space.id) {
+      } else if (board.noctisCityId === space.id) {
         highlight = 'noctis';
       }
 

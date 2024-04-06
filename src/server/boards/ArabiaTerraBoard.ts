@@ -2,7 +2,6 @@ import {GameOptions} from '../game/GameOptions';
 import {IPlayer} from '../IPlayer';
 import {Random} from '../../common/utils/Random';
 import {SpaceBonus} from '../../common/boards/SpaceBonus';
-import {SpaceName} from '../SpaceName';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {Board} from './Board';
 import {BoardBuilder} from './BoardBuilder';
@@ -11,8 +10,8 @@ import {SerializedBoard} from './SerializedBoard';
 import {MarsBoard} from './MarsBoard';
 
 export class ArabiaTerraBoard extends MarsBoard {
-  public static newInstance(gameOptions: GameOptions, rng: Random): ArabiaTerraBoard {
-    const builder = new BoardBuilder(gameOptions.venusNextExtension, gameOptions.pathfindersExpansion);
+  public static newInstance(gameOptions: GameOptions, rng: Random): MarsBoard {
+    const builder = new BoardBuilder(ArabiaTerraBoard, gameOptions, rng);
 
     const PLANT = SpaceBonus.PLANT;
     const STEEL = SpaceBonus.STEEL;
@@ -28,7 +27,7 @@ export class ArabiaTerraBoard extends MarsBoard {
     // y=1
     builder.ocean(MICROBE, MICROBE, DRAW_CARD).ocean(PLANT).land(PLANT, PLANT).land().land(PLANT).land(PLANT);
     // y=2
-    builder.land(PLANT, STEEL).ocean(PLANT).land(DATA, DATA, DRAW_CARD).land(STEEL).land(STEEL).land(STEEL, PLANT).cove(STEEL, TITANIUM);
+    builder.land(PLANT, STEEL).ocean(PLANT).land(DATA, DATA, DRAW_CARD).land(STEEL).land(STEEL).land(STEEL, PLANT).coveVolcanic(STEEL, TITANIUM);
     // y=3
     builder.land(PLANT, PLANT).land(PLANT).ocean(PLANT, PLANT).land().land().land().land(STEEL, STEEL).land();
     // y=4
@@ -38,29 +37,11 @@ export class ArabiaTerraBoard extends MarsBoard {
     // y=6
     builder.cove(PLANT, TITANIUM).ocean(PLANT, PLANT).cove(PLANT, PLANT).land(PLANT).land(STEEL).land(PLANT, TITANIUM).land(TITANIUM, TITANIUM);
     // y=7
-    builder.ocean(PLANT, PLANT).land(PLANT).land(STEEL, DRAW_CARD).land(STEEL, STEEL).land(STEEL).land(DRAW_CARD);
+    builder.ocean(PLANT, PLANT).land(PLANT).volcanic(STEEL, DRAW_CARD).land(STEEL, STEEL).land(STEEL).volcanic(DRAW_CARD);
     // y=8
-    builder.land().land().land().land().land(STEEL);
+    builder.land().land().land().land().volcanic(STEEL);
 
-    if (gameOptions.shuffleMapOption) {
-      builder.shuffle(rng); // , SpaceName.HECATES_THOLUS, SpaceName.ELYSIUM_MONS, SpaceName.ARSIA_MONS_ELYSIUM, SpaceName.OLYMPUS_MONS);
-    }
-
-    const spaces = builder.build();
-    return new ArabiaTerraBoard(spaces);
-  }
-
-  public constructor(spaces: ReadonlyArray<Space>) {
-    super(spaces);
-  }
-
-  public override getVolcanicSpaceIds() {
-    return [
-      SpaceName.TIKHONAROV,
-      SpaceName.LADON,
-      SpaceName.FLAUGERGUES,
-      SpaceName.CHARYBDIS,
-    ];
+    return builder.build();
   }
 
   public override getSpaces(spaceType: SpaceType): Array<Space> {

@@ -4,9 +4,21 @@ import {SpaceBonus} from '../../common/boards/SpaceBonus';
 import {SpaceName} from '../SpaceName';
 import {SpaceType} from '../../common/boards/SpaceType';
 import {Random} from '../../common/utils/Random';
+import {partition} from '../../common/utils/utils';
+import {inplaceShuffle} from '../utils/shuffle';
+import {MarsBoard} from './MarsBoard';
+import {GameOptions} from '../game/GameOptions';
 
 function colonySpace(id: SpaceId): Space {
   return {id, spaceType: SpaceType.COLONY, x: -1, y: -1, bonus: []};
+}
+
+type SpaceMetadata = {
+  type: SpaceType;
+  bonuses: Array<SpaceBonus>;
+  noctisCity: boolean;
+  volcanic: boolean;
+  unshufflable: boolean;
 }
 
 export class BoardBuilder {
@@ -17,80 +29,107 @@ export class BoardBuilder {
   // "Beloved, " I said "watch me scare you though." said she,
   // "Able am I, Son."
 
-  private spaceTypes: Array<SpaceType> = [];
-  private bonuses: Array<Array<SpaceBonus>> = [];
-  private spaces: Array<Space> = [];
-  private unshufflableSpaces: Array<number> = [];
+  private spaces: Array<SpaceMetadata> = [];
 
-  constructor(private includeVenus: boolean, private includePathfinders: boolean) {
-    this.spaces.push(colonySpace(SpaceName.GANYMEDE_COLONY));
-    this.spaces.push(colonySpace(SpaceName.PHOBOS_SPACE_HAVEN));
+  constructor(private Ctor: typeof MarsBoard, private gameOptions: GameOptions, private rng: Random) {
+  }
+
+  private space(type: SpaceType, bonuses: Array<SpaceBonus>, extra: Partial<SpaceMetadata> = {}): SpaceMetadata {
+    return {type, bonuses, noctisCity: false, volcanic: false, unshufflable: false, ...extra};
   }
 
   ocean(...bonus: Array<SpaceBonus>): this {
-    this.spaceTypes.push(SpaceType.OCEAN);
-    this.bonuses.push(bonus);
+    this.spaces.push(this.space(SpaceType.OCEAN, bonus));
     return this;
   }
 
   cove(...bonus: Array<SpaceBonus>): this {
-    this.spaceTypes.push(SpaceType.COVE);
-    this.bonuses.push(bonus);
+    this.spaces.push(this.space(SpaceType.COVE, bonus));
+    return this;
+  }
+
+  coveVolcanic(...bonus: Array<SpaceBonus>): this {
+    this.spaces.push(this.space(SpaceType.COVE, bonus, {volcanic: true}));
     return this;
   }
 
   land(...bonus: Array<SpaceBonus>): this {
-    this.spaceTypes.push(SpaceType.LAND);
-    this.bonuses.push(bonus);
+    this.spaces.push(this.space(SpaceType.LAND, bonus));
     return this;
   }
 
   restricted(): this {
-    this.spaceTypes.push(SpaceType.RESTRICTED);
-    this.bonuses.push([]);
+    this.spaces.push(this.space(SpaceType.RESTRICTED, [], {unshufflable: true}));
     return this;
   }
 
-  doNotShuffleLastSpace(): this {
-    this.unshufflableSpaces.push(this.spaceTypes.length - 1);
+  unshufflable(): this {
+    const top = this.spaces[this.spaces.length -1];
+    top.unshufflable = true;
     return this;
   }
 
+  noctisCity(...bonus: Array<SpaceBonus>): this {
+    this.spaces.push(this.space(SpaceType.LAND, bonus, {noctisCity: true}));
+    return this;
+  }
 
-  build(): Array<Space> {
+  volcanic(...bonus: Array<SpaceBonus>): this {
+    this.spaces.push(this.space(SpaceType.LAND, bonus, {volcanic: true}));
+    return this;
+  }
+
+  build(): MarsBoard {
+    if (this.gameOptions.shuffleMapOption) {
+      this.shuffle(this.rng);
+    }
+
+    const spaces: Array<Space> = [
+      colonySpace(SpaceName.GANYMEDE_COLONY),
+      colonySpace(SpaceName.PHOBOS_SPACE_HAVEN),
+    ];
+
     const tilesPerRow = [5, 6, 7, 8, 9, 8, 7, 6, 5];
-    const idOffset = this.spaces.length + 1;
+    const idOffset = 2;
     let idx = 0;
 
-    for (let row = 0; row < 9; row++) {
-      const tilesInThisRow = tilesPerRow[row];
+    let noctisCitySpaceId: SpaceId | undefined = undefined;
+    const volcanicSpaceIds: Array<SpaceId> = [];
+    for (let y = 0; y < 9; y++) {
+      const tilesInThisRow = tilesPerRow[y];
       const xOffset = 9 - tilesInThisRow;
       for (let i = 0; i < tilesInThisRow; i++) {
         const spaceId = idx + idOffset;
-        const xCoordinate = xOffset + i;
+        const x = xOffset + i;
         const space = {
           id: BoardBuilder.spaceId(spaceId),
-          spaceType: this.spaceTypes[idx],
-          x: xCoordinate,
-          y: row,
-          bonus: this.bonuses[idx],
+          spaceType: this.spaces[idx].type,
+          x,
+          y,
+          bonus: this.spaces[idx].bonuses,
         };
-        this.spaces.push(space);
+        if (this.spaces[idx].noctisCity) {
+          noctisCitySpaceId = space.id;
+        }
+        if (this.spaces[idx].volcanic) {
+          volcanicSpaceIds.push(space.id);
+        }
+        spaces.push(space);
         idx++;
       }
     }
 
-    this.spaces.push(colonySpace(SpaceName.STANFORD_TORUS));
-    if (this.includeVenus) {
-      this.spaces.push(
+    spaces.push(colonySpace(SpaceName.STANFORD_TORUS));
+    if (this.gameOptions.venusNextExtension) {
+      spaces.push(
         colonySpace(SpaceName.DAWN_CITY),
         colonySpace(SpaceName.LUNA_METROPOLIS),
         colonySpace(SpaceName.MAXWELL_BASE),
         colonySpace(SpaceName.STRATOPOLIS),
       );
     }
-    if (this.includePathfinders) {
-      this.spaces.push(
+    if (this.gameOptions.pathfindersExpansion) {
+      spaces.push(
         // Space.colony(SpaceName.MARTIAN_TRANSHIPMENT_STATION),
         colonySpace(SpaceName.CERES_SPACEPORT),
         colonySpace(SpaceName.DYSON_SCREENS),
@@ -99,44 +138,23 @@ export class BoardBuilder {
       );
     }
 
-    return this.spaces;
-  }
-
-  public shuffleArray(rng: Random, array: Array<Object>): void {
-    this.unshufflableSpaces.sort((a, b) => a < b ? a : b);
-    // Reversing the indexes so the elements are pulled from the right.
-    // Reversing the result so elements are listed left to right.
-    const spliced = this.unshufflableSpaces.reverse().map((idx) => array.splice(idx, 1)[0]).reverse();
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = rng.nextInt(i + 1);
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    for (let idx = 0; idx < this.unshufflableSpaces.length; idx++) {
-      array.splice(this.unshufflableSpaces[idx], 0, spliced[idx]);
-    }
+    return new this.Ctor(spaces, noctisCitySpaceId, volcanicSpaceIds);
   }
 
   // Shuffle the ocean spaces and bonus spaces. But protect the land spaces supplied by
   // |lands| so that those IDs most definitely have land spaces.
-  public shuffle(rng: Random, ...lands: Array<SpaceName>) {
-    this.shuffleArray(rng, this.spaceTypes);
-    this.shuffleArray(rng, this.bonuses);
-    let safety = 0;
-    while (safety < 1000) {
-      let satisfy = true;
-      for (const land of lands) {
-        // Why -3?
-        const land_id = Number(land) - 3;
-        while (this.spaceTypes[land_id] === SpaceType.OCEAN) {
-          satisfy = false;
-          const idx = rng.nextInt(this.spaceTypes.length);
-          [this.spaceTypes[land_id], this.spaceTypes[idx]] = [this.spaceTypes[idx], this.spaceTypes[land_id]];
-        }
-      }
-      if (satisfy) return;
-      safety++;
+  public shuffle(rng: Random) {
+    const byIndex = this.spaces.map((val, idx) => {
+      return {val, idx};
+    });
+    const [unshufflable, shufflable] = partition(byIndex, ((e) => e.val.unshufflable || e.val.noctisCity || e.val.volcanic));
+    inplaceShuffle(shufflable, rng);
+    for (const space of unshufflable) {
+      shufflable.splice(space.idx, 0, space);
     }
-    throw new Error('infinite loop detected');
+
+    this.spaces.length = 0;
+    this.spaces.push(...shufflable.map((e) => e.val));
   }
 
   private static spaceId(id: number): SpaceId {

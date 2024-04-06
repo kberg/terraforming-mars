@@ -6,12 +6,13 @@ import {Space} from './Space';
 import {PlacementType} from './PlacementType';
 import {AresHandler} from '../ares/AresHandler';
 import {CardName} from '../../common/cards/CardName';
+import {SpaceId} from '../../common/Types';
 
 export class MarsBoard extends Board {
   private readonly edges: ReadonlyArray<Space>;
 
-  protected constructor(spaces: ReadonlyArray<Space>) {
-    super(spaces);
+  public constructor(spaces: ReadonlyArray<Space>, noctisCity: SpaceId | undefined, volcanicSpaceIds: ReadonlyArray<SpaceId>) {
+    super(spaces, noctisCity, volcanicSpaceIds);
     this.edges = this.computeEdges();
   }
 
@@ -149,11 +150,9 @@ export class MarsBoard extends Board {
   }
 
   public getAvailableVolcanicSpaces(player: IPlayer, canAffordOptions?: CanAffordOptions): ReadonlyArray<Space> {
-    const volcanicSpaceIds = this.getVolcanicSpaceIds();
-
     const spaces = this.getAvailableSpacesOnLand(player, canAffordOptions);
-    if (volcanicSpaceIds.length > 0) {
-      return spaces.filter((space) => volcanicSpaceIds.includes(space.id));
+    if (this.volcanicSpaceIds.length > 0) {
+      return spaces.filter((space) => this.volcanicSpaceIds.includes(space.id));
     }
     return spaces;
   }
@@ -163,6 +162,9 @@ export class MarsBoard extends Board {
    */
   public getNonReservedLandSpaces(): ReadonlyArray<Space> {
     return this.spaces.filter((space) => {
+      if (space.id === this.noctisCityId) {
+        return false;
+      }
       return (space.spaceType === SpaceType.LAND || space.spaceType === SpaceType.COVE) &&
         (space.tile === undefined || AresHandler.hasHazardTile(space)) &&
         space.player === undefined;

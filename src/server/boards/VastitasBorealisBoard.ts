@@ -8,12 +8,11 @@ import {SerializedBoard} from './SerializedBoard';
 import {Random} from '../../common/utils/Random';
 import {GameOptions} from '../game/GameOptions';
 import {VASTITAS_BOREALIS_BONUS_TEMPERATURE_COST} from '../../common/constants';
-import {SpaceId} from '../../common/Types';
 import {MarsBoard} from './MarsBoard';
 
 export class VastitasBorealisBoard extends MarsBoard {
-  public static newInstance(gameOptions: GameOptions, rng: Random): VastitasBorealisBoard {
-    const builder = new BoardBuilder(gameOptions.venusNextExtension, gameOptions.pathfindersExpansion);
+  public static newInstance(gameOptions: GameOptions, rng: Random) {
+    const builder = new BoardBuilder(VastitasBorealisBoard, gameOptions, rng);
 
     const PLANT = SpaceBonus.PLANT;
     const STEEL = SpaceBonus.STEEL;
@@ -23,15 +22,15 @@ export class VastitasBorealisBoard extends MarsBoard {
     const TEMPERATURE = SpaceBonus.TEMPERATURE;
 
     // y=0
-    builder.land(STEEL, STEEL).land(PLANT).land().land().land(TITANIUM, TITANIUM);
+    builder.land(STEEL, STEEL).land(PLANT).land().land().volcanic(TITANIUM, TITANIUM);
     // y=1
-    builder.land(STEEL, STEEL).land(STEEL).land().land().land(TITANIUM).land(PLANT);
+    builder.land(STEEL, STEEL).land(STEEL).land().land().volcanic(TITANIUM).land(PLANT);
     // y=2
     builder.land(TITANIUM).land().land().land().land(DRAW_CARD).ocean(PLANT, DRAW_CARD).ocean(PLANT);
     // y=3
-    builder.land(STEEL, TITANIUM).land(STEEL, DRAW_CARD).land(STEEL).ocean(HEAT, HEAT).ocean(HEAT, HEAT).ocean().ocean(PLANT, PLANT).land(STEEL, PLANT);
+    builder.volcanic(STEEL, TITANIUM).volcanic(STEEL, DRAW_CARD).land(STEEL).ocean(HEAT, HEAT).ocean(HEAT, HEAT).ocean().ocean(PLANT, PLANT).land(STEEL, PLANT);
     // y=4
-    builder.land().land().land().ocean(HEAT, HEAT).land(TEMPERATURE).doNotShuffleLastSpace().land(STEEL).land().land(PLANT).ocean(TITANIUM);
+    builder.land().land().land().ocean(HEAT, HEAT).land(TEMPERATURE).unshufflable().land(STEEL).land().land(PLANT).ocean(TITANIUM);
     // y=5
     builder.land(PLANT).land().land(PLANT).ocean(HEAT, HEAT).land(HEAT, HEAT).land().land(PLANT).land(TITANIUM, PLANT);
     // y=6
@@ -41,12 +40,7 @@ export class VastitasBorealisBoard extends MarsBoard {
     // y=8
     builder.ocean(PLANT, PLANT).land().land(PLANT).land(PLANT, PLANT).land(STEEL, PLANT);
 
-    if (gameOptions.shuffleMapOption) {
-      builder.shuffle(rng);
-    }
-
-    const spaces = builder.build();
-    return new VastitasBorealisBoard(spaces);
+    return builder.build();
   }
 
   public static deserialize(board: SerializedBoard, players: Array<IPlayer>): VastitasBorealisBoard {
@@ -64,14 +58,5 @@ export class VastitasBorealisBoard extends MarsBoard {
       costs.tr.oceans = 1;
     }
     return costs;
-  }
-
-  public override getVolcanicSpaceIds(): Array<SpaceId> {
-    return [
-      SpaceName.ELYSIUM_MONS_VASTITAS_BOREALIS,
-      SpaceName.ALBA_FOSSAE,
-      SpaceName.CERANIUS_FOSSAE,
-      SpaceName.ALBA_MONS,
-    ];
   }
 }

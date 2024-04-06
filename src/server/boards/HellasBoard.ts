@@ -11,8 +11,8 @@ import {GameOptions} from '../game/GameOptions';
 import {MarsBoard} from './MarsBoard';
 
 export class HellasBoard extends MarsBoard {
-  public static newInstance(gameOptions: GameOptions, rng: Random): HellasBoard {
-    const builder = new BoardBuilder(gameOptions.venusNextExtension, gameOptions.pathfindersExpansion);
+  public static newInstance(gameOptions: GameOptions, rng: Random): MarsBoard {
+    const builder = new BoardBuilder(HellasBoard, gameOptions, rng);
 
     const PLANT = SpaceBonus.PLANT;
     const STEEL = SpaceBonus.STEEL;
@@ -37,14 +37,9 @@ export class HellasBoard extends MarsBoard {
     // y=7
     builder.land(STEEL).land(DRAW_CARD).land(HEAT, HEAT).land(HEAT, HEAT).land(TITANIUM).land(TITANIUM);
     // y=8
-    builder.land().land(HEAT, HEAT).land(SpaceBonus.OCEAN).doNotShuffleLastSpace().land(HEAT, HEAT).land();
+    builder.land().land(HEAT, HEAT).land(SpaceBonus.OCEAN).unshufflable().land(HEAT, HEAT).land();
 
-    if (gameOptions.shuffleMapOption) {
-      builder.shuffle(rng);
-    }
-
-    const spaces = builder.build();
-    return new HellasBoard(spaces);
+    return builder.build();
   }
 
   public static deserialize(board: SerializedBoard, players: ReadonlyArray<IPlayer>): HellasBoard {

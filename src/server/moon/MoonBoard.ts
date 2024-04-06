@@ -18,6 +18,10 @@ function colonySpace(id: SpaceId): Space {
 }
 
 export class MoonBoard extends Board {
+  constructor(spaces: ReadonlyArray<Space>) {
+    super(spaces, undefined, []);
+  }
+
   public getAvailableSpacesForMine(player: IPlayer): ReadonlyArray<Space> {
     const spaces = this.spaces.filter((space) => {
       const val = space.tile === undefined &&

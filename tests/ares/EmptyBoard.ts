@@ -1,9 +1,11 @@
 import {MarsBoard} from '../../src/server/boards/MarsBoard';
 import {BoardBuilder} from '../../src/server/boards/BoardBuilder';
+import {SeededRandom} from '../../src/common/utils/Random';
+import {DEFAULT_GAME_OPTIONS} from '../../src/server/game/GameOptions';
 
 export class EmptyBoard extends MarsBoard {
   public static newInstance() {
-    const builder = new BoardBuilder(false, false);
+    const builder = new BoardBuilder(EmptyBoard, DEFAULT_GAME_OPTIONS, new SeededRandom(1));
 
     // y=0
     builder.land().land().land().land().land();
@@ -24,6 +26,6 @@ export class EmptyBoard extends MarsBoard {
     // y=8
     builder.land().land().land().land().land();
 
-    return new EmptyBoard(builder.build());
+    return builder.build();
   }
 }

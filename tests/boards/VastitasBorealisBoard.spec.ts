@@ -7,9 +7,10 @@ import {cast, runAllActions} from '../TestingUtils';
 import {BoardName} from '../../src/common/boards/BoardName';
 import {SpaceName} from '../../src/server/SpaceName';
 import {testGame} from '../TestGame';
+import {Board} from '../../src/server/boards/Board';
 
 describe('VastitasBorealisBoard', function() {
-  let board: VastitasBorealisBoard;
+  let board: Board;
   let game: Game;
   let player: TestPlayer;
 

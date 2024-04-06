@@ -26,11 +26,15 @@ export abstract class Board {
   private maxX: number = 0;
   private maxY: number = 0;
   private map: Map<SpaceId, Space> = new Map();
+  public readonly volcanicSpaceIds: ReadonlyArray<SpaceId> = [];
+  public readonly noctisCityId: SpaceId | undefined;
 
   // stores adjacent spaces in clockwise order starting from the top left
   private readonly adjacentSpaces = new Map<SpaceId, ReadonlyArray<Space>>();
 
-  protected constructor(public spaces: ReadonlyArray<Space>) {
+  protected constructor(public spaces: ReadonlyArray<Space>, noctisCity: SpaceId | undefined, volcanicSpaceIds: ReadonlyArray<SpaceId>) {
+    this.noctisCityId = noctisCity;
+    this.volcanicSpaceIds = volcanicSpaceIds;
     this.maxX = Math.max(...spaces.map((s) => s.x));
     this.maxY = Math.max(...spaces.map((s) => s.y));
     spaces.forEach((space) => {
@@ -40,14 +44,6 @@ export abstract class Board {
       this.adjacentSpaces.set(space.id, filtered as ReadonlyArray<Space>);
       this.map.set(space.id, space);
     });
-  }
-
-  public getVolcanicSpaceIds(): ReadonlyArray<SpaceId> {
-    return [];
-  }
-
-  public getNoctisCitySpaceId(): SpaceId | undefined {
-    return undefined;
   }
 
   /* Returns the space given a Space ID. */
@@ -214,6 +210,10 @@ export abstract class Board {
         return false;
       }
 
+      if (space.id === this.noctisCityId) {
+        return false;
+      }
+
       const playableSpace = space.tile === undefined || (AresHandler.hasHazardTile(space) && space.tile?.protectedHazard !== true);
 
       if (!playableSpace) {
@@ -257,6 +257,9 @@ export abstract class Board {
   }
 
   public canPlaceTile(space: Space): boolean {
+    if (space.id === this.noctisCityId) {
+      return false;
+    }
     return space.tile === undefined && space.spaceType === SpaceType.LAND;
   }
 
