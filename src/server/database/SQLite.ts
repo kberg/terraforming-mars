@@ -1,16 +1,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
-
-import {GameIdLedger, IDatabase} from './IDatabase';
-import {IGame, Score} from '../IGame';
-import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId} from '../../common/Types';
-import {SerializedGame} from '../SerializedGame';
-
 import type * as sqlite3 from 'sqlite3';
 
+import {GameIdLedger, IDatabase, StoredInput} from './IDatabase';
+import {IGame, Score} from '../IGame';
+import {GameOptions} from '../game/GameOptions';
+import {GameId, ParticipantId, PlayerId} from '../../common/Types';
+import {SerializedGame} from '../SerializedGame';
 import {daysAgoToSeconds} from './utils';
 import {MultiMap} from 'mnemonist';
+import {InputResponse} from '../../common/inputs/InputResponse';
+
 export const IN_MEMORY_SQLITE_PATH = ':memory:';
 
 export class SQLite implements IDatabase {
@@ -39,15 +39,19 @@ export class SQLite implements IDatabase {
       }
     }
     this._db = new Database(String(this.filename));
+
+    // games stores one row for each save point
     await this.asyncRun('CREATE TABLE IF NOT EXISTS games(game_id varchar, players integer, save_id integer, game text, status text default \'running\', created_time timestamp default (strftime(\'%s\', \'now\')), PRIMARY KEY (game_id, save_id))');
+    // participants stores one row per game, containing a list of participants for quick search
     await this.asyncRun('CREATE TABLE IF NOT EXISTS participants(game_id varchar, participant varchar, PRIMARY KEY (game_id, participant))');
+    // game_results stores one row per completed game, and contains the end results
     await this.asyncRun('CREATE TABLE IF NOT EXISTS game_results(game_id varchar not null, seed_game_id varchar, players integer, generations integer, game_options text, scores text, PRIMARY KEY (game_id))');
+    // completed_game contains one row per completed game that has not yet been purged
     await this.asyncRun(
       `CREATE TABLE IF NOT EXISTS completed_game(
       game_id varchar not null,
       completed_time timestamp not null default (strftime('%s', 'now')),
       PRIMARY KEY (game_id))`);
-    await this.asyncRun('DROP TABLE IF EXISTS purges');
   }
 
   public async getPlayerCount(gameId: GameId): Promise<number> {
@@ -206,6 +210,15 @@ export class SQLite implements IDatabase {
 
     // This must occur after the save.
     game.lastSaveId++;
+  }
+
+  async saveInput(_gameId: GameId, _saveId: number, _playerId: PlayerId, _input: InputResponse): Promise<void> {
+    // do nothing
+  }
+
+  getInputs(_gameId: GameId): Promise<ReadonlyArray<StoredInput>> {
+    // do nothing
+    return Promise.resolve([]);
   }
 
   deleteGameNbrSaves(gameId: GameId, rollbackCount: number): Promise<void> {

@@ -1,9 +1,12 @@
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId} from '../../common/Types';
+import {GameId, ParticipantId, PlayerId} from '../../common/Types';
 import {SerializedGame} from '../SerializedGame';
+import {InputResponse} from '../../common/inputs/InputResponse';
 
 export type GameIdLedger = {gameId: GameId, participantIds: Array<ParticipantId>}
+export type StoredInput = {playerId: PlayerId, saveId: number, input: InputResponse}
+
 
 /**
  * A game store. Load, save, you know the drill.
@@ -75,6 +78,14 @@ export interface IDatabase {
     saveGame(game: IGame): Promise<void>;
 
     /**
+     */
+    saveInput(gameId: GameId, saveId: number, playerId: PlayerId, input: InputResponse): Promise<void>;
+
+    /**
+     */
+    getInputs(gameId: GameId): Promise<ReadonlyArray<StoredInput>>;
+
+    /**
      * Stores the results of a game in perpetuity in a separate table from normal
      * games. Called at a game's conclusion along with {@link markFinished}.
      *
@@ -103,7 +114,6 @@ export interface IDatabase {
      *   (Purges all saves between `(0, last save]`.)
      */
     markFinished(gameId: GameId): Promise<void>;
-
 
     /**
      * A maintenance task that purges abandoned solo games older

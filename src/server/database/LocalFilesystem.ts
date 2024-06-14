@@ -1,9 +1,11 @@
-import {GameIdLedger, IDatabase} from './IDatabase';
+import {Dirent, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
+import {InputResponse} from '../../common/inputs/InputResponse';
+
+import {GameIdLedger, IDatabase, StoredInput} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, isGameId, ParticipantId} from '../../common/Types';
+import {GameId, isGameId, ParticipantId, PlayerId} from '../../common/Types';
 import {SerializedGame} from '../SerializedGame';
-import {Dirent, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 
 const path = require('path');
 const defaultDbFolder = path.resolve(process.cwd(), './db/files');
@@ -12,11 +14,13 @@ export class LocalFilesystem implements IDatabase {
   protected readonly dbFolder: string;
   private readonly historyFolder: string;
   private readonly completedFolder: string;
+  private readonly stepFolder: string;
 
   constructor(dbFolder: string = defaultDbFolder) {
     this.dbFolder = dbFolder;
     this.historyFolder = path.resolve(dbFolder, 'history');
     this.completedFolder = path.resolve(dbFolder, 'completed');
+    this.stepFolder = path.resolve(dbFolder, 'steps');
   }
 
   public initialize(): Promise<void> {
@@ -30,6 +34,9 @@ export class LocalFilesystem implements IDatabase {
     if (!existsSync(this.completedFolder)) {
       mkdirSync(this.completedFolder);
     }
+    if (!existsSync(this.stepFolder)) {
+      mkdirSync(this.stepFolder);
+    }
     return Promise.resolve();
   }
 
@@ -37,26 +44,31 @@ export class LocalFilesystem implements IDatabase {
     return path.resolve(this.dbFolder, `${gameId}.json`);
   }
 
-  private historyFilename(gameId: string, saveId: number) {
+  private historyFilename(gameId: GameId, saveId: number) {
     const saveIdString = saveId.toString().padStart(5, '0');
     return path.resolve(this.historyFolder, `${gameId}-${saveIdString}.json`);
   }
 
-  private completedFilename(gameId: string) {
+  private completedFilename(gameId: GameId) {
     return path.resolve(this.completedFolder, `${gameId}.json`);
   }
 
-  saveGame(game: IGame): Promise<void> {
+  private stepFile(gameId: GameId) {
+    return path.resolve(this.stepFolder, `${gameId}.json`);
+  }
+
+  async saveGame(game: IGame): Promise<void> {
     console.log(`saving ${game.id} at position ${game.lastSaveId}`);
     this.saveSerializedGame(game.serialize());
     game.lastSaveId++;
-    return Promise.resolve();
+    await this.eraseSteps(game.id);
   }
 
   saveSerializedGame(serializedGame: SerializedGame): void {
     const text = JSON.stringify(serializedGame, null, 2);
     writeFileSync(this.filename(serializedGame.id), text);
     writeFileSync(this.historyFilename(serializedGame.id, serializedGame.lastSaveId), text);
+    unlinkSync(this.stepFile(serializedGame.id));
   }
 
   getGame(gameId: GameId): Promise<SerializedGame> {
@@ -135,6 +147,28 @@ export class LocalFilesystem implements IDatabase {
     const obj = {gameId, players, generations, gameOptions, scores};
     const text = JSON.stringify(obj, null, 2);
     writeFileSync(this.completedFilename(gameId), text);
+  }
+
+  async saveInput(gameId: GameId, saveId: number, playerId: PlayerId, input: InputResponse) {
+    const steps = await this.getInputs(gameId);
+    const filtered = steps.filter((step) => step.saveId >= saveId);
+    filtered.push({playerId, saveId, input});
+    const text = JSON.stringify(steps, null, 2);
+    writeFileSync(this.stepFile(gameId), text);
+  }
+
+  getInputs(gameId: GameId): Promise<ReadonlyArray<StoredInput>> {
+    const input = readFileSync(this.historyFilename(gameId, 0));
+    let steps: Array<StoredInput> = [];
+    if (input !== null) {
+      steps = JSON.parse(input.toString()) as any[];
+    }
+    return Promise.resolve(steps);
+  }
+
+  eraseSteps(gameId: GameId): Promise<void> {
+    unlinkSync(this.stepFile(gameId));
+    return Promise.resolve();
   }
 
   markFinished(_gameId: GameId): Promise<void> {

@@ -103,15 +103,17 @@ export class GameLoader implements IGameLoader {
       try {
         const serializedGame = await Database.getInstance().getGame(gameId);
         if (serializedGame === undefined) {
-          console.error(`GameLoader:loadGame: game ${gameId} not found`);
+          console.error(`GameLoader:getGame: game ${gameId} not found`);
           return undefined;
         }
         const game = Game.deserialize(serializedGame);
         await this.add(game);
+        const steps = await Database.getInstance().getInputs(gameId);
+        game.restore(steps);
         console.log(`GameLoader loaded game ${gameId} into memory from database`);
         return game;
       } catch (e) {
-        console.error('GameLoader:loadGame', e);
+        console.error('GameLoader:getGame', e);
         return undefined;
       }
     }

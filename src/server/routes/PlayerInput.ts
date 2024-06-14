@@ -13,6 +13,7 @@ import {runId} from '../utils/server-ids';
 import {AppError} from '../server/AppError';
 import {statusCode} from '../../common/http/statusCode';
 import {InputError} from '../inputs/InputError';
+import {Database} from '../database/Database';
 
 export class PlayerInput extends Handler {
   public static readonly INSTANCE = new PlayerInput();
@@ -95,6 +96,7 @@ export class PlayerInput extends Handler {
           if (this.isWaitingForUndo(player, entity)) {
             await this.performUndo(req, res, ctx, player);
           } else {
+            await Database.getInstance().saveInput(player.game.id, player.game.lastSaveId, player.id, entity);
             player.process(entity);
             responses.writeJson(res, Server.getPlayerModel(player));
           }

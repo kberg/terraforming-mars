@@ -75,6 +75,7 @@ import {SpaceType} from '../common/boards/SpaceType';
 import {SendDelegateToArea} from './deferredActions/SendDelegateToArea';
 import {BuildColony} from './deferredActions/BuildColony';
 import {newInitialDraft, newPreludeDraft, newStandardDraft} from './Draft';
+import {StoredInput} from './database/IDatabase';
 
 export class Game implements IGame, Logger {
   public readonly id: GameId;
@@ -1590,6 +1591,14 @@ export class Game implements IGame, Logger {
 
     if (game.phase === Phase.END) GameLoader.getInstance().mark(game.id);
     return game;
+  }
+
+  restore(steps: ReadonlyArray<StoredInput>) {
+    for (const step of steps) {
+      const json = step.input;
+      const player = this.getPlayerById(step.playerId);
+      player.process(json);
+    }
   }
 
   public logIllegalState(description: string, metadata: {}) {

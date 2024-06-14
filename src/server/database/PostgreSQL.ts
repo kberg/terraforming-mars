@@ -1,12 +1,13 @@
 import type * as pg from 'pg';
-import {IDatabase} from './IDatabase';
+import {IDatabase, StoredInput} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId, isGameId, safeCast} from '../../common/Types';
+import {GameId, ParticipantId, PlayerId, isGameId, safeCast} from '../../common/Types';
 import {SerializedGame} from '../SerializedGame';
 import {daysAgoToSeconds} from './utils';
 import {GameIdLedger} from './IDatabase';
 import {oneWayDifference} from '../../common/utils/utils';
+import {InputResponse} from '../../common/inputs/InputResponse';
 
 export class PostgreSQL implements IDatabase {
   private databaseName: string | undefined = undefined; // Use this only for stats.
@@ -250,6 +251,15 @@ export class PostgreSQL implements IDatabase {
       this.statistics.saveErrorCount++;
       console.error('PostgreSQL:saveGame', err);
     }
+  }
+
+  async saveInput(_gameId: GameId, _saveId: number, _playerId: PlayerId, _input: InputResponse): Promise<void> {
+    // do nothing
+  }
+
+  getInputs(_gameId: GameId): Promise<ReadonlyArray<StoredInput>> {
+    // do nothing
+    return Promise.resolve([]);
   }
 
   async deleteGameNbrSaves(gameId: GameId, rollbackCount: number): Promise<void> {

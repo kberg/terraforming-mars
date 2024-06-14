@@ -1,8 +1,9 @@
 import {IGame, Score} from '../../src/server/IGame';
 import {GameOptions} from '../../src/server/game/GameOptions';
 import {SerializedGame} from '../../src/server/SerializedGame';
-import {GameIdLedger, IDatabase} from '../../src/server/database/IDatabase';
-import {GameId, ParticipantId} from '../../src/common/Types';
+import {GameIdLedger, IDatabase, StoredInput} from '../../src/server/database/IDatabase';
+import {GameId, ParticipantId, PlayerId} from '../../src/common/Types';
+import {InputResponse} from '../../src/common/inputs/InputResponse';
 
 export class InMemoryDatabase implements IDatabase {
   public data: Map<GameId, Array<SerializedGame>> = new Map();
@@ -69,6 +70,13 @@ export class InMemoryDatabase implements IDatabase {
     row[game.lastSaveId] = game.serialize();
     game.lastSaveId++;
     return Promise.resolve();
+  }
+  async saveInput(_gameId: GameId, _saveId: number, _playerId: PlayerId, _input: InputResponse): Promise<void> {
+    // do nothing
+  }
+  getInputs(_gameId: GameId): Promise<ReadonlyArray<StoredInput>> {
+    // do nothing
+    return Promise.resolve([]);
   }
   saveGameResults(_gameId: GameId, _players: number, _generations: number, _gameOptions: GameOptions, _scores: Score[]): void {
     throw new Error('Method not implemented.');

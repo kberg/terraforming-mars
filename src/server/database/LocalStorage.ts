@@ -1,8 +1,9 @@
-import {GameIdLedger, IDatabase} from './IDatabase';
+import {GameIdLedger, IDatabase, StoredInput} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId} from '../../common/Types';
+import {GameId, ParticipantId, PlayerId} from '../../common/Types';
 import {SerializedGame} from '../SerializedGame';
+import {InputResponse} from '../../common/inputs/InputResponse';
 
 let storage: Storage;
 
@@ -51,6 +52,15 @@ export class LocalStorage implements IDatabase {
     this.saveSerializedGame(game.serialize());
     game.lastSaveId++;
     return Promise.resolve();
+  }
+
+  async saveInput(_gameId: GameId, _saveId: number, _playerId: PlayerId, _input: InputResponse): Promise<void> {
+    // do nothing
+  }
+
+  getInputs(_gameId: GameId): Promise<ReadonlyArray<StoredInput>> {
+    // do nothing
+    return Promise.resolve([]);
   }
 
   saveSerializedGame(serializedGame: SerializedGame): void {

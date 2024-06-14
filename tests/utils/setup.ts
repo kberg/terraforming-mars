@@ -25,6 +25,8 @@ const FAKE_DATABASE: IDatabase = {
   purgeUnfinishedGames: () => Promise.resolve([]),
   compressCompletedGames: () => Promise.resolve(),
   stats: () => Promise.resolve({}),
+  saveInput: () => Promise.resolve(),
+  getInputs: () => Promise.resolve([]),
 
   storeParticipants: () => Promise.resolve(),
   getParticipants: () => Promise.resolve([]),
