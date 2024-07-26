@@ -69,7 +69,9 @@ export class PostgreSQL implements IDatabase {
     /* A single game, storing the log and the options. Normalizing out some of the game state. */
     CREATE TABLE IF NOT EXISTS game(
       game_id varchar NOT NULL,
-      log text NOT NULL,
+      /* One log entry per save id */
+      log text[] NOT NULL,
+      /* The game's GameOptions */
       options text NOT NULL,
       status text default 'running' NOT NULL,
       created_time timestamp default now() NOT NULL,
