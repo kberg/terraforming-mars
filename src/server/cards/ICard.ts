@@ -39,6 +39,7 @@ export function isIHasCheckLoops(object: any): object is IHasCheckLoops {
 }
 
 export interface ICard {
+  migrated?: boolean;
   name: CardName;
   tags: Array<Tag>;
   play(player: IPlayer): PlayerInput | undefined;

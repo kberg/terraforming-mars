@@ -3,6 +3,8 @@ import {IGame} from '../../../src/server/IGame';
 import {testGame} from '../../TestGame';
 import {TestPlayer} from '../../TestPlayer';
 import {MartianEmbassy} from '../../../src/server/cards/moon/MartianEmbassy';
+import {fakeCard} from '../../TestingUtils';
+import {Tag} from '../../../src/common/cards/Tag';
 
 describe('MartianEmbassy', () => {
   let player: TestPlayer;
@@ -14,34 +16,19 @@ describe('MartianEmbassy', () => {
     card = new MartianEmbassy();
   });
 
-  it('play', () => {
-    player.tagsForTest = {moon: 1};
-    game.pathfindersData!.mars = 0;
-
-    card.play(player);
-
-    expect(game.pathfindersData!.mars).eq(0);
-
-    game.pathfindersData!.mars = 0;
-    player.tagsForTest = {moon: 2};
-
-    card.play(player);
-
-    expect(game.pathfindersData!.mars).eq(1);
-
-    game.pathfindersData!.mars = 0;
-    player.tagsForTest = {moon: 4};
-
-    card.play(player);
-
-    expect(game.pathfindersData!.mars).eq(1);
-
-    game.pathfindersData!.mars = 0;
-    player.tagsForTest = {moon: 5};
-
-    card.play(player);
-
-    expect(game.pathfindersData!.mars).eq(2);
-  });
+  const playRuns = [
+    {tags: 1, expected: 0},
+    {tags: 2, expected: 1},
+    {tags: 3, expected: 1},
+    {tags: 4, expected: 1},
+    {tags: 5, expected: 2},
+  ];
+  for (const run of playRuns) {
+    it('play ' + JSON.stringify(run), () => {
+      player.playedCards.push(fakeCard({tags: Array(run.tags).fill(Tag.MOON)}));
+      card.play(player);
+      expect(game.pathfindersData!.mars).eq(run.expected);
+    });
+  }
 });
 

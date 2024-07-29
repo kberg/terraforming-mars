@@ -938,8 +938,10 @@ export class Player implements IPlayer {
 
     switch (cardAction) {
     case 'add':
-      if (selectedCard.name !== CardName.LAW_SUIT && selectedCard.name !== CardName.PRIVATE_INVESTIGATOR) {
-        this.playedCards.push(selectedCard);
+      if (selectedCard.migrated !== true) {
+        if (selectedCard.name !== CardName.LAW_SUIT && selectedCard.name !== CardName.PRIVATE_INVESTIGATOR) {
+          this.playedCards.push(selectedCard);
+        }
       }
       break;
     // Card is already played. Discard it.

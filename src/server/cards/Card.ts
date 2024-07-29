@@ -260,6 +260,9 @@ export abstract class Card implements ICard {
 
   public play(player: IPlayer): PlayerInput | undefined {
     player.stock.deductUnits(MoonExpansion.adjustedReserveCosts(player, this));
+    if ((this as ICard).migrated === true) {
+      player.playedCards.push(this);
+    }
     if (this.behavior !== undefined) {
       getBehaviorExecutor().execute(this.behavior, player, this);
     }

@@ -8,6 +8,8 @@ import {Card} from '../Card';
 import {PathfindersExpansion} from '../../pathfinders/PathfindersExpansion';
 
 export class MartianEmbassy extends Card implements IProjectCard {
+  public migrated = true;
+
   constructor() {
     super({
       name: CardName.MARTIAN_EMBASSY,
@@ -26,8 +28,7 @@ export class MartianEmbassy extends Card implements IProjectCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    // The +1 is "including this".
-    const tags = player.tags.count(Tag.MOON) + 1;
+    const tags = player.tags.count(Tag.MOON);
     const rate = Math.floor(tags / 3);
     PathfindersExpansion.raiseTrack(Tag.MARS, player, rate);
     return undefined;
