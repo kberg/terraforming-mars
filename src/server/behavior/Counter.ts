@@ -36,7 +36,7 @@ export class Counter {
   private cardIsUnplayed: boolean;
 
   public constructor(private player: IPlayer, private card: ICard) {
-    this.cardIsUnplayed = !player.cardIsInEffect(card.name);
+    this.cardIsUnplayed = card.migrated || !player.cardIsInEffect(card.name);
   }
 
   public count(countable: Countable, context: 'default' | 'vps' = 'default'): number {

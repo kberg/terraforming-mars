@@ -6,6 +6,7 @@ import {Card} from '../Card';
 import {IProjectCard} from '../IProjectCard';
 
 export class HE3Lobbyists extends Card implements IProjectCard {
+  public migrated = true;
   constructor() {
     super({
       name: CardName.HE3_LOBBYISTS,
