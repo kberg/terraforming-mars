@@ -65,7 +65,7 @@ export class BoardOfDirectors extends PreludeCard implements IActionCard {
             if (card.canPlay?.(player) === false) {
               PreludesExpansion.fizzle(player, card);
             } else {
-              player.playCard(card, undefined, 'add');
+              player.playCard(card, undefined);
             }
             return undefined;
           });
