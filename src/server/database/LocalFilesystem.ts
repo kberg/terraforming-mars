@@ -6,6 +6,7 @@ import {SerializedGame} from '../SerializedGame';
 import {Dirent, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 import {Session, SessionId} from '../auth/Session';
 import {toID} from '../../common/utils/utils';
+import {compare} from 'fast-json-patch';
 
 const path = require('path');
 const defaultDbFolder = path.resolve(process.cwd(), './db/files');
@@ -63,6 +64,14 @@ export class LocalFilesystem implements IDatabase {
     const text = JSON.stringify(serializedGame, null, 2);
     writeFileSync(this.filename(serializedGame.id), text);
     writeFileSync(this.historyFilename(serializedGame.id, serializedGame.lastSaveId), text);
+
+    let priorGame: {} | SerializedGame = {};
+    if (serializedGame.lastSaveId > 0) {
+      priorGame = this.getGameVersionSync(serializedGame.id, serializedGame.lastSaveId - 1);
+    }
+    const diff = JSON.stringify(compare(serializedGame, priorGame));
+    console.log(diff);
+    writeFileSync(this.historyFilename(serializedGame.id, serializedGame.lastSaveId) + '.diff', diff);
   }
 
   getGame(gameId: GameId): Promise<SerializedGame> {
@@ -92,7 +101,7 @@ export class LocalFilesystem implements IDatabase {
     const entries = readdirSync(this.historyFolder, {withFileTypes: true});
     for (const dirent of entries) {
       if (dirent.name.startsWith(gameId + '-') && dirent.isFile()) {
-        const match = dirent.name.match(/(.*)-(.*).json/);
+        const match = dirent.name.match(/(.*)-(.*).json$/);
         if (match !== null) {
           const saveIdAsString = match[2];
           results.push(Number(saveIdAsString));
@@ -104,13 +113,21 @@ export class LocalFilesystem implements IDatabase {
 
   getGameVersion(gameId: GameId, saveId: number): Promise<SerializedGame> {
     try {
+      return Promise.resolve(this.getGameVersionSync(gameId, saveId));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  getGameVersionSync(gameId: GameId, saveId: number): SerializedGame {
+    try {
       if (!LocalFilesystem.quiet) console.log(`Loading ${gameId} at ${saveId}`);
       const text = readFileSync(this.historyFilename(gameId, saveId));
       const serializedGame = JSON.parse(text.toString());
-      return Promise.resolve(serializedGame);
+      return serializedGame;
     } catch (e) {
       console.log(e);
-      return Promise.reject(new Error(`Game ${gameId} not found at save_id ${saveId}`));
+      throw new Error(`Game ${gameId} not found at save_id ${saveId}`);
     }
   }
 
