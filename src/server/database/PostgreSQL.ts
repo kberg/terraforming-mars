@@ -6,6 +6,7 @@ import {GameId, ParticipantId, isGameId, safeCast} from '../../common/Types';
 import {SerializedGame} from '../SerializedGame';
 import {daysAgoToSeconds, stringToNumber} from './utils';
 import {GameIdLedger} from './IDatabase';
+import {compare} from 'fast-json-patch';
 
 type StoredSerializedGame = Omit<SerializedGame, 'gameOptions' | 'gameLog'> & {logLength: number};
 
@@ -285,6 +286,18 @@ export class PostgreSQL implements IDatabase {
       });
   }
 
+  public async update(gameId: GameId, saveId: number) {
+    const current = await this.getGameVersion(gameId, saveId);
+    const prior = await this.getGameVersion(gameId, saveId - 1);
+    const diff = JSON.stringify(compare(current, prior));
+
+    await this.client.query(
+      `UPDATE games
+      SET game = $1
+      WHERE game_id = $2 and save_id = $3`,
+      [diff, gameId, saveId]);
+  }
+
   async saveGame(game: IGame): Promise<void> {
     const serialized = game.serialize();
     const options = JSON.stringify(serialized.gameOptions);
@@ -301,6 +314,7 @@ export class PostgreSQL implements IDatabase {
 
       // Holding onto a value avoids certain race conditions where saveGame is called twice in a row.
       const thisSaveId = game.lastSaveId;
+
       // xmax = 0 is described at https://stackoverflow.com/questions/39058213/postgresql-upsert-differentiate-inserted-and-updated-rows-using-system-columns-x
       const res = await this.client.query(
         `INSERT INTO games (game_id, save_id, game, players)
