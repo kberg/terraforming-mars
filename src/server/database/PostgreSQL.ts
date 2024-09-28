@@ -59,12 +59,14 @@ export class PostgreSQL implements IDatabase {
     const sql = `
     CREATE TABLE IF NOT EXISTS games(
       game_id varchar,
-      players integer,
       save_id integer,
       game text,
-      status text default 'running',
       created_time timestamp default now(),
       PRIMARY KEY (game_id, save_id));
+
+    ALTER TABLE games
+    DROP COLUMN IF EXISTS status,
+    DROP COLUMN IF EXISTS players;
 
     /* A single game, storing the log and the options. Normalizing out some of the game state. */
     CREATE TABLE IF NOT EXISTS game(
@@ -72,8 +74,12 @@ export class PostgreSQL implements IDatabase {
       log text NOT NULL,
       options text NOT NULL,
       status text default 'running' NOT NULL,
+      players integer NOT NULL,
       created_time timestamp default now() NOT NULL,
       PRIMARY KEY (game_id));
+
+    ALTER TABLE game
+    ADD COLUMN IF NOT EXISTS players integer;
 
     /* A list of the players and spectator IDs, which optimizes loading unloaded for a specific player. */
     CREATE TABLE IF NOT EXISTS participants(
@@ -104,7 +110,7 @@ export class PostgreSQL implements IDatabase {
   }
 
   public async getPlayerCount(gameId: GameId): Promise<number> {
-    const sql = 'SELECT players FROM games WHERE save_id = 0 AND game_id = $1 LIMIT 1';
+    const sql = 'SELECT players FROM game WHERE game_id = $1';
 
     const res = await this.client.query(sql, [gameId]);
     if (res.rows.length === 0) {
@@ -117,13 +123,8 @@ export class PostgreSQL implements IDatabase {
     // To only load incomplete games add `WHERE status=\'running\'`
     // above "GROUP BY game_id) a"
     const sql: string =
-    `SELECT games.game_id
-    FROM games, (
-      SELECT max(save_id) save_id, game_id
-      FROM games
-      GROUP BY game_id) a
-    WHERE games.game_id = a.game_id
-    AND games.save_id = a.save_id
+    `SELECT game_id
+    FROM game
     ORDER BY created_time DESC`;
     const res = await this.client.query(sql);
     return res.rows.map((row) => row.game_id);
@@ -228,12 +229,13 @@ export class PostgreSQL implements IDatabase {
   }
 
   async markFinished(gameId: GameId): Promise<void> {
-    const promise1 = this.client.query('UPDATE games SET status = \'finished\' WHERE game_id = $1', [gameId]);
+    const promise1 = this.client.query('UPDATE game SET status = \'finished\' WHERE game_id = $1', [gameId]);
     const promise2 = this.client.query('INSERT INTO completed_game(game_id) VALUES ($1)', [gameId]);
     await Promise.all([promise1, promise2]);
   }
 
   // Purge unfinished games older than MAX_GAME_DAYS days. If this environment variable is absent, it uses the default of 10 days.
+  // TODO(kberg) this should filter by status.
   async purgeUnfinishedGames(maxGameDays: string | undefined = process.env.MAX_GAME_DAYS): Promise<Array<GameId>> {
     const dateToSeconds = daysAgoToSeconds(maxGameDays, 10);
     const selectResult = await this.client.query('SELECT DISTINCT game_id FROM games WHERE created_time < to_timestamp($1)', [dateToSeconds]);
@@ -251,6 +253,8 @@ export class PostgreSQL implements IDatabase {
       console.log(`Purged ${deleteGamesResult.rowCount} rows from games`);
       const deleteParticipantsResult = await this.client.query('DELETE FROM participants WHERE game_id = ANY($1)', [gameIds]);
       console.log(`Purged ${deleteParticipantsResult.rowCount} rows from participants`);
+      const deleteGameResult = await this.client.query('DELETE FROM game WHERE game_id = ANY($1)', [gameIds]);
+      console.log(`Purged ${deleteGameResult.rowCount} rows from games`);
     }
     return gameIds;
   }
@@ -276,10 +280,8 @@ export class PostgreSQL implements IDatabase {
 
   async compressCompletedGame(gameId: GameId): Promise<pg.QueryResult<any>> {
     const maxSaveId = await this.getMaxSaveId(gameId);
-    return this.client.query('DELETE FROM games WHERE game_id = $1 AND save_id < $2 AND save_id > 0', [gameId, maxSaveId])
-      .then(() => {
-        return this.client.query('DELETE FROM completed_game where game_id = $1', [gameId]);
-      });
+    await this.client.query('DELETE FROM games WHERE game_id = $1 AND save_id < $2 AND save_id > 0', [gameId, maxSaveId]);
+    return this.client.query('DELETE FROM completed_game where game_id = $1', [gameId]);
   }
 
   async saveGame(game: IGame): Promise<void> {
@@ -300,18 +302,18 @@ export class PostgreSQL implements IDatabase {
       const thisSaveId = game.lastSaveId;
       // xmax = 0 is described at https://stackoverflow.com/questions/39058213/postgresql-upsert-differentiate-inserted-and-updated-rows-using-system-columns-x
       const res = await this.client.query(
-        `INSERT INTO games (game_id, save_id, game, players)
-        VALUES ($1, $2, $3, $4)
+        `INSERT INTO games (game_id, save_id, game)
+        VALUES ($1, $2, $3)
         ON CONFLICT (game_id, save_id) DO UPDATE SET game = $3
         RETURNING (xmax = 0) AS inserted`,
-        [game.id, game.lastSaveId, gameJSON, game.getPlayers().length]);
+        [game.id, game.lastSaveId, gameJSON]);
 
       await this.client.query(
-        `INSERT INTO game (game_id, log, options)
-        VALUES ($1, $2, $3)
+        `INSERT INTO game (game_id, log, options, players)
+        VALUES ($1, $2, $3, $4)
         ON CONFLICT (game_id)
         DO UPDATE SET log = $2`,
-        [game.id, log, options]);
+        [game.id, log, options, game.getPlayers().length]);
 
       game.lastSaveId = thisSaveId + 1;
 
