@@ -1031,56 +1031,10 @@ export default (Vue as WithRefs<Refs>).extend({
         return player;
       });
 
-      const corporateEra = this.corporateEra;
-      const prelude = this.prelude;
-      const prelude2Expansion = this.prelude2Expansion;
-      const draftVariant = this.draftVariant;
-      const initialDraft = this.initialDraft;
-      const randomMA = this.randomMA;
-      const showOtherPlayersVP = this.showOtherPlayersVP;
-      const venusNext = this.venusNext;
-      const colonies = this.colonies;
-      const turmoil = this.turmoil;
-      const solarPhaseOption = this.solarPhaseOption;
-      const shuffleMapOption = this.shuffleMapOption;
-      const customColonies = this.customColonies;
-      const customCorporations = this.customCorporations;
-      const customPreludes = this.customPreludes;
-      const bannedCards = this.bannedCards;
-      const includedCards = this.includedCards;
-      const board = this.board;
-      const seed = this.seed;
-      const promoCardsOption = this.promoCardsOption;
-      const communityCardsOption = this.communityCardsOption;
-      const aresExtension = this.aresExtension;
-      const politicalAgendasExtension = this.politicalAgendasExtension;
-      const moonExpansion = this.moonExpansion;
-      const pathfindersExpansion = this.pathfindersExpansion;
-      const undoOption = this.undoOption;
-      const showTimers = this.showTimers;
-      const fastModeOption = this.fastModeOption;
-      const removeNegativeGlobalEventsOption = this.removeNegativeGlobalEventsOption;
-      const includeVenusMA = this.includeVenusMA;
-      const includeFanMA = this.includeFanMA;
-      const startingCorporations = this.startingCorporations;
-      const soloTR = this.soloTR;
-      // const beginnerOption = this.beginnerOption;
-      const randomFirstPlayer = this.randomFirstPlayer;
-      const requiresVenusTrackCompletion = this.requiresVenusTrackCompletion;
-      const escapeVelocityMode = this.escapeVelocityMode;
-      const escapeVelocityThreshold = this.escapeVelocityMode ? this.escapeVelocityThreshold : undefined;
-      const escapeVelocityBonusSeconds = this.escapeVelocityBonusSeconds ? this.escapeVelocityBonusSeconds : undefined;
-      const escapeVelocityPeriod = this.escapeVelocityMode ? this.escapeVelocityPeriod : undefined;
-      const escapeVelocityPenalty = this.escapeVelocityMode ? this.escapeVelocityPenalty : undefined;
-      const twoCorpsVariant = this.twoCorpsVariant;
-      const ceoExtension = this.ceoExtension;
-      const customCeos = this.customCeos;
-      const startingCeos = this.startingCeos;
-      const startingPreludes = this.startingPreludes;
       let clonedGamedId: undefined | GameId = undefined;
 
       // Check custom colony count
-      if (customColonies.length > 0) {
+      if (this.customColonies.length > 0) {
         const playersCount = players.length;
         let neededColoniesCount = playersCount + 2;
         if (playersCount === 1) {
@@ -1089,40 +1043,42 @@ export default (Vue as WithRefs<Refs>).extend({
           neededColoniesCount = 5;
         }
 
-        if (customColonies.length < neededColoniesCount) {
+        if (this.customColonies.length < neededColoniesCount) {
           window.alert(translateTextWithParams('Must select at least ${0} colonies', [neededColoniesCount.toString()]));
           return;
         }
       }
 
-      if (players.length === 1 && corporateEra === false) {
+      if (players.length === 1 && this.corporateEra === false) {
         const confirm = window.confirm(translateText(
           'We do not recommend playing a solo game without the Corporate Era. Press OK if you want to play without it.'));
         if (confirm === false) return;
       }
 
       // Check custom corp count
-      if (this.showCorporationList && customCorporations.length > 0) {
-        let neededCorpsCount = players.length * startingCorporations;
+      if (this.showCorporationList && this.customCorporations.length > 0) {
+        let neededCorpsCount = players.length * this.startingCorporations;
         if (REVISED_COUNT_ALGORITHM) {
           if (this.twoCorpsVariant) {
             // Add an additional 4 for the Merger prelude
             // Everyone-Merger needs an additional 4 corps per player
             //  NB: This will not cover the case when no custom corp list is set!
             //  It _can_ come about if  the number of corps included in all expansions is still not enough.
-            neededCorpsCount = (players.length * startingCorporations) + (players.length * 4);
+            neededCorpsCount = (players.length * this.startingCorporations) + (players.length * 4);
           } else {
-            neededCorpsCount = players.length * startingCorporations;
+            neededCorpsCount = players.length * this.startingCorporations;
             // Merger Prelude alone needs 4 additional preludes
-            if (this.prelude && this.promoCardsOption) neededCorpsCount += 4;
+            if (this.prelude && this.promoCardsOption) {
+              neededCorpsCount += 4;
+            }
           }
         }
-        if (customCorporations.length < neededCorpsCount) {
+        if (this.customCorporations.length < neededCorpsCount) {
           window.alert(translateTextWithParams('Must select at least ${0} corporations', [neededCorpsCount.toString()]));
           return;
         }
         let valid = true;
-        for (const corp of customCorporations) {
+        for (const corp of this.customCorporations) {
           const card = getCard(corp);
           for (const module of card?.compatibility ?? []) {
             if (!this.isEnabled(module)) {
@@ -1136,19 +1092,19 @@ export default (Vue as WithRefs<Refs>).extend({
           if (confirm === false) return;
         }
       } else {
-        customCorporations.length = 0;
+        this.customCorporations.length = 0;
       }
 
       // TODO(kberg): this is a direct copy of the code right above.
       // Check custom prelude count
-      if (this.showPreludesList && customPreludes.length > 0) {
-        const requiredPreludeCount = players.length * startingPreludes;
-        if (customPreludes.length < requiredPreludeCount) {
+      if (this.showPreludesList && this.customPreludes.length > 0) {
+        const requiredPreludeCount = players.length * this.startingPreludes;
+        if (this.customPreludes.length < requiredPreludeCount) {
           window.alert(translateTextWithParams('Must select at least ${0} Preludes', [requiredPreludeCount.toString()]));
           return;
         }
         let valid = true;
-        for (const prelude of customPreludes) {
+        for (const prelude of this.customPreludes) {
           const card = getCard(prelude);
           for (const module of card?.compatibility ?? []) {
             if (!this.isEnabled(module)) {
@@ -1162,7 +1118,7 @@ export default (Vue as WithRefs<Refs>).extend({
           if (confirm === false) return;
         }
       } else {
-        customPreludes.length = 0;
+        this.customPreludes.length = 0;
       }
 
       // Clone game checks
@@ -1197,58 +1153,57 @@ export default (Vue as WithRefs<Refs>).extend({
 
       const dataToSend: NewGameConfig = {
         players,
-        corporateEra,
-        prelude,
-        prelude2Expansion,
-        draftVariant,
-        showOtherPlayersVP,
-        venusNext,
-        colonies,
-        turmoil,
-        customCorporationsList: customCorporations,
-        customColoniesList: customColonies,
-        customPreludes,
-        bannedCards,
-        includedCards,
-        board,
-        seed,
-        solarPhaseOption,
-        promoCardsOption,
-        communityCardsOption,
-        aresExtension: aresExtension,
-        politicalAgendasExtension: politicalAgendasExtension,
-        moonExpansion: moonExpansion,
-        pathfindersExpansion: pathfindersExpansion,
-        undoOption,
-        showTimers,
-        fastModeOption,
-        removeNegativeGlobalEventsOption,
-        includeVenusMA,
-        includeFanMA,
-        startingCorporations,
-        soloTR,
-        clonedGamedId,
-        initialDraft,
+        corporateEra: this.corporateEra,
+        prelude: this.prelude,
+        prelude2Expansion: this.prelude2Expansion,
+        draftVariant: this.draftVariant,
+        showOtherPlayersVP: this.showOtherPlayersVP,
+        venusNext: this.venusNext,
+        colonies: this.colonies,
+        turmoil: this.turmoil,
+        customCorporationsList: this.customCorporations,
+        customColoniesList: this.customColonies,
+        customPreludes: this.customPreludes,
+        bannedCards: this.bannedCards,
+        includedCards: this.includedCards,
+        board: this.board,
+        seed: this.seed,
+        solarPhaseOption: this.solarPhaseOption,
+        promoCardsOption: this.promoCardsOption,
+        communityCardsOption: this.communityCardsOption,
+        aresExtension: this.aresExtension,
+        politicalAgendasExtension: this.politicalAgendasExtension,
+        moonExpansion: this.moonExpansion,
+        pathfindersExpansion: this.pathfindersExpansion,
+        undoOption: this.undoOption,
+        showTimers: this.showTimers,
+        fastModeOption: this.fastModeOption,
+        removeNegativeGlobalEventsOption: this.removeNegativeGlobalEventsOption,
+        includeVenusMA: this.includeVenusMA,
+        includeFanMA: this.includeFanMA,
+        startingCorporations: this.startingCorporations,
+        soloTR: this.soloTR,
+        clonedGamedId: clonedGamedId,
+        initialDraft: this.initialDraft,
         preludeDraftVariant: this.preludeDraftVariant ?? false,
-        randomMA,
-        shuffleMapOption,
-        // beginnerOption,
-        randomFirstPlayer,
-        requiresVenusTrackCompletion,
+        randomMA: this.randomMA,
+        shuffleMapOption: this.shuffleMapOption,
+        randomFirstPlayer: this.randomFirstPlayer,
+        requiresVenusTrackCompletion: this.requiresVenusTrackCompletion,
         requiresMoonTrackCompletion: this.requiresMoonTrackCompletion,
         moonStandardProjectVariant: this.moonStandardProjectVariant,
         moonStandardProjectVariant1: this.moonStandardProjectVariant1,
         altVenusBoard: this.altVenusBoard,
-        escapeVelocityMode,
-        escapeVelocityThreshold,
-        escapeVelocityBonusSeconds,
-        escapeVelocityPeriod,
-        escapeVelocityPenalty,
-        twoCorpsVariant,
-        ceoExtension,
-        customCeos,
-        startingCeos,
-        startingPreludes,
+        escapeVelocityMode: this.escapeVelocityMode,
+        escapeVelocityThreshold: this.escapeVelocityThreshold,
+        escapeVelocityBonusSeconds: this.escapeVelocityBonusSeconds,
+        escapeVelocityPeriod: this.escapeVelocityPeriod,
+        escapeVelocityPenalty: this.escapeVelocityPenalty,
+        twoCorpsVariant: this.twoCorpsVariant,
+        ceoExtension: this.ceoExtension,
+        customCeos: this.customCeos,
+        startingCeos: this.startingCeos,
+        startingPreludes: this.startingPreludes,
         starWarsExpansion: this.starWarsExpansion,
         underworldExpansion: this.underworldExpansion,
       };

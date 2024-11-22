@@ -1100,7 +1100,7 @@ export class Player implements IPlayer {
     return stagedProtests?.generationUsed === this.game.generation;
   }
 
-  private milestoneCost() {
+  public milestoneCost() {
     if (this.isCorporation(CardName.NIRGAL_ENTERPRISES)) {
       return 0;
     }
