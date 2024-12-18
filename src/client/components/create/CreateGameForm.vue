@@ -2,7 +2,7 @@
         <div id="create-game" class="create-game">
             <h1><span v-i18n>{{ constants.APP_NAME }}</span> — <span v-i18n>Create New Game</span></h1>
             <div class="changelog"><a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Changelog" class="tooltip" target="_blank"><u v-i18n>Read our changelog to get the latest updates.</u></a></div>
-            <div class="discord-invite" v-if="playersCount===1">
+            <div class="discord-invite" v-if="isSoloGame()">
               (<span v-i18n>Looking for people to play with</span>? <a :href="constants.DISCORD_INVITE" class="tooltip" target="_blank"><u v-i18n>Join us on Discord</u></a>.)
             </div>
 
@@ -90,23 +90,6 @@
                                 <span v-i18n>The Moon</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/The-Moon" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
-                            <template v-if="moonExpansion">
-                              <input type="checkbox" v-model="requiresMoonTrackCompletion" id="requiresMoonTrackCompletion-checkbox">
-                              <label for="requiresMoonTrackCompletion-checkbox">
-                                  <span v-i18n>Mandatory Moon Terraforming</span>
-                              </label>
-
-                              <input type="checkbox" v-model="moonStandardProjectVariant" id="moonStandardProjectVariant2-checkbox">
-                              <label for="moonStandardProjectVariant2-checkbox">
-                                  <span v-i18n>Standard Project Variant #2</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
-                              </label>
-
-                              <input type="checkbox" v-model="moonStandardProjectVariant1" id="moonStandardProjectVariant1-checkbox">
-                              <label for="moonStandardProjectVariant1-checkbox">
-                                  <span v-i18n>Standard Project Variant #1</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
-                              </label>
-                            </template>
-
                             <template v-if="turmoil">
                                 <input type="checkbox" name="politicalAgendas" id="politicalAgendas-checkbox" v-on:change="politicalAgendasExtensionToggle()">
                                 <label for="politicalAgendas-checkbox" class="expansion-button">
@@ -136,13 +119,6 @@
                                 <div class="create-game-expansion-icon expansion-icon-pathfinders"></div>
                                 <span v-i18n>Pathfinders</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Pathfinders" class="tooltip" target="_blank">&#9432;</a>
                             </label>
-
-                            <template v-if="venusNext">
-                                <input type="checkbox" v-model="altVenusBoard" id="altVenusBoard-checkbox">
-                                <label for="altVenusBoard-checkbox">
-                                    <span v-i18n>Alt. Venus Board</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Alternative-Venus-Board" class="tooltip" target="_blank">&#9432;</a>
-                                </label>
-                            </template>
 
                             <input type="checkbox" name="ceo" id="ceo-checkbox" v-model="ceoExtension">
                             <label for="ceo-checkbox" class="expansion-button">
@@ -208,7 +184,7 @@
                                 <span v-i18n>World Government Terraforming</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#world-government-terraforming" class="tooltip" target="_blank">&#9432;</a>
                             </label>
 
-                            <template v-if="playersCount === 1">
+                            <template v-if="isSoloGame()">
                             <input type="checkbox" v-model="soloTR" id="soloTR-checkbox">
                             <label for="soloTR-checkbox">
                                 <span v-i18n>63 TR solo mode</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#tr-solo-mode" class="tooltip" target="_blank">&#9432;</a>
@@ -255,14 +231,6 @@
                               <input type="number" class="create-game-corporations-count" value="2" min="1" :max="10" v-model="escapeVelocityPeriod" id="escapePeriod-checkbox">
                               <span v-i18n>min</span>
                             </label>
-
-                            <template v-if="prelude">
-                              <input type="checkbox" v-model="twoCorpsVariant" id="twoCorps-checkbox">
-                              <label for="twoCorps-checkbox" title="Always gain the Merger Prelude card (will be given post-draft)">
-                                    <div class="create-game-expansion-icon expansion-icon-prelude"></div>
-                                    <span v-i18n>Merger</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#Merger" class="tooltip" target="_blank">&#9432;</a>
-                              </label>
-                            </template>
 
                             <input type="checkbox" v-model="shuffleMapOption" id="shuffleMap-checkbox">
                             <label for="shuffleMap-checkbox">
@@ -318,31 +286,8 @@
 
                         </div>
 
-                        <div class="create-game-page-column" v-if="playersCount > 1">
+                        <div class="create-game-page-column" v-if="!isSoloGame()">
                             <h4 v-i18n>Multiplayer Options</h4>
-
-                            <div class="create-game-page-column-row">
-                                <div>
-                                <input type="checkbox" name="draftVariant" v-model="draftVariant" id="draft-checkbox">
-                                <label for="draft-checkbox">
-                                    <span v-i18n>Draft variant</span>
-                                </label>
-                                </div>
-
-                                <div>
-                                <input type="checkbox" name="initialDraft" v-model="initialDraft" id="initialDraft-checkbox">
-                                <label for="initialDraft-checkbox">
-                                    <span v-i18n>Initial Draft variant</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
-                                </label>
-                                </div>
-
-                                <div v-if="initialDraft && prelude">
-                                <input type="checkbox" name="preludeDraft" v-model="preludeDraftVariant" id="preludeDraft-checkbox">
-                                <label for="preludeDraft-checkbox">
-                                    <span v-i18n>Prelude Draft variant</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
-                                </label>
-                                </div>
-                            </div>
                             <input type="checkbox" v-model="randomFirstPlayer" id="randomFirstPlayer-checkbox">
                             <label for="randomFirstPlayer-checkbox">
                                 <span v-i18n>Random first player</span>
@@ -382,10 +327,6 @@
                                 <label for="venusMA-checkbox">
                                     <span v-i18n>Venus Milestone/Award</span>
                                 </label>
-                                <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
-                                <label for="requiresVenusTrackCompletion-checkbox">
-                                    <span v-i18n>Mandatory Venus Terraforming</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
-                                </label>
                             </template>
 
                             <template v-if="randomMA !== RandomMAOptionType.NONE">
@@ -404,6 +345,81 @@
                             <label for="fastMode-checkbox">
                                 <span v-i18n>Fast mode</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#fast-mode" class="tooltip" target="_blank">&#9432;</a>
                             </label>
+                        </div>
+
+                        <div class="create-game-page-column">
+                            <h4 v-i18n>Variants</h4>
+                            <template v-if="!isSoloGame()">
+                              <div>
+                                <input type="checkbox" name="draftVariant" v-model="draftVariant" id="draft-checkbox">
+                                  <label for="draft-checkbox">
+                                      <span v-i18n>Draft variant</span>
+                                  </label>
+                              </div>
+
+                              <div>
+                                <input type="checkbox" name="initialDraft" v-model="initialDraft" id="initialDraft-checkbox">
+                                <label for="initialDraft-checkbox">
+                                    <span v-i18n>Initial Draft variant</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                              </div>
+
+                              <div v-if="initialDraft && prelude">
+                                <input type="checkbox" name="preludeDraft" v-model="preludeDraftVariant" id="preludeDraft-checkbox">
+                                <label for="preludeDraft-checkbox">
+                                    <span v-i18n>Prelude Draft variant</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#initial-draft" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                              </div>
+                            </template>
+
+                            <template v-if="!isSoloGame() && prelude">
+                                <input type="checkbox" name="twoCorpsVariant" v-model="twoCorpsVariant" id="twoCorps-checkbox">
+                                <label for="twoCorps-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-prelude"></div>
+                                    <span v-i18n>All Merger</span>&nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="!isSoloGame() && venusNext">
+                                <input type="checkbox" v-model="requiresVenusTrackCompletion" id="requiresVenusTrackCompletion-checkbox">
+                                <label for="requiresVenusTrackCompletion-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                                    <span v-i18n>Venus Terraforming</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#venus-terraforming" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <template v-if="venusNext">
+                                <input type="checkbox" v-model="altVenusBoard" id="altVenusBoard-checkbox">
+                                <label for="altVenusBoard-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-venus"></div>
+                                    <span v-i18n>Alternate Venus Board</span> &nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#alt-venus" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+
+                            <!-- <template v-if="aresExtension">
+                                <input type="checkbox" v-model="aresExtremeVariant" id="aresExtremeVariant-checkbox">
+                                <label for="aresExtremeVariant-checkbox">
+                                    <div class="create-game-expansion-icon expansion-icon-ares"></div>
+                                    <span v-i18n>Extreme</span> &nbsp;<a href="https://pollen-tangelo-5db.notion.site/Variants-32b53050f10a4cfbaea117c34d4f3a03" class="tooltip" target="_blank">&#9432;</a>
+                                </label>
+                            </template>
+ -->
+                            <template v-if="moonExpansion">
+                              <input type="checkbox" v-model="requiresMoonTrackCompletion" id="requiresMoonTrackCompletion-checkbox">
+                              <label for="requiresMoonTrackCompletion-checkbox">
+                                  <span v-i18n>Mandatory Moon Terraforming</span>
+                              </label>
+
+                              <input type="checkbox" v-model="moonStandardProjectVariant" id="moonStandardProjectVariant2-checkbox">
+                              <label for="moonStandardProjectVariant2-checkbox">
+                                  <span v-i18n>Standard Project Variant #2</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
+                              </label>
+
+                              <input type="checkbox" v-model="moonStandardProjectVariant1" id="moonStandardProjectVariant1-checkbox">
+                              <label for="moonStandardProjectVariant1-checkbox">
+                                  <span v-i18n>Standard Project Variant #1</span>&nbsp;<a href="https://github.com/terraforming-mars/terraforming-mars/wiki/Variants#moon-standard-project-variant" class="tooltip" target="_blank">&#9432;</a>
+                              </label>
+                            </template>
                         </div>
 
                         <div class="create-game-players-cont">
@@ -992,6 +1008,9 @@ export default (Vue as WithRefs<Refs>).extend({
       };
       return 'https://github.com/terraforming-mars/terraforming-mars/wiki/Maps#' + options[boardName];
     },
+    isSoloGame(): boolean {
+      return this.playersCount === 1;
+    },
     async serializeSettings() {
       let players = this.players.slice(0, this.playersCount);
 
@@ -1021,12 +1040,9 @@ export default (Vue as WithRefs<Refs>).extend({
         }
       }
 
-      // Set player name automatically if not entered
-      const isSoloMode = this.playersCount === 1;
-
       this.players.forEach((player) => {
         if (player.name === '') {
-          if (isSoloMode) {
+          if (this.isSoloGame()) {
             player.name = this.$t('You');
           } else {
             const defaultPlayerName = this.$t(player.color.charAt(0).toUpperCase() + player.color.slice(1));
