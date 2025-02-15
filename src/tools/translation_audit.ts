@@ -19,12 +19,11 @@ function parseLine(line: string) {
   return [key, value];
 }
 
-function parseJson(input: string): MultiMap<string, string> {
-  const map = new MultiMap<string, string>();
+function parseJson(input: string, map: MultiMap<string, string>): void {
   const lines = input.split('\n').map((e) => e.trim()).filter((e) => e.length > 0);
   const firstLine = lines.shift();
   if (firstLine === '{}') {
-    return map;
+    return;
   }
   if (firstLine !== '{') {
     throw new Error('Expected {, got' + firstLine);
@@ -47,7 +46,7 @@ function parseJson(input: string): MultiMap<string, string> {
     const [key, value] = parseLine(line);
     map.set(key, value);
   }
-  return map;
+  return;
 }
 
 const pathToTranslationsDir = path.resolve('src/locales');
@@ -59,6 +58,9 @@ for (const lang of dirs) {
   if (lang.length === 2 && fs.statSync(localeDir).isDirectory()) {
     const translationDir = path.resolve(path.join(pathToTranslationsDir, lang));
     const files = fs.readdirSync(translationDir);
+
+    const map = new MultiMap<string, string>();
+
     for (const file of files) {
       if (!file.endsWith('.json')) {
         continue;
@@ -66,19 +68,19 @@ for (const lang of dirs) {
       const filename = path.join(translationDir, file);
       // console.log('processing ' + filename);
       const content = fs.readFileSync(filename, 'utf8');
-      const results = parseJson(content);
-      for (const key of results.keys()) {
-        if (results.get(key)!.length > 1) { // eslint-disable-line @typescript-eslint/no-non-null-assertion
-          const uniqueCount = new Set(results.get(key)).size;
-          console.log(filename, '[', uniqueCount, '] [', key, ']');
-          errors++;
-        }
+      parseJson(content, map);
+    }
+    for (const key of map.keys()) {
+      if (map.get(key)!.length > 1) { // eslint-disable-line @typescript-eslint/no-non-null-assertion
+        const uniqueCount = new Set(map.get(key)).size;
+        console.log(lang, '[', uniqueCount, '] [', key, ']');
+        errors++;
       }
     }
   }
 }
 
 if (errors > 0) {
-  console.error('Multiple translation strings in the same file. Stopping.');
+  console.error('Multiple translation strings in the language. Stopping.');
   process.exit(1);
 }
