@@ -2,10 +2,10 @@ import {BaseMilestone} from './IMilestone';
 import {IPlayer} from '../IPlayer';
 import {Board} from '../boards/Board';
 
-export class Irrigator extends BaseMilestone {
+export class Coastguard extends BaseMilestone {
   constructor() {
     super(
-      'Irrigator',
+      'Coastguard',
       'Own 4 tiles adjacent to oceans',
       4);
   }

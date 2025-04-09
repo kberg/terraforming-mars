@@ -1,15 +1,15 @@
 import {expect} from 'chai';
 import {testGame} from '../TestGame';
-import {Irrigator} from '../../src/server/milestones/Irrigator';
+import {Coastguard} from '../../src/server/milestones/Coastguard';
 import {addCity, addGreenery, maxOutOceans} from '../TestingUtils';
 import {TestPlayer} from '../TestPlayer';
 
-describe('Irrigator', () => {
-  let milestone: Irrigator;
+describe('Coastguard', () => {
+  let milestone: Coastguard;
   let player: TestPlayer;
 
   beforeEach(() => {
-    milestone = new Irrigator();
+    milestone = new Coastguard();
     [/* game */, player] = testGame(2);
 
     maxOutOceans(player);
