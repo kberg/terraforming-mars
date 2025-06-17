@@ -70,17 +70,17 @@ export class Aridor extends CorporationCard implements ICorporationCard {
   }
 
   public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
-    return this.onCardPlayed(thisOwner, card);
+    if (!thisOwner.isCorporation(this.name)) {
+      return;
+    }
+    return this.onCardPlayedForCorps(thisOwner, card);
   }
 
   public onColonyAddedToLeavitt(player: IPlayer) {
     this.processTags(player, [Tag.SCIENCE]);
   }
 
-  public onCardPlayed(player: IPlayer, card: ICard) {
-    if (!player.isCorporation(this.name)) {
-      return;
-    }
+  public onCardPlayedForCorps(player: IPlayer, card: ICard) {
     this.processTags(player, this.tagsForCard(card));
   }
 

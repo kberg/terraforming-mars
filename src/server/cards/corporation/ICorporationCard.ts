@@ -19,6 +19,7 @@ export interface ICorporationCard extends ICard {
    */
   onCorpCardPlayedByAnyPlayer?(thisOwner: IPlayer, corp: ICorporationCard, corpOwner: IPlayer): PlayerInput | undefined | void;
   onCorpCardPlayed?: never;
+  onCardPlayedForCorps?(player: IPlayer, card: ICard): PlayerInput | undefined | void;
 
   serialize?(serialized: SerializedCard): void;
   deserialize?(serialized: SerializedCard): void;

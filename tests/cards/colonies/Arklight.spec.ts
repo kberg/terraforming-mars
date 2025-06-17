@@ -14,7 +14,7 @@ describe('Arklight', () => {
 
     expect(card.resourceCount).to.eq(1);
 
-    card.onCardPlayed(player, new Predators());
+    player.playCard(new Predators());
 
     expect(card.resourceCount).to.eq(2);
     expect(card.getVictoryPoints(player)).to.eq(1);

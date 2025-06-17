@@ -20,15 +20,15 @@ describe('SaturnSystems', () => {
     expect(player.production.megacredits).to.eq(1);
   });
 
-  it('Runs onCardPlayed', () => {
+  it('Runs onCardPlayedByAnyPlayer', () => {
     player.corporations.push(card);
-    card.onCardPlayed(player, new MirandaResort());
+    player.playCard(new MirandaResort());
     expect(player.production.megacredits).to.eq(1);
   });
 
-  it('Runs onCardPlayed when other player plays card', () => {
+  it('Runs onCardPlayedByAnyPlayer when other player plays card', () => {
     player.corporations.push(card);
-    card.onCardPlayed(player2, new MirandaResort());
+    player2.playCard(new MirandaResort());
     expect(player.production.megacredits).to.eq(1);
   });
 });

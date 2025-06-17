@@ -36,15 +36,15 @@ export class SaturnSystems extends CorporationCard implements ICorporationCard {
     });
   }
 
-  public onCardPlayed(player: IPlayer, card: ICard) {
+  public onCardPlayedByAnyPlayer(thisCardOwner: IPlayer, card: ICard) {
     for (const tag of card.tags) {
       if (tag === Tag.JOVIAN) {
-        player.game.getCardPlayerOrThrow(this.name).production.add(Resource.MEGACREDITS, 1, {log: true});
+        thisCardOwner.production.add(Resource.MEGACREDITS, 1, {log: true});
       }
     }
   }
 
   public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(thisOwner, card);
+    this.onCardPlayedByAnyPlayer(thisOwner, card);
   }
 }
