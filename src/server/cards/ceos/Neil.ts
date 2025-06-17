@@ -25,7 +25,7 @@ export class Neil extends CeoCard {
     });
   }
 
-  public onCardPlayedFromAnyPlayer(thisCardOwner: IPlayer, _playedCardOwner: IPlayer, card: IProjectCard) {
+  public onCardPlayedByAnyPlayer(thisCardOwner: IPlayer, card: IProjectCard) {
     for (const tag of card.tags) {
       if (tag === Tag.MOON) {
         thisCardOwner.game.getCardPlayerOrThrow(this.name).stock.add(Resource.MEGACREDITS, 1, {log: true});

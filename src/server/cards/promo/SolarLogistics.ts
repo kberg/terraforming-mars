@@ -37,7 +37,7 @@ export class SolarLogistics extends Card implements IProjectCard {
     });
   }
 
-  public onCardPlayedFromAnyPlayer(thisCardOwner: IPlayer, _playedCardOwner: IPlayer, card: IProjectCard) {
+  public onCardPlayedByAnyPlayer(thisCardOwner: IPlayer, card: IProjectCard) {
     if (card.type === CardType.EVENT && card.tags.includes(Tag.SPACE)) {
       thisCardOwner.drawCard(1);
     }
