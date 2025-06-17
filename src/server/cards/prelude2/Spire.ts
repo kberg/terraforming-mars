@@ -61,7 +61,10 @@ export class Spire extends CorporationCard implements ICorporationCard {
     }
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    if (!thisOwner.isCorporation(this.name)) {
+      return;
+    }
+    this.onCardPlayed(thisOwner, card);
   }
 }

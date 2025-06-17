@@ -69,8 +69,8 @@ export class Aridor extends CorporationCard implements ICorporationCard {
     }
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    return this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    return this.onCardPlayed(thisOwner, card);
   }
 
   public onColonyAddedToLeavitt(player: IPlayer) {

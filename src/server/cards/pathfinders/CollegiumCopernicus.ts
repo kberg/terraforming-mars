@@ -50,8 +50,11 @@ export class CollegiumCopernicus extends CorporationCard implements ICorporation
     });
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    if (!thisOwner.isCorporation(this.name)) {
+      return;
+    }
+    this.onCardPlayed(thisOwner, card);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard): void {

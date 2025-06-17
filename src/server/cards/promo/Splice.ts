@@ -48,8 +48,8 @@ export class Splice extends CorporationCard implements ICorporationCard {
     });
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    return this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(cardOwner: IPlayer, card: ICorporationCard) {
+    return this.onCardPlayed(cardOwner, card);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard): undefined {

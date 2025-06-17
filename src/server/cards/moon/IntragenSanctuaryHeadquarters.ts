@@ -42,8 +42,9 @@ export class IntragenSanctuaryHeadquarters extends CorporationCard implements IC
     });
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  // TODO(kberg): use the
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, corp: ICorporationCard) {
+    this.onCardPlayed(thisOwner, corp);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard) {

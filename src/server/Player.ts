@@ -924,10 +924,7 @@ export class Player implements IPlayer {
         if (somePlayer === this && corporation.name === playedCorporationCard.name) {
           continue;
         }
-        if (corporation.onCorpCardPlayed === undefined) {
-          continue;
-        }
-        this.defer(corporation.onCorpCardPlayed(this, playedCorporationCard, somePlayer));
+        this.defer(corporation.onCorpCardPlayedByAnyPlayer?.(this, playedCorporationCard, somePlayer));
       }
     }
   }

@@ -43,10 +43,11 @@ export class SagittaFrontierServices extends CorporationCard implements ICorpora
     return undefined;
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard, cardOwner: IPlayer) {
-    if (player === cardOwner) {
-      this.onCardPlayed(cardOwner, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard, cardOwner: IPlayer) {
+    if (!thisOwner.isCorporation(this.name)) {
+      return;
     }
+    this.onCardPlayed(cardOwner, card);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard) {

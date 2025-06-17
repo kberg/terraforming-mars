@@ -42,12 +42,14 @@ export class Ambient extends CorporationCard implements ICorporationCard {
   }
 
   public override bespokePlay(player: IPlayer) {
-    this.onCorpCardPlayed(player, this);
+    this.onCorpCardPlayedByAnyPlayer(player, this);
     return undefined;
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    if (thisOwner.isCorporation(this.name)) {
+      this.onCardPlayed(thisOwner, card);
+    }
   }
 
   public onCardPlayed(player: IPlayer, card: ICard): void {

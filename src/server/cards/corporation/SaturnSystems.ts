@@ -44,7 +44,7 @@ export class SaturnSystems extends CorporationCard implements ICorporationCard {
     }
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    this.onCardPlayed(thisOwner, card);
   }
 }

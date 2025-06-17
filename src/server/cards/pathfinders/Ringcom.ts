@@ -48,8 +48,8 @@ export class Ringcom extends CorporationCard implements ICorporationCard {
     return undefined;
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    this.onCardPlayed(thisOwner, card);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard): void {

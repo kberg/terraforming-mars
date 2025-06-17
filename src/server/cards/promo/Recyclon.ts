@@ -67,7 +67,10 @@ export class Recyclon extends CorporationCard implements ICorporationCard {
     return new OrOptions(spendResource, addResource);
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    return this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(cardOwner: IPlayer, card: ICorporationCard) {
+    if (!cardOwner.isCorporation(this.name)) {
+      return;
+    }
+    return this.onCardPlayed(cardOwner, card);
   }
 }

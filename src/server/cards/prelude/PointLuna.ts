@@ -33,8 +33,11 @@ export class PointLuna extends CorporationCard implements ICorporationCard {
       },
     });
   }
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
-    return this.onCardPlayed(player, card);
+  public onCorpCardPlayedByAnyPlayer(thisOwner: IPlayer, card: ICorporationCard) {
+    if (!thisOwner.isCorporation(this.name)) {
+      return;
+    }
+    return this.onCardPlayed(thisOwner, card);
   }
 
   public onCardPlayed(player: IPlayer, card: ICard) {

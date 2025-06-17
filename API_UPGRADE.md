@@ -4,7 +4,7 @@ custom code on top of these APIs, you **must** update your cards to match.
 
 The main issues are:
 
-1. ¾ Inconsistent field orders.
+1. ✅ Inconsistent field orders.
 
 `ICard` and `ICorporationCard` have several callbacks that have parameters representing
 two different players. In these cases, one is the active player, and one is the card
@@ -21,6 +21,15 @@ Callbacks with the order active player, card owner:
 * onColonyAdded
 * ICorporationCard.onCorpCardPlayed
 
+For every corporation, if your effect is only when you play a card, add the following
+in front of both onCorpCardPlayed and onCardPlayed (while transitioning)
+
+```
+if (!player.isCorporation(this.name)) {
+  return;
+}
+```
+
 For consistency, the first player parameter wlil always be the card owner. That means the four methods listed will be reordered.
 
 To do this, all four methods will get replaced with new names. The old ones will be typed
@@ -29,7 +38,7 @@ with `never` to allow you to catch compiler errors for your custom cards.
 ✅ onIncreaseTerraformRatingByAnyPlayer
 ✅ onIdentificationByAnyPlayer
 ✅ onColonyAddedByAnyPlayer
-❌ onCorpCardPlayed2.
+✅ onCorpCardPlayedByAnyPlayer.
 
 These are not good names. After 6 months, the old names will be taken back, and these will deprecated. They will still work, but will eventually be removed.
 

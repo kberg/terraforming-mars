@@ -57,7 +57,7 @@ export class PharmacyUnion extends CorporationCard implements ICorporationCard {
     return [Tag.MICROBE, Tag.MICROBE];
   }
 
-  public onCorpCardPlayed(player: IPlayer, card: ICorporationCard) {
+  public onCorpCardPlayedByAnyPlayer(player: IPlayer, card: ICorporationCard) {
     this.onCardPlayed(player, card);
   }
 
