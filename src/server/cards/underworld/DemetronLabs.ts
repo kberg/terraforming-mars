@@ -8,7 +8,6 @@ import {IActionCard, IdentificationTrigger} from '../ICard';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {LogHelper} from '../../LogHelper';
 import {digit} from '../Options';
-import {sum} from '../../../common/utils/utils';
 import {Space} from '../../boards/Space';
 import {CardResource} from '../../../common/CardResource';
 import {AddResourcesToCard} from '../../deferredActions/AddResourcesToCard';
@@ -68,15 +67,15 @@ export class DemetronLabs extends CorporationCard implements ICorporationCard, I
   // Behavior is similar in Mining Market Insider.
   // This doesn't need to be serialized. It ensures this is only evaluated once per action.
   // When the server restarts, the player has to take an action anyway.
-  private lastActionId = -1;
-  public onIdentification(identifyingPlayer: IPlayer | undefined, cardOwner: IPlayer, _space: Space, trigger: IdentificationTrigger) {
+  private lastAction = -1;
+  public onIdentificationByAnyPlayer(cardOwner: IPlayer, identifyingPlayer: IPlayer | undefined, _space: Space, trigger: IdentificationTrigger) {
     if (identifyingPlayer !== cardOwner || trigger === 'excavation') {
       return;
     }
-    const actionId = sum(identifyingPlayer.game.getPlayers().map((p) => p.actionsTakenThisGame));
-    if (this.lastActionId !== actionId) {
+    const actionCount = cardOwner.game.getActionCount();
+    if (this.lastAction !== actionCount) {
       cardOwner.game.defer(new AddResourcesToCard(cardOwner, CardResource.DATA));
-      this.lastActionId = actionId;
+      this.lastAction = actionCount;
     }
   }
 }

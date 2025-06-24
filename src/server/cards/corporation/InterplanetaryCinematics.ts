@@ -1,6 +1,6 @@
 import {CorporationCard} from './CorporationCard';
 import {Tag} from '../../../common/cards/Tag';
-import {IProjectCard} from '../IProjectCard';
+import {ICard} from '../ICard';
 import {IPlayer} from '../../IPlayer';
 import {CardType} from '../../../common/cards/CardType';
 import {CardName} from '../../../common/cards/CardName';
@@ -35,8 +35,8 @@ export class InterplanetaryCinematics extends CorporationCard implements ICorpor
       },
     });
   }
-  public onCardPlayed(player: IPlayer, card: IProjectCard) {
-    if (player.isCorporation(this.name) && card.type === CardType.EVENT) {
+  public onCardPlayedForCorps(player: IPlayer, card: ICard) {
+    if (card.type === CardType.EVENT) {
       player.stock.add(Resource.MEGACREDITS, 2, {log: true, from: this});
     }
   }

@@ -4,7 +4,7 @@ import {CardRenderer} from '../render/CardRenderer';
 import {digit} from '../Options';
 import {CardResource} from '../../../common/CardResource';
 import {IPlayer} from '../../IPlayer';
-import {IProjectCard} from '../IProjectCard';
+import {ICard} from '../ICard';
 import {Tag} from '../../../common/cards/Tag';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
@@ -41,8 +41,7 @@ export class MindSetMars extends CorporationCard implements ICorporationCard {
     });
   }
 
-  public onCardPlayed(player: IPlayer, card: IProjectCard) {
-    if (player.game.getCardPlayerOrUndefined(this.name) !== player) return;
+  public onCardPlayedForCorps(player: IPlayer, card: ICard) {
     if (card.tags.includes(Tag.BUILDING)) {
       player.addResourceTo(this, {qty: 1, log: true});
     }

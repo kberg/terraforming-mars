@@ -37,7 +37,7 @@ describe('UnderworldExpansion', () => {
     dataCard2 = new MartianCulture();
     microbeCard1 = new GHGProducingBacteria();
     microbeCard2 = new RegolithEaters();
-    player1.playedCards = [dataCard1, dataCard2, microbeCard1, microbeCard2];
+    player1.playedCards.set(dataCard1, dataCard2, microbeCard1, microbeCard2);
     game.phase = Phase.ACTION;
   });
 
@@ -72,7 +72,7 @@ describe('UnderworldExpansion', () => {
     const responses: Array<string> = [];
     const space = game.board.getAvailableSpacesOnLand(player1)[0];
     const fake = fakeCard({
-      onIdentification(identifyingPlayer, cardOwner, space) {
+      onIdentificationByAnyPlayer(cardOwner, identifyingPlayer, space) {
         responses.push(`${identifyingPlayer?.id} - ${cardOwner.id} - ${space.id}`);
       },
     });
@@ -295,9 +295,9 @@ describe('UnderworldExpansion', () => {
   });
 
   it('grant bonus - tr', () => {
-    expect(player1.getTerraformRating()).eq(20);
+    expect(player1.terraformRating).eq(20);
     UnderworldExpansion.grant(player1, 'tr');
-    expect(player1.getTerraformRating()).eq(21);
+    expect(player1.terraformRating).eq(21);
   });
 
   // it('grant bonus - ocean', () => {

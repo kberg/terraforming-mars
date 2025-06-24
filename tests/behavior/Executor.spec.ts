@@ -36,6 +36,7 @@ import {HeatTrappers} from '../../src/server/cards/base/HeatTrappers';
 import {PartyName} from '../../src/common/turmoil/PartyName';
 import {Helion} from '../../src/server/cards/corporation/Helion';
 import {SelectPayment} from '../../src/server/inputs/SelectPayment';
+import {CardName} from '../../src/common/cards/CardName';
 
 function asUnits(player: IPlayer): Units {
   return {
@@ -59,7 +60,7 @@ describe('Executor', () => {
   beforeEach(() => {
     [game, player, player2, player3] = testGame(3, {turmoilExtension: true, venusNextExtension: true, underworldExpansion: true});
 
-    fake = fakeCard();
+    fake = fakeCard({name: 'Fake Card' as CardName});
     executor = new Executor();
   });
 
@@ -236,15 +237,15 @@ describe('Executor', () => {
   });
 
   it('tr', () => {
-    expect(player.getTerraformRating()).eq(20);
+    expect(player.terraformRating).eq(20);
 
     executor.execute({tr: 2}, player, fake);
 
-    expect(player.getTerraformRating()).eq(22);
+    expect(player.terraformRating).eq(22);
 
     executor.execute({tr: -1}, player, fake);
 
-    expect(player.getTerraformRating()).eq(21);
+    expect(player.terraformRating).eq(21);
   });
 
   it('add resources to specific card', () => {
@@ -270,7 +271,7 @@ describe('Executor', () => {
   // Because beforehand, it counted an additional tag.
   it('add resources to specific card - includes self', () => {
     const saturnSurfing = new SaturnSurfing();
-    player.playedCards = [fakeCard({tags: [Tag.EARTH, Tag.EARTH]})];
+    player.playedCards.set(fakeCard({tags: [Tag.EARTH, Tag.EARTH]}));
     player.megaCredits = saturnSurfing.cost;
     player.playCard(saturnSurfing);
     runAllActions(game);
@@ -294,7 +295,7 @@ describe('Executor', () => {
       };
     }
 
-    player.playedCards = [tardigrades, ants, regolithEathers, livestock];
+    player.playedCards.set(tardigrades, ants, regolithEathers, livestock);
 
     expect(resourceCount()).deep.eq({
       tardigrades: 0,
@@ -350,7 +351,7 @@ describe('Executor', () => {
     const regolithEathers = new RegolithEaters(); // Holds microbes
     const livestock = new Livestock(); // Holds animals
 
-    player.playedCards = [tardigrades, ants, regolithEathers, livestock];
+    player.playedCards.set(tardigrades, ants, regolithEathers, livestock);
 
     expect(livestock.resourceCount).eq(0);
 
@@ -365,7 +366,7 @@ describe('Executor', () => {
     const livestock = new Livestock(); // Holds animals
     const birds = new Birds(); // Holds animals
 
-    player.playedCards = [birds, livestock];
+    player.playedCards.set(birds, livestock);
 
     expect(livestock.resourceCount).eq(0);
 
@@ -505,11 +506,11 @@ describe('Executor', () => {
     const behavior: Behavior = {spend: {energy: 1}, tr: 1};
     expect(executor.canExecute(behavior, player, fake)).is.false;
     player.energy = 1;
-    expect(player.getTerraformRating()).eq(20);
+    expect(player.terraformRating).eq(20);
     expect(executor.canExecute(behavior, player, fake)).is.true;
     executor.execute(behavior, player, fake);
     expect(player.energy).eq(0);
-    expect(player.getTerraformRating()).eq(21);
+    expect(player.terraformRating).eq(21);
   });
 
   it('spend - energy, raise TR, reds in power', () => {
@@ -548,11 +549,11 @@ describe('Executor', () => {
     const behavior: Behavior = {spend: {heat: 1}, tr: 1};
     expect(executor.canExecute(behavior, player, fake)).is.false;
     player.heat = 1;
-    expect(player.getTerraformRating()).eq(20);
+    expect(player.terraformRating).eq(20);
     expect(executor.canExecute(behavior, player, fake)).is.true;
     executor.execute(behavior, player, fake);
     expect(player.heat).eq(0);
-    expect(player.getTerraformRating()).eq(21);
+    expect(player.terraformRating).eq(21);
   });
 
   it('spend - heat, raise TR, reds in power', () => {
@@ -593,7 +594,7 @@ describe('Executor', () => {
     const behavior = {spend: {heat: 3}, tr: 1};
     player.heat = 3;
 
-    expect(player.getTerraformRating()).eq(20);
+    expect(player.terraformRating).eq(20);
     expect(executor.canExecute(behavior, player, fake)).is.true;
 
     setRulingParty(game, PartyName.REDS);
@@ -609,7 +610,7 @@ describe('Executor', () => {
     expect(player.heat).eq(3);
     const selectPayment = cast(player.popWaitingFor(), SelectPayment);
     selectPayment.cb(Payment.of({heat: 3}));
-    expect(player.getTerraformRating()).eq(21);
+    expect(player.terraformRating).eq(21);
     expect(player.heat).eq(0);
   });
 

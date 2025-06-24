@@ -24,7 +24,7 @@ import {CardRequirementsDescriptor} from './CardRequirementDescriptor';
 import {CardRequirements} from './requirements/CardRequirements';
 import {CardRequirementDescriptor} from '../../common/cards/CardRequirementDescriptor';
 import {asArray} from '../../common/utils/utils';
-import {YesAnd} from './requirements/CardRequirement';
+import {AdditionalProjectCosts} from '../../common/cards/Types';
 import {GlobalParameter} from '../../common/GlobalParameter';
 import {Warning} from '../../common/cards/Warning';
 
@@ -48,6 +48,7 @@ type SharedProperties = {
   cardDiscount?: OneOrArray<CardDiscount>;
   type: CardType;
   cost?: number;
+  // TODO(kberg): move initialActionText to Corp shared properties
   initialActionText?: string;
   firstAction?: Behavior & {text: string};
   globalParameterRequirementBonus?: GlobalParameterRequirementBonus;
@@ -109,6 +110,7 @@ export abstract class Card implements ICard {
   protected readonly properties: InternalProperties;
   public resourceCount = 0;
   public warnings = new Set<Warning>();
+  public additionalProjectCosts?: AdditionalProjectCosts = undefined;
 
   private internalize(external: StaticCardProperties): InternalProperties {
     const name = external.name;
@@ -234,24 +236,15 @@ export abstract class Card implements ICard {
   public get tilesBuilt(): ReadonlyArray<TileType> {
     return this.properties.tilesBuilt;
   }
-  public canPlay(player: IPlayer, canAffordOptions?: CanAffordOptions): boolean | YesAnd {
-    let yesAnd: YesAnd | undefined = undefined;
-    const satisfied = this.properties.compiledRequirements.satisfies(player);
-    if (satisfied === false) {
-      return false;
-    }
-    if (satisfied !== true) {
-      yesAnd = satisfied;
+  public canPlay(player: IPlayer, canAffordOptions?: CanAffordOptions): boolean {
+    const satisfied: boolean = this.properties.compiledRequirements.satisfies(player, this);
+    if (satisfied) {
+      if (this.canPlayPostRequirements(player, canAffordOptions)) {
+        return true;
+      }
     }
 
-    if (this.canPlayPostRequirements(player, canAffordOptions) === false) {
-      return false;
-    }
-
-    if (yesAnd !== undefined) {
-      return yesAnd;
-    }
-    return true;
+    return false;
   }
 
   public canPlayPostRequirements(player: IPlayer, canAffordOptions?: CanAffordOptions) {
@@ -414,7 +407,7 @@ export abstract class Card implements ICard {
     }
   }
 
-  public getCardDiscount(_player?: IPlayer, card?: IProjectCard): number {
+  public getCardDiscount(player: IPlayer, card: IProjectCard): number {
     if (this.cardDiscount === undefined) {
       return 0;
     }
@@ -424,10 +417,10 @@ export abstract class Card implements ICard {
       if (discount.tag === undefined) {
         sum += discount.amount;
       } else {
-        const tags = card?.tags.filter((tag) => tag === discount.tag).length ?? 0;
+        const tagCount = player.tags.cardTagCount(card, discount.tag);
         if (discount.per !== 'card') {
-          sum += discount.amount * tags;
-        } else if (tags > 0) {
+          sum += discount.amount * tagCount;
+        } else if (tagCount > 0) {
           sum += discount.amount;
         }
       }
