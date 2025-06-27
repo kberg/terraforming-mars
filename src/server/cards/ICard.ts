@@ -43,7 +43,7 @@ export function isIHasCheckLoops(object: any): object is IHasCheckLoops {
 export type GetVictoryPointsContext = 'default' | 'projectWorkshop';
 
 // TODO(kberg): Move this out of ICard.
-export type IdentificationTrigger = 'normal' | 'excavation' | 'tile';
+export type IdentificationTrigger = 'normal' | 'excavation';
 
 export interface ICard {
   readonly name: CardName;

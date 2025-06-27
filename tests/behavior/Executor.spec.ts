@@ -28,7 +28,6 @@ import {OrOptions} from '../../src/server/inputs/OrOptions';
 import {StormCraftIncorporated} from '../../src/server/cards/colonies/StormCraftIncorporated';
 import {AndOptions} from '../../src/server/inputs/AndOptions';
 import {SelectSpace} from '../../src/server/inputs/SelectSpace';
-import {UnderworldExpansion} from '../../src/server/underworld/UnderworldExpansion';
 import {SelectResources} from '../../src/server/inputs/SelectResources';
 import {SelectResource} from '../../src/server/inputs/SelectResource';
 import {MicroMills} from '../../src/server/cards/base/MicroMills';
@@ -705,10 +704,10 @@ describe('Executor', () => {
   it('underworld, identify', () => {
     executor.execute({underworld: {identify: 1}}, player, fake);
     runAllActions(game);
-    expect(UnderworldExpansion.identifiedSpaces(game)).has.length(0);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).has.length(0);
     const selectSpace = cast(player.popWaitingFor(), SelectSpace);
     selectSpace.cb(selectSpace.spaces[0]);
-    expect(UnderworldExpansion.identifiedSpaces(game)).has.length(1);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).has.length(1);
   });
 
   it('underworld, corruption', () => {

@@ -67,7 +67,6 @@ import {IGame, Score} from './IGame';
 import {MarsBoard} from './boards/MarsBoard';
 import {UnderworldData} from './underworld/UnderworldData';
 import {UnderworldExpansion} from './underworld/UnderworldExpansion';
-import {SpaceType} from '../common/boards/SpaceType';
 import {SendDelegateToArea} from './deferredActions/SendDelegateToArea';
 import {BuildColony} from './deferredActions/BuildColony';
 import {newInitialDraft, newPreludeDraft, newCEOsDraft, newStandardDraft} from './Draft';
@@ -1346,10 +1345,8 @@ export class Game implements IGame, Logger {
       });
     }
 
-    if (this.gameOptions.underworldExpansion) {
-      if (space.spaceType !== SpaceType.COLONY && space.player === player) {
-        UnderworldExpansion.identify(this, space, player, 'tile');
-      }
+    if (space.undergroundResources !== undefined) {
+      UnderworldExpansion.removeUnclaimedToken(this, space);
     }
   }
 

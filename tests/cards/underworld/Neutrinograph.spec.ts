@@ -57,12 +57,12 @@ describe('Neutrinograph', () => {
     const space = selectSpace.spaces[0];
     selectSpace.cb(space);
 
-    expect(UnderworldExpansion.identifiedSpaces(game)).includes(space);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).includes(space);
     expect(UnderworldExpansion.identifiableSpaces(player)).does.not.include(space);
 
     space.excavator = player;
 
-    expect(UnderworldExpansion.identifiedSpaces(game)).includes(space);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).includes(space);
     expect(UnderworldExpansion.identifiableSpaces(player)).does.not.include(space);
   });
 
@@ -78,12 +78,12 @@ describe('Neutrinograph', () => {
     const space = selectSpace.spaces[0];
     selectSpace.cb(space);
 
-    expect(UnderworldExpansion.identifiedSpaces(game)).includes(space);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).includes(space);
     expect(UnderworldExpansion.identifiableSpaces(player)).includes(space);
 
     space.excavator = player;
 
-    expect(UnderworldExpansion.identifiedSpaces(game)).includes(space);
+    expect(game.board.spaces.filter((space) => space.undergroundResources !== undefined)).includes(space);
     expect(UnderworldExpansion.identifiableSpaces(player)).does.not.include(space);
   });
 });

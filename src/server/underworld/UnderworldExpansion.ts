@@ -91,16 +91,19 @@ export class UnderworldExpansion {
   public static initializePlayer(): UnderworldPlayerData {
     return {
       corruption: 0,
+      tokens: [],
     };
   }
 
   /**
-   * Return the spaces that have not yet been identified.
-   *
-   * For the most part, the opposite of `identifiedSpaces`.
+   * Return spaces that can be identified.
    */
   public static identifiableSpaces(player: IPlayer): ReadonlyArray<Space> {
-    const spaces = player.game.board.spaces.filter((space) => space.spaceType !== SpaceType.COLONY);
+    const spaces = player.game.board.spaces.filter((space) => {
+      return space.spaceType !== SpaceType.COLONY &&
+        space.excavator === undefined &&
+        space.tile === undefined;
+    });
     if (player.tableau.has(CardName.NEUTRINOGRAPH)) {
       return spaces.filter((space) => space.excavator === undefined);
     } else {
@@ -108,27 +111,12 @@ export class UnderworldExpansion {
     }
   }
 
-  /**
-   * Return the spaces that not yet been identified.
-   *
-   * For the most part, the opposite of `identifiableSpaces`.
-   */
-  public static identifiedSpaces(game: IGame): ReadonlyArray<Space> {
-    return game.board.spaces.filter(
-      (space) => space.undergroundResources !== undefined,
-    );
-  }
-
-  /** Identify the token at `space`, optionally trigger callbacks */
   public static identify(game: IGame, space: Space, player: IPlayer | undefined, trigger: IdentificationTrigger = 'normal'): void {
     if (game.gameOptions.underworldExpansion !== true) {
       throw new Error('Underworld expansion not in this game');
     }
 
     if (space.undergroundResources !== undefined) {
-      if (trigger === 'tile') {
-        return;
-      }
       if (player?.tableau.has(CardName.NEUTRINOGRAPH) && space.excavator === undefined) {
         UnderworldExpansion.addTokens(game, [space.undergroundResources]);
         space.undergroundResources = undefined;
@@ -153,10 +141,8 @@ export class UnderworldExpansion {
    * not yet been excavated, even unidentified spaces.
    *
    * Otherwise, it may excavate any unexcavated space (even unidentified spaces) that
-   *   1. they own
    *   2. next to a space they own
    *   3. next to their excavation markers
-   *   4. that is not antother player's city.
    *
    * If a player played Concession Rights this generation, they automatically ignore placement restrictions.
    */
@@ -165,7 +151,7 @@ export class UnderworldExpansion {
 
     // Compute any space that any player can excavate.
     const anyExcavatableSpaces = board.spaces.filter((space) => {
-      if (space.excavator !== undefined) {
+      if (space.excavator !== undefined || space.tile !== undefined || space.spaceType !== SpaceType.COLONY) {
         return false;
       }
 
@@ -173,7 +159,7 @@ export class UnderworldExpansion {
         return false;
       }
 
-      return space.spaceType !== SpaceType.COLONY;
+      return true;
     });
 
     if (options?.ignorePlacementRestrictions === true) {
@@ -187,18 +173,12 @@ export class UnderworldExpansion {
       }
     }
 
-    // Filter out the set of excavatable spaces that other players control.
-    const commonExcavatableSpaces = anyExcavatableSpaces.filter((space) => {
-      return !Board.isCitySpace(space) || space.player === player;
-    });
-    const spaces = commonExcavatableSpaces.filter((space) => {
-      if (space.tile !== undefined && space.player === player) {
-        return true;
-      }
-      return board.getAdjacentSpaces(space).some((s) => s.excavator === player);
-    });
+    const spaces = anyExcavatableSpaces.filter((space) =>
+      board.getAdjacentSpaces(space).some((s) =>
+        ((s.excavator === player) || (s.player === player && Board.hasRealTile(s)))));
+
     if (spaces.length === 0) {
-      return commonExcavatableSpaces;
+      return anyExcavatableSpaces;
     }
     return spaces;
   }
@@ -221,7 +201,10 @@ export class UnderworldExpansion {
     LogHelper.logBoardTileAction(player, space, `${undergroundResourceTokenDescription[undergroundResource]}`, 'excavated');
     this.grant(player, undergroundResource);
 
+    space.undergroundResources = undefined;
     space.excavator = player;
+    player.underworldData.tokens.push(undergroundResource);
+
     for (const card of player.tableau) {
       card.onExcavation?.(player, space);
     }
@@ -390,7 +373,7 @@ export class UnderworldExpansion {
     if (game.underworldData === undefined) {
       return;
     }
-    for (const space of UnderworldExpansion.identifiedSpaces(game)) {
+    for (const space of game.board.spaces) {
       if (space.undergroundResources !== undefined && space.excavator === undefined) {
         game.underworldData.tokens.push(space.undergroundResources);
         space.undergroundResources = undefined;
