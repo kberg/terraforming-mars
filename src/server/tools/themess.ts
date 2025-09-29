@@ -2,10 +2,18 @@ require('dotenv').config();
 
 import {GameId} from '../../common/Types';
 import {Database} from '../database/Database';
-import {IDatabase} from '../database/IDatabase';
 import {PostgreSQL} from '../database/PostgreSQL';
 
-const db: IDatabase = Database.getInstance();
+const db = getDatabase();
+
+function getDatabase(): PostgreSQL {
+  const db = Database.getInstance();
+  if (db instanceof PostgreSQL) {
+    return db;
+  } else {
+    throw new Error('Not a postgresql database');
+  }
+}
 
 async function main() {
   await db.initialize();
@@ -25,7 +33,7 @@ async function load(gameId: GameId) {
       continue;
     }
     try {
-      await (db as PostgreSQL).update(gameId, saveId);
+      await db.update(gameId, saveId);
     } catch (err) {
       console.log(`failed to process saveId ${saveId}: ${err}`);
     }
