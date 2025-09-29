@@ -6,7 +6,7 @@ import {SerializedGame} from '../SerializedGame';
 import {Dirent, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 import {Session, SessionId} from '../auth/Session';
 import {toID} from '../../common/utils/utils';
-import {compare} from 'fast-json-patch';
+import {applyPatch, compare} from 'fast-json-patch';
 
 const path = require('path');
 const defaultDbFolder = path.resolve(process.cwd(), './db/files');
@@ -45,6 +45,15 @@ export class LocalFilesystem implements IDatabase {
     return path.resolve(this.historyFolder, `${gameId}-${saveIdString}.json`);
   }
 
+  private diffFilename(gameId: GameId, saveId: number) {
+    return this.historyFilename(gameId, saveId) + '.diff';
+  }
+
+  private repatchedFilename(gameId: GameId, saveId: number): string {
+    return this.historyFilename(gameId, saveId) + '.repatched';
+  }
+
+
   private completedFilename(gameId: GameId) {
     return path.resolve(this.completedFolder, `${gameId}.json`);
   }
@@ -69,9 +78,18 @@ export class LocalFilesystem implements IDatabase {
     if (serializedGame.lastSaveId > 0) {
       priorGame = this.getGameVersionSync(serializedGame.id, serializedGame.lastSaveId - 1);
     }
-    const diff = JSON.stringify(compare(serializedGame, priorGame));
-    console.log(diff);
-    writeFileSync(this.historyFilename(serializedGame.id, serializedGame.lastSaveId) + '.diff', diff);
+    const comparison = compare(priorGame, serializedGame);
+    const diff = JSON.stringify(comparison);
+    writeFileSync(this.diffFilename(serializedGame.id, serializedGame.lastSaveId), diff);
+
+    // Compare
+    {
+      const loadedDiff = readFileSync(this.diffFilename(serializedGame.id, serializedGame.lastSaveId));
+      const diff = JSON.parse(loadedDiff.toString());
+      // Since priorGame is loaded from disk just for this test, it's OK to mutate it in place.
+      const operationResult = applyPatch(priorGame, diff, /* validateOperation */ true, /* mutateDocument */ true);
+      writeFileSync(this.repatchedFilename(serializedGame.id, serializedGame.lastSaveId), JSON.stringify(operationResult.newDocument, null, 2));
+    }
   }
 
   getGame(gameId: GameId): Promise<SerializedGame> {
