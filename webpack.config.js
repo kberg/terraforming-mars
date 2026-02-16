@@ -21,12 +21,6 @@ const plugins = [
           'tests/**/*.ts',
         ],
       },
-      extensions: {
-        vue: {
-          enabled: true,
-          compiler: '@vue/compiler-sfc',
-        },
-      },
     },
   }),
   new VueLoaderPlugin(),
