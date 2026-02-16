@@ -13,7 +13,7 @@
                               :players="players"
                               :playerView="playerView"
                               :playerinput="option"
-                              :onsave="playerFactorySaved()"
+                              :onsave="playerFactorySaved(idx)"
                               :showsave="false"
                               :showtitle="false" />
       </div>
@@ -64,32 +64,33 @@ export default defineComponent({
     AppButton,
   },
   data() {
-    const displayedOptions = this.playerinput.options.filter((option) => {
-      if (option.type !== 'card') {
-        return true;
+    const displayedOptions: Array<PlayerInputModel> = [];
+    const originalIndices: Array<number> = [];
+    this.playerinput.options.forEach((option, i) => {
+      if (option.type !== 'card' || option.showOnlyInLearnerMode === false || getPreferences().learner_mode) {
+        displayedOptions.push(option);
+        originalIndices.push(i);
       }
-      if (option.showOnlyInLearnerMode === false) {
-        return true;
-      }
-
-      return getPreferences().learner_mode;
     });
     const initialIdx = this.playerinput.initialIdx ?? 0;
     // Special case: If the first recommended displayed option is SelectCard, and none of them are enabled, skip it.
-    let selectedOption = displayedOptions[initialIdx];
+    let selectedIdx = initialIdx;
     if (displayedOptions.length > 1 &&
-      selectedOption.type === 'card' &&
-      !selectedOption.cards.some((card) => card.isDisabled !== true)) {
-      selectedOption = displayedOptions[initialIdx + 1];
+      displayedOptions[initialIdx].type === 'card' &&
+      !displayedOptions[initialIdx].cards.some((card) => card.isDisabled !== true)) {
+      selectedIdx = initialIdx + 1;
     }
     return {
       displayedOptions,
+      originalIndices,
       radioElementName: 'selectOption' + unique++,
-      selectedOption,
+      selectedOption: displayedOptions[selectedIdx],
+      selectedIdx,
     };
   },
   watch: {
     selectedOption(newOption: PlayerInputModel) {
+      this.selectedIdx = this.displayedOptions.indexOf(newOption);
       // Clicking the option can shift elements on the page.
       // This preserves the location of the option button the user just clicked by
       // tracking where it was on the screen, where it moved, and then repositioning it.
@@ -123,11 +124,8 @@ export default defineComponent({
       const val = Array.isArray(refs) ? refs[idx] : refs;
       return isHTMLElement(val) ? val : undefined;
     },
-    playerFactorySaved() {
-      const idx = this.playerinput.options.indexOf(this.selectedOption);
-      if (idx === undefined || idx === -1) {
-        throw new Error('option not found');
-      }
+    playerFactorySaved(displayedIdx: number) {
+      const idx = this.originalIndices[displayedIdx];
       return (out: InputResponse) => {
         this.onsave({
           type: 'or',
