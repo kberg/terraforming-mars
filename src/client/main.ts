@@ -2,6 +2,7 @@ import {createApp} from 'vue';
 
 import {trimEmptyTextNodes} from '@/client/directives/TrimWhitespace';
 import App from '@/client/components/App';
+import PlayerInputFactory from '@/client/components/PlayerInputFactory.vue';
 import {getPreferences} from '@/client/utils/PreferencesManager';
 import i18nPlugin from '@/client/plugins/i18n.plugin';
 import {startOauth} from '@/client/oauth';
@@ -27,6 +28,8 @@ async function bootstrap() {
   const app = createApp(App);
 
   app.use(i18nPlugin);
+
+  app.component('player-input-factory', PlayerInputFactory);
 
   app.directive('trim-whitespace', {
     mounted: trimEmptyTextNodes,
