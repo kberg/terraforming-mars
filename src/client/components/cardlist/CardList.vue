@@ -205,7 +205,7 @@
 
 <script lang="ts">
 
-import Vue from 'vue';
+import {defineComponent} from '@/client/vue3-compat';
 import {CardType} from '@/common/cards/CardType';
 import {CardName} from '@/common/cards/CardName';
 import {getEnumStringValues, partition, toName} from '@/common/utils/utils';
@@ -225,7 +225,6 @@ import {MilestoneName, milestoneNames} from '@/common/ma/MilestoneName';
 import {AwardName, awardNames} from '@/common/ma/AwardName';
 import {ClaimedMilestoneModel} from '@/common/models/ClaimedMilestoneModel';
 import {FundedAwardModel} from '@/common/models/FundedAwardModel';
-import {WithRefs} from 'vue-typed-refs';
 import {TypeOption, CardListModel, hashToModel, modelToHash, ResourceOption, TagOption} from '@/client/components/cardlist/CardListModel';
 import {getAward, getMilestone} from '@/client/MilestoneAwardManifest';
 import {BonusId, BONUS_IDS, PolicyId, POLICY_IDS} from '@/common/turmoil/Types';
@@ -240,11 +239,12 @@ import {CardResource} from '@/common/CardResource';
 import {cardResourceCSS} from '../common/cardResources';
 import {APP_NAME} from '@/common/constants';
 
+
 type Refs = {
-  filter: HTMLInputElement,
+  filter: HTMLInputElement;
 };
 
-export default (Vue as WithRefs<Refs>).extend({
+export default defineComponent({
   name: 'card-list',
   components: {
     Card,
@@ -312,7 +312,7 @@ export default (Vue as WithRefs<Refs>).extend({
       return cardResourceCSS;
     },
     typedRefs(): Refs {
-      return this.$refs;
+      return this.$refs as unknown as Refs;
     },
   },
   methods: {
@@ -323,7 +323,7 @@ export default (Vue as WithRefs<Refs>).extend({
       }, delayms);
     },
     setLocationHash(): boolean {
-      const hash = modelToHash(this);
+      const hash = modelToHash(this as any);
       const changed = hash !== window.location.hash;
       window.location.hash = hash;
       return changed;

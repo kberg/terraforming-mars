@@ -139,7 +139,6 @@ export default defineComponent({
     },
     hideZeroTags: {
       type: Boolean,
-      required: true,
     },
     isTopBar: {
       type: Boolean,

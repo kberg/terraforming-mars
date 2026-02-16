@@ -6,18 +6,18 @@
           </div>
         </div>
         <div class="board-outer-spaces" id="colony_spaces">
-          <board-space v-if="hasSpace(SpaceName.GANYMEDE_COLONY)" :space="getSpace(SpaceName.GANYMEDE_COLONY)" text="Ganymede Colony" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.PHOBOS_SPACE_HAVEN)" :space="getSpace(SpaceName.PHOBOS_SPACE_HAVEN)" text="Phobos Space Haven" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.STANFORD_TORUS)" :space="getSpace(SpaceName.STANFORD_TORUS)" text="Stanford Torus" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.LUNA_METROPOLIS)" :space="getSpace(SpaceName.LUNA_METROPOLIS)" text="Luna Metropolis" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.DAWN_CITY)" :space="getSpace(SpaceName.DAWN_CITY)" text="Dawn City" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.STRATOPOLIS)" :space="getSpace(SpaceName.STRATOPOLIS)" text="Stratopolis" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.MAXWELL_BASE)" :space="getSpace(SpaceName.MAXWELL_BASE)" text="Maxwell Base" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.GANYMEDE_COLONY)" :space="getSpace(SpaceName.GANYMEDE_COLONY)" text="Ganymede Colony" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.PHOBOS_SPACE_HAVEN)" :space="getSpace(SpaceName.PHOBOS_SPACE_HAVEN)" text="Phobos Space Haven" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.STANFORD_TORUS)" :space="getSpace(SpaceName.STANFORD_TORUS)" text="Stanford Torus" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.LUNA_METROPOLIS)" :space="getSpace(SpaceName.LUNA_METROPOLIS)" text="Luna Metropolis" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.DAWN_CITY)" :space="getSpace(SpaceName.DAWN_CITY)" text="Dawn City" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.STRATOPOLIS)" :space="getSpace(SpaceName.STRATOPOLIS)" text="Stratopolis" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.MAXWELL_BASE)" :space="getSpace(SpaceName.MAXWELL_BASE)" text="Maxwell Base" :tileView="tileView"></board-space>
           <!-- <board-space :space="getSpace('74')" text="Martian Transhipment Station" :tileView="tileView"></board-space> -->
-          <board-space v-if="hasSpace(SpaceName.CERES_SPACEPORT)" :space="getSpace(SpaceName.CERES_SPACEPORT)" text="Ceres Spaceport" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.DYSON_SCREENS)" :space="getSpace(SpaceName.DYSON_SCREENS)" text="Dyson Screens" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.LUNAR_EMBASSY)" :space="getSpace(SpaceName.LUNAR_EMBASSY)" text="Lunar Embassy" :tileView="tileView"></board-space>
-          <board-space v-if="hasSpace(SpaceName.VENERA_BASE)" :space="getSpace(SpaceName.VENERA_BASE)" text="Venera Base" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.CERES_SPACEPORT)" :space="getSpace(SpaceName.CERES_SPACEPORT)" text="Ceres Spaceport" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.DYSON_SCREENS)" :space="getSpace(SpaceName.DYSON_SCREENS)" text="Dyson Screens" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.LUNAR_EMBASSY)" :space="getSpace(SpaceName.LUNAR_EMBASSY)" text="Lunar Embassy" :tileView="tileView"></board-space>
+          <board-space :v-if="hasSpace(SpaceName.VENERA_BASE)" :space="getSpace(SpaceName.VENERA_BASE)" text="Venera Base" :tileView="tileView"></board-space>
         </div>
 
         <div class="global-numbers">
@@ -373,16 +373,15 @@ export default defineComponent({
   name: 'board',
   props: {
     spaces: {
-      type: Array as () => Array<SpaceModel>,
+      type: Array as () => ReadonlyArray<SpaceModel>,
       required: true,
     },
     venusScaleLevel: {
       type: Number,
-      default: undefined,
+      required: true,
     },
     altVenusBoard: {
       type: Boolean,
-      default: false,
     },
     boardName: {
       type: String as () => BoardName,
@@ -390,15 +389,15 @@ export default defineComponent({
     },
     oceans_count: {
       type: Number,
-      default: undefined,
+      default: 0,
     },
     oxygen_level: {
       type: Number,
-      default: undefined,
+      default: 0,
     },
     temperature: {
       type: Number,
-      default: undefined,
+      default: 0,
     },
     expansions: {
       type: Object as () => Record<Expansion, boolean>,
