@@ -31,15 +31,12 @@ export default defineComponent({
   props: {
     status: {
       type: String as () => Status,
-      required: true,
     },
     game: {
       type: Object as () => SimpleGameModel | undefined,
-      required: true,
     },
     id: {
       type: String,
-      required: true,
     },
   },
   computed: {

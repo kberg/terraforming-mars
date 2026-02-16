@@ -20,11 +20,9 @@ export default defineComponent({
   props: {
     timer: {
       type: Object as () => TimerModel,
-      required: true,
     },
     live: {
       type: Boolean,
-      required: true,
     },
   },
   data() {

@@ -51,11 +51,9 @@ export default defineComponent({
   props: {
     player: {
       type: Object as () => PublicPlayerModel,
-      required: true,
     },
     playerIndex: {
       type: Number,
-      required: true,
     },
   },
   components: {

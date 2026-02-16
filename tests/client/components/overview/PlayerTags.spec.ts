@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils';
-import {getLocalVue} from '../getLocalVue';
+import {globalConfig} from '../getLocalVue';
 import {expect} from 'chai';
 import {CardName} from '@/common/cards/CardName';
 import PlayerTags from '@/client/components/overview/PlayerTags.vue';
@@ -103,13 +103,13 @@ describe('PlayerTags', () => {
       players: [player],
     };
     wrapper = shallowMount(PlayerTags, {
-      localVue: getLocalVue(),
+      ...globalConfig,
       parentComponent: {
         methods: {
           getVisibilityState: () => {},
         },
       },
-      propsData: {
+      props: {
         player: player,
         playerView: playerView,
         hideZeroTags: false,

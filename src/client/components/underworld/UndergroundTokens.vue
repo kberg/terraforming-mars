@@ -24,7 +24,6 @@ export default defineComponent({
   props: {
     underworldData: {
       type: Object as () => UnderworldPlayerData,
-      required: true,
     },
   },
   methods: {

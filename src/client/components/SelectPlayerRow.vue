@@ -12,7 +12,6 @@ export default defineComponent({
   props: {
     player: {
       type: Object as () => PublicPlayerModel | undefined,
-      required: true,
     },
   },
 });

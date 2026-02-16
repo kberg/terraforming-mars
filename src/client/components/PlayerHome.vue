@@ -353,11 +353,9 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     settings: {
       type: Object as () => typeof raw_settings,
-      required: true,
     },
   },
   computed: {
@@ -539,7 +537,7 @@ export default defineComponent({
       return !getCardOrThrow(cardModel.name).hasAction;
     },
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('keydown', this.navigatePage);
   },
   mounted() {

@@ -30,15 +30,12 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     playerinput: {
       type: Object as () => SelectGlobalEventModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectGlobalEventResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
@@ -47,7 +44,6 @@ export default defineComponent({
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   data(): DataModel {

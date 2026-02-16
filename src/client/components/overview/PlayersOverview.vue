@@ -54,7 +54,6 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => ViewModel,
-      required: true,
     },
   },
   computed: {

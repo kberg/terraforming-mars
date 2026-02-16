@@ -19,19 +19,15 @@ export default defineComponent({
   props: {
     playerinput: {
       type: Object as () => SelectOptionModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectOptionResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   components: {

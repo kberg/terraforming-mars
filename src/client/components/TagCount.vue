@@ -8,8 +8,7 @@
 
 <script lang="ts">
 
-import {PropType} from 'vue';
-import {defineComponent} from '@/client/vue3-compat';
+import {defineComponent, PropType} from 'vue';
 import Tag from '@/client/components/Tag.vue';
 import UndergroundToken from '@/client/components/underworld/UndergroundToken.vue';
 import {Tag as CardTag} from '@/common/cards/Tag';
@@ -22,7 +21,6 @@ export default defineComponent({
   props: {
     tag: {
       type: String as () => CardTag|SpecialTags|'escape',
-      required: true,
     },
     undergroundToken: {
       type: String as () => TemporaryBonusToken | undefined,
@@ -31,15 +29,12 @@ export default defineComponent({
     },
     count: {
       type: [Number, String] as PropType<number | string>,
-      required: true,
     },
     size: {
       type: String,
-      required: true,
     },
     type: {
       type: String,
-      required: true,
     },
     showWhenZero: {
       // When true, show even if the value is zero.

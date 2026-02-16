@@ -1,5 +1,6 @@
 <template>
   <component :is="componentName"
+    ref="childInput"
     :players="players"
     :playerView="playerView"
     :playerinput="playerinput"
@@ -10,7 +11,7 @@
 
 <script lang="ts">
 
-import Vue from 'vue';
+import {defineComponent} from '@/client/vue3-compat';
 import {PlayerInputType} from '@/common/input/PlayerInputType';
 import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
 import {PlayerInputModel} from '@/common/models/PlayerInputModel';
@@ -58,7 +59,8 @@ const typeToComponentName: Record<PlayerInputType, string> = {
   'claimedUndergroundToken': 'select-claimed-underground-token',
 };
 
-export default Vue.component('player-input-factory', {
+export default defineComponent({
+  name: 'player-input-factory',
   props: {
     players: {
       type: Array as () => Array<PublicPlayerModel>,
@@ -108,10 +110,10 @@ export default Vue.component('player-input-factory', {
   },
   methods: {
     saveData() {
-      (this.$children[0] as any).saveData();
+      (this.$refs.childInput as any).saveData();
     },
     canSave(): boolean {
-      const canSave = (this.$children[0] as any).canSave;
+      const canSave = (this.$refs.childInput as any).canSave;
       return canSave ? canSave() : true;
     },
   },

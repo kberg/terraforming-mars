@@ -1,5 +1,5 @@
 import {mount} from '@vue/test-utils';
-import {getLocalVue} from './getLocalVue';
+import {globalConfig} from './getLocalVue';
 import {expect} from 'chai';
 import PlayerInputFactory from '@/client/components/PlayerInputFactory.vue';
 import {CardModel} from '@/common/models/CardModel';
@@ -151,8 +151,8 @@ function runTest(playerInput: Partial<PlayerInputModel>) {
   };
 
   const component = mount(PlayerInputFactory, {
-    localVue: getLocalVue(),
-    propsData: {
+    ...globalConfig,
+    props: {
       players: [],
       playerView: playerView,
       playerinput: fullInput,
@@ -163,5 +163,5 @@ function runTest(playerInput: Partial<PlayerInputModel>) {
     },
   });
   expect(component).not.is.undefined;
-  expect((component.vm as any).$children[0].saveData).not.is.undefined;
+  expect((component.vm as any).$refs.childInput.saveData).not.is.undefined;
 }

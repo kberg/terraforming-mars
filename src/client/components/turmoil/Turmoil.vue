@@ -94,7 +94,6 @@ export default defineComponent({
   props: {
     turmoil: {
       type: Object as () => TurmoilModel,
-      required: true,
     },
   },
   methods: {

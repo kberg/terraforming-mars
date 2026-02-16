@@ -1,6 +1,6 @@
 
 import {mount} from '@vue/test-utils';
-import {getLocalVue} from './getLocalVue';
+import {globalConfig} from './getLocalVue';
 
 import {expect} from 'chai';
 import AndOptions from '@/client/components/AndOptions.vue';
@@ -11,8 +11,14 @@ describe('AndOptions', () => {
   it('saves the options', async () => {
     let savedData: InputResponse | undefined;
     const component = mount(AndOptions, {
-      localVue: getLocalVue(),
-      propsData: {
+      ...globalConfig,
+      global: {
+        ...globalConfig.global,
+        components: {
+          'player-input-factory': PlayerInputFactory,
+        },
+      },
+      props: {
         player: {
           id: 'foo',
         },
@@ -32,14 +38,9 @@ describe('AndOptions', () => {
         showsave: true,
         showtitle: true,
       },
-      components: {
-        'player-input-factory': PlayerInputFactory,
-      },
     });
     const buttons = component.findAllComponents({name: 'AppButton'});
-    await buttons.at(0).findAllComponents({
-      name: 'AppButton',
-    }).at(0).trigger('click');
+    await buttons[0].trigger('click');
     expect(savedData).to.deep.eq({type: 'and', responses: [{type: 'option'}, {type: 'option'}]});
   });
 });

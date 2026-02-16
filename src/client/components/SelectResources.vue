@@ -1,10 +1,9 @@
 <template>
   <div class="wf-component wf-options">
     <div v-if="showtitle === true" class="nofloat wf-component-title">{{ $t(playerinput.title) }}</div>
-    <template v-for="unit in keys">
+    <template v-for="unit in keys" :key="unit">
         <payment-unit-component
           v-model.number="units[unit]"
-          v-bind:key="unit"
           :unit="unit"
           :showMax="false"
           description=""
@@ -33,23 +32,18 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     playerinput: {
       type: Object as () => SelectResourcesModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectResourcesResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   data() {

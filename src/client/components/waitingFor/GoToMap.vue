@@ -14,7 +14,6 @@ export default defineComponent({
   props: {
     playerinput: {
       type: Object as () => SelectSpaceModel,
-      required: true,
     },
   },
   methods: {

@@ -18,11 +18,9 @@ export default defineComponent({
   props: {
     amount: {
       type: Number as () => number | undefined,
-      required: true,
     },
     newCost: {
       type: Number as () => number | undefined,
-      required: true,
     },
   },
   methods: {

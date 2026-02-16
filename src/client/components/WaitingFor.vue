@@ -30,6 +30,7 @@
 import {defineComponent} from '@/client/vue3-compat';
 import * as constants from '@/common/constants';
 import * as raw_settings from '@/genfiles/settings.json';
+import PlayerInputFactory from '@/client/components/PlayerInputFactory.vue';
 import {vueRoot} from '@/client/components/vueRoot';
 import {PlayerInputModel} from '@/common/models/PlayerInputModel';
 import {playerColorClass} from '@/common/utils/utils';
@@ -59,22 +60,21 @@ const CANNOT_CONTACT_SERVER = 'Unable to reach the server. It may be restarting 
 
 export default defineComponent({
   name: 'waiting-for',
+  components: {
+    PlayerInputFactory,
+  },
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     players: {
       type: Array as () => Array<PublicPlayerModel>,
-      required: true,
     },
     settings: {
       type: Object as () => typeof raw_settings,
-      required: true,
     },
     waitingfor: {
       type: Object as () => PlayerInputModel | undefined,
-      required: true,
     },
   },
   data(): DataModel {

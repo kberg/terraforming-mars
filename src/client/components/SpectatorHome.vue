@@ -112,11 +112,9 @@ export default defineComponent({
   props: {
     spectator: {
       type: Object as () => SpectatorModel,
-      required: true,
     },
     settings: {
       type: Object as () => typeof raw_settings,
-      required: true,
     },
   },
   computed: {

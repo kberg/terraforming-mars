@@ -27,8 +27,8 @@
   <section v-trim-whitespace>
     <h3 class="payments_title" v-i18n>How to pay?</h3>
 
-    <template v-for="unit of SPENDABLE_RESOURCES">
-      <div v-bind:key="unit">
+    <template v-for="unit of SPENDABLE_RESOURCES" :key="unit">
+      <div>
         <payment-unit-component
           v-model.number="payment[unit]"
           v-if="canUse(unit) === true"
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from '@/client/vue3-compat';
+import {defineComponent, nextTick} from 'vue';
 
 import AppButton from '@/client/components/common/AppButton.vue';
 import {Payment} from '@/common/inputs/Payment';
@@ -81,23 +81,18 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     playerinput: {
       type: Object as () => SelectProjectCardToPlayModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectProjectCardToPlayResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   computed: {
@@ -155,7 +150,7 @@ export default defineComponent({
     WarningsComponent,
   },
   mounted() {
-    this.$nextTick(() => {
+    nextTick(() => {
       this.card = this.getCard();
       this.cost = this.card.calculatedCost ?? 0;
       this.tags = this.getCardTags(),

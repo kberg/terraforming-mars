@@ -107,17 +107,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {WithRefs} from 'vue-typed-refs';
+import {defineComponent} from '@/client/vue3-compat';
 
 import {getPreferences, PreferencesManager, Preference} from '@/client/utils/PreferencesManager';
 import BugReportDialog from '@/client/components/BugReportDialog.vue';
 
-type Refs = {
-  bugDialog: InstanceType<typeof BugReportDialog>,
-}
 
-export default (Vue as WithRefs<Refs>).extend({
+export default defineComponent({
   name: 'PreferencesDialog',
   props: {
     preferencesManager: {

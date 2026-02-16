@@ -52,11 +52,9 @@ export default defineComponent({
   props: {
     viewModel: {
       type: Object as () => ViewModel,
-      required: true,
     },
     color: {
       type: String as () => Color,
-      required: true,
     },
     step: {
       type: Number,

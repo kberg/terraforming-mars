@@ -3,6 +3,7 @@
     <div v-if="showtitle" class="wf-title">{{ $t(playerinput.title) }}</div>
     <player-input-factory v-for="(option, idx) in (playerinput.options || [])"
       :key="idx"
+      ref="childInputs"
       :players="players"
       :playerView="playerView"
       :playerinput="option"
@@ -32,27 +33,21 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     players: {
       type: Array as () => Array<PublicPlayerModel>,
-      required: true,
     },
     playerinput: {
       type: Object as () => AndOptionsModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: AndOptionsResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   components: {
@@ -70,8 +65,10 @@ export default defineComponent({
       };
     },
     canSave(): boolean {
-      for (const child of this.$children) {
-        const canSave = (child as any).canSave;
+      const refs = this.$refs.childInputs as any[];
+      if (!refs) return true;
+      for (const child of refs) {
+        const canSave = child.canSave;
         if (canSave instanceof Function) {
           if (canSave() === false) {
             return false;
@@ -85,9 +82,12 @@ export default defineComponent({
         alert('Not all options selected');
         return;
       }
-      for (const child of this.$children) {
-        if ((child as any).saveData instanceof Function) {
-          (child as any).saveData();
+      const refs = this.$refs.childInputs as any[];
+      if (refs) {
+        for (const child of refs) {
+          if (child.saveData instanceof Function) {
+            child.saveData();
+          }
         }
       }
       this.onsave({

@@ -30,8 +30,7 @@
 
 <script lang="ts">
 
-import Vue from 'vue';
-import {WithRefs} from 'vue-typed-refs';
+import {defineComponent} from '@/client/vue3-compat';
 
 import AppButton from '@/client/components/common/AppButton.vue';
 import {getCard, getCardOrThrow} from '@/client/cards/ClientCardManifest';
@@ -51,9 +50,6 @@ import {ColonyModel} from '@/common/models/ColonyModel';
 import * as titles from '@/common/inputs/SelectInitialCards';
 import {sum} from '@/common/utils/utils';
 
-type Refs = {
-  confirmation: InstanceType<typeof ConfirmDialog>,
-}
 
 type DataModel = {
   selectedCards: Array<CardName>,
@@ -66,7 +62,7 @@ type DataModel = {
   warning: string | undefined,
 }
 
-export default (Vue as WithRefs<Refs>).extend({
+export default defineComponent({
   name: 'SelectInitialCards',
   props: {
     playerView: {

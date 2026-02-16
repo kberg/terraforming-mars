@@ -15,17 +15,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {WithRefs} from 'vue-typed-refs';
+import {defineComponent} from '@/client/vue3-compat';
 import {showModal, windowHasHTMLDialogElement} from '@/client/components/HTMLDialogElementCompatibility';
 
 const dialogPolyfill = require('dialog-polyfill');
 
-type Refs = {
-  dialog: HTMLElement,
-}
 
-export default (Vue as WithRefs<Refs>).extend({
+export default defineComponent({
   name: 'ConfirmDialog',
   props: {
     message: {
