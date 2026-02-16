@@ -22,7 +22,6 @@ export default defineComponent({
   props: {
     idx: {
       type: Number,
-      required: true,
     },
     metadata: {
       type: Object as () => ColonyMetadata,
@@ -34,7 +33,6 @@ export default defineComponent({
     },
     marker: {
       type: Boolean,
-      required: true,
     },
   },
   computed: {

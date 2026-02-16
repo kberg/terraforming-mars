@@ -19,7 +19,6 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
   },
   components: {

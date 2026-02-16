@@ -104,15 +104,12 @@ export default defineComponent({
   props: {
     playerNumber: {
       type: Number,
-      required: true,
     },
     gameOptions: {
       type: Object as () => GameOptionsModel,
-      required: true,
     },
     lastSoloGeneration: {
       type: Number,
-      required: true,
     },
   },
   computed: {

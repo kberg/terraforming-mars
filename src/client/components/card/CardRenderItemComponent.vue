@@ -21,7 +21,6 @@ export default defineComponent({
   props: {
     item: {
       type: Object as () => ICardRenderItem,
-      required: true,
     },
   },
   methods: {

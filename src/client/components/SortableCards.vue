@@ -46,11 +46,9 @@ export default defineComponent({
   props: {
     cards: {
       type: Array as () => Array<CardModel>,
-      required: true,
     },
     playerId: {
       type: String,
-      required: true,
     },
   },
   data(): DataModel {

@@ -136,7 +136,6 @@ export default defineComponent({
   props: {
     colony: {
       type: Object as () => ColonyModel,
-      required: true,
     },
     active: {
       type: Boolean,

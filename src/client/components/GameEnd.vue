@@ -247,11 +247,9 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel | undefined,
-      required: true,
     },
     spectator: {
       type: Object as () => SpectatorModel | undefined,
-      required: true,
     },
   },
   computed: {

@@ -13,6 +13,7 @@ import {translateText, translateMessage} from '@/client/directives/i18n';
 
 export default defineComponent({
   name: 'AppButton',
+  emits: ['click'],
   props: {
     title: {
       type: [String, Object as () => Message],

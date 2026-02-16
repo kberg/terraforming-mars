@@ -1,5 +1,5 @@
 import {shallowMount} from '@vue/test-utils';
-import {getLocalVue} from '../getLocalVue';
+import {globalConfig} from '../getLocalVue';
 import {expect} from 'chai';
 import PointsPerTag from '@/client/components/overview/PointsPerTag.vue';
 import {Wrapper} from '@vue/test-utils';
@@ -7,13 +7,13 @@ import {Wrapper} from '@vue/test-utils';
 describe('PointsPerTag', () => {
   function doTest(points: any, expected: string) {
     const wrapper: Wrapper<PointsPerTag> = shallowMount(PointsPerTag, {
-      localVue: getLocalVue(),
+      ...globalConfig,
       parentComponent: {
         methods: {
           getVisibilityState: () => {},
         },
       },
-      propsData: {
+      props: {
         points: points,
       },
     });

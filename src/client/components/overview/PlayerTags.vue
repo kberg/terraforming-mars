@@ -131,15 +131,12 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => ViewModel,
-      required: true,
     },
     player: {
       type: Object as () => PublicPlayerModel,
-      required: true,
     },
     hideZeroTags: {
       type: Boolean,
-      required: true,
     },
     isTopBar: {
       type: Boolean,

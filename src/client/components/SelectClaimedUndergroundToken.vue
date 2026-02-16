@@ -35,19 +35,15 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
-      required: true,
     },
     playerinput: {
       type: Object as () => SelectClaimedUndergroundTokenModel,
-      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectClaimedUndergroundTokenResponse) => void,
-      required: true,
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,

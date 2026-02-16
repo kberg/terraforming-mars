@@ -93,7 +93,6 @@ export default defineComponent({
   props: {
     model: {
       type: Object as () => MoonModel,
-      required: true,
     },
     tileView: {
       type: String as () => TileView,
