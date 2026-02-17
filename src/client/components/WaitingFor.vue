@@ -62,12 +62,15 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
+      required: true,
     },
     players: {
       type: Array as () => Array<PublicPlayerModel>,
+      required: true,
     },
     settings: {
       type: Object as () => typeof raw_settings,
+      required: true,
     },
     waitingfor: {
       type: Object as () => PlayerInputModel | undefined,

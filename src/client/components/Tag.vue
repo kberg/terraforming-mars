@@ -12,6 +12,7 @@ export default defineComponent({
   props: {
     tag: {
       type: String as () => Tag,
+      required: true,
     },
     size: {
       type: String,

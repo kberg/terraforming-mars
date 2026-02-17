@@ -27,7 +27,8 @@ export default defineComponent({
       required: true,
     },
     requirements: {
-      type: Array<CardRequirementDescriptor>,
+      type: Array as () => ReadonlyArray<CardRequirementDescriptor>,
+      required: true,
     },
     isCorporation: {
       type: Boolean,

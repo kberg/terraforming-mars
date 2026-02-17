@@ -25,14 +25,14 @@ export default defineComponent({
     },
     align: {
       type: String,
-      validator: (align) => ['right', 'left', 'center'].includes(align),
+      validator: (align: string) => ['right', 'left', 'center'].includes(align),
       required: false,
       default: 'center',
     },
     size: {
       type: String,
       default: 'normal',
-      validator: (item) => ['tiny', 'small', 'normal', 'big', 'jumbo'].includes(item),
+      validator: (item: string) => ['tiny', 'small', 'normal', 'big', 'jumbo'].includes(item),
     },
     rounded: {
       type: Boolean,
@@ -45,7 +45,7 @@ export default defineComponent({
     type: {
       type: String,
       default: 'normal',
-      validator: (item) =>
+      validator: (item: string) =>
         [
           'normal',
           'action',
@@ -62,7 +62,7 @@ export default defineComponent({
   },
   computed: {
     isDisabledDueToServerBusy(): boolean {
-      return this.disableOnServerBusy && vueRoot(this).isServerSideRequestInProgress;
+      return this.disableOnServerBusy && vueRoot(this as any).isServerSideRequestInProgress;
     },
     isDisabled(): boolean {
       return this.disabled || this.isDisabledDueToServerBusy;

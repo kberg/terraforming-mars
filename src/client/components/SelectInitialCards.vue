@@ -16,7 +16,7 @@
     <SelectCard v-if="hasPrelude" :playerView="playerView" :playerinput="preludeCardOption" :onsave="noop" :showtitle="true" v-on:cardschanged="preludesChanged" />
     <SelectCard v-if="hasCeo" :playerView="playerView" :playerinput="ceoCardOption" :onsave="noop" :showtitle="true" v-on:cardschanged="ceosChanged" />
     <SelectCard :playerView="playerView" :playerinput="projectCardOption" :onsave="noop" :showtitle="true" v-on:cardschanged="cardsChanged" />
-    <template v-if="this.selectedCorporations.length === 1">
+    <template v-if="selectedCorporations.length === 1">
       <div><span v-i18n>Starting Megacredits:</span> <div class="megacredits">{{getStartingMegacredits()}}</div></div>
       <div v-if="hasPrelude"><span v-i18n>After Preludes:</span> <div class="megacredits">{{getStartingMegacredits() + getAfterPreludes()}}</div></div>
     </template>
@@ -215,7 +215,7 @@ export default defineComponent({
       let showAlert = false;
       if (this.preferences.show_alerts && projectCards.length === 0) showAlert = true;
       if (showAlert) {
-        this.$refs.confirmation.show();
+        (this.$refs.confirmation as InstanceType<typeof ConfirmDialog>).show();
       } else {
         this.saveData();
       }

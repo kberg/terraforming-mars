@@ -47,6 +47,7 @@ export default defineComponent({
   props: {
     space: {
       type: Object as () => SpaceModel,
+      required: true,
     },
     text: {
       type: String as () => String | undefined,

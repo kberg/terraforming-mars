@@ -373,7 +373,8 @@ export default defineComponent({
   name: 'board',
   props: {
     spaces: {
-      type: Array as () => Array<SpaceModel>,
+      type: Array as () => ReadonlyArray<SpaceModel>,
+      required: true,
     },
     venusScaleLevel: {
       type: Number,
@@ -385,6 +386,7 @@ export default defineComponent({
     },
     boardName: {
       type: String as () => BoardName,
+      required: true,
     },
     oceans_count: {
       type: Number,
@@ -400,6 +402,7 @@ export default defineComponent({
     },
     expansions: {
       type: Object as () => Record<Expansion, boolean>,
+      required: true,
     },
     aresData: {
       type: Object as () => AresData | undefined,

@@ -22,6 +22,7 @@ export default defineComponent({
   props: {
     idx: {
       type: Number,
+      required: true,
     },
     metadata: {
       type: Object as () => ColonyMetadata,

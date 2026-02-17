@@ -29,12 +29,15 @@ export default defineComponent({
   props: {
     players: {
       type: Array as () => Array<PublicPlayerModel>,
+      required: true,
     },
     playerinput: {
       type: Object as () => SelectPlayerModel,
+      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectPlayerResponse) => void,
+      required: true,
     },
     showsave: {
       type: Boolean,

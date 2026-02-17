@@ -4,7 +4,7 @@
     <template v-for="unit in keys" :key="unit">
         <payment-unit-component
           v-model.number="units[unit]"
-          :unit="unit"
+          :unit="(unit as any)"
           :showMax="false"
           description=""
           @plus="addValue(unit)"
@@ -32,12 +32,15 @@ export default defineComponent({
   props: {
     playerView: {
       type: Object as () => PlayerViewModel,
+      required: true,
     },
     playerinput: {
       type: Object as () => SelectResourcesModel,
+      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: SelectResourcesResponse) => void,
+      required: true,
     },
     showsave: {
       type: Boolean,

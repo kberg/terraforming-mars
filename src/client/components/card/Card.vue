@@ -208,17 +208,17 @@ export default defineComponent({
       }
       // Was not initialized with a custom height, probably because it was not visible.
       if (this.customHeight === 0) {
-        this.customHeight = this.$refs.content.$el.scrollHeight;
+        this.customHeight = ((this.$refs.content as any).$el as HTMLElement).scrollHeight;
         // If for some reason it still doesn't have a custom height, don't resize it.
         if (this.customHeight === 0) {
           return;
         }
       }
-      const content = this.$refs.content.$el as HTMLElement;
+      const content = (this.$refs.content as any).$el as HTMLElement;
       if (content.scrollHeight <= 236) {
         return;
       }
-      this.$refs.container.style.height = (this.customHeight + 90) + 'px';
+      (this.$refs.container as HTMLElement).style.height = (this.customHeight + 90) + 'px';
       content.style.height = this.customHeight + 'px';
     },
     unmakeFullSize() {
@@ -228,13 +228,13 @@ export default defineComponent({
       if (this.customHeight === 0) {
         return;
       }
-      const content = this.$refs.content.$el as HTMLElement;
-      this.$refs.container.style.removeProperty('height');
+      const content = (this.$refs.content as any).$el as HTMLElement;
+      (this.$refs.container as HTMLElement).style.removeProperty('height');
       content.style.removeProperty('height');
     },
   },
   mounted() {
-    this.customHeight = this.$refs.content.$el.scrollHeight;
+    this.customHeight = ((this.$refs.content as any).$el as HTMLElement).scrollHeight;
   },
   beforeUpdate() {
     if (this.autoTall === true) {

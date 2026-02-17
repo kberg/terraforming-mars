@@ -18,12 +18,14 @@ export default defineComponent({
   props: {
     rewards: {
       type: Object as () => PlanetaryTrackSpace,
+      required: true,
     },
     type: {
-      type: String as () => 'risingPlayer' | 'everyone',
+      type: String as () => 'risingPlayer' | 'everyone' | 'mostTags',
     },
     gameOptions: {
       type: Object as () => GameOptionsModel,
+      required: true,
     },
   },
   components: {

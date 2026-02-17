@@ -104,6 +104,7 @@ export default defineComponent({
   props: {
     space: {
       type: Object as () => SpaceModel,
+      required: true,
     },
     aresExtension: {
       type: Boolean,

@@ -60,7 +60,7 @@
 
             <li v-if="playerNumber === 1">
               <div class="setup-item" v-i18n>Solo:</div>
-              <div class="game-config generic" v-i18n>{{ this.lastSoloGeneration }} Gens</div>
+              <div class="game-config generic" v-i18n>{{ lastSoloGeneration }} Gens</div>
               <div v-if="gameOptions.soloTR" class="game-config generic" v-i18n>63 TR</div>
               <div v-else class="game-config generic" v-i18n>TR all</div>
             </li>
@@ -104,12 +104,15 @@ export default defineComponent({
   props: {
     playerNumber: {
       type: Number,
+      required: true,
     },
     gameOptions: {
       type: Object as () => GameOptionsModel,
+      required: true,
     },
     lastSoloGeneration: {
       type: Number,
+      required: true,
     },
   },
   computed: {

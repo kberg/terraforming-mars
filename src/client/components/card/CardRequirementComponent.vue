@@ -12,7 +12,7 @@
             <div class="card-production-box-row">
               <div class="card-production-box-row-item">
                 <div class="card-item-container">
-                  <template v-for="num in repeats" :key="num">
+                  <template v-for="_ in repeats" :key="num">
                     <div :class="productionClass"></div>
                   </template>
                 </div>
@@ -22,7 +22,7 @@
         </template>
         <CardParty v-else-if="type === RequirementType.PARTY" :party="party" size="req" />
         <template v-else>
-          <template v-for="num in repeats" :key="num">
+          <template v-for="_ in repeats" :key="num">
             <div :class="componentClasses"></div>
           </template>
         </template>

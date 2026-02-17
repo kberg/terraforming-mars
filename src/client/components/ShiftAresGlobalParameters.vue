@@ -57,9 +57,11 @@ export default defineComponent({
   props: {
     playerinput: {
       type: Object as () => ShiftAresGlobalParametersModel,
+      required: true,
     },
     onsave: {
       type: Function as unknown as () => (out: ShiftAresGlobalParametersResponse) => void,
+      required: true,
     },
     showsave: {
       type: Boolean,

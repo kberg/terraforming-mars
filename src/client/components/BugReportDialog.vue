@@ -57,11 +57,11 @@ export default defineComponent({
   },
   methods: {
     show() {
-      showModal(this.$refs.dialog);
+      showModal(this.$refs.dialog as HTMLDialogElement);
     },
     copyTextArea() {
-      this.$refs.textarea.select();
-      navigator.clipboard.writeText(this.$refs.textarea.value);
+      (this.$refs.textarea as HTMLTextAreaElement).select();
+      navigator.clipboard.writeText((this.$refs.textarea as HTMLTextAreaElement).value);
       this.showCopied = true;
     },
     url(playerView: PlayerViewModel | undefined) {
