@@ -38,14 +38,14 @@
                     v-else-if="screen === 'player-home' && playerView !== undefined"
                     :player-view="playerView"
                     :settings="settings"
+                    :key="playerkey"
                 ></player-home>
-                    <!-- :key="playerkey" -->
                 <spectator-home
                     v-else-if="screen === 'spectator-home' && spectator !== undefined"
                     :spectator="spectator"
                     :settings="settings"
+                    :key="playerkey"
                 ></spectator-home>
-                    <!-- :key="playerkey" -->
                 <game-end
                     v-else-if="screen === 'the-end'"
                     :player-view="playerView"
