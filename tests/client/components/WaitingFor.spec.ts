@@ -1,10 +1,9 @@
 import {shallowMount} from '@vue/test-utils';
-import {getLocalVue} from './getLocalVue';
+import {globalConfig} from './getLocalVue';
 import {expect} from 'chai';
 import WaitingFor from '@/client/components/WaitingFor.vue';
 import {RecursivePartial} from '@/common/utils/utils';
 import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
-import {Phase} from '@/common/Phase';
 import * as raw_settings from '@/genfiles/settings.json';
 
 describe('WaitingFor', () => {
@@ -17,7 +16,7 @@ describe('WaitingFor', () => {
     thisPlayer: thisPlayer as PublicPlayerModel,
     players: [thisPlayer as PublicPlayerModel],
     game: {
-      phase: Phase.ACTION,
+      phase: 'action',
       gameAge: 1,
       undoCount: 0,
     },
@@ -25,11 +24,14 @@ describe('WaitingFor', () => {
 
   it('renders player-input-factory when waitingfor is provided', () => {
     const wrapper = shallowMount(WaitingFor, {
-      localVue: getLocalVue(),
-      stubs: {
-        'player-input-factory': {template: '<div class="stub-pif"></div>'},
+      ...globalConfig,
+      global: {
+        ...globalConfig.global,
+        stubs: {
+          'player-input-factory': {template: '<div class="stub-pif"></div>'},
+        },
       },
-      propsData: {
+      props: {
         playerView: playerView as PlayerViewModel,
         players: [thisPlayer as PublicPlayerModel],
         settings: raw_settings,
@@ -46,11 +48,14 @@ describe('WaitingFor', () => {
 
   it('shows "not your turn" when waitingfor is undefined', () => {
     const wrapper = shallowMount(WaitingFor, {
-      localVue: getLocalVue(),
-      stubs: {
-        'player-input-factory': true,
+      ...globalConfig,
+      global: {
+        ...globalConfig.global,
+        stubs: {
+          'player-input-factory': true,
+        },
       },
-      propsData: {
+      props: {
         playerView: playerView as PlayerViewModel,
         players: [thisPlayer as PublicPlayerModel],
         settings: raw_settings,

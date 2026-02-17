@@ -13,6 +13,18 @@ describe('AppButton', () => {
     expect(wrapper.emitted('click')?.length).to.be.greaterThanOrEqual(1);
   });
 
+  it('click event fires exactly once per click', async () => {
+    const wrapper = shallowMount(AppButton, {
+      ...globalConfig,
+    });
+
+    await wrapper.trigger('click');
+    expect(wrapper.emitted('click')?.length).to.eq(1);
+
+    await wrapper.trigger('click');
+    expect(wrapper.emitted('click')?.length).to.eq(2);
+  });
+
   it('renders title', () => {
     const title = 'test';
     const wrapper = shallowMount(AppButton, {

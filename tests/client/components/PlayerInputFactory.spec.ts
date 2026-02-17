@@ -110,6 +110,78 @@ describe('PlayerInputFactory', () => {
     });
   });
 
+  it('saveData delegates to child ref', async () => {
+    let saved = false;
+    const thisPlayer: Partial<PublicPlayerModel> = {
+      steel: 0,
+      titanium: 0,
+      tableau: [],
+    };
+
+    const playerView: RecursivePartial<PlayerViewModel> = {
+      id: 'p-player-id',
+      dealtCorporationCards: [],
+      thisPlayer: thisPlayer as PublicPlayerModel,
+      game: {
+        turmoil: {},
+      },
+    };
+
+    const wrapper = mount(PlayerInputFactory, {
+      ...globalConfig,
+      props: {
+        players: [],
+        playerView: playerView,
+        playerinput: {
+          type: 'option',
+          title: 'test',
+          buttonLabel: 'save',
+        },
+        onsave: () => {
+          saved = true;
+        },
+        showsave: true,
+        showtitle: true,
+      },
+    });
+    (wrapper.vm as any).saveData();
+    expect(saved).to.be.true;
+  });
+
+  it('canSave returns true when child has no canSave method', () => {
+    const thisPlayer: Partial<PublicPlayerModel> = {
+      steel: 0,
+      titanium: 0,
+      tableau: [],
+    };
+
+    const playerView: RecursivePartial<PlayerViewModel> = {
+      id: 'p-player-id',
+      dealtCorporationCards: [],
+      thisPlayer: thisPlayer as PublicPlayerModel,
+      game: {
+        turmoil: {},
+      },
+    };
+
+    const wrapper = mount(PlayerInputFactory, {
+      ...globalConfig,
+      props: {
+        players: [],
+        playerView: playerView,
+        playerinput: {
+          type: 'option',
+          title: 'test',
+          buttonLabel: 'save',
+        },
+        onsave: () => {},
+        showsave: true,
+        showtitle: true,
+      },
+    });
+    expect((wrapper.vm as any).canSave()).to.be.true;
+  });
+
   it('ShiftAresGlobalParameters', async () => {
     runTest({
       type: 'aresGlobalParameters',
