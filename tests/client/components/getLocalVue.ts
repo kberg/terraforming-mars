@@ -5,7 +5,6 @@ export const globalConfig = {
     plugins: [i18nPlugin],
     directives: {
       'trim-whitespace': {},
-      'i18n': {},
     },
   },
 };
