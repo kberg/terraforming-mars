@@ -11,7 +11,6 @@ import Help from '@/client/components/help/Help.vue';
 import LoginHome from '@/client/components/auth/LoginHome.vue';
 import LoadGameForm from '@/client/components/LoadGameForm.vue';
 import PlayerHome from '@/client/components/PlayerHome.vue';
-import PlayerInputFactory from '@/client/components/PlayerInputFactory.vue';
 import SpectatorHome from '@/client/components/SpectatorHome.vue';
 import StartScreen from '@/client/components/StartScreen.vue';
 import {$t, setTranslationContext} from '@/client/directives/i18n';
@@ -92,7 +91,6 @@ export default defineComponent({
   },
   components: {
     // These component keys match the screen values, and their entries in index.html.
-    'player-input-factory': PlayerInputFactory,
     'start-screen': StartScreen,
     'create-game-form': CreateGameForm,
     'load-game-form': LoadGameForm,

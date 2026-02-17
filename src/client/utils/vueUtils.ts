@@ -1,7 +1,4 @@
 import {ComponentPublicInstance} from 'vue';
-export function isVueComponent(ref: ComponentPublicInstance | Element | undefined): ref is ComponentPublicInstance {
-  return !!(ref as any)?.$;
-}
 
 export function isHTMLElement(ref: ComponentPublicInstance | Element | undefined): ref is HTMLElement {
   // 1. Check if it's an Element (nodeType === 1).

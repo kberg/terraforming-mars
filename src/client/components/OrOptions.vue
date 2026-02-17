@@ -8,7 +8,7 @@
         <i class="form-icon" />
         <span>{{ $t(option.title) }}</span>
       </label>
-      <div v-if="selectedOption === option" style="margin-left: 30px">
+      <div v-if="selectedIdx === idx" style="margin-left: 30px">
         <player-input-factory ref="inputfactory"
                               :players="players"
                               :playerView="playerView"
@@ -67,10 +67,11 @@ export default defineComponent({
     const displayedOptions: Array<PlayerInputModel> = [];
     const originalIndices: Array<number> = [];
     this.playerinput.options.forEach((option, i) => {
-      if (option.type !== 'card' || option.showOnlyInLearnerMode === false || getPreferences().learner_mode) {
-        displayedOptions.push(option);
-        originalIndices.push(i);
+      if (option.type === 'card' && option.showOnlyInLearnerMode !== false && !getPreferences().learner_mode) {
+        return;
       }
+      displayedOptions.push(option);
+      originalIndices.push(i);
     });
     const initialIdx = this.playerinput.initialIdx ?? 0;
     // Special case: If the first recommended displayed option is SelectCard, and none of them are enabled, skip it.
@@ -94,9 +95,9 @@ export default defineComponent({
       // Clicking the option can shift elements on the page.
       // This preserves the location of the option button the user just clicked by
       // tracking where it was on the screen, where it moved, and then repositioning it.
-      const anchorTop = this.getTop(newOption);
+      const anchorTop = this.getSelectedOptionTop();
       this.$nextTick(() => {
-        const newTop = this.getTop(newOption);
+        const newTop = this.getSelectedOptionTop();
         if (anchorTop !== undefined && newTop !== undefined) {
           const delta = newTop - anchorTop;
           if (Math.abs(delta) > 0.5) {
@@ -107,15 +108,12 @@ export default defineComponent({
     },
   },
   methods: {
-    getTop(option: PlayerInputModel | undefined): number | undefined {
-      if (option === undefined) {
-        return undefined;
-      }
-      const element = this.getOptionLabelElement(option);
+    getSelectedOptionTop(): number | undefined {
+      const element = this.getSelectedOptionLabelElement();
       return element?.getBoundingClientRect().top;
     },
-    getOptionLabelElement(option: PlayerInputModel): HTMLElement | undefined {
-      const idx = this.displayedOptions.indexOf(option);
+    getSelectedOptionLabelElement(): HTMLElement | undefined {
+      const idx = this.selectedIdx;
       const refs = this.$refs.optionLabels;
       if (idx === -1 || !refs) {
         return undefined;
