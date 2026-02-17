@@ -118,12 +118,12 @@ export default defineComponent({
     },
     getSelectedOptionLabelElement(): HTMLElement | undefined {
       const idx = this.selectedIdx;
-      const refs = this.$refs.optionLabels;
-      if (idx === -1 || !refs) {
+      const optionLabels = this.$refs.optionLabels as HTMLElement | HTMLElement[] | undefined;
+      if (idx === -1 || !optionLabels) {
         return undefined;
       }
 
-      const val = Array.isArray(refs) ? refs[idx] : refs;
+      const val = Array.isArray(optionLabels) ? optionLabels[idx] : optionLabels;
       return isHTMLElement(val) ? val : undefined;
     },
     playerFactorySaved(displayedIdx: number) {
@@ -137,11 +137,11 @@ export default defineComponent({
       };
     },
     saveData() {
-      let ref = this.$refs['inputfactory'];
+      let ref = this.$refs['inputfactory'] as {saveData: () => void} | Array<{saveData: () => void}>;
       if (Array.isArray(ref)) {
         ref = ref[0];
       }
-      (ref as any).saveData();
+      ref.saveData();
     },
   },
 });

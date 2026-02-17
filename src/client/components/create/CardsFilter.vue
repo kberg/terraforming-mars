@@ -57,6 +57,10 @@ type CardsFilterModel = {
   searchTerm: string;
 }
 
+type Refs = {
+  filter: HTMLInputElement;
+};
+
 export default defineComponent({
   name: 'CardsFilter',
   props: {
@@ -79,6 +83,11 @@ export default defineComponent({
   components: {
     AppButton,
   },
+  computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
+  },
   methods: {
     isPrelude(cardName: CardName) {
       return getCard(cardName)?.type === CardType.PRELUDE;
@@ -97,7 +106,7 @@ export default defineComponent({
       this.selected.push(cardName);
       this.selected.sort();
       this.searchTerm = '';
-      (this.$refs.filter as HTMLInputElement).focus();
+      this.typedRefs.filter.focus();
     },
   },
   watch: {
@@ -138,7 +147,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    (this.$refs.filter as HTMLInputElement).focus();
+    this.typedRefs.filter.focus();
   },
 });
 </script>

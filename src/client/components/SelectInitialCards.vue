@@ -62,6 +62,10 @@ type DataModel = {
   warning: string | undefined,
 }
 
+type Refs = {
+  confirmation: InstanceType<typeof ConfirmDialog>;
+};
+
 export default defineComponent({
   name: 'SelectInitialCards',
   props: {
@@ -215,7 +219,7 @@ export default defineComponent({
       let showAlert = false;
       if (this.preferences.show_alerts && projectCards.length === 0) showAlert = true;
       if (showAlert) {
-        (this.$refs.confirmation as InstanceType<typeof ConfirmDialog>).show();
+        this.typedRefs.confirmation.show();
       } else {
         this.saveData();
       }
@@ -323,6 +327,9 @@ export default defineComponent({
     },
   },
   computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
     playerCanChooseAridor() {
       return this.playerView.dealtCorporationCards.some((card) => card.name === CardName.ARIDOR);
     },

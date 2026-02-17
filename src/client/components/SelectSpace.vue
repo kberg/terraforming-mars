@@ -28,6 +28,10 @@ import GoToMap from '@/client/components/waitingFor/GoToMap.vue';
 import {SpaceId} from '@/common/Types';
 
 
+type Refs = {
+  confirmation: InstanceType<typeof ConfirmDialog>;
+};
+
 type DataModel = {
   spaces: Set<SpaceId>;
   selectedTile: HTMLElement | undefined,
@@ -66,6 +70,11 @@ export default defineComponent({
   components: {
     'confirm-dialog': ConfirmDialog,
     GoToMap,
+  },
+  computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
   },
   methods: {
     animateSpace(tile: Element, activate: boolean) {
@@ -141,7 +150,7 @@ export default defineComponent({
       if (hideTileConfirmation) {
         this.confirmPlacement();
       } else {
-        (this.$refs.confirmation as InstanceType<typeof ConfirmDialog>).show();
+        this.typedRefs.confirmation.show();
       }
     },
     saveData() {

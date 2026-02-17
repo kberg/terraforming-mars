@@ -240,6 +240,10 @@ import {cardResourceCSS} from '../common/cardResources';
 import {APP_NAME} from '@/common/constants';
 
 
+type Refs = {
+  filter: HTMLInputElement;
+};
+
 export default defineComponent({
   name: 'card-list',
   components: {
@@ -256,10 +260,13 @@ export default defineComponent({
   },
   mounted() {
     document.title = `Cards List | ${APP_NAME}`;
-    (this.$refs.filter as HTMLInputElement).focus();
+    this.typedRefs.filter.focus();
     this.delayedSetLocationHash();
   },
   computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
     allModules(): ReadonlyArray<GameModule> {
       return GAME_MODULES;
     },
