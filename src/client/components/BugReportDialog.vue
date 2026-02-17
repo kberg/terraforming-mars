@@ -47,6 +47,11 @@ function browser(): string {
   return match.join(' ');
 }
 
+type Refs = {
+  dialog: HTMLDialogElement;
+  textarea: HTMLTextAreaElement;
+};
+
 export default defineComponent({
   name: 'BugReportDialog',
   data() {
@@ -55,13 +60,18 @@ export default defineComponent({
       showCopied: false,
     };
   },
+  computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
+  },
   methods: {
     show() {
-      showModal(this.$refs.dialog as HTMLDialogElement);
+      showModal(this.typedRefs.dialog);
     },
     copyTextArea() {
-      (this.$refs.textarea as HTMLTextAreaElement).select();
-      navigator.clipboard.writeText((this.$refs.textarea as HTMLTextAreaElement).value);
+      this.typedRefs.textarea.select();
+      navigator.clipboard.writeText(this.typedRefs.textarea.value);
       this.showCopied = true;
     },
     url(playerView: PlayerViewModel | undefined) {
@@ -102,7 +112,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.$refs.dialog);
+    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.typedRefs.dialog);
     this.setMessage();
   },
 });

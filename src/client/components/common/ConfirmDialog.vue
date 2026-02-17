@@ -21,6 +21,10 @@ import {showModal, windowHasHTMLDialogElement} from '@/client/components/HTMLDia
 const dialogPolyfill = require('dialog-polyfill');
 
 
+type Refs = {
+  dialog: HTMLDialogElement;
+};
+
 export default defineComponent({
   name: 'ConfirmDialog',
   props: {
@@ -44,6 +48,11 @@ export default defineComponent({
       this.$emit('hide', this.hide);
     },
   },
+  computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
+  },
   methods: {
     accept() {
       this.$emit('accept');
@@ -53,11 +62,11 @@ export default defineComponent({
     },
     show() {
       this.shown = true;
-      showModal(this.$refs.dialog as HTMLDialogElement);
+      showModal(this.typedRefs.dialog);
     },
   },
   mounted() {
-    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.$refs.dialog as HTMLDialogElement);
+    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.typedRefs.dialog);
   },
 });
 </script>

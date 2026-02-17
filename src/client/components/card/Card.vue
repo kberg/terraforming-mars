@@ -48,6 +48,11 @@ import {CardRequirementDescriptor} from '@/common/cards/CardRequirementDescripto
 import {GameModule} from '@/common/cards/GameModule';
 
 
+type Refs = {
+  content: {$el: HTMLElement};
+  container: HTMLElement;
+};
+
 export default defineComponent({
   name: 'Card',
   components: {
@@ -194,6 +199,9 @@ export default defineComponent({
     hasHelp(): boolean {
       return this.hovering && this.cardInstance.metadata.hasExternalHelp === true;
     },
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
     showPlayerCube(): boolean {
       return getPreferences().experimental_ui && this.actionUsed;
     },
@@ -208,17 +216,17 @@ export default defineComponent({
       }
       // Was not initialized with a custom height, probably because it was not visible.
       if (this.customHeight === 0) {
-        this.customHeight = ((this.$refs.content as any).$el as HTMLElement).scrollHeight;
+        this.customHeight = (this.typedRefs.content.$el).scrollHeight;
         // If for some reason it still doesn't have a custom height, don't resize it.
         if (this.customHeight === 0) {
           return;
         }
       }
-      const content = (this.$refs.content as any).$el as HTMLElement;
+      const content = this.typedRefs.content.$el;
       if (content.scrollHeight <= 236) {
         return;
       }
-      (this.$refs.container as HTMLElement).style.height = (this.customHeight + 90) + 'px';
+      this.typedRefs.container.style.height = (this.customHeight + 90) + 'px';
       content.style.height = this.customHeight + 'px';
     },
     unmakeFullSize() {
@@ -228,13 +236,13 @@ export default defineComponent({
       if (this.customHeight === 0) {
         return;
       }
-      const content = (this.$refs.content as any).$el as HTMLElement;
-      (this.$refs.container as HTMLElement).style.removeProperty('height');
+      const content = this.typedRefs.content.$el;
+      this.typedRefs.container.style.removeProperty('height');
       content.style.removeProperty('height');
     },
   },
   mounted() {
-    this.customHeight = ((this.$refs.content as any).$el as HTMLElement).scrollHeight;
+    this.customHeight = (this.typedRefs.content.$el).scrollHeight;
   },
   beforeUpdate() {
     if (this.autoTall === true) {

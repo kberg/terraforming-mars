@@ -110,14 +110,17 @@ export default defineComponent({
   },
   methods: {
     saveData() {
-      (this.$refs.childInput as any).saveData();
+      this.typedRefs.childInput.saveData();
     },
     canSave(): boolean {
-      const canSave = (this.$refs.childInput as any).canSave;
+      const canSave = this.typedRefs.childInput.canSave;
       return canSave ? canSave() : true;
     },
   },
   computed: {
+    typedRefs(): {childInput: {saveData: () => void, canSave?: () => boolean}} {
+      return this.$refs as unknown as {childInput: {saveData: () => void, canSave?: () => boolean}};
+    },
     componentName(): string {
       return typeToComponentName[this.playerinput.type];
     },

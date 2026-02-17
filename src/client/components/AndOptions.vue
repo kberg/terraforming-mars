@@ -69,12 +69,11 @@ export default defineComponent({
       };
     },
     canSave(): boolean {
-      const refs = this.$refs.childInputs as any[];
+      const refs = this.$refs.childInputs as Array<{canSave?: () => boolean}> | undefined;
       if (!refs) return true;
       for (const child of refs) {
-        const canSave = child.canSave;
-        if (canSave instanceof Function) {
-          if (canSave() === false) {
+        if (child.canSave instanceof Function) {
+          if (child.canSave() === false) {
             return false;
           }
         }
@@ -86,7 +85,7 @@ export default defineComponent({
         alert('Not all options selected');
         return;
       }
-      const refs = this.$refs.childInputs as any[];
+      const refs = this.$refs.childInputs as Array<{saveData?: () => void}> | undefined;
       if (refs) {
         for (const child of refs) {
           if (child.saveData instanceof Function) {

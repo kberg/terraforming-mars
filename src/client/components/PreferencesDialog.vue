@@ -100,7 +100,7 @@
 
       <div class="preferences_panel_actions">
         <button class="btn btn-lg btn-primary" v-on:click="okClicked" v-i18n>Ok</button>
-        <button class="btn btn-lg btn-primary" v-on:click="($refs.bugDialog as any).show();" v-i18n>Report a bug</button>
+        <button class="btn btn-lg btn-primary" v-on:click="showBugDialog" v-i18n>Report a bug</button>
       </div>
       <bug-report-dialog ref="bugDialog"></bug-report-dialog>
     </div>
@@ -112,6 +112,10 @@ import {defineComponent} from '@/client/vue3-compat';
 import {getPreferences, PreferencesManager, Preference} from '@/client/utils/PreferencesManager';
 import BugReportDialog from '@/client/components/BugReportDialog.vue';
 
+
+type Refs = {
+  bugDialog: InstanceType<typeof BugReportDialog>;
+};
 
 export default defineComponent({
   name: 'PreferencesDialog',
@@ -130,6 +134,9 @@ export default defineComponent({
     };
   },
   methods: {
+    showBugDialog() {
+      this.typedRefs.bugDialog.show();
+    },
     setBoolPreferencesCSS(
       target: HTMLElement,
       val: boolean,
@@ -166,6 +173,9 @@ export default defineComponent({
     },
   },
   computed: {
+    typedRefs(): Refs {
+      return this.$refs as unknown as Refs;
+    },
     getPreferences(): typeof getPreferences {
       return getPreferences;
     },
