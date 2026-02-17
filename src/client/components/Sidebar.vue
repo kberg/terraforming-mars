@@ -189,7 +189,7 @@ export default defineComponent({
       case undefined:
         return '???';
       default:
-        return this.turmoil!.ruling;
+        return this.turmoil?.ruling ?? '';
       }
     },
   },
