@@ -1,6 +1,6 @@
 <template>
   <!-- Is board-cont necessary? -->
-  <div class="board-cont moon-board" id="moon_board">
+  <div v-if="model" class="board-cont moon-board" id="moon_board">
     <svg id="moon_board_legend" height="550" width="630" class="board-legend">
       <g id="mare_imbrium" transform="translate(250, 40)">
         <text class="board-caption">
@@ -93,6 +93,7 @@ export default defineComponent({
   props: {
     model: {
       type: Object as () => MoonModel,
+      required: true,
     },
     tileView: {
       type: String as () => TileView,

@@ -53,11 +53,11 @@ export default defineComponent({
     },
     show() {
       this.shown = true;
-      showModal(this.$refs.dialog);
+      showModal(this.$refs.dialog as HTMLDialogElement);
     },
   },
   mounted() {
-    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.$refs.dialog);
+    if (!windowHasHTMLDialogElement()) dialogPolyfill.default.registerDialog(this.$refs.dialog as HTMLDialogElement);
   },
 });
 </script>

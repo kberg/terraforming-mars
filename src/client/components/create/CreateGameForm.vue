@@ -687,7 +687,7 @@ export default defineComponent({
       }
     },
     uploadSettings() {
-      const refs: Refs = this.$refs;
+      const refs = this.$refs as Record<string, HTMLInputElement>;
       const file = refs.file.files !== null ? refs.file.files[0] : undefined;
       const reader = new FileReader();
       const component: CreateGameModel = this;
@@ -705,8 +705,8 @@ export default defineComponent({
 
             nextTick(() => {
               try {
-                if (component.showBannedCards) refs.cardsFilter.selected = processor.bannedCards;
-                if (component.showIncludedCards) refs.cardsFilter2.selected = processor.includedCards;
+                if (component.showBannedCards) (refs.cardsFilter as any).selected = processor.bannedCards;
+                if (component.showIncludedCards) (refs.cardsFilter2 as any).selected = processor.includedCards;
                 if (!component.seededGame) component.seed = Math.random();
                 // set to alter after any watched properties
                 component.solarPhaseOption = Boolean(processor.solarPhaseOption);

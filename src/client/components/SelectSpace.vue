@@ -141,7 +141,7 @@ export default defineComponent({
       if (hideTileConfirmation) {
         this.confirmPlacement();
       } else {
-        this.$refs.confirmation.show();
+        (this.$refs.confirmation as InstanceType<typeof ConfirmDialog>).show();
       }
     },
     saveData() {

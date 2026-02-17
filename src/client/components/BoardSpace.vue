@@ -47,15 +47,18 @@ export default defineComponent({
   props: {
     space: {
       type: Object as () => SpaceModel,
+      required: true,
     },
     text: {
       type: String,
+      default: '',
     },
     aresExtension: {
       type: Boolean,
     },
     tileView: {
       type: String as () => TileView,
+      required: true,
     },
   },
   data() {

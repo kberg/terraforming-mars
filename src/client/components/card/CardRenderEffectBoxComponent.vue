@@ -3,19 +3,19 @@
         <div class="card-effect-box-row">
             <div v-if="delimiter !== undefined && cause !== undefined" class="card-effect-box-content">
                 <div v-for="(rowItem, rowIndex) in cause" class="card-effect-box-item" :key="rowIndex">
-                  <CardRenderItemComponent v-if="isItem(rowItem)" :item="rowItem"/>
-                  <CardRenderSymbolComponent v-else-if="isSymbol(rowItem)" :item="rowItem" />
-                  <CardProductionBoxComponent v-else-if="isProductionBox(rowItem)" :rows="rowItem.rows" />
-                  <CardRenderTileComponent v-if="isTile(rowItem)" :item="rowItem"/>
+                  <CardRenderItemComponent v-if="isItem(rowItem)" :item="(rowItem as any)"/>
+                  <CardRenderSymbolComponent v-else-if="isSymbol(rowItem)" :item="(rowItem as any)" />
+                  <CardProductionBoxComponent v-else-if="isProductionBox(rowItem)" :rows="(rowItem as any).rows" />
+                  <CardRenderTileComponent v-if="isTile(rowItem)" :item="(rowItem as any)"/>
                 </div>
             </div>
-            <CardRenderSymbolComponent v-if="delimiter !== undefined" :item="delimiter" />
+            <CardRenderSymbolComponent v-if="delimiter !== undefined" :item="(delimiter as any)" />
             <div class="card-effect-box-content">
                 <div v-for="(rowItem, rowIndex) in effect" class="card-effect-box-item" :key="rowIndex">
-                    <CardRenderItemComponent v-if="isItem(rowItem)" :item="rowItem"/>
-                    <CardRenderSymbolComponent v-else-if="isSymbol(rowItem)" :item="rowItem" />
-                    <CardProductionBoxComponent v-else-if="isProductionBox(rowItem)" :rows="rowItem.rows" />
-                    <CardRenderTileComponent v-else-if="isTile(rowItem)" :item="rowItem"/>
+                    <CardRenderItemComponent v-if="isItem(rowItem)" :item="(rowItem as any)"/>
+                    <CardRenderSymbolComponent v-else-if="isSymbol(rowItem)" :item="(rowItem as any)" />
+                    <CardProductionBoxComponent v-else-if="isProductionBox(rowItem)" :rows="(rowItem as any).rows" />
+                    <CardRenderTileComponent v-else-if="isTile(rowItem)" :item="(rowItem as any)"/>
                 </div>
             </div>
         </div>

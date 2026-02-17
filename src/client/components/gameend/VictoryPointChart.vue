@@ -54,16 +54,19 @@ export default defineComponent({
   },
   props: {
     datasets: {
-      type: Array as () => Array<DataSet>,
+      type: Array as () => ReadonlyArray<DataSet>,
+      required: true,
     },
     generation: {
       type: Number,
+      required: true,
     },
     animation: {
       type: Boolean,
     },
     id: {
       type: String,
+      required: true,
     },
     yAxisLabel: {
       type: String,

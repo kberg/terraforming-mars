@@ -97,7 +97,7 @@ export default defineComponent({
       this.selected.push(cardName);
       this.selected.sort();
       this.searchTerm = '';
-      this.$refs.filter.focus();
+      (this.$refs.filter as HTMLInputElement).focus();
     },
   },
   watch: {
@@ -138,7 +138,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.$refs.filter.focus();
+    (this.$refs.filter as HTMLInputElement).focus();
   },
 });
 </script>

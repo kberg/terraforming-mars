@@ -1,7 +1,7 @@
 <template>
   <div :class="outerClass">
     <underground-token v-if="claimedToken !== undefined" :token="claimedToken" location="tag-count"/>
-    <Tag v-else :tag="tag" :size="size" :type="type"/>
+    <Tag v-else :tag="(tag as any)" :size="size" :type="type"/>
     <span :class="innerClass">{{ count }}</span>
   </div>
 </template>
@@ -20,7 +20,8 @@ export default defineComponent({
   name: 'tag-count',
   props: {
     tag: {
-      type: String as () => CardTag|SpecialTags|'escape',
+      type: String as () => CardTag | SpecialTags | 'escape' | string,
+      required: true,
     },
     undergroundToken: {
       type: String as () => TemporaryBonusToken | undefined,
@@ -32,6 +33,7 @@ export default defineComponent({
     },
     size: {
       type: String,
+      required: true,
     },
     type: {
       type: String,

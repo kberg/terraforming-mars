@@ -27,6 +27,7 @@ export default defineComponent({
   props: {
     party: {
       type: Object as () => PartyModel,
+      required: true,
     },
     isDominant: {
       type: Boolean,

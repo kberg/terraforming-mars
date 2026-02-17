@@ -1,5 +1,5 @@
 <template>
-  <div class="pathfinders_cont">
+  <div v-if="tracks" class="pathfinders_cont">
     <div class="track track-background-venus" v-if="tracks.venus >= 0">
       <div class="track-tag track-tag-venus"></div>
       <table class="track-venus">
@@ -57,10 +57,11 @@ export default defineComponent({
   name: 'PlanetaryTracks',
   props: {
     tracks: {
-      type: Object as () => PathfindersModel,
+      type: Object as () => PathfindersModel | undefined,
     },
     gameOptions: {
       type: Object as () => GameOptionsModel,
+      required: true,
     },
   },
   components: {

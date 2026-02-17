@@ -104,35 +104,35 @@
       <section class="card-list-cards-list">
           <h2 v-i18n>Project Cards</h2>
           <div class="cardbox" v-for="card in getAllProjectCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
+              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>Corporations</h2>
           <div class="cardbox" v-for="card in getAllCorporationCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards"/>
+              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards"/>
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>Preludes</h2>
           <div class="cardbox" v-for="card in getAllPreludeCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards"/>
+              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards"/>
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>CEOs</h2>
           <div class="cardbox" v-for="card in getAllCeoCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
+              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
         <h2 v-i18n>Standard Projects</h2>
         <div class="cardbox" v-for="card in getAllStandardProjectCards()" :key="card">
-            <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
+            <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
         </div>
       </section>
 
@@ -256,7 +256,7 @@ export default defineComponent({
   },
   mounted() {
     document.title = `Cards List | ${APP_NAME}`;
-    this.$refs.filter.focus();
+    (this.$refs.filter as HTMLInputElement).focus();
     this.delayedSetLocationHash();
   },
   computed: {
@@ -316,7 +316,7 @@ export default defineComponent({
       }, delayms);
     },
     setLocationHash(): boolean {
-      const hash = modelToHash(this);
+      const hash = modelToHash(this as any);
       const changed = hash !== window.location.hash;
       window.location.hash = hash;
       return changed;

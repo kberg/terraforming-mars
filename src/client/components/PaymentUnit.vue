@@ -5,7 +5,7 @@
     <input
       class="form-input form-inline payments_input"
       v-bind:value="modelValue"
-      v-on:input="$emit('update:modelValue', $event.target.value)"
+      v-on:input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
     <AppButton type="plus" @click="$emit('plus')" />
     <AppButton type="max" @click="$emit('max')" title="MAX" v-if="showMax" />
@@ -23,12 +23,15 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Number,
+      required: true,
     },
     unit: {
       type: String as () => SpendableResource,
+      required: true,
     },
     description: {
       type: String,
+      required: true,
     },
     showMax: {
       type: Boolean,

@@ -22,6 +22,7 @@ export default defineComponent({
   props: {
     idx: {
       type: Number,
+      required: true,
     },
     metadata: {
       type: Object as () => ColonyMetadata,
@@ -29,6 +30,7 @@ export default defineComponent({
     },
     player: {
       type: String as () => Color | undefined,
+      required: true,
     },
     marker: {
       type: Boolean,
