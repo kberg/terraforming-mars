@@ -12,7 +12,7 @@ import {emptyTags} from '../testHelpers';
 describe('PlayerTags', () => {
   let wrapper: VueWrapper<any>;
 
-  beforeEach(() => {W
+  beforeEach(() => {
     const player: RecursivePartial<PublicPlayerModel> = {
       color: 'blue',
       tableau: [

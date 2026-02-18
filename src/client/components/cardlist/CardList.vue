@@ -104,35 +104,35 @@
       <section class="card-list-cards-list">
           <h2 v-i18n>Project Cards</h2>
           <div class="cardbox" v-for="card in getAllProjectCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
+              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>Corporations</h2>
           <div class="cardbox" v-for="card in getAllCorporationCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards"/>
+              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards"/>
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>Preludes</h2>
           <div class="cardbox" v-for="card in getAllPreludeCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards"/>
+              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards"/>
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
           <h2 v-i18n>CEOs</h2>
           <div class="cardbox" v-for="card in getAllCeoCards()" :key="card">
-              <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
+              <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
           </div>
       </section>
       <br>
       <section class="card-list-cards-list">
         <h2 v-i18n>Standard Projects</h2>
         <div class="cardbox" v-for="card in getAllStandardProjectCards()" :key="card">
-            <Card v-if="showCard(card)" :card="{'name': card, 'resources': undefined}" :autoTall="tallCards" />
+            <Card v-if="showCard(card)" :card="{'name': card}" :autoTall="tallCards" />
         </div>
       </section>
 

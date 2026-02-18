@@ -3,17 +3,17 @@
 
       <h2 v-i18n>Standard Projects</h2>
       <div class="cardbox" v-for="card in getBasicStandardProjects()" v-bind:key="card">
-        <Card :card="{'name': card, 'resources': undefined}" />
+        <Card :card="{'name': card}" />
       </div>
 
       <h2 v-i18n>Standard Projects from Expansions and Solo Mode</h2>
       <div class="cardbox" v-for="card in getExpansionStandardProjects()" v-bind:key="card">
-        <Card :card="{'name': card, 'resources': undefined}" />
+        <Card :card="{'name': card}" />
       </div>
 
       <h2 v-i18n>Standard Project from Fan-made Expansions</h2>
       <div class="cardbox" v-for="card in getFanMadeStandardProjects()" v-bind:key="card">
-        <Card :card="{'name': card, 'resources': undefined}" />
+        <Card :card="{'name': card}" />
       </div>
 
     </div>
