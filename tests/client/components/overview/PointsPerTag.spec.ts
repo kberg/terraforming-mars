@@ -1,12 +1,11 @@
-import {shallowMount} from '@vue/test-utils';
+import {shallowMount, VueWrapper} from '@vue/test-utils';
 import {globalConfig} from '../getLocalVue';
 import {expect} from 'chai';
 import PointsPerTag from '@/client/components/overview/PointsPerTag.vue';
-import {Wrapper} from '@vue/test-utils';
 
 describe('PointsPerTag', () => {
   function doTest(points: any, expected: string) {
-    const wrapper: Wrapper<PointsPerTag> = shallowMount(PointsPerTag, {
+    const wrapper: VueWrapper<any> = shallowMount(PointsPerTag, {
       ...globalConfig,
       parentComponent: {
         methods: {

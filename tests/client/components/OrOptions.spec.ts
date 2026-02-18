@@ -89,7 +89,7 @@ describe('OrOptions', () => {
     const inputs = component.findAll('input');
     expect(inputs.length).to.eq(2);
     // Select the second displayed option (select b, original index 2)
-    await inputs[1].setChecked();
+    await inputs[1].setValue(true);
     const buttons = component.findAllComponents({name: 'AppButton'});
     await buttons[0].trigger('click');
     expect(savedData).to.deep.eq({type: 'or', index: 2, response: {type: 'option'}});
@@ -131,7 +131,7 @@ describe('OrOptions', () => {
 
     // Click second radio
     const inputs = component.findAll('input');
-    await inputs[1].setChecked();
+    await inputs[1].setValue(true);
 
     factories = component.findAllComponents({name: 'player-input-factory'});
     expect(factories.length).to.eq(1);
@@ -175,7 +175,7 @@ describe('OrOptions', () => {
     });
     // Select third option
     const inputs = component.findAll('input');
-    await inputs[2].setChecked();
+    await inputs[2].setValue(true);
     const buttons = component.findAllComponents({name: 'AppButton'});
     await buttons[0].trigger('click');
     expect(savedData).to.deep.eq({type: 'or', index: 2, response: {type: 'option'}});
@@ -214,7 +214,7 @@ describe('OrOptions', () => {
       },
     });
     const inputs = component.findAll('input');
-    await inputs[1].setChecked();
+    await inputs[1].setValue(true);
 
     const buttons = component.findAllComponents({name: 'AppButton'});
     await buttons[0].trigger('click');
