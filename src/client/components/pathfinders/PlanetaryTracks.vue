@@ -57,7 +57,7 @@ export default defineComponent({
   name: 'PlanetaryTracks',
   props: {
     tracks: {
-      type: Object as () => PathfindersModel | undefined,
+      type: Object as () => PathfindersModel,
     },
     gameOptions: {
       type: Object as () => GameOptionsModel,
