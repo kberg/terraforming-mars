@@ -1,4 +1,4 @@
-import {shallowMount} from '@vue/test-utils';
+import {shallowMount, VueWrapper, DOMWrapper} from '@vue/test-utils';
 import {globalConfig} from '../getLocalVue';
 import {expect} from 'chai';
 import {CardName} from '@/common/cards/CardName';
@@ -6,10 +6,9 @@ import PlayerTags from '@/client/components/overview/PlayerTags.vue';
 import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
 import {RecursivePartial} from '@/common/utils/utils';
 import {Tag} from '@/common/cards/Tag';
-import {Wrapper} from '@vue/test-utils';
 
 describe('PlayerTags', () => {
-  let wrapper: Wrapper<PlayerTags>;
+  let wrapper: VueWrapper<any>;
 
   beforeEach(() => {
     const player: RecursivePartial<PublicPlayerModel> = {
@@ -120,12 +119,11 @@ describe('PlayerTags', () => {
     wrapper.vm.$data.conciseView = false;
   });
 
-  function elem(tag: Tag | 'all'): any {
-    const newLocal: Wrapper<any> = wrapper.find(`[data-test="discount-${tag}"]`);
-    return newLocal;
+  function elem(tag: Tag | 'all'): DOMWrapper<Element> {
+    return wrapper.find(`[data-test="discount-${tag}"]`);
   }
 
-  function amount(e: Wrapper<any>): string {
+  function amount(e: DOMWrapper<Element>): string {
     return e.attributes()['amount'];
   }
 

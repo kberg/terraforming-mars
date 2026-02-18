@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import WaitingFor from '@/client/components/WaitingFor.vue';
 import {RecursivePartial} from '@/common/utils/utils';
 import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
+import {Phase} from '@/common/Phase';
 import * as raw_settings from '@/genfiles/settings.json';
 
 describe('WaitingFor', () => {
@@ -16,7 +17,7 @@ describe('WaitingFor', () => {
     thisPlayer: thisPlayer as PublicPlayerModel,
     players: [thisPlayer as PublicPlayerModel],
     game: {
-      phase: 'action',
+      phase: Phase.ACTION,
       gameAge: 1,
       undoCount: 0,
     },
