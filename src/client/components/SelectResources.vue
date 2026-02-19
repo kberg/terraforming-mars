@@ -1,11 +1,10 @@
 <template>
   <div class="wf-component wf-options">
     <div v-if="showtitle === true" class="nofloat wf-component-title">{{ $t(playerinput.title) }}</div>
-    <template v-for="unit in keys">
+    <template v-for="unit in keys" :key="unit">
         <payment-unit-component
           v-model.number="units[unit]"
-          v-bind:key="unit"
-          :unit="unit"
+          :unit="(unit as any)"
           :showMax="false"
           description=""
           @plus="addValue(unit)"
@@ -45,11 +44,9 @@ export default defineComponent({
     },
     showsave: {
       type: Boolean,
-      required: true,
     },
     showtitle: {
       type: Boolean,
-      required: true,
     },
   },
   data() {

@@ -54,7 +54,7 @@ export default defineComponent({
   },
   props: {
     datasets: {
-      type: Array as () => Array<DataSet>,
+      type: Array as () => ReadonlyArray<DataSet>,
       required: true,
     },
     generation: {
@@ -63,7 +63,6 @@ export default defineComponent({
     },
     animation: {
       type: Boolean,
-      required: true,
     },
     id: {
       type: String,
