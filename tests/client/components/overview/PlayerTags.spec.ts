@@ -6,7 +6,7 @@ import PlayerTags from '@/client/components/overview/PlayerTags.vue';
 import {PlayerViewModel, PublicPlayerModel} from '@/common/models/PlayerModel';
 import {RecursivePartial} from '@/common/utils/utils';
 import {Tag} from '@/common/cards/Tag';
-import {Wrapper} from '@vue/test-utils';
+
 import {emptyTags} from '../testHelpers';
 
 describe('PlayerTags', () => {

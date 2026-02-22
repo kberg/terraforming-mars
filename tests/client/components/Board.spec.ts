@@ -6,7 +6,7 @@ import BoardSpace from '@/client/components/BoardSpace.vue';
 import {SpaceModel} from '@/common/models/SpaceModel';
 import {SpaceType} from '@/common/boards/SpaceType';
 import {DEFAULT_EXPANSIONS} from '@/common/cards/GameModule';
-import {BoardName} from '@/common/boards/BoardName';
+
 
 const spaces: SpaceModel[] = [
   {
@@ -50,19 +50,6 @@ const spaces: SpaceModel[] = [
     tileType: undefined,
   },
 ];
-
-const defaultProperties = {
-  spaces: spaces,
-  venusScaleLevel: 0,
-  altVenusBoard: false,
-  boardName: BoardName.AMAZONIS,
-  oceans_count: 0,
-  oxygen_level: 0,
-  temperature: 0,
-  expansions: DEFAULT_EXPANSIONS,
-  aresData: undefined,
-  tileView: 'show',
-} as const;
 
 describe('Board', () => {
   it('has visible tiles on the board', () => {

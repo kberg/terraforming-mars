@@ -460,19 +460,19 @@ export default defineComponent({
         startValue = constants.MIN_OXYGEN_LEVEL;
         endValue = constants.MAX_OXYGEN_LEVEL;
         step = 1;
-        curValue = this.oxygen_level;
+        curValue = this.oxygen_level ?? 0;
         break;
       case 'temperature':
         startValue = constants.MIN_TEMPERATURE;
         endValue = constants.MAX_TEMPERATURE;
         step = 2;
-        curValue = this.temperature;
+        curValue = this.temperature ?? 0;
         break;
       case 'venus':
         startValue = constants.MIN_VENUS_SCALE;
         endValue = constants.MAX_VENUS_SCALE;
         step = 2;
-        curValue = this.venusScaleLevel;
+        curValue = this.venusScaleLevel ?? 0;
         break;
       default:
         throw new Error('Wrong parameter to get values from: ' + targetParameter);
