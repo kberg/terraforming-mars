@@ -38,6 +38,7 @@ describe('ApiCreateGame', () => {
       BoardName.AMAZONIS,
       BoardName.TERRA_CIMMERIA,
       BoardName.HOLLANDIA,
+      BoardName.AMAZONIS_NOVUS,
     ]);
   });
 

@@ -14,7 +14,8 @@ function colonySpace(id: SpaceId): Space {
 }
 
 export class BoardBuilder {
-  // This builder assumes the map has nine rows, of tile counts [5,6,7,8,9,8,7,6,5].
+  // This builder assumes the map has nine rows, of tile counts [5,6,7,8,9,8,7,6,5] by default,
+  // or a custom symmetric layout provided via the tilesPerRow constructor parameter.
   //
   // "Son I am able, " she said "though you scare me."
   // "Watch, " said I
@@ -28,10 +29,12 @@ export class BoardBuilder {
   private volcanicSpaces: Array<number> = [];
   private gameOptions: GameOptions;
   private rng: Random;
+  private readonly tilesPerRow: ReadonlyArray<number>;
 
-  constructor(gameOptions: GameOptions, rng: Random) {
+  constructor(gameOptions: GameOptions, rng: Random, tilesPerRow?: ReadonlyArray<number>) {
     this.gameOptions = gameOptions;
     this.rng = rng;
+    this.tilesPerRow = tilesPerRow ?? [5, 6, 7, 8, 9, 8, 7, 6, 5];
   }
 
   ocean(...bonus: Array<SpaceBonus>): this {
@@ -90,13 +93,14 @@ export class BoardBuilder {
     this.spaces.push(colonySpace(SpaceName.GANYMEDE_COLONY));
     this.spaces.push(colonySpace(SpaceName.PHOBOS_SPACE_HAVEN));
 
-    const tilesPerRow = [5, 6, 7, 8, 9, 8, 7, 6, 5];
+    const tilesPerRow = this.tilesPerRow;
+    const maxTiles = Math.max(...tilesPerRow);
     const idOffset = this.spaces.length + 1;
     let idx = 0;
 
-    for (let row = 0; row < 9; row++) {
+    for (let row = 0; row < tilesPerRow.length; row++) {
       const tilesInThisRow = tilesPerRow[row];
-      const xOffset = 9 - tilesInThisRow;
+      const xOffset = maxTiles - tilesInThisRow;
       for (let i = 0; i < tilesInThisRow; i++) {
         const spaceId = idx + idOffset;
         const xCoordinate = xOffset + i;

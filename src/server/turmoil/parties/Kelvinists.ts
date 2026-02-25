@@ -6,7 +6,7 @@ import {Bonus} from '../Bonus';
 import {IPolicy} from '../Policy';
 import {IPlayer} from '../../IPlayer';
 import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred';
-import {MAX_TEMPERATURE} from '../../../common/constants';
+
 import {CardName} from '../../../common/cards/CardName';
 import {TITLES} from '../../inputs/titles';
 
@@ -80,7 +80,7 @@ class KelvinistsPolicy03 implements IPolicy {
   readonly description = 'Convert 6 heat into temperature (Turmoil Kelvinists)';
 
   canAct(player: IPlayer) {
-    return player.availableHeat() >= 6 && player.game.getTemperature() < MAX_TEMPERATURE;
+    return player.availableHeat() >= 6 && player.game.getTemperature() < player.game.getMaxTemperature();
   }
 
   action(player: IPlayer) {

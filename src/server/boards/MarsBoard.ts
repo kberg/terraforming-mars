@@ -8,14 +8,31 @@ import {AresHandler} from '../ares/AresHandler';
 import {CardName} from '../../common/cards/CardName';
 import {SpaceId} from '../../common/Types';
 import {oneWayDifference} from '../../common/utils/utils';
+import * as constants from '../../common/constants';
+
+export type MarsBoardParams = {
+  maxOceans?: number;
+  maxTemperature?: number;
+  maxOxygen?: number;
+  maxVenus?: number;
+};
 
 export class MarsBoard extends Board {
   private readonly edges: ReadonlyArray<Space>;
+  public readonly maxOceans: number;
+  public readonly maxTemperature: number;
+  public readonly maxOxygen: number;
+  public readonly maxVenus: number;
 
   public constructor(
     spaces: ReadonlyArray<Space>,
-    noctisCitySpaceId?: SpaceId | undefined) {
+    noctisCitySpaceId?: SpaceId | undefined,
+    params?: MarsBoardParams) {
     super(spaces, noctisCitySpaceId);
+    this.maxOceans = params?.maxOceans ?? constants.MAX_OCEAN_TILES;
+    this.maxTemperature = params?.maxTemperature ?? constants.MAX_TEMPERATURE;
+    this.maxOxygen = params?.maxOxygen ?? constants.MAX_OXYGEN_LEVEL;
+    this.maxVenus = params?.maxVenus ?? constants.MAX_VENUS_SCALE;
     this.edges = this.computeEdges();
   }
 
@@ -148,19 +165,20 @@ export class MarsBoard extends Board {
   }
 
   private computeEdges(): ReadonlyArray<Space> {
-    return this.spaces.filter((space) => {
-      if (space.y === 0 || space.y === 8 || space.x === 8) {
-        return true;
-      }
-      // left side is tricky.
-      // top-left is easy with math. Look at the map.
-      if (space.y + space.x === 4) {
-        return true;
-      }
-      // bottom-left is also easy with math. Look at the map.
-      if (space.y - space.x === 4) {
-        return true;
-      }
+    const boardSpaces = this.spaces.filter((s) => s.spaceType !== SpaceType.COLONY);
+    if (boardSpaces.length === 0) return [];
+    const maxY = Math.max(...boardSpaces.map((s) => s.y));
+    const maxX = Math.max(...boardSpaces.map((s) => s.x));
+    const halfY = maxY / 2;
+    return boardSpaces.filter((space) => {
+      // top and bottom rows
+      if (space.y === 0 || space.y === maxY) return true;
+      // right column
+      if (space.x === maxX) return true;
+      // top-left diagonal: y + x = halfY
+      if (space.y + space.x === halfY) return true;
+      // bottom-left diagonal: y - x = halfY
+      if (space.y - space.x === halfY) return true;
       return false;
     });
   }

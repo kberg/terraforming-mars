@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {TharsisBoard} from '../../src/server/boards/TharsisBoard';
+import {AmazonisNovusBoard} from '../../src/server/boards/AmazonisNovusBoard';
 import {TileType} from '../../src/common/TileType';
 import {SpaceType} from '../../src/common/boards/SpaceType';
 import {TestPlayer} from '../TestPlayer';
@@ -112,5 +113,56 @@ describe('MarsBoard', () => {
     const space = board.spaces.find(AresHandler.hasHazardTile);
     space!.player = player;
     expect(board.getAvailableSpacesForGreenery(player)).has.length(45);
+  });
+});
+
+describe('MarsBoard — AmazonisNovusBoard', () => {
+  let board: MarsBoard;
+  let player: TestPlayer;
+  let player2: TestPlayer;
+
+  beforeEach(() => {
+    board = AmazonisNovusBoard.newInstance(DEFAULT_GAME_OPTIONS, new SeededRandom(0));
+    player = TestPlayer.BLUE.newPlayer();
+    player2 = TestPlayer.RED.newPlayer();
+
+    const gameOptions: Partial<GameOptions> = {pathfindersExpansion: false};
+    (player as any).game = {gameOptions};
+    (player2 as any).game = {gameOptions};
+  });
+
+  it('edges', () => {
+    expect(board.getEdges().map(toID)).to.have.members([
+      // Top row (y=0)
+      '03', '04', '05', '06', '07', '08',
+      // Top-left diagonal (y+x=5, not in top row)
+      '09', '16', '24', '33', '43',
+      // Bottom-left diagonal (y-x=5, not in top-left diagonal or bottom row)
+      '54', '64', '73', '81',
+      // Bottom row (y=10)
+      '88', '89', '90', '91', '92', '93',
+      // Right column bottom (x=10, y=6..9, not in bottom row)
+      '87', '80', '72', '63',
+      // Right column full (x=10, y=5..1, not in top row)
+      '53', '42', '32', '23', '15',
+    ]);
+  });
+
+  it('getAvailableSpacesForGreenery - no tiles placed', () => {
+    const availableSpaces = board.getAvailableSpacesForGreenery(player);
+    expect(availableSpaces).has.lengthOf(board.getAvailableSpacesOnLand(player).length);
+  });
+
+  it('getAvailableSpacesForGreenery - adjacent tile owned', () => {
+    // Place player's tile at space 05 (land, y=0, x=7)
+    board.spaces[4].player = player;
+    board.spaces[4].tile = {tileType: TileType.GREENERY};
+    // Place player2's tile adjacent to player's tile
+    board.spaces[9].player = player2;
+    board.spaces[9].tile = {tileType: TileType.GREENERY};
+    const availableSpaces = board.getAvailableSpacesForGreenery(player);
+    // Since player's tile at 05 is adjacent to 04(ocean), 11, 10, 07, player can only place next to their tile
+    expect(availableSpaces.length).to.be.greaterThan(0);
+    expect(availableSpaces.length).to.be.lessThan(board.getAvailableSpacesOnLand(player).length);
   });
 });

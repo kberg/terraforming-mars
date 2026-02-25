@@ -5,7 +5,6 @@ import {IPlayer} from '../../IPlayer';
 import {CardResource} from '../../../common/CardResource';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
-import {MAX_VENUS_SCALE} from '../../../common/constants';
 import {CardName} from '../../../common/cards/CardName';
 import {LogHelper} from '../../LogHelper';
 import {CardRenderer} from '../render/CardRenderer';
@@ -37,7 +36,7 @@ export class JetStreamMicroscrappers extends Card implements IActionCard {
   }
 
   public canAct(player: IPlayer): boolean {
-    const venusMaxed = player.game.getVenusScaleLevel() === MAX_VENUS_SCALE;
+    const venusMaxed = player.game.getVenusScaleLevel() === player.game.getMaxVenus();
     const canSpendResource = this.resourceCount > 1 && !venusMaxed;
 
     return player.titanium > 0 || (canSpendResource && player.canAfford({cost: 0, tr: {venus: 1}}));
@@ -49,7 +48,7 @@ export class JetStreamMicroscrappers extends Card implements IActionCard {
     const addResource = new SelectOption('Spend one titanium to add 2 floaters to this card', 'Spend titanium').andThen(() => this.addResource(player));
     const spendResource = new SelectOption('Remove 2 floaters to raise Venus 1 step', 'Remove floaters').andThen(() => this.spendResource(player));
 
-    if (this.resourceCount > 1 && player.game.getVenusScaleLevel() < MAX_VENUS_SCALE) {
+    if (this.resourceCount > 1 && player.game.getVenusScaleLevel() < player.game.getMaxVenus()) {
       opts.push(spendResource);
     } else {
       return this.addResource(player);

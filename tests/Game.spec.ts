@@ -7,7 +7,7 @@ import {Thermalist} from '../src/server/awards/Thermalist';
 import {Birds} from '../src/server/cards/base/Birds';
 import {WaterImportFromEuropa} from '../src/server/cards/base/WaterImportFromEuropa';
 import {Phase} from '../src/common/Phase';
-import {addCity, addGreenery, addOcean, forceGenerationEnd, maxOutOceans, runAllActions, setOxygenLevel, setTemperature, setVenusScaleLevel} from './TestingUtils';
+import {addCity, addGreenery, addOcean, forceGenerationEnd, maxOutOceans, runAllActions, setOxygenLevel, setTemperature, setVenusScaleLevel, testGame} from './TestingUtils';
 import {cast, toName} from '../src/common/utils/utils';
 import {TestPlayer} from './TestPlayer';
 import {SaturnSystems} from '../src/server/cards/corporation/SaturnSystems';
@@ -1126,6 +1126,85 @@ describe('Game', () => {
 
     expect(game2.gameOptions.pathfindersExpansion).is.true;
     expect(game2.gameOptions.expansions.pathfinders).is.true;
+  });
+});
+
+describe('LargerBoard global parameters', () => {
+  it('getMaxTemperature returns 14', () => {
+    const [game] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    expect(game.getMaxTemperature()).to.eq(14);
+  });
+
+  it('getMaxOxygen returns 18', () => {
+    const [game] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    expect(game.getMaxOxygen()).to.eq(18);
+  });
+
+  it('getMaxOceans returns 11', () => {
+    const [game] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    expect(game.getMaxOceans()).to.eq(11);
+  });
+
+  it('does not cap temperature at +8 on the larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    setTemperature(game, 12);
+    const initialTR = player.terraformRating;
+    game.increaseTemperature(player, 2);
+    expect(game.getTemperature()).to.eq(14);
+    expect(player.terraformRating).to.eq(initialTR + 1);
+  });
+
+  it('does not cap oxygen at 14% on the larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    setOxygenLevel(game, 17);
+    const initialTR = player.terraformRating;
+    game.increaseOxygenLevel(player, 2);
+    expect(game.getOxygenLevel()).to.eq(18);
+    expect(player.terraformRating).to.eq(initialTR + 1);
+  });
+
+  it('does not cap oceans at 9 on the larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    maxOutOceans(player, 11);
+    expect(game.board.getOceanSpaces()).has.length(11);
+    expect(game.canAddOcean()).to.be.false;
+  });
+
+  it('isTerraformed requires temperature +14 on larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    setTemperature(game, 8);
+    setOxygenLevel(game, constants.MAX_OXYGEN_LEVEL);
+    maxOutOceans(player, constants.MAX_OCEAN_TILES);
+    expect(game.marsIsTerraformed()).to.be.false;
+    setTemperature(game, 14);
+    expect(game.marsIsTerraformed()).to.be.false; // oxygen and oceans still wrong
+  });
+
+  it('isTerraformed requires oxygen 18 on larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    setTemperature(game, 14);
+    setOxygenLevel(game, 14);
+    maxOutOceans(player, constants.MAX_OCEAN_TILES);
+    expect(game.marsIsTerraformed()).to.be.false;
+    setOxygenLevel(game, 18);
+    expect(game.marsIsTerraformed()).to.be.false; // oceans still wrong
+  });
+
+  it('isTerraformed requires 11 oceans on larger board', () => {
+    const [game, player] = testGame(2, {boardName: BoardName.AMAZONIS_NOVUS});
+    setTemperature(game, 14);
+    setOxygenLevel(game, 18);
+    maxOutOceans(player, constants.MAX_OCEAN_TILES);
+    expect(game.marsIsTerraformed()).to.be.false; // only 9 oceans
+    maxOutOceans(player, 11);
+    expect(game.marsIsTerraformed()).to.be.true;
+  });
+
+  it('standard board still uses original parameter limits (regression)', () => {
+    const [stdGame] = testGame(2);
+    expect(stdGame.getMaxTemperature()).to.eq(constants.MAX_TEMPERATURE);
+    expect(stdGame.getMaxOxygen()).to.eq(constants.MAX_OXYGEN_LEVEL);
+    expect(stdGame.getMaxOceans()).to.eq(constants.MAX_OCEAN_TILES);
   });
 });
 
