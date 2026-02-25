@@ -6,7 +6,7 @@ import {Bonus} from '../Bonus';
 import {IPolicy} from '../Policy';
 import {IPlayer} from '../../IPlayer';
 import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred';
-import {MAX_TEMPERATURE} from '../../../common/constants';
+
 import {CardName} from '../../../common/cards/CardName';
 import {TITLES} from '../../inputs/titles';
 import {SelectOption} from '../../inputs/SelectOption';
@@ -104,7 +104,7 @@ class KelvinistsPolicy03 implements IPolicy {
         return undefined;
       });
     });
-    if (player.game.getTemperature() === MAX_TEMPERATURE) {
+    if (player.game.getTemperature() === player.game.getMaxTemperature()) {
       option.warnings = ['maxtemp'];
       option.eligibleForDefault = false;
     }

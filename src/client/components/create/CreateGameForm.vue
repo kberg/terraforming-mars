@@ -735,6 +735,7 @@ export default defineComponent({
         BoardName.TERRA_CIMMERIA_NOVA,
         BoardName.ARABIA_TERRA,
         BoardName.AMAZONIS,
+        BoardName.AMAZONIS_NOVUS,
         BoardName.TERRA_CIMMERIA,
         BoardName.VASTITAS_BOREALIS,
         BoardName.HOLLANDIA,
@@ -974,6 +975,7 @@ export default defineComponent({
         [BoardName.TERRA_CIMMERIA]: 'terra-cimmeria',
         [BoardName.TERRA_CIMMERIA_NOVA]: 'terra-cimmeria-nova',
         [BoardName.HOLLANDIA]: 'hollandia',
+        [BoardName.AMAZONIS_NOVUS]: 'amazonis-novus',
         [RandomBoardOption.OFFICIAL]: '',
         [RandomBoardOption.ALL]: '',
       };

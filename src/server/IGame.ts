@@ -185,10 +185,14 @@ export interface IGame extends Logger {
   temporarySolarPhase(player: IPlayer, cb: () => void): void;
   increaseOxygenLevel(player: IPlayer, increments: -2 | -1 | 1 | 2): void;
   getOxygenLevel(): number;
+  getMaxOxygen(): number;
   increaseVenusScaleLevel(player: IPlayer, increments: -1 | 1 | 2 | 3): number;
   getVenusScaleLevel(): number;
   increaseTemperature(player: IPlayer, increments: -2 | -1 | 1 | 2 | 3): undefined;
   getTemperature(): number;
+  getMaxTemperature(): number;
+  getMaxOceans(): number;
+  getMaxVenus(): number;
   getGeneration(): number;
   getPassedPlayers():ReadonlyArray<Color>;
   /**
