@@ -836,7 +836,7 @@ export default defineComponent({
       case BoardName.UTOPIA_PLANITIA:
         return 'create-game-board-hexagon create-game-utopia-planitia';
       case BoardName.VASTITAS_BOREALIS_NOVA:
-        return 'create-game-board-hexagon create-game-vastital-borealis-novus';
+        return 'create-game-board-hexagon create-game-vastitas-borealis-nova';
       case BoardName.AMAZONIS:
         return 'create-game-board-hexagon create-game-amazonis';
       case BoardName.ARABIA_TERRA:
@@ -864,11 +864,11 @@ export default defineComponent({
         [BoardName.ELYSIUM]: 'elysium',
         [BoardName.ARABIA_TERRA]: 'arabia-terra',
         [BoardName.UTOPIA_PLANITIA]: 'utopia-planitia',
-        [BoardName.VASTITAS_BOREALIS_NOVA]: 'vastitas-borealis-novus',
+        [BoardName.VASTITAS_BOREALIS_NOVA]: 'vastitas-borealis-nova',
         [BoardName.VASTITAS_BOREALIS]: 'vastitas-borealis',
         [BoardName.AMAZONIS]: 'amazonis-planatia',
         [BoardName.TERRA_CIMMERIA]: 'terra-cimmeria',
-        [BoardName.TERRA_CIMMERIA_NOVA]: 'terra-cimmeria-novus',
+        [BoardName.TERRA_CIMMERIA_NOVA]: 'terra-cimmeria-nova',
         [BoardName.HOLLANDIA]: 'hollandia',
         [RandomBoardOption.OFFICIAL]: '',
         [RandomBoardOption.ALL]: '',
