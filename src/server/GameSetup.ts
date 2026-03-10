@@ -30,7 +30,7 @@ const BOARD_RENAMES = new Map<string, BoardName>([
   ['terra cimmeria novus', BoardName.TERRA_CIMMERIA_NOVA],
 ]);
 
-function normalizeBoardName(name: string): BoardName {
+export function normalizeBoardName(name: string): BoardName {
   return BOARD_RENAMES.get(name) ?? name as BoardName;
 }
 
@@ -50,14 +50,14 @@ const boards: Record<BoardName, BoardFactory> = {
 
 export class GameSetup {
   public static newBoard(gameOptions: GameOptions, rng: Random): MarsBoard {
-    const factory = boards[normalizeBoardName(gameOptions.boardName)];
+    const factory = boards[gameOptions.boardName];
     return factory.newInstance(gameOptions, rng);
   }
 
   public static deserializeBoard(players: Array<IPlayer>, gameOptions: GameOptions, d: SerializedGame) {
     const playersForBoard = players.length !== 1 ? players : [players[0], GameSetup.neutralPlayerFor(d.id)];
     const deserialized = Board.deserialize(d.board, playersForBoard).spaces;
-    const Factory: BoardFactory = boards[normalizeBoardName(gameOptions.boardName)];
+    const Factory: BoardFactory = boards[gameOptions.boardName];
     return new Factory(deserialized);
   }
 
