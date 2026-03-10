@@ -16,8 +16,8 @@ import {SerializedGame} from './SerializedGame';
 import {TerraCimmeriaBoard} from './boards/TerraCimmeriaBoard';
 import {AmazonisBoard} from './boards/AmazonisBoard';
 import {UtopiaPlanitiaBoard} from './boards/UtopiaPlanitiaBoard';
-import {VastitasBorealisNovusBoard} from './boards/VastitasBorealisNovusBoard';
-import {TerraCimmeriaNovusBoard} from './boards/TerraCimmeriaNovusBoard';
+import {VastitasBorealisNovaBoard} from './boards/VastitasBorealisNovaBoard';
+import {TerraCimmeriaNovaBoard} from './boards/TerraCimmeriaNovaBoard';
 import {Board} from './boards/Board';
 import {Space} from './boards/Space';
 import {Hollandia} from './boards/Hollandia';
@@ -29,8 +29,8 @@ const boards: Record<BoardName, BoardFactory> = {
   [BoardName.HELLAS]: HellasBoard,
   [BoardName.ELYSIUM]: ElysiumBoard,
   [BoardName.UTOPIA_PLANITIA]: UtopiaPlanitiaBoard,
-  [BoardName.VASTITAS_BOREALIS_NOVUS]: VastitasBorealisNovusBoard,
-  [BoardName.TERRA_CIMMERIA_NOVUS]: TerraCimmeriaNovusBoard,
+  [BoardName.VASTITAS_BOREALIS_NOVA]: VastitasBorealisNovaBoard,
+  [BoardName.TERRA_CIMMERIA_NOVA]: TerraCimmeriaNovaBoard,
   [BoardName.AMAZONIS]: AmazonisBoard,
   [BoardName.ARABIA_TERRA]: ArabiaTerraBoard,
   [BoardName.TERRA_CIMMERIA]: TerraCimmeriaBoard,
