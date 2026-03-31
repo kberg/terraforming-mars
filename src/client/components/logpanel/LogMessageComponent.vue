@@ -6,7 +6,10 @@
       <span v-else>
         <span v-if="data.type === undefined || data.value === undefined"></span>
         <span v-else-if="data.type === LogMessageDataType.PLAYER" class="log-player" :class="'player_bg_color_' + data.value"> {{ getPlayerName(data.value) }} </span>
-        <span v-else-if="data.type === LogMessageDataType.CARD" v-html="cardToHtml(data)"></span>
+        <LogCard v-else-if="data.type === LogMessageDataType.CARD"
+                 :cardName="data.value"
+                 :showTags="data.attrs?.tags === true"
+                 :showCost="data.attrs?.cost === true" />
         <span v-else-if="data.type === LogMessageDataType.GLOBAL_EVENT" class="log-card background-color-global-event" v-i18n>
           {{data.value}}
         </span>
@@ -25,7 +28,16 @@
             </svg>
             {{ getSpaceName(data.value) }}
         </span>
-        <span v-else-if="data.type === LogMessageDataType.CARDS" v-html="cardsToHtml(data)"></span>
+        <template v-else-if="data.type === LogMessageDataType.CARDS">
+          <span v-if="data.attrs?.ellipsis" class="log-card background-color-standard-project">...</span>
+          <template v-else>
+            <template v-for="(cardName, cardIdx) in data.value" :key="cardIdx">
+              <LogCard :cardName="cardName"
+                       :showTags="data.attrs?.tags === true"
+                       :showCost="data.attrs?.cost === true" />{{ ' ' }}
+            </template>
+          </template>
+        </template>
 
         <span v-else-if="data.type === LogMessageDataType.RAW_STRING">{{ data.value }}</span>
         <span v-else v-i18n>{{ data.value }}</span>
@@ -38,33 +50,19 @@
 
 import {defineComponent} from 'vue';
 import {Color} from '@/common/Color';
-import {CardName} from '@/common/cards/CardName';
-import {CardType} from '@/common/cards/CardType';
 import {LogMessage} from '@/common/logs/LogMessage';
 import {LogMessageType} from '@/common/logs/LogMessageType';
-import {LogMessageData, LogMessageDataAttrs} from '@/common/logs/LogMessageData';
 import {LogMessageDataType} from '@/common/logs/LogMessageDataType';
 import {ViewModel} from '@/common/models/PlayerModel';
 import {tileTypeToString} from '@/common/TileType';
 import {Log} from '@/common/logs/Log';
-import {getCard} from '@/client/cards/ClientCardManifest';
 import {undergroundResourceTokenDescription} from '@/common/underworld/UndergroundResourceToken';
 import {isMoonSpace, getSpaceName} from '@/common/boards/spaces';
-
-const cardTypeToCss: Record<CardType, string | undefined> = {
-  event: 'background-color-events',
-  corporation: 'background-color-corporation',
-  active: 'background-color-active',
-  automated: 'background-color-automated',
-  prelude: 'background-color-prelude',
-  ceo: 'background-color-ceo',
-  standard_project: 'background-color-standard-project',
-  standard_action: 'background-color-standard-project',
-  proxy: undefined,
-};
+import LogCard from '@/client/components/logpanel/LogCard.vue';
 
 export default defineComponent({
   name: 'LogMessageComponent',
+  components: {LogCard},
   props: {
     message: {
       type: Object as () => LogMessage,
@@ -76,39 +74,6 @@ export default defineComponent({
     },
   },
   methods: {
-    cardToHtml(data: LogMessageData & {type: LogMessageDataType.CARD, value: CardName}) {
-      return this.innerCardToHtml(data.value, data.attrs);
-    },
-    cardsToHtml(data: LogMessageData & {type: LogMessageDataType.CARDS, value: ReadonlyArray<CardName>}) {
-      if (data.attrs?.ellipsis) {
-        return '<span class="log-card background-color-standard-project">...</span>';
-      } else {
-        return data.value.map((cardName) => this.innerCardToHtml(cardName, data.attrs)).join(' ');
-      }
-    },
-    innerCardToHtml(cardName: CardName, attrs?: LogMessageDataAttrs) {
-      const card = getCard(cardName);
-      if (card === undefined) {
-        return '';
-      }
-
-      const suffixFreeCardName = card.name.split(':')[0];
-      const className = cardTypeToCss[card.type];
-
-      if (className === undefined) {
-        return suffixFreeCardName;
-      }
-      let tagHTML = '';
-      if (attrs?.tags === true) {
-        tagHTML = '&nbsp;' + (card.tags.map((tag) => `<div class="log-tag tag-${tag}"></div>`).join(' '));
-      }
-
-      let costHTML = '';
-      if (attrs?.cost === true) {
-        costHTML = `<span>&nbsp;<div class="log-resource-megacredits">${card.cost}</div></span>`;
-      }
-      return '<span class="log-card '+ className + '">' + this.$t(suffixFreeCardName) + tagHTML + costHTML +'</span>';
-    },
     getPlayerName(color: Color) {
       const player = this.viewModel.players.find((player) => player.color === color);
       return player?.name ?? color;
