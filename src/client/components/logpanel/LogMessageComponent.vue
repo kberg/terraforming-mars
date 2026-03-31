@@ -1,6 +1,6 @@
 <template>
    <li v-if="message !== undefined && message.data !== undefined && message.message !== undefined" v-on:click.prevent="$emit('click')">
-    <span v-if="message.type !== LogMessageType.NEW_GENERATION" :title="when" v-html="icon"></span>
+    <span v-if="message.type !== LogMessageType.NEW_GENERATION" :title="when">{{ icon }}</span>
     <template v-for="(data, idx) of entries" :key="idx">
       <span class="log-plain-text" v-if="typeof(data) === 'string'">{{ data }}</span>
       <span v-else>
@@ -128,10 +128,9 @@ export default defineComponent({
     when() {
       return new Date(this.message.timestamp).toLocaleString();
     },
-    icon() {
-      return this.message.playerId === undefined ? '&#x1f551;' : '&#x1f4ac;';
+    icon(): string {
+      return this.message.playerId === undefined ? '\u{1F551}' : '\u{1F4AC}';
     },
-
     LogMessageType(): typeof LogMessageType {
       return LogMessageType;
     },

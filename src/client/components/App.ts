@@ -111,7 +111,7 @@ export default defineComponent({
       const messageElement: HTMLElement | null = document.getElementById('alert-dialog-message');
       const titleElement: HTMLElement | null = document.getElementById('alert-dialog-title');
       if (buttonElement !== null && titleElement !== null && messageElement !== null && dialogElement !== null && hasShowModal(dialogElement)) {
-        messageElement.innerHTML = $t(message);
+        messageElement.textContent = $t(message);
         titleElement.textContent = $t(title);
         const handler = () => {
           buttonElement.removeEventListener('click', handler);
