@@ -1,7 +1,9 @@
 <template>
   <div class="card-item-container">
     <div class="card-res-amount" v-if="item.showDigit">{{ amountAbs }}</div>
-    <div :class="componentClasses" v-for="index in itemsToShow" v-html="itemHtmlContent" :key="index"/>
+    <div :class="componentClasses" v-for="index in itemsToShow" :key="index">
+      <CardRenderItemContent :item="item" />
+    </div>
     <div class="card-over" v-if="item.over !== undefined">over {{item.over}}</div>
   </div>
 </template>
@@ -12,12 +14,13 @@ import {defineComponent} from 'vue';
 import {CardRenderItemType} from '@/common/cards/render/CardRenderItemType';
 import {AltSecondaryTag} from '@/common/cards/render/AltSecondaryTag';
 import {Size} from '@/common/cards/render/Size';
-import {Tag} from '@/common/cards/Tag';
-import {ICardRenderItem, isICardRenderItem} from '@/common/cards/render/Types';
+import {ICardRenderItem} from '@/common/cards/render/Types';
 import {cardResourceCSS} from '../common/cardResources';
+import CardRenderItemContent from './CardRenderItemContent.vue';
 
 export default defineComponent({
   name: 'CardRenderItemComponent',
+  components: {CardRenderItemContent},
   props: {
     item: {
       type: Object as () => ICardRenderItem,
@@ -303,89 +306,6 @@ export default defineComponent({
     itemsToShow(): number {
       if (this.item.showDigit) return 1;
       return this.amountAbs;
-    },
-    // Oooh this is begging to be a template or something.
-    itemHtmlContent(): string {
-      let result = '';
-      // in case of symbols inside
-      if (isICardRenderItem(this.item)) {
-        if (this.item.innerText) {
-          result += this.item.innerText;
-        } else if (this.item.amountInside) {
-          if (this.item.amount !== 0) {
-            result += this.item.amount.toString();
-          }
-
-          if (this.item.clone) {
-            result += '<div style="-webkit-filter: greyscale(100%);filter: grayscale(100%)">🪐</div>';
-          }
-        }
-      }
-
-      const previouslyRendered: Array<Tag | AltSecondaryTag> = [
-        AltSecondaryTag.OXYGEN,
-        AltSecondaryTag.MOON_HABITAT_RATE,
-        AltSecondaryTag.MOON_MINING_RATE,
-        AltSecondaryTag.MOON_LOGISTICS_RATE,
-      ];
-      // Oxygen is handled specially separately.
-      const secondaryTag = this.item.secondaryTag;
-      if (secondaryTag !== undefined && !previouslyRendered.includes(secondaryTag)) {
-        result += '<div class="card-icon card-tag-' + secondaryTag + '"></div>';
-      }
-      if (this.item.isPlate || this.item.text !== undefined) {
-        result += this.item.text || 'n/a';
-      }
-      if (this.item.type === CardRenderItemType.MULTIPLIER_WHITE) {
-        result = 'X';
-      } else if (this.item.type === CardRenderItemType.IGNORE_GLOBAL_REQUIREMENTS) {
-        result += '<div class="card-project-requirements">';
-        result += '<div class="card-x">x</div>';
-        result += '<div class="card-requirements">Global Requirements</div>';
-        result += '</div>';
-      }
-      if (this.item.type === CardRenderItemType.SELF_REPLICATING) {
-        result = '<div class="card-resource card-card"><div class="cards-count">2</div><div class="card-icon card-icon-space">✴</div><div class="card-icon card-icon-building">☗</div></div>';
-      }
-      if (this.item.type === CardRenderItemType.COLONY_TILE) {
-        result = '<span class="card-colony-tile">colony</span>';
-      }
-      if (this.item.type === CardRenderItemType.PRELUDE) {
-        result = '<div class="card-prelude-container"><span class="card-prelude-icon">prel</span></div>';
-      }
-      if (this.item.type === CardRenderItemType.CORPORATION) {
-        result = '<div class="card-corporation-icon"></div>';
-      }
-      if (this.item.type === CardRenderItemType.FIRST_PLAYER) {
-        result = '<div class="card-first-player-icon"></div>';
-      }
-      if (this.item.type === CardRenderItemType.RULING_PARTY) {
-        result = '<div class="card-party-icon"></div>';
-      }
-      if (this.item.type === CardRenderItemType.AWARD) {
-        result = '<span class="card-award-icon">award</span>';
-      }
-      if (this.item.type === CardRenderItemType.MILESTONE) {
-        result = '<span class="card-award-icon">milestone</span>';
-      }
-      if (this.item.type === CardRenderItemType.VP) {
-        result = '<div class="card-resource points-big card-vp-questionmark">?</div>';
-      }
-      if (this.item.type === CardRenderItemType.MEGACREDITS && this.item.amount === undefined) {
-        result = '?';
-      }
-      // TODO(chosta): abstract once another case of cancel (X) on top of an item is needed
-      if (this.item.cancelled === true) {
-        switch (this.item.type) {
-        case CardRenderItemType.TR:
-        case CardRenderItemType.WILD:
-        case CardRenderItemType.UNDERGROUND_RESOURCES:
-        case CardRenderItemType.TRADE:
-          result = '<div class="card-x">x</div>';
-        }
-      }
-
-      return result;
     },
   },
 });
