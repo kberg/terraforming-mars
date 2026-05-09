@@ -72,3 +72,13 @@ export type SerializedGame = {
     venusScaleLevel: number;
     verminInEffect: boolean;
 }
+
+export function isSerializedGame(v: unknown): v is SerializedGame {
+  if (typeof v !== 'object' || v === null) {
+    return false;
+  }
+  const g = v as Record<string, unknown>;
+  return typeof g['id'] === 'string' &&
+    Array.isArray(g['players']) &&
+    typeof g['gameOptions'] === 'object' && g['gameOptions'] !== null;
+}
