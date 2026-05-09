@@ -1,8 +1,8 @@
 import {GameIdLedger, IDatabase} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId} from '../../common/Types';
-import {SerializedGame} from '../SerializedGame';
+import {GameId, ParticipantId, safeCast} from '../../common/Types';
+import {isSerializedGame, SerializedGame} from '../SerializedGame';
 import {Session} from '../auth/Session';
 import {toID} from '../../common/utils/utils';
 
@@ -68,7 +68,7 @@ export class LocalStorage implements IDatabase {
       if (text === null) {
         throw new Error('game not found ' + gameId);
       }
-      const serializedGame = JSON.parse(text.toString());
+      const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
       return Promise.resolve(serializedGame);
     } catch (e) {
       const error = e instanceof Error ? e : new Error(String(e));
@@ -108,7 +108,7 @@ export class LocalStorage implements IDatabase {
       if (text === null) {
         throw new Error('game not found');
       }
-      const serializedGame = JSON.parse(text.toString());
+      const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
       return Promise.resolve(serializedGame);
     } catch (e) {
       console.log(e);
@@ -121,7 +121,7 @@ export class LocalStorage implements IDatabase {
     if (text === null) {
       return Promise.reject(new Error('game not found ' + gameId));
     }
-    const serializedGame = JSON.parse(text.toString()) as SerializedGame;
+    const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
     return Promise.resolve(serializedGame.players.length);
   }
 

@@ -1,8 +1,8 @@
 import {GameIdLedger, IDatabase} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, isGameId, ParticipantId} from '../../common/Types';
-import {SerializedGame} from '../SerializedGame';
+import {GameId, isGameId, ParticipantId, safeCast} from '../../common/Types';
+import {isSerializedGame, SerializedGame} from '../SerializedGame';
 import {Dirent, existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from 'fs';
 import {Session, SessionId} from '../auth/Session';
 import {toID} from '../../common/utils/utils';
@@ -69,7 +69,7 @@ export class LocalFilesystem implements IDatabase {
     try {
       console.log(`Loading ${gameId}`);
       const text = readFileSync(this.filename(gameId));
-      const serializedGame = JSON.parse(text.toString());
+      const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
       return Promise.resolve(serializedGame);
     } catch (e) {
       const error = e instanceof Error ? e : new Error(String(e));
@@ -108,7 +108,7 @@ export class LocalFilesystem implements IDatabase {
         console.log(`Loading ${gameId} at ${saveId}`);
       }
       const text = readFileSync(this.historyFilename(gameId, saveId));
-      const serializedGame = JSON.parse(text.toString());
+      const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
       return Promise.resolve(serializedGame);
     } catch (e) {
       console.log(e);
@@ -123,7 +123,7 @@ export class LocalFilesystem implements IDatabase {
       throw new Error(`${gameId} not found`);
     }
     const text = readFileSync(this.historyFilename(gameId, 0));
-    const serializedGame = JSON.parse(text.toString()) as SerializedGame;
+    const serializedGame = safeCast(JSON.parse(text.toString()), isSerializedGame);
     return serializedGame.players.length;
   }
 

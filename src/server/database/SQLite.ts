@@ -5,8 +5,8 @@ import BetterSqlite3 = require('better-sqlite3');
 import {GameIdLedger, IDatabase} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
-import {GameId, ParticipantId} from '../../common/Types';
-import {SerializedGame} from '../SerializedGame';
+import {GameId, ParticipantId, safeCast} from '../../common/Types';
+import {isSerializedGame, SerializedGame} from '../SerializedGame';
 import {daysAgoToSeconds} from './utils';
 import {MultiMap} from 'mnemonist';
 import {Session, SessionId} from '../auth/Session';
@@ -91,7 +91,7 @@ export class SQLite implements IDatabase {
     if (row === undefined) {
       throw new Error(`bad game id ${gameId}`);
     }
-    return JSON.parse(row.game);
+    return safeCast(JSON.parse(row.game), isSerializedGame);
   }
 
   public async getGameId(participantId: ParticipantId): Promise<GameId> {
@@ -121,7 +121,7 @@ export class SQLite implements IDatabase {
     if (row === undefined || row.game_id === undefined || row.game === undefined) {
       throw new Error(`Game ${gameId} not found`);
     }
-    return JSON.parse(row.game);
+    return safeCast(JSON.parse(row.game), isSerializedGame);
   }
 
   async getMaxSaveId(gameId: GameId): Promise<number> {

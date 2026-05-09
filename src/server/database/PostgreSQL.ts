@@ -3,7 +3,7 @@ import {IDatabase} from './IDatabase';
 import {IGame, Score} from '../IGame';
 import {GameOptions} from '../game/GameOptions';
 import {GameId, ParticipantId, isGameId, safeCast} from '../../common/Types';
-import {SerializedGame} from '../SerializedGame';
+import {isSerializedGame, SerializedGame} from '../SerializedGame';
 import {daysAgoToSeconds, stringToNumber} from './utils';
 import {GameIdLedger} from './IDatabase';
 import {Session, SessionId} from '../auth/Session';
@@ -147,9 +147,9 @@ export class PostgreSQL implements IDatabase {
       const gameLog = JSON.parse(log);
       gameLog.length = logLength;
       const gameOptions = JSON.parse(options);
-      return {...remainder, gameOptions, gameLog};
+      return safeCast({...remainder, gameOptions, gameLog}, isSerializedGame);
     } else {
-      return remainder as SerializedGame;
+      return safeCast(remainder, isSerializedGame);
     }
   }
 
