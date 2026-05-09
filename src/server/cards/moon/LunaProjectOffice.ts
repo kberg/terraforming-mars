@@ -6,6 +6,8 @@ import {Tag} from '../../../common/cards/Tag';
 import {CardRenderer} from '../render/CardRenderer';
 import {Card} from '../Card';
 import {Size} from '../../../common/cards/render/Size';
+import {SerializedCard} from '../../SerializedCard';
+import {JSONObject} from '../../../common/Types';
 
 export class LunaProjectOffice extends Card implements IProjectCard {
   constructor() {
@@ -27,6 +29,16 @@ export class LunaProjectOffice extends Card implements IProjectCard {
   }
 
   public data: {lastEffectiveGeneration: number} = {lastEffectiveGeneration: -1};
+
+  public deserialize(element: SerializedCard): void {
+    const d = element.data;
+    if (typeof d === 'object' && d !== null && !Array.isArray(d)) {
+      const n = (d as JSONObject)['lastEffectiveGeneration'];
+      if (typeof n === 'number') {
+        this.data = {lastEffectiveGeneration: n};
+      }
+    }
+  }
 
   public override bespokePlay(player: IPlayer) {
     this.data.lastEffectiveGeneration = player.game.generation + 2;

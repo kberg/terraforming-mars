@@ -6,6 +6,8 @@ import {Card} from '../Card';
 import {Tag} from '../../../common/cards/Tag';
 import {IPlayer} from '../../IPlayer';
 import {IStandardProjectCard} from '../IStandardProjectCard';
+import {SerializedCard} from '../../SerializedCard';
+import {JSONObject} from '../../../common/Types';
 
 export class LaborTrafficking extends Card implements IProjectCard {
   constructor() {
@@ -31,6 +33,16 @@ export class LaborTrafficking extends Card implements IProjectCard {
   }
 
   public data: {generation: number} = {generation: -1};
+
+  public deserialize(element: SerializedCard): void {
+    const d = element.data;
+    if (typeof d === 'object' && d !== null && !Array.isArray(d)) {
+      const n = (d as JSONObject)['generation'];
+      if (typeof n === 'number') {
+        this.data = {generation: n};
+      }
+    }
+  }
 
   onStandardProject(player: IPlayer, project: IStandardProjectCard): void {
     if (project.name !== CardName.SELL_PATENTS_STANDARD_PROJECT) {

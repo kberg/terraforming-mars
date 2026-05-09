@@ -13,6 +13,8 @@ import {SelectPaymentDeferred} from '../../deferredActions/SelectPaymentDeferred
 import {message} from '../../logs/MessageBuilder';
 import {TITLES} from '../../inputs/titles';
 import {Priority} from '../../deferredActions/Priority';
+import {SerializedCard} from '../../SerializedCard';
+import {JSONObject} from '../../../common/Types';
 
 const INVALID_TAGS = [
   Tag.EVENT,
@@ -38,6 +40,17 @@ export class Faraday extends CeoCard {
   public data: {counts: Partial<Record<Tag, number>>} = {
     counts: {},
   };
+
+  public override deserialize(element: SerializedCard): void {
+    super.deserialize(element);
+    const d = element.data;
+    if (typeof d === 'object' && d !== null && !Array.isArray(d)) {
+      const counts = (d as JSONObject)['counts'];
+      if (typeof counts === 'object' && counts !== null && !Array.isArray(counts)) {
+        this.data = {counts: counts as Partial<Record<Tag, number>>};
+      }
+    }
+  }
 
   public onCardPlayed(player: IPlayer, card: ICard) {
     if (card.tags.length === 0 || card.type === CardType.EVENT) {

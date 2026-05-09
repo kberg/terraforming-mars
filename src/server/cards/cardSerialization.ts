@@ -62,9 +62,6 @@ export function deserializeProjectCard(element: SerializedCard): IProjectCard {
   if (element.resourceCount !== undefined) {
     card.resourceCount = element.resourceCount;
   }
-  if (card.hasOwnProperty('data')) {
-    card.data = element.data;
-  }
   if (element.generationUsed !== undefined) {
     card.generationUsed = element.generationUsed;
   }

@@ -11,6 +11,8 @@ import {PlayerInput} from '../../PlayerInput';
 import {Resource} from '../../../common/Resource';
 import {message} from '../../logs/MessageBuilder';
 import {all} from '../Options';
+import {SerializedCard} from '../../SerializedCard';
+import {JSONObject} from '../../../common/Types';
 
 export class SpacePrivateers extends Card implements IProjectCard, IActionCard {
   constructor() {
@@ -45,6 +47,18 @@ export class SpacePrivateers extends Card implements IProjectCard, IActionCard {
     action: 0,
     rejected: false,
   };
+
+  public deserialize(element: SerializedCard): void {
+    const d = element.data;
+    if (typeof d === 'object' && d !== null && !Array.isArray(d)) {
+      const obj = d as JSONObject;
+      const action = obj['action'];
+      const rejected = obj['rejected'];
+      if (typeof action === 'number' && typeof rejected === 'boolean') {
+        this.data = {action, rejected};
+      }
+    }
+  }
 
   canAct(player: IPlayer): boolean {
     return this.resourceCount > 0 && player.game.isSoloMode() === false;

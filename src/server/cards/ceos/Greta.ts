@@ -6,6 +6,8 @@ import {CeoCard} from './CeoCard';
 import {Resource} from '../../../common/Resource';
 import {Phase} from '../../../common/Phase';
 import {ICeoCard} from './ICeoCard';
+import {SerializedCard} from '../../SerializedCard';
+import {JSONObject} from '../../../common/Types';
 
 export class Greta extends CeoCard implements ICeoCard {
   constructor() {
@@ -27,6 +29,17 @@ export class Greta extends CeoCard implements ICeoCard {
   public data = {
     effectTriggerCount: 0,
   };
+
+  public override deserialize(element: SerializedCard): void {
+    super.deserialize(element);
+    const d = element.data;
+    if (typeof d === 'object' && d !== null && !Array.isArray(d)) {
+      const n = (d as JSONObject)['effectTriggerCount'];
+      if (typeof n === 'number') {
+        this.data = {effectTriggerCount: n};
+      }
+    }
+  }
 
   public action(): PlayerInput | undefined {
     this.opgActionIsActive = true;
