@@ -189,24 +189,7 @@
       background-position: -1px -1px;
       box-shadow: 0 1px 1px 1px black;
     }
-    // Option 1: requirement-style border on the hand discount, with a hover breakdown.
-    .hand-discount--conditional {
-      .megacredits-container .megacredits {
-        border-radius: @radius_circle;
-        box-shadow: 0 0 0 2px rgb(243, 161, 14), 0 0 0 3px rgb(253, 234, 37);
-      }
-      &:hover .hand-discount-popover {
-        display: block;
-      }
-    }
-    .hand-discount-popover {
-      display: none;
-      position: absolute;
-      top: 6px;
-      right: -6px;
-      z-index: 100;
-    }
-    // Option 2: a button that opens a list of all discounts.
+    // A button that opens a list of all discounts.
     .player-discounts {
       position: relative;
       align-self: flex-start;

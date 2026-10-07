@@ -1,4 +1,4 @@
-<!-- Option 2: a button that shows every discount the player has. -->
+<!-- A button that shows every discount the player has. -->
 <template>
   <div class="player-discounts">
     <button class="player-discounts-button" :title="$t('Discounts')" @click="open = !open">

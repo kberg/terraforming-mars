@@ -8,7 +8,7 @@
             <TagCount tag="tr" :count="player.terraformRating" :size="'big'" :type="'main'"/>
             <TagCount v-if="player.handicap !== undefined" :tag="'handicap'" :count="player.handicap" :size="'big'" :type="'main'" :showWhenZero="true"/>
             <div class="tag-and-discount">
-              <HandDiscount v-if="allDiscount || conditionalDiscounts.length > 0" :amount="allDiscount" :conditional="conditionalDiscounts" :data-test="'discount-all'"/>
+              <PlayerTagDiscount v-if="allDiscount" :amount="allDiscount" :color="player.color"  :data-test="'discount-all'"/>
               <TagCount tag="cards" :count="cardsInHandCount" :size="'big'" :type="'main'"/>
             </div>
             <PlayerDiscounts v-if="discounts.length > 0" :discounts="discounts"/>
@@ -43,7 +43,6 @@ import {SpecialTags} from '@/client/cards/SpecialTags';
 import PlayerTagDiscount from '@/client/components/overview/PlayerTagDiscount.vue';
 import PointsPerTag from '@/client/components/overview/PointsPerTag.vue';
 import PlayerTagSubstitution from '@/client/components/overview/PlayerTagSubstitution.vue';
-import HandDiscount from '@/client/components/overview/HandDiscount.vue';
 import PlayerDiscounts from '@/client/components/overview/PlayerDiscounts.vue';
 import {DiscountSource, getDiscounts} from '@/client/components/overview/discounts';
 import {PartyName} from '@/common/turmoil/PartyName';
@@ -164,7 +163,6 @@ export default defineComponent({
     PlayerTagDiscount,
     PointsPerTag,
     PlayerTagSubstitution,
-    HandDiscount,
     PlayerDiscounts,
   },
   computed: {
@@ -252,9 +250,6 @@ export default defineComponent({
     },
     discounts(): Array<DiscountSource> {
       return getDiscounts(this.player, this.playerView.game);
-    },
-    conditionalDiscounts(): Array<DiscountSource> {
-      return this.discounts.filter((d) => d.conditional);
     },
     isThisPlayer(): boolean {
       return this.player.color === this.playerView.thisPlayer?.color;
