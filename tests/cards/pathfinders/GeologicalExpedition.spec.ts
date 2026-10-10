@@ -15,6 +15,7 @@ import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {SpaceName} from '../../../src/common/boards/SpaceName';
 import {TileType} from '../../../src/common/TileType';
 import {cast} from '../../../src/common/utils/utils';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
 
 describe('GeologicalExpedition', () => {
   let card: GeologicalExpedition;
@@ -61,6 +62,20 @@ describe('GeologicalExpedition', () => {
     expect(player.stock.asUnits()).deep.eq(Units.of({titanium: 2}));
     expect(microbeCard.resourceCount).eq(0);
     expect(scienceCard.resourceCount).eq(0);
+    cast(player.getWaitingFor(), undefined);
+  });
+
+  it('standard resource, choose it again', () => {
+    space.bonus = [SpaceBonus.STANDARD_RESOURCE];
+    game.addCity(player, space);
+    runAllActions(game);
+
+    // The space's bonus, then the additional one from this card.
+    cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: 'titanium'});
+    runAllActions(game);
+    cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: 'plants'});
+
+    expect(player.stock.asUnits()).deep.eq(Units.of({titanium: 1, plants: 1}));
     cast(player.getWaitingFor(), undefined);
   });
 
