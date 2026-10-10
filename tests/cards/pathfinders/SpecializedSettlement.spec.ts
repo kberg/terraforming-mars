@@ -14,6 +14,8 @@ import {SelectCard} from '../../../src/server/inputs/SelectCard';
 import {testGame} from '../../TestGame';
 import {OneOrArray} from '../../../src/common/utils/types';
 import {cast} from '../../../src/common/utils/utils';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
+import {Resource} from '../../../src/common/Resource';
 
 describe('SpecializedSettlement', () => {
   let card: SpecializedSettlement;
@@ -63,6 +65,50 @@ describe('SpecializedSettlement', () => {
       {plants: 1},
       {energy: 0, megacredits: 3, plants: 1});
     cast(player.popWaitingFor(), undefined);
+  });
+
+  for (const run of [
+    {choice: 'titanium', production: {energy: 0, megacredits: 3, titanium: 1}},
+    // M€ isn't one of the productions this card offers.
+    {choice: 'megacredits', production: {energy: 0, megacredits: 3}},
+  ] as const) {
+    it(`play - standard resource, choosing ${run.choice}`, () => {
+      // As Player.playCard does before the space is chosen, so the card learns the player's choice.
+      player.playedCards.push(card);
+      player.production.override({energy: 1});
+      const selectSpace = cast(card.play(player), SelectSpace);
+      runAllActions(game);
+
+      const space = selectSpace.spaces[0];
+      space.bonus = [SpaceBonus.STANDARD_RESOURCE];
+      selectSpace.cb(space);
+      runAllActions(game);
+      cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: run.choice});
+      runAllActions(game);
+
+      expect(player.production.asUnits()).deep.eq(Units.of(run.production));
+      cast(player.popWaitingFor(), undefined);
+    });
+  }
+
+  it('play - standard resource and plants, offers both', () => {
+    player.playedCards.push(card);
+    player.production.override({energy: 1});
+    const selectSpace = cast(card.play(player), SelectSpace);
+    runAllActions(game);
+
+    const space = selectSpace.spaces[0];
+    space.bonus = [SpaceBonus.PLANT, SpaceBonus.STANDARD_RESOURCE];
+    selectSpace.cb(space);
+    runAllActions(game);
+    cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: 'titanium'});
+    runAllActions(game);
+
+    const orOptions = cast(player.popWaitingFor(), OrOptions);
+    expect(orOptions.options.map((option) => option.title)).has.members([Resource.PLANTS, Resource.TITANIUM]);
+    orOptions.options.find((option) => option.title === Resource.TITANIUM)!.cb();
+    expect(player.production.asUnits()).deep.eq(Units.of({energy: 0, megacredits: 3, titanium: 1}));
+    expect(card.bonusResource).deep.eq([Resource.TITANIUM]);
   });
 
   it('play - heat', () => {

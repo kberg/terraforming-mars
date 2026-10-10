@@ -36,4 +36,10 @@ export class GeologicalSurvey extends SurveyCard {
     super.maybeRewardStandardResource(cardOwner, space, Resource.TITANIUM, SpaceBonus.TITANIUM);
     super.maybeRewardStandardResource(cardOwner, space, Resource.HEAT, SpaceBonus.HEAT);
   }
+
+  protected checkForChosenResource(cardOwner: IPlayer, space: Space, resource: Resource) {
+    super.maybeRewardChosenResource(cardOwner, space, resource, Resource.STEEL, SpaceBonus.STEEL);
+    super.maybeRewardChosenResource(cardOwner, space, resource, Resource.TITANIUM, SpaceBonus.TITANIUM);
+    super.maybeRewardChosenResource(cardOwner, space, resource, Resource.HEAT, SpaceBonus.HEAT);
+  }
 }

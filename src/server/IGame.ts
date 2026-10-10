@@ -233,8 +233,12 @@ export interface IGame extends Logger {
   /**
    * Gives all the bonuses from a space on the map.
    */
-  grantSpaceBonuses(player: IPlayer, space: Space): void;
-  grantSpaceBonus(player: IPlayer, spaceBonus: SpaceBonus, count?: number): void;
+  grantSpaceBonuses(player: IPlayer, space: Space, tilePlaced?: boolean): void;
+  /**
+   * Gives one bonus. `placedOn` is the space a tile was just placed on, when that placement is what
+   * grants the bonus.
+   */
+  grantSpaceBonus(player: IPlayer, spaceBonus: SpaceBonus, count?: number, placedOn?: Space): void;
   addGreenery(player: IPlayer, space: Space, shouldRaiseOxygen?: boolean): void;
   addCity(player: IPlayer, space: Space, cardName?: CardName | undefined): void;
   canAddOcean(): boolean;

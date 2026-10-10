@@ -17,6 +17,7 @@ import {testGame} from '../../TestGame';
 import {MAX_OXYGEN_LEVEL, MAX_TEMPERATURE} from '../../../src/common/constants';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {cast} from '../../../src/common/utils/utils';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
 
 describe('EcologicalSurvey', () => {
   let card: EcologicalSurvey;
@@ -122,6 +123,18 @@ describe('EcologicalSurvey', () => {
     expect(player.heat).eq(1);
     expect(player.plants).eq(2);
     expect(player.cardsInHand).is.length(1);
+  });
+
+  it('Works with a standard resource space bonus, choosing plants', () => {
+    const space = game.board.getAvailableSpacesOnLand(player)[0];
+    space.bonus = [SpaceBonus.STANDARD_RESOURCE];
+    player.playedCards.set(card);
+    game.addTile(player, space, {tileType: TileType.RESTRICTED_AREA});
+    runAllActions(game);
+    cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: 'plants'});
+    runAllActions(game);
+
+    expect(player.plants).eq(2);
   });
 
   it('Bonus not granted when overplacing', () => {

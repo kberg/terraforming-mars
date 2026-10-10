@@ -6,6 +6,7 @@ import {CardName} from '../../../common/cards/CardName';
 import {IPlayer} from '../../IPlayer';
 import {SelectSpace} from '../../inputs/SelectSpace';
 import {Space} from '../../boards/Space';
+import {SpaceId} from '../../../common/Types';
 import {Resource} from '../../../common/Resource';
 import {CardRenderer} from '../render/CardRenderer';
 import {SpaceBonus} from '../../../common/boards/SpaceBonus';
@@ -38,6 +39,8 @@ export class SpecializedSettlement extends Card implements IProjectCard {
   }
 
   public bonusResource: Array<Resource> | undefined;
+  // The resource the player chose from the city space's standard resource placement bonus.
+  private chosenStandardResource: {spaceId: SpaceId, resource: Resource | undefined} | undefined;
 
   public override bespokeCanPlay(player: IPlayer): boolean {
     if (player.game.board.getAvailableSpacesForCity(player).length === 0) {
@@ -54,6 +57,12 @@ export class SpecializedSettlement extends Card implements IProjectCard {
     const resources: Set<Resource> = new Set();
     space.bonus.forEach((bonus) => {
       switch (bonus) {
+      case SpaceBonus.STANDARD_RESOURCE:
+        const chosen = this.chosenStandardResource?.spaceId === space.id ? this.chosenStandardResource.resource : undefined;
+        if (chosen !== undefined && chosen !== Resource.MEGACREDITS) {
+          resources.add(chosen);
+        }
+        break;
       case SpaceBonus.STEEL:
         resources.add(Resource.STEEL);
         break;
@@ -84,28 +93,30 @@ export class SpecializedSettlement extends Card implements IProjectCard {
       .andThen((space) => {
         const coveringExistingTile = space.tile !== undefined;
 
+        if (space.bonus.includes(SpaceBonus.STANDARD_RESOURCE)) {
+          this.chosenStandardResource = {spaceId: space.id, resource: undefined};
+        }
         player.game.addCity(player, space);
 
         if (coveringExistingTile) {
           return;
         }
-        const bonusResources = this.bonusResources(space);
-        if (bonusResources.length === 0) {
-          return;
-        }
-
-        player.game.defer(new SelectResourceTypeDeferred(
-          player, bonusResources,
-          'Select a resource to gain 1 unit of production'))
-          .andThen(
-            (resource) => {
-              player.production.add(resource, 1, {log: true});
-              this.bonusResource = [resource];
-            },
-          );
+        // Deferred so it follows the player's choice from a standard resource placement bonus.
+        player.defer(() => {
+          const bonusResources = this.bonusResources(space);
+          this.chosenStandardResource = undefined;
+          this.produceForTile(player, bonusResources);
+          return undefined;
+        });
         return undefined;
       },
       );
+  }
+
+  public onStandardResourcePlacementBonus(_cardOwner: IPlayer, _activePlayer: IPlayer, space: Space, resource: Resource) {
+    if (this.chosenStandardResource?.spaceId === space.id) {
+      this.chosenStandardResource.resource = resource;
+    }
   }
 
   public readonly defaultProductionBox = Units.of({energy: -1, megacredits: 3});

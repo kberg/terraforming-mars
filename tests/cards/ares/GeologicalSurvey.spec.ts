@@ -18,6 +18,7 @@ import {PartyName} from '../../../src/common/turmoil/PartyName';
 import {MAX_TEMPERATURE, MAX_OXYGEN_LEVEL} from '../../../src/common/constants';
 import {OrOptions} from '../../../src/server/inputs/OrOptions';
 import {cast} from '../../../src/common/utils/utils';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
 
 describe('GeologicalSurvey', () => {
   let card: GeologicalSurvey;
@@ -132,6 +133,26 @@ describe('GeologicalSurvey', () => {
     expect(player.plants).eq(1);
     expect(player.cardsInHand).is.length(1);
   });
+
+  for (const run of [
+    {name: 'a standard resource', bonus: [SpaceBonus.STANDARD_RESOURCE], choice: 'titanium', expected: {titanium: 2, plants: 0}},
+    {name: 'a standard resource', bonus: [SpaceBonus.STANDARD_RESOURCE], choice: 'plants', expected: {titanium: 0, plants: 1}},
+    // The titanium bonus already earns the extra titanium; choosing titanium does not earn it again.
+    {name: 'a titanium and a standard resource', bonus: [SpaceBonus.TITANIUM, SpaceBonus.STANDARD_RESOURCE], choice: 'titanium', expected: {titanium: 3, plants: 0}},
+  ] as const) {
+    it(`Works with ${run.name} space bonus, choosing ${run.choice}`, () => {
+      const space = game.board.getAvailableSpacesOnLand(player)[0];
+      space.bonus = [...run.bonus];
+      player.playedCards.set(card);
+      game.addTile(player, space, {tileType: TileType.RESTRICTED_AREA});
+      runAllActions(game);
+      cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: run.choice});
+      runAllActions(game);
+
+      expect(player.titanium).eq(run.expected.titanium);
+      expect(player.plants).eq(run.expected.plants);
+    });
+  }
 
   it('Works with Mars First policy', () => {
     [game, player] = testGame(2, {turmoilExtension: true});

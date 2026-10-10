@@ -37,4 +37,8 @@ export class EcologicalSurvey extends SurveyCard {
     super.maybeRewardCardResource(cardOwner, space, CardResource.MICROBE, SpaceBonus.MICROBE);
     super.maybeRewardCardResource(cardOwner, space, CardResource.ANIMAL, SpaceBonus.ANIMAL);
   }
+
+  protected checkForChosenResource(cardOwner: IPlayer, space: Space, resource: Resource) {
+    super.maybeRewardChosenResource(cardOwner, space, resource, Resource.PLANTS, SpaceBonus.PLANT);
+  }
 }

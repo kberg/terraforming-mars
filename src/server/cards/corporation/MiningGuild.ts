@@ -47,27 +47,44 @@ export class MiningGuild extends CorporationCard implements ICorporationCard {
     });
   }
 
+  private applies(cardOwner: IPlayer, activePlayer: IPlayer, space: Space): boolean {
+    if (cardOwner.id !== activePlayer.id || cardOwner.game.phase === Phase.SOLAR) {
+      return false;
+    }
+    // Don't grant a bonus for Mars Nomads (no tile actually placed)
+    if (cardOwner.game.nomadSpace === space.id && space.tile === undefined) {
+      return false;
+    }
+    // Don't grant a bonus if the card is overplaced (like Ares Ocean City)
+    if (space.tile?.covers !== undefined) {
+      return false;
+    }
+    return true;
+  }
+
+  private givesSteelOrTitanium(cardOwner: IPlayer, space: Space): boolean {
+    const board = cardOwner.game.board;
+    return space.bonus.some((bonus) => bonus === SpaceBonus.STEEL || bonus === SpaceBonus.TITANIUM) ||
+      AresHandler.anyAdjacentSpaceGivesBonus(board, space, SpaceBonus.STEEL) ||
+      AresHandler.anyAdjacentSpaceGivesBonus(board, space, SpaceBonus.TITANIUM);
+  }
+
   public onTilePlaced(cardOwner: IPlayer, activePlayer: IPlayer, space: Space, boardType: BoardType) {
     // Nerfing on The Moon.
     if (boardType !== BoardType.MARS) {
       return;
     }
-    if (cardOwner.id !== activePlayer.id || cardOwner.game.phase === Phase.SOLAR) {
+    if (this.applies(cardOwner, activePlayer, space) && this.givesSteelOrTitanium(cardOwner, space)) {
+      cardOwner.game.defer(new GainProduction(cardOwner, Resource.STEEL));
+    }
+  }
+
+  public onStandardResourcePlacementBonus(cardOwner: IPlayer, activePlayer: IPlayer, space: Space, resource: Resource) {
+    if (resource !== Resource.STEEL && resource !== Resource.TITANIUM) {
       return;
     }
-    // Don't grant a bonus for Mars Nomads (no tile actually placed)
-    if (cardOwner.game.nomadSpace === space.id && space.tile === undefined) {
-      return;
-    }
-    // Don't grant a bonus if the card is overplaced (like Ares Ocean City)
-    if (space.tile?.covers !== undefined) {
-      return;
-    }
-    const board = cardOwner.game.board;
-    const grant = space.bonus.some((bonus) => bonus === SpaceBonus.STEEL || bonus === SpaceBonus.TITANIUM) ||
-      AresHandler.anyAdjacentSpaceGivesBonus(board, space, SpaceBonus.STEEL) ||
-      AresHandler.anyAdjacentSpaceGivesBonus(board, space, SpaceBonus.TITANIUM);
-    if (grant) {
+    // A space that already gives steel or titanium triggered this once, in onTilePlaced.
+    if (this.applies(cardOwner, activePlayer, space) && !this.givesSteelOrTitanium(cardOwner, space)) {
       cardOwner.game.defer(new GainProduction(cardOwner, Resource.STEEL));
     }
   }

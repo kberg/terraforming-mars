@@ -51,6 +51,19 @@ export abstract class SurveyCard extends Card implements IProjectCard {
 
   protected abstract checkForBonuses(cardOwner: IPlayer, space: Space): void;
 
+  public onStandardResourcePlacementBonus(cardOwner: IPlayer, activePlayer: IPlayer, space: Space, resource: Resource) {
+    if (cardOwner.game.phase === Phase.SOLAR || cardOwner.id !== activePlayer.id) {
+      return;
+    }
+    this.checkForChosenResource(cardOwner, space, resource);
+  }
+
+  /**
+   * Like `checkForBonuses`, for the standard resource `resource` the player chose from the space's
+   * standard resource placement bonus.
+   */
+  protected abstract checkForChosenResource(cardOwner: IPlayer, space: Space, resource: Resource): void;
+
   private log(cardOwner: IPlayer, resource: Resource | CardResource): void {
     cardOwner.game.log(
       '${0} gained a bonus ${1} because of ${2}',
@@ -61,23 +74,37 @@ export abstract class SurveyCard extends Card implements IProjectCard {
    * Optionally grants a unit of `resource` (which matches `bonus`) based on `cardOwner` having placed a tile on `space`.
    */
   protected maybeRewardStandardResource(cardOwner: IPlayer, space: Space, resource: Resource, bonus: SpaceBonus): void {
-    const board = cardOwner.game.board;
-    let grant = this.grantsBonusNow(space, bonus) || this.anyAdjacentSpaceGivesBonus(board, space, bonus);
-    if (!grant) {
-      switch (resource) {
-      case Resource.STEEL:
-        grant = space.spaceType !== SpaceType.COLONY &&
-            PartyHooks.shouldApplyPolicy(cardOwner, PartyName.MARS, 'mp01');
-        break;
-      case Resource.PLANTS:
-        grant = Board.isUncoveredOceanSpace(space) &&
-          cardOwner.tableau.has(CardName.ARCTIC_ALGAE);
-      }
-    }
-    if (grant) {
+    if (this.rewardsStandardResource(cardOwner, space, resource, bonus)) {
       cardOwner.stock.add(resource, 1);
       this.log(cardOwner, resource);
     }
+  }
+
+  /**
+   * Grants a unit of `resource` when the player chose `chosen` from the space's standard resource
+   * placement bonus, unless placing the tile already rewarded `resource`.
+   */
+  protected maybeRewardChosenResource(cardOwner: IPlayer, space: Space, chosen: Resource, resource: Resource, bonus: SpaceBonus): void {
+    if (chosen === resource && !this.rewardsStandardResource(cardOwner, space, resource, bonus)) {
+      cardOwner.stock.add(resource, 1);
+      this.log(cardOwner, resource);
+    }
+  }
+
+  private rewardsStandardResource(cardOwner: IPlayer, space: Space, resource: Resource, bonus: SpaceBonus): boolean {
+    const board = cardOwner.game.board;
+    if (this.grantsBonusNow(space, bonus) || this.anyAdjacentSpaceGivesBonus(board, space, bonus)) {
+      return true;
+    }
+    switch (resource) {
+    case Resource.STEEL:
+      return space.spaceType !== SpaceType.COLONY &&
+          PartyHooks.shouldApplyPolicy(cardOwner, PartyName.MARS, 'mp01');
+    case Resource.PLANTS:
+      return Board.isUncoveredOceanSpace(space) &&
+        cardOwner.tableau.has(CardName.ARCTIC_ALGAE);
+    }
+    return false;
   }
 
   /**
