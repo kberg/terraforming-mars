@@ -9,6 +9,7 @@ import {testGame} from '../../TestGame';
 import {BoardName} from '../../../src/common/boards/BoardName';
 import {EmptyBoard} from '../../testing/EmptyBoard';
 import {cast} from '../../../src/common/utils/utils';
+import {SpaceBonus} from '../../../src/common/boards/SpaceBonus';
 
 describe('BoomTown', () => {
   let card: BoomTown;
@@ -36,6 +37,17 @@ describe('BoomTown', () => {
     // These spaces on Tharsis have the bonuses.
     expect(selectSpace.spaces.map((space) => space.id))
       .to.have.members(['03', '09', '20', '21', '53', '58', '59', '60']);
+  });
+
+  it('play, offers spaces with a standard resource bonus', () => {
+    const space = game.board.getAvailableSpacesForType(player, 'city').find((space) => space.bonus.length === 0)!;
+    space.bonus = [SpaceBonus.STANDARD_RESOURCE];
+
+    card.play(player);
+    runAllActions(game);
+    const selectSpace = cast(player.popWaitingFor(), SelectSpace);
+
+    expect(selectSpace.spaces).includes(space);
   });
 
   it('play, places a city', () => {

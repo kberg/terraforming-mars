@@ -13,6 +13,7 @@ import {Units} from '../../../src/common/Units';
 import {Resource} from '../../../src/common/Resource';
 import {testGame} from '../../TestGame';
 import {cast} from '../../../src/common/utils/utils';
+import {SelectResource} from '../../../src/server/inputs/SelectResource';
 
 describe('MiningRights', () => {
   let card: MiningRights;
@@ -61,6 +62,28 @@ describe('MiningRights', () => {
     expect(steelSpace.tile?.tileType).to.eq(TileType.MINING_RIGHTS);
     expect(player.production.asUnits()).deep.eq(Units.of({steel: 1}));
     expect(steelSpace.adjacency?.bonus).eq(undefined);
+  });
+
+  it('Should play on a standard resource space, choosing steel or titanium production', () => {
+    const space = game.board.getAvailableSpacesOnLand(player).find((space) => space.bonus.length === 0)!;
+    space.bonus = [SpaceBonus.STANDARD_RESOURCE];
+
+    const action = cast(card.play(player), SelectSpace);
+    expect(action.spaces).includes(space);
+
+    action.cb(space);
+    runAllActions(game);
+    const orOptions = cast(player.popWaitingFor(), OrOptions);
+    expect(orOptions.options.map((option) => option.title)).deep.eq([Resource.STEEL, Resource.TITANIUM]);
+    orOptions.options[1].cb();
+    runAllActions(game);
+
+    // The tile's own placement bonus.
+    cast(player.popWaitingFor(), SelectResource).process({type: 'resource', resource: 'plants'});
+
+    expect(space.tile?.tileType).to.eq(TileType.MINING_RIGHTS);
+    expect(player.production.asUnits()).deep.eq(Units.of({titanium: 1}));
+    expect(player.plants).eq(1);
   });
 
   it('Should play when space bonus is both steel and titanium', () => {
