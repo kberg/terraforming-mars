@@ -179,7 +179,7 @@
                               <div v-if="boardName==='utopia planitia'" class="create-game-subsection-label" v-i18n>Fan-made</div>
                               <input type="radio" :value="boardName" name="board" v-model="board" :id="boardName+'-checkbox'">
                               <label :for="boardName+'-checkbox'" class="expansion-button">
-                                  <span :class="getBoardColorClass(boardName)">&#x2B22;</span>
+                                  <span clsas="create-game-board-hexagon " :class="getBoardColorClass(boardName)">&#x2B22;</span>
                                   <span class="capitalized" v-i18n>{{ boardName }}</span>
                                   <template v-if="boardName !== RandomBoardOption.OFFICIAL && boardName !== RandomBoardOption.ALL">
                                     &nbsp;<a :href="boardHref(boardName)" class="tooltip" v-i18n data-tooltip="Link opens in a new tab/window" target="_blank">&#9432;</a>
@@ -805,7 +805,9 @@ export default defineComponent({
         BoardName.THARSIS,
         BoardName.HELLAS,
         BoardName.ELYSIUM,
+
         RandomBoardOption.OFFICIAL,
+
         BoardName.UTOPIA_PLANITIA,
         BoardName.VASTITAS_BOREALIS_NOVA,
         BoardName.TERRA_CIMMERIA_NOVA,
@@ -816,6 +818,7 @@ export default defineComponent({
         BoardName.TERRA_CIMMERIA,
         BoardName.VASTITAS_BOREALIS,
         BoardName.HOLLANDIA,
+
         RandomBoardOption.ALL,
       ];
     },
@@ -1010,27 +1013,27 @@ export default defineComponent({
     getBoardColorClass(boardName: BoardName | BoardNameType): string {
       switch (boardName) {
       case BoardName.THARSIS:
-        return 'create-game-board-hexagon create-game-tharsis';
+        return 'create-game-tharsis';
       case BoardName.HELLAS:
-        return 'create-game-board-hexagon create-game-hellas';
+        return 'create-game-hellas';
       case BoardName.ELYSIUM:
-        return 'create-game-board-hexagon create-game-elysium';
+        return 'create-game-elysium';
       case BoardName.UTOPIA_PLANITIA:
-        return 'create-game-board-hexagon create-game-utopia-planitia';
+        return 'create-game-utopia-planitia';
       case BoardName.VASTITAS_BOREALIS_NOVA:
-        return 'create-game-board-hexagon create-game-vastitas-borealis-nova';
+        return 'create-game-vastitas-borealis-nova';
       case BoardName.AMAZONIS:
-        return 'create-game-board-hexagon create-game-amazonis';
+        return 'create-game-amazonis';
       case BoardName.ARABIA_TERRA:
-        return 'create-game-board-hexagon create-game-arabia-terra';
+        return 'create-game-arabia-terra';
       case BoardName.TERRA_CIMMERIA:
-        return 'create-game-board-hexagon create-game-terra-cimmeria';
+        return 'create-game-terra-cimmeria';
       case BoardName.VASTITAS_BOREALIS:
-        return 'create-game-board-hexagon create-game-vastitas-borealis';
+        return 'create-game-vastitas-borealis';
       case BoardName.HOLLANDIA:
-        return 'create-game-board-hexagon create-game-hollandia';
+        return 'create-game-hollandia';
       default:
-        return 'create-game-board-hexagon create-game-random';
+        return 'create-game-random';
       }
     },
     getPlayerCubeColorClass(color: Color): string {

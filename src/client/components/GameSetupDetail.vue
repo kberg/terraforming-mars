@@ -20,7 +20,7 @@
             </li>
 
             <li><div class="setup-item" v-i18n>Board:</div>
-              <span :class="boardColorClass" v-i18n>{{ gameOptions.boardName }}</span>
+              <span class="game-config map" :class="boardColorClass" v-i18n>{{ gameOptions.boardName }}</span>
               &nbsp;
               <span v-if="gameOptions.shuffleMapOption" class="game-config generic" v-i18n>(randomized tiles)</span>
             </li>
@@ -88,18 +88,18 @@ import {translateTextWithParams} from '@/client/directives/i18n';
 import {RULEBOOK_URLS} from '@/client/utils/WikiLinks';
 
 const boardColorClass: Record<BoardName, string> = {
-  [BoardName.THARSIS]: 'game-config board-tharsis map',
-  [BoardName.HELLAS]: 'game-config board-hellas map',
-  [BoardName.ELYSIUM]: 'game-config board-elysium map',
-  [BoardName.UTOPIA_PLANITIA]: 'game-config board-utopia-planitia map',
-  [BoardName.VASTITAS_BOREALIS_NOVA]: 'game-config board-vastitas_borealis_nova map',
-  [BoardName.TERRA_CIMMERIA_NOVA]: 'game-config board-terra_cimmeria_nova map',
-  [BoardName.AMAZONIS]: 'game-config board-amazonis map',
-  [BoardName.ARABIA_TERRA]: 'game-config board-arabia_terra map',
-  [BoardName.VASTITAS_BOREALIS]: 'game-config board-vastitas_borealis map',
-  [BoardName.TERRA_CIMMERIA]: 'game-config board-terra_cimmeria map',
-  [BoardName.HOLLANDIA]: 'game-config board-hollandia map',
-  [BoardName.AMAZONIS_PLANITIA]: 'game-config board-amazonis_planitia map',
+  [BoardName.THARSIS]: 'board-tharsis',
+  [BoardName.HELLAS]: 'board-hellas',
+  [BoardName.ELYSIUM]: 'board-elysium',
+  [BoardName.UTOPIA_PLANITIA]: 'board-utopia-planitia',
+  [BoardName.VASTITAS_BOREALIS_NOVA]: 'board-vastitas_borealis_nova',
+  [BoardName.TERRA_CIMMERIA_NOVA]: 'board-terra_cimmeria_nova',
+  [BoardName.AMAZONIS]: 'board-amazonis',
+  [BoardName.ARABIA_TERRA]: 'board-arabia_terra',
+  [BoardName.VASTITAS_BOREALIS]: 'board-vastitas_borealis',
+  [BoardName.TERRA_CIMMERIA]: 'board-terra_cimmeria',
+  [BoardName.HOLLANDIA]: 'board-hollandia',
+  [BoardName.AMAZONIS_PLANITIA]: 'board-amazonis_planitia',
 };
 
 export default defineComponent({
