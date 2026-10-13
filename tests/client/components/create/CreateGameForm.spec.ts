@@ -5,6 +5,8 @@ import CreateGameForm from '@/client/components/create/CreateGameForm.vue';
 import {createGameSettingsStorage} from '@/client/components/create/createGameSettingsStorage';
 import {FakeLocalStorage} from '../FakeLocalStorage';
 import {BoardName} from '@/common/boards/BoardName';
+import {RandomBoardOption} from '@/common/boards/RandomBoardOption';
+import {boardsForRandomBoardOption} from '@/client/components/create/boardOptions';
 import {DEFAULT_EXPANSIONS} from '@/common/cards/GameModule';
 import {JSONObject} from '@/common/Types';
 import {defineComponent} from 'vue';
@@ -175,6 +177,31 @@ describe('CreateGameForm', () => {
       const savedSettings = createGameSettingsStorage.load();
       expect(savedSettings?.board).eq(BoardName.ELYSIUM);
       expect((savedSettings?.players as Array<{name: string}>).map((player) => player.name)).deep.eq(['Alice', 'Bob']);
+    } finally {
+      global.fetch = originalFetch;
+      global.alert = originalAlert;
+    }
+  });
+  it('sends a random board option as the boards it represents', async () => {
+    const originalFetch = global.fetch;
+    const originalAlert = global.alert;
+    let body: string | undefined;
+    global.fetch = ((_url: string, init: {body: string}) => {
+      body = init.body;
+      return Promise.reject(new Error('stop after sending'));
+    }) as typeof fetch;
+    global.alert = (() => {}) as typeof alert;
+
+    try {
+      const wrapper = shallowMount(CreateGameForm, {
+        ...globalConfig,
+      });
+      (wrapper.vm as any).board = RandomBoardOption.OFFICIAL;
+
+      await (wrapper.vm as any).createGame();
+
+      expect(JSON.parse(body!).board).to.have.members(boardsForRandomBoardOption(RandomBoardOption.OFFICIAL));
+      expect(createGameSettingsStorage.load()?.board).eq(RandomBoardOption.OFFICIAL);
     } finally {
       global.fetch = originalFetch;
       global.alert = originalAlert;

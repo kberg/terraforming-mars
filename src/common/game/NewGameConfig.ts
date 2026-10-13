@@ -35,7 +35,7 @@ export type EscapeVelocityOptions = {
 export type NewGameConfig = {
   players: Array<NewPlayerModel>;
   expansions: Record<Expansion, boolean>,
-  board: BoardNameType;
+  board: BoardNameType | Array<BoardName>;
   seed: number;
   randomFirstPlayer: boolean;
 

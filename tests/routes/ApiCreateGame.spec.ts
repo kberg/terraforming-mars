@@ -112,6 +112,19 @@ describe('ApiCreateGame', () => {
     ]);
   });
 
+  it('A board list is used as is', () => {
+    expect(ApiCreateGame.boardOptions([BoardName.HELLAS, BoardName.HOLLANDIA])).deep.eq([BoardName.HELLAS, BoardName.HOLLANDIA]);
+  });
+  it('An empty board list is rejected', () => {
+    expect(() => ApiCreateGame.boardOptions([])).to.throw(/at least one board/);
+  });
+  it('An unknown board is rejected', () => {
+    expect(() => ApiCreateGame.boardOptions('nowhere' as BoardName)).to.throw(/Unknown board: nowhere/);
+  });
+  it('A board list with an unknown board is rejected', () => {
+    expect(() => ApiCreateGame.boardOptions([BoardName.HELLAS, 'nowhere' as BoardName])).to.throw(/Unknown board: nowhere/);
+  });
+
   it('no get', async () => {
     await scaffolding.get(apiCreateGame, res);
     expect(res.statusCode).eq(statusCode.notFound);
@@ -155,6 +168,29 @@ describe('ApiCreateGame', () => {
     });
     await Promise.all(([emit, post]));
   }
+
+  it('creates a game on the only board in a single-element list', async () => {
+    await postConfig({...newGameConfigForTest(), board: [BoardName.HELLAS]});
+    expect(res.statusCode).eq(statusCode.ok);
+    const model = JSON.parse(res.content) as SimpleGameModel;
+    const game = await scaffolding.ctx.gameLoader.getGame(model.id);
+    expect(game!.gameOptions.boardName).eq(BoardName.HELLAS);
+  });
+
+  it('creates a game on one of the boards in a list', async () => {
+    const boards = [BoardName.HELLAS, BoardName.ELYSIUM];
+    await postConfig({...newGameConfigForTest(), board: boards});
+    expect(res.statusCode).eq(statusCode.ok);
+    const model = JSON.parse(res.content) as SimpleGameModel;
+    const game = await scaffolding.ctx.gameLoader.getGame(model.id);
+    expect(boards).includes(game!.gameOptions.boardName);
+  });
+
+  it('rejects an empty board list', async () => {
+    await postConfig({...newGameConfigForTest(), board: []});
+    expect(res.statusCode).eq(statusCode.badRequest);
+    expect(res.content).contains('at least one board');
+  });
 
   const twoPlayers = [{name: 'a', color: 'red'}, {name: 'b', color: 'blue'}];
 

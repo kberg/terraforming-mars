@@ -23,6 +23,31 @@ import {isProduction} from '@/server/utils/server';
 import {CEO_CARDS_DEALT_PER_PLAYER} from '../../common/constants';
 import {hasNegativeEscapeVelocityOption, sanitizeEscapeVelocityOptions} from '../../common/game/escapeVelocity';
 
+function isRandomBoardOption(board: string): board is RandomBoardOption {
+  return board === RandomBoardOption.OFFICIAL || board === RandomBoardOption.ALL;
+}
+
+/** The boards a random board option chooses from. */
+function boardsForRandomBoardOption(option: RandomBoardOption): Array<BoardName> {
+  const allBoards = Object.values(BoardName)
+    // TODO(kberg): Re-enable Amazonis Planitia once it's offered in the create-game form.
+    .filter((name) => name !== BoardName.AMAZONIS_PLANITIA);
+
+  switch (option) {
+  case RandomBoardOption.ALL:
+    return allBoards;
+  case RandomBoardOption.OFFICIAL:
+    return allBoards.filter((name) => {
+      return name === BoardName.THARSIS ||
+        name === BoardName.HELLAS ||
+        name === BoardName.ELYSIUM ||
+        name === BoardName.UTOPIA_PLANITIA ||
+        name === BoardName.VASTITAS_BOREALIS_NOVA ||
+        name === BoardName.TERRA_CIMMERIA_NOVA;
+    });
+  }
+}
+
 function parseQuotaConfig(struct: any): QuotaConfig {
   let {limit} = struct;
   const {per} = struct;
@@ -73,24 +98,24 @@ export class ApiCreateGame extends Handler {
     this.quotaHandlers = quotaConfigs.map((config) => new QuotaHandler(config));
   }
 
-  public static boardOptions(board: RandomBoardOption | BoardName): Array<BoardName> {
-    const allBoards = Object.values(BoardName)
-      // TODO(kberg): Re-enable Amazonis Planitia once it's offered in the create-game form.
-      .filter((name) => name !== BoardName.AMAZONIS_PLANITIA);
-
-    if (board === RandomBoardOption.ALL) {
-      return allBoards;
+  public static boardOptions(board: NewGameConfig['board']): Array<BoardName> {
+    const boardNames: ReadonlyArray<string> = Object.values(BoardName);
+    function validate(name: BoardName) {
+      if (!boardNames.includes(name)) {
+        throw RouteError.badRequest(`Unknown board: ${name}`);
+      }
     }
-    if (board === RandomBoardOption.OFFICIAL) {
-      return allBoards.filter((name) => {
-        return name === BoardName.THARSIS ||
-          name === BoardName.HELLAS ||
-          name === BoardName.ELYSIUM ||
-          name === BoardName.UTOPIA_PLANITIA ||
-          name === BoardName.VASTITAS_BOREALIS_NOVA ||
-          name === BoardName.TERRA_CIMMERIA_NOVA;
-      });
+    if (Array.isArray(board)) {
+      if (board.length === 0) {
+        throw RouteError.badRequest('board must list at least one board.');
+      }
+      board.forEach(validate);
+      return board;
     }
+    if (isRandomBoardOption(board)) {
+      return boardsForRandomBoardOption(board);
+    }
+    validate(board);
     return [board];
   }
 
@@ -133,8 +158,9 @@ export class ApiCreateGame extends Handler {
       if (gameReq.escapeVelocity !== undefined && hasNegativeEscapeVelocityOption(gameReq.escapeVelocity)) {
         throw RouteError.badRequest('Escape Velocity values cannot be negative.');
       }
+      const boards = ApiCreateGame.boardOptions(gameReq.board);
       // TODO(kberg): Remove once Amazonis Planitia is ready to play. Until then, only development servers create it.
-      if (gameReq.board === BoardName.AMAZONIS_PLANITIA && isProduction()) {
+      if (boards.includes(BoardName.AMAZONIS_PLANITIA) && isProduction()) {
         throw RouteError.badRequest('Amazonis Planitia is not available yet.');
       }
       const gameId = safeCast(generateRandomId('g'), isGameId);
@@ -156,8 +182,7 @@ export class ApiCreateGame extends Handler {
         }
       }
 
-      const boards = ApiCreateGame.boardOptions(gameReq.board);
-      gameReq.board = boards[Math.floor(Math.random() * boards.length)];
+      const boardName = boards.length === 1 ? boards[0] : boards[Math.floor(Math.random() * boards.length)];
 
       const gameOptions: GameOptions = {
         altVenusBoard: gameReq.altVenusBoard,
@@ -165,7 +190,7 @@ export class ApiCreateGame extends Handler {
         aresHazards: true, // Not a runtime option.
         aresExtremeVariant: gameReq.aresExtremeVariant,
         bannedCards: gameReq.bannedCards,
-        boardName: gameReq.board,
+        boardName,
         ceoExtension: gameReq.expansions.ceo,
         clonedGamedId: gameReq.clonedGamedId,
         coloniesExtension: gameReq.expansions.colonies,

@@ -26,3 +26,24 @@ export function boardColorClass(boardName: BoardNameType): string {
 export function isRandomBoard(boardName: BoardNameType): boolean {
   return boardName === RandomBoardOption.OFFICIAL || boardName === RandomBoardOption.ALL;
 }
+
+/** The boards a random board option chooses from. */
+export function boardsForRandomBoardOption(option: RandomBoardOption): Array<BoardName> {
+  const allBoards = Object.values(BoardName)
+    // TODO(kberg): Re-enable Amazonis Planitia once it's offered in the create-game form.
+    .filter((name) => name !== BoardName.AMAZONIS_PLANITIA);
+
+  switch (option) {
+  case RandomBoardOption.ALL:
+    return allBoards;
+  case RandomBoardOption.OFFICIAL:
+    return allBoards.filter((name) => {
+      return name === BoardName.THARSIS ||
+        name === BoardName.HELLAS ||
+        name === BoardName.ELYSIUM ||
+        name === BoardName.UTOPIA_PLANITIA ||
+        name === BoardName.VASTITAS_BOREALIS_NOVA ||
+        name === BoardName.TERRA_CIMMERIA_NOVA;
+    });
+  }
+}

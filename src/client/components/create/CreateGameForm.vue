@@ -559,6 +559,8 @@ import * as constants from '@/common/constants';
 
 import {defineComponent, nextTick} from 'vue';
 import {Color, PLAYER_COLORS} from '@/common/Color';
+import {RandomBoardOption} from '@/common/boards/RandomBoardOption';
+import {boardsForRandomBoardOption, isRandomBoard} from '@/client/components/create/boardOptions';
 import {CardName} from '@/common/cards/CardName';
 import CeosFilter from '@/client/components/create/CeosFilter.vue';
 import BoardSelector from '@/client/components/create/BoardSelector.vue';
@@ -1080,7 +1082,13 @@ export default defineComponent({
         }
       };
 
-      fetch(paths.API_CREATEGAME, {'method': 'POST', 'body': JSON.stringify(newGameConfig), 'headers': {'Content-Type': 'application/json'}})
+      // Saved settings keep the random board option so the form can restore it. The server gets the boards it represents.
+      const board = newGameConfig.board;
+      const request: NewGameConfig = {
+        ...newGameConfig,
+        board: !Array.isArray(board) && isRandomBoard(board) ? boardsForRandomBoardOption(board as RandomBoardOption) : board,
+      };
+      fetch(paths.API_CREATEGAME, {'method': 'POST', 'body': JSON.stringify(request), 'headers': {'Content-Type': 'application/json'}})
         .then((response) => response.text())
         .then((text) => {
           try {
