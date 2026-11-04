@@ -200,13 +200,13 @@ describe('ApiCreateGame', () => {
   it('rejects custom milestones and awards unless they are manual', async () => {
     await postConfig({...newGameConfigForTest(), randomMA: RandomMAOptionType.LIMITED, customMA});
     expect(res.statusCode).eq(statusCode.badRequest);
-    expect(res.content).contains('customMA requires randomMA');
+    expect(res.content).contains('Invalid milestone/award settings');
   });
 
   it('rejects custom milestones and awards of the wrong size', async () => {
     await postConfig({...newGameConfigForTest(), randomMA: RandomMAOptionType.MANUAL, customMA: {...customMA, awards: ['Banker']}});
     expect(res.statusCode).eq(statusCode.badRequest);
-    expect(res.content).contains('customMA must have 5 awards');
+    expect(res.content).contains('Must select 5 awards');
   });
 
   async function createdEscapeVelocity(escapeVelocity: object) {

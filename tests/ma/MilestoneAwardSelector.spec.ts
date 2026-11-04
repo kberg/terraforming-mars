@@ -165,7 +165,7 @@ describe('MilestoneAwardSelector', () => {
 
   it('manual milestones and awards are validated', () => {
     const customMA = {milestones: ['Terraformer'], awards: ['Banker']} as const;
-    expect(() => choose({randomMA: RandomMAOptionType.MANUAL, customMA})).to.throw('customMA must have 5 milestones');
+    expect(() => choose({randomMA: RandomMAOptionType.MANUAL, customMA})).to.throw('Must select 5 milestones');
   });
 
   it('Do not select Constructor when Colonies is not selected', () => {

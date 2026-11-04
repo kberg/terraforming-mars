@@ -282,9 +282,9 @@ describe('validateNewGameConfig', () => {
       awards: ['Banker', 'Scientist', 'Thermalist', 'Miner', 'Celebrity'],
     } as const;
     expect(validate({randomMA: RandomMAOptionType.MANUAL, customMA}).invalidCustomMA).eq('');
-    expect(validate({randomMA: RandomMAOptionType.MANUAL}).invalidCustomMA).eq('randomMA Manual requires customMA');
-    expect(validate({randomMA: RandomMAOptionType.LIMITED, customMA}).invalidCustomMA).eq('customMA requires randomMA to be Manual');
-    expect(validate({randomMA: RandomMAOptionType.MANUAL, customMA: {...customMA, awards: ['Banker']}}).invalidCustomMA).eq('customMA must have 5 awards');
+    expect(validate({randomMA: RandomMAOptionType.MANUAL}).invalidCustomMA).eq('No milestones and awards selected');
+    expect(validate({randomMA: RandomMAOptionType.LIMITED, customMA}).invalidCustomMA).eq('Invalid milestone/award settings');
+    expect(validate({randomMA: RandomMAOptionType.MANUAL, customMA: {...customMA, awards: ['Banker']}}).invalidCustomMA).eq('Must select 5 awards');
   });
 
   it('messages', () => {

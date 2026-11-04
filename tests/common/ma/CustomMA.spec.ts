@@ -22,16 +22,16 @@ describe('CustomMA', () => {
   });
 
   it('requires randomMA to be manual', () => {
-    expect(() => validateCustomMA(customMA, RandomMAOptionType.NONE, false)).to.throw('customMA requires randomMA to be Manual');
-    expect(() => validateCustomMA(customMA, RandomMAOptionType.LIMITED, false)).to.throw('customMA requires randomMA to be Manual');
-    expect(() => validateCustomMA(undefined, MANUAL, false)).to.throw('randomMA Manual requires customMA');
+    expect(() => validateCustomMA(customMA, RandomMAOptionType.NONE, false)).to.throw('Invalid milestone/award settings');
+    expect(() => validateCustomMA(customMA, RandomMAOptionType.LIMITED, false)).to.throw('Invalid milestone/award settings');
+    expect(() => validateCustomMA(undefined, MANUAL, false)).to.throw('No milestones and awards selected');
     // From untrusted JSON.
-    expect(() => validateCustomMA(null as unknown as CustomMA, MANUAL, false)).to.throw('randomMA Manual requires customMA');
+    expect(() => validateCustomMA(null as unknown as CustomMA, MANUAL, false)).to.throw('No milestones and awards selected');
   });
 
   it('requires arrays', () => {
-    expect(() => validateCustomMA({milestones: customMA.milestones} as CustomMA, MANUAL, false)).to.throw('customMA requires milestones and awards arrays');
-    expect(() => validateCustomMA('foo' as unknown as CustomMA, MANUAL, false)).to.throw('customMA requires milestones and awards arrays');
+    expect(() => validateCustomMA({milestones: customMA.milestones} as CustomMA, MANUAL, false)).to.throw('Selected milestones and awards must be lists');
+    expect(() => validateCustomMA('foo' as unknown as CustomMA, MANUAL, false)).to.throw('Selected milestones and awards must be lists');
   });
 
   it('rejects unknown names', () => {
@@ -40,13 +40,13 @@ describe('CustomMA', () => {
   });
 
   it('rejects duplicates', () => {
-    expect(() => validateCustomMA({...customMA, milestones: ['Terraformer', 'Terraformer']}, MANUAL, false)).to.throw('customMA has duplicate milestones');
-    expect(() => validateCustomMA({...customMA, awards: ['Banker', 'Banker']}, MANUAL, false)).to.throw('customMA has duplicate awards');
+    expect(() => validateCustomMA({...customMA, milestones: ['Terraformer', 'Terraformer']}, MANUAL, false)).to.throw('Duplicate milestones selected');
+    expect(() => validateCustomMA({...customMA, awards: ['Banker', 'Banker']}, MANUAL, false)).to.throw('Duplicate awards selected');
   });
 
   it('size', () => {
-    expect(() => validateCustomMA(venusMA, MANUAL, false)).to.throw('customMA must have 5 milestones');
-    expect(() => validateCustomMA(customMA, MANUAL, true)).to.throw('customMA must have 6 milestones');
-    expect(() => validateCustomMA({...customMA, awards: ['Banker']}, MANUAL, false)).to.throw('customMA must have 5 awards');
+    expect(() => validateCustomMA(venusMA, MANUAL, false)).to.throw('Must select 5 milestones');
+    expect(() => validateCustomMA(customMA, MANUAL, true)).to.throw('Must select 6 milestones');
+    expect(() => validateCustomMA({...customMA, awards: ['Banker']}, MANUAL, false)).to.throw('Must select 5 awards');
   });
 });

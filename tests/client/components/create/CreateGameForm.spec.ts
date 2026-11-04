@@ -13,7 +13,6 @@ import {CardName} from '@/common/cards/CardName';
 import {CreateGameModel} from '@/client/components/create/CreateGameModel';
 import {ValidationErrors} from '@/common/game/validateNewGameConfig';
 import {ColonyName} from '@/common/colonies/ColonyName';
-import {RandomMAOptionType} from '@/common/ma/RandomMAOptionType';
 import {PreferencesManager} from '@/client/utils/PreferencesManager';
 
 // Minimal serialized Create Game payload used by settings restore tests.
@@ -191,18 +190,15 @@ describe('CreateGameForm', () => {
     expect(wrapper.vm.boards).deep.eq([BoardName.THARSIS]);
   });
 
-  it('toggling random milestones and awards leaves manual milestones and awards', () => {
+  it('manual milestones and awards need 6 of each with Venus', () => {
     const wrapper = shallowMount(CreateGameForm, {
       ...globalConfig,
     });
     const model = wrapper.vm as unknown as CreateGameModel;
-    model.randomMA = RandomMAOptionType.MANUAL;
-    model.customMA = {milestones: ['Terraformer'], awards: ['Banker']};
-    expect(wrapper.vm.isRandomMAEnabled).is.false;
-
-    wrapper.vm.randomMAToggle();
-    expect(model.randomMA).eq(RandomMAOptionType.LIMITED);
-    expect(model.customMA).is.undefined;
+    model.expansions.venus = false;
+    expect(wrapper.vm.maLimit).eq(5);
+    model.expansions.venus = true;
+    expect(wrapper.vm.maLimit).eq(6);
   });
 
   it('validates the form settings', () => {

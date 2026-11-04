@@ -17,16 +17,16 @@ export type CustomMA = {
 export function validateCustomMA(customMA: CustomMA | undefined, randomMA: RandomMAOptionType, venus: boolean): void {
   if (randomMA !== RandomMAOptionType.MANUAL) {
     if (customMA !== undefined) {
-      throw new Error('customMA requires randomMA to be ' + RandomMAOptionType.MANUAL);
+      throw new Error('Invalid milestone/award settings');
     }
     return;
   }
   // customMA may be null when it comes from untrusted JSON.
   if (customMA === undefined || customMA === null) {
-    throw new Error('randomMA ' + RandomMAOptionType.MANUAL + ' requires customMA');
+    throw new Error('No milestones and awards selected');
   }
   if (!Array.isArray(customMA.milestones) || !Array.isArray(customMA.awards)) {
-    throw new Error('customMA requires milestones and awards arrays');
+    throw new Error('Selected milestones and awards must be lists');
   }
   for (const name of customMA.milestones) {
     if (!milestoneNames.includes(name)) {
@@ -39,16 +39,16 @@ export function validateCustomMA(customMA: CustomMA | undefined, randomMA: Rando
     }
   }
   if (new Set(customMA.milestones).size !== customMA.milestones.length) {
-    throw new Error('customMA has duplicate milestones');
+    throw new Error('Duplicate milestones selected');
   }
   if (new Set(customMA.awards).size !== customMA.awards.length) {
-    throw new Error('customMA has duplicate awards');
+    throw new Error('Duplicate awards selected');
   }
   const expected = venus ? 6 : 5;
   if (customMA.milestones.length !== expected) {
-    throw new Error(`customMA must have ${expected} milestones`);
+    throw new Error(`Must select ${expected} milestones`);
   }
   if (customMA.awards.length !== expected) {
-    throw new Error(`customMA must have ${expected} awards`);
+    throw new Error(`Must select ${expected} awards`);
   }
 }
